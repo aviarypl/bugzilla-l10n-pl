@@ -1,0 +1,180 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Myk Melez <myk@mozilla.org>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[%# Define strings that will serve as the title and header of this page %]
+[% title = BLOCK %]Utwórz nowy załącznik dla [% terms.bledu %] #[% bugid %][% END %]
+[% h1 = BLOCK %]Utwórz nowy załącznik dla
+  [%+ GetBugLink(bugid, "$terms.bledu #$bugid") %][% END %]
+[% h2 = BLOCK %][% bugsummary FILTER html %][% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+  h1 = h1
+  h2 = h2
+  style = "
+    table.attachment_entry th {
+      text-align: right;
+      vertical-align: baseline;
+      white-space: nowrap;
+    }
+
+    table.attachment_entry td {
+      text-align: left;
+      vertical-align: baseline;
+      padding-bottom: 5px;
+    }
+  "
+  onload="setContentTypeDisabledState();"
+%]
+
+<form name="entryform" method="post" action="attachment.cgi" enctype="multipart/form-data">
+  <input type="hidden" name="bugid" value="[% bugid %]">
+  <input type="hidden" name="action" value="insert">
+
+  <table class="attachment_entry">
+    <tr>
+      <th>Plik:</th>
+      <td>
+        <em>Podaj ścieżkę do pliku w Twoim komputerze.</em><br>
+        <input type="file" name="data" size="50">
+      </td>
+    </tr>
+    <tr>
+      <th>Opis:</th>
+      <td>
+        <em>Opisz pokrótce ten załącznik.</em><br>
+        <input type="text" name="description" size="60" maxlength="200">
+      </td>
+    </tr>
+    <tr>
+      <th></th>
+      <td>
+      </td>
+    </tr>
+    <tr>
+      <th>Typ zawartości:</th>
+      <td>
+        <em>Jeśli ten załącznik jest łatką, zaznacz poniższe pole.</em><br>
+        <input type="checkbox" id="ispatch" name="ispatch" value="1"
+               onchange="setContentTypeDisabledState();">
+        <label for="ispatch">łatka</label><br><br>
+
+        <em>W przeciwnym wypadku, wybierz metodę pozwalającą określić typ pliku.</em><br>
+        <input type="radio" id="autodetect"
+               name="contenttypemethod" value="autodetect">
+          <label for="autodetect">automatycznie</label><br>
+        <input type="radio" id="list"
+               name="contenttypemethod" value="list">
+          <label for="list">wybór z listy:</label>
+          <select name="contenttypeselection"
+                  onchange="this.form.contenttypemethod[1].checked = true;">
+            [% PROCESS "attachment/content-types.html.tmpl" %]
+          </select><br>
+        <input type="radio" id="manual"
+                     name="contenttypemethod" value="manual">
+          <label for="manual">ręcznie:</label>
+          <input type="text" name="contenttypeentry" size="30" maxlength="200"
+                 onchange="if (this.value) this.form.contenttypemethod[2].checked = true;">
+      </td>
+    </tr>
+    [% IF (Param("insidergroup") && UserInGroup(Param("insidergroup"))) %]
+      <tr>
+        <th>Prywatność:</th>
+        <td>
+          <em>Jeśli ten załącznik powinien być traktowany jako prywatny, zaznacz
+          poniższe pole.</em><br>
+          <input type="checkbox" name="isprivate" id="isprivate" value="1">
+        <label for="isprivate">prywatny</label>
+        </td>
+      </tr>
+    [% END %]
+    <tr>
+      <th>Przestarzałe załączniki:</th>
+      <td>
+        <em>(opcjonalne) Wybierz z listy załączniki, który stają się przestarzałe
+        po dołączeniu Twojego załącznika.</em><br>
+        [% IF attachments.size %]
+          [% FOREACH attachment = attachments %]
+            [% IF ((attachment.isprivate == 0) || (Param("insidergroup")
+              && UserInGroup(Param("insidergroup")))) %]
+              <input type="checkbox" id="[% attachment.id %]"
+                   name="obsolete" value="[% attachment.id %]">
+              <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">[% attachment.id %]: [% attachment.description FILTER html %]</a><br>
+            [% END %]
+          [% END %]
+        [% ELSE %]
+            [nie ma załączników do wyboru]
+        [% END %]
+      </td>
+    </tr>
+
+    [% IF (user.id != bugassignee_id) AND user.groups.editbugs %]
+      <tr>
+        <th>Przypisanie [% terms.bledu %]:</th>
+        <td>
+          <em>Jeśli chcesz przypisać ten [% terms.blad %] sobie,
+              zaznacz poniższe pole.</em><br>
+          <input type="checkbox" id="takebug" name="takebug" value="1">
+          <label for="takebug">przypisz [% terms.blad %] sobie</label>
+        </td>
+      </tr>
+    [% END %]
+    <tr>
+      <th>Komentarz:</th>
+      <td>
+        <em>(opcjonalne) Dodaj komentarz do tego załącznika do listy komentarzy 
+          [% terms.bledu %].</em><br>
+        <textarea wrap="soft" name="comment" rows="6" cols="80"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+      <td><input type="submit" value="Wyślij"></td>
+    </tr>
+  </table>
+
+</form>
+
+<script language="JavaScript" type="text/javascript">
+  <!--
+  function setContentTypeDisabledState()
+  {
+    var entryform = document.entryform;
+
+    var isdisabled = false;
+    if (entryform.ispatch.checked)
+      isdisabled = true;
+
+    for (var i=0 ; i<entryform.contenttypemethod.length ; i++)
+      entryform.contenttypemethod[i].disabled = isdisabled;
+
+    entryform.contenttypeselection.disabled = isdisabled;
+    entryform.contenttypeentry.disabled = isdisabled;
+  }
+  //-->
+</script>
+
+[% PROCESS global/footer.html.tmpl %]
+
+
+

@@ -1,0 +1,384 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Eli Goldberg <eli@prometheus-music.com>
+  #                 Gervase Markham <gerv@gerv.net>
+  #                 Claudius Gayle
+  #                 Peter Mock
+  #                 Chris Pratt
+  #                 Tom Schutter
+  #                 Chris Yeh
+  #%]
+  
+[% PROCESS global/variables.none.tmpl %] 
+[% INCLUDE global/header.html.tmpl title = "Wytyczne zgłaszania $terms.bledow" %] 
+
+<h3>Dlaczego powinieneś to przeczytać</h3>
+
+<blockquote>
+  <p>Zwykle jakość raportu jednoznacznie odbija się na szansie rozwiązania 
+  [% terms.bledu %] przez programistę.</p>
+
+  <p>Ten dokument ma pomóc nowicjuszom i średnio-zaawansowanym
+  użytkownikom [% terms.Bugzilli %] w tworzeniu wartościowych raportów o 
+  [% terms.bledach %]. Nie wszystkie uwagi zawarte w tym dokumencie muszą
+  być adekwatne dla tego projektu.</p>
+</blockquote>
+
+<h3>W jaki sposób pisać wartościowe raporty o [% terms.bledach %]</h3>
+
+<blockquote>
+  <p>Wartościowe raporty o [% terms.bledach %], to takie które pozwalają
+  rozwiązać [% terms.blad %].
+  Tego typu raporty zwykle mają dwie następujące własności:</p>
+
+  <ol>
+    <li><b>Powtarzalność.</b> Jeśli osoba odpowiedzialna za pracę nad
+    raportami [% terms.bledow %] nie jest w stanie samemu potwierdzić
+    istnienia danego [% terms.bledu %], istnieje duża szansa że taki
+    raport zostanie oznaczony jako "WORKSFORME" lub "INVALID" i osoba ta
+    przejdzie do kolejnego [% terms.bledu %]. Każdy szczegół może być
+    ważny.<br>
+    <br>
+    </li>
+
+    <li><b>Wyrazistość.</b> Im szybciej programista będzie w stanie określić
+    zasięg występowania [% terms.bledu %], tym szybciej będzie w stanie
+    go rozwiązać (jeśli programista lub osoba testujące będzie zmuszony
+    odcyfrowywać [% terms.blad %], prawdopodobnie więcej czasu spędzi ona
+    na klęciu na zgłaszającego niż na rzeczywistym rozwiązywaniu problemu).
+    <br>
+    <br>
+    [ <a href="#tips" name="Anchor">Pokaż więcej</a> ]</li>
+  </ol>
+
+  <p>Przyjmijmy że aplikacja którą testujesz to przeglądarka internetowa.
+  Podczas przeglądania strony foo.com program wyłączył się z błędem, a Ty
+  postanowiłeś zgłosić [% terms.blad %] tyczący się tego problemu:</p>
+
+  <blockquote>
+    <p><b>ŹLE:</b> "Moja przeglądarka wywaliła się. Myślę że to było na
+    stronie  www.foo.com. Grywam w golfa z Billem Gatesem, więc lepiej
+    naprawcie ten błąd, albo powiem mu o tym. A tak w ogóle to ikonka Wstecz
+    wygląda jak zmiażdżony gryzoń. PASKUDZTWO. A strona mojej babcie strasznie
+    rozjeżdza się w waszej przeglądarce."</p>
+
+    <p><b>DOBRZE:</b> "Przeglądarka wywala się za każdym razem kiedy odwiedzę
+    www.foo.com, używając przeglądarki z dnia 2002-02-25 na Windows 2000. Mogę
+    powtórzyć ten błąd w Linuksowej wersji z dnia 2002-02-24.</p>
+
+    <p>Wygląda na to, że błąd występuje przy wyświetleniu banera Foo znajdującego
+    się na samej górze strony. Popracowałem nad tą stroną i zauważyłem że
+    ten błąd występuje do czasu usunięcia atrybutu "border=0" z</p>
+
+    <p><tt>&lt;IMG SRC="http://www.foo.com/images/topics/topicfoos.gif"
+    width="34" height="44" border="0" alt="News"&gt;</tt></p>
+  </blockquote>
+</blockquote>
+
+<h3>Jak zgłosić swój Użyteczny Raport o [% terms.Bledzie %] w 
+  [% terms.Bugzilli %]:</h3>
+
+<blockquote>
+  <p>Zanim zgłosisz [% terms.blad %], użyj <a href="query.cgi">wyszukiwania</a>
+  w [% terms.Bugzilli %] aby zobaczyć czy dany problem nie jest znany i został
+  już zgłoszony. Jeśli Twój raport zostanie 37 duplikatem [% terms.bledu %]
+  prawdopodobnie zdenerwuje to tylko programistę (Zirytowany programista rozwiązuje
+  mniej [% terms.bledow %].)</p>
+
+  <p>Następnie upewnij się że [% terms.blad %] nadal występuje w najnowszej
+  wersji. Osoby rozwiązujące [% terms.bledy %] są najbardziej zainteresowane
+  problemami które występują w kodzie nad którym aktualnie pracują. Poza tym 
+  [% terms.blad %] który zamierzasz zgłosić mógł już zostać naprawiony.</p>
+
+  <p>Jeśli znalazłeś nowy błąd występującym w aktualnej wersji, zgłoś go w 
+  [% terms.Bugzilli %]:</p>
+
+  <ol>
+    <li>Na głównej stronie [% terms.Bugzilli %] wybierz
+    "<a href="enter_bug.cgi">Dodawanie nowego raportu o [% terms.bledzie %]</a>".</li>
+
+    <li>Wybierz produkt w którym znalazłeś [% terms.blad %].</li>
+
+    <li>Podaj swój adres e-mail, hasło i wciśnij przycisk "Zaloguj" (Jeśli jeszcze
+    nie masz hasła, pozostaw to pole puste i wciśnij "Wyślij mi hasło". Powinieneś
+    wkrótce otrzymać wiadomość ze swoim nowym hasłem).</li>
+  </ol>
+
+  <p>Wypełnij formularz. Znaczenie poszczególnych pól:</p>
+
+  <p><b>Gdzie [% terms.blad %] został wykryty?</b></p>
+
+  <blockquote>
+    <p><b>Produkt: W którym produkcie został znaleziony ten [% terms.blad %]?</b><br>
+     Wartość dla tego pola podałeś na poprzedniej stronie, więc jego edycja jest
+     niemożliwa.</p>
+
+    <p><b>Wersja: W której wersji produktu znalazłeś [% terms.blad %]?</b><br>
+     (jeśli dostępne)</p>
+
+    <p><b>Komponent: W którym komponencie istnieje ten [% terms.blad %]?</b><br>
+    [% terms.Bugzilla %] wymaga wyboru komponentu podczas procesu zgłaszania 
+    [% terms.bledu %] (nie jesteś pewien który wybrać? Kliknij na odnośniku Komponent.
+    Spowoduje to wyświetlenie opisu dla każdego komponentu, co, być może, pomoże Ci
+    wybrać ten właściwy).</p>
+
+    <p><b>OS: Na jakim systemie operacyjnym znalazłeś [% terms.blad %]?</b>
+    (np. Linux, Windows 2000, Mac OS 9.)<br>
+    Jeśli wiesz że ten problem występuje na każdym systemie operacyjnym, wybierz 'Wszystkie'. 
+    W przeciwnym wypadku wybierz OS na którym udało Ci się zlokalizować [% terms.blad %],
+    lub 'Inny' jeśli Twojego systemu operacyjnego nie ma na liście.</p>
+  </blockquote>
+
+  <p><b>Jak ważny jest ten [% terms.blad %]?</b></p>
+
+  <blockquote>
+    <p><b>Waga błędu: w jakim stopniu poważny jest dany [% terms.blad %]?</b><br>
+     Wartością domyślną pola jest 'normalny'. Jeśli nie jesteś pewny jaką wagę przypisać 
+     [% terms.bledowi %], kliknij na donośniku Waga błędu. Zostanie wyświetlona strona na
+     której opisane są poszczególne wagi błędów.<br>
+    </p>
+  </blockquote>
+
+  <p><b>Kto będzie śledził dany [% terms.blad %]?</b></p>
+
+  <blockquote>
+    <p><b>Przypisany do: Która osoba jest odpowiedzialna za rozwiązanie 
+    [% terms.bledu %]?</b><br>
+    [% terms.Bugzilla %] automatycznie przypisze [% terms.blad %] osobie, która
+    została ustawiona jako domyślna dla danego komponentu. Jeśli chcesz przypisać 
+    [% terms.blad %] innej osobie, wpisz jej adres e-mail w tym polu (aby zobaczyć
+    kto jest osobą domyślnie przypisaną do danego komponentu, kliknij na odnośniku
+    Komponent).</p>
+
+    <p><b>Obserwatorzy: Kto jeszcze powinien otrzymywać wiadomości dotyczące zmian
+    w tym [% terms.bledzie %]?</b><br>
+     Podaj listę osób która, twoim zdaniem, powinna otrzymywać powiadomienia o
+    wszystkich zmianach tego raportu [% terms.bledu %]. Możesz podać dowolną liczbę
+    adresów e-mail osób, oddzielonych spacją lub przecinkiem, które mają konto w 
+    [% terms.Bugzilli %].</p>
+  </blockquote>
+
+  <p><b>Co jeszcze można powiedzieć o tym [% terms.bledzie %]?</b></p>
+
+  <blockquote>
+    <p><b>Podsumowanie:</b> <b>W jaki sposób mógłbyś opisać [% terms.blad %] w
+    około 60 znakach?</b><br>
+     Dobre podsumowanie powinno <b>szybko i jednoznacznie opisywać [% terms.blad %]</b>.
+    W przeciwnym przypadku programista nie będzie w stanie jednoznacznie zidentyfikować
+    Twojego [% terms.bledu %], co może sprawić, że zostanie on niezauważony podczas
+    przeglądania 10 stronicowej listy [% terms.bledow %].<br>
+    <br>
+     Przykładem dobrego podsumowania może być "<tt>Instalacja PCMCIA nie udała się na
+    Tosh Tecra 780DVD z 3c589C</tt>". Z kolei "<tt>Program nie działa</tt>" albo
+    "<tt>Problem z instalacją</tt>" są przykładami złego podsumowania.<br>
+    <br>
+     [ <a href="#summary">Pokaż więcej</a> ]<br>
+    <br>
+     <b>Opis:</b><br>
+     W tym polu proszę podać wyczerpujący opis problemu. Czytelnicy Twojego raportu
+     prawdopodobnie będą oczekiwać co najmniej tych informacji:</p>
+
+    <blockquote>
+      <p><b>Ogólny opis:</b> Nieco bardziej szczegółowe rozwinięcie zawartości
+      podsumowania.</p>
+
+      <blockquote>
+<pre>
+Zaznaczenie myszką na dowolnej stronie powoduje że na Macu program wyłącza się w NSGetFactory.
+</pre>
+      </blockquote>
+
+      <p><b>Postępowanie aby powtórzyć:</b> Możliwie nieskomplikowany opis czynności,
+      których powtórzenie pozwala na zauważenie [% terms.bledu %]. Powinien zawierać
+      początkowe ustawienia wymagane do wystąpienia [% terms.bledu %].</p>
+
+      <blockquote>
+<pre>
+1) Włącz dowolną stronę (ja użyłem jednej z przykładowych stron dołączanych do programu:
+  resource:/res/samples/test0.html).
+
+2) Zaznacz stronę używając myszki (Przyciskając przycisk myszki nad dowolnym elementem
+  na stronie, przeciągnij ją na sam dół strony). 
+</pre>
+      </blockquote>
+
+      <p><b>Otrzymany wynik:</b> Co stało się po wykonaniu tych czynności.</p>
+
+      <blockquote>
+<pre>
+Program wyłączył się z błędem. Poniżej zamieszczam zrzut stosu z MacsBug.
+</pre>
+      </blockquote>
+
+      <p><b>Oczekiwany wynik:</b> Co powinieneś otrzymać, gdyby ten [% terms.blad %]
+      nie występował.</p>
+
+      <blockquote>
+<pre>
+Okienko powinno zostać przewinięte w dół. Przewinięta zawartość powinna zostać zaznaczona
+(przynajmniej program powinien działać dalej).
+</pre>
+      </blockquote>
+
+      <p><b>Wersja i platforma:</b> Wersja oraz platforma na której zaobserwowano 
+      [% terms.blad %].</p>
+
+      <blockquote>
+<pre>
+Wersja z dnia 2002-03-15 na Mac OS 9.0
+</pre>
+      </blockquote>
+
+      <p><b>Dodatkowe wersje i platformy:</b> Inne wersje i platformy które testowano
+      na występowanie tego [% terms.bledu %], oraz ich wyniki (jeśli taki test ma sens
+      to również wyniki z innych programów).</p>
+
+      <blockquote>
+<pre>
+- Występuje również na
+Mozilla z dnia 2002-03-15 na Windows NT 4.0.
+
+- Nie występuje na
+Mozilla z dnia 2002-03-15 na Red Hat Linux (funkcja nie została zaimplementowana).
+Internet Explorer 5.0 na Windows NT 4.0.
+Netscape Communicator 4.5 na Mac OS 9.0.
+</pre>
+      </blockquote>
+
+      <p><b>Dodatkowe informacje:</b> Dodatkowe informacje które mogą pomóc w
+      poprawieniu błedu.
+      Przykładowo dla [% terms.bledow %] które powodują awarię programu :</p>
+
+      <ul>
+        <li><b>Win32:</b> jeśli uzyskasz błąd w Dr. Watson, proszę zanotować
+        typ błędu oraz moduł który spowodował awarię (np. nieprawidłowy dostęp
+        w apprunner.exe)</li>
+
+        <li><b>Mac OS:</b> jeśli używasz MacsBug, proszę podać wartości <b>how</b>
+        oraz <b>sc</b>:</li>
+      </ul>
+
+      <blockquote>
+<pre>
+*** MACSBUG STACK CRAWL OF CRASH (Mac OS)
+Calling chain using A6/R1 links 
+Back chain  ISA  Caller 
+00000000    PPC  0BA85E74   
+03AEFD80    PPC  0B742248   
+03AEFD30    PPC  0B50FDDC  NSGetFactory+027FC
+PowerPC unmapped memory exception at 0B512BD0 NSGetFactory+055F0
+</pre>
+      </blockquote>
+    </blockquote>
+  </blockquote>
+
+  <p>Zakończone!<br>
+  <br>
+   Po sprawdzeniu czy Twój wpis nie zawiera żadnych błędów przyciśnij
+  guzik "Wyślij", a Twój raport o [% terms.bledzie %] zostanie dodany do
+  bazy danych [% terms.Bugzilli %].<br>
+  </p>
+</blockquote>
+<hr>
+
+<h3>Więcej informacji na temat pisania dobrych raportów o [% terms.bledach %]</h3>
+
+<blockquote>
+  <p><b><a name="tips"></a> 1. Ogólne porady</b></p>
+
+  <blockquote>
+    <p><b>Używaj formalnej struktury, dzięki temu twoje raporty będą łatwe do
+    przejrzenia.</b> Osoby czytające raporty o [% terms.bledach %] często potrzebują
+    dotrzeć do określonej części opisu [% terms.bledu %]. Jeśli instalacja 
+    [% terms.Bugzilli %] którą używasz zawiera narzędzie ułatwiające zgłaszanie 
+    [% terms.bledow %] - użyj go.</p>
+
+    <p><b>Przedkładaj wyrazistość nad elokwencje.</b> Nikt nie będzie śmiał się
+    z zabawnego tytułu Twojego reportu, gdy o 3 nad ranem będzie starał przypomnieć
+    sobie jak odnaleźć Twój [% terms.blad %].</p>
+
+    <p><b>Jeden [% terms.blad %] na jeden raport.</b> Zwykle zupełnie inne osoby
+    naprawiają, weryfikują i ustalają priorytety dla [% terms.bledow %]. Jeśli w
+    jednym raporcie zawrzesz kilka [% terms.bledow %], prawdopodobnie odpowiednie
+    osoby nie dowiedzą sie odpowiednio szybko o Twoim raporcie. Dodatkowo niektóre 
+    [% terms.bledy %] mogą być bardziej ważnie niż reszta i tym samym prawidłowe
+    ustalenie priorytetu dla raportu może być niemożliwe.</p>
+
+    <p><b>Żaden [% terms.blad %] nie jest na tyle trywialny, aby go nie zgłosić.</b>
+    Rzeczywiste występowanie niektórych [% terms.bledow %], np. używanie zwolnionej
+    pamięci, można zauważyć tylko przeglądając kod źródłowy - objawy tego typu 
+    [% terms.bledu %] przez zwykłego użytkownika są widoczne jako awaria programu.
+    Niektóre klasy błędów ujawniają się w niezwykle trywialny sposób, więc zgłoszenia
+    nawet dla takich przypadków, może pomóc w wyeliminowaniu rzeczywistych, nie tak 
+    całkiem prostych [% terms.bledow %].<br>
+    </p>
+  </blockquote>
+
+  <p><b><a name="summary"></a>2. Jak i dlaczego pisać dobre podsumowania [% terms.bledow %]</b></p>
+
+  <blockquote>
+    <p><b>Powinieneś zrobić dobre wrażenie na odbiorcach raportu o [% terms.bledzie %]</b>
+    Podobnie jak gazetowy nagłówek pozwala czytelnikowi wybrać interesujące go artykuły
+    spośród wielu innych, podsumowanie [% terms.bledu %] pozwala stwierdzić osobie
+    przeglądającej raporty, czy Twój raport wart jest tego by go wybrać spośród tuzinów
+    lub setek innych</p>
+
+    <p>Ogólne podsumowanie jak <tt>problem z instalacją</tt> wymusza na każdej osobie
+    zainteresowanej błędami w instalatorze stratę czasu na przejrzenie całego raportu
+    żeby zobaczyć czy [% terms.blad %] ten, w rzeczywistości mieści się w obrębie
+    zainteresowań danej osoby.</p>
+
+    <p><b>[% terms.Bledy %] są zwykle wyszukiwane po ich podsumowaniu.</b> Podobnie
+    jak wyszukujesz strony w Google przy użyciu intuicyjnych słów kluczowych, inni
+    próbują znaleźć Twój [% terms.blad %]. Opisowe podsumowanie [% terms.bledu %] są
+    łatwiejsze do znalezienia przy użyciu, intuicyjnych dla danego problemu, słów
+    kluczowych.</p>
+
+    <p>Przykładowo dla [% terms.bledu %] zatytułowanego "<tt>Przeciągnięcie
+    ikony z widoku listy do okna gnome-terminala nie powoduje wstawienie ścieżki</tt>"
+    wpisanie "lista", "terminal", lub "ścieżka" powinno być wystarczające. Dla
+    "<tt>Przeciągnięcie ikony nie wkleja tekstu</tt>" nie.</p>
+
+    <p>Zapytaj siebie, "Czy ktoś zrozumie [% terms.blad %] po przeczytaniu samego
+    podsumowania?". Jeśli tak Twoje podsumowanie jest dobre.</p>
+
+    <p><b>Przykłady złych wpisów:</b></p>
+
+    <ol>
+      <li>"Nie mogę zainstalować" - Dlaczego nie możesz zainstalować? Co się dzieje gdy
+      próbujesz zainstalować?</li>
+
+      <li>"Poważne problemy z wydajnością" - ...które występują gdy robisz?</li>
+
+      <li>"Przycisk Wróć nie działa" - Zawsze?</li>
+    </ol>
+
+    <p><b>I dobrych:</b></p>
+
+    <ol>
+      <li>"Nieudane uaktualnienie do 1.0 przy zainstalowanej Mozilli M18 package" -
+      Opisuje problem i kontekst.</li>
+
+      <li>"Instalacja przy użyciu RPM 4 wywala się na Red Hat 6.2 (RPM 3)" - 
+      Wyjaśnia co się dzieje i w jakim przypadku.</li>
+    </ol>
+  </blockquote>
+</blockquote>
+
+[% INCLUDE global/footer.html.tmpl %]
