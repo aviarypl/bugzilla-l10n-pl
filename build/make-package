@@ -1,7 +1,8 @@
 #!/bin/sh
 
-TMPDIR=`mktemp -d ./temp.XXXXXX`
+TMPDIR=bugzilla$1-pl
 
+mkdir $TMPDIR
 mkdir $TMPDIR/latki
 cp README $TMPDIR
 
@@ -12,9 +13,7 @@ svn diff file:///home/svn/aviarypl/bugzilla/vendor/2.18 \
     perl -ne 'if (/^Index:/){ $skip = m#: template/# or m#: build/#} print unless $skip' \
         >$TMPDIR/latki/code.diff
 
-cd $TMPDIR
-tar -cvzf ../bugzilla-2.18.tar.gz . >/dev/null
-cd ..
+tar -cvzf bugzilla2.18.tar.gz $TMPDIR >/dev/null
 
 rm -r $TMPDIR
 
