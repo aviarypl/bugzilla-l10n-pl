@@ -1,0 +1,19 @@
+#!/bin/sh
+
+TMPDIR=`mktemp -d ./temp.XXXXXX`
+
+mkdir $TMPDIR/latki
+cp README $TMPDIR
+
+svn export file:///home/svn/aviarypl/bugzilla/branches/$1/template/pl $TMPDIR/pl >/dev/null
+
+svn diff file:///home/svn/aviarypl/bugzilla/vendor/$1 \
+    file:///home/svn/aviarypl/bugzilla/branches/$1 | \
+    perl -pe 'last if m!^Index: template/!' >$TMPDIR/latki/code.diff
+
+cd $TMPDIR
+tar -cvzf ../bugzilla-$1.tar.gz . >/dev/null
+cd ..
+
+rm -r $TMPDIR
+
