@@ -878,7 +878,7 @@ sub MessageToMTA ($) {
    my ($msg) = (@_);
    my $header;
 
-   $msg =~ s/([\n|\r]Subject:\s+)(.*?)(?=[\n\r]\w)/$1.encode_mail_header($2)/se;
+   $msg =~ s/(^Subject:\s+)(.*?)(?=[\n\r]\w)/$1.encode_mail_header($2)/sem;
 
     my $sendmailparam = "";
     unless (Param("sendmailnow")) {
