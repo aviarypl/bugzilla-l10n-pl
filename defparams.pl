@@ -523,7 +523,7 @@ sub find_languages {
            'password.  %<i>anythingelse</i>% gets replaced by the ' .
            'definition of that parameter (as defined on this page).',
    type => 'l',
-   default => 'From: bugzilla-daemon
+   default => 'From: bugzilla
 To: %mailaddress%
 Subject: Hasło Bugzilli
 MIME-Version: 1.0
@@ -557,7 +557,7 @@ Aby używać Bugzill, możesz użyć poniższych danych:
            'replaced by the definition of that parameter (as defined on ' .
            'this page).',
    type => 'l',
-   default => 'From: bugzilla-daemon
+   default => 'From: bugzilla
 To: %to%
 Subject: [Błąd %bugid%] %neworchanged%%summary%
 X-Bugzilla-Reason: %reasonsheader%
@@ -798,7 +798,7 @@ jakiejś akcji związanej z tymi błędami.
            'compatibility. %<i>anythingelse</i>% gets replaced by the ' .
            'definition of that parameter (as defined on this page).',
    type => 'l',
-   default => 'From: bugzilla-daemon
+   default => 'From: bugzilla
 To: %to%
 Subject: [Błąd %bugid%] Niektóre z Twoich głosów zostały usunięte
 MIME-Version: 1.0

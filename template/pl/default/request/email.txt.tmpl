@@ -38,7 +38,7 @@
    [% to_identity = flag.setter.identity  %]
    [% subject_status = statuses.${flag.status} %]
 [% END %]
-From: bugzilla-request-daemon
+From: bugzilla
 To: [% to_email %]
 CC: [% flag.type.cc_list %]
 Subject: [% subject_status %] [%+ flag.type.name %]: [[% terms.Blad %] [%+ flag.target.bug.id %]] [% flag.target.bug.summary %]
