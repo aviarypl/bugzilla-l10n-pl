@@ -9,7 +9,8 @@ svn export file:///home/svn/aviarypl/bugzilla/branches/2.18/template/pl $TMPDIR/
 
 svn diff file:///home/svn/aviarypl/bugzilla/vendor/2.18 \
     file:///home/svn/aviarypl/bugzilla/branches/2.18 | \
-    perl -pe 'last if m!^Index: template/!' >$TMPDIR/latki/code.diff
+    perl -ne 'if (/^Index:/){ $skip = m#: template/# or m#: build/#} print unless $skip' \
+        >$TMPDIR/latki/code.diff
 
 cd $TMPDIR
 tar -cvzf ../bugzilla-2.18.tar.gz . >/dev/null
