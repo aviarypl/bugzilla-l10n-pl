@@ -859,17 +859,20 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
 }
 
 sub encode_mail_header {
-    my ($header) = @_;
+    my ($name, $header) = @_;
+    my @encoded = ($name);
 
     $header =~ s/[\r\n]+[ \t]+//g;
-
-    return $header if $header !~ /[^\x20-\x7E\x0A\x0D]/;
-
     $header =~ s/[\r\n]+$//;
-    $header = encode_qp($header, '');
 
-    $header =~ s/ /=20/g;
-    return "=?UTF-8?Q?$header?=";
+    foreach my $word (split / /, $header) {
+        if ($word =~ /[^\x20-\x7E\x0A\x0D]/) {
+            push @encoded, '=?UTF-8?Q?' . encode_qp($word, '') . '?=';
+        } else {
+            push @encoded, $word;
+        }
+    }
+    return join(' ', @encoded);
 }
 
 # XXX: Should eventually add $mail_from and $mail_to options to 
