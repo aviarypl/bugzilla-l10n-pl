@@ -34,16 +34,6 @@
    onload = "PutDescription()"
  %]
 
-<p>
-  <font color="red">
-    Ten wzorzec formularza, wraz z comment-guided.txt.tmpl, jest używany przez
-    mozilla.org. Został on umieszczony wyłącznie jako przykład tego co może
-    zostać osiągnięte przy użyciu własnych wzorców, a zwłaszcza własnych wzorców
-    wprowadzania nowych raportów o [% terms.bledach %]. Prawdopodobnie będziesz
-    zmuszony dostosować go do swoich potrzeb, we własnej instalacji [% terms.Bugzilli %].
-  </font>
-</p>
-
 [% tablecolour = "#FFFFCC" %]
 
 [%# This script displays the descriptions for selected components. %]
@@ -270,7 +260,7 @@ function PutDescription() {
 
   [%# We override rep_platform and op_sys for simplicity. The values chosen
       are based on which are most common in the b.m.o database %]
-  [% rep_platform = [ "PC", "Macintosh", "All", "Other" ] %]
+  [% rep_platform = [ "PC", "Macintosh", "Wszystkie", "Inny" ] %]
 
   <tr bgcolor="[% tablecolour %]">
     <td align="right" valign="middle">
@@ -282,8 +272,8 @@ function PutDescription() {
   </tr>
 
   [% op_sys = [ "Windows 98", "Windows NT", "Windows 2000", "Windows XP",
-                "Mac System 9.x", "MacOS X",
-                "Linux", "All", "other" ] %]
+                "Mac System 9.x", "MacOS X 10.0", "MacOS X 10.1",
+                "MacOS X 10.2", "MacOS X 10.3", "Linux", "Wszystkie", "inny" ] %]
 
   <tr>
     <td align="right" valign="middle">
@@ -488,28 +478,28 @@ function PutDescription() {
         prośbą o dodatkową funkcjonalność zaznacz to.
       </p>
       <select name="bug_severity">
-        <option name="blocker" value="blocker">
+        <option name="blocker" value="blokujący">
           Blokujący: Ten [% terms.blad %] przeszkadza skutecznie w  testowaniu lub
           programowaniu Mozilli.
         </option>
-        <option name="critical" value="critical">
+        <option name="critical" value="krytyczny">
           Krytyczny: Krytyczna awaria, zawieszenie programu lub inny problem prowadzący
           do utraty danych.
         </option>
-        <option name="major" value="major">
+        <option name="major" value="poważny">
           Ważny: Braki w poważnej funkcjonalności.
         </option>
-        <option name="normal" value="normal" selected="selected">
+        <option name="normal" value="normalny" selected="selected">
           Normalny: [% terms.Blad %] który powinien być naprawiony.
         </option>
-        <option name="minor" value="minor">
+        <option name="minor" value="drobny">
           Drobny: Pomniejsze braki funkcjonalności, lub takie na dla których istnieją
           łatwe sposoby ominięcia.
         </option>
-        <option name="trivial" value="trivial">
+        <option name="trivial" value="trywialny">
           Trywialne: Kosmetyczne problemy, takie jak literówka lub źle ułożony tekst.
         </option>
-        <option name="enhancement" value="enhancement">
+        <option name="enhancement" value="propozycja">
           Propozycja: Prośba o nową funkcjonalność.
         </option>
       </select>
