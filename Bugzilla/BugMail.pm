@@ -790,22 +790,22 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
       return;
     }
     
-    my $reasonsbody = "------- Otrzymałeś tą wiadomośc ponieważ: -------\n";
+    my $reasonsbody = "------- Otrzymałeś tą wiadomość ponieważ: -------\n";
 
     if (scalar(@reasons) == 0) {
         $reasonsbody .= "Nieznany powód!\n";
     } else {
         foreach my $reason (@reasons) {
             if ($reason eq 'AssignedTo') {
-                $reasonsbody .= "Jesteś przypisany do tego błedu, lub obserwujesz osobę przypisaną do tego błedu.\n";
+                $reasonsbody .= "Jesteś przypisany do tego błędu, lub obserwujesz osobę przypisaną do tego błędu.\n";
             } elsif ($reason eq 'Reporter') {
-                $reasonsbody .= "Zgłosiłeś ten błąd, lub obserwujesz osobę która go zgłasiła.\n";
+                $reasonsbody .= "Zgłosiłeś ten błąd, lub obserwujesz osobę która go zgłosiła.\n";
             } elsif ($reason eq 'QAcontact') {
                 $reasonsbody .= "Jesteś kontaktem QA tego błędu, lub obserwujesz kontakt QA tego błędu.\n";
             } elsif ($reason eq 'CC') {
-                $reasonsbody .= "Jesteś na liście obserwatorów, lub obserwujesz osobę z listy obserwatorów tego błedu.\n";
+                $reasonsbody .= "Jesteś na liście obserwatorów, lub obserwujesz osobę z listy obserwatorów tego błędu.\n";
             } elsif ($reason eq 'Voter') {
-                $reasonsbody .= "Zagłosowałeś na ten bład, lub obserwujesz osobę która na niego zagłosowała.\n";
+                $reasonsbody .= "Zagłosowałeś na ten błąd, lub obserwujesz osobę która na niego zagłosowała.\n";
             } else {
                 $reasonsbody .= "Nieznany powód!\n";
             }
@@ -834,7 +834,7 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
 # since if the bug didn't change, you wouldn't be getting mail
 # in the first place! see http://bugzilla.mozilla.org/show_bug.cgi?id=29820 
 # for details.
-    $substs{"neworchanged"} = $isnew ? ' Nowy: ' : '';
+    $substs{"neworchanged"} = $isnew ? 'Nowy: ' : '';
     $substs{"to"} = $person;
     $substs{"cc"} = '';
     $substs{"bugid"} = $id;
