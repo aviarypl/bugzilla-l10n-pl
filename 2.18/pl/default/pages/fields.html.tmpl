@@ -44,7 +44,7 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
 
   <tr valign="top">
     <td>Pole <b>status</b> określa ogólny stan [% terms.bledu %].
-    Tylko niektóre przejścia pomiędzy różnymi wartościami pola są dozwolone.</td>
+    Tylko niektóre przejścia pomiędzy różnymi wartościami tego pola są dozwolone.</td>
 
     <td>Pole <b>rozwiązanie</b> określa co stało się z danym [% terms.bledem %].</td>
   </tr>
@@ -57,7 +57,7 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
         </dt>
         <dd>
           Ten [% terms.blad %] został niedawno dodany do bazy [% terms.bledow %]. 
-          Nikt nie potwierdził czy dany [% terms.blad %] jest poprawny. Użytkownicy
+          Nikt nie potwierdził czy dany [% terms.blad %] występuje. Użytkownicy
           którzy posiadają uprawnienie "canconfirm", mogą potwierdzić [% terms.blad %], 
           zmieniając jego status na <b>NEW</b>. Ewentualnie może on być bezpośrednio rozwiązany
           i oznaczony jako <b>RESOLVED</b>.
@@ -77,7 +77,7 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
           <b>ASSIGNED</b> (przypisany)
         </dt>
         <dd>
-          Ten [% terms.blad %] nie został jeszcze rozwiązany, lecz zaostał przypisany
+          Ten [% terms.blad %] nie został jeszcze rozwiązany, lecz został już przypisany
           do właściwej osoby. Taki [% terms.blad %] może zostać przypisany innej osobie
           i zmienić status na <b>NEW</b>, albo zostać rozwiązany ze zmianą statusu na
           <b>RESOLVED</b>.
@@ -89,7 +89,7 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
         <dd>
           Ten [% terms.blad %] został już raz rozwiązany, lecz rozwiązanie okazało się
           niepoprawne. Przykładowo [% terms.blad %] o statusie <b>WORKSFORME</b> może zostać
-          powtórnie otworzony, kiedy zostanie podane więcej informacji, które wystarczą do
+          powtórnie otworzony, kiedy zostanie podane więcej informacji, które umożliwią
           powtórzenia [% terms.bledu %] przez zainteresowane osoby. [% terms.Bledy %] tego
           typu mogą zmienić status na <b>ASSIGNED</b> lub <b>RESOLVED</b>.
         </dd>
@@ -181,8 +181,8 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
         <dd>
           Próby powtórzenia [% terms.bledu %] zakończyły się fiaskiem, a kod żródłowy nie
           pozwala znaleźć powodu dla którego, zostało zaobserwowane dane zachowanie.
-          Jeśli w późniejszym okresie pojawią się dodatkowe informacje, proszę zmienić
-          przypisanie [% terms.bledu %].
+          Jeśli w późniejszym okresie pojawią się dodatkowe informacje, należy zmienić
+          status [% terms.bledu %].
         </dd>
 
         <dt>
@@ -190,8 +190,8 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
         </dt>
         <dd>
           Problem opisany w tym raporcie odnosi się do produktu, którego [% terms.bledy %]
-          śledzone są w innej bazie danych. [% terms.Blad %] został przeniesionej do tej bazy
-          danych.
+          śledzone są w innej bazie danych. [% terms.Blad %] został przeniesionej do
+          właściwej bazy danych.
         </dd>
       </dl>
     </td>
@@ -215,13 +215,13 @@ To pole określa wpływ [% terms.bledu %].
   </tr>
 
   <tr>
-    <th>Ważny</th>
+    <th>Poważny</th>
 
     <td>Poważne [% terms.bledy %] funkcjonalności</td>
   </tr>
 
   <tr>
-    <th>Mniej ważny</th>
+    <th>Drobny</th>
 
     <td>Pomniejsze braki funkcjonalności lub inne [% terms.bledy %] dla których
     istnieją łatwe metody obejścia</td>
@@ -269,7 +269,7 @@ których pole "Platforma" jest ustawione na "Wszystkie".
 
 <h2><a name="op_sys">OS</a></h2>
 System operacyjny na którym dany [% terms.blad %] został zaobserwowany.
-Dostępne wartości tego pola:
+Dostępne wartości tego pola to:
 
 <ul>
   <li>Wszystkie ([% terms.blad %] występuje na wszystkich platformach)</li>
@@ -281,7 +281,7 @@ Dostępne wartości tego pola:
   <li>Linux</li>
 </ul>
 Czasami system operacyjny określa jednoznacznie platformę sprzętową, lecz nie zawsze.
-Przykładowo Linux może być uruchomiony na PC, Macintosh lub innych platformach.
+Przykładowo Linux może być uruchomiony na PC, Macintoshu lub innych platformach.
 
 <h2><a name="assigned_to">Przypisany do</a></h2>
 
