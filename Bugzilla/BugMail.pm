@@ -797,15 +797,15 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
     } else {
         foreach my $reason (@reasons) {
             if ($reason eq 'AssignedTo') {
-                $reasonsbody .= "Jesteś przpypisany do tego błedu, lub obserwujesz osobę przypisaną do tego błedu.\n";
+                $reasonsbody .= "Jesteś przypisany do tego błedu, lub obserwujesz osobę przypisaną do tego błedu.\n";
             } elsif ($reason eq 'Reporter') {
-                $reasonsbody .= "Zgłosiłeś ten błąd, lub obserwujesz osobę zgłaszającą.\n";
+                $reasonsbody .= "Zgłosiłeś ten błąd, lub obserwujesz osobę która go zgłasiła.\n";
             } elsif ($reason eq 'QAcontact') {
                 $reasonsbody .= "Jesteś kontaktem QA tego błędu, lub obserwujesz kontakt QA tego błędu.\n";
             } elsif ($reason eq 'CC') {
-                $reasonsbody .= "Jesteś na liście obserwatorów, lub obserwujesz osobę z listy obserwatorów błedu.\n";
+                $reasonsbody .= "Jesteś na liście obserwatorów, lub obserwujesz osobę z listy obserwatorów tego błedu.\n";
             } elsif ($reason eq 'Voter') {
-                $reasonsbody .= "Zagłosowałeś na ten bład, lub obserwujesz osobę która zagłosowała.\n";
+                $reasonsbody .= "Zagłosowałeś na ten bład, lub obserwujesz osobę która na niego zagłosowała.\n";
             } else {
                 $reasonsbody .= "Nieznany powód!\n";
             }
