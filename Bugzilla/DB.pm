@@ -157,6 +157,12 @@ sub _connect {
                              # Note: NAME_lc causes crash on ActiveState Perl
                              # 5.8.4 (see Bug 253696)
                            });
+			   
+    my $sth = $dbh->prepare("SET CHARACTER SET utf8");
+    $sth->execute();
+    $sth = $dbh->prepare("SET collation_connection=utf8_general_ci");
+    $sth->execute();
+    
 
     return $dbh;
 }

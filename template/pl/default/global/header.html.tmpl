@@ -57,11 +57,17 @@
   # set h1's default value here only if it is undefined. %]
 [% IF !h1.defined %][% h1 = title %][% END %]
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>[% title FILTER html %]</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl">
+<head>
+<title>[% title FILTER html %]</title>
+<meta name="author" content="MozillaPL.org" />
+<meta name="copyright" content="MozillaPL.org" />
+<meta name="description" content="MozillaPL.org to polskie centrum Mozilli. Gromadzimy tłumaczy, programistów, sympatyków i użytkowników produktów Mozilli w Polsce... Udostępniamy polskie tłumaczenie Mozilli, Firefoksa oraz Thunderbirda..." />
+<meta name="keywords" content="Mozilla PL, MozillaPL, polski, po polsku, tłumaczenie, polska, Mozilla, polskie, ustawienia, językowe, firefox, thunderbird, mozilla suite, sidebar, mozilla, przeglądarka, pocztowy, program, irc, edytor, html" />
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-language" content="pl" />
 
 [%# Migration note: contents of the old Param 'headerhtml' would go here %]
 
@@ -75,7 +81,7 @@
 
     [%+ INCLUDE "global/help-header.html.tmpl" %]
 
-    <link href="css/global.css" rel="stylesheet" type="text/css">
+    <link href="css/global.css" rel="stylesheet" type="text/css" />
 
     [% IF style %]
       <style type="text/css">
@@ -88,6 +94,21 @@
         <link href="[% style_url %]" rel="stylesheet" type="text/css">
       [% END %]
     [% END %]
+
+<link rel="icon" href="http://mozillapl.org/images/iconMozillaPL.png" type="image/png" />
+
+<link rel="stylesheet" href="http://mozillapl.org/styles/common.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="http://mozillapl.org/styles/wide.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="http://mozillapl.org/styles/print.css" type="text/css" media="print" />
+<link rel="stylesheet" href="http://mozillapl.org/styles/bugs.css" type="text/css" media="screen" />
+<link rel="moz stylesheet" href="http://mozillapl.org/styles/moz.css" type="text/css" media="screen" />
+
+<!--[if IE]>
+<link rel="stylesheet" href="http://mozillapl.org/styles/ie.css" type="text/css" media="screen" />
+<![endif]-->
+
+<link rel="meta" href="http://mozillapl.org/rdf/dc.rdf" />
+
 
   </head>
 

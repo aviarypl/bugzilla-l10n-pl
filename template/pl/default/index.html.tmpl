@@ -56,35 +56,43 @@ function addSidebar() {
 
 <table width="100%"><tr>
  <td>
-  <p>Tutaj powinno pojawić się mnóstwo słów na temat [% terms.Bugzilli %].</p>
-  <p>
-  <a href="query.cgi">Wyszukiwanie istniejących raportów o [% terms.bledach %]</a><br>
-  <a href="enter_bug.cgi">Dodawanie nowego raportu o [% terms.bledzie %]</a><br>
-  <a href="report.cgi">Wykresy i raporty</a><br>
-  </p><p>
+  <ul class="nodots">
+    <li><span style="font-size:16px">Zgłoś <a href="enter_bug.cgi?format=guided">Błąd</a> korzystając z systemu pomocy.</span></li>
+
+    <li><a href="http://bugs.aviary.pl/buglist.cgi?query_format=advanced&short_desc_type=allwordssubstr&short_desc=&long_desc_type=substring&long_desc=&bug_file_loc_type=allwordssubstr&bug_file_loc=&status_whiteboard_type=allwordssubstr&status_whiteboard=&keywords_type=allwords&keywords=&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=RESOLVED&bug_status=VERIFIED&bug_status=CLOSED&emailassigned_to1=1&emailtype1=substring&email1=&emailassigned_to2=1&emailreporter2=1&emailqa_contact2=1&emailcc2=1&emailtype2=substring&email2=&bugidtype=include&bug_id=&votes=&chfieldfrom=1d&chfieldto=Now&chfieldvalue=&cmdtype=doit&order=Reuse+same+sort+as+last+time&field0-0-0=noop&type0-0-0=noop&value0-0-0=">Lista błędów, w których nastąpiły zmiany dziś</a>.</li>
+    <li><a href="http://bugs.aviary.pl/buglist.cgi?query_format=advanced&short_desc_type=allwordssubstr&short_desc=&long_desc_type=substring&long_desc=&bug_file_loc_type=allwordssubstr&bug_file_loc=&status_whiteboard_type=allwordssubstr&status_whiteboard=&keywords_type=allwords&keywords=&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bug_status=RESOLVED&bug_status=VERIFIED&bug_status=CLOSED&emailassigned_to1=1&emailtype1=substring&email1=&emailassigned_to2=1&emailreporter2=1&emailqa_contact2=1&emailcc2=1&emailtype2=substring&email2=&bugidtype=include&bug_id=&votes=&chfieldfrom=1w&chfieldto=Now&chfieldvalue=&cmdtype=doit&order=Reuse+same+sort+as+last+time&field0-0-0=noop&type0-0-0=noop&value0-0-0=">Lista błędów, w których nastąpiły zmiany w tym tygodniu</a>.</li>
+  </ul>
+  <ul class="nodots">
+    <li><a href="query.cgi">Wyszukiwanie istniejących raportów o błędach</a></li>
+    <li><a href="enter_bug.cgi">Dodawanie nowego raportu o błędzie</a></li>
+
+    <li><a href="report.cgi">Wykresy i raporty</a></li>
+  </ul>
+  <ul class="nodots">
 [% IF user.id %]
-  <a href="userprefs.cgi">Zmiana hasła lub ustawień</a><br>
-  <a href="relogin.cgi">Wylogowanie [% user.login FILTER html %]</a><br>
+  <li><a href="userprefs.cgi">Zmiana hasła lub ustawień</a></li>
+  <li><a href="relogin.cgi">Wylogowanie [% user.login FILTER html %]</a></li>
 [% ELSE %]
-  <a href="query.cgi?GoAheadAndLogIn=1">Zalogowanie na istniejące konto</a><br>
+  <li><a href="query.cgi?GoAheadAndLogIn=1">Zalogowanie na istniejące konto</a></li>
   [% IF Param('createemailregexp') %]
-    <a href="createaccount.cgi">Utworzenie nowego konta [% terms.Bugzilli %]</a><br>
+    <li><a href="createaccount.cgi">Utworzenie nowego konta [% terms.Bugzilli %]</a></li>
   [% END %]
 [% END %]
-  </p><p>
-  <a href="javascript:addSidebar()">Dodaj Sidebar</a> (Wymaga Mozilli lub Netscape 6+)<br>
+  </ul>
+  <p>
+  <a href="javascript:addSidebar()">Dodaj Sidebar</a> (Wymaga Mozilli lub Netscape 6+)<br />
   </p>
   <form name="f" action="show_bug.cgi" method="get"
       onsubmit="QuickSearch(f.id.value); return false;">
   <p>
-  Podaj numer [% terms.bledu %] lub tekst do wyszukania:<br>
-  <input type="text" name="id">
-  <input type="submit" value="Wyświetl">
+  Podaj numer [% terms.bledu %] lub tekst do wyszukania:<br />
+  <input type="text" name="id" />
+  <input type="submit" value="Wyświetl" />
   <a href="quicksearch.html">[Pomoc]</a>
   </p>
   </form>
  </td>
- <td align="right"><img src="ant.jpg" width="329" height="220" border="2" alt="ant.jpg [8.5k]"></td>
+ <td align="right"><img src="ant.jpg" width="329" height="220" border="2" alt="ant.jpg [8.5k]" /></td>
 </tr></table>
 
 <script type="text/javascript" language="JavaScript" src="localconfig.js"></script>

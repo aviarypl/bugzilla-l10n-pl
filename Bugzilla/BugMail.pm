@@ -887,7 +887,7 @@ sub MessageToMTA ($) {
     }
 
     if ($enableSendMail == 1) {
-        open(SENDMAIL, "|/usr/lib/sendmail $sendmailparam -t -i") ||
+        open(SENDMAIL, "|/usr/sbin/sendmail $sendmailparam -t -i") ||
           die "Can't open sendmail";
 
         print SENDMAIL trim($msg) . "\n";

@@ -288,7 +288,7 @@ my $modules = [
     }, 
     { 
         name => 'File::Spec', 
-        version => '0.82' 
+        version => '0.9' 
     }, 
     {
         name => 'File::Temp',
@@ -1482,6 +1482,12 @@ if ($my_db_check) {
             "   Please visit http://www.mysql.com/ and download a newer version.\n";
     }
 
+    my $sth = $dbh->prepare("SET CHARACTER SET utf8");
+    $sth->execute();
+    $sth = $dbh->prepare("SET collation_connection=utf8_general_ci");
+    $sth->execute();
+
+
     my @databases = $dbh->func('_ListDBs');
     unless (grep /^$my_db_name$/, @databases) {
        print "Creating database $my_db_name ...\n";
@@ -1517,6 +1523,11 @@ if ($my_db_sock ne "") {
 my $dbh = DBI->connect($connectstring, $my_db_user, $my_db_pass)
     or die "Can't connect to the table '$connectstring'.\n",
            "Have you read the Bugzilla Guide in the doc directory?  Have you read the doc of '$db_base'?\n";
+
+ my $sth = $dbh->prepare("SET CHARACTER SET utf8");
+ $sth->execute();
+ $sth = $dbh->prepare("SET collation_connection=utf8_general_ci");
+ $sth->execute();
 
 END { $dbh->disconnect if $dbh }
 

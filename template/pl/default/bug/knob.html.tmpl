@@ -159,13 +159,9 @@
   <input type="submit" value="Zatwierdź">
   <input type="hidden" name="form_name" value="process_bug">
   <p>
-    <font size="+1">
-      <b>
         <a href="show_activity.cgi?id=[% bug.bug_id %]">Wyświetl raport aktywności [%+ terms.bledu %]</a>
         &nbsp; | &nbsp;
         <a href="long_list.cgi?buglist=[% bug.bug_id %]">Wersja do druku</a>
-      </b>
-    </font>
 
     [% IF bug.user.canmove %]
       &nbsp; <font size="+1"><b> | </b></font> &nbsp;
