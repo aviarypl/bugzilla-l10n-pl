@@ -1,0 +1,168 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #%]
+  
+[% types = [
+  { name => "noop", description => "---" },
+  { name => "equals", description => "jest równe" },
+  { name => "notequals", description => "nie jest równe" },
+  { name => "anyexact", description => "jest równe dowolnemu z napisów" },
+  { name => "substring", description => "zawiera napis" },
+  { name => "casesubstring", description => "zawiera napis (dokładna wielkość liter)" },
+  { name => "notsubstring", description => "nie zawiera napisu" },
+  { name => "allwordssubstr", description => "zawiera wszystkie napisy" },
+  { name => "anywordssubstr", description => "zawiera dowolny z napisów" },
+  { name => "regexp", description => "pasuje do wyr. regularnego" },
+  { name => "notregexp", description => "nie pasuje do wyr. regularnego" },
+  { name => "lessthan", description => "jest mniejsze niż" },
+  { name => "greaterthan", description => "jest większe niż" },
+  { name => "anywords", description => "zawiera dowolne ze słów" },
+  { name => "allwords", description => "zawiera wszystkie słowa" },
+  { name => "nowords", description => "nie zawiera żadnego słowa" },
+  { name => "changedbefore", description => "zmieniono przed" },
+  { name => "changedafter", description => "zmieniono po" },
+  { name => "changedfrom", description => "zmieniono z" },
+  { name => "changedto", description => "zmieniono na" },
+  { name => "changedby", description => "zmienione przez" },
+  { name => "matches", description => "pasuje do" } ]
+
+fieldsTrans = {
+  "bug_id" => "Błąd \#",
+  "short_desc" => "Podsumowanie",
+  "product" => "Produkt",
+  "version" => "Wersja",
+  "rep_platform" => "Platforma",
+  "bug_file_loc" => "URL",
+  "op_sys" => "OS/Wersja",
+  "bug_status" => "Status",
+  "status_whiteboard" => "Tablica statusu",
+  "keywords" => "Słowa kluczowe",
+  "resolution" => "Rozwiązanie",
+  "bug_severity" => "Waga $terms.bledu",
+  "priority" => "Priorytet",
+  "component" => "Komponent",
+  "assigned_to" => "Przypisano do",
+  "reporter" => "Zgłoszony przez",
+  "votes" => "Głosów",
+  "qa_contact" => "Kontakt QA",
+  "cc" => "Obserwator",
+  "dependson" => "$terms.Bledy od których zależy",
+  "blocked" => "$terms.Bledy które zależą od tego",
+  "attachments.description" => "Opis załącznika",
+  "attachments.thedata" => "Data załącznika",
+  "attachments.filename" => "Plik załącznika",
+  "attachments.mimetype" => "Typ MIME załącznika",
+  "attachments.ispatch" => "Załącznik jest łatką",
+  "attachments.isobsolete" => "Załącznik jest przestarzały",
+  "attachments.isprivate" => "Załącznik jest prywatny",
+  "target_milestone" => "Docelowa wersja",
+  "delta_ts" => "Data ostatniej zmiany",
+  "(to_days(now()) - to_days(bugs.delta_ts))" => "Liczba dni od ostatniej zmiany",
+  "longdesc" => "Komentarze",
+  "alias" => "Alias",
+  "everconfirmed" => "Potwierdzony",
+  "reporter_accessible" => "Zgłaszający ma dostęp",
+  "cclist_accessible" => "Obserwatorzy mają dostęp",
+  "bug_group" => "Grupa",
+  "estimated_time" => "Oszacowana liczba godzin",
+  "remaining_time" => "Pozostałe godziny",
+  "flagtypes.name" => "Flaga",
+  "requesters.login_name" => "Proszęcy o flagę",
+  "setters.login_name" => "Ustwiający flagę",
+  "content" => "Zawartość"
+} %]
+
+  <p>
+    <strong>      
+      Zaawansowane zapytanie przy wykorzystaniu wyrażeń logicznych:
+    </strong>
+  </p>
+
+[%# Whoever wrote the original version of boolean charts had a seriously twisted mind %]
+
+[% jsmagic = "onclick=\"document.forms[0].action='query.cgi#chart'; document.forms[0].method='POST'; return 1;\"" %]
+
+[% FOREACH chart = default.charts %]
+  [% chartnum = loop.count - 1 %]
+  <table>
+  [% FOREACH row = chart %]
+    [% rownum = loop.count - 1 %]
+    <tr>
+    [% FOREACH col = row %]
+      [% colnum = loop.count - 1 %]
+      <td>
+        <select name="[% "field${chartnum}-${rownum}-${colnum}" %]">
+          [% FOREACH field = fields %]
+            <option value="[% field.name %]"
+              [%- " selected" IF field.name == col.field %]>
+              [%- fieldsTrans.${field.name} or field.description -%]</option>
+          [% END %]
+        </select>
+
+        <select name="[% "type${chartnum}-${rownum}-${colnum}" %]">
+          [% FOREACH type = types %]
+            <option value="[% type.name %]"
+              [%- " selected" IF type.name == col.type %]>[% type.description %]</option>
+          [% END %]
+        </select>
+
+        <input name="[% "value${chartnum}-${rownum}-${colnum}" %]" 
+               value="[% col.value FILTER html %]"> 
+      </td>
+      
+      [% UNLESS loop.last %]
+        <td align="center"> 
+          Lub 
+        </td>    
+      </tr>
+      <tr>
+      [% ELSE %]
+        <td>
+          [% newor = colnum + 1 %]
+          <input type="submit" value="Lub" 
+                 name="cmd-add[% "${chartnum}-${rownum}-${newor}" %]" [% jsmagic %]>
+        </td>
+      [% END %]
+      
+    [% END %]
+    </tr>
+    
+    [% UNLESS loop.last %]
+    <tr>
+      <td>Oraz</td>
+    </tr>    
+    [% ELSE %]
+    <tr>
+      <td>
+        [% newand = rownum + 1; newchart = chartnum + 1 %]
+        <input type="submit" value="Oraz" 
+               name="cmd-add[% "${chartnum}-${newand}-0" %]" [% jsmagic %]> 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="submit" value="Dodaj inne wyrażenie logiczne" 
+               name="cmd-add[% newchart %]-0-0" [% jsmagic %]>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </td>
+    </tr>   
+    [% END %]
+    
+  [% END %]
+  </table>
+  <hr>
+[% END %]

@@ -50,7 +50,7 @@ sub new {
     $self->{Bugzilla_cookie_list} = [];
 
     # Make sure that we don't send any charset headers
-    $self->charset('');
+    $self->charset('utf-8');
 
     # Check for errors
     # All of the Bugzilla code wants to do this, so do it here instead of

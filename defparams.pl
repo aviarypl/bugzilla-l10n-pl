@@ -269,7 +269,7 @@ sub find_languages {
            'q-value in the user\'s Accept-Language header.<br>' .
            'Available languages: ' . find_languages() ,
    type => 't' ,
-   default => 'en' ,
+   default => 'en, pl' ,
    checker => \&check_languages
   },
 
@@ -525,14 +525,17 @@ sub find_languages {
    type => 'l',
    default => 'From: bugzilla-daemon
 To: %mailaddress%
-Subject: Your Bugzilla password.
+Subject: =?UTF-8?B?SGFzxYJvIEJ1Z3ppbGxpLgo=?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-To use the wonders of Bugzilla, you can use the following:
+Aby używać Bugzill, możesz użyć poniższych danych:
 
- E-mail address: %login%
-       Password: %password%
+ Adres e-mail: %login%
+        Hasło: %password%
 
- To change your password, go to:
+ Haslo może zostać zmienione w:
  %urlbase%userprefs.cgi
 '
   },
@@ -556,15 +559,18 @@ To use the wonders of Bugzilla, you can use the following:
    type => 'l',
    default => 'From: bugzilla-daemon
 To: %to%
-Subject: [Bug %bugid%] %neworchanged%%summary%
+Subject: [=?UTF-8?B?QsWCxIVk?= %bugid%] %neworchanged%%summary%
 X-Bugzilla-Reason: %reasonsheader%
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 %urlbase%show_bug.cgi?id=%bugid%
 
 %diffs%
 
 --%space%
-Configure bugmail: %urlbase%userprefs.cgi?tab=email
+Konfiguracja poczty Bugzilli: %urlbase%userprefs.cgi?tab=email
 %reasonsbody%'
   },
 
@@ -591,42 +597,43 @@ Configure bugmail: %urlbase%userprefs.cgi?tab=email
    type => 'l',
    default => 'From: %maintainer%
 To: %email%
-Subject: Your Bugzilla buglist needs attention.
+Subject: Twoja lista =?UTF-8?B?YsWCxJlkw7N3Cg==?= w Bugzilli wymaga uwagi.
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-[This e-mail has been automatically generated.]
+[Ta wiadomość została wygenerowana automatycznie.]
 
-You have one or more bugs assigned to you in the Bugzilla 
-bugsystem (%urlbase%) that require
-attention.
+Masz jeden lub kilka przypisanych błędów (%urlbase%) które wymagają uwagi.
 
-All of these bugs are in the NEW or REOPENED state, and have not
-been touched in %whinedays% days or more.  You need to take a look
-at them, and decide on an initial action.
+Wszystkie z tych błedów mają status NEW lub REOPENED i nie zostały
+przejrzane przez ostatnie %whinedays% dni. Powinieneś obejrzeć te
+raporty i podjąc decyzję o dalszym postepowaniu.
 
-Generally, this means one of three things:
+Ogólnie, możesz uczynić jedną z trzech rzeczy:
 
-(1) You decide this bug is really quick to deal with (like, it\'s INVALID),
-    and so you get rid of it immediately.
-(2) You decide the bug doesn\'t belong to you, and you reassign it to someone
-    else.  (Hint: if you don\'t know who to reassign it to, make sure that
-    the Component field seems reasonable, and then use the "Reassign bug to
-    owner of selected component" option.)
-(3) You decide the bug belongs to you, but you can\'t solve it this moment.
-    Just use the "Accept bug" command.
+(1) Zadecydować że można go szybko rozwiązać (na przykład uznać go za
+    INVALID), i tym samym pozbyć się go natychmiastowo.
+(2) Zadecydować że ten błąd nie należy do Ciebie i przepisać go do kogoś
+    innego (Jeśli nie wiesz do kogo można by przepisać ten błąd, upewnij
+    się że pole Komponent ma odpowiednią wartośc i użyj "Przypisz błąd
+    do właściciela wybranego komponentu").
+(3) Zadecydować że ten błąd należy do Ciebie, lecz nie możesz go
+    rozwiązać w tej chwili. Użyj " Przypisz sobie ten błąd (zmień status
+    na ASSIGNED)".
 
-To get a list of all NEW/REOPENED bugs, you can use this URL (bookmark
-it if you like!):
+Aby zobaczyć listę błędów ze statusem NEW/REOPENED, użyj poniższego odnośnika:
 
  %urlbase%buglist.cgi?bug_status=NEW&bug_status=REOPENED&assigned_to=%userid%
 
-Or, you can use the general query page, at
+lub użyj strony wyszukiwania:
 %urlbase%query.cgi.
 
-Appended below are the individual URLs to get to all of your NEW bugs that
-haven\'t been touched for a week or more.
+Poniżej znajdują się odnośniki do poszczególnych błędów którymi powinieneś się
+zająć.
 
-You will get this message once a day until you\'ve dealt with these bugs!
-
+Tą wiadomość będziesz otrzymywał codziennie do czasu gdy nie podejmiesz
+jakiejś akcji związanej z tymi błędami.
 '
   },
 
@@ -793,15 +800,20 @@ You will get this message once a day until you\'ve dealt with these bugs!
    type => 'l',
    default => 'From: bugzilla-daemon
 To: %to%
-Subject: [Bug %bugid%] Some or all of your votes have been removed.
+Subject: [=?UTF-8?B?QsWCxIVkCg==?= %bugid%]
+ =?UTF-8?B?Tmlla3TDs3JlIHogVHdvaWNoIGfFgm9zw7N3IHpvc3RhxYJ5IHVzdW5pxJl0ZQo=?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Some or all of your votes have been removed from bug %bugid%.
+Niektóre lub wszystkie z Twoich głosów oddanych na błąd %bugid% zostały
+usunięte.
 
 %votesoldtext%
 
 %votesnewtext%
 
-Reason: %reason%
+Powód: %reason%
 
 %urlbase%show_bug.cgi?id=%bugid%
 '

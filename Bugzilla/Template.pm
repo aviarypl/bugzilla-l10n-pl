@@ -349,6 +349,8 @@ sub create {
             # places; we have a none filter for people to use when they 
             # really, really don't want a variable to be changed.
             none => sub { return $_[0]; } ,
+
+            encode_mail_header => sub { return encode_mail_header($_[0]); },
         },
 
         PLUGIN_BASE => 'Bugzilla::Template::Plugin',

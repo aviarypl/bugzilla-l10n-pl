@@ -1,0 +1,161 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% IF !header_done %]
+  [% h2 = voting_user.login FILTER html %]
+  [% PROCESS global/header.html.tmpl title = "Głosy" %]
+[% ELSE %]
+  <hr>
+[% END %]
+
+[% canedit = 1 IF voting_user.login == user.login %]
+
+[% IF votes_recorded %]
+  <p>
+    <font color="red">
+      Zmiany do oddanych głosów zostały zapamiętane.
+    </font>
+  </p>
+[% ELSE %]
+  <br>
+[% END %]
+
+[% IF products.size %]
+  <form method="post" action="votes.cgi">
+    <input type="hidden" name="action" value="vote">
+    <table cellspacing="4">
+      <tr>
+        <td></td>
+        <th>Liczba głosów</th>
+        <th>[% terms.Blad %]</th>
+        <th>Podsumowanie</th>
+      </tr>
+
+      [% onevoteproduct = 0 %]
+      [% multivoteproduct = 0 %]
+      [% FOREACH product = products %]
+        [% IF product.onevoteonly %]
+          [% onevoteproduct = 1 %]
+        [% ELSE %]
+          [% multivoteproduct = 1 %]
+        [% END %]
+        <tr>
+          <th>[% product.name FILTER html %]</th>
+          <td></td>
+          [% IF product.maxperbug < product.maxvotes AND
+                product.maxperbug > 1 %]
+            <td>
+              <font size="-1">
+                (Uwage: możliwe jest oddanie tylko [% product.maxperbug +%]
+                [% product.maxperbug != 1 ? "głosów" : "głosu" %] na jeden [% terms.blad %] dla
+                tego produktu.)
+              </font>
+            </td>
+          [% END %]
+        </tr>
+
+        [% FOREACH bug = product.bugs %]
+          <tr>
+            <td></td>
+            <td align="right">
+              [% IF canedit %]
+                [% IF product.onevoteonly %]
+                  <input type="checkbox" name="[% bug.id %]" value="1"
+                    [% " checked" IF bug.count %]>
+                [% ELSE %]
+                  <input name="[% bug.id %]" value="[% bug.count %]"
+                         size="2">
+                [% END %]
+              [% ELSE %]
+                [% bug.count %]
+              [% END %]
+            </td>
+            <td align="right">
+              [% isclosed = !bug.opened %]
+                <a href="show_bug.cgi?id=[% bug.id %]">
+                  [% bug.id FILTER closed(isclosed) %]
+                </a>
+            </td>
+            <td>
+              <a href="votes.cgi?action=show_bug&amp;bug_id=[% bug.id %]">
+                [% bug.summary FILTER html %]
+              </a>
+            </td>
+          </tr>
+        [% END %]
+
+        <tr>
+          <td></td>
+          <td colspan="3">
+            Oddano [% product.total +%]
+            [%+ PROCESS odmiana l=product.total s1="glos" s2="głosy" s3="głosów" %]
+            z [% product.maxvotes +%].
+            <br>
+            <br>
+          </td>
+        </tr>
+      [% END %]
+    </table>
+
+    [% IF canedit %]
+      <input type="submit" value="Zmień swoje głosy">
+      <br>
+      <br>
+      Aby zmienić swoje głosy,
+      [% IF multivoteproduct %]
+        wprowadź nową liczbę głosów (zero oznacza brak głosu)
+        [% " lub " IF onevoteproduct %]
+      [% END %]
+      [% IF onevoteproduct %]
+        zaznacz odpowiednie pole
+      [% END %]
+      i kliknij an odnośniku <b>Zmień swoje głosy</b>.
+    [% END %]
+  </form>
+[% ELSE %]
+  <p>
+    Obecnie
+    [% IF canedit %]
+    nie głosujesz
+    [% ELSE %]
+    ten użytkownik nie głosuje
+    [% END %]
+    na żadny [% terms.blad %].
+  </p>
+[% END %]
+
+<p>
+  <a href="page.cgi?id=voting.html">Pomoc do systemu głosowania</a>.
+</p>
+
+[% BLOCK odmiana -%]
+  [%- IF l == 1 -%]
+    [%- s1 -%]
+  [%- ELSIF (l % 100 < 10 || l % 100 > 20) &&l % 10 > 1 && l % 10 < 5 -%]
+    [%- s2 -%]
+  [%- ELSE -%]
+    [%- s3 -%]
+  [%- END -%]
+[%- END %]
+
+[% PROCESS global/footer.html.tmpl %]

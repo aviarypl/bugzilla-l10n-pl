@@ -902,12 +902,16 @@ sub quoteUrls {
                ("\0\0" . ($count-1) . "\0\0")
               ~egmxi;
 
+    $text =~ s~\b((?:załącznika|załącznikowi|załącznikiem|załączniku|załącznik)\s*\#?\s*(\d+))
+              ~GetAttachmentLink($2, $1)
+              ~egmx;
+
     # This handles bug a, comment b type stuff. Because we're using /g
     # we have to do this in one pattern, and so this is semi-messy.
     # Also, we can't use $bug_re?$comment_re? because that will match the
     # empty string
-    my $bug_re = qr/bug\s*\#?\s*(\d+)/i;
-    my $comment_re = qr/comment\s*\#?\s*(\d+)/i;
+    my $bug_re = qr/(?:bug|błąd|błędzie|błędowi|błędem|błędu)\s*\#?\s*(\d+)/i;
+    my $comment_re = qr/(?:comment|komentarza|komentarzowi|komentarzem|komentarzu|komentarz)\s*\#?\s*(\d+)/i;
     $text =~ s~\b($bug_re(?:\s*,?\s*$comment_re)?|$comment_re)
               ~ # We have several choices. $1 here is the link, and $2-4 are set
                 # depending on which part matched

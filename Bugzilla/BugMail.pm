@@ -229,10 +229,10 @@ sub ProcessOneBug($) {
         if ($who ne $lastwho) {
             $lastwho = $who;
             $diffheader = "\n$who" . Param('emailsuffix') . " changed:\n\n";
-            $diffheader .= FormatTriple("What    ", "Removed", "Added");
+            $diffheader .= FormatTriple("Co      ", "Usunięto", "Dodano");
             $diffheader .= ('-' x 76) . "\n";
         }
-        $what =~ s/^(Attachment )?/Attachment #$attachid / if $attachid;
+        $what =~ s/^(Attachment )?/Załącznik #$attachid / if $attachid;
         if( $fieldname eq 'estimated_time' ||
             $fieldname eq 'remaining_time' ) {
             $old = FormatTimeUnit($old);
@@ -281,10 +281,10 @@ sub ProcessOneBug($) {
             $lastbug = $depbug;
             my $urlbase = Param("urlbase");
             $thisdiff =
-              "\nBug $id depends on bug $depbug, which changed state.\n\n" . 
-              "Bug $depbug Summary: $summary\n" . 
+              "\nBłąd #$id zależy od błędu #$depbug, który zmienił stan.\n\n" . 
+              "Opis błędu #$depbug: $summary\n" . 
               "${urlbase}show_bug.cgi?id=$depbug\n\n"; 
-            $thisdiff .= FormatTriple("What    ", "Old Value", "New Value");
+            $thisdiff .= FormatTriple("Co    ", "Poprzednia wartość", "Nowa wartość");
             $thisdiff .= ('-' x 76) . "\n";
             $interestingchange = 0;
         }
@@ -789,24 +789,24 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
       return;
     }
     
-    my $reasonsbody = "------- You are receiving this mail because: -------\n";
+    my $reasonsbody = "------- Otrzymałeś tą wiadomośc ponieważ: -------\n";
 
     if (scalar(@reasons) == 0) {
-        $reasonsbody .= "Whoops!  I have no idea!\n";
+        $reasonsbody .= "Nieznany powód!\n";
     } else {
         foreach my $reason (@reasons) {
             if ($reason eq 'AssignedTo') {
-                $reasonsbody .= "You are the assignee for the bug, or are watching the assignee.\n";
+                $reasonsbody .= "Jesteś przpypisany do tego błedu, lub obserwujesz osobę przypisaną do tego błedu.\n";
             } elsif ($reason eq 'Reporter') {
-                $reasonsbody .= "You reported the bug, or are watching the reporter.\n";
+                $reasonsbody .= "Zgłosiłeś ten błąd, lub obserwujesz osobę zgłaszającą.\n";
             } elsif ($reason eq 'QAcontact') {
-                $reasonsbody .= "You are the QA contact for the bug, or are watching the QA contact.\n";
+                $reasonsbody .= "Jesteś kontaktem QA tego błędu, lub obserwujesz kontakt QA tego błędu.\n";
             } elsif ($reason eq 'CC') {
-                $reasonsbody .= "You are on the CC list for the bug, or are watching someone who is.\n";
+                $reasonsbody .= "Jesteś na liście obserwatorów, lub obserwujesz osobę z listy obserwatorów błedu.\n";
             } elsif ($reason eq 'Voter') {
-                $reasonsbody .= "You are a voter for the bug, or are watching someone who is.\n";
+                $reasonsbody .= "Zagłosowałeś na ten bład, lub obserwujesz osobę która zagłosowała.\n";
             } else {
-                $reasonsbody .= "Whoops!  There is an unknown reason!\n";
+                $reasonsbody .= "Nieznany powód!\n";
             }
         }
     }
@@ -824,6 +824,7 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
             Param('urlbase') . "attachment.cgi?id=";
 
         $newcomments =~ s/(Created an attachment \(id=([0-9]+)\))/$1\n --> \(${showattachurlbase}$2&action=view\)/g;
+        $newcomments =~ s/Created an attachment \(/Utworzono załącznik (/g;
     }
 
     $person .= Param('emailsuffix');
@@ -832,7 +833,7 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
 # since if the bug didn't change, you wouldn't be getting mail
 # in the first place! see http://bugzilla.mozilla.org/show_bug.cgi?id=29820 
 # for details.
-    $substs{"neworchanged"} = $isnew ? ' New: ' : '';
+    $substs{"neworchanged"} = $isnew ? '=?UTF-8?B?Tm93eTogCg==?=' : '';
     $substs{"to"} = $person;
     $substs{"cc"} = '';
     $substs{"bugid"} = $id;
@@ -841,7 +842,7 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
     } else {
       $substs{"diffs"} = $difftext . "\n\n" . $newcomments;
     }
-    $substs{"summary"} = $values{'short_desc'};
+    $substs{"summary"} = encode_mail_header($values{'short_desc'});
     $substs{"reasonsheader"} = join(" ", @reasons);
     $substs{"reasonsbody"} = $reasonsbody;
     $substs{"space"} = " ";
