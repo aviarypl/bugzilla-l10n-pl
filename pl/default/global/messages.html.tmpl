@@ -1,0 +1,169 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #%]
+
+[%# This is a list of all the possible messages. Please keep them in
+  # alphabetical order by message tag, and leave a blank line between messages.
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% message_tag = message %]
+
+[% message = BLOCK %]
+  [% IF    message_tag == "buglist_adding_field" %]
+    [% title = "Dodawanie pola do strony zapytań..." %]
+    [% link  = "Kliknij tutaj jeśli strona nie została wyświetlona automatycznie." %]
+
+  [% ELSIF message_tag == "buglist_load_named_query" %]
+    [% title = BLOCK %]
+      Wczytuję Twoje zapytanie <code>[% namedcmd FILTER html %]</code>
+    [% END %]
+    [% link  = "Kliknij tutaj jeśli strona nie została wyświetlona automatycznie." %]
+
+  [% ELSIF message_tag == "buglist_updated_named_query" %]
+    Twoje zapytanie <code>[% queryname FILTER html %]</code> zostało uaktualnione.
+
+  [% ELSIF message_tag == "buglist_new_default_query" %]
+    Domyślne zapytanie zostało zapisane. Możesz również, dodać
+    do zakładek wynik dowolnego zapytania.
+
+  [% ELSIF message_tag == "buglist_new_named_query" %]
+    Zapytanie <code>[% queryname FILTER html %]</code> zostało zapisane.
+
+  [% ELSIF message_tag == "buglist_query_gone" %]
+    [% title = "Usuwanie zapytania" %]
+    [% link  = "Wróć do strony zapytań." %]
+    Zapytanie <code>[% namedcmd FILTER html %]</code> zostało usunięte.
+
+  [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
+    [% terms.Bledy %] na tej liście są posortowane według związku z pytaniem,
+    z [% terms.bledami %] najbliższymi pytaniu na górze.
+    Wyświetlanych jest wyłącznie pierwsze 200 [% terms.bledow %].
+
+  [% ELSIF message_tag == "change_columns" %]
+    [% title = "Zmiana kolumn" %]
+    Wysyłam powtórnie Twoje zapytanie z nowymi kolumnami...
+    Kliknij <a href="[% redirect_url FILTER html %]">tutaj</a>
+    jeśli strona nie wczyta się automatycznie.
+
+  [% ELSIF message_tag == "emailold_change_cancelled" %]
+    [% title = "Anulowanie żądania zmiany adresu e-mail" %]
+    Żądanie zmiany adresu e-mail dla Twojego konta na adres
+    [%+ new_email FILTER html %] zostało anulowana.
+
+  [% ELSIF message_tag == "email_change_cancelled" %]
+    [% title = "Anulowanie żądania zmiany adresu e-mail" %]
+    Żądanie zmiany adresu e-mail z [%+ old_email FILTER html %]
+    na [%+ new_email FILTER html %] zostało anulowana.
+
+  [% ELSIF message_tag == "email_change_cancelled_reinstated" %]
+    [% title = "Anulowanie żądania zmiany adresu e-mail" %]
+    Żądanie zmiany adresu e-mail z [%+ old_email FILTER html %]
+    na adres [%+ new_email FILTER html %] zostało anulowana.
+    Zostały przywrócone stare ustawienia.
+
+  [% ELSIF message_tag == "logged_out" %]
+    [% title = "Wylogowano" %]
+    [% url = "query.cgi?GoAheadAndLogIn=1" %]
+    [% link = "Zaloguj ponownie." %]
+    <b>Zostałeś wylogowany</b>.
+    Ciasteczko, w którym były przechowywane informacje o danych
+    logowania, zostało usunięte.
+    Przy następnej próbie logowania zostaniesz zapytane o potrzebne
+    informacje.
+
+  [% ELSIF message_tag == "login_changed" %]
+    [% title = "Zmiana identyfikatora logowania w $terms.Bugzill" %]
+    Twój identyfikator logowania w [% terms.Bugzilli %] został zmieniony.
+
+  [% ELSIF message_tag == "password_change_canceled" %]
+    [% title = "Anulowanie żądania zmiany hasła" %]
+    Żądanie zmiany hasła zostało anulowane.
+
+  [% ELSIF message_tag == "password_change_request" %]
+    [% title = "Żądanie zmiany hasła" %]
+    Żeton zmiany hasła został wysłany.
+    Instrukcje zawarte w e-mailu pozwolą Ci zmienić hasło.
+
+  [% ELSIF message_tag == "password_changed" %]
+    [% title = "Zmiana hasła" %]
+    Hasło zostało zmienione.
+
+  [% ELSIF message_tag == "flag_type_created" %]
+    [% title = "Tworzenie nowej flagi" %]
+      Flaga o typie <em>[% name FILTER html %]</em> została utworzona,
+      <a href="editflagtypes.cgi">Wróć do panelu flag.</a>
+    
+  [% ELSIF message_tag == "flag_type_changes_saved" %]
+    [% title = "Zmiana flagi" %]
+    <p>
+      Twoje zmiany do flagi typu  <em>[% name FILTER html %]</em> 
+      zostały zapamiętane.
+      <a href="editflagtypes.cgi">Wróć do panelu flag.</a>
+    </p>
+    
+  [% ELSIF message_tag == "flag_type_deleted" %]
+    [% title = "Usuwanie flagi" %]
+    <p>
+      Flaga typu <em>[% name FILTER html %]</em> została usunięta.
+      <a href="editflagtypes.cgi">Wróć do panelu flag.</a>
+    </p>
+    
+  [% ELSIF message_tag == "flag_type_deactivated" %]
+    [% title = "Dezaktywacja flagi" %]
+    <p>
+      Flaga typu <em>[% flag_type.name FILTER html %]</em> 
+      została dezaktywowana.
+      <a href="editflagtypes.cgi">Wróć do panelu flag.</a>
+    </p>
+    
+  [% ELSIF message_tag == "product_invalid" %]
+    [% title = "Opis komponentu $terms.Bugzilli" %]
+    Produkt <em>[% product FILTER html %]</em> nie istnieje lub nie
+    masz do niego dostępu. Poniższe lista zawiera wszystkie dostępne
+    dla Ciebie produkty.
+
+  [% ELSIF message_tag == "series_created" %]
+    [% title = "Tworzenie serii" %]
+      Seria <em>[% series.category FILTER html %] /
+      [%+ series.subcategory FILTER html %] / 
+      [%+ series.name FILTER html %]</em>
+      została utworzona. Uwaga, dane pozwalające utworzyć wykres, zostaną
+      zebrane dopiero za [%+ series.frequency * 2 %] dni.
+      <br><br>
+      Wróć do poprzedniej strony lub 
+      <a href="query.cgi?format=create-series">utwórz inną serię</a>.
+    
+  [% ELSIF message_tag == "shutdown" %]
+    [% title = "Wyłączanie $terms.Bugzilli" %]
+    [% Param("shutdownhtml") %]
+    
+  [% ELSE %]
+    [%# Give sensible error if error functions are used incorrectly.
+      #%]        
+    Nieprawidłowo korzystasz z funkcji przekazywania wiadomości [% terms.Bugzilli %].
+    Podałeś napis '[% message_tag %]'. Prawidłowy sposób użycia to stworzenie
+    znacznika i zdefiniowanie go wewnątrz pliku messages.html.tmpl.<br>
+    <br>
+    Jeśli jesteś zwykłym użytkownikiem [% terms.Bugzilli %], prosimy o przesłanie
+    tej wiadomości do [% Param('maintainer') %].
+  [% END %]
+[% END %]

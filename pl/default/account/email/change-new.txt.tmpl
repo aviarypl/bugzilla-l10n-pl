@@ -1,0 +1,45 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s):     John Vandenberg <zeroj@null.net>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% expiration_ts = token_ts + (max_token_age * 86400) %]
+From: bugzilla-admin-daemon
+To: [% emailaddress %]
+Subject: =?UTF-8?Q?=C5=BB=C4=85danie?= zmiany adresu e-mail [% terms.Bugzilli %]
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+[%+ terms.Bugzilla %] otrzymała prośbę o zmianę adresu e-mail
+dla konta [% oldemailaddress %] na twój adres.
+
+Aby potwierdzić tą zmianę, odwiedź poniższy odnośnik:
+
+[%+ Param('urlbase') %]token.cgi?t=[% token FILTER url_quote %]&a=cfmem
+
+Jeśli to nie Ty złożyłeś prośbę o zmianę adresu, lub chcesz anulować
+tą zmianę, odwiedź ten odnośnik:
+
+[%+ Param('urlbase') %]token.cgi?t=[% token FILTER url_quote %]&a=cxlem
+
+W przypadku braku jakiejkolwiek reakcji, prośba wygaśnie po [%+ max_token_age %]
+dniach (konkretnie [%+ time2str("%Y-%m-%d %H:%M", expiration_ts) %]).
