@@ -860,19 +860,29 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
 
 sub encode_mail_header {
     my ($name, $header) = @_;
-    my @encoded = ($name);
+    my ($encoded, $spaces, $word, $state) = ($name, 1);
 
     $header =~ s/[\r\n]+[ \t]+//g;
     $header =~ s/[\r\n]+$//;
 
-    foreach my $word (split / /, $header) {
+    foreach $word (split / /, $header) {
+        $spaces++, next if $word eq '';
+
         if ($word =~ /[^\x20-\x7E\x0A\x0D]/) {
-            push @encoded, '=?UTF-8?Q?' . encode_qp($word, '') . '?=';
+            if ($state) {
+                $encoded.= ' =?UTF-8?Q?'. ('_' x $spaces);
+            } else {
+                $encoded.= (' ' x $spaces). '=?UTF-8?Q?';
+            }
+            $encoded.= encode_qp($word, '') . '?=';
+            $state = 1;
         } else {
-            push @encoded, $word;
+            $encoded.= (' ' x $spaces) . $word;
+            $state = 0;
         }
+        $spaces = 1;
     }
-    return join(' ', @encoded);
+    return $encoded;
 }
 
 # XXX: Should eventually add $mail_from and $mail_to options to 
