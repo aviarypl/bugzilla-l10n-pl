@@ -866,7 +866,7 @@ sub encode_mail_header {
     return $header if $header !~ /[^\x20-\x7E\x0A\x0D]/;
 
     $header =~ s/[\r\n]+$//;
-    my $header = encode_qp($header, '');
+    $header = encode_qp($header, '');
 
     $header =~ s/ /=20/g;
     return "=?UTF-8?Q?$header?=";
@@ -878,7 +878,8 @@ sub MessageToMTA ($) {
    my ($msg) = (@_);
    my $header;
 
-   $msg =~ s/([\n|\r]Subject:\s+)(.*?)(?=[\n\r]\w)/$1.encode_mail_header($2)/se;
+   $msg =~ s/(^Subject:\s+)(.*?)(?=[\n\r]\w)/$1.encode_mail_header($2)/sem;
+   $msg =~ s/(^From:\s+)(\S+)/index($2, '@') < 0 ? "$1$2\@bugs.aviary.pl" : "$1$2"/em;
 
     my $sendmailparam = "";
     unless (Param("sendmailnow")) {
