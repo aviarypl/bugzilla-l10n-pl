@@ -525,7 +525,7 @@ sub find_languages {
    type => 'l',
    default => 'From: bugzilla-daemon
 To: %mailaddress%
-Subject: =?UTF-8?B?SGFzxYJvIEJ1Z3ppbGxpLgo=?=
+Subject: Hasło Bugzilli
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -559,7 +559,7 @@ Aby używać Bugzill, możesz użyć poniższych danych:
    type => 'l',
    default => 'From: bugzilla-daemon
 To: %to%
-Subject: [=?UTF-8?B?QsWCxIVk?= %bugid%] %neworchanged%%summary%
+Subject: [Błąd %bugid%] %neworchanged%%summary%
 X-Bugzilla-Reason: %reasonsheader%
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -597,7 +597,7 @@ Konfiguracja poczty Bugzilli: %urlbase%userprefs.cgi?tab=email
    type => 'l',
    default => 'From: %maintainer%
 To: %email%
-Subject: Twoja lista =?UTF-8?B?YsWCxJlkw7N3Cg==?= w Bugzilli wymaga uwagi.
+Subject: Twoja lista błędów w Bugzilli wymaga uwagi.
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -800,8 +800,7 @@ jakiejś akcji związanej z tymi błędami.
    type => 'l',
    default => 'From: bugzilla-daemon
 To: %to%
-Subject: [=?UTF-8?B?QsWCxIVkCg==?= %bugid%]
- =?UTF-8?B?Tmlla3TDs3JlIHogVHdvaWNoIGfFgm9zw7N3IHpvc3RhxYJ5IHVzdW5pxJl0ZQo=?=
+Subject: [Błąd %bugid%] Niektóre z Twoich głosów zostały usunięte
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

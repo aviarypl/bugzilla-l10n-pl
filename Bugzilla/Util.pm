@@ -26,16 +26,13 @@
 package Bugzilla::Util;
 
 use strict;
-use MIME::Base64;
-use MIME::QuotedPrint;
 
 use base qw(Exporter);
 @Bugzilla::Util::EXPORT = qw(is_tainted trick_taint detaint_natural
                              html_quote url_quote value_quote xml_quote
                              css_class_quote
                              lsearch max min
-                             trim format_time
-                             encode_mail_header);
+                             trim format_time);
 
 use Bugzilla::Config;
 
@@ -181,19 +178,6 @@ sub format_time {
         $time .= " " . &::Param('timezone') if &::Param('timezone');
     }
     return $time;
-}
-
-sub encode_mail_header {
-    my ($header) = @_;
-
-    return $header if $header !~ /[^\x20-\x7E\x0A\x0D]/;
-
-    $header =~ s/[\r\n]+$//;
-    $header = encode_base64($header);
-    chomp($header);
-    $header =~ s/\n/?=\n =?UTF-8?B?/g;
-
-    return "=?UTF-8?B?$header?=";
 }
 
 1;

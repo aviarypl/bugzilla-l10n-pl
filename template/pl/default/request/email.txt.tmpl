@@ -41,11 +41,9 @@
 From: bugzilla-request-daemon
 To: [% to_email %]
 CC: [% flag.type.cc_list %]
-Subject: [% FILTER encode_mail_header -%]
-[% subject_status %] [%+ flag.type.name %]: [[% terms.Blad %] [%+ flag.target.bug.id %]] [% flag.target.bug.summary %]
+Subject: [% subject_status %] [%+ flag.type.name %]: [[% terms.Blad %] [%+ flag.target.bug.id %]] [% flag.target.bug.summary %]
 [%- IF flag.target.attachment.exists %] :
   [Załącznik [% flag.target.attachment.id %]] [% flag.target.attachment.summary %][% END %]
-[%- END %]
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 

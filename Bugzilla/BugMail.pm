@@ -34,6 +34,7 @@ use Bugzilla::RelationSet;
 
 use Bugzilla::Config qw(:DEFAULT $datadir);
 use Bugzilla::Util;
+use MIME::QuotedPrint;
 
 # This code is really ugly. It was a commandline interface, then it was moved
 # There are package-global variables which we rely on ProcessOneBug to clean
@@ -833,7 +834,7 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
 # since if the bug didn't change, you wouldn't be getting mail
 # in the first place! see http://bugzilla.mozilla.org/show_bug.cgi?id=29820 
 # for details.
-    $substs{"neworchanged"} = $isnew ? 'Nowy:' : '';
+    $substs{"neworchanged"} = $isnew ? ' Nowy: ' : '';
     $substs{"to"} = $person;
     $substs{"cc"} = '';
     $substs{"bugid"} = $id;
@@ -842,7 +843,7 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
     } else {
       $substs{"diffs"} = $difftext . "\n\n" . $newcomments;
     }
-    $substs{"summary"} = encode_mail_header($values{'short_desc'});
+    $substs{"summary"} = $values{'short_desc'};
     $substs{"reasonsheader"} = join(" ", @reasons);
     $substs{"reasonsbody"} = $reasonsbody;
     $substs{"space"} = " ";
@@ -857,10 +858,27 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
     return 1;
 }
 
+sub encode_mail_header {
+    my ($header) = @_;
+
+    $header =~ s/[\r\n]+[ \t]+//g;
+
+    return $header if $header !~ /[^\x20-\x7E\x0A\x0D]/;
+
+    $header =~ s/[\r\n]+$//;
+    my $header = encode_qp($header, '');
+
+    $header =~ s/ /=20/g;
+    return "=?UTF-8?Q?$header?=";
+}
+
 # XXX: Should eventually add $mail_from and $mail_to options to 
 # control the SMTP Envelope. -mkanat
 sub MessageToMTA ($) {
    my ($msg) = (@_);
+   my $header;
+
+   $msg =~ s/([\n|\r]Subject:\s+)(.*?)(?=[\n\r]\w)/$1.encode_mail_header($2)/se;
 
     my $sendmailparam = "";
     unless (Param("sendmailnow")) {

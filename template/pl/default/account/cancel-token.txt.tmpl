@@ -48,11 +48,11 @@ wiadomość do [% maintainer %].
 
 [% BLOCK subject %]
   [% IF tokentype == 'password' %]
-    Anulowano =?UTF-8?Q?zmian=C4=99 has=C5=82a?=
+    Anulowano zmianę hasła
   [% ELSIF tokentype == 'emailnew' OR tokentype == 'emailold' %]
-    Anulowano =?UTF-8?Q?zmian=C4=99?= adresu e-mail
+    Anulowano zmianę adresu e-mail
   [% ELSE %]
-    =?UTF-8?Q?=C5=BBeton?= [% tokentype %] =?UTF-8?Q?zosta=C5=82?= anulowany
+    Żeton [% tokentype %] został anulowany
   [% END %]
 [% END %]
 

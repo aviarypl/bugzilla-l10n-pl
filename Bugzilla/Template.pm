@@ -348,9 +348,7 @@ sub create {
             # We force filtering of every variable in key security-critical
             # places; we have a none filter for people to use when they 
             # really, really don't want a variable to be changed.
-            none => sub { return $_[0]; } ,
-
-            encode_mail_header => sub { return encode_mail_header($_[0]); },
+            none => sub { return $_[0]; },
         },
 
         PLUGIN_BASE => 'Bugzilla::Template::Plugin',
