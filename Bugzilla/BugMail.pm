@@ -866,7 +866,7 @@ sub encode_mail_header {
     return $header if $header !~ /[^\x20-\x7E\x0A\x0D]/;
 
     $header =~ s/[\r\n]+$//;
-    my $header = encode_qp($header, '');
+    $header = encode_qp($header, '');
 
     $header =~ s/ /=20/g;
     return "=?UTF-8?Q?$header?=";
