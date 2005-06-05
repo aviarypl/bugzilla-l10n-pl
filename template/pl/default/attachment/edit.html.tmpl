@@ -22,9 +22,9 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [%# Define strings that will serve as the title and header of this page %]
-[% title = BLOCK %]Edit Attachment #[% attachid %] for [% terms.Bug %] #[% bugid %][% END %]
-[% h1 = BLOCK %]Edit Attachment #[% attachid %] for
-  [%+ GetBugLink(bugid, "$terms.Bug $bugid") %][% END %]
+[% title = BLOCK %]Edycja załącznika #[% attachid %] dla [% terms.bledu %] #[% bugid %][% END %]
+[% h1 = BLOCK %]Edycja załącznika #[% attachid %] dla
+  [%+ GetBugLink(bugid, "$terms.bledu #$bugid") %][% END %]
 [% h2 = BLOCK %][% bugsummary FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -206,24 +206,24 @@
     <tr>
       <td width="25%">
         <small>
-        <b>Description:</b><br>
+        <b>Opis:</b><br>
           <textarea rows="3" cols="25" name="description" wrap="soft">[% description FILTER html %]</textarea><br>
 
-        <b>Filename:</b><br>
+        <b>Nazwa pliku:</b><br>
           <input type="text" size="20" name="filename" value="[% filename FILTER html %]"><br>
-        <b>Size: </b>[% datasize FILTER unitconvert %]<br>
+        <b>Rozmiar pliku: </b>[% datasize FILTER unitconvert %]<br>
 
-        <b>MIME Type:</b><br>
+        <b>Typ MIME:</b><br>
           <input type="text" size="20" name="contenttypeentry" value="[% contenttype FILTER html %]"><br>
 
           <input type="checkbox" id="ispatch" name="ispatch" value="1"
                  [% 'checked="checked"' IF ispatch %]>
-          <label for="ispatch">patch</label>
+          <label for="ispatch">łatka</label>
           <input type="checkbox" id="isobsolete" name="isobsolete" value="1"
                  [% 'checked="checked"' IF isobsolete %]>
-          <label for="isobsolete">obsolete</label><br>
+          <label for="isobsolete">przestarzały</label><br>
           [% IF (Param("insidergroup") && UserInGroup(Param("insidergroup"))) %]
-            <input type="checkbox" name="isprivate" value="1"[% " checked" IF isprivate %]> private<br><br>
+            <input type="checkbox" name="isprivate" value="1"[% " checked" IF isprivate %]>prywatny<br><br>
           [% ELSE %]<br>
           [% END %]
 
@@ -232,14 +232,14 @@
         [% END %]
 
         <div id="smallCommentFrame">
-          <b>Comment (on the [% terms.bug %]):</b><br>
+          <b>Komentarz (w ciele [% terms.bledu %]):</b><br>
             <textarea name="comment" rows="5" cols="25" wrap="soft"></textarea><br>
         </div>
 
-        <input type="submit" value="Submit"><br><br>
-        <strong>Actions:</strong> <a href="attachment.cgi?id=[% attachid %]">View</a>
+        <input type="submit" value="Wyślij"><br><br>
+        <strong>Akcje:</strong> <a href="attachment.cgi?id=[% attachid %]">Wyświetl</a>
         [% IF ispatch && patchviewerinstalled %]
-         | <a href="attachment.cgi?id=[% attachid %]&action=diff">Diff</a>
+         | <a href="attachment.cgi?id=[% attachid %]&action=diff">Wyświetl różnice</a>
         [% END %]
         </small>
       </td>
@@ -248,8 +248,9 @@
         <td width="75%">
           <textarea id="editFrame" name="comment" style="height: 400px; width: 100%; display: none;" cols="80" wrap="soft"></textarea>
           <iframe id="viewFrame" src="attachment.cgi?id=[% attachid %]" style="height: 400px; width: 100%;">
-            <b>You cannot view the attachment while editing it because your browser does not support IFRAMEs.
-            <a href="attachment.cgi?id=[% attachid %]">View the attachment on a separate page</a>.</b>
+            <b>Załącznik nie może być wyświetlony na tej stronie,
+            ponieważ Twoja przeglądarka nie obsługuje IFRAME.
+            <a href="attachment.cgi?id=[% attachid %]">Wyświetl załącznik na osobnej stronie</a>.</b>
           </iframe>
           <script type="text/javascript">
             <!--
@@ -257,13 +258,13 @@
 [% IF patchviewerinstalled %]
               document.write('<iframe id="viewDiffFrame" style="height: 400px; width: 100%; display: none;"></iframe>');
 [% END %]
-              document.write('<button type="button" id="editButton" onclick="editAsComment();">Edit Attachment As Comment</button>');
-              document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment();" style="display: none;">Undo Edit As Comment</button>');
-              document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment();" style="display: none;">Redo Edit As Comment</button>');
+              document.write('<button type="button" id="editButton" onclick="editAsComment();">Edytuj załącznik jak komentarz</button>');
+              document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment();" style="display: none;">Cofnij edycję jako komentarz</button>');
+              document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment();" style="display: none;">Ponów edycję jako komentarz</button>');
 [% IF patchviewerinstalled %]
-              document.write('<button type="button" id="viewDiffButton" onclick="viewDiff();">View Attachment As Diff</button>');
+              document.write('<button type="button" id="viewDiffButton" onclick="viewDiff();">Wyświetl załącznik jako łatkę</button>');
 [% END %]
-              document.write('<button type="button" id="viewRawButton" onclick="viewRaw();" style="display: none;">View Attachment As Raw</button>');
+              document.write('<button type="button" id="viewRawButton" onclick="viewRaw();" style="display: none;">Wyświetl tekst załącznika w postaci surowej</button>');
             }
             //-->
           </script>
@@ -271,12 +272,12 @@
       [% ELSE %]
         <td id="noview" width="50%">
           <p><b>
-            Attachment is not viewable in your browser because its MIME type 
-            ([% contenttype FILTER html %]) is not one that your browser is 
-            able to display.
+            Załącznik nie może zostać wyświetlony w Twojej przeglądarce, ponieważ
+            nie jest ona zdolna do obsługi dokumentu z typem MIME
+            ([% contenttype FILTER html %]).
           </b></p>
           <p><b>
-            <a href="attachment.cgi?id=[% attachid %]">Download the attachment</a>.
+            <a href="attachment.cgi?id=[% attachid %]">Zapisz załącznik na dysku</a>.
           </b></p>
         </td>
       [% END %]
@@ -285,7 +286,7 @@
 
   </table>
 
-  Attachments on this [% terms.Bug %]:
+  Załączniki dla tego [% terms.bledu %]:
   [% FOREACH a = attachments %]
     [% IF a == attachid %]
       #[% a %]

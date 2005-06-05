@@ -28,19 +28,19 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Log in to $terms.Bugzilla",
+  title = "Logowanie do $terms.Bugzilli",
   onload = "document.forms['login'].Bugzilla_login.focus()"
 %]
 
 <p>
-  I need a legitimate login and password to continue.
+  Do poprawnego działania wymagany jest prawidłowy identyfikator użytkownika i hasło.
 </p>
 
 <form name="login" action="[% target FILTER html %]" method="POST">
   <table>
     <tr>
       <td align="right">
-        <b>Login:</b>
+        <b>Identyfikator:</b>
       </td>
       <td>
         <input size="35" name="Bugzilla_login">
@@ -48,7 +48,7 @@
     </tr>
     <tr>
       <td align="right">
-        <b>Password:</b>
+        <b>Hasło:</b>
       </td>
       <td>
         <input type="password" size="35" name="Bugzilla_password">
@@ -62,7 +62,7 @@
         <td>
           <input type="checkbox" name="Bugzilla_remember" value="on"
                  [% "checked" IF Param('rememberlogin') == "defaulton" %]>
-          Remember my Login
+          Zapamiętaj mnie
         </td>
       </tr>
     [% END %]
@@ -71,14 +71,14 @@
       <tr>
         <td align="right">
           <b>
-             Restrict this session<br>
-             to this IP address:
+             Ogranicz sesję<br>
+             do tego adresu IP:
           </b>
         </td>
         <td>
           <input type="checkbox" name="Bugzilla_restrictlogin"
                  checked="checked">
-          (Using this option improves security)
+          (Użycie tej opcji zwiększa bezpieczeństwo)
         </td>
       </tr>
     [% END %]
@@ -87,11 +87,10 @@
   [% PROCESS "global/hidden-fields.html.tmpl"
      exclude="^Bugzilla_(login|password|restrictlogin)$" %]
 
-  <input type="submit" name="GoAheadAndLogIn" value="Log in">
-  
+  <input type="submit" name="GoAheadAndLogIn" value="Zaloguj">  
   <p>
-    (Note: you should make sure cookies are enabled for this site. 
-    Otherwise, you will be required to log in frequently.)
+    (Uwaga: Upewnij się że "ciasteczka" są włączone dla tej witryny.
+    W przeciwnym wypadku często będziesz proszony o ponowne zalogowanie się.)
   </p>
 </form>
 
@@ -105,8 +104,8 @@
     <hr>
 
     <p>
-      If you don't have a [% terms.Bugzilla %] account, you can
-      <a href="createaccount.cgi">create a new account</a>.
+      Jeśli nie posiadasz konta [% terms.Bugzilli %], możesz
+      <a href="createaccount.cgi">utworzyć nowe konto</a>.
     </p>
   [% END %]
 
@@ -119,11 +118,11 @@
     <a name="forgot"></a>
     <form method="get" action="token.cgi">
       <input type="hidden" name="a" value="reqpw">
-      If you have an account, but have forgotten your password,
-      enter your login name below and submit a request
-      to change your password.<br>
+      Jeśli posiadasz już konto, do którego zapomniałeś hasła, możesz
+      wysłać  prośbę o zmianę hasła (wpisz identyfikator użytkownika
+      i kliknij na przycisk).<br>
       <input size="35" name="loginname">
-      <input type="submit" value="Submit Request">
+      <input type="submit" value="Wyślij prośbę">
     </form>
 
   [% END %]

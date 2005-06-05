@@ -26,8 +26,8 @@
 
 [% product_name = product FILTER html %]
 [% PROCESS global/header.html.tmpl
-  title = "Enter $terms.Bug: $product_name"
-  h2 = "This page lets you enter a new $terms.bug into ${terms.Bugzilla}."
+  title = "Tworzenie raportu o $terms.bledzie: $product_name"
+  h2 = "Tutaj możesz dodać nowy raport o błędzie do ${terms.Bugzilli}."
   onload="set_assign_to();"
 %]
 [% USE Bugzilla %]
@@ -117,17 +117,17 @@ function set_assign_to() {
   </tr>
 
   <tr>
-    <td align="right" valign="top"><strong>Reporter:</strong></td>
+    <td align="right" valign="top"><strong>Zgłaszający:</strong></td>
     <td valign="top">[% Bugzilla.user.login FILTER html %]</td>
 
-    <td align="right" valign="top"><strong>Product:</strong></td>
+    <td align="right" valign="top"><strong>Produkt:</strong></td>
     <td valign="top">[% product FILTER html %]</td>
   </tr>
 
   [%# We can't use the select block in these two cases for various reasons. %]
   <tr>
     <td align="right" valign="top">
-      <strong>Version:</strong>
+      <strong>Wersja:</strong>
     </td>
     <td>
       <select name="version" size="5">
@@ -142,7 +142,7 @@ function set_assign_to() {
     <td align="right" valign="top">
       <strong>
         <a href="describecomponents.cgi?product=[% product FILTER url_quote %]">
-          Component</a>:
+          Komponent</a>:
       </strong>
     </td>
     <td>
@@ -163,7 +163,7 @@ function set_assign_to() {
   </tr>
 
   <tr>
-    [% sel = { description => 'Platform', name => 'rep_platform' } %]
+    [% sel = { description => 'Platforma', name => 'rep_platform' } %]
     [% INCLUDE select %]
 
     [% sel = { description => 'OS', name => 'op_sys' } %]
@@ -172,20 +172,20 @@ function set_assign_to() {
 
   <tr>
   [% IF Param('letsubmitterchoosepriority') %]
-    [% sel = { description => 'Priority', name => 'priority' } %]
+    [% sel = { description => 'Priorytet', name => 'priority' } %]
     [% INCLUDE select %]
   [% ELSE %]
     <input type="hidden" name="priority"
            value="[% default.priority FILTER html %]">
   [% END %]
 
-  [% sel = { description => 'Severity', name => 'bug_severity' } %]
+  [% sel = { description => 'Waga błędu', name => 'bug_severity' } %]
   [% INCLUDE select %]
   </tr>
 
   [% IF Param('usetargetmilestone') && Param('letsubmitterchoosemilestone') %]
     <tr>
-    [% sel = { description => 'Target Milestone', name => 'target_milestone' } %]
+    [% sel = { description => 'Wersja docelowa', name => 'target_milestone' } %]
     [% INCLUDE select %]
     <td colspan="2"></td>
     </tr>
@@ -200,10 +200,10 @@ function set_assign_to() {
 [% IF bug_status.size <= 1 %]
   <input type="hidden" name="bug_status" 
          value="[% default.bug_status FILTER html %]">
-    <td align="right" valign="top"><strong>Initial State:</strong></td>
+    <td align="right" valign="top"><strong>Początkowy stan:</strong></td>
     <td valign="top">[% status_descs.${default.bug_status} FILTER html %]</td>
 [% ELSE %]
-    [% sel = { description => 'Initial State', name => 'bug_status' } %]
+    [% sel = { description => 'Początkowy stan', name => 'bug_status' } %]
     [% INCLUDE select %]
 [% END %]
     <td colspan="2"></td>
@@ -212,7 +212,7 @@ function set_assign_to() {
   <tr>
     <td align="right">
       <strong>
-        <a href="page.cgi?id=fields.html#assigned_to">Assign To</a>:
+        <a href="page.cgi?id=fields.html#assigned_to">Przypisany do</a>:
       </strong>
     </td>
     <td colspan="3">
@@ -223,13 +223,13 @@ function set_assign_to() {
          size => 32
          emptyok => 1
        %]
-      <noscript>(Leave blank to assign to default component owner)</noscript>
+      <noscript>(Pozostaw puste, aby przypisać do właściciela komponentu)</noscript>
     </td>
   </tr>
   
 [% IF Param("useqacontact") %]
     <tr>
-      <td align="right"><strong>QA Contact:</strong></td>
+      <td align="right"><strong>Kontakt QA:</strong></td>
       <td colspan="3">
       [% INCLUDE global/userselect.html.tmpl
          name => "qa_contact"
@@ -238,13 +238,13 @@ function set_assign_to() {
          size => 32
          emptyok => 1
        %]
-        <noscript>(Leave blank to assign to default qa contact)</noscript>
+        <noscript>(Pozostaw puste, aby przypisać do domyślnego kontaktu qa)</noscript>
       </td>
     </tr>
 [% END %]
 
   <tr>
-    <td align="right"><strong>Cc:</strong></td>
+    <td align="right"><strong>Obserwatorzy:</strong></td>
     <td colspan="3">
       [% INCLUDE global/userselect.html.tmpl
          name => "cc"
@@ -263,13 +263,13 @@ function set_assign_to() {
 
 [% IF UserInGroup(Param('timetrackinggroup')) %]
   <tr>
-    <td align="right"><strong>Estimated Hours:</strong></td>
+    <td align="right"><strong>Szacunkowa liczba godzin:</strong></td>
     <td colspan="3">
       <input name="estimated_time" size="6" maxlength="6" value="0.0">
     </td>
   </tr>
   <tr>
-    <td align="right"><strong>Deadline:</strong></td>
+    <td align="right"><strong>Ostateczny termin:</strong></td>
     <td colspan="3">
       <input name="deadline" size="10" maxlength="10" value="[% deadline FILTER html %]">
       <small>(YYYY-MM-DD)</small>
@@ -291,17 +291,17 @@ function set_assign_to() {
   </tr>
 
   <tr>
-    <td align="right"><strong>Summary:</strong></td>
+    <td align="right"><strong>Podsumowanie:</strong></td>
     <td colspan="3">
       <input name="short_desc" size="60" value="[% short_desc FILTER html %]">
     </td>
   </tr>
 
-  <tr><td align="right" valign="top"><strong>Description:</strong></td>
+  <tr><td align="right" valign="top"><strong>Opis:</strong></td>
     <td colspan="3">
       <textarea name="comment" rows="10" cols="80">
         [% IF cloned_bug_id %]
-+++ This [% terms.bug %] was initially created as a clone of [% terms.Bug %] #[% cloned_bug_id %] +++
++++ Ten [% terms.blad %] początkowo został utworzony jako klon [% terms.Bledu %] #[% cloned_bug_id %] +++
 
 
         [% END %]
@@ -318,7 +318,7 @@ function set_assign_to() {
         <input type="checkbox" id="commentprivacy" name="commentprivacy"
           [% " checked=\"checked\"" IF commentprivacy %]>
         <label for="commentprivacy">
-          Initial Description is Private
+          Początkowo opis jest prywatny.
         </label>
       </td>
     </tr>
@@ -331,17 +331,17 @@ function set_assign_to() {
       <tr>
         <td align="right" valign="top">
           <strong>
-            <a href="describekeywords.cgi">Keywords</a>:
+            <a href="describekeywords.cgi">Słowa kluczowe</a>:
           </strong>
         </td>
         <td colspan="3">
-          <input name="keywords" size="60" value="[% keywords FILTER html %]"> (optional)
+          <input name="keywords" size="60" value="[% keywords FILTER html %]"> (opcjonalnie)
         </td>
       </tr>
     [% END %]
     <tr>
       <td align="right">
-        <strong>Depends on:</strong>
+        <strong>Zależy od:</strong>
       </td>
       <td>
         <input name="dependson" accesskey="d" value="[% dependson FILTER html %]">
@@ -349,7 +349,7 @@ function set_assign_to() {
     </tr>
     <tr>
       <td align="right">
-        <strong>Blocks:</strong>
+        <strong>Blokuje:</strong>
       </td>
       <td>
         <input name="blocked" accesskey="b" value="[% blocked FILTER html %]">
@@ -363,11 +363,12 @@ function set_assign_to() {
     [% IF group.size %]
       <br>
         <strong>
-          Only users in all of the selected groups can view this [% terms.bug %]:
+          Wyłącznie osoby należące do zaznaczonych grup będą miały dostęp
+          do tego [% terms.bledu %]:
         </strong>
       <br>
       <font size="-1">
-        (Leave all boxes unchecked to make this a public [% terms.bug %].)
+        (Nie zaznaczaj żadnej grupy, aby uczynić [% terms.blad %] publicznym.)
       </font>
       <br>
       <br>
@@ -391,13 +392,13 @@ function set_assign_to() {
   <tr>
     <td></td>
     <td colspan="3">
-      <input type="submit" value="    Commit    "
+      <input type="submit" value="    Wyślij    "
              onclick="if (this.form.short_desc.value == '')
-             { alert('Please enter a summary sentence for this [% terms.bug %].');
+             { alert('Proszę podać wartość w polu podsumowania.');
                return false; } return true;">
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="submit" name="maketemplate"
-             value="Remember values as bookmarkable template">
+             value="Zapamiętaj wartości, jako wzorzec-zakładkę">
     </td>
   </tr>
 
@@ -406,16 +407,16 @@ function set_assign_to() {
     <td></td>
     <td colspan="3">
       <br>
-      We've made a guess at your
   [% IF Param('defaultplatform') %]
-      operating system. Please check it
+      Pole dotyczące Twojej platformy sprzętowej zostało
   [% ELSIF Param('defaultopsys') %]
-      platform. Please check it
+      Pole dotyczące Twojego systemu operacyjnego zostało
   [% ELSE %]
-      operating system and platform. Please check them
+      Pola dotyczące Twojego systemu operacyjnego i platformy sprzętowej zostały
   [% END %]
-      and, if we got it wrong, email
-      [%+ Param('maintainer') %].
+      wypełnione na podstawie informacji z Twojej przeglądarki. Proszę sprawdzić poprawność tych
+      danych i w przypadku znalezienia błędnych wartości, wysłać zawiadomienie o tym 
+      fakcie do [%+ Param('maintainer') %].
     </td>
   </tr>
 [% END %]
@@ -443,11 +444,14 @@ function set_assign_to() {
   </td>
   [% END %]
 
+  [%- transTable = selectTransTable.${sel.name} -%]
+
   <td>
     <select name="[% sel.name %]">
     [%- FOREACH x = ${sel.name} %]
       <option value="[% x FILTER html %]"
-        [% " selected=\"selected\"" IF x == default.${sel.name} %]>[% x FILTER html -%]
+        [% " selected=\"selected\"" IF x == default.${sel.name} %]>
+          [%- (transTable.$x || x) FILTER html -%]
       </option>
     [%- END %]
     </select>

@@ -25,9 +25,9 @@
 
 [% title = BLOCK %]
   [% IF attachid %]
-Attachment #[% attachid %] for [% terms.bug %] #[% bugid %]
+Załącznik #[% attachid %] dla [% terms.bledu %] #[% bugid %]
   [% ELSE %]
-Interdiff of #[% oldid %] and #[% newid %] for #[% terms.bug %] #[% bugid %]
+Różnica pomiędzy #[% oldid %] oraz #[% newid %] dla [% terms.bledu %] #[% bugid %]
   [% END %]
 [% END %]
 
@@ -49,14 +49,12 @@ Interdiff of #[% oldid %] and #[% newid %] for #[% terms.bug %] #[% bugid %]
 .file_collapse {
   display: none;
 }
-
 .section_head {
   width: 100%;
   background-color: #f0f0f0;
   border: 1px solid black;
   text-align: left;
 }
-
 table.file_table {
   table-layout: fixed;
   width: 100%;
@@ -72,29 +70,23 @@ tbody.file td {
   border-right: 1px dashed black;
   width: 50%;
 }
-
 tbody.file pre {
   display: inline;
   white-space: -moz-pre-wrap;
   font-size: 0.9em;
 }
-
 tbody.file pre:empty {
   display: block;
 }
-
 .changed {
   background-color: lightblue;
 }
-
 .added {
   background-color: lightgreen;
 }
-
 .removed {
   background-color: #FFCC99;
 }
-
 .warning {
   color: red
 }
@@ -209,14 +201,15 @@ tbody.file pre:empty {
 [% IF headers %]
   [% h1 = BLOCK %]
     [% IF attachid %]
-      Attachment #[% attachid %]: [% description FILTER html %]
+      Załącznik #[% attachid %]: [% description FILTER html %]
     [% ELSE %]
-      Diff Between 
+      Różnica pomiędzy 
        #[% oldid %]: <a href="[% PROCESS diffurl id=oldid %]">[% old_desc FILTER html %]</a>
-      and 
-       #[% newid %]: <a href="[% PROCESS diffurl id=newid %]">[% new_desc FILTER html %]</a>
+      a 
+      <a href="[% new_url %]">[% new_desc FILTER html %]</a>
+      (#[% newid %])
     [% END %]
-    for <a href="show_bug.cgi?id=[% bugid %]">[% terms.bug %] #[% bugid %]</a>
+    dla <a href="show_bug.cgi?id=[% bugid %]">[% terms.bledu %] #[% bugid %]</a>
   [% END %]
   [% h2 = BLOCK %]
     [% bugsummary FILTER html %]
@@ -225,6 +218,7 @@ tbody.file pre:empty {
 [% ELSE %]
   <html>
   <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <style type="text/css">
   [% style %]
   </style>
@@ -241,13 +235,13 @@ tbody.file pre:empty {
 [% IF attachid %]
   [%# HEADER %]
   [% IF headers %]
-    <a href="[% PROCESS viewurl id=attachid %]">View</a>
-    | <a href="[% PROCESS editurl id=attachid %]">Edit</a>
-    | <a href="[% PROCESS diffurl id=attachid %]&amp;context=[% context FILTER html %]&amp;collapsed=[% collapsed FILTER html %]&amp;headers=[% headers FILTER html %]&amp;format=raw">Raw&nbsp;Unified</a>
+    <a href="[% PROCESS viewurl id=attachid %]">Wyświetl</a>
+    | <a href="[% PROCESS editurl id=attachid %]">Edytuj</a>
+    | <a href="[% PROCESS diffurl id=attachid %]&amp;context=[% context FILTER html %]&amp;collapsed=[% collapsed FILTER html %]&amp;headers=[% headers FILTER html %]&amp;format=raw">Tekst łatki w postaci surowej</a>
   [% END %]
   [% IF other_patches.size > 0 %]
     [% IF headers %] |[%END%]
-    Differences between
+    Różnice pomiędzy
     <form style="display: inline" action="">
       <select name="oldid">
       [% FOREACH patch = other_patches %]
@@ -256,8 +250,8 @@ tbody.file pre:empty {
         >[% patch.desc FILTER html %]</option>
       [% END %]
       </select>
-      and this patch
-      <input type="submit" value="Diff">
+      oraz tą łatką
+      <input type="submit" value="Wyświetl">
       <input type="hidden" name="action" value="interdiff">
       <input type="hidden" name="newid" value="[% attachid %]">
       <input type="hidden" name="headers" value="[% headers FILTER html %]">
@@ -266,52 +260,53 @@ tbody.file pre:empty {
   <br>
 [% ELSE %]
   [% IF headers %]
-    <a href="attachment.cgi?oldid=[% oldid %]&amp;newid=[% newid %]&amp;action=interdiff&amp;format=raw">Raw Unified</a>
+    <a href="attachment.cgi?oldid=[% oldid %]&amp;newid=[% newid %]&amp;action=interdiff&amp;format=raw">Tekst łatki w postaci surowej</a>
     |
   [% END %]
 [% END %]
   
 [%# Collapse / Expand %]
 <a href="#"
-   onmouseover="lastStatus = window.status; window.status='Collapse All'; return true"
+   onmouseover="lastStatus = window.status; window.status='Zwiń wszystkie'; return true"
    onmouseout="window.status = lastStatus; return true"
-   onclick="return collapse_all()">Collapse All</a> | 
+   onclick="return collapse_all()">Zwiń wszystkie</a> | 
 <a href="#"
-   onmouseover="lastStatus = window.status; window.status='Expand All'; return true"
+   onmouseover="lastStatus = window.status; window.status='Rozwiń wszystkie'; return true"
    onmouseout="window.status = lastStatus; return true"
-   onclick="return expand_all()">Expand All</a>
+   onclick="return expand_all()">Rozwiń wszystkie</a>
 
 [% IF do_context %]
   [%# only happens for normal viewing, not interdiff %]
-  | <span style='font-weight: bold'>Context:</span>
+  | <span style='font-weight: bold'>Kontekst:</span>
   [% IF context == "patch" %]
-    (<strong>Patch</strong> / 
+    (<strong>Łatka</strong> / 
   [% ELSE %]
-    (<a href="[% PROCESS diffurl id=attachid %]&amp;headers=[% headers FILTER html %]">Patch</a> / 
+    (<a href="[% PROCESS diffurl id=attachid %]&amp;headers=[% headers FILTER html %]">Łatka</a> / 
   [% END %]
   [% IF context == "file" %]
-    <strong>File</strong> /
+    <strong>Plik</strong> /
   [% ELSE %]
-    <a href="[% PROCESS diffurl id=attachid %]&amp;headers=[% headers FILTER html %]&amp;context=file">File</a> / 
+    <a href="[% PROCESS diffurl id=attachid %]&amp;headers=[% headers FILTER html %]&amp;context=file">Plik</a> / 
   [% END %]
 
   [% IF context == "patch" || context == "file" %]
     [% context = 3 %]
   [% END %]
   [%# textbox for context %]
-  <form style="display: inline" action=""><input type="hidden" name="action" value="diff"><input type="hidden" name="id" value="[% attachid %]"><input type="hidden" name="collapsed" value="[% collapsed FILTER html %]"><input type="hidden" name="headers" value="[% headers FILTER html %]"><input type="text" name="context" value="[% context FILTER html %]" size="3"></form>)
+  <form style="display: inline"><input type="hidden" name="action" value="diff"><input type="hidden" name="id" value="[% attachid %]"><input type="hidden" name="collapsed" value="[% collapsed FILTER html %]"><input type="hidden" name="headers" value="[% headers FILTER html %]"><input type="text" name="context" value="[% context FILTER html %]" size="3"></form>)
 [% END %]
 
 [% IF warning %]
-<h2 class="warning">Warning: 
+<h2 class="warning">Ostrzeżenie: 
   [% IF warning == "interdiff1" %]
-  this difference between two patches may show things in the wrong places due
-  to a limitation in [% terms.Bugzilla %] when comparing patches with different
-  sets of files.
+  z powodu niedoskonałości [% terms.Bugzilli %], wyświetlany diagram różnic pomiędzy dwiema
+  łatkami, stworzonych dla różnych zestawów plików, może pokazywać niektóre rzeczy w 
+  niewłaściwych miejscach.
   [% END %]
   [% IF warning == "interdiff2" %]
-  this difference between two patches may be inaccurate due to a limitation in
-  [%+ terms.Bugzilla %] when comparing patches made against different revisions.
+  wyświetlany diagram różnic pomiędzy dwiema łatkami może być, z powodu niedoskonałości 
+  [% terms.Bugzilli %], wyświetlany niepoprawnie w przypadku porównywania łatek stworzonych
+  dla różnych wersji plików.
   [% END %]
 </h2>
 [% ELSE %]

@@ -36,7 +36,7 @@
 
 [% filtered_login = user.login FILTER html %]
 [% PROCESS global/header.html.tmpl
-   title = "User Preferences"
+   title = "Twoje ustawienia"
    h2 = filtered_login
    style = "td.selected_tab {
               border-width: 2px 2px 0px;
@@ -50,15 +50,15 @@
             }"
  %]
 
-[% tabs = [ { name => "account", description => "Account settings", 
+[% tabs = [ { name => "account", description => "Ustawienia konta", 
               saveable => "1" },
-            { name => "settings", description => "General Settings", 
+            { name => "settings", description => "Ogólne ustawienia", 
               saveable => "1" }, 
-            { name => "email", description => "Email settings", 
+            { name => "email", description => "Ustawienia poczty", 
+              saveable => "1" }, 
+            { name => "saved-searches", description => "Zapisane zapytania", 
               saveable => "1" },
-            { name => "saved-searches", description => "Saved searches", 
-              saveable => "1" },
-            { name => "permissions", description => "Permissions", 
+            { name => "permissions", description => "Uprawnienia", 
               saveable => "0" } ] %]
 
 <center>
@@ -87,14 +87,13 @@
 [% IF changes_saved %]
   <p>
     <font color="red">
-      The changes to your 
-      [% current_tab.description FILTER lower %] have been saved.
+      Zmiany dla zakładki 
+      [% current_tab.description FILTER lower %] zostały zapisane.
     </font>
   </p>
   [% IF email_changes_saved %]
     <p>
-      An email has been sent to both old and new email 
-      addresses to confirm the change of email address.
+      E-mail z prośbą o potwierdzenie został wysłany na nowy i stary adres.
     </p>
   [% END %]
 [% END %]
@@ -114,7 +113,7 @@
       <tr>
         <td width="150"></td>
         <td>
-          <input type="submit" value="Submit Changes">
+          <input type="submit" value="Wyślij zmiany">
          </td>
       </tr>
     </table>

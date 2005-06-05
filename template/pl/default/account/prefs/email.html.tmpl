@@ -41,9 +41,8 @@
 [% usevotes = Param('usevotes') %]
 
 <p>
-  If you don't like getting a notification for "trivial"
-  changes to [% terms.bugs %], you can use the settings below to
-  filter some or all notifications.
+  Używając poniższego formularza, możesz
+  odfiltrować niektóre (lub nawet wszystkie) potwierdzenia.
 </p>
 
 <script type="text/javascript">
@@ -72,7 +71,7 @@ document.write('<input type="button" value="Disable All Mail" onclick="SetCheckb
 <table>
   <tr>
     <td colspan="2">
-      <b>Global options:</b>
+      <b>Opcje globalne:</b>
     </td>
   </tr>
 
@@ -84,7 +83,7 @@ document.write('<input type="button" value="Disable All Mail" onclick="SetCheckb
         value="1"
         [% " checked" IF 
                   mail.${constants.REL_ANY}.${constants.EVT_FLAG_REQUESTED} %]>
-      <label for="[% prefname %]">Email me when someone asks me to set a flag</label>
+      <label for="[% prefname %]">Wysyłaj e-maile, gdy ktoś poprosi mnie o ustawienie flagi</label>
       <br>
     </td>
   </tr>
@@ -96,14 +95,14 @@ document.write('<input type="button" value="Disable All Mail" onclick="SetCheckb
         value="1"
         [% " checked" IF 
                   mail.${constants.REL_ANY}.${constants.EVT_REQUESTED_FLAG} %]>
-      <label for="[% prefname %]">Email me when someone sets a flag I asked for</label>
+      <label for="[% prefname %]">Wysyłaj e-maile gdy ktoś ustawi flagę o którą poprosiłem</label>
       <br>
     </td>
   </tr>
 </table>
 
 <hr>
-<b>Field/recipient specific options:</b>
+<b>Opcje specyficzne dla pól/odbiorców:</b>
 <br>
 <br>
 
@@ -153,10 +152,9 @@ document.write('<input type="button" value="Disable All Mail" onclick="SetCheckb
     <td colspan="[% (useqacontact AND usevotes) ? '5' : 
                      ((useqacontact OR usevotes) ? '4' : '3') %]" 
         align="center" width="50%">
-      <b>When my relationship to this [% terms.bug %] is:</b>
     </td>
     <td rowspan="2" width="40%">
-      <b>I want to receive mail when:</b>
+      <b>Chce otrzymywać e-maile jeśli:</b>
     </td>
   </tr>
 

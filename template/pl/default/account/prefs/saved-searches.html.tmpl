@@ -19,33 +19,32 @@
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #%]
 
-<p>Your saved searches are as follows:</p>
+<p>Twoje zapisane zapytania:</p>
 
 <blockquote>
   <table border="1" cellpadding="3">  
     <tr>
       <th>
-        Search
+        Zapytanie
       </th>
       <th>
-        Run
+        Wyszukaj
       </th>
       <th>
-        Edit
+        Edytuj
       </th>
       <th>
-        Forget
+        Zapomnij
       </th>
       <th>
-        Show in
-        Footer
+        Pokaż w stopce
       </th>
     </tr>
     <tr>
-      <td>My Bugs</td>
+      <td>Moje błędy</td>
       <td>
         [% filtered_username = user.login FILTER url_quote %]
-        <a href="[% Param('mybugstemplate').replace('%userid%', filtered_username) %]">Run</a>
+        <a href="[% Param('mybugstemplate').replace('%userid%', filtered_username) %]">Wyszukaj</a>
       </td>
       <td>
         &nbsp;
@@ -64,17 +63,17 @@
       <tr>
         <td>[% q.name FILTER html %]</td>
         <td>
-          <a href="buglist.cgi?[% q.query FILTER html %]">Run</a>
+          <a href="buglist.cgi?[% q.query FILTER html %]">Wyszukaj</a>
         </td>
         <td>
-          <a href="query.cgi?[% q.query FILTER html %]&known_name=[% q.name FILTER url_quote %]">Edit</a>
+          <a href="query.cgi?[% q.query FILTER html %]&known_name=[% q.name FILTER url_quote %]">Edytuj</a>
         </td>
         <td>
           [% IF q.usedinwhine %]
             Remove from <a href="editwhines.cgi">whining</a> first
           [% ELSE %]
             <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
-                     [% q.name FILTER html %]">Forget</a>
+                     [% q.name FILTER html %]">Zapomnij</a>
           [% END %]
         </td>
         <td align="center">

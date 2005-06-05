@@ -22,16 +22,19 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Bookmarks are your friend"
-  h1 = "Template constructed"
+  title = "Zakładki są twoimi przyjaciółmi"
+  h1 = "Wzorzec został stworzony"
 %]
 
 <p>
   You can bookmark this link:
   &ldquo;<a href="enter_bug.cgi?[% url FILTER html %]">[% terms.Bug %]
   entry template</a>&rdquo;.
-  This bookmark will bring up the <em>Enter [% terms.Bug %]</em> page with the
-  fields initialized as you've requested.
+  Możesz dodać ten odnośnik do zakładek:
+  &ldquo;<a href="enter_bug.cgi?[% url FILTER html %]">Wzorzec
+  zgłaszania [% terms.bledu %]</a>&rdquo;.
+  Użycie tej zakładki przeniesie Cię do <em>Formularza zgłaszania [% terms.bledu %]</em>
+  z polami wypełnionymi wartościami, które wpisałeś przed chwilą.
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

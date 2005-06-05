@@ -24,19 +24,19 @@
   #%]
 
 [% PROCESS global/header.html.tmpl 
-  title = "Account Created"
+  title = "Tworzenie konta"
 %]
 
 <p>
-  A new account,  
+  Nowe konto, 
   <tt>[% login FILTER html %]</tt>,
-  has been created and a randomly-generated password has been e-mailed 
-  to that address.
+  zostało utworzone. Wygenerowane hasło zostało wysłane na
+  Twój adres e-mailowy.
 </p>
 
 <p>
-  When the e-mail arrives, 
-  <a href="index.cgi?GoAheadAndLogIn=1">log in here</a>.
+  Gdy otrzymasz wiadomość, 
+  <a href="index.cgi?GoAheadAndLogIn=1">zaloguj się tutaj</a>.
 </p>
 
 [% PROCESS global/footer.html.tmpl %] 

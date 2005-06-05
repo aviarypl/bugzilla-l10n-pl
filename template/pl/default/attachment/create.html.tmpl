@@ -22,9 +22,9 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [%# Define strings that will serve as the title and header of this page %]
-[% title = BLOCK %]Create New Attachment for [% terms.Bug %] #[% bugid %][% END %]
-[% h1 = BLOCK %]Create New Attachment for
-  [%+ GetBugLink(bugid, "$terms.Bug $bugid") %][% END %]
+[% title = BLOCK %]Utwórz nowy załącznik dla [% terms.bledu %] #[% bugid %][% END %]
+[% h1 = BLOCK %]Utwórz nowy załącznik dla
+  [%+ GetBugLink(bugid, "$terms.bledu #$bugid") %][% END %]
 [% h2 = BLOCK %][% bugsummary FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -59,20 +59,20 @@
 
   <table class="attachment_entry">
     <tr>
-      <th><label for="data">File:</label></th>
+      <th><label for="data">Plik:</label></th>
       <td>
-        <em>Enter the path to the file on your computer.</em><br>
+        <em>Podaj ścieżkę do pliku w Twoim komputerze.</em><br>
         <input type="file" id="data" name="data" size="50">
       </td>
     </tr>
     [% IF Param("maxlocalattachment") %]
     <tr>
-      <th>BigFile:</th>
+      <th>DużyPlik:</th>
       <td>
         <input type="checkbox" id="bigfile"
                name="bigfile" value="bigfile">
         <label for="bigfile">
-          Big File - Stored locally and may be purged
+          XXXTRANS Big File - Stored locally and may be purged
         </label>
       </td>
     </tr>
@@ -80,7 +80,7 @@
     <tr>
       <th><label for="description">Description:</label></th>
       <td>
-        <em>Describe the attachment briefly.</em><br>
+        <em>Opisz pokrótce ten załącznik.</em><br>
         <input type="text" id="description" name="description" size="60" maxlength="200">
       </td>
     </tr>
@@ -90,45 +90,47 @@
       </td>
     </tr>
     <tr>
-      <th>Content Type:</th>
+      <th>Typ zawartości:</th>
       <td>
-        <em>If the attachment is a patch, check the box below.</em><br>
+        <em>Jeśli ten załącznik jest łatką, zaznacz poniższe pole.</em><br>
         <input type="checkbox" id="ispatch" name="ispatch" value="1"
                onchange="setContentTypeDisabledState();">
-        <label for="ispatch">patch</label><br><br>
+        <label for="ispatch">łatka</label><br><br>
 
-        <em>Otherwise, choose a method for determining the content type.</em><br>
+        <em>W przeciwnym wypadku, wybierz metodę pozwalającą określić typ pliku.</em><br>
         <input type="radio" id="autodetect"
                name="contenttypemethod" value="autodetect">
-          <label for="autodetect">auto-detect</label><br>
+          <label for="autodetect">automatycznie</label><br>
         <input type="radio" id="list"
                name="contenttypemethod" value="list">
-          <label for="list">select from list:</label>
+          <label for="list">wybór z listy:</label>
           <select name="contenttypeselection"
                   onchange="this.form.contenttypemethod[1].checked = true;">
             [% PROCESS "attachment/content-types.html.tmpl" %]
           </select><br>
         <input type="radio" id="manual"
                      name="contenttypemethod" value="manual">
-          <label for="manual">enter manually:</label>
+          <label for="manual">ręcznie:</label>
           <input type="text" name="contenttypeentry" size="30" maxlength="200"
                  onchange="if (this.value) this.form.contenttypemethod[2].checked = true;">
       </td>
     </tr>
     [% IF (Param("insidergroup") && UserInGroup(Param("insidergroup"))) %]
       <tr>
-        <th>Privacy:</th>
+        <th>Prywatność:</th>
         <td>
-          <em>If the attachment is private, check the box below.</em><br>
+          <em>Jeśli ten załącznik powinien być traktowany jako prywatny, zaznacz
+          poniższe pole.</em><br>
           <input type="checkbox" name="isprivate" id="isprivate" value="1">
-        <label for="isprivate">Private</label>
+        <label for="isprivate">prywatny</label>
         </td>
       </tr>
     [% END %]
     <tr>
-      <th>Obsoletes:</th>
+      <th>Przestarzałe załączniki:</th>
       <td>
-        <em>(optional) Check each existing attachment made obsolete by your new attachment.</em><br>
+        <em>(opcjonalne) Wybierz z listy załączniki, który stają się przestarzałe
+        po dołączeniu Twojego załącznika.</em><br>
         [% IF attachments.size %]
           [% FOREACH attachment = attachments %]
             [% IF ((attachment.isprivate == 0) || (Param("insidergroup")
@@ -139,19 +141,19 @@
             [% END %]
           [% END %]
         [% ELSE %]
-            [no attachments can be made obsolete]
+            [nie ma załączników do wyboru]
         [% END %]
       </td>
     </tr>
 
     [% IF (user.id != bugassignee_id) AND user.groups.editbugs %]
       <tr>
-        <th>Reassignment:</th>
+        <th>Przypisanie [% terms.bledu %]:</th>
         <td>
-          <em>If you want to assign this [% terms.bug %] to yourself,
-              check the box below.</em><br>
+          <em>Jeśli chcesz przypisać ten [% terms.blad %] sobie,
+              zaznacz poniższe pole.</em><br>
           <input type="checkbox" id="takebug" name="takebug" value="1">
-          <label for="takebug">take [% terms.bug %]</label>
+          <label for="takebug">przypisz [% terms.blad %] sobie</label>
         </td>
       </tr>
     [% END %]
@@ -166,13 +168,14 @@
     <tr>
       <th><label for="comment">Comment:</label></th>
       <td>
-        <em>(optional) Add a comment about this attachment to the [% terms.bug %].</em><br>
+        <em>(opcjonalne) Dodaj komentarz do tego załącznika do listy komentarzy 
+          [% terms.bledu %].</em><br>
         <textarea wrap="soft" id="commment" name="comment" rows="6" cols="80"></textarea>
       </td>
     </tr>
     <tr>
       <th>&nbsp;</th>
-      <td><input type="submit" value="Submit"></td>
+      <td><input type="submit" value="Wyślij"></td>
     </tr>
   </table>
 

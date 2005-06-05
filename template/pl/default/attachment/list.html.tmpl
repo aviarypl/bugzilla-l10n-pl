@@ -22,14 +22,14 @@
 <br>
 <table cellspacing="0" cellpadding="4" border="1">
   <tr>
-    <th bgcolor="#cccccc" align="left">Attachment</th>
-    <th bgcolor="#cccccc" align="left">Type</th>
-    <th bgcolor="#cccccc" align="left">Created</th>
-    <th bgcolor="#cccccc" align="left">Size</th>
+    <th bgcolor="#cccccc" align="left">Załącznik</th>
+    <th bgcolor="#cccccc" align="left">Typ</th>
+    <th bgcolor="#cccccc" align="left">Utworzony</th>
+    <th bgcolor="#cccccc" align="left">Rozmiar</th>
     [% IF show_attachment_flags %]
-      <th bgcolor="#cccccc" align="left">Flags</th>
+      <th bgcolor="#cccccc" align="left">Flagi</th>
     [% END %]
-    <th bgcolor="#cccccc" align="left">Actions</th>
+    <th bgcolor="#cccccc" align="left">Akcje</th>
   </tr>
   [% canseeprivate = !Param("insidergroup") || UserInGroup(Param("insidergroup")) %]
   [% FOREACH attachment = attachments %]
@@ -41,7 +41,7 @@
 
         <td valign="top">
           [% IF attachment.ispatch %]
-            <i>patch</i>
+            <i>łatka</i>
           [% ELSE %]
             [% attachment.contenttype FILTER html %]
           [% END %]
@@ -53,7 +53,7 @@
         [% IF show_attachment_flags %]
           <td valign="top">
             [% IF attachment.flags.size == 0 %]
-              <i>none</i>
+              <i>brak</i>
             [% ELSE %]
               [% FOREACH flag = attachment.flags %]
                 [% IF flag.setter %]
@@ -69,9 +69,9 @@
         [% END %]
 
         <td valign="top">
-          <a href="attachment.cgi?id=[% attachment.attachid %]&amp;action=edit">Edit</a>
+          <a href="attachment.cgi?id=[% attachment.attachid %]&amp;action=edit">Edytuj</a>
           [% IF attachment.ispatch && patchviewerinstalled %]
-            | <a href="attachment.cgi?id=[% attachment.attachid %]&amp;action=diff">Diff</a>
+            | <a href="attachment.cgi?id=[% attachment.attachid %]&amp;action=diff">Wyświetl różnice</a>
           [% END %]
         </td>
       </tr>
@@ -80,15 +80,15 @@
 
   <tr>
     <td colspan="[% show_attachment_flags ? 5 : 4 %]">
-      <a href="attachment.cgi?bugid=[% bugid %]&amp;action=enter">Create a New Attachment</a> (proposed patch, testcase, etc.)
+      <a href="attachment.cgi?bugid=[% bugid %]&amp;action=enter">Utwórz nowy załącznik</a> (propozycja łatki, testowy plik, itp.)
     </td>
     [% IF attachments.size %]
       <td>
-        <a href="attachment.cgi?bugid=[% bugid %]&amp;action=viewall">View All</a>
+        <a href="attachment.cgi?bugid=[% bugid %]&amp;action=viewall">Wyświetl wszystkie</a>
       </td>
     [% ELSE %]
       <td class="bz_disabled">
-        View All
+        Wyświetl wszystkie
       </td>
     [% END %]
   </tr>

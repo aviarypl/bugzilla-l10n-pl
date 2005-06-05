@@ -28,27 +28,27 @@
   #%]  
 [% USE Bugzilla %]
 [% cgi = Bugzilla.cgi %]
-User-Agent:       [%+ cgi.user_agent() %]
-Build Identifier: [%+ cgi.param("buildid") %]
+Przeglądarka:         [%+ cgi.user_agent() %]
+Identyfikator wersji: [%+ cgi.param("buildid") %]
 
 [%+ cgi.param("comment") IF cgi.param("comment") %]
 
 [%+ IF cgi.param("reproducible") != "Choose one..." -%]
-Reproducible: [%+ cgi.param("reproducible") %]
+Powtarzalność: [%+ cgi.param("reproducible") %]
 [% END %]
 
 [% IF !(cgi.param("reproduce_steps").match('^1\.\s+2\.\s+3\.\s+$') || cgi.param("reproduce_steps").match('^\s+$')) %]
-Steps to Reproduce:
+Postępowanie aby powtórzyć:
 [%+ cgi.param("reproduce_steps") %]
 [% END %]
 
 [% IF cgi.param("actual_results") -%]
-Actual Results:  
+Aktualny wynik:  
 [%+ cgi.param("actual_results") %]
 [% END %]
 
 [% IF cgi.param("expected_results") %]
-Expected Results:  
+Oczekiwany wynik:  
 [%+ cgi.param("expected_results") %]
 [% END %]
 
