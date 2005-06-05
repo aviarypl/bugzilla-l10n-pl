@@ -625,9 +625,9 @@ CLASS="answer"
 > </B
 >
             <A
-HREF="http:/www.bugzilla.org/support/consulting.html"
+HREF="http://www.bugzilla.org/support/consulting.html"
 TARGET="_top"
->http:/www.bugzilla.org/support/consulting.html</A
+>http://www.bugzilla.org/support/consulting.html</A
 >
             is a list of companies and individuals who have asked us to
             list them as consultants for Bugzilla.
@@ -1048,6 +1048,42 @@ CLASS="filename"
 ></TR
 ></TABLE
 ></DIV
+><P
+>&#13;            Once you've modified all your files, you'll also need to modify the
+            <TT
+CLASS="filename"
+>t/002goodperl.t</TT
+> test, as it tests that all
+            shebang lines are equal to <TT
+CLASS="filename"
+>/usr/bin/perl</TT
+>.
+            (For more information on the test suite, please check out the 
+            appropriate section in the <A
+HREF="http://www.bugzilla.org/docs/developer.html#testsuite"
+TARGET="_top"
+>Developers'
+            Guide</A
+>.) Having done this, run the test itself:
+            <TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><FONT
+COLOR="#000000"
+><PRE
+CLASS="programlisting"
+>&#13;perl runtests.pl 2 --verbose
+            </PRE
+></FONT
+></TD
+></TR
+></TABLE
+>
+            to ensure that you've modified all the relevant files.
+          </P
 ><P
 >&#13;            If using Apache on Windows, you can avoid the whole problem
             by setting the <A
@@ -1812,7 +1848,7 @@ CLASS="QUOTE"
 ><P
 >&#13;            See also the instructions in <A
 HREF="upgrading.html#upgrade-cvs"
->Example 3-1</A
+>Section 3.11.2.1</A
 >.
           </P
 ></DIV
@@ -2702,7 +2738,7 @@ CLASS="answer"
 ><P
 >&#13;            Microsoft has some advice on this matter, as well:
             <A
-NAME="AEN2727"
+NAME="AEN2777"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"

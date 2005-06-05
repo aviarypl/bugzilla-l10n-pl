@@ -23,6 +23,7 @@
 #                 Dave Miller <justdave@syndicomm.com>
 #                 Christopher Aillon <christopher@aillon.com>
 #                 Myk Melez <myk@mozilla.org>
+#                 Frédéric Buclin <LpSolit@gmail.com>
 
 use strict;
 
@@ -44,7 +45,8 @@ use Bugzilla::Flag;
 
 # Shut up misguided -w warnings about "used only once":
 
-use vars qw(%versions
+use vars qw(@legal_product
+          %versions
           %components
           %COOKIE
           %legal_opsys
@@ -59,6 +61,7 @@ my $user = Bugzilla->login(LOGIN_REQUIRED);
 my $whoid = $user->id;
 
 my $cgi = Bugzilla->cgi;
+my $dbh = Bugzilla->dbh;
 
 my $requiremilestone = 0;
 
@@ -245,8 +248,24 @@ if ((($::FORM{'id'} && $::FORM{'product'} ne $::oldproduct)
                        "abort");
     }
  
-    CheckFormField(\%::FORM, 'product', \@::legal_product);
     my $prod = $::FORM{'product'};
+    trick_taint($prod);
+
+    # If at least one bug does not belong to the product we are
+    # moving to, we have to check whether or not the user is
+    # allowed to enter bugs into that product.
+    # Note that this check must be done early to avoid the leakage
+    # of component, version and target milestone names.
+    my $check_can_enter =
+        $dbh->selectrow_array("SELECT 1 FROM bugs
+                               INNER JOIN products
+                               ON bugs.product_id = products.id
+                               WHERE products.name != ?
+                               AND bugs.bug_id IN
+                               (" . join(',', @idlist) . ") LIMIT 1",
+                               undef, $prod) || 0;
+
+    if ($check_can_enter) { CanEnterProductOrWarn($prod) }
 
     # note that when this script is called from buglist.cgi (rather
     # than show_bug.cgi), it's possible that the product will be changed
@@ -349,6 +368,9 @@ my $qacontactid;
 sub CheckCanChangeField {
     # START DO_NOT_CHANGE
     my ($field, $bugid, $oldvalue, $newvalue) = (@_);
+
+    $oldvalue = defined($oldvalue) ? $oldvalue : '';
+    $newvalue = defined($newvalue) ? $newvalue : '';
 
     # Convert email IDs into addresses for $oldvalue
     if (($field eq "assigned_to") || 
@@ -703,6 +725,7 @@ if ($::FORM{'component'} ne $::FORM{'dontchange'}) {
                                 product => $::FORM{'product'}});
     
     DoComma();
+    $::FORM{'component_id'} = $comp_id;
     $::query .= "component_id = $comp_id";
 }
 
@@ -876,11 +899,8 @@ SWITCH: for ($::FORM{'knob'}) {
     /^accept$/ && CheckonComment( "accept" ) && do {
         DoConfirm();
         ChangeStatus('ASSIGNED');
-        if (Param("musthavemilestoneonaccept") &&
-                scalar(@{$::target_milestone{$::FORM{'product'}}}) > 1) {
-            if (Param("usetargetmilestone")) {
-                $requiremilestone = 1;
-            }
+        if (Param("usetargetmilestone") && Param("musthavemilestoneonaccept")) {
+            $requiremilestone = 1;
         }
         last SWITCH;
     };
@@ -1120,17 +1140,6 @@ foreach my $id (@idlist) {
             "group_control_map READ");
     my @oldvalues = SnapShotBug($id);
     my %oldhash;
-    # Fun hack.  @::log_columns only contains the component_id,
-    # not the name (since bug 43600 got fixed).  So, we need to have
-    # this id ready for the loop below, otherwise anybody can
-    # change the component of a bug (we checked product above).
-    # http://bugzilla.mozilla.org/show_bug.cgi?id=180545
-    my $product_id = get_product_id($::FORM{'product'});
-    
-    if ($::FORM{'component'} ne $::FORM{'dontchange'}) {
-        $::FORM{'component_id'} = 
-                            get_component_id($product_id, $::FORM{'component'});
-    }
     
     my $i = 0;
     foreach my $col (@::log_columns) {
@@ -1181,22 +1190,24 @@ foreach my $id (@idlist) {
                       { product => $oldhash{'product'} }, "abort");
     }
 
-    if (defined $::FORM{'product'} 
-        && $::FORM{'product'} ne $::FORM{'dontchange'} 
-        && $::FORM{'product'} ne $oldhash{'product'}
-        && !CanEnterProduct($::FORM{'product'})) {
-        ThrowUserError("entry_access_denied",
-                       { product => $::FORM{'product'} }, "abort");
-    }
     if ($requiremilestone) {
-        my $value = $::FORM{'target_milestone'};
-        if (!defined $value || $value eq $::FORM{'dontchange'}) {
-            $value = $oldhash{'target_milestone'};
-        }
-        SendSQL("SELECT defaultmilestone FROM products WHERE name = " .
-                SqlQuote($oldhash{'product'}));
-        if ($value eq FetchOneColumn()) {
-            ThrowUserError("milestone_required", { bug_id => $id }, "abort");
+        # musthavemilestoneonaccept applies only if at least two
+        # target milestones are defined for the current product.
+        my $nb_milestones = scalar(@{$::target_milestone{$oldhash{'product'}}});
+        if ($nb_milestones > 1) {
+            my $value = $cgi->param('target_milestone');
+            if (!defined $value || $value eq $cgi->param('dontchange')) {
+                $value = $oldhash{'target_milestone'};
+            }
+            my $defaultmilestone =
+                $dbh->selectrow_array("SELECT defaultmilestone
+                                       FROM products WHERE id = ?",
+                                       undef, $oldhash{'product_id'});
+            # if musthavemilestoneonaccept == 1, then the target
+            # milestone must be different from the default one.
+            if ($value eq $defaultmilestone) {
+                ThrowUserError("milestone_required", { bug_id => $id }, "abort");
+            }
         }
     }   
     if (defined $::FORM{'delta_ts'} && $::FORM{'delta_ts'} ne $delta_ts) {
@@ -1447,18 +1458,17 @@ foreach my $id (@idlist) {
     # change or the status or resolution change. This var keeps track of that.
     my $check_dep_bugs = 0;
 
-    if (defined $::FORM{'dependson'}) {
-        my $me = "blocked";
-        my $target = "dependson";
-        for (1..2) {
-            SendSQL("select $target from dependencies where $me = $id order by $target");
+    foreach my $pair ("blocked/dependson", "dependson/blocked") {
+        my ($me, $target) = split("/", $pair);
+
+        my @oldlist = @{$dbh->selectcol_arrayref("SELECT $target FROM dependencies
+                                                  WHERE $me = ? ORDER BY $target",
+                                                  undef, $id)};
+        @dependencychanged{@oldlist} = 1;
+
+        if (defined $::FORM{'dependson'}) {
             my %snapshot;
-            my @oldlist;
-            while (MoreSQLData()) {
-                push(@oldlist, FetchOneColumn());
-            }
             my @newlist = sort {$a <=> $b} @{$deps{$target}};
-            @dependencychanged{@oldlist} = 1;
             @dependencychanged{@newlist} = 1;
 
             while (0 < @oldlist || 0 < @newlist) {
@@ -1493,10 +1503,6 @@ foreach my $id (@idlist) {
                 LogDependencyActivity($id, $oldsnap, $target, $me);
                 $check_dep_bugs = 1;
             }
-
-            my $tmp = $me;
-            $me = $target;
-            $target = $tmp;
         }
     }
 
@@ -1696,10 +1702,9 @@ foreach my $id (@idlist) {
         }
     }
     # Set and update flags.
-    if ($UserInEditGroupSet) {
-        my $target = Bugzilla::Flag::GetTarget($id);
-        Bugzilla::Flag::process($target, $timestamp, \%::FORM);
-    }
+    my $target = Bugzilla::Flag::GetTarget($id);
+    Bugzilla::Flag::process($target, $timestamp, \%::FORM);
+
     if ($bug_changed) {
         SendSQL("UPDATE bugs SET delta_ts = " . SqlQuote($timestamp) . " WHERE bug_id = $id");
     }
@@ -1707,7 +1712,7 @@ foreach my $id (@idlist) {
 
     $vars->{'mailrecipients'} = { 'cc' => \@ccRemoved,
                                   'owner' => $origOwner,
-                                  'qa' => $origQaContact,
+                                  'qacontact' => $origQaContact,
                                   'changer' => $::COOKIE{'Bugzilla_login'} };
 
     $vars->{'id'} = $id;

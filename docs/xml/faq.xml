@@ -35,7 +35,7 @@
         </question>
         <answer>
           <para>
-            <ulink url="http:/www.bugzilla.org/support/consulting.html"/>
+            <ulink url="http://www.bugzilla.org/support/consulting.html"/>
             is a list of companies and individuals who have asked us to
             list them as consultants for Bugzilla.
           </para>
@@ -260,6 +260,19 @@ C:\mysql\bin\replace "#!/usr/bin/perl" "#!C:\perl\bin\perl" -- *.cgi *.pl
               <filename>/usr/local/bin/perl</filename> with your own perl path.
             </para>            
           </note>
+          <para>
+            Once you've modified all your files, you'll also need to modify the
+            <filename>t/002goodperl.t</filename> test, as it tests that all
+            shebang lines are equal to <filename>/usr/bin/perl</filename>.
+            (For more information on the test suite, please check out the 
+            appropriate section in the <ulink
+            url="http://www.bugzilla.org/docs/developer.html#testsuite">Developers'
+            Guide</ulink>.) Having done this, run the test itself:
+            <programlisting>
+perl runtests.pl 2 --verbose
+            </programlisting>
+            to ensure that you've modified all the relevant files.
+          </para>
           <para>
             If using Apache on Windows, you can avoid the whole problem
             by setting the <ulink

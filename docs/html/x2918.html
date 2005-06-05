@@ -2,24 +2,25 @@
 <HTML
 ><HEAD
 ><TITLE
->Contrib</TITLE
+>The Apache webserver is not serving Bugzilla pages</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
 REL="HOME"
 TITLE="The Bugzilla Guide - 2.18 Release"
 HREF="index.html"><LINK
+REL="UP"
+TITLE="Troubleshooting"
+HREF="troubleshooting.html"><LINK
 REL="PREVIOUS"
-TITLE='
-      checksetup.pl reports "Client does not support authentication protocol
-      requested by server..."
-    '
-HREF="trbl-passwd-encryption.html"><LINK
+TITLE="General Advice"
+HREF="general-advice.html"><LINK
 REL="NEXT"
-TITLE="Command-line Search Interface"
-HREF="cmdline.html"></HEAD
+TITLE="I installed a Perl module, but 
+      checksetup.pl claims it's not installed!"
+HREF="x2925.html"></HEAD
 ><BODY
-CLASS="appendix"
+CLASS="section"
 BGCOLOR="#FFFFFF"
 TEXT="#000000"
 LINK="#0000FF"
@@ -45,7 +46,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="trbl-passwd-encryption.html"
+HREF="general-advice.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -53,13 +54,13 @@ ACCESSKEY="P"
 WIDTH="80%"
 ALIGN="center"
 VALIGN="bottom"
-></TD
+>Appendix B. Troubleshooting</TD
 ><TD
 WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="cmdline.html"
+HREF="x2925.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -69,39 +70,48 @@ ACCESSKEY="N"
 ALIGN="LEFT"
 WIDTH="100%"></DIV
 ><DIV
-CLASS="appendix"
+CLASS="section"
 ><H1
+CLASS="section"
 ><A
-NAME="patches"
-></A
->Appendix C. Contrib</H1
-><DIV
-CLASS="TOC"
-><DL
-><DT
-><B
->Table of Contents</B
-></DT
-><DT
->C.1. <A
-HREF="cmdline.html"
->Command-line Search Interface</A
-></DT
-><DT
->C.2. <A
-HREF="cmdline-bugmail.html"
->Command-line 'Send Unsent Bug-mail' tool</A
-></DT
-></DL
-></DIV
+NAME="AEN2918"
+>B.2. The Apache webserver is not serving Bugzilla pages</A
+></H1
 ><P
->&#13;    There are a number of unofficial Bugzilla add-ons in the 
-    <TT
-CLASS="filename"
->$BUGZILLA_ROOT/contrib/</TT
+>After you have run <B
+CLASS="command"
+>checksetup.pl</B
+> twice,
+    run <B
+CLASS="command"
+>testserver.pl http://yoursite.yourdomain/yoururl</B
 >
-    directory. This section documents them.
-  </P
+    to confirm that your webserver is configured properly for
+    Bugzilla.
+    </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><FONT
+COLOR="#000000"
+><PRE
+CLASS="programlisting"
+>&#13;<SAMP
+CLASS="prompt"
+>bash$</SAMP
+> ./testserver.pl http://landfill.bugzilla.org/bugzilla-tip
+TEST-OK Webserver is running under group id in $webservergroup.
+TEST-OK Got ant picture.
+TEST-OK Webserver is executing CGIs.
+TEST-OK Webserver is preventing fetch of http://landfill.bugzilla.org/bugzilla-tip/localconfig.
+</PRE
+></FONT
+></TD
+></TR
+></TABLE
 ></DIV
 ><DIV
 CLASS="NAVFOOTER"
@@ -119,7 +129,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="trbl-passwd-encryption.html"
+HREF="general-advice.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -137,7 +147,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="cmdline.html"
+HREF="x2925.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -147,18 +157,25 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->checksetup.pl reports "Client does not support authentication protocol
-      requested by server..."</TD
+>General Advice</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
 VALIGN="top"
->&nbsp;</TD
+><A
+HREF="troubleshooting.html"
+ACCESSKEY="U"
+>Up</A
+></TD
 ><TD
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->Command-line Search Interface</TD
+>I installed a Perl module, but 
+      <TT
+CLASS="filename"
+>checksetup.pl</TT
+> claims it's not installed!</TD
 ></TR
 ></TABLE
 ></DIV

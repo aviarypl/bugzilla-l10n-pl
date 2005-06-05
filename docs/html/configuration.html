@@ -568,14 +568,15 @@ NAME="http"
 >2.2.4. Web server</A
 ></H2
 ><P
->Configure your web server according to the instructions in the
-      appropriate section. The Bugzilla Team recommends Apache. No matter
-      what webserver you choose, make sure that sensitive information is
-      not remotely available by ensuring that the access controls in
-      <A
+>&#13;        Configure your web server according to the instructions in the
+        appropriate section. (If it makes a difference in your choice,
+        the Bugzilla Team recommends Apache.) Regardless of which webserver
+        you are using, however, ensure that sensitive information is
+        not remotely available by properly applying the access controls in
+        <A
 HREF="security-webserver.html#security-webserver-access"
 >Section 4.3.1</A
-> are properly applied.
+>.
       </P
 ><DIV
 CLASS="section"
@@ -589,18 +590,42 @@ CLASS="productname"
 ></A
 ></H3
 ><P
->Load <TT
+>&#13;          To configure your Apache web server to work with Bugzilla,
+          do the following:
+        </P
+><DIV
+CLASS="procedure"
+><OL
+TYPE="1"
+><LI
+><P
+>&#13;              Load <TT
 CLASS="filename"
 >httpd.conf</TT
-> in your editor.</P
-><P
->Uncomment (or add) the following line. 
-          This configures Apache to run .cgi files outside the
-          <TT
+> in your editor.
+              In Fedora and Red Hat Linux, this file is found in
+              <TT
 CLASS="filename"
->cgi-bin</TT
-> directory.
-          </P
+>/etc/httpd/conf</TT
+>.
+            </P
+></LI
+><LI
+><P
+>&#13;              Apache uses <SAMP
+CLASS="computeroutput"
+>&#60;Directory&#62;</SAMP
+>
+              directives to permit fine-grained permission setting. Add the
+              following lines to a directive that applies to the location
+              of your Bugzilla installation. (If such a section does not
+              exist, you'll want to add one.) In this example, Bugzilla has
+              been installed at 
+              <TT
+CLASS="filename"
+>/var/www/html/bugzilla</TT
+>.
+            </P
 ><TABLE
 BORDER="0"
 BGCOLOR="#E0E0E0"
@@ -611,88 +636,137 @@ WIDTH="100%"
 COLOR="#000000"
 ><PRE
 CLASS="programlisting"
->  AddHandler cgi-script .cgi</PRE
+>&#13;&#60;Directory /var/www/html/bugzilla&#62;
+  AddHandler cgi-script .cgi
+  Options +Indexes +ExecCGI
+  DirectoryIndex index.cgi
+  AllowOverride Limit
+&#60;/Directory&#62;
+            </PRE
 ></FONT
 ></TD
 ></TR
 ></TABLE
 ><P
->Apache uses <SAMP
-CLASS="computeroutput"
->&#60;Directory&#62;</SAMP
->
-          directives to permit fine-grained permission setting.
-          Add the following two lines to a 
-          <SAMP
-CLASS="computeroutput"
->&#60;Directory&#62;</SAMP
-> directive that 
-          applies either to the Bugzilla directory or one of its parents
-          (e.g. the <SAMP
-CLASS="computeroutput"
->&#60;Directory /var/www/html&#62;</SAMP
->
-          directive).
-          This allows Bugzilla's <TT
-CLASS="filename"
->.htaccess</TT
-> files to 
-          override global permissions, and allows .cgi files to run in the 
-          Bugzilla directory.
-          </P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="programlisting"
->  Options +ExecCGI +FollowSymLinks
-  AllowOverride Limit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-><P
->Add <TT
+>&#13;              These instructions: allow apache to run .cgi files found
+              within the bugzilla directory; instructs the server to look
+              for a file called <TT
 CLASS="filename"
 >index.cgi</TT
-> to the end
-          of the <SAMP
-CLASS="computeroutput"
->DirectoryIndex</SAMP
-> 
-          line.</P
+> if someone
+              only types the directory name into the browser; and allows
+              Bugzilla's <TT
+CLASS="filename"
+>.htaccess</TT
+> files to override
+              global permissions.
+            </P
+><DIV
+CLASS="note"
 ><P
-><TT
+></P
+><TABLE
+CLASS="note"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="../images/note.gif"
+HSPACE="5"
+ALT="Note"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>&#13;                It is possible to make these changes globally, or to the
+                directive controlling Bugzilla's parent directory (e.g.
+                <SAMP
+CLASS="computeroutput"
+>&#60;Directory /var/www/html/&#62;</SAMP
+>).
+                Such changes would also apply to the Bugzilla directory...
+                but they would also apply to many other places where they
+                may or may not be appropriate. In most cases, including
+                this one, it is better to be as restrictive as possible
+                when granting extra access.
+              </P
+></TD
+></TR
+></TABLE
+></DIV
+></LI
+><LI
+><P
+>&#13;              <TT
 CLASS="filename"
 >checksetup.pl</TT
 > can set tighter permissions
-          on Bugzilla's files and directories if it knows what group the
-          webserver runs as. Look for the <SAMP
+              on Bugzilla's files and directories if it knows what group the
+              webserver runs as. Find the <SAMP
 CLASS="computeroutput"
 >Group</SAMP
 >
-          line in <TT
+              line in <TT
 CLASS="filename"
 >httpd.conf</TT
->, and place that value in
-          the <VAR
+>, place the value found
+              there in the <VAR
 CLASS="replaceable"
 >$webservergroup</VAR
-> variable in
-          <TT
+> variable
+              in <TT
 CLASS="filename"
 >localconfig</TT
->. Then rerun
-          <TT
+>, then rerun
+              <TT
 CLASS="filename"
 >checksetup.pl</TT
 >.
-          </P
+            </P
+></LI
+><LI
+><P
+>&#13;              Optional: If Bugzilla does not actually reside in the webspace
+              directory, but instead has been symbolically linked there, you
+              will need to add the following to the
+              <SAMP
+CLASS="computeroutput"
+>Options</SAMP
+> line of the Bugzilla 
+              <SAMP
+CLASS="computeroutput"
+>&#60;Directory&#62;</SAMP
+> directive
+              (the same one as in the step above):
+            </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><FONT
+COLOR="#000000"
+><PRE
+CLASS="programlisting"
+>&#13; +FollowSymLinks
+            </PRE
+></FONT
+></TD
+></TR
+></TABLE
+><P
+>&#13;              Without this directive, Apache will not follow symbolic links
+              to places outside its own directory structure, and you will be
+              unable to run Bugzilla.
+            </P
+></LI
+></OL
+></DIV
 ></DIV
 ><DIV
 CLASS="section"

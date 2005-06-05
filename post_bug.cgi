@@ -77,12 +77,12 @@ $template->process($format->{'template'}, $vars, \$comment)
 
 ValidateComment($comment);
 
+# Check that the product exists and that the user
+# is allowed to enter bugs into this product.
 my $product = $::FORM{'product'};
+CanEnterProductOrWarn($product);
+
 my $product_id = get_product_id($product);
-if (!$product_id) {
-    ThrowUserError("invalid_product_name",
-                   { product => $product });
-}
 
 # Set cookies
 my $cookiepath = Param("cookiepath");
@@ -106,10 +106,6 @@ if (defined $::FORM{'maketemplate'}) {
 umask 0;
 
 # Some sanity checking
-if (!CanEnterProduct($product)) {
-    ThrowUserError("entry_access_denied", {product => $product});
-}
-
 my $component_id = get_component_id($product_id, $::FORM{component});
 $component_id || ThrowUserError("require_component");
 
@@ -155,7 +151,7 @@ if (Param("useqacontact")) {
     }
 }
 
-if (UserInGroup("canedit") || UserInGroup("canconfirm")) {
+if (UserInGroup("editbugs") || UserInGroup("canconfirm")) {
     # Default to NEW if the user hasn't selected another status
     $::FORM{'bug_status'} ||= "NEW";
 } else {
@@ -482,7 +478,8 @@ $vars->{'mailrecipients'} = { 'cc' => \@cc,
                               'changer' => $::COOKIE{'Bugzilla_login'} };
 
 if (defined $::FORM{'qa_contact'}) {
-    $vars->{'mailrecipients'}->{'qa'} = DBID_to_name($::FORM{'qa_contact'});
+    $vars->{'mailrecipients'}->{'qacontact'} =
+        DBID_to_name($::FORM{'qa_contact'});
 }
 
 $vars->{'id'} = $id;

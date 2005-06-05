@@ -2,8 +2,9 @@
 <HTML
 ><HEAD
 ><TITLE
->I installed a Perl module, but 
-      checksetup.pl claims it's not installed!</TITLE
+>&#13;      checksetup.pl reports "Client does not support authentication protocol
+      requested by server..."
+    </TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
@@ -14,11 +15,11 @@ REL="UP"
 TITLE="Troubleshooting"
 HREF="troubleshooting.html"><LINK
 REL="PREVIOUS"
-TITLE="The Apache webserver is not serving Bugzilla pages"
-HREF="x2868.html"><LINK
+TITLE="index.cgi doesn't show up unless specified in the URL"
+HREF="trbl-index.html"><LINK
 REL="NEXT"
-TITLE="Bundle::Bugzilla makes me upgrade to Perl 5.6.1"
-HREF="x2885.html"></HEAD
+TITLE="Contrib"
+HREF="patches.html"></HEAD
 ><BODY
 CLASS="section"
 BGCOLOR="#FFFFFF"
@@ -46,7 +47,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="x2868.html"
+HREF="trbl-index.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -60,7 +61,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="x2885.html"
+HREF="patches.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -74,39 +75,35 @@ CLASS="section"
 ><H1
 CLASS="section"
 ><A
-NAME="AEN2875"
->B.3. I installed a Perl module, but 
-      <TT
-CLASS="filename"
->checksetup.pl</TT
-> claims it's not installed!</A
+NAME="trbl-passwd-encryption"
+>B.11. checksetup.pl reports "Client does not support authentication protocol
+      requested by server..."</A
 ></H1
 ><P
->This could be caused by one of two things:</P
-><P
-></P
-><OL
-TYPE="1"
-><LI
-><P
->You have two versions of Perl on your machine. You are installing
-        modules into one, and Bugzilla is using the other. Rerun the CPAN
-        commands (or manual compile) using the full path to Perl from the 
-        top of <TT
+>&#13;      This error is occurring because you are using the new password
+      encryption that comes with MySQL 4.1, while your
+      <TT
 CLASS="filename"
->checksetup.pl</TT
->. This will make sure you 
-        are installing the modules in the right place.
-        </P
-></LI
-><LI
+>DBD::mysql</TT
+> module was compiled against an
+      older version of MySQL. If you recompile <TT
+CLASS="filename"
+>DBD::mysql</TT
+>
+      against the current MySQL libraries (or just obtain a newer version
+      of this module) then the error may go away.
+    </P
 ><P
->The permissions on your library directories are set incorrectly.
-	They must, at the very least, be readable by the webserver user or
-	group. It is recommended that they be world readable.
-        </P
-></LI
-></OL
+>&#13;      If that does not fix the problem, or if you cannot recompile the
+      existing module (e.g. you're running Windows) and/or don't want to
+      replace it (e.g. you want to keep using a packaged version), then a
+      workaround is available from the MySQL docs:
+      <A
+HREF="http://dev.mysql.com/doc/mysql/en/Old_client.html"
+TARGET="_top"
+>http://dev.mysql.com/doc/mysql/en/Old_client.html</A
+>
+    </P
 ></DIV
 ><DIV
 CLASS="NAVFOOTER"
@@ -124,7 +121,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="x2868.html"
+HREF="trbl-index.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -142,7 +139,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="x2885.html"
+HREF="patches.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -152,7 +149,10 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->The Apache webserver is not serving Bugzilla pages</TD
+><TT
+CLASS="filename"
+>index.cgi</TT
+> doesn't show up unless specified in the URL</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
@@ -166,7 +166,7 @@ ACCESSKEY="U"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->Bundle::Bugzilla makes me upgrade to Perl 5.6.1</TD
+>Contrib</TD
 ></TR
 ></TABLE
 ></DIV

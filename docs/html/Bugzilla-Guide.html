@@ -374,12 +374,12 @@ HREF="#general-advice"
 ></DT
 ><DT
 >B.2. <A
-HREF="#AEN2868"
+HREF="#AEN2918"
 >The Apache webserver is not serving Bugzilla pages</A
 ></DT
 ><DT
 >B.3. <A
-HREF="#AEN2875"
+HREF="#AEN2925"
 >I installed a Perl module, but 
       <TT
 CLASS="filename"
@@ -388,12 +388,12 @@ CLASS="filename"
 ></DT
 ><DT
 >B.4. <A
-HREF="#AEN2885"
+HREF="#AEN2935"
 >Bundle::Bugzilla makes me upgrade to Perl 5.6.1</A
 ></DT
 ><DT
 >B.5. <A
-HREF="#AEN2890"
+HREF="#AEN2940"
 >DBD::Sponge::db prepare failed</A
 ></DT
 ><DT
@@ -413,7 +413,7 @@ HREF="#trbl-relogin-everyone"
 ></DT
 ><DT
 >B.9. <A
-HREF="#AEN2944"
+HREF="#AEN2994"
 >Some users are constantly being forced to relogin</A
 ></DT
 ><DT
@@ -423,6 +423,12 @@ HREF="#trbl-index"
 CLASS="filename"
 >index.cgi</TT
 > doesn't show up unless specified in the URL</A
+></DT
+><DT
+>B.11. <A
+HREF="#trbl-passwd-encryption"
+>checksetup.pl reports "Client does not support authentication protocol
+      requested by server..."</A
 ></DT
 ></DL
 ></DD
@@ -567,21 +573,6 @@ CLASS="LOT"
 ><DT
 ><B
 >List of Examples</B
-></DT
-><DT
->3-1. <A
-HREF="#upgrade-cvs"
->Upgrading using CVS</A
-></DT
-><DT
->3-2. <A
-HREF="#upgrade-tarball"
->Upgrading using the tarball</A
-></DT
-><DT
->3-3. <A
-HREF="#upgrade-patches"
->Upgrading using patches</A
 ></DT
 ><DT
 >4-1. <A
@@ -1470,8 +1461,9 @@ CLASS="filename"
 ></DIV
 ><P
 >If you install from something other than a packaging/installation
-      system (such as .rpm, .dep, .exe, or .msi) make sure the MySQL server
-      is started when the machine boots.
+      system, such as .rpm (Redhat Package), .deb (Debian Package), .exe
+      (Windows Executable), or .msi (Microsoft Installer), make sure the MySQL
+      server is started when the machine boots.
       </P
 ></DIV
 ><DIV
@@ -2629,14 +2621,15 @@ NAME="http"
 >2.2.4. Web server</A
 ></H3
 ><P
->Configure your web server according to the instructions in the
-      appropriate section. The Bugzilla Team recommends Apache. No matter
-      what webserver you choose, make sure that sensitive information is
-      not remotely available by ensuring that the access controls in
-      <A
+>&#13;        Configure your web server according to the instructions in the
+        appropriate section. (If it makes a difference in your choice,
+        the Bugzilla Team recommends Apache.) Regardless of which webserver
+        you are using, however, ensure that sensitive information is
+        not remotely available by properly applying the access controls in
+        <A
 HREF="#security-webserver-access"
 >Section 4.3.1</A
-> are properly applied.
+>.
       </P
 ><DIV
 CLASS="section"
@@ -2650,18 +2643,42 @@ CLASS="productname"
 ></A
 ></H4
 ><P
->Load <TT
+>&#13;          To configure your Apache web server to work with Bugzilla,
+          do the following:
+        </P
+><DIV
+CLASS="procedure"
+><OL
+TYPE="1"
+><LI
+><P
+>&#13;              Load <TT
 CLASS="filename"
 >httpd.conf</TT
-> in your editor.</P
-><P
->Uncomment (or add) the following line. 
-          This configures Apache to run .cgi files outside the
-          <TT
+> in your editor.
+              In Fedora and Red Hat Linux, this file is found in
+              <TT
 CLASS="filename"
->cgi-bin</TT
-> directory.
-          </P
+>/etc/httpd/conf</TT
+>.
+            </P
+></LI
+><LI
+><P
+>&#13;              Apache uses <SAMP
+CLASS="computeroutput"
+>&#60;Directory&#62;</SAMP
+>
+              directives to permit fine-grained permission setting. Add the
+              following lines to a directive that applies to the location
+              of your Bugzilla installation. (If such a section does not
+              exist, you'll want to add one.) In this example, Bugzilla has
+              been installed at 
+              <TT
+CLASS="filename"
+>/var/www/html/bugzilla</TT
+>.
+            </P
 ><TABLE
 BORDER="0"
 BGCOLOR="#E0E0E0"
@@ -2672,88 +2689,137 @@ WIDTH="100%"
 COLOR="#000000"
 ><PRE
 CLASS="programlisting"
->  AddHandler cgi-script .cgi</PRE
+>&#13;&#60;Directory /var/www/html/bugzilla&#62;
+  AddHandler cgi-script .cgi
+  Options +Indexes +ExecCGI
+  DirectoryIndex index.cgi
+  AllowOverride Limit
+&#60;/Directory&#62;
+            </PRE
 ></FONT
 ></TD
 ></TR
 ></TABLE
 ><P
->Apache uses <SAMP
-CLASS="computeroutput"
->&#60;Directory&#62;</SAMP
->
-          directives to permit fine-grained permission setting.
-          Add the following two lines to a 
-          <SAMP
-CLASS="computeroutput"
->&#60;Directory&#62;</SAMP
-> directive that 
-          applies either to the Bugzilla directory or one of its parents
-          (e.g. the <SAMP
-CLASS="computeroutput"
->&#60;Directory /var/www/html&#62;</SAMP
->
-          directive).
-          This allows Bugzilla's <TT
-CLASS="filename"
->.htaccess</TT
-> files to 
-          override global permissions, and allows .cgi files to run in the 
-          Bugzilla directory.
-          </P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="programlisting"
->  Options +ExecCGI +FollowSymLinks
-  AllowOverride Limit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-><P
->Add <TT
+>&#13;              These instructions: allow apache to run .cgi files found
+              within the bugzilla directory; instructs the server to look
+              for a file called <TT
 CLASS="filename"
 >index.cgi</TT
-> to the end
-          of the <SAMP
-CLASS="computeroutput"
->DirectoryIndex</SAMP
-> 
-          line.</P
+> if someone
+              only types the directory name into the browser; and allows
+              Bugzilla's <TT
+CLASS="filename"
+>.htaccess</TT
+> files to override
+              global permissions.
+            </P
+><DIV
+CLASS="note"
 ><P
-><TT
+></P
+><TABLE
+CLASS="note"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="../images/note.gif"
+HSPACE="5"
+ALT="Note"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>&#13;                It is possible to make these changes globally, or to the
+                directive controlling Bugzilla's parent directory (e.g.
+                <SAMP
+CLASS="computeroutput"
+>&#60;Directory /var/www/html/&#62;</SAMP
+>).
+                Such changes would also apply to the Bugzilla directory...
+                but they would also apply to many other places where they
+                may or may not be appropriate. In most cases, including
+                this one, it is better to be as restrictive as possible
+                when granting extra access.
+              </P
+></TD
+></TR
+></TABLE
+></DIV
+></LI
+><LI
+><P
+>&#13;              <TT
 CLASS="filename"
 >checksetup.pl</TT
 > can set tighter permissions
-          on Bugzilla's files and directories if it knows what group the
-          webserver runs as. Look for the <SAMP
+              on Bugzilla's files and directories if it knows what group the
+              webserver runs as. Find the <SAMP
 CLASS="computeroutput"
 >Group</SAMP
 >
-          line in <TT
+              line in <TT
 CLASS="filename"
 >httpd.conf</TT
->, and place that value in
-          the <VAR
+>, place the value found
+              there in the <VAR
 CLASS="replaceable"
 >$webservergroup</VAR
-> variable in
-          <TT
+> variable
+              in <TT
 CLASS="filename"
 >localconfig</TT
->. Then rerun
-          <TT
+>, then rerun
+              <TT
 CLASS="filename"
 >checksetup.pl</TT
 >.
-          </P
+            </P
+></LI
+><LI
+><P
+>&#13;              Optional: If Bugzilla does not actually reside in the webspace
+              directory, but instead has been symbolically linked there, you
+              will need to add the following to the
+              <SAMP
+CLASS="computeroutput"
+>Options</SAMP
+> line of the Bugzilla 
+              <SAMP
+CLASS="computeroutput"
+>&#60;Directory&#62;</SAMP
+> directive
+              (the same one as in the step above):
+            </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><FONT
+COLOR="#000000"
+><PRE
+CLASS="programlisting"
+>&#13; +FollowSymLinks
+            </PRE
+></FONT
+></TD
+></TR
+></TABLE
+><P
+>&#13;              Without this directive, Apache will not follow symbolic links
+              to places outside its own directory structure, and you will be
+              unable to run Bugzilla.
+            </P
+></LI
+></OL
+></DIV
 ></DIV
 ><DIV
 CLASS="section"
@@ -3208,7 +3274,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN560"
+NAME="AEN570"
 >2.3.1. Bug Graphs</A
 ></H3
 ><P
@@ -3304,7 +3370,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN573"
+NAME="AEN583"
 >2.3.2. Dependency Charts</A
 ></H3
 ><P
@@ -3374,7 +3440,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN589"
+NAME="AEN599"
 >2.3.3. The Whining Cron</A
 ></H3
 ><P
@@ -3767,7 +3833,7 @@ COLOR="#000000"
 ><PRE
 CLASS="screen"
 >AddType application/vnd.mozilla.xul+xml .xul
-AddType text/xml .rdf</PRE
+AddType application/rdf+xml .rdf</PRE
 ></FONT
 ></TD
 ></TR
@@ -3976,10 +4042,10 @@ CLASS="section"
 CLASS="section"
 ><A
 NAME="win32-code-changes"
->2.4.1.3. Code changes required to run on win32</A
+>2.4.1.3. Code changes required to run on Win32</A
 ></H4
 ><P
->&#13;          Bugzilla on win32 is mostly supported out of the box; one
+>&#13;          Bugzilla on Win32 is mostly supported out of the box; one
           remaining issue is related to bug email. To make bug email
           work on Win32 (until
           <A
@@ -3989,7 +4055,7 @@ TARGET="_top"
           49893</A
 > lands), the
           simplest way is to have the Net::SMTP Perl module installed and 
-          change this line in the file Bugzilla/Bugmail.pm:
+          change these lines in the file Bugzilla/Bugmail.pm:
         </P
 ><TABLE
 BORDER="0"
@@ -4027,13 +4093,15 @@ CLASS="programlisting"
 >&#13;use Net::SMTP;
 my $smtp_server = 'smtp.mycompany.com';  # change this
 
+($enableSendMail &#38;&#38; $rcpt_to) || return;
+
 # Use die on error, so that the mail will be in the 'unsent mails' and
 # can be sent from the sanity check page.
 my $smtp = Net::SMTP-&#62;new($smtp_server) ||
   die 'Cannot connect to server \'$smtp_server\'';
 
 $smtp-&#62;mail('bugzilla-daemon@mycompany.com');  # change this
-$smtp-&#62;to($person);
+$smtp-&#62;to($rcpt_to);
 $smtp-&#62;data();
 $smtp-&#62;datasend($msg);
 $smtp-&#62;dataend();
@@ -4047,6 +4115,9 @@ $smtp-&#62;quit;
 >&#13;          Don't forget to change the name of your SMTP server and the
           domain of the sending email address (after the '@') in the
           above lines of code.
+        </P
+><P
+>&#13;          Please be aware that flag email will continue not to work.
         </P
 ></DIV
 ><DIV
@@ -4426,7 +4497,7 @@ CLASS="section"
 ><H3
 CLASS="section"
 ><A
-NAME="AEN774"
+NAME="AEN785"
 >2.5.1. Introduction</A
 ></H3
 ><P
@@ -4446,7 +4517,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN778"
+NAME="AEN789"
 >2.5.2. MySQL</A
 ></H3
 ><P
@@ -4502,7 +4573,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN786"
+NAME="AEN797"
 >2.5.2.1. Running MySQL as Non-Root</A
 ></H4
 ><DIV
@@ -4510,7 +4581,7 @@ CLASS="section"
 ><H5
 CLASS="section"
 ><A
-NAME="AEN788"
+NAME="AEN799"
 >2.5.2.1.1. The Custom Configuration Method</A
 ></H5
 ><P
@@ -4554,7 +4625,7 @@ CLASS="section"
 ><HR><H5
 CLASS="section"
 ><A
-NAME="AEN792"
+NAME="AEN803"
 >2.5.2.1.2. The Custom Built Method</A
 ></H5
 ><P
@@ -4577,7 +4648,7 @@ CLASS="section"
 ><HR><H5
 CLASS="section"
 ><A
-NAME="AEN797"
+NAME="AEN808"
 >2.5.2.1.3. Starting the Server</A
 ></H5
 ><P
@@ -4705,7 +4776,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN813"
+NAME="AEN824"
 >2.5.3. Perl</A
 ></H3
 ><P
@@ -4798,7 +4869,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN832"
+NAME="AEN843"
 >2.5.4.1. The Independant Method</A
 ></H4
 ><P
@@ -4870,7 +4941,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN845"
+NAME="AEN856"
 >2.5.4.2. The Mixed Method</A
 ></H4
 ><P
@@ -5075,7 +5146,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN878"
+NAME="AEN889"
 >2.5.5. HTTP Server</A
 ></H3
 ><P
@@ -5089,7 +5160,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN881"
+NAME="AEN892"
 >2.5.5.1. Running Apache as Non-Root</A
 ></H4
 ><P
@@ -5171,7 +5242,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN890"
+NAME="AEN901"
 >2.5.6. Bugzilla</A
 ></H3
 ><P
@@ -5288,141 +5359,124 @@ NAME="parameters"
       some of the key parameters on that page. You should run down this
       list and set them appropriately after installing Bugzilla.
     </P
+><P
+></P
 ><DIV
-CLASS="procedure"
-><OL
-TYPE="1"
-><LI
+CLASS="variablelist"
+><DL
+><DT
+>maintainer</DT
+><DD
 ><P
 > 
-          <B
-CLASS="command"
->maintainer</B
->:
-
-          The maintainer parameter is the email address of the person 
-          responsible for maintaining this Bugzilla installation.
-          The address need not be that of a valid Bugzilla account.
-        </P
-></LI
-><LI
+            The maintainer parameter is the email address of the person 
+            responsible for maintaining this Bugzilla installation.
+            The address need not be that of a valid Bugzilla account.
+          </P
+></DD
+><DT
+>urlbase</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->urlbase</B
->:
-
-          This parameter defines the fully qualified domain name and web 
-          server path to your Bugzilla installation.
-        </P
+>&#13;            This parameter defines the fully qualified domain name and web 
+            server path to your Bugzilla installation.
+          </P
 ><P
->&#13;          For example, if your Bugzilla query page is
-          <TT
+>&#13;            For example, if your Bugzilla query page is
+            <TT
 CLASS="filename"
 >http://www.foo.com/bugzilla/query.cgi</TT
 >, 
-          set your <SPAN
+            set your <SPAN
 CLASS="QUOTE"
 >"urlbase"</SPAN
 >
-          to <TT
+            to <TT
 CLASS="filename"
 >http://www.foo.com/bugzilla/</TT
 >.
-        </P
-></LI
-><LI
+          </P
+></DD
+><DT
+>makeproductgroups</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->makeproductgroups</B
->:
-
-          This dictates whether or not to automatically create groups
-          when new products are created.
-        </P
-></LI
-><LI
+>&#13;            This dictates whether or not to automatically create groups
+            when new products are created.
+          </P
+></DD
+><DT
+>useentrygroupdefault</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->useentrygroupdefault</B
->:
-
-          Bugzilla products can have a group associated with them, so that
-          certain users can only see bugs in certain products. When this 
-          parameter is set to <SPAN
+>&#13;            Bugzilla products can have a group associated with them, so that
+            certain users can only see bugs in certain products. When this 
+            parameter is set to <SPAN
 CLASS="QUOTE"
 >"on"</SPAN
 >, this 
-          causes the initial group controls on newly created products 
-          to place all newly-created bugs in the group 
-          having the same name as the product immediately.
-          After a product is initially created, the group controls
-          can be further adjusted without interference by 
-          this mechanism.
-        </P
-></LI
-><LI
+            causes the initial group controls on newly created products 
+            to place all newly-created bugs in the group 
+            having the same name as the product immediately.
+            After a product is initially created, the group controls
+            can be further adjusted without interference by 
+            this mechanism.
+          </P
+></DD
+><DT
+>shadowdb</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->shadowdb</B
->:
-
-          You run into an interesting problem when Bugzilla reaches a
-          high level of continuous activity. MySQL supports only table-level
-          write locking. What this means is that if someone needs to make a
-          change to a bug, they will lock the entire table until the operation
-          is complete. Locking for write also blocks reads until the write is
-          complete. Note that more recent versions of mysql support row level
-          locking using different table types. These types are slower than the
-          standard type, and Bugzilla does not yet take advantage of features
-          such as transactions which would justify this speed decrease. The
-          Bugzilla team are, however, happy to hear about any experiences with
-          row level locking and Bugzilla.
-        </P
+>&#13;            You run into an interesting problem when Bugzilla reaches a
+            high level of continuous activity. MySQL supports only table-level
+            write locking. What this means is that if someone needs to make a
+            change to a bug, they will lock the entire table until the operation
+            is complete. Locking for write also blocks reads until the write is
+            complete. Note that more recent versions of mysql support row level
+            locking using different table types. These types are slower than the
+            standard type, and Bugzilla does not yet take advantage of features
+            such as transactions which would justify this speed decrease. The
+            Bugzilla team are, however, happy to hear about any experiences with
+            row level locking and Bugzilla.
+          </P
 ><P
->&#13;          The <SPAN
+>&#13;            The <SPAN
 CLASS="QUOTE"
 >"shadowdb"</SPAN
 > parameter was designed to get around
-          this limitation. While only a single user is allowed to write to
-          a table at a time, reads can continue unimpeded on a read-only
-          shadow copy of the database. Although your database size will
-          double, a shadow database can cause an enormous performance
-          improvement when implemented on extremely high-traffic Bugzilla
-          databases.
-        </P
+            this limitation. While only a single user is allowed to write to
+            a table at a time, reads can continue unimpeded on a read-only
+            shadow copy of the database. Although your database size will
+            double, a shadow database can cause an enormous performance
+            improvement when implemented on extremely high-traffic Bugzilla
+            databases.
+          </P
 ><P
->&#13;          As a guide, on reasonably old hardware, mozilla.org began needing 
-          <SPAN
+>&#13;            As a guide, on reasonably old hardware, mozilla.org began needing 
+            <SPAN
 CLASS="QUOTE"
 >"shadowdb"</SPAN
 > when they reached around 40,000 Bugzilla
-          users with several hundred Bugzilla bug changes and comments per day.
-        </P
+            users with several hundred Bugzilla bug changes and comments per day.
+          </P
 ><P
->&#13;          The value of the parameter defines the name of the shadow bug
-          database. You will need to set the host and port settings from
-          the params page, and set up replication in your database server
-          so that updates reach this readonly mirror. Consult your database
-          documentation for more detail.
-        </P
-></LI
-><LI
+>&#13;            The value of the parameter defines the name of the shadow bug
+            database. You will need to set the host and port settings from
+            the params page, and set up replication in your database server
+            so that updates reach this readonly mirror. Consult your database
+            documentation for more detail.
+          </P
+></DD
+><DT
+>shutdownhtml</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->shutdownhtml</B
->:
-
-          If you need to shut down Bugzilla to perform administration, enter
-          some descriptive text (with embedded HTML codes, if you'd like)
-          into this box. Anyone who tries to use Bugzilla (including admins)
-          will receive a page displaying this text. Users can neither log in
-          nor log out while shutdownhtml is enabled.
-        </P
+>&#13;            If you need to shut down Bugzilla to perform administration, enter
+            some descriptive text (with embedded HTML codes, if you'd like)
+            into this box. Anyone who tries to use Bugzilla (including admins)
+            will receive a page displaying this text. Users can neither log in
+            nor log out while shutdownhtml is enabled.
+          </P
 ><DIV
 CLASS="note"
 ><P
@@ -5444,116 +5498,98 @@ ALT="Note"></TD
 ALIGN="LEFT"
 VALIGN="TOP"
 ><P
->&#13;            Although regular log-in capability is disabled while 'shutdownhtml'
-            is enabled, safeguards are in place to protect the unfortunate 
-            admin who loses connection to Bugzilla. Should this happen to you,
-            go directly to the <TT
+>&#13;              Although regular log-in capability is disabled while 'shutdownhtml'
+              is enabled, safeguards are in place to protect the unfortunate 
+              admin who loses connection to Bugzilla. Should this happen to you,
+              go directly to the <TT
 CLASS="filename"
 >editparams.cgi</TT
 > (by typing
-            the URL in manually, if necessary). Doing this will prompt you to
-            log in, and your name/password will be accepted here (but nowhere
-            else). 
-          </P
+              the URL in manually, if necessary). Doing this will prompt you to
+              log in, and your name/password will be accepted here (but nowhere
+              else). 
+            </P
 ></TD
 ></TR
 ></TABLE
 ></DIV
-></LI
-><LI
+></DD
+><DT
+>passwordmail</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->passwordmail</B
->:
-
-          Every time a user creates an account, the text of this parameter
-          (with substitutions) is sent to the new user along with their
-          password message.
-        </P
+>&#13;            Every time a user creates an account, the text of this parameter
+            (with substitutions) is sent to the new user along with their
+            password message.
+          </P
 ><P
->&#13;          Add any text you wish to the "passwordmail" parameter box. For
-          instance, many people choose to use this box to give a quick 
-          training blurb about how to use Bugzilla at your site.
-        </P
-></LI
-><LI
+>&#13;            Add any text you wish to the "passwordmail" parameter box. For
+            instance, many people choose to use this box to give a quick 
+            training blurb about how to use Bugzilla at your site.
+          </P
+></DD
+><DT
+>movebugs</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->movebugs</B
->:
-
-          This option is an undocumented feature to allow moving bugs
-          between separate Bugzilla installations.  You will need to understand
-          the source code in order to use this feature.  Please consult
-          <TT
+>&#13;            This option is an undocumented feature to allow moving bugs
+            between separate Bugzilla installations.  You will need to understand
+            the source code in order to use this feature.  Please consult
+            <TT
 CLASS="filename"
 >movebugs.pl</TT
 > in your Bugzilla source tree for
-          further documentation, such as it is.
-        </P
-></LI
-><LI
+            further documentation, such as it is.
+          </P
+></DD
+><DT
+>useqacontact</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->useqacontact</B
->:
-
-          This allows you to define an email address for each component, 
-          in addition to that of the default owner, who will be sent
-          carbon copies of incoming bugs.
-        </P
-></LI
-><LI
+>&#13;            This allows you to define an email address for each component, 
+            in addition to that of the default owner, who will be sent
+            carbon copies of incoming bugs.
+          </P
+></DD
+><DT
+>usestatuswhiteboard</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->usestatuswhiteboard</B
->:
-
-          This defines whether you wish to have a free-form, overwritable field
-          associated with each bug. The advantage of the Status Whiteboard is
-          that it can be deleted or modified with ease, and provides an
-          easily-searchable field for indexing some bugs that have some trait
-          in common.         
-        </P
-></LI
-><LI
+>&#13;            This defines whether you wish to have a free-form, overwritable field
+            associated with each bug. The advantage of the Status Whiteboard is
+            that it can be deleted or modified with ease, and provides an
+            easily-searchable field for indexing some bugs that have some trait
+            in common.         
+          </P
+></DD
+><DT
+>whinedays</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->whinedays</B
->:
-
-          Set this to the number of days you want to let bugs go
-          in the NEW or REOPENED state before notifying people they have
-          untouched new bugs. If you do not plan to use this feature, simply 
-          do not set up the whining cron job described in the installation
-          instructions, or set this value to "0" (never whine).
-        </P
-></LI
-><LI
+>&#13;            Set this to the number of days you want to let bugs go
+            in the NEW or REOPENED state before notifying people they have
+            untouched new bugs. If you do not plan to use this feature, simply 
+            do not set up the whining cron job described in the installation
+            instructions, or set this value to "0" (never whine).
+          </P
+></DD
+><DT
+>commenton*</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->commenton*</B
->:
-
-          All these fields allow you to dictate what changes can pass
-          without comment, and which must have a comment from the
-          person who changed them.  Often, administrators will allow
-          users to add themselves to the CC list, accept bugs, or
-          change the Status Whiteboard without adding a comment as to
-          their reasons for the change, yet require that most other
-          changes come with an explanation.
-        </P
+>&#13;            All these fields allow you to dictate what changes can pass
+            without comment, and which must have a comment from the
+            person who changed them.  Often, administrators will allow
+            users to add themselves to the CC list, accept bugs, or
+            change the Status Whiteboard without adding a comment as to
+            their reasons for the change, yet require that most other
+            changes come with an explanation.
+          </P
 ><P
->&#13;          Set the "commenton" options according to your site policy. It
-          is a wise idea to require comments when users resolve, reassign, or
-          reopen bugs at the very least. 
-        </P
+>&#13;            Set the "commenton" options according to your site policy. It
+            is a wise idea to require comments when users resolve, reassign, or
+            reopen bugs at the very least. 
+          </P
 ><DIV
 CLASS="note"
 ><P
@@ -5575,50 +5611,44 @@ ALT="Note"></TD
 ALIGN="LEFT"
 VALIGN="TOP"
 ><P
->&#13;            It is generally far better to require a developer comment
-            when resolving bugs than not. Few things are more annoying to bug
-            database users than having a developer mark a bug "fixed" without
-            any comment as to what the fix was (or even that it was truly
-            fixed!)
-          </P
+>&#13;              It is generally far better to require a developer comment
+              when resolving bugs than not. Few things are more annoying to bug
+              database users than having a developer mark a bug "fixed" without
+              any comment as to what the fix was (or even that it was truly
+              fixed!)
+            </P
 ></TD
 ></TR
 ></TABLE
 ></DIV
-></LI
-><LI
+></DD
+><DT
+>supportwatchers</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->supportwatchers</B
->:
-
-          Turning on this option allows users to ask to receive copies 
-          of bug mail sent to another user.  Watching a user with
-          different group permissions is not a way to 'get around' the
-          system; copied emails are still subject to the normal groupset
-          permissions of a bug, and <SPAN
+>&#13;            Turning on this option allows users to ask to receive copies 
+            of bug mail sent to another user.  Watching a user with
+            different group permissions is not a way to 'get around' the
+            system; copied emails are still subject to the normal groupset
+            permissions of a bug, and <SPAN
 CLASS="QUOTE"
 >"watchers"</SPAN
 > will only be 
-          copied on emails from bugs they would normally be allowed to view. 
-        </P
-></LI
-><LI
+            copied on emails from bugs they would normally be allowed to view. 
+          </P
+></DD
+><DT
+>noresolveonopenblockers</DT
+><DD
 ><P
->&#13;          <B
-CLASS="command"
->noresolveonopenblockers</B
->:
-
-          This option will prevent users from resolving bugs as FIXED if
-          they have unresolved dependencies. Only the FIXED resolution
-          is affected. Users will be still able to resolve bugs to
-          resolutions other than FIXED if they have unresolved dependent
-          bugs.
-        </P
-></LI
-></OL
+>&#13;            This option will prevent users from resolving bugs as FIXED if
+            they have unresolved dependencies. Only the FIXED resolution
+            is affected. Users will be still able to resolve bugs to
+            resolutions other than FIXED if they have unresolved dependent
+            bugs.
+          </P
+></DD
+></DL
 ></DIV
 ></DIV
 ><DIV
@@ -6202,7 +6232,7 @@ TYPE="1"
 ><P
 >Enter the name of the Milestone in the "Milestone" field. You
         can optionally set the "sortkey", which is a positive or negative
-        number (-255 to 255) that defines where in the list this particular
+        number (-32768 to 32767) that defines where in the list this particular
         milestone appears. This is because milestones often do not 
         occur in alphanumeric order For example, "Future" might be
         after "Release 1.2". Select "Add".</P
@@ -7184,7 +7214,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN1336"
+NAME="AEN1361"
 >3.10.1. Creating Groups</A
 ></H3
 ><P
@@ -7320,7 +7350,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN1363"
+NAME="AEN1388"
 >3.10.2. Assigning Users to Groups</A
 ></H3
 ><P
@@ -7352,7 +7382,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN1373"
+NAME="AEN1398"
 >3.10.3. Assigning Group Controls to Products</A
 ></H3
 ><P
@@ -7444,7 +7474,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN1391"
+NAME="AEN1416"
 >3.10.4. Common Applications of Group Controls</A
 ></H3
 ><DIV
@@ -7452,7 +7482,7 @@ CLASS="section"
 ><H4
 CLASS="section"
 ><A
-NAME="AEN1393"
+NAME="AEN1418"
 >3.10.4.1. General User Access With Security Group</A
 ></H4
 ><P
@@ -7487,7 +7517,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN1397"
+NAME="AEN1422"
 >3.10.4.2. General User Access With A Security Product</A
 ></H4
 ><P
@@ -7519,7 +7549,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN1401"
+NAME="AEN1426"
 >3.10.4.3. Product Isolation With Common Group</A
 ></H4
 ><P
@@ -7605,6 +7635,164 @@ CLASS="section"
 NAME="upgrading"
 >3.11. Upgrading to New Releases</A
 ></H2
+><P
+>&#13;      Upgrading Bugzilla is something we all want to do from time to time,
+      be it to get new features or pick up the latest security fix. How easy
+      it is to update depends on a few factors:
+    </P
+><P
+></P
+><UL
+><LI
+><P
+>&#13;          If the new version is a revision or a new point release
+        </P
+></LI
+><LI
+><P
+>&#13;          How many local changes (if any) have been made
+        </P
+></LI
+></UL
+><DIV
+CLASS="section"
+><HR><H3
+CLASS="section"
+><A
+NAME="upgrading-version-defns"
+>3.11.1. Version Definitions</A
+></H3
+><P
+>&#13;        Bugzilla displays the version you are using at the top of most
+        pages you load. It will look something like '2.16.7' or '2.18rc3'
+        or '2.19.1+'. The first number in this series is the Major Version.
+        This does not change very often (that is to say, almost never);
+        Bugzilla was 1.x.x when it was first created, and went to 2.x.x
+        when it was re-written in perl in Sept 1998. If/When the major version
+        is changed to 3.x.x, it will signify a significant structural change
+        and will be accompanied by much fanfare and many instructions on
+        how to upgrade, including a revision to this page. :)
+      </P
+><P
+>&#13;        The second number in the version is called the 'minor number', and
+        a release that changes the minor number is called a 'point release'.
+        An even number in this position (2.14, 2.16, 2.18, 2.20, etc.)
+        represents a stable version, while an odd number (2.17, 2.19, etc.)
+        represents a development version. In the past, stable point releases
+        were feature-based, coming when certain enhancements had been
+        completed, or the Bugzilla development team felt that enough
+        progress had been made overall. As of version 2.18, however,
+        Bugzilla has moved to a time-based release schedule; current plans
+        are to create a stable point release every 6 months or so after
+        2.18 is deployed.
+      </P
+><P
+>&#13;        The third number in the Bugzilla version represents a bugfix version.
+        Bugfix Revisions are normally released only to address security
+        vulnerabilities; in the future, it is likely that the Bugzilla
+        development team will back-port bugfixes in a new point release to
+        the old point release for a limited period. Once enough of these
+        bugfixes have accumulated (or a new security vulnerability is
+        identified and closed), a bugfix release will be made. As an 
+        example, 2.16.6 was a bugfix release, and improved on 2.16.5.
+      </P
+><DIV
+CLASS="note"
+><P
+></P
+><TABLE
+CLASS="note"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="../images/note.gif"
+HSPACE="5"
+ALT="Note"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>&#13;          When reading version numbers, everything separated by a point ('.')
+          should be read as a single number. It is <EM
+>not</EM
+>
+          the same as decimal. 2.14 is newer than 2.8 because minor version
+          14 is greater than minor version 8. 2.24.11 would be newer than
+          2.24.9 (because bugfix 11 is greater than bugfix 9. This is
+          confusing to some people who aren't used to dealing with software.
+        </P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV
+CLASS="section"
+><HR><H3
+CLASS="section"
+><A
+NAME="upgrading-methods"
+>3.11.2. Upgrading - Methods and Procedure</A
+></H3
+><P
+>&#13;        There are three different ways to upgrade your installation.
+      </P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>&#13;            Using CVS (<A
+HREF="#upgrade-cvs"
+>Section 3.11.2.1</A
+>)
+          </P
+></LI
+><LI
+><P
+>&#13;            Downloading a new tarball (<A
+HREF="#upgrade-tarball"
+>Section 3.11.2.2</A
+>)
+          </P
+></LI
+><LI
+><P
+>&#13;            Applying the relevant patches (<A
+HREF="#upgrade-patches"
+>Section 3.11.2.3</A
+>)
+          </P
+></LI
+></OL
+><P
+>&#13;        Each of these options has its own pros and cons; the one that's
+        right for you depends on how long it has been since you last
+        installed, the degree to which you have customized your installation,
+        and/or your network configuration. (Some discussion of the various
+        methods of updating compared with degree and methods of local
+        customization can be found in <A
+HREF="#template-method"
+>Section 5.1.2</A
+>.)
+      </P
+><P
+>&#13;        The larger the jump you are trying to make, the more difficult it
+        is going to be to upgrade if you have made local customizations.
+        Upgrading from 2.18 to 2.18.1 should be fairly painless even if
+        you are heavily customized, but going from 2.14 to 2.18 is going
+        to mean a fair bit of work re-writing your local changes to use
+        the new files, logic, templates, etc. If you have done no local
+        changes at all, however, then upgrading should be approximately
+        the same amount of work regardless of how long it has been since
+        your version was released.
+      </P
 ><DIV
 CLASS="warning"
 ><P
@@ -7626,112 +7814,46 @@ ALT="Warning"></TD
 ALIGN="LEFT"
 VALIGN="TOP"
 ><P
->Upgrading is a one-way process. You should backup your database
-      and current Bugzilla directory before attempting the upgrade. If you wish
-      to revert to the old Bugzilla version for any reason, you will have to
-      restore from these backups.
-      </P
+>&#13;          Upgrading is a one-way process. You should backup your database
+          and current Bugzilla directory before attempting the upgrade. If
+          you wish to revert to the old Bugzilla version for any reason, you
+          will have to restore from these backups.
+        </P
 ></TD
 ></TR
 ></TABLE
 ></DIV
 ><P
->Upgrading Bugzilla is something we all want to do from time to time,
-    be it to get new features or pick up the latest security fix. How easy
-    it is to update depends on a few factors.
-    </P
-><P
-></P
-><UL
-><LI
-><P
->If the new version is a revision or a new point release</P
-></LI
-><LI
-><P
->How many, if any, local changes have been made</P
-></LI
-></UL
-><P
->There are also three different methods to upgrade your installation.
-    </P
-><P
-></P
-><OL
-TYPE="1"
-><LI
-><P
->Using CVS (<A
-HREF="#upgrade-cvs"
->Example 3-1</A
->)</P
-></LI
-><LI
-><P
->Downloading a new tarball (<A
-HREF="#upgrade-tarball"
->Example 3-2</A
->)</P
-></LI
-><LI
-><P
->Applying the relevant patches (<A
-HREF="#upgrade-patches"
->Example 3-3</A
->)</P
-></LI
-></OL
-><P
->Which options are available to you may depend on how large a jump
-    you are making and/or your network configuration.
-    </P
-><P
->Revisions are normally released to fix security vulnerabilities
-    and are distinguished by an increase in the third number. For example,
-    when 2.16.6 was released, it was a revision to 2.16.5.
-    </P
-><P
->Point releases are normally released when the Bugzilla team feels
-    that there has been a significant amount of progress made between the
-    last point release and the current time. These are often proceeded by a
-    stabilization period and release candidates, however the use of 
-    development versions or release candidates is beyond the scope of this
-    document. Point releases can be distinguished by an increase in the
-    second number, or minor version. For example, 2.18.0 is a newer point
-    release than 2.16.5.
-    </P
-><P
->The examples in this section are written as if you were updating
-    to version 2.18.1.  The procedures are the same regardless if you are
-    updating to a new point release or a new revision.  However, the chance
-    of running into trouble increases when upgrading to a new point release,
-    escpecially if you've made local changes.
-    </P
-><P
->These examples also assume that your Bugzilla installation is at
-    <TT
+>&#13;        The examples in the following sections are written as though the
+        user were updating to version 2.18.1, but the procedures are the
+        same regardless of whether one is updating to a new point release
+        or simply trying to obtain a new bugfix release. Also, in the
+        examples the user's Bugzilla installation is found at
+        <TT
 CLASS="filename"
 >/var/www/html/bugzilla</TT
->. If that is not the case,
-    simply substitute the proper paths where appropriate.
-    </P
+>. If that is not the
+        same as the location of your Bugzilla installation, simply
+        substitute the proper paths where appropriate.
+      </P
 ><DIV
-CLASS="example"
+CLASS="section"
+><HR><H4
+CLASS="section"
 ><A
 NAME="upgrade-cvs"
-></A
+>3.11.2.1. Upgrading using CVS</A
+></H4
 ><P
-><B
->Example 3-1. Upgrading using CVS</B
-></P
-><P
->Every release of Bugzilla, whether it is a revision or a point
-      release, is tagged in CVS.  Also, every tarball we have distributed
-      since version 2.12 has been primed for using CVS. This does, however,
-      require that you are able to access cvs-mirror.mozilla.org on port
-      2401.
-
-        <DIV
+>&#13;          Every release of Bugzilla, whether it is a point release or a bugfix,
+          is tagged in CVS.  Also, every tarball that has been distributed since
+          version 2.12 has been created in such a way that it can be used with
+          CVS once it is unpacked. Doing so, however, requires that you are able
+          to access cvs-mirror.mozilla.org on port 2401, which may not be an
+          option or a possibility for some users, especially those behind a
+          highly restrictive firewall.
+        </P
+><DIV
 CLASS="tip"
 ><P
 ></P
@@ -7752,15 +7874,17 @@ ALT="Tip"></TD
 ALIGN="LEFT"
 VALIGN="TOP"
 ><P
->If you can do this, updating using CVS is probably the most
-          painless method, especially if you have a lot of local changes.
+>&#13;            If you can, updating using CVS is probably the most painless
+            method, especially if you have a lot of local changes.
           </P
 ></TD
 ></TR
 ></TABLE
 ></DIV
->
-      </P
+><P
+>&#13;          The following shows the sequence of commands needed to update a
+          Bugzilla installation via CVS, and a typical series of results.
+        </P
 ><TABLE
 BORDER="0"
 BGCOLOR="#E0E0E0"
@@ -7780,9 +7904,8 @@ CLASS="command"
 >cvs login</B
 >
 Logging in to :pserver:anonymous@cvs-mirror.mozilla.org:2401/cvsroot
-CVS password: <B
-CLASS="command"
->anonymous</B
+CVS password: <EM
+>('anonymous', or just leave it blank)</EM
 >
 bash$ <B
 CLASS="command"
@@ -7793,13 +7916,15 @@ P collectstats.pl
 P globals.pl
 P docs/rel_notes.txt
 P template/en/default/list/quips.html.tmpl
-      </PRE
+<EM
+>(etc.)</EM
+>
+        </PRE
 ></FONT
 ></TD
 ></TR
 ></TABLE
-><P
->&#13;        <DIV
+><DIV
 CLASS="caution"
 ><P
 ></P
@@ -7820,72 +7945,51 @@ ALT="Caution"></TD
 ALIGN="LEFT"
 VALIGN="TOP"
 ><P
->If a line in the output from <B
+>&#13;            If a line in the output from <B
 CLASS="command"
 >cvs update</B
->
-          begins with a <SAMP
+> begins
+            with a <SAMP
 CLASS="computeroutput"
 >C</SAMP
-> that represents a
-          file with local changes that CVS was unable to properly merge. You
-          need to resolve these conflicts manually before Bugzilla (or at
-          least the portion using that file) will be usable.
+>, then that represents a
+            file with local changes that CVS was unable to properly merge. You
+            need to resolve these conflicts manually before Bugzilla (or at
+            least the portion using that file) will be usable.
           </P
 ></TD
 ></TR
 ></TABLE
 ></DIV
->
-
-        <DIV
-CLASS="note"
-><P
-></P
-><TABLE
-CLASS="note"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->You also need to run <B
-CLASS="command"
->./checksetup.pl</B
->
-          before your Bugzilla upgrade will be complete.
-          </P
-></TD
-></TR
-></TABLE
-></DIV
->
-      </P
 ></DIV
 ><DIV
-CLASS="example"
+CLASS="section"
+><HR><H4
+CLASS="section"
 ><A
 NAME="upgrade-tarball"
-></A
+>3.11.2.2. Upgrading using the tarball</A
+></H4
 ><P
-><B
->Example 3-2. Upgrading using the tarball</B
-></P
+>&#13;          If you are unable (or unwilling) to use CVS, another option that's
+          always available is to obtain the latest tarball from the <A
+HREF="http://www.bugzilla.org/download/"
+TARGET="_top"
+>Download Page</A
+> and 
+          create a new Bugzilla installation from that.
+        </P
 ><P
->If you are unable or unwilling to use CVS, another option that's
-      always available is to download the latest tarball. This is the most
-      difficult option to use, especially if you have local changes.
-      </P
+>&#13;          This sequence of commands shows how to get the tarball from the
+          command-line; it is also possible to download it from the site
+          directly in a web browser. If you go that route, save the file
+          to the <TT
+CLASS="filename"
+>/var/www/html</TT
+>
+          directory (or its equivalent, if you use something else) and 
+          omit the first three lines of the example.
+        </P
 ><TABLE
 BORDER="0"
 BGCOLOR="#E0E0E0"
@@ -7905,7 +8009,7 @@ CLASS="command"
 >wget ftp://ftp.mozilla.org/pub/mozilla.org/webtools/bugzilla-2.18.1.tar.gz</B
 >
 <EM
->Output omitted</EM
+>(Output omitted)</EM
 >
 bash$ <B
 CLASS="command"
@@ -7915,7 +8019,7 @@ bugzilla-2.18.1/
 bugzilla-2.18.1/.cvsignore
 bugzilla-2.18.1/1x1.gif
 <EM
->Output truncated</EM
+>(Output truncated)</EM
 >
 bash$ <B
 CLASS="command"
@@ -7941,24 +8045,12 @@ bash$ <B
 CLASS="command"
 >mv bugzilla-2.18.1 bugzilla</B
 >
-bash$ <B
-CLASS="command"
->cd bugzilla</B
->
-bash$ <B
-CLASS="command"
->./checksetup.pl</B
->
-<EM
->Output omitted</EM
->
-      </PRE
+        </PRE
 ></FONT
 ></TD
 ></TR
 ></TABLE
-><P
->&#13;        <DIV
+><DIV
 CLASS="warning"
 ><P
 ></P
@@ -7979,76 +8071,63 @@ ALT="Warning"></TD
 ALIGN="LEFT"
 VALIGN="TOP"
 ><P
->The <B
+>&#13;            The <B
 CLASS="command"
 >cp</B
 > commands both end with periods which
-          is a very important detail, it tells the shell that the destination
-          directory is the current working directory. Also, the period at the
-          beginning of the <B
-CLASS="command"
->./checksetup.pl</B
-> is important and
-          can not be omitted.
+            is a very important detail, it tells the shell that the destination
+            directory is the current working directory. 
           </P
 ></TD
 ></TR
 ></TABLE
 ></DIV
->
-
-        <DIV
-CLASS="note"
 ><P
-></P
-><TABLE
-CLASS="note"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
+>&#13;          This upgrade method will give you a clean install of Bugzilla with the 
+          same version as the tarball. That's fine if you don't have any local
+          customizations that you want to maintain, but if you do then you will 
+          need to reapply them by hand to the appropriate files. 
+        </P
 ><P
->You will now have to reapply any changes you have made to your
-          local installation manually.
-          </P
-></TD
-></TR
-></TABLE
-></DIV
->
-      </P
+>&#13;          It's worth noting that since 2.12, the Bugzilla tarballs come
+          CVS-ready, so if you decide at a later date that you'd rather use
+          CVS as an upgrade method, your code will already be set up for it.
+        </P
 ></DIV
 ><DIV
-CLASS="example"
+CLASS="section"
+><HR><H4
+CLASS="section"
 ><A
 NAME="upgrade-patches"
-></A
+>3.11.2.3. Upgrading using patches</A
+></H4
 ><P
-><B
->Example 3-3. Upgrading using patches</B
-></P
+>&#13;          If you are doing a bugfix upgrade -- that is, one where only the 
+          last number of the revision changes, such as from 2.16.6 to 2.16.7
+          -- then you have the option of obtaining and applying a patch file
+          from the <A
+HREF="http://www.bugzilla.org/download/"
+TARGET="_top"
+>Download Page</A
+>.
+          This file is made available by the <A
+HREF="http://www.bugzilla.org/developers/profiles.html"
+TARGET="_top"
+>Bugzilla
+          Development Team</A
+>, and is a collection of all the bug fixes
+          and security patches that have been made since the last bugfix
+          release. If you are planning to upgrade via patches, it is safer
+          to grab this developer-made patch file than to read the patch
+          notes and apply all (or even just some of) the patches oneself,
+          as sometimes patches on bugs get changed before they get checked in.
+        </P
 ><P
->The Bugzilla team will normally make a patch file available for
-      revisions to go from the most recent revision to the new one. You could
-      also read the release notes and grab the patches attached to the
-      mentioned bug, but it is safer to use the released patch file as
-      sometimes patches get changed before they get checked in. 
-      It is also theoretically possible to
-      scour the fixed bug list and pick and choose which patches to apply
-      from a point release, but this is not recommended either as what you'll
-      end up with is a hodge podge Bugzilla that isn't really any version.
-      This would also make it more difficult to upgrade in the future.
-      </P
+>&#13;          As above, this example starts with obtaining the file via the 
+          command line. If you have already downloaded it, you can omit the
+          first two commands.
+        </P
 ><TABLE
 BORDER="0"
 BGCOLOR="#E0E0E0"
@@ -8068,7 +8147,7 @@ CLASS="command"
 >wget ftp://ftp.mozilla.org/pub/mozilla.org/webtools/bugzilla-2.18.0-to-2.18.1.diff.gz</B
 >
 <EM
->Output omitted</EM
+>(Output omitted)</EM
 >
 bash$ <B
 CLASS="command"
@@ -8081,18 +8160,20 @@ CLASS="command"
 patching file checksetup.pl
 patching file collectstats.pl
 patching file globals.pl
-      </PRE
+<EM
+>(etc.)</EM
+>
+        </PRE
 ></FONT
 ></TD
 ></TR
 ></TABLE
-><P
->&#13;        <DIV
-CLASS="caution"
+><DIV
+CLASS="warning"
 ><P
 ></P
 ><TABLE
-CLASS="caution"
+CLASS="warning"
 WIDTH="100%"
 BORDER="0"
 ><TR
@@ -8101,29 +8182,113 @@ WIDTH="25"
 ALIGN="CENTER"
 VALIGN="TOP"
 ><IMG
-SRC="../images/caution.gif"
+SRC="../images/warning.gif"
 HSPACE="5"
-ALT="Caution"></TD
+ALT="Warning"></TD
 ><TD
 ALIGN="LEFT"
 VALIGN="TOP"
 ><P
->If you do this, beware that this doesn't change the entires in
-          your <TT
+>&#13;            Be aware that upgrading from a patch file does not change the
+            entries in your <TT
 CLASS="filename"
 >CVS</TT
-> directory so it may make
-          updates using CVS (<A
+> directory.
+            This could make it more difficult to upgrade using CVS
+            (<A
 HREF="#upgrade-cvs"
->Example 3-1</A
->) more difficult in the
-          future.
+>Section 3.11.2.1</A
+>) in the future.
           </P
 ></TD
 ></TR
 ></TABLE
 ></DIV
+></DIV
+></DIV
+><DIV
+CLASS="section"
+><HR><H3
+CLASS="section"
+><A
+NAME="upgrading-completion"
+>3.11.3. Completing Your Upgrade</A
+></H3
+><P
+>&#13;        Regardless of which upgrade method you choose, you will need to
+        run <B
+CLASS="command"
+>./checksetup.pl</B
+> before your Bugzilla
+        upgrade will be complete.
+      </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><FONT
+COLOR="#000000"
+><PRE
+CLASS="programlisting"
+>&#13;bash$ <B
+CLASS="command"
+>cd bugzilla</B
 >
+bash$ <B
+CLASS="command"
+>./checksetup.pl</B
+>
+      </PRE
+></FONT
+></TD
+></TR
+></TABLE
+><DIV
+CLASS="warning"
+><P
+></P
+><TABLE
+CLASS="warning"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="../images/warning.gif"
+HSPACE="5"
+ALT="Warning"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>&#13;          The period at the beginning of the command
+          <B
+CLASS="command"
+>./checksetup.pl</B
+> is important and can not
+          be omitted.
+        </P
+></TD
+></TR
+></TABLE
+></DIV
+><P
+>&#13;        If you have done a lot of local modifications, it wouldn't hurt
+        to run the Bugzilla Testing suite. This is not a required step,
+        but it isn't going to hurt anything, and might help point out
+        some areas that could be improved. (More information on the
+        test suite can be had by following this link to the appropriate
+        section in the <A
+HREF="http://www.bugzilla.org/docs/developer.html#testsuite"
+TARGET="_top"
+>Developers'
+        Guide</A
+>.)
       </P
 ></DIV
 ></DIV
@@ -8295,15 +8460,15 @@ CLASS="filename"
 > Jail</A
 ></H3
 ><P
->If your system supports it, you may wish to consider running
-      Bugzilla inside of a <TT
+>&#13;        If your system supports it, you may wish to consider running
+        Bugzilla inside of a <TT
 CLASS="filename"
 >chroot</TT
 > jail. This option
-      provides unpresidented security by restricting anything running
-      inside the jail from accessing any information outside of it. If you
-      wish to use this option, please consult the documentation that came
-      with your system.
+        provides unprecedented security by restricting anything running
+        inside the jail from accessing any information outside of it. If you
+        wish to use this option, please consult the documentation that came
+        with your system.
       </P
 ></DIV
 ></DIV
@@ -10507,7 +10672,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN1942"
+NAME="AEN1987"
 >5.5.1. Bugzilla Database Basics</A
 ></H3
 ><P
@@ -10619,7 +10784,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN1969"
+NAME="AEN2014"
 >5.5.1.1. Bugzilla Database Tables</A
 ></H4
 ><P
@@ -11803,7 +11968,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN2208"
+NAME="AEN2253"
 >6.9.1. Autolinkification</A
 ></H3
 ><P
@@ -12412,7 +12577,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN2314"
+NAME="AEN2359"
 >6.11.2.1. Creating Charts</A
 ></H4
 ><P
@@ -12452,7 +12617,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN2321"
+NAME="AEN2366"
 >6.11.2.2. Creating New Data Sets</A
 ></H4
 ><P
@@ -13080,9 +13245,9 @@ CLASS="answer"
 > </B
 >
             <A
-HREF="http:/www.bugzilla.org/support/consulting.html"
+HREF="http://www.bugzilla.org/support/consulting.html"
 TARGET="_top"
->http:/www.bugzilla.org/support/consulting.html</A
+>http://www.bugzilla.org/support/consulting.html</A
 >
             is a list of companies and individuals who have asked us to
             list them as consultants for Bugzilla.
@@ -13503,6 +13668,42 @@ CLASS="filename"
 ></TR
 ></TABLE
 ></DIV
+><P
+>&#13;            Once you've modified all your files, you'll also need to modify the
+            <TT
+CLASS="filename"
+>t/002goodperl.t</TT
+> test, as it tests that all
+            shebang lines are equal to <TT
+CLASS="filename"
+>/usr/bin/perl</TT
+>.
+            (For more information on the test suite, please check out the 
+            appropriate section in the <A
+HREF="http://www.bugzilla.org/docs/developer.html#testsuite"
+TARGET="_top"
+>Developers'
+            Guide</A
+>.) Having done this, run the test itself:
+            <TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><FONT
+COLOR="#000000"
+><PRE
+CLASS="programlisting"
+>&#13;perl runtests.pl 2 --verbose
+            </PRE
+></FONT
+></TD
+></TR
+></TABLE
+>
+            to ensure that you've modified all the relevant files.
+          </P
 ><P
 >&#13;            If using Apache on Windows, you can avoid the whole problem
             by setting the <A
@@ -14267,7 +14468,7 @@ CLASS="QUOTE"
 ><P
 >&#13;            See also the instructions in <A
 HREF="#upgrade-cvs"
->Example 3-1</A
+>Section 3.11.2.1</A
 >.
           </P
 ></DIV
@@ -15157,7 +15358,7 @@ CLASS="answer"
 ><P
 >&#13;            Microsoft has some advice on this matter, as well:
             <A
-NAME="AEN2727"
+NAME="AEN2777"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"
@@ -15877,7 +16078,7 @@ CLASS="section"
 ><HR><H2
 CLASS="section"
 ><A
-NAME="AEN2868"
+NAME="AEN2918"
 >B.2. The Apache webserver is not serving Bugzilla pages</A
 ></H2
 ><P
@@ -15921,7 +16122,7 @@ CLASS="section"
 ><HR><H2
 CLASS="section"
 ><A
-NAME="AEN2875"
+NAME="AEN2925"
 >B.3. I installed a Perl module, but 
       <TT
 CLASS="filename"
@@ -15960,7 +16161,7 @@ CLASS="section"
 ><HR><H2
 CLASS="section"
 ><A
-NAME="AEN2885"
+NAME="AEN2935"
 >B.4. Bundle::Bugzilla makes me upgrade to Perl 5.6.1</A
 ></H2
 ><P
@@ -15985,7 +16186,7 @@ CLASS="section"
 ><HR><H2
 CLASS="section"
 ><A
-NAME="AEN2890"
+NAME="AEN2940"
 >B.5. DBD::Sponge::db prepare failed</A
 ></H2
 ><P
@@ -16254,7 +16455,7 @@ NAME="trbl-relogin-everyone-share"
 >Example B-1. Examples of urlbase/cookiepath pairs for sharing login cookies</B
 ></P
 ><A
-NAME="AEN2930"
+NAME="AEN2980"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"
@@ -16295,7 +16496,7 @@ NAME="trbl-relogin-everyone-restrict"
 >Example B-2. Examples of urlbase/cookiepath pairs to restrict the login cookie</B
 ></P
 ><A
-NAME="AEN2937"
+NAME="AEN2987"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"
@@ -16338,7 +16539,7 @@ CLASS="section"
 ><HR><H2
 CLASS="section"
 ><A
-NAME="AEN2944"
+NAME="AEN2994"
 >B.9. Some users are constantly being forced to relogin</A
 ></H2
 ><P
@@ -16401,6 +16602,41 @@ CLASS="computeroutput"
 HREF="#http-apache"
 >Section 2.2.4.1</A
 >.
+    </P
+></DIV
+><DIV
+CLASS="section"
+><HR><H2
+CLASS="section"
+><A
+NAME="trbl-passwd-encryption"
+>B.11. checksetup.pl reports "Client does not support authentication protocol
+      requested by server..."</A
+></H2
+><P
+>&#13;      This error is occurring because you are using the new password
+      encryption that comes with MySQL 4.1, while your
+      <TT
+CLASS="filename"
+>DBD::mysql</TT
+> module was compiled against an
+      older version of MySQL. If you recompile <TT
+CLASS="filename"
+>DBD::mysql</TT
+>
+      against the current MySQL libraries (or just obtain a newer version
+      of this module) then the error may go away.
+    </P
+><P
+>&#13;      If that does not fix the problem, or if you cannot recompile the
+      existing module (e.g. you're running Windows) and/or don't want to
+      replace it (e.g. you want to keep using a packaged version), then a
+      workaround is available from the MySQL docs:
+      <A
+HREF="http://dev.mysql.com/doc/mysql/en/Old_client.html"
+TARGET="_top"
+>http://dev.mysql.com/doc/mysql/en/Old_client.html</A
+>
     </P
 ></DIV
 ></DIV
@@ -17166,7 +17402,7 @@ NAME="gfdl"
 ><P
 >Version 1.1, March 2000</P
 ><A
-NAME="AEN3113"
+NAME="AEN3170"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"
@@ -17629,7 +17865,7 @@ NAME="gfdl-howto"
     of the License in the document and put the following copyright and
     license notices just after the title page:</P
 ><A
-NAME="AEN3203"
+NAME="AEN3260"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"
@@ -17666,7 +17902,7 @@ CLASS="glossdiv"
 ><H1
 CLASS="glossdiv"
 ><A
-NAME="AEN3208"
+NAME="AEN3265"
 >0-9, high ascii</A
 ></H1
 ><DL
@@ -18580,7 +18816,7 @@ NAME="gloss-zarro"
         Terry had the following to say:
         </P
 ><A
-NAME="AEN3454"
+NAME="AEN3511"
 ></A
 ><TABLE
 BORDER="0"
