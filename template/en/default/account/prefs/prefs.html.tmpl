@@ -41,15 +41,19 @@
    style = "td.selected_tab {
               border-width: 2px 2px 0px;
               border-style: solid; 
+              border-color: black;
             }
             td.unselected_tab, td.spacer {
               border-width: 0px 0px 2px 0px;
               border-style: solid; 
+              border-color: black;
             }"
  %]
 
 [% tabs = [ { name => "account", description => "Account settings", 
               saveable => "1" },
+            { name => "settings", description => "General Settings", 
+              saveable => "1" }, 
             { name => "email", description => "Email settings", 
               saveable => "1" },
             { name => "saved-searches", description => "Saved searches", 

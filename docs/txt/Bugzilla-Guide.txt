@@ -1,5 +1,5 @@
 
-The Bugzilla Guide - 2.18 Release
+The Bugzilla Guide - 2.19.2 Development Release
 
 The Bugzilla Team
 
@@ -174,8 +174,9 @@ Chapter 1. About This Guide
 
 1.3. New Versions
 
-   This is the 2.18 version of The Bugzilla Guide. It is so named to match the
-   current version of Bugzilla.
+   This is the 2.19.2 version of The Bugzilla Guide. It is so named to match
+   the current version of Bugzilla. This version of the guide, like its
+   associated Bugzilla version, is a development version.
 
    The latest version of this guide can always be found at
    http://www.bugzilla.org, or checked out via CVS by following the Mozilla CVS
@@ -1058,12 +1059,12 @@ ppm repository add landfill http://www.landfill.bugzilla.org/ppm/
       documentation.
      _________________________________________________________________
 
-2.4.1.3. Code changes required to run on Win32
+2.4.1.3. Code changes required to run on win32
 
-   Bugzilla on Win32 is mostly supported out of the box; one remaining issue is
+   Bugzilla on win32 is mostly supported out of the box; one remaining issue is
    related to bug email. To make bug email work on Win32 (until bug 49893
    lands), the simplest way is to have the Net::SMTP Perl module installed and
-   change these lines in the file Bugzilla/Bugmail.pm:
+   change this line in the file Bugzilla/Bugmail.pm:
 open(SENDMAIL, "|/usr/lib/sendmail $sendmailparam -t -i") ||
   die "Can't open sendmail";
 
@@ -1074,15 +1075,13 @@ close SENDMAIL;
 use Net::SMTP;
 my $smtp_server = 'smtp.mycompany.com';  # change this
 
-($enableSendMail && $rcpt_to) || return;
-
 # Use die on error, so that the mail will be in the 'unsent mails' and
 # can be sent from the sanity check page.
 my $smtp = Net::SMTP->new($smtp_server) ||
   die 'Cannot connect to server \'$smtp_server\'';
 
 $smtp->mail('bugzilla-daemon@mycompany.com');  # change this
-$smtp->to($rcpt_to);
+$smtp->to($person);
 $smtp->data();
 $smtp->datasend($msg);
 $smtp->dataend();
@@ -1090,8 +1089,6 @@ $smtp->quit;
 
    Don't forget to change the name of your SMTP server and the domain of the
    sending email address (after the '@') in the above lines of code.
-
-   Please be aware that flag email will continue not to work.
      _________________________________________________________________
 
 2.4.1.4. Serving the web pages
@@ -3466,7 +3463,7 @@ Chapter 6. Using Bugzilla
    If you want to use Bugzilla, first you need to create an account. Consult
    with the administrator responsible for your installation of Bugzilla for the
    URL you should use to access it. If you're test-driving Bugzilla, use this
-   URL: http://landfill.bugzilla.org/bugzilla-2.18-branch/.
+   URL: http://landfill.bugzilla.org/bugzilla-tip/.
 
     1. Click the "Open a new Bugzilla account" link, enter your email address
        and, optionally, your name in the spaces provided, then click "Create
@@ -3568,7 +3565,7 @@ Chapter 6. Using Bugzilla
 
    The Bugzilla Search page is is the interface where you can find any bug
    report, comment, or patch currently in the Bugzilla system. You can play
-   with it here: http://landfill.bugzilla.org/bugzilla-2.18-branch/query.cgi.
+   with it here: http://landfill.bugzilla.org/bugzilla-tip/query.cgi.
 
    The Search page has controls for selecting different possible values for all
    of the fields in a bug, as described above. For some fields, multiple values
@@ -3578,9 +3575,95 @@ Chapter 6. Using Bugzilla
 
    Once you've run a search, you can save it as a Saved Search, which appears
    in the page footer.
+     _________________________________________________________________
 
-   Highly advanced querying is done using Boolean Charts. See the Boolean
-   Charts help link on the Search page for more information.
+6.5.1. Boolean Charts
+
+   Highly advanced querying is done using Boolean Charts.
+
+   The boolean charts further restrict the set of results returned by a query.
+   It is possible to search for bugs based on elaborate combinations of
+   critera.
+
+   The simplest boolean searches have only one term. These searches permit the
+   selected left field to be compared using a selectable operator to a
+   specified value. Using the "And," "Or," and "Add Another Boolean Chart"
+   buttons, additonal terms can be included in the query, further altering the
+   list of bugs returned by the query.
+
+   There are three fields in each row of a boolean search.
+
+     * Field: the items being searched
+     * Operator: the comparison operator
+     * Value: the value to which the field is being compared
+     _________________________________________________________________
+
+6.5.1.1. Pronoun Substitution
+
+   Sometimes, a query needs to compare a field containing a user's ID (such as
+   ReportedBy) with a user's ID (such as the user running the query or the user
+   to whom each bug is assigned). When the operator is either "equals" or
+   "notequals", the value can be "%reporter%", "%assignee%", "%qacontact%", or
+   "%user%." The user pronoun referes to the user who is executing the query
+   or, in the case of whining reports, the user who will be the recipient of
+   the report. The reporter, assignee, and qacontact pronouns refer to the
+   corresponding fields in the bug.
+     _________________________________________________________________
+
+6.5.1.2. Negation
+
+   At first glance, negation seems redundant. Rather than searching for
+
+     NOT("summary" "contains the string" "foo"),
+
+   one could search for
+
+     ("summary" "does not contain the string" "foo").
+
+   However, the search
+
+     ("CC" "does not contain the string" "@mozilla.org")
+
+   would find every bug where anyone on the CC list did not contain
+   "@mozilla.org" while
+
+     NOT("CC" "contains the string" "@mozilla.org")
+
+   would find every bug where there was nobody on the CC list who did contain
+   the string. Similarly, the use of negation also permits complex expressions
+   to be built using terms OR'd together and then negated. Negation permits
+   queries such as
+
+     NOT(("product" "equals" "update") OR ("component" "equals"
+     "Documentation"))
+
+   to find bugs that are neither in the update product or in the documentation
+   component or
+
+     NOT(("commenter" "equals" "%assignee%") OR ("component" "equals"
+     "Documentation"))
+
+   to find non-documentation bugs on which the assignee has never commented.
+     _________________________________________________________________
+
+6.5.1.3. Multiple Charts
+
+   The terms within a single row of a boolean chart are all constraints on a
+   single piece of data. If you are looking for a bug that has two different
+   people cc'd on it, then you need to use two boolean charts. A search for
+
+     ("cc" "contains the string" "foo@") AND ("cc" "contains the string"
+     "@mozilla.org")
+
+   would return only bugs with "foo@mozilla.org" on the cc list. If you wanted
+   bugs where there is someone on the cc list containing "foo@" and someone
+   else containing "@mozilla.org", then you would need two boolean charts.
+
+     First chart: ("cc" "contains the string" "foo@")
+
+     Second chart: ("cc" "contains the string" "@mozilla.org")
+
+   The bugs listed will be only the bugs where ALL the charts are true.
      _________________________________________________________________
 
 6.6. Bug Lists
@@ -3595,6 +3678,12 @@ Chapter 6. Using Bugzilla
    fields of each bug.
    CSV: get the buglist as comma-separated values, for import into e.g. a
    spreadsheet.
+   RSS get the buglist as an RSS 1.0 feed. Copy this link into your favorite
+   feed reader. If you are using Firefox, you can also save the list as a live
+   bookmark by clicking the live bookmark icon in the status bar. To limit the
+   number of bugs in the feed, add a limit=n parameter to the URL.
+   iCalendar Get the buglist as an iCalendar file. Each bug is represented as a
+   to-do item in the imported calendar.
    Change Columns: change the bug attributes which appear in the list.
    Change several bugs at once: If your account is sufficiently empowered, you
    can make the same change to all the bugs in the list - for example, changing
@@ -3606,6 +3695,14 @@ Chapter 6. Using Bugzilla
    Remember Search As: You can give a search a name and remember it; a link
    will appear in your page footer giving you quick access to run it again
    later.
+
+   If you would like to access the bug list from another program it is often
+   useful to have the list returned in something other than HTML. By adding the
+   ctype=type parameter into the bug list URL you can specify several alternate
+   formats. The supported formats are: Comma Separated Values (ctype=csv),
+   iCalendar (ctype=ics), RDF Site Summary (RSS) 1.0 (ctype=rss), ECMAScript,
+   also known as JavaScript (ctype=js), and finally Resource Description
+   Framework RDF/XML (ctype=rdf).
      _________________________________________________________________
 
 6.7. Filing Bugs
@@ -4886,9 +4983,9 @@ perl runtests.pl 2 --verbose
 
    Try this link to view current bugs or requests for enhancement for Bugzilla.
 
-   You can view bugs marked for 2.18.1 release here. This list includes bugs
-   for the 2.18.1 release that have already been fixed and checked into CVS.
-   Please consult the Bugzilla Project Page for details on how to check current
+   You can view bugs marked for 2.20 release here. This list includes bugs for
+   the 2.20 release that have already been fixed and checked into CVS. Please
+   consult the Bugzilla Project Page for details on how to check current
    sources out of CVS so you can have these bug fixes early!
 
    A.9.3. How can I change the default priority to a null value? For instance,
@@ -5125,15 +5222,16 @@ B.9. Some users are constantly being forced to relogin
    periodically. Since Bugzilla cookies are tied to a specific IP address, each
    time the effective address changes, the user will have to log in again.
 
-   If you are using 2.18, there is a parameter called "loginnetmask", which you
-   can use to set the number of bits of the user's IP address to require to be
-   matched when authenticating the cookies. If you set this to something less
-   than 32, then the user will be given a checkbox for "Restrict this login to
-   my IP address" on the login screen, which defaults to checked. If they leave
-   the box checked, Bugzilla will behave the same as it did before, requiring
-   an exact match on their IP address to remain logged in. If they uncheck the
-   box, then only the left side of their IP address (up to the number of bits
-   you specified in the parameter) has to match to remain logged in.
+   If you are using 2.18 (or later), there is a parameter called
+   "loginnetmask", which you can use to set the number of bits of the user's IP
+   address to require to be matched when authenticating the cookies. If you set
+   this to something less than 32, then the user will be given a checkbox for
+   "Restrict this login to my IP address" on the login screen, which defaults
+   to checked. If they leave the box checked, Bugzilla will behave the same as
+   it did before, requiring an exact match on their IP address to remain logged
+   in. If they uncheck the box, then only the left side of their IP address (up
+   to the number of bits you specified in the parameter) has to match to remain
+   logged in.
      _________________________________________________________________
 
 B.10. index.cgi doesn't show up unless specified in the URL

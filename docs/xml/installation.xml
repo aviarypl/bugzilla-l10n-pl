@@ -1,5 +1,5 @@
 <!-- <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"> -->
-<!-- $Id: installation.xml,v 1.72.2.21 2005/03/19 11:22:55 mkanat%kerio.com Exp $ -->
+<!-- $Id: installation.xml,v 1.92 2005/03/09 18:59:24 travis%sedsystems.ca Exp $ -->
 <chapter id="installing-bugzilla">
   <title>Installing Bugzilla</title>
 
@@ -1359,9 +1359,9 @@ AddType application/rdf+xml .rdf</screen>
            url="http://aspn.activestate.com/ASPN/Downloads/ActivePerl/" />.
            The following instructions assume that you are using version
            5.8.1 of ActiveState.
-        </para>
-      </section>
-
+          </para>
+        </section>
+  
       <section id="win32-perl-modules">
         <title>Perl Modules on Win32</title>
 
@@ -1406,18 +1406,18 @@ C:\perl&gt; <command>ppm install &lt;module name&gt;</command>
           </para>
         </tip>
       </section>
-
+  
       <section id="win32-code-changes">
-        <title>Code changes required to run on Win32</title>
+        <title>Code changes required to run on win32</title>
 
         <para>
-          Bugzilla on Win32 is mostly supported out of the box; one
+          Bugzilla on win32 is mostly supported out of the box; one
           remaining issue is related to bug email. To make bug email
           work on Win32 (until
           <ulink url="http://bugzilla.mozilla.org/show_bug.cgi?id=49893">bug
           49893</ulink> lands), the
           simplest way is to have the Net::SMTP Perl module installed and 
-          change these lines in the file Bugzilla/Bugmail.pm:
+          change this line in the file Bugzilla/Bugmail.pm:
         </para>
 
         <programlisting>
@@ -1436,15 +1436,13 @@ close SENDMAIL;
 use Net::SMTP;
 my $smtp_server = 'smtp.mycompany.com';  # change this
 
-($enableSendMail && $rcpt_to) || return;
-
 # Use die on error, so that the mail will be in the 'unsent mails' and
 # can be sent from the sanity check page.
 my $smtp = Net::SMTP->new($smtp_server) ||
   die 'Cannot connect to server \'$smtp_server\'';
 
 $smtp->mail('bugzilla-daemon@mycompany.com');  # change this
-$smtp->to($rcpt_to);
+$smtp->to($person);
 $smtp->data();
 $smtp->datasend($msg);
 $smtp->dataend();
@@ -1455,9 +1453,6 @@ $smtp->quit;
           Don't forget to change the name of your SMTP server and the
           domain of the sending email address (after the '@') in the
           above lines of code.
-        </para>
-        <para>
-          Please be aware that flag email will continue not to work.
         </para>
       </section>
 

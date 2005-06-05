@@ -113,6 +113,7 @@ $columns{'bug_status'}       = "bugs.bug_status";
 $columns{'resolution'}       = "bugs.resolution";
 $columns{'component'}        = "map_components.name";
 $columns{'product'}          = "map_products.name";
+$columns{'classification'}   = "map_classifications.name";
 $columns{'version'}          = "bugs.version";
 $columns{'op_sys'}           = "bugs.op_sys";
 $columns{'votes'}            = "bugs.votes";
@@ -134,7 +135,6 @@ $columns{''}                 = "42217354";
   || ThrowCodeError("report_axis_invalid", {fld => "z", val => $tbl_field});
 
 my @axis_fields = ($row_field, $col_field, $tbl_field);
-
 my @selectnames = map($columns{$_}, @axis_fields);
 
 # Clone the params, so that Bugzilla::Search can modify them

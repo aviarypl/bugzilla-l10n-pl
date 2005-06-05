@@ -23,6 +23,7 @@
 #                 Bradley Baetz <bbaetz@student.usyd.edu.au>
 #                 Christopher Aillon <christopher@aillon.com>
 #                 Tobias Burnus <burnus@net-b.de>
+#                 Myk Melez <myk@mozilla.org>
 
 
 package Bugzilla::Template;
@@ -31,11 +32,36 @@ use strict;
 
 use Bugzilla::Config qw(:DEFAULT $templatedir $datadir);
 use Bugzilla::Util;
+use Bugzilla::User;
 
 # for time2str - replace by TT Date plugin??
 use Date::Format ();
 
 use base qw(Template);
+
+# Convert the constants in the Bugzilla::Constants module into a hash we can
+# pass to the template object for reflection into its "constants" namespace
+# (which is like its "variables" namespace, but for constants).  To do so, we
+# traverse the arrays of exported and exportable symbols, pulling out functions
+# (which is how Perl implements constants) and ignoring the rest (which, if
+# Constants.pm exports only constants, as it should, will be nothing else).
+use Bugzilla::Constants ();
+my %constants;
+foreach my $constant (@Bugzilla::Constants::EXPORT,
+                      @Bugzilla::Constants::EXPORT_OK)
+{
+    if (defined &{$Bugzilla::Constants::{$constant}}) {
+        # Constants can be lists, and we can't know whether we're getting
+        # a scalar or a list in advance, since they come to us as the return
+        # value of a function call, so we have to retrieve them all in list
+        # context into anonymous arrays, then extract the scalar ones (i.e.
+        # the ones whose arrays contain a single element) from their arrays.
+        $constants{$constant} = [&{$Bugzilla::Constants::{$constant}}];
+        if (scalar(@{$constants{$constant}}) == 1) {
+            $constants{$constant} = @{$constants{$constant}}[0];
+        }
+    }
+}
 
 # XXX - mod_perl
 my $template_include_path;
@@ -192,8 +218,7 @@ sub create {
 
         # Functions for processing text within templates in various ways.
         # IMPORTANT!  When adding a filter here that does not override a
-        # built-in filter, please also add a stub filter to checksetup.pl
-        # and t/004template.t.
+        # built-in filter, please also add a stub filter to t/004template.t.
         FILTERS => {
 
             # Render text in required style.
@@ -246,6 +271,14 @@ sub create {
                 $var =~ s/\n\r/\&#013;/g;
                 $var =~ s/\r/\&#013;/g;
                 $var =~ s/\n/\&#013;/g;
+                return $var;
+            },
+
+            # Prevents line break on hyphens and whitespaces.
+            no_break => sub {
+                my ($var) = @_;
+                $var =~ s/ /\&nbsp;/g;
+                $var =~ s/-/\&#8209;/g;
                 return $var;
             },
 
@@ -345,6 +378,9 @@ sub create {
                      1
                      ],
 
+            # Wrap a displayed comment to the appropriate length
+            wrap_comment => \&Bugzilla::Util::wrap_comment,
+
             # We force filtering of every variable in key security-critical
             # places; we have a none filter for people to use when they 
             # really, really don't want a variable to be changed.
@@ -352,6 +388,8 @@ sub create {
         },
 
         PLUGIN_BASE => 'Bugzilla::Template::Plugin',
+
+        CONSTANTS => \%constants,
 
         # Default variables for all templates
         VARIABLES => {
@@ -368,7 +406,7 @@ sub create {
             'user' => sub { return Bugzilla->user; },
 
             # UserInGroup. Deprecated - use the user.* functions instead
-            'UserInGroup' => \&::UserInGroup,
+            'UserInGroup' => \&Bugzilla::User::UserInGroup,
 
             # SendBugMail - sends mail about a bug, using Bugzilla::BugMail.pm
             'SendBugMail' => sub {

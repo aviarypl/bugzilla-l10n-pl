@@ -30,6 +30,8 @@ use lib qw(.);
 
 require "CGI.pl";
 
+use Bugzilla::User;
+
 # Shut up misguided -w warnings about "used only once":
 use vars qw(
   $template
@@ -42,7 +44,7 @@ use vars qw(
 Bugzilla->login();
 
 # If we're using LDAP for login, then we can't create a new account here.
-unless (Bugzilla::Auth->can_edit) {
+unless (Bugzilla::Auth->can_edit('new')) {
     ThrowUserError("auth_cant_create_account");
 }
 
@@ -62,7 +64,7 @@ if (defined($login)) {
     CheckEmailSyntax($login);
     $vars->{'login'} = $login;
     
-    if (!ValidateNewUser($login)) {
+    if (!is_available_username($login)) {
         # Account already exists        
         $template->process("account/exists.html.tmpl", $vars)
           || ThrowTemplateError($template->error());
@@ -71,14 +73,13 @@ if (defined($login)) {
 
     if ($login !~ /$createexp/) {
         ThrowUserError("account_creation_disabled");
-        exit;
     }
     
     # Clear out the login cookies in case the user is currently logged in.
     Bugzilla->logout();
-    
+
     # Create account
-    my $password = InsertNewUser($login, $realname);
+    my $password = insert_new_user($login, $realname);
     MailPassword($login, $password);
     
     $template->process("account/created.html.tmpl", $vars)

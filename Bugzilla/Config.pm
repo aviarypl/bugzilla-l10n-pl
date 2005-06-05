@@ -25,14 +25,13 @@
 #                 J. Paul Reed <preed@sigkill.com>
 #                 Bradley Baetz <bbaetz@student.usyd.edu.au>
 #                 Christopher Aillon <christopher@aillon.com>
+#                 Erik Stambaugh <erik@dasbistro.com>
 
 package Bugzilla::Config;
 
 use strict;
 
 use base qw(Exporter);
-
-use Bugzilla::Util;
 
 # Under mod_perl, get this from a .htaccess config variable,
 # and/or default from the current 'real' dir
@@ -44,16 +43,17 @@ use Bugzilla::Util;
 # .pms elsewhere.
 # $webdotdir must be in the webtree somewhere. Even if you use a local dot,
 # we output images to there. Also, if $webdot dir is not relative to the
-# bugzilla root directory, you'll need to change showdependancygraph.cgi to
+# bugzilla root directory, you'll need to change showdependencygraph.cgi to
 # set image_url to the correct location.
 # The script should really generate these graphs directly...
-# Note that if $libpath is changed, some stuff will break, notably dependancy
+# Note that if $libpath is changed, some stuff will break, notably dependency
 # graphs (since the path will be wrong in the HTML). This will be fixed at
 # some point.
 
 our $libpath = '.';
 our $localconfig = "$libpath/localconfig";
 our $datadir = "$libpath/data";
+our $attachdir = "$datadir/attachments";
 our $templatedir = "$libpath/template";
 our $webdotdir = "$datadir/webdot";
 
@@ -70,13 +70,14 @@ our $webdotdir = "$datadir/webdot";
 %Bugzilla::Config::EXPORT_TAGS =
   (
    admin => [qw(GetParamList UpdateParams SetParam WriteParams)],
-   db => [qw($db_host $db_port $db_name $db_user $db_pass $db_sock)],
-   locations => [qw($libpath $localconfig $datadir $templatedir $webdotdir)],
+   db => [qw($db_driver $db_host $db_port $db_name $db_user $db_pass $db_sock)],
+   locations => [qw($libpath $localconfig $attachdir
+                    $datadir $templatedir $webdotdir)],
   );
 Exporter::export_ok_tags('admin', 'db', 'locations');
 
 # Bugzilla version
-$Bugzilla::Config::VERSION = "2.18.1";
+$Bugzilla::Config::VERSION = "2.19.3";
 
 use Safe;
 
@@ -196,6 +197,19 @@ sub UpdateParams {
     # We don't want it, so get rid of it
     delete $param{'version'};
 
+    # Change from usebrowserinfo to defaultplatform/defaultopsys combo
+    if (exists $param{'usebrowserinfo'}) {
+        if (!$param{'usebrowserinfo'}) {
+            if (!exists $param{'defaultplatform'}) {
+                $param{'defaultplatform'} = 'Other';
+            }
+            if (!exists $param{'defaultopsys'}) {
+                $param{'defaultopsys'} = 'other';
+            }
+        }
+        delete $param{'usebrowserinfo'};
+    }
+
     # Change from a boolean for quips to multi-state
     if (exists $param{'usequip'} && !exists $param{'enablequips'}) {
         $param{'enablequips'} = $param{'usequip'} ? 'on' : 'off';
@@ -215,6 +229,26 @@ sub UpdateParams {
     # Modularise auth code
     if (exists $param{'useLDAP'} && !exists $param{'loginmethod'}) {
         $param{'loginmethod'} = $param{'useLDAP'} ? "LDAP" : "DB";
+    }
+
+    # set verify method to whatever loginmethod was
+    if (exists $param{'loginmethod'} && !exists $param{'user_verify_class'}) {
+        $param{'user_verify_class'} = $param{'loginmethod'};
+        delete $param{'loginmethod'};
+    }
+
+    # Remove quip-display control from parameters
+    # and give it to users via User Settings (Bug 41972)
+    if ( exists $param{'enablequips'} 
+         && !exists $param{'quip_list_entry_control'}) 
+    {
+        my $new_value;
+        ($param{'enablequips'} eq 'on')       && do {$new_value = 'open';};
+        ($param{'enablequips'} eq 'approved') && do {$new_value = 'moderated';};
+        ($param{'enablequips'} eq 'frozen')   && do {$new_value = 'closed';};
+        ($param{'enablequips'} eq 'off')      && do {$new_value = 'closed';};
+        $param{'quip_list_entry_control'} = $new_value;
+        delete $param{'enablequips'};
     }
 
     # --- DEFAULTS FOR NEW PARAMS ---
@@ -285,16 +319,16 @@ sub check_multi {
     my ($value, $param) = (@_);
 
     if ($param->{'type'} eq "s") {
-        unless (lsearch($param->{'choices'}, $value) >= 0) {
-            return "Invalid choice '$value' for single-select list param '$param'";
+        unless (scalar(grep {$_ eq $value} (@{$param->{'choices'}}))) {
+            return "Invalid choice '$value' for single-select list param '$param->{'name'}'";
         }
 
         return "";
     }
     elsif ($param->{'type'} eq "m") {
         foreach my $chkParam (@$value) {
-            unless (lsearch($param->{'choices'}, $chkParam) >= 0) {
-                return "Invalid choice '$chkParam' for multi-select list param '$param'";
+            unless (scalar(grep {$_ eq $chkParam} (@{$param->{'choices'}}))) {
+                return "Invalid choice '$chkParam' for multi-select list param '$param->{'name'}'";
             }
         }
 

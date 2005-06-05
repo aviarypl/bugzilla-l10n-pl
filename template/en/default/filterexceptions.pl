@@ -30,12 +30,26 @@
 # Values always used for numbers  - [% (i|j|k|n|count) %]
 # Params                          - [% Param(...
 # Safe functions                  - [% (time2str|GetBugLink)...
-# Safe vmethods                   - [% foo.size %]
+# Safe vmethods                   - [% foo.size %] [% foo.length %]
+#                                   [% foo.push() %]
 # TT loop variables               - [% loop.count %]
 # Already-filtered stuff          - [% wibble FILTER html %]
 #   where the filter is one of html|csv|js|url_quote|quoteUrls|time|uri|xml|none
 
 %::safe = (
+
+'whine/schedule.html.tmpl' => [
+  'event.key',
+  'query.id',
+  'query.sort',
+  'schedule.id',
+  'option.0',
+  'option.1',
+],
+
+'whine/mail.html.tmpl' => [
+  'bug.bug_id',
+],
 
 'sidebar.xul.tmpl' => [
   'template_version', 
@@ -73,7 +87,7 @@
 ],
 
 'search/search-specific.html.tmpl' => [
-  's',
+  'status.name',
 ],
 
 'search/tabs.html.tmpl' => [
@@ -101,7 +115,6 @@
                                                             IF sortvisible',
   'column.name', 
   'column.description',
-  'vis_bug_ids.push(bug.id)', 
   'bug.id', 
   'bug.count', 
   'bug.delta', 
@@ -123,8 +136,6 @@
   'num_bugs',
   'data.$tbl.$col.$row',
   'title',
-  '', # This is not a bug in the filter exceptions - this template has an 
-      # empty directive which is necessary for it to work properly.
 ],
 
 'reports/report-table.html.tmpl' => [
@@ -206,10 +217,6 @@
   'title', 
 ],
 
-'list/list.html.tmpl' => [
-  'buglist', 
-],
-
 'list/list.rdf.tmpl' => [
   'template_version', 
   'bug.bug_id', 
@@ -239,6 +246,10 @@
   'VERSION', 
 ],
 
+'global/choose-classification.html.tmpl' => [
+  'classdesc.$p', 
+],
+
 'global/choose-product.html.tmpl' => [
   'target',
   'proddesc.$p', 
@@ -253,10 +264,7 @@
 'global/header.html.tmpl' => [
   'javascript', 
   'style', 
-  'style_url', 
-  'bgcolor', 
   'onload',
-  'bodyattrs', 
   'h1',
   'h2',
   'h3', 
@@ -323,6 +331,7 @@
 ],
 
 'bug/edit.html.tmpl' => [
+  'bug.deadline',
   'bug.remaining_time', 
   'bug.delta_ts', 
   'bug.bug_id', 
@@ -352,6 +361,7 @@
 
 'bug/show-multiple.html.tmpl' => [
   'bug.bug_id', 
+  'bug.deadline',
 ],
 
 'bug/show.xml.tmpl' => [
@@ -359,6 +369,14 @@
   'a.attachid', 
   'field', 
 ],
+
+'bug/summarize-time.html.tmpl' => [
+  'global.grand_total FILTER format("%.2f")',
+  'subtotal FILTER format("%.2f")',
+  'work_time FILTER format("%.2f")',
+  'global.total FILTER format("%.2f")',
+],
+
 
 'bug/time.html.tmpl' => [
   'time_unit FILTER format(\'%.1f\')', 
@@ -396,10 +414,7 @@
 'bug/process/results.html.tmpl' => [
   'title.$type', 
   'id', 
-],
-
-'bug/create/comment.txt.tmpl' => [
-  'form.comment', 
+  'linktext.$type',
 ],
 
 'bug/create/create.html.tmpl' => [
@@ -407,13 +422,15 @@
   'g.description',
   'sel.name',
   'sel.description',
+  'cloned_bug_id'
 ],
 
 'bug/create/create-guided.html.tmpl' => [
   'matches.0', 
   'tablecolour',
   'buildid',
-  'sel', 
+  'sel',
+  'productstring', 
 ],
 
 'bug/activity/show.html.tmpl' => [
@@ -478,11 +495,33 @@
   'section_num'
 ],
 
+'admin/table.html.tmpl' => [
+  'link_uri',
+  'c.content'
+],
+
+'admin/classifications/del.html.tmpl' => [
+  'description', 
+],
+
+'admin/classifications/edit.html.tmpl' => [
+  'description', 
+],
+
+'admin/classifications/reclassify.html.tmpl' => [
+  'description', 
+],
+
+'admin/classifications/select.html.tmpl' => [
+  'cl.description', 
+],
+
 'admin/products/groupcontrol/confirm-edit.html.tmpl' => [
   'group.count', 
 ],
 
 'admin/products/groupcontrol/edit.html.tmpl' => [
+  'filt_classification', 
   'filt_product', 
   'group.bugcount', 
   'group.id', 
@@ -492,9 +531,13 @@
   'const.CONTROLMAPMANDATORY', 
 ],
 
-'admin/keywords/list.html.tmpl' => [
-  'keyword.id',
-  'keyword.bug_count',
+'admin/products/list.html.tmpl' => [
+  'classification_url_part', 
+],
+
+'admin/products/footer.html.tmpl' => [
+  'classification_url_part', 
+  'classification_text', 
 ],
 
 'admin/keywords/edit.html.tmpl' => [
@@ -526,14 +569,77 @@
   'type.flag_count', 
 ],
 
+
+'admin/components/confirm-delete.html.tmpl' => [
+  'bug_count'
+],
+
+'admin/components/deleted.html.tmpl' => [
+  'deleted_bug_count'
+],
+
+'admin/users/confirm-delete.html.tmpl' => [
+  'andstring',
+  'responsibilityterms.$responsibility',
+  'bugs',
+  'cc',
+  'flags.requestee',
+  'flags.setter',
+  'longdescs',
+  'namedqueries',
+  'votes',
+  'series',
+  'watch.watched',
+  'watch.watcher',
+  'whine_events',
+  'whine_schedules',
+  'otheruser.id'
+],
+
+'admin/users/edit.html.tmpl' => [
+  'otheruser.id',
+  'group.id',
+  'perms.directbless',
+  'perms.directmember',
+],
+
+'admin/components/edit.html.tmpl' => [
+  'bug_count'
+],
+
+'admin/components/list.html.tmpl' => [
+  'cgi.query_string'
+],
+
+'admin/components/select-product.html.tmpl' => [
+  'cgi.query_string'
+],
+
+'admin/milestones/confirm-delete.html.tmpl' => [
+  'bug_count'
+],
+
+'admin/milestones/deleted.html.tmpl' => [
+  'bug_count'
+],
+
+'admin/versions/confirm-delete.html.tmpl' => [
+  'bug_count'
+],
+
+'admin/settings/edit.html.tmpl' => [
+  'name',
+  'checkbox_name'
+],
+
 'account/login.html.tmpl' => [
   'target', 
 ],
 
 'account/prefs/email.html.tmpl' => [
-  'role', 
-  'reason.name', 
-  'reason.description',
+  'relationship.id',
+  'event.id',
+  'prefname',
 ],
 
 'account/prefs/permissions.html.tmpl' => [
@@ -546,6 +652,11 @@
   'tab.description', 
   'current_tab.name', 
   'current_tab.description', 
+],
+
+'account/prefs/settings.html.tmpl' => [
+  'name',
+  'default_name'
 ],
 
 );

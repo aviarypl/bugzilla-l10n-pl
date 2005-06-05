@@ -258,8 +258,9 @@ sub calculate_dupes {
 sub regenerate_stats {
     my $dir = shift;
     my $product = shift;
-    my $when = localtime(time());
 
+    my $dbh = Bugzilla->dbh;
+    my $when = localtime(time());
     my $tstart = time();
 
     # NB: Need to mangle the product for the filename, but use the real
@@ -274,20 +275,21 @@ sub regenerate_stats {
     my $from_product = "";
                     
     if ($product ne '-All-') {
-        $and_product = "AND bugs.product_id = products.id " .
-                       "AND products.name = " . SqlQuote($product) . " ";
-        $from_product = ", products";                       
+        $and_product = " AND products.name = " . SqlQuote($product);
+        $from_product = "INNER JOIN products " .
+                        "ON bugs.product_id = products.id";
     }          
               
     # Determine the start date from the date the first bug in the
     # database was created, and the end date from the current day.
     # If there were no bugs in the search, return early.
-    SendSQL("SELECT to_days(creation_ts) AS start, " .
-            "to_days(current_date) AS end, " .
-            "to_days('1970-01-01') " . 
-            "FROM bugs $from_product WHERE to_days(creation_ts) != 'NULL' " .
+    SendSQL("SELECT " . $dbh->sql_to_days('creation_ts') . " AS start, " .
+                        $dbh->sql_to_days('current_date') . " AS end, " .
+                        $dbh->sql_to_days("'1970-01-01'") . 
+            " FROM bugs $from_product WHERE " .
+            $dbh->sql_to_days('creation_ts') . " != 'NULL'" .
             $and_product .
-            "ORDER BY start LIMIT 1");
+            " ORDER BY start " . $dbh->sql_limit(1));
     
     my ($start, $end, $base) = FetchSQLData();
     if (!defined $start) {
@@ -348,12 +350,14 @@ FIN
             for my $bug (@bugs) {
                 # First, get information on various bug states.
                 SendSQL("SELECT bugs_activity.removed " .
-                        "FROM bugs_activity,fielddefs " .
-                        "WHERE bugs_activity.fieldid = fielddefs.fieldid " .
-                        "AND fielddefs.name = 'bug_status' " .
-                        "AND bugs_activity.bug_id = $bug " .
-                        "AND bugs_activity.bug_when >= from_days($day) " .
-                        "ORDER BY bugs_activity.bug_when LIMIT 1");
+                        "  FROM bugs_activity " .
+                    "INNER JOIN fielddefs " .
+                        "    ON bugs_activity.fieldid = fielddefs.fieldid " .
+                        " WHERE fielddefs.name = 'bug_status' " .
+                        "   AND bugs_activity.bug_id = $bug " .
+                        "   AND bugs_activity.bug_when >= from_days($day) " .
+                      "ORDER BY bugs_activity.bug_when " .
+                        $dbh->sql_limit(1));
                 
                 my $status;
                 if (@row = FetchSQLData()) {
@@ -369,12 +373,14 @@ FIN
 
                 # Next, get information on various bug resolutions.
                 SendSQL("SELECT bugs_activity.removed " .
-                        "FROM bugs_activity,fielddefs " .
-                        "WHERE bugs_activity.fieldid = fielddefs.fieldid " .
-                        "AND fielddefs.name = 'resolution' " .
-                        "AND bugs_activity.bug_id = $bug " .
-                        "AND bugs_activity.bug_when >= from_days($day) " .
-                        "ORDER BY bugs_activity.bug_when LIMIT 1");
+                        "  FROM bugs_activity " .
+                    "INNER JOIN fielddefs " .
+                        "    ON bugs_activity.fieldid = fielddefs.fieldid " .
+                        " WHERE fielddefs.name = 'resolution' " .
+                        "   AND bugs_activity.bug_id = $bug " .
+                        "   AND bugs_activity.bug_when >= from_days($day) " .
+                      "ORDER BY bugs_activity.bug_when " . 
+                        $dbh->sql_limit(1));
                         
                 if (@row = FetchSQLData()) {
                     $status = $row[0];

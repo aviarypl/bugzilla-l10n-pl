@@ -19,10 +19,45 @@
 #
 # Contributor(s): Myk Melez <myk@mozilla.org>
 #                 Jouni Heikniemi <jouni@heikniemi.net>
+#                 Frédéric Buclin <LpSolit@gmail.com>
 
-################################################################################
+=head1 NAME
+
+Bugzilla::Flag - A module to deal with Bugzilla flag values.
+
+=head1 SYNOPSIS
+
+Flag.pm provides an interface to flags as stored in Bugzilla.
+See below for more information.
+
+=head1 NOTES
+
+=over
+
+=item *
+
+Prior to calling routines in this module, it's assumed that you have
+already done a C<require CGI.pl>.  This will eventually change in a
+future version when CGI.pl is removed.
+
+=item *
+
+Import relevant functions from that script and its companion globals.pl.
+
+=item *
+
+Use of private functions / variables outside this module may lead to
+unexpected results after an upgrade.  Please avoid usi8ng private
+functions in other files/modules.  Private functions are functions
+whose names start with _ or a re specifically noted as being private.
+
+=back
+
+=cut
+
+######################################################################
 # Module Initialization
-################################################################################
+######################################################################
 
 # Make it harder for us to do dangerous things in Perl.
 use strict;
@@ -37,6 +72,7 @@ use Bugzilla::Util;
 use Bugzilla::Error;
 use Bugzilla::Attachment;
 use Bugzilla::BugMail;
+use Bugzilla::Constants;
 
 use constant TABLES_ALREADY_LOCKED => 1;
 
@@ -44,34 +80,65 @@ use constant TABLES_ALREADY_LOCKED => 1;
 # so I have to use them as $::template and $::vars in the package code.
 use vars qw($template $vars); 
 
-# Note!  This module requires that its caller have said "require CGI.pl" 
-# to import relevant functions from that script and its companion globals.pl.
-
-################################################################################
+######################################################################
 # Global Variables
-################################################################################
+######################################################################
 
 # basic sets of columns and tables for getting flags from the database
+
+=begin private
+
+=head1 PRIVATE VARIABLES/CONSTANTS
+
+=over
+
+=item C<@base_columns>
+
+basic sets of columns and tables for getting flag types from th
+database.  B<Used by get, match, sqlify_criteria and perlify_record>
+
+=back
+
+=cut
 
 my @base_columns = 
   ("is_active", "id", "type_id", "bug_id", "attach_id", "requestee_id", 
    "setter_id", "status");
 
-# Note: when adding tables to @base_tables, make sure to include the separator 
-# (i.e. a comma or words like "LEFT OUTER JOIN") before the table name, 
-# since tables take multiple separators based on the join type, and therefore 
-# it is not possible to join them later using a single known separator.
+=pod
+
+=item C<@base_tables>
+
+Which database(s) is the data coming from?
+
+Note: when adding tables to @base_tables, make sure to include the separator 
+(i.e. a comma or words like "LEFT OUTER JOIN") before the table name, 
+since tables take multiple separators based on the join type, and therefore 
+it is not possible to join them later using a single known separator.
+B<Used by get, match, sqlify_criteria and perlify_record>
+
+=back
+
+=end private
+
+=cut
 
 my @base_tables = ("flags");
 
-################################################################################
+######################################################################
 # Searching/Retrieving Flags
-################################################################################
+######################################################################
+
+=head1 PUBLIC FUNCTIONS
+
+=over C<get($id)>
+
+Retrieves and returns a flag from the database.
+
+=cut
 
 # !!! Implement a cache for this function!
 sub get {
-    # Retrieves and returns a flag from the database.
-
     my ($id) = @_;
 
     my $select_clause = "SELECT " . join(", ", @base_columns);
@@ -86,11 +153,21 @@ sub get {
     return $flag;
 }
 
-sub match {
-    # Queries the database for flags matching the given criteria 
-    # (specified as a hash of field names and their matching values)
-    # and returns an array of matching records.
+=pod
 
+=over
+
+=item C<match($criteria)>
+
+Queries the database for flags matching the given criteria
+(specified as a hash of field names and their matching values)
+and returns an array of matching records.
+
+=back
+
+=cut
+
+sub match {
     my ($criteria) = @_;
 
     my $select_clause = "SELECT " . join(", ", @base_columns);
@@ -113,11 +190,21 @@ sub match {
     return \@flags;
 }
 
-sub count {
-    # Queries the database for flags matching the given criteria 
-    # (specified as a hash of field names and their matching values)
-    # and returns an array of matching records.
+=pod
 
+=over
+
+=item C<count($criteria)>
+
+Queries the database for flags matching the given criteria 
+(specified as a hash of field names and their matching values)
+and returns an array of matching records.
+
+=back
+
+=cut
+
+sub count {
     my ($criteria) = @_;
 
     my @criteria = sqlify_criteria($criteria);
@@ -133,24 +220,35 @@ sub count {
     return $count;
 }
 
-################################################################################
+######################################################################
 # Creating and Modifying
-################################################################################
+######################################################################
+
+=pod
+
+=over
+
+=item C<validate($cgi, $bug_id)>
+
+Validates fields containing flag modifications.
+
+=back
+
+=cut
 
 sub validate {
-    # Validates fields containing flag modifications.
-
-    my ($data, $bug_id) = @_;
+    my $user = Bugzilla->user;
+    my ($cgi, $bug_id) = @_;
   
     # Get a list of flags to validate.  Uses the "map" function
     # to extract flag IDs from form field names by matching fields
     # whose name looks like "flag-nnn", where "nnn" is the ID,
     # and returning just the ID portion of matching field names.
-    my @ids = map(/^flag-(\d+)$/ ? $1 : (), keys %$data);
+    my @ids = map(/^flag-(\d+)$/ ? $1 : (), $cgi->param());
   
     foreach my $id (@ids)
     {
-        my $status = $data->{"flag-$id"};
+        my $status = $cgi->param("flag-$id");
         
         # Make sure the flag exists.
         my $flag = get($id);
@@ -179,16 +277,19 @@ sub validate {
         # feature and the attachment is marked private).
         if ($status eq '?'
             && $flag->{type}->{is_requesteeble}
-            && trim($data->{"requestee-$id"}))
+            && trim($cgi->param("requestee-$id")))
         {
-            my $requestee_email = trim($data->{"requestee-$id"});
-            if ($requestee_email ne $flag->{'requestee'}->{'email'}) {
+            my $requestee_email = trim($cgi->param("requestee-$id"));
+            my $old_requestee = 
+              $flag->{'requestee'} ? $flag->{'requestee'}->login : '';
+
+            if ($old_requestee ne $requestee_email) {
                 # We know the requestee exists because we ran
                 # Bugzilla::User::match_field before getting here.
                 my $requestee = Bugzilla::User->new_from_login($requestee_email);
 
                 # Throw an error if the user can't see the bug.
-                if (!&::CanSeeBug($bug_id, $requestee->id))
+                if (!$requestee->can_see_bug($bug_id))
                 {
                     ThrowUserError("flag_requestee_unauthorized",
                                    { flag_type => $flag->{'type'},
@@ -201,7 +302,7 @@ sub validate {
                 # Throw an error if the target is a private attachment and
                 # the requestee isn't in the group of insiders who can see it.
                 if ($flag->{target}->{attachment}->{exists}
-                    && $data->{'isprivate'}
+                    && $cgi->param('isprivate')
                     && Param("insidergroup")
                     && !$requestee->in_group(Param("insidergroup")))
                 {
@@ -214,97 +315,154 @@ sub validate {
                 }
             }
         }
+
+        # Make sure the user is authorized to modify flags, see bug 180879
+        # - The flag is unchanged
+        next if ($status eq $flag->{status});
+
+        # - User in the $request_gid group can clear pending requests and set flags
+        #   and can rerequest set flags.
+        next if (($status eq 'X' || $status eq '?')
+                 && (!$flag->{type}->{request_gid}
+                     || $user->in_group(&::GroupIdToName($flag->{type}->{request_gid}))));
+
+        # - User in the $grant_gid group can set/clear flags,
+        #   including "+" and "-"
+        next if (!$flag->{type}->{grant_gid}
+                 || $user->in_group(&::GroupIdToName($flag->{type}->{grant_gid})));
+
+        # - Any other flag modification is denied
+        ThrowUserError("flag_update_denied",
+                        { name       => $flag->{type}->{name},
+                          status     => $status,
+                          old_status => $flag->{status} });
     }
 }
 
-sub process {
-    # Processes changes to flags.
+sub snapshot {
+    my ($bug_id, $attach_id) = @_;
 
-    # The target is the bug or attachment this flag is about, the timestamp
-    # is the date/time the bug was last touched (so that changes to the flag
-    # can be stamped with the same date/time), the data is the form data
-    # with flag fields that the user submitted, the old bug is the bug record
-    # before the user made changes to it, and the new bug is the bug record
-    # after the user made changes to it.
-    
-    my ($target, $timestamp, $data, $oldbug, $newbug) = @_;
+    my $flags = match({ 'bug_id'    => $bug_id,
+                        'attach_id' => $attach_id,
+                        'is_active' => 1 });
+    my @summaries;
+    foreach my $flag (@$flags) {
+        my $summary = $flag->{'type'}->{'name'} . $flag->{'status'};
+        $summary .= "(" . $flag->{'requestee'}->login . ")" if $flag->{'requestee'};
+        push(@summaries, $summary);
+    }
+    return @summaries;
+}
+
+
+=pod
+
+=over
+
+=item C<process($target, $timestamp, $cgi)>
+
+Processes changes to flags.
+
+The target is the bug or attachment this flag is about, the timestamp
+is the date/time the bug was last touched (so that changes to the flag
+can be stamped with the same date/time), the cgi is the CGI object
+used to obtain the flag fields that the user submitted.
+
+=back
+
+=cut
+
+sub process {
+    my ($target, $timestamp, $cgi) = @_;
+
+    my $dbh = Bugzilla->dbh;
+    my $bug_id = $target->{'bug'}->{'id'};
+    my $attach_id = $target->{'attachment'}->{'id'};
 
     # Use the date/time we were given if possible (allowing calling code
     # to synchronize the comment's timestamp with those of other records).
     $timestamp = ($timestamp ? &::SqlQuote($timestamp) : "NOW()");
     
     # Take a snapshot of flags before any changes.
-    my $flags = match({ 'bug_id'    => $target->{'bug'}->{'id'} , 
-                        'attach_id' => $target->{'attachment'}->{'id'} ,
-                        'is_active' => 1 });
-    my @old_summaries;
-    foreach my $flag (@$flags) {
-        my $summary = $flag->{'type'}->{'name'} . $flag->{'status'};
-        $summary .= "(" . $flag->{'requestee'}->login . ")" if $flag->{'requestee'};
-        push(@old_summaries, $summary);
-    }
+    my @old_summaries = snapshot($bug_id, $attach_id);
     
+    # Cancel pending requests if we are obsoleting an attachment.
+    if ($attach_id && $cgi->param('isobsolete')) {
+        CancelRequests($bug_id, $attach_id);
+    }
+
     # Create new flags and update existing flags.
-    my $new_flags = FormToNewFlags($target, $data);
+    my $new_flags = FormToNewFlags($target, $cgi);
     foreach my $flag (@$new_flags) { create($flag, $timestamp) }
-    modify($data, $timestamp);
+    modify($cgi, $timestamp);
     
     # In case the bug's product/component has changed, clear flags that are
     # no longer valid.
-    &::SendSQL("
-        SELECT flags.id 
+    my $flag_ids = $dbh->selectcol_arrayref(
+        "SELECT flags.id 
         FROM (flags INNER JOIN bugs ON flags.bug_id = bugs.bug_id)
           LEFT OUTER JOIN flaginclusions i
             ON (flags.type_id = i.type_id 
             AND (bugs.product_id = i.product_id OR i.product_id IS NULL)
             AND (bugs.component_id = i.component_id OR i.component_id IS NULL))
-        WHERE bugs.bug_id = $target->{'bug'}->{'id'} 
+        WHERE bugs.bug_id = ?
         AND flags.is_active = 1
-        AND i.type_id IS NULL
-    ");
-    clear(&::FetchOneColumn()) while &::MoreSQLData();
-    &::SendSQL("
-        SELECT flags.id 
+        AND i.type_id IS NULL",
+        undef, $bug_id);
+
+    foreach my $flag_id (@$flag_ids) { clear($flag_id) }
+
+    $flag_ids = $dbh->selectcol_arrayref(
+        "SELECT flags.id 
         FROM flags, bugs, flagexclusions e
-        WHERE bugs.bug_id = $target->{'bug'}->{'id'}
+        WHERE bugs.bug_id = ?
         AND flags.bug_id = bugs.bug_id
         AND flags.type_id = e.type_id
         AND flags.is_active = 1 
         AND (bugs.product_id = e.product_id OR e.product_id IS NULL)
-        AND (bugs.component_id = e.component_id OR e.component_id IS NULL)
-    ");
-    clear(&::FetchOneColumn()) while &::MoreSQLData();
-    
-    # Take a snapshot of flags after changes.
-    $flags = match({ 'bug_id'    => $target->{'bug'}->{'id'} , 
-                     'attach_id' => $target->{'attachment'}->{'id'} ,
-                     'is_active' => 1 });
-    my @new_summaries;
-    foreach my $flag (@$flags) {
-        my $summary = $flag->{'type'}->{'name'} . $flag->{'status'};
-        $summary .= "(" . $flag->{'requestee'}->login . ")" if $flag->{'requestee'};
-        push(@new_summaries, $summary);
-    }
+        AND (bugs.component_id = e.component_id OR e.component_id IS NULL)",
+        undef, $bug_id);
 
-    my $old_summaries = join(", ", @old_summaries);
-    my $new_summaries = join(", ", @new_summaries);
-    my ($removed, $added) = &::DiffStrings($old_summaries, $new_summaries);
+    foreach my $flag_id (@$flag_ids) { clear($flag_id) }
+
+    # Take a snapshot of flags after changes.
+    my @new_summaries = snapshot($bug_id, $attach_id);
+
+    update_activity($bug_id, $attach_id, $timestamp, \@old_summaries, \@new_summaries);
+}
+
+sub update_activity {
+    my ($bug_id, $attach_id, $timestamp, $old_summaries, $new_summaries) = @_;
+    my $dbh = Bugzilla->dbh;
+
+    $attach_id ||= 'NULL';
+    $old_summaries = join(", ", @$old_summaries);
+    $new_summaries = join(", ", @$new_summaries);
+    my ($removed, $added) = diff_strings($old_summaries, $new_summaries);
     if ($removed ne $added) {
         my $sql_removed = &::SqlQuote($removed);
         my $sql_added = &::SqlQuote($added);
         my $field_id = &::GetFieldID('flagtypes.name');
-        my $attach_id = $target->{'attachment'}->{'id'} || 'NULL';
-        &::SendSQL("INSERT INTO bugs_activity (bug_id, attach_id, who, " . 
-                   "bug_when, fieldid, removed, added) VALUES " . 
-                   "($target->{'bug'}->{'id'}, $attach_id, $::userid, " . 
-                   "$timestamp, $field_id, $sql_removed, $sql_added)");
+        $dbh->do("INSERT INTO bugs_activity
+                  (bug_id, attach_id, who, bug_when, fieldid, removed, added)
+                  VALUES ($bug_id, $attach_id, $::userid, $timestamp,
+                  $field_id, $sql_removed, $sql_added)");
     }
 }
 
+=pod
+
+=over
+
+=item C<create($flag, $timestamp)>
+
+Creates a flag record in the database.
+
+=back
+
+=cut
 
 sub create {
-    # Creates a flag record in the database.
-
     my ($flag, $timestamp) = @_;
 
     # Determine the ID for the flag record by retrieving the last ID used
@@ -331,17 +489,27 @@ sub create {
     
     # Send an email notifying the relevant parties about the flag creation.
     if (($flag->{'requestee'} 
-         && $flag->{'requestee'}->email_prefs->{'FlagRequestee'})
+         && $flag->{'requestee'}->wants_mail([EVT_FLAG_REQUESTED]))
          || $flag->{'type'}->{'cc_list'})
     {
         notify($flag, "request/email.txt.tmpl");
     }
 }
 
-sub migrate {
-    # Moves a flag from one attachment to another.  Useful for migrating
-    # a flag from an obsolete attachment to the attachment that obsoleted it.
+=pod
 
+=over
+
+=item C<migrate($old_attach_id, $new_attach_id, $timestamp)>
+
+Moves a flag from one attachment to another.  Useful for migrating
+a flag from an obsolete attachment to the attachment that obsoleted it.
+
+=back
+
+=cut
+
+sub migrate {
     my ($old_attach_id, $new_attach_id, $timestamp) = @_;
 
     # Use the date/time we were given if possible (allowing calling code
@@ -355,20 +523,30 @@ sub migrate {
                "WHERE  attach_id = $old_attach_id");
 }
 
-sub modify {
-    # Modifies flags in the database when a user changes them.
-    # Note that modified flags are always set active (is_active = 1) -
-    # this will revive deleted flags that get changed through 
-    # attachment.cgi midairs. See bug 223878 for details.
+=pod
 
-    my ($data, $timestamp) = @_;
+=over
+
+=item C<modify($cgi, $timestamp)>
+
+Modifies flags in the database when a user changes them.
+Note that modified flags are always set active (is_active = 1) -
+this will revive deleted flags that get changed through 
+attachment.cgi midairs. See bug 223878 for details.
+
+=back
+
+=cut
+
+sub modify {
+    my ($cgi, $timestamp) = @_;
 
     # Use the date/time we were given if possible (allowing calling code
     # to synchronize the comment's timestamp with those of other records).
     $timestamp = ($timestamp ? &::SqlQuote($timestamp) : "NOW()");
     
     # Extract a list of flags from the form data.
-    my @ids = map(/^flag-(\d+)$/ ? $1 : (), keys %$data);
+    my @ids = map(/^flag-(\d+)$/ ? $1 : (), $cgi->param());
     
     # Loop over flags and update their record in the database if necessary.
     # Two kinds of changes can happen to a flag: it can be set to a different
@@ -378,8 +556,8 @@ sub modify {
     foreach my $id (@ids) {
         my $flag = get($id);
 
-        my $status = $data->{"flag-$id"};
-        my $requestee_email = trim($data->{"requestee-$id"});
+        my $status = $cgi->param("flag-$id");
+        my $requestee_email = trim($cgi->param("requestee-$id") || '');
 
         
         # Ignore flags the user didn't change. There are two components here:
@@ -419,7 +597,7 @@ sub modify {
                         WHERE  id = $flag->{'id'}");
             
             # Send an email notifying the relevant parties about the fulfillment.
-            if ($flag->{'setter'}->email_prefs->{'FlagRequester'} 
+            if ($flag->{'setter'}->wants_mail([EVT_REQUESTED_FLAG]) 
                 || $flag->{'type'}->{'cc_list'})
             {
                 $flag->{'status'} = $status;
@@ -430,7 +608,7 @@ sub modify {
             # Get the requestee, if any.
             my $requestee_id = "NULL";
             if ($requestee_email) {
-                $requestee_id = &::DBname_to_id($requestee_email);
+                $requestee_id = login_to_id($requestee_email);
                 $flag->{'requestee'} = new Bugzilla::User($requestee_id);
             }
 
@@ -445,7 +623,7 @@ sub modify {
             
             # Send an email notifying the relevant parties about the request.
             if ($flag->{'requestee'} 
-                && ($flag->{'requestee'}->email_prefs->{'FlagRequestee'} 
+                && ($flag->{'requestee'}->wants_mail([EVT_FLAG_REQUESTED]) 
                     || $flag->{'type'}->{'cc_list'}))
             {
                 notify($flag, "request/email.txt.tmpl");
@@ -461,6 +639,18 @@ sub modify {
     
     return \@flags;
 }
+
+=pod
+
+=over
+
+=item C<clear($id)>
+
+Deactivate a flag.
+
+=back
+
+=cut
 
 sub clear {
     my ($id) = @_;
@@ -480,25 +670,37 @@ sub clear {
 }
 
 
-################################################################################
+######################################################################
 # Utility Functions
-################################################################################
+######################################################################
+
+=pod
+
+=over
+
+=item C<FormToNewFlags($target, $cgi)
+
+Someone pleasedocument this function.
+
+=back
+
+=cut
 
 sub FormToNewFlags {
-    my ($target, $data) = @_;
+    my ($target, $cgi) = @_;
     
     # Get information about the setter to add to each flag.
     # Uses a conditional to suppress Perl's "used only once" warnings.
     my $setter = new Bugzilla::User($::userid);
 
     # Extract a list of flag type IDs from field names.
-    my @type_ids = map(/^flag_type-(\d+)$/ ? $1 : (), keys %$data);
-    @type_ids = grep($data->{"flag_type-$_"} ne 'X', @type_ids);
+    my @type_ids = map(/^flag_type-(\d+)$/ ? $1 : (), $cgi->param());
+    @type_ids = grep($cgi->param("flag_type-$_") ne 'X', @type_ids);
     
     # Process the form data and create an array of flag objects.
     my @flags;
     foreach my $type_id (@type_ids) {
-        my $status = $data->{"flag_type-$type_id"};
+        my $status = $cgi->param("flag_type-$type_id");
         &::trick_taint($status);
     
         # Create the flag record and populate it with data from the form.
@@ -510,9 +712,9 @@ sub FormToNewFlags {
         };
 
         if ($status eq "?") {
-            my $requestee = $data->{"requestee_type-$type_id"};
+            my $requestee = $cgi->param("requestee_type-$type_id");
             if ($requestee) {
-                my $requestee_id = &::DBname_to_id($requestee);
+                my $requestee_id = login_to_id($requestee);
                 $flag->{'requestee'} = new Bugzilla::User($requestee_id);
             }
         }
@@ -525,12 +727,25 @@ sub FormToNewFlags {
     return \@flags;
 }
 
+=pod
+
+=over
+
+=item C<GetBug($id)>
+
+Returns a hash of information about a target bug.
+
+=back
+
+=cut
+
 # Ideally, we'd use Bug.pm, but it's way too heavyweight, and it can't be
 # made lighter without totally rewriting it, so we'll use this function
 # until that one gets rewritten.
 sub GetBug {
-    # Returns a hash of information about a target bug.
     my ($id) = @_;
+
+    my $dbh = Bugzilla->dbh;
 
     # Save the currently running query (if any) so we do not overwrite it.
     &::PushGlobalSQLState();
@@ -539,8 +754,9 @@ sub GetBug {
                           COUNT(bug_group_map.group_id)
                 FROM      bugs LEFT JOIN bug_group_map
                             ON (bugs.bug_id = bug_group_map.bug_id)
-                WHERE     bugs.bug_id = $id
-                GROUP BY  bugs.bug_id");
+                WHERE     bugs.bug_id = $id " .
+                $dbh->sql_group_by('bugs.bug_id',
+                                   'short_desc, product_id, component_id'));
 
     my $bug = { 'id' => $id };
     
@@ -552,6 +768,18 @@ sub GetBug {
 
     return $bug;
 }
+
+=pod
+
+=over
+
+=item C<GetTarget($bug_id, $attach_id)>
+
+Someone please document this function.
+
+=back
+
+=cut
 
 sub GetTarget {
     my ($bug_id, $attach_id) = @_;
@@ -580,11 +808,21 @@ sub GetTarget {
     return $target;
 }
 
+=pod
+
+=over
+
+=item C<notify($flag, $template_file)>
+
+Sends an email notification about a flag being created or fulfilled.
+
+=back
+
+=cut
+
 sub notify {
-    # Sends an email notification about a flag being created or fulfilled.
-    
     my ($flag, $template_file) = @_;
-    
+
     # If the target bug is restricted to one or more groups, then we need
     # to make sure we don't send email about it to unauthorized users
     # on the request type's CC: list, so we have to trawl the list for users
@@ -599,7 +837,7 @@ sub notify {
               || next;
 
             next if $flag->{'target'}->{'bug'}->{'restricted'}
-              && !&::CanSeeBug($flag->{'target'}->{'bug'}->{'id'}, $ccuser->id);
+              && !$ccuser->can_see_bug($flag->{'target'}->{'bug'}->{'id'});
             next if $flag->{'target'}->{'attachment'}->{'isprivate'}
               && Param("insidergroup")
               && !$ccuser->in_group(Param("insidergroup"));
@@ -623,13 +861,54 @@ sub notify {
     Bugzilla::BugMail::MessageToMTA($message);
 }
 
-################################################################################
+# Cancel all request flags from the attachment being obsoleted.
+sub CancelRequests {
+    my ($bug_id, $attach_id, $timestamp) = @_;
+    my $dbh = Bugzilla->dbh;
+
+    my $request_ids =
+        $dbh->selectcol_arrayref("SELECT flags.id
+                                  FROM flags
+                                  LEFT JOIN attachments ON flags.attach_id = attachments.attach_id
+                                  WHERE flags.attach_id = ?
+                                  AND flags.status = '?'
+                                  AND flags.is_active = 1
+                                  AND attachments.isobsolete = 0",
+                                  undef, $attach_id);
+
+    return if (!scalar(@$request_ids));
+
+    # Take a snapshot of flags before any changes.
+    my @old_summaries = snapshot($bug_id, $attach_id) if ($timestamp);
+    foreach my $flag (@$request_ids) { clear($flag) }
+
+    # If $timestamp is undefined, do not update the activity table
+    return unless ($timestamp);
+
+    # Take a snapshot of flags after any changes.
+    my @new_summaries = snapshot($bug_id, $attach_id);
+    update_activity($bug_id, $attach_id, $timestamp, \@old_summaries, \@new_summaries);
+}
+
+######################################################################
 # Private Functions
-################################################################################
+######################################################################
+
+=begin private
+
+=head1 PRIVATE FUNCTIONS
+
+=over
+
+=item C<sqlify_criteria($criteria)>
+
+Converts a hash of criteria into a list of SQL criteria.
+
+=back
+
+=cut
 
 sub sqlify_criteria {
-    # Converts a hash of criteria into a list of SQL criteria.
-    
     # a reference to a hash containing the criteria (field => value)
     my ($criteria) = @_;
 
@@ -661,8 +940,19 @@ sub sqlify_criteria {
     return @criteria;
 }
 
+=pod
+
+=over
+
+=item C<perlify_record($exists, $id, $type_id, $bug_id, $attach_id, $requestee_id, $setter_id, $status)>
+
+Converts a row from the database into a Perl record.
+
+=back
+
+=cut
+
 sub perlify_record {
-    # Converts a row from the database into a Perl record.
     my ($exists, $id, $type_id, $bug_id, $attach_id, 
         $requestee_id, $setter_id, $status) = @_;
     
@@ -681,5 +971,29 @@ sub perlify_record {
     
     return $flag;
 }
+
+=end private
+
+=head1 SEE ALSO
+
+=over
+
+=item B<Bugzilla::FlagType>
+
+=back
+
+=head1 CONTRIBUTORS
+
+=over
+
+=item Myk Melez <myk@mozilla.org>
+
+=item Jouni Heikniemi <jouni@heikniemi.net>
+
+=item Kevin Benton <kevin.benton@amd.com>
+
+=back
+
+=cut
 
 1;

@@ -94,6 +94,7 @@ foreach my $include_path (@include_paths) {
         FILTERS =>
         {
             html_linebreak => sub { return $_; },
+            no_break => sub { return $_; } ,
             js        => sub { return $_ } ,
             inactive => [ sub { return sub { return $_; } }, 1] ,
             closed => [ sub { return sub { return $_; } }, 1] ,
@@ -106,6 +107,7 @@ foreach my $include_path (@include_paths) {
             csv       => sub { return $_ } ,
             unitconvert => sub { return $_ },
             time      => sub { return $_ } ,
+            wrap_comment => sub { return $_ },
             none      => sub { return $_ } ,
             ics       => [ sub { return sub { return $_; } }, 1] ,
         },

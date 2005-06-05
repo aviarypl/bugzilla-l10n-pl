@@ -139,7 +139,7 @@ foreach my $path (@Support::Templates::include_paths) {
 
             if (@notfound) {
                 my $nflist = join("\n  ", @notfound);
-                ok(0, "($lang/$flavor) $fullpath - FEL has extra members:\n  $nflist\n" . 
+                ok(0, "($lang/$flavor) $fullpath - filterexceptions.pl has extra members:\n  $nflist\n" . 
                                                                   "--WARNING");
             }
             else {
@@ -159,6 +159,9 @@ sub directive_ok {
     # Remove any leading/trailing + or - and whitespace.
     $directive =~ s/^[+-]?\s*//;
     $directive =~ s/\s*[+-]?$//;
+
+    # Empty directives are ok; they are usually line break helpers
+    return 1 if $directive eq '';
 
     # Exclude those on the nofilter list
     if (defined($safe{$file}{$directive})) {
@@ -204,7 +207,7 @@ sub directive_ok {
     return 1 if $directive =~ /^(time2str|GetBugLink|url)\(/;
 
     # Safe Template Toolkit virtual methods
-    return 1 if $directive =~ /\.(size)$/;
+    return 1 if $directive =~ /\.(length$|size$|push\()/;
 
     # Special Template Toolkit loop variable
     return 1 if $directive =~ /^loop\.(index|count)$/;

@@ -1,5 +1,5 @@
 <!-- <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"> -->
-<!-- $Id: security.xml,v 1.2.2.2 2005/01/21 07:09:38 travis%sedsystems.ca Exp $ -->
+<!-- $Id: security.xml,v 1.4 2005/01/21 07:08:19 travis%sedsystems.ca Exp $ -->
 
 <chapter id="security">
 <title>Bugzilla Security</title>

@@ -2,7 +2,9 @@
 <HTML
 ><HEAD
 ><TITLE
->The Bugzilla Guide - 2.18 Release</TITLE
+>The Bugzilla Guide - 2.19.2 
+    Development 
+    Release</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><META
@@ -42,7 +44,9 @@ CLASS="TITLEPAGE"
 CLASS="title"
 ><A
 NAME="AEN2"
->The Bugzilla Guide - 2.18 Release</A
+>The Bugzilla Guide - 2.19.2 
+    Development 
+    Release</A
 ></H1
 ><H3
 CLASS="corpauthor"
@@ -374,12 +378,12 @@ HREF="#general-advice"
 ></DT
 ><DT
 >B.2. <A
-HREF="#AEN2918"
+HREF="#trbl-testserver"
 >The Apache webserver is not serving Bugzilla pages</A
 ></DT
 ><DT
 >B.3. <A
-HREF="#AEN2925"
+HREF="#trbl-perlmodule"
 >I installed a Perl module, but 
       <TT
 CLASS="filename"
@@ -388,12 +392,12 @@ CLASS="filename"
 ></DT
 ><DT
 >B.4. <A
-HREF="#AEN2935"
+HREF="#trbl-bundleBugzilla"
 >Bundle::Bugzilla makes me upgrade to Perl 5.6.1</A
 ></DT
 ><DT
 >B.5. <A
-HREF="#AEN2940"
+HREF="#trbl-dbdSponge"
 >DBD::Sponge::db prepare failed</A
 ></DT
 ><DT
@@ -413,7 +417,7 @@ HREF="#trbl-relogin-everyone"
 ></DT
 ><DT
 >B.9. <A
-HREF="#AEN2994"
+HREF="#AEN3042"
 >Some users are constantly being forced to relogin</A
 ></DT
 ><DT
@@ -697,8 +701,10 @@ NAME="newversions"
 >1.3. New Versions</A
 ></H2
 ><P
->&#13;      This is the 2.18 version of The Bugzilla Guide. It is so named 
+>&#13;      This is the 2.19.2 version of The Bugzilla Guide. It is so named 
       to match the current version of Bugzilla. 
+       This version of the guide, like its associated Bugzilla version, is a
+      development version. 
     </P
 ><P
 >&#13;      The latest version of this guide can always be found at <A
@@ -3902,7 +3908,7 @@ TARGET="_top"
 >.
            The following instructions assume that you are using version
            5.8.1 of ActiveState.
-        </P
+          </P
 ></DIV
 ><DIV
 CLASS="section"
@@ -4042,10 +4048,10 @@ CLASS="section"
 CLASS="section"
 ><A
 NAME="win32-code-changes"
->2.4.1.3. Code changes required to run on Win32</A
+>2.4.1.3. Code changes required to run on win32</A
 ></H4
 ><P
->&#13;          Bugzilla on Win32 is mostly supported out of the box; one
+>&#13;          Bugzilla on win32 is mostly supported out of the box; one
           remaining issue is related to bug email. To make bug email
           work on Win32 (until
           <A
@@ -4055,7 +4061,7 @@ TARGET="_top"
           49893</A
 > lands), the
           simplest way is to have the Net::SMTP Perl module installed and 
-          change these lines in the file Bugzilla/Bugmail.pm:
+          change this line in the file Bugzilla/Bugmail.pm:
         </P
 ><TABLE
 BORDER="0"
@@ -4093,15 +4099,13 @@ CLASS="programlisting"
 >&#13;use Net::SMTP;
 my $smtp_server = 'smtp.mycompany.com';  # change this
 
-($enableSendMail &#38;&#38; $rcpt_to) || return;
-
 # Use die on error, so that the mail will be in the 'unsent mails' and
 # can be sent from the sanity check page.
 my $smtp = Net::SMTP-&#62;new($smtp_server) ||
   die 'Cannot connect to server \'$smtp_server\'';
 
 $smtp-&#62;mail('bugzilla-daemon@mycompany.com');  # change this
-$smtp-&#62;to($rcpt_to);
+$smtp-&#62;to($person);
 $smtp-&#62;data();
 $smtp-&#62;datasend($msg);
 $smtp-&#62;dataend();
@@ -4115,9 +4119,6 @@ $smtp-&#62;quit;
 >&#13;          Don't forget to change the name of your SMTP server and the
           domain of the sending email address (after the '@') in the
           above lines of code.
-        </P
-><P
->&#13;          Please be aware that flag email will continue not to work.
         </P
 ></DIV
 ><DIV
@@ -4497,7 +4498,7 @@ CLASS="section"
 ><H3
 CLASS="section"
 ><A
-NAME="AEN785"
+NAME="AEN784"
 >2.5.1. Introduction</A
 ></H3
 ><P
@@ -4517,7 +4518,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN789"
+NAME="AEN788"
 >2.5.2. MySQL</A
 ></H3
 ><P
@@ -4573,7 +4574,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN797"
+NAME="AEN796"
 >2.5.2.1. Running MySQL as Non-Root</A
 ></H4
 ><DIV
@@ -4581,7 +4582,7 @@ CLASS="section"
 ><H5
 CLASS="section"
 ><A
-NAME="AEN799"
+NAME="AEN798"
 >2.5.2.1.1. The Custom Configuration Method</A
 ></H5
 ><P
@@ -4625,7 +4626,7 @@ CLASS="section"
 ><HR><H5
 CLASS="section"
 ><A
-NAME="AEN803"
+NAME="AEN802"
 >2.5.2.1.2. The Custom Built Method</A
 ></H5
 ><P
@@ -4648,7 +4649,7 @@ CLASS="section"
 ><HR><H5
 CLASS="section"
 ><A
-NAME="AEN808"
+NAME="AEN807"
 >2.5.2.1.3. Starting the Server</A
 ></H5
 ><P
@@ -4776,7 +4777,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN824"
+NAME="AEN823"
 >2.5.3. Perl</A
 ></H3
 ><P
@@ -4869,7 +4870,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN843"
+NAME="AEN842"
 >2.5.4.1. The Independant Method</A
 ></H4
 ><P
@@ -4941,7 +4942,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN856"
+NAME="AEN855"
 >2.5.4.2. The Mixed Method</A
 ></H4
 ><P
@@ -5146,7 +5147,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN889"
+NAME="AEN888"
 >2.5.5. HTTP Server</A
 ></H3
 ><P
@@ -5160,7 +5161,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN892"
+NAME="AEN891"
 >2.5.5.1. Running Apache as Non-Root</A
 ></H4
 ><P
@@ -5242,7 +5243,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN901"
+NAME="AEN900"
 >2.5.6. Bugzilla</A
 ></H3
 ><P
@@ -7214,7 +7215,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN1361"
+NAME="AEN1360"
 >3.10.1. Creating Groups</A
 ></H3
 ><P
@@ -7350,7 +7351,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN1388"
+NAME="AEN1387"
 >3.10.2. Assigning Users to Groups</A
 ></H3
 ><P
@@ -7382,7 +7383,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN1398"
+NAME="AEN1397"
 >3.10.3. Assigning Group Controls to Products</A
 ></H3
 ><P
@@ -7474,7 +7475,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN1416"
+NAME="AEN1415"
 >3.10.4. Common Applications of Group Controls</A
 ></H3
 ><DIV
@@ -7482,7 +7483,7 @@ CLASS="section"
 ><H4
 CLASS="section"
 ><A
-NAME="AEN1418"
+NAME="AEN1417"
 >3.10.4.1. General User Access With Security Group</A
 ></H4
 ><P
@@ -7517,7 +7518,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN1422"
+NAME="AEN1421"
 >3.10.4.2. General User Access With A Security Product</A
 ></H4
 ><P
@@ -7549,7 +7550,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN1426"
+NAME="AEN1425"
 >3.10.4.3. Product Isolation With Common Group</A
 ></H4
 ><P
@@ -10672,7 +10673,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN1987"
+NAME="AEN1986"
 >5.5.1. Bugzilla Database Basics</A
 ></H3
 ><P
@@ -10784,7 +10785,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN2014"
+NAME="AEN2013"
 >5.5.1.1. Bugzilla Database Tables</A
 ></H4
 ><P
@@ -11222,9 +11223,9 @@ NAME="myaccount"
     Bugzilla for the URL you should use to access it. If you're
     test-driving Bugzilla, use this URL: 
     <A
-HREF="http://landfill.bugzilla.org/bugzilla-2.18-branch/"
+HREF="http://landfill.bugzilla.org/bugzilla-tip/"
 TARGET="_top"
->http://landfill.bugzilla.org/bugzilla-2.18-branch/</A
+>http://landfill.bugzilla.org/bugzilla-tip/</A
 >.
     </P
 ><P
@@ -11290,7 +11291,7 @@ NAME="bug_page"
 >The core of Bugzilla is the screen which displays a particular
     bug. It's a good place to explain some Bugzilla concepts. 
     <A
-HREF="http://landfill.bugzilla.org/bugzilla-2.18-branch/show_bug.cgi?id=1"
+HREF="http://landfill.bugzilla.org/bugzilla-tip/show_bug.cgi?id=1"
 TARGET="_top"
 >&#13;    Bug 1 on Landfill</A
 >
@@ -11602,9 +11603,9 @@ NAME="query"
     any bug report, comment, or patch currently in the Bugzilla system. You
     can play with it here: 
     <A
-HREF="http://landfill.bugzilla.org/bugzilla-2.18-branch/query.cgi"
+HREF="http://landfill.bugzilla.org/bugzilla-tip/query.cgi"
 TARGET="_top"
->http://landfill.bugzilla.org/bugzilla-2.18-branch/query.cgi</A
+>http://landfill.bugzilla.org/bugzilla-tip/query.cgi</A
 >.</P
 ><P
 >The Search page has controls for selecting different possible
@@ -11615,9 +11616,222 @@ TARGET="_top"
 ><P
 >Once you've run a search, you can save it as a Saved Search, which 
     appears in the page footer.</P
+><DIV
+CLASS="section"
+><HR><H3
+CLASS="section"
+><A
+NAME="boolean"
+>6.5.1. Boolean Charts</A
+></H3
 ><P
->Highly advanced querying is done using Boolean Charts. See the
-    Boolean Charts help link on the Search page for more information.</P
+>&#13;        Highly advanced querying is done using Boolean Charts.
+      </P
+><P
+>&#13;        The boolean charts further restrict the set of results
+        returned by a query. It is possible to search for bugs
+        based on elaborate combinations of critera.
+      </P
+><P
+>&#13;        The simplest boolean searches have only one term. These searches
+        permit the selected left <EM
+>field</EM
+>
+        to be compared using a
+        selectable <EM
+>operator</EM
+> to a
+        specified <EM
+>value.</EM
+>
+        Using the "And," "Or," and "Add Another Boolean Chart" buttons, 
+        additonal terms can be included in the query, further
+        altering the list of bugs returned by the query.
+      </P
+><P
+>&#13;        There are three fields in each row of a boolean search. 
+      </P
+><P
+></P
+><UL
+><LI
+><P
+>&#13;            <EM
+>Field:</EM
+>
+            the items being searched 
+          </P
+></LI
+><LI
+><P
+>&#13;            <EM
+>Operator:</EM
+>
+            the comparison operator 
+          </P
+></LI
+><LI
+><P
+>&#13;            <EM
+>Value:</EM
+>
+            the value to which the field is being compared
+          </P
+></LI
+></UL
+><DIV
+CLASS="section"
+><HR><H4
+CLASS="section"
+><A
+NAME="pronouns"
+>6.5.1.1. Pronoun Substitution</A
+></H4
+><P
+>&#13;          Sometimes, a query needs to compare a field containing
+          a user's ID (such as ReportedBy) with 
+          a user's ID (such as the user running the query or the user
+          to whom each bug is assigned). When the operator is either 
+          "equals" or "notequals", the value can be "%reporter%", 
+          "%assignee%", "%qacontact%", or "%user%."  The user pronoun
+          referes to the user who is executing the query or, in the case
+          of whining reports, the user who will be the recipient
+          of the report. The reporter, assignee, and qacontact
+          pronouns refer to the corresponding fields in the bug.
+        </P
+></DIV
+><DIV
+CLASS="section"
+><HR><H4
+CLASS="section"
+><A
+NAME="negation"
+>6.5.1.2. Negation</A
+></H4
+><P
+>&#13;          At first glance, negation seems redundant. Rather than
+          searching for
+          <A
+NAME="AEN2201"
+></A
+><BLOCKQUOTE
+CLASS="BLOCKQUOTE"
+><P
+>&#13;              NOT("summary" "contains the string" "foo"),
+            </P
+></BLOCKQUOTE
+>
+          one could search for 
+          <A
+NAME="AEN2203"
+></A
+><BLOCKQUOTE
+CLASS="BLOCKQUOTE"
+><P
+>&#13;              ("summary" "does not contain the string" "foo").
+            </P
+></BLOCKQUOTE
+>
+          However, the search 
+          <A
+NAME="AEN2205"
+></A
+><BLOCKQUOTE
+CLASS="BLOCKQUOTE"
+><P
+>&#13;              ("CC" "does not contain the string" "@mozilla.org")
+            </P
+></BLOCKQUOTE
+>
+          would find every bug where anyone on the CC list did not contain 
+          "@mozilla.org" while
+          <A
+NAME="AEN2207"
+></A
+><BLOCKQUOTE
+CLASS="BLOCKQUOTE"
+><P
+>&#13;              NOT("CC" "contains the string" "@mozilla.org")
+            </P
+></BLOCKQUOTE
+>
+          would find every bug where there was nobody on the CC list who
+          did contain the string. Similarly, the use of negation also permits
+          complex expressions to be built using terms OR'd together and then
+          negated. Negation permits queries such as
+          <A
+NAME="AEN2209"
+></A
+><BLOCKQUOTE
+CLASS="BLOCKQUOTE"
+><P
+>&#13;              NOT(("product" "equals" "update") OR 
+            ("component" "equals" "Documentation"))
+            </P
+></BLOCKQUOTE
+>
+          to find bugs that are neither 
+          in the update product or in the documentation component or
+          <A
+NAME="AEN2211"
+></A
+><BLOCKQUOTE
+CLASS="BLOCKQUOTE"
+><P
+>&#13;              NOT(("commenter" "equals" "%assignee%") OR 
+              ("component" "equals" "Documentation"))
+            </P
+></BLOCKQUOTE
+>
+          to find non-documentation
+          bugs on which the assignee has never commented.
+        </P
+></DIV
+><DIV
+CLASS="section"
+><HR><H4
+CLASS="section"
+><A
+NAME="multiplecharts"
+>6.5.1.3. Multiple Charts</A
+></H4
+><P
+>&#13;          The terms within a single row of a boolean chart are all
+          constraints on a single piece of data. If you are looking for
+          a bug that has two different people cc'd on it, then you need 
+          to use two boolean charts. A search for
+          <A
+NAME="AEN2216"
+></A
+><BLOCKQUOTE
+CLASS="BLOCKQUOTE"
+><P
+>&#13;              ("cc" "contains the string" "foo@") AND
+              ("cc" "contains the string" "@mozilla.org")
+            </P
+></BLOCKQUOTE
+>
+          would return only bugs with "foo@mozilla.org" on the cc list.
+          If you wanted bugs where there is someone on the cc list
+          containing "foo@" and someone else containing "@mozilla.org",
+          then you would need two boolean charts.
+          <A
+NAME="AEN2218"
+></A
+><BLOCKQUOTE
+CLASS="BLOCKQUOTE"
+><P
+>&#13;              First chart: ("cc" "contains the string" "foo@")
+            </P
+><P
+>&#13;              Second chart: ("cc" "contains the string" "@mozilla.org")
+            </P
+></BLOCKQUOTE
+>
+          The bugs listed will be only the bugs where ALL the charts are true.
+        </P
+></DIV
+></DIV
 ></DIV
 ><DIV
 CLASS="section"
@@ -11656,6 +11870,27 @@ BORDER="0"
 
       get the buglist as comma-separated values, for import into e.g.
       a spreadsheet.</TD
+></TR
+><TR
+><TD
+>&#13;      <EM
+>RSS</EM
+>
+
+      get the buglist as an RSS 1.0 feed.  Copy this link into your
+      favorite feed reader.  If you are using Firefox, you can also
+      save the list as a live bookmark by clicking the live bookmark
+      icon in the status bar.  To limit the number of bugs in the feed,
+      add a limit=n parameter to the URL.</TD
+></TR
+><TR
+><TD
+>&#13;      <EM
+>iCalendar</EM
+>
+
+      Get the buglist as an iCalendar file. Each bug is represented as a 
+      to-do item in the imported calendar.</TD
 ></TR
 ><TR
 ><TD
@@ -11709,6 +11944,16 @@ BORDER="0"
 ></P
 >
     </P
+><P
+>&#13;      If you would like to access the bug list from another program 
+      it is often useful to have the list returned in something other
+      than HTML. By adding the ctype=type parameter into the bug list URL
+      you can specify several alternate formats. The supported formats
+      are: Comma Separated Values (ctype=csv), iCalendar (ctype=ics),
+      RDF Site Summary (RSS) 1.0 (ctype=rss), ECMAScript, also known
+      as JavaScript (ctype=js), and finally Resource Description Framework
+      RDF/XML (ctype=rdf).
+    </P
 ></DIV
 ><DIV
 CLASS="section"
@@ -11722,7 +11967,7 @@ NAME="bugreports"
 >Years of bug writing experience has been distilled for your
     reading pleasure into the 
     <A
-HREF="http://landfill.bugzilla.org/bugzilla-2.18-branch/page.cgi?id=bug-writing.html"
+HREF="http://landfill.bugzilla.org/bugzilla-tip/page.cgi?id=bug-writing.html"
 TARGET="_top"
 >&#13;    Bug Writing Guidelines</A
 >. 
@@ -11742,13 +11987,13 @@ TYPE="1"
 ><P
 >Go to 
         <A
-HREF="http://landfill.bugzilla.org/bugzilla-2.18-branch/"
+HREF="http://landfill.bugzilla.org/bugzilla-tip/"
 TARGET="_top"
 >&#13;        Landfill</A
 >
         in your browser and click 
         <A
-HREF="http://landfill.bugzilla.org/bugzilla-2.18-branch/enter_bug.cgi"
+HREF="http://landfill.bugzilla.org/bugzilla-tip/enter_bug.cgi"
 TARGET="_top"
 >&#13;        Enter a new bug report</A
 >.
@@ -11968,7 +12213,7 @@ CLASS="section"
 ><HR><H3
 CLASS="section"
 ><A
-NAME="AEN2253"
+NAME="AEN2301"
 >6.9.1. Autolinkification</A
 ></H3
 ><P
@@ -12577,7 +12822,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN2359"
+NAME="AEN2407"
 >6.11.2.1. Creating Charts</A
 ></H4
 ><P
@@ -12617,7 +12862,7 @@ CLASS="section"
 ><HR><H4
 CLASS="section"
 ><A
-NAME="AEN2366"
+NAME="AEN2414"
 >6.11.2.2. Creating New Data Sets</A
 ></H4
 ><P
@@ -15358,7 +15603,7 @@ CLASS="answer"
 ><P
 >&#13;            Microsoft has some advice on this matter, as well:
             <A
-NAME="AEN2777"
+NAME="AEN2825"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"
@@ -15860,13 +16105,13 @@ TARGET="_top"
             enhancement for Bugzilla.
           </P
 ><P
->&#13;            You can view bugs marked for 2.18.1 release
+>&#13;            You can view bugs marked for 2.20 release
             <A
 HREF="http://bugzilla.mozilla.org/buglist.cgi?product=Bugzilla&#38;target_milestone=Bugzilla+&#38;bz-nextver;"
 TARGET="_top"
 >here</A
 >.
-            This list includes bugs for the 2.18.1 release that have already
+            This list includes bugs for the 2.20 release that have already
             been fixed and checked into CVS. Please consult the
             <A
 HREF="http://www.bugzilla.org/"
@@ -16078,7 +16323,7 @@ CLASS="section"
 ><HR><H2
 CLASS="section"
 ><A
-NAME="AEN2918"
+NAME="trbl-testserver"
 >B.2. The Apache webserver is not serving Bugzilla pages</A
 ></H2
 ><P
@@ -16122,7 +16367,7 @@ CLASS="section"
 ><HR><H2
 CLASS="section"
 ><A
-NAME="AEN2925"
+NAME="trbl-perlmodule"
 >B.3. I installed a Perl module, but 
       <TT
 CLASS="filename"
@@ -16161,7 +16406,7 @@ CLASS="section"
 ><HR><H2
 CLASS="section"
 ><A
-NAME="AEN2935"
+NAME="trbl-bundleBugzilla"
 >B.4. Bundle::Bugzilla makes me upgrade to Perl 5.6.1</A
 ></H2
 ><P
@@ -16186,7 +16431,7 @@ CLASS="section"
 ><HR><H2
 CLASS="section"
 ><A
-NAME="AEN2940"
+NAME="trbl-dbdSponge"
 >B.5. DBD::Sponge::db prepare failed</A
 ></H2
 ><P
@@ -16455,7 +16700,7 @@ NAME="trbl-relogin-everyone-share"
 >Example B-1. Examples of urlbase/cookiepath pairs for sharing login cookies</B
 ></P
 ><A
-NAME="AEN2980"
+NAME="AEN3028"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"
@@ -16496,7 +16741,7 @@ NAME="trbl-relogin-everyone-restrict"
 >Example B-2. Examples of urlbase/cookiepath pairs to restrict the login cookie</B
 ></P
 ><A
-NAME="AEN2987"
+NAME="AEN3035"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"
@@ -16530,8 +16775,7 @@ CLASS="QUOTE"
 >"/bugzilla/"</SPAN
 >), you can safely do this without
     requiring users to delete their Bugzilla-related cookies in their
-    browser (this is true starting with 
-    Bugzilla 2.18 and Bugzilla 2.16.5).
+    browser (this is true starting with Bugzilla 2.18 and Bugzilla 2.16.5).
     </P
 ></DIV
 ><DIV
@@ -16539,7 +16783,7 @@ CLASS="section"
 ><HR><H2
 CLASS="section"
 ><A
-NAME="AEN2994"
+NAME="AEN3042"
 >B.9. Some users are constantly being forced to relogin</A
 ></H2
 ><P
@@ -16554,7 +16798,7 @@ NAME="AEN2994"
      log in again.
      </P
 ><P
->If you are using 2.18, there is a
+>If you are using 2.18 (or later), there is a
      parameter called <SPAN
 CLASS="QUOTE"
 >"loginnetmask"</SPAN
@@ -17402,7 +17646,7 @@ NAME="gfdl"
 ><P
 >Version 1.1, March 2000</P
 ><A
-NAME="AEN3170"
+NAME="AEN3218"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"
@@ -17865,7 +18109,7 @@ NAME="gfdl-howto"
     of the License in the document and put the following copyright and
     license notices just after the title page:</P
 ><A
-NAME="AEN3260"
+NAME="AEN3308"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"
@@ -17902,7 +18146,7 @@ CLASS="glossdiv"
 ><H1
 CLASS="glossdiv"
 ><A
-NAME="AEN3265"
+NAME="AEN3313"
 >0-9, high ascii</A
 ></H1
 ><DL
@@ -18816,7 +19060,7 @@ NAME="gloss-zarro"
         Terry had the following to say:
         </P
 ><A
-NAME="AEN3511"
+NAME="AEN3559"
 ></A
 ><TABLE
 BORDER="0"

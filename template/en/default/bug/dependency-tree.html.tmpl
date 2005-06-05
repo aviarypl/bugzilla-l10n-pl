@@ -99,7 +99,7 @@
         [% IF dep.seen %]
           <i>This [% terms.bug %] appears elsewhere in this tree.</i></a>
         [% ELSE %]
-          [% dep.summary FILTER html %].</a>
+          [%+ dep.summary FILTER html %].</a>
         [% END %]
       [% END %]
       [% INCLUDE display_tree bug_id=dep_id
@@ -113,7 +113,7 @@
 [%# Block for depth control toolbar                                         #%]
 [%###########################################################################%]
 
- <script type="text/javascript" language="JavaScript">
+ <script type="text/javascript">
 if (!Node) {
     /* MSIE doesn't define Node, so provide a compatibility array */
     var Node = { TEXT_NODE: 3, };

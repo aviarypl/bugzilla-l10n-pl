@@ -28,6 +28,8 @@ use lib qw(.);
 use File::Temp;
 use Bugzilla;
 use Bugzilla::Config qw(:DEFAULT $webdotdir);
+use Bugzilla::Util;
+use Bugzilla::BugMail;
 
 require "CGI.pl";
 
@@ -170,7 +172,7 @@ foreach my $k (keys(%seen)) {
     $summary ||= '';
 
     # Resolution and summary are shown only if user can see the bug
-    if (!CanSeeBug($k, $::userid)) {
+    if (!Bugzilla->user->can_see_bug($k)) {
         $resolution = $summary = '';
     }
 
@@ -271,7 +273,7 @@ foreach my $f (@files)
     # symlinks), this can't escape to delete anything it shouldn't
     # (unless someone moves the location of $webdotdir, of course)
     trick_taint($f);
-    if (ModTime($f) < $since) {
+    if (file_mod_time($f) < $since) {
         unlink $f;
     }
 }

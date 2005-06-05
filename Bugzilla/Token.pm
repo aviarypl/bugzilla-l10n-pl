@@ -52,13 +52,14 @@ my $maxtokenage = 3;
 sub IssueEmailChangeToken {
     my ($userid, $old_email, $new_email) = @_;
 
+    my $dbh = Bugzilla->dbh;
     my $token_ts = time();
     my $issuedate = time2str("%Y-%m-%d %H:%M", $token_ts);
 
     # Generate a unique token and insert it into the tokens table.
     # We have to lock the tokens table before generating the token, 
     # since the database must be queried for token uniqueness.
-    &::SendSQL("LOCK TABLES tokens WRITE");
+    $dbh->bz_lock_tables('tokens WRITE');
     my $token = GenerateUniqueToken();
     my $quotedtoken = &::SqlQuote($token);
     my $quoted_emails = &::SqlQuote($old_email . ":" . $new_email);
@@ -72,7 +73,7 @@ sub IssueEmailChangeToken {
                                      tokentype , eventdata )
                 VALUES             ( $userid , '$issuedate' , $quotedtoken , 
                                      'emailnew' , $quoted_emails )");
-    &::SendSQL("UNLOCK TABLES");
+    $dbh->bz_unlock_tables();
 
     # Mail the user the token along with instructions for using it.
 
@@ -92,7 +93,7 @@ sub IssueEmailChangeToken {
     $template->process("account/email/change-old.txt.tmpl", $vars, \$message)
       || ThrowTemplateError($template->error());
 
-    Bugzilla::BugMail::MessageToMTA($message, $vars->{'emailaddress'});
+    Bugzilla::BugMail::MessageToMTA($message);
 
     $vars->{'token'} = $newtoken;
     $vars->{'emailaddress'} = $new_email . Param('emailsuffix');
@@ -101,7 +102,7 @@ sub IssueEmailChangeToken {
     $template->process("account/email/change-new.txt.tmpl", $vars, \$message)
       || ThrowTemplateError($template->error());
 
-    Bugzilla::BugMail::MessageToMTA($message, $vars->{'emailaddress'});
+    Bugzilla::BugMail::MessageToMTA($message);
 }
 
 sub IssuePasswordToken {
@@ -110,13 +111,16 @@ sub IssuePasswordToken {
 
     my ($loginname) = @_;
 
+    my $dbh = Bugzilla->dbh;
+
     # Retrieve the user's ID from the database.
     my $quotedloginname = &::SqlQuote($loginname);
     &::SendSQL("SELECT profiles.userid, tokens.issuedate FROM profiles 
                     LEFT JOIN tokens
                     ON tokens.userid = profiles.userid
                     AND tokens.tokentype = 'password'
-                    AND tokens.issuedate > DATE_SUB(NOW(), INTERVAL 10 MINUTE)
+                    AND tokens.issuedate > NOW() - " .
+                    $dbh->sql_interval('10 MINUTE') . "
                     WHERE login_name = $quotedloginname");
     my ($userid, $toosoon) = &::FetchSQLData();
 
@@ -129,13 +133,13 @@ sub IssuePasswordToken {
     # Generate a unique token and insert it into the tokens table.
     # We have to lock the tokens table before generating the token, 
     # since the database must be queried for token uniqueness.
-    &::SendSQL("LOCK TABLES tokens WRITE");
+    $dbh->bz_lock_tables('tokens WRITE');
     my $token = GenerateUniqueToken();
     my $quotedtoken = &::SqlQuote($token);
     my $quotedipaddr = &::SqlQuote($::ENV{'REMOTE_ADDR'});
     &::SendSQL("INSERT INTO tokens ( userid , issuedate , token , tokentype , eventdata )
                 VALUES      ( $userid , NOW() , $quotedtoken , 'password' , $quotedipaddr )");
-    &::SendSQL("UNLOCK TABLES");
+    $dbh->bz_unlock_tables();
 
     # Mail the user the token along with instructions for using it.
     
@@ -153,15 +157,17 @@ sub IssuePasswordToken {
                                                                $vars, \$message)
       || ThrowTemplateError($template->error());
 
-    Bugzilla::BugMail::MessageToMTA($message, $vars->{'emailaddress'});
+    Bugzilla::BugMail::MessageToMTA($message);
 }
 
 
 sub CleanTokenTable {
-    &::SendSQL("LOCK TABLES tokens WRITE");
-    &::SendSQL("DELETE FROM tokens 
-                WHERE TO_DAYS(NOW()) - TO_DAYS(issuedate) >= " . $maxtokenage);
-    &::SendSQL("UNLOCK TABLES");
+    my $dbh = Bugzilla->dbh;
+    $dbh->bz_lock_tables('tokens WRITE');
+    &::SendSQL("DELETE FROM tokens WHERE " .
+               $dbh->sql_to_days('NOW()') . " - " .
+               $dbh->sql_to_days('issuedate') . " >= " . $maxtokenage);
+    $dbh->bz_unlock_tables();
 }
 
 
@@ -198,6 +204,8 @@ sub Cancel {
     
     my ($token, $cancelaction) = @_;
 
+    my $dbh = Bugzilla->dbh;
+
     # Quote the token for inclusion in SQL statements.
     my $quotedtoken = &::SqlQuote($token);
     
@@ -229,12 +237,12 @@ sub Cancel {
     $template->process("account/cancel-token.txt.tmpl", $vars, \$message)
       || ThrowTemplateError($template->error());
 
-    Bugzilla::BugMail::MessageToMTA($message, $vars->{'emailaddress'});
+    Bugzilla::BugMail::MessageToMTA($message);
 
     # Delete the token from the database.
-    &::SendSQL("LOCK TABLES tokens WRITE");
+    $dbh->bz_lock_tables('tokens WRITE');
     &::SendSQL("DELETE FROM tokens WHERE token = $quotedtoken");
-    &::SendSQL("UNLOCK TABLES");
+    $dbh->bz_unlock_tables();
 }
 
 sub DeletePasswordTokens {
@@ -254,10 +262,11 @@ sub HasEmailChangeToken {
     # Returns an email change token if the user has one. 
     
     my ($userid) = @_;
-    
+
+    my $dbh = Bugzilla->dbh;
     &::SendSQL("SELECT token FROM tokens WHERE userid = $userid " . 
                "AND (tokentype = 'emailnew' OR tokentype = 'emailold') " . 
-               "LIMIT 1");
+               $dbh->sql_limit(1));
     my ($token) = &::FetchSQLData();
     
     return $token;

@@ -22,6 +22,8 @@
 #               Terry Weissman <terry@mozilla.org>
 #               Dawn Endico <endico@mozilla.org>
 #               Joe Robins <jmrobins@tgix.com>
+#               Gavin Shelley <bugzilla@chimpychompy.org>
+#               Frédéric Buclin <LpSolit@gmail.com>
 #
 # Direct any questions on this source code to
 #
@@ -33,19 +35,14 @@ use vars qw ($template $vars);
 use Bugzilla::Constants;
 require "CGI.pl";
 require "globals.pl";
+use Bugzilla::Bug;
 use Bugzilla::Series;
-
+use Bugzilla::User;
 use Bugzilla::Config qw(:DEFAULT $datadir);
 
 # Shut up misguided -w warnings about "used only once".  "use vars" just
 # doesn't work for me.
 use vars qw(@legal_bug_status @legal_resolution);
-
-sub sillyness {
-    my $zz;
-    $zz = %::MFORM;
-    $zz = $::unconfirmedstate;
-}
 
 my %ctl = ( 
     &::CONTROLMAPNA => 'NA',
@@ -86,19 +83,99 @@ sub CheckProduct ($)
     }
 }
 
+# TestClassification:  just returns if the specified classification does exists
+# CheckClassification: same check, optionally  emit an error text
+
+sub TestClassification ($)
+{
+    my $cl = shift;
+
+    # does the classification exist?
+    SendSQL("SELECT name
+             FROM classifications
+             WHERE name=" . SqlQuote($cl));
+    return FetchOneColumn();
+}
+
+sub CheckClassification ($)
+{
+    my $cl = shift;
+
+    # do we have a classification?
+    unless ($cl) {
+        print "Sorry, you haven't specified a classification.";
+        PutTrailer();
+        exit;
+    }
+
+    unless (TestClassification $cl) {
+        print "Sorry, classification '$cl' does not exist.";
+        PutTrailer();
+        exit;
+    }
+}
+
+# For the transition period, as this file is templatised bit by bit,
+# we need this routine, which does things properly, and will
+# eventually be the only version. (The older versions assume a
+# PutHeader() call has been made)
+sub CheckClassificationNew ($)
+{
+    my $cl = shift;
+
+    # do we have a classification?
+    unless ($cl) {
+        ThrowUserError('classification_not_specified');    
+    }
+
+    unless (TestClassification $cl) {
+        ThrowUserError('classification_doesnt_exist',
+                       {'name' => $cl});
+    }
+}
+
+
+sub CheckClassificationProduct ($$)
+{
+    my $cl = shift;
+    my $prod = shift;
+
+    CheckClassification($cl);
+    CheckProduct($prod);
+
+    # does the classification exist?
+    SendSQL("SELECT products.name
+             FROM products,classifications
+             WHERE products.name=" . SqlQuote($prod) .
+            " AND classifications.name=" . SqlQuote($cl));
+    my $res = FetchOneColumn();
+
+    unless ($res) {
+        print "Sorry, classification->product '$cl'->'$prod' does not exist.";
+        PutTrailer();
+        exit;
+    }
+}
+
 
 #
 # Displays the form to edit a products parameters
 #
 
-sub EmitFormElements ($$$$$$$$)
+sub EmitFormElements ($$$$$$$$$)
 {
-    my ($product, $description, $milestoneurl, $disallownew,
+    my ($classification, $product, $description, $milestoneurl, $disallownew,
         $votesperuser, $maxvotesperbug, $votestoconfirm, $defaultmilestone)
         = @_;
 
     $product = value_quote($product);
     $description = value_quote($description);
+
+    if (Param('useclassification')) {
+        print "  <TH ALIGN=\"right\">Classification:</TH>\n";
+        print "  <TD><b>",html_quote($classification),"</b></TD>\n";
+        print "</TR><TR>\n";
+    }
 
     print "  <TH ALIGN=\"right\">Product:</TH>\n";
     print "  <TD><INPUT SIZE=64 MAXLENGTH=64 NAME=\"product\" VALUE=\"$product\"></TD>\n";
@@ -149,7 +226,6 @@ sub EmitFormElements ($$$$$$$$)
 sub PutTrailer (@)
 {
     my (@links) = ("Back to the <A HREF=\"query.cgi\">query page</A>", @_);
-    SendSQL("UNLOCK TABLES");
 
     my $count = $#links;
     my $num = 0;
@@ -180,73 +256,117 @@ sub PutTrailer (@)
 # Preliminary checks:
 #
 
-Bugzilla->login(LOGIN_REQUIRED);
+my $user = Bugzilla->login(LOGIN_REQUIRED);
+my $whoid = $user->id;
 
-print Bugzilla->cgi->header();
+my $cgi = Bugzilla->cgi;
+print $cgi->header();
 
-unless (UserInGroup("editcomponents")) {
-    PutHeader("Not allowed");
-    print "Sorry, you aren't a member of the 'editcomponents' group.\n";
-    print "And so, you aren't allowed to add, modify or delete products.\n";
-    PutTrailer();
-    exit;
-}
-
-
+UserInGroup("editcomponents")
+  || ThrowUserError("auth_failure", {group  => "editcomponents",
+                                     action => "edit",
+                                     object => "products"});
 
 #
 # often used variables
 #
-my $product = trim($::FORM{product} || '');
-my $action  = trim($::FORM{action}  || '');
+my $classification = trim($cgi->param('classification') || '');
+my $product = trim($cgi->param('product') || '');
+my $action  = trim($cgi->param('action')  || '');
 my $headerdone = 0;
 my $localtrailer = "<A HREF=\"editproducts.cgi\">edit</A> more products";
+my $classhtmlvarstart = "";
+my $classhtmlvar = "";
+my $dbh = Bugzilla->dbh;
 
 #
-# action='' -> Show nice list of products
+# product = '' -> Show nice list of classifications (if
+# classifications enabled)
 #
 
-unless ($action) {
-    PutHeader("Select product");
-
-    SendSQL("SELECT products.name,description,disallownew,
-                    votesperuser,maxvotesperbug,votestoconfirm,COUNT(bug_id)
-             FROM products LEFT JOIN bugs ON products.id = bugs.product_id
-             GROUP BY products.name
-             ORDER BY products.name");
-    print "<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0><TR BGCOLOR=\"#6666FF\">\n";
-    print "  <TH ALIGN=\"left\">Edit product ...</TH>\n";
-    print "  <TH ALIGN=\"left\">Description</TH>\n";
-    print "  <TH ALIGN=\"left\">Status</TH>\n";
-    print "  <TH ALIGN=\"left\">Votes<br>per<br>user</TH>\n";
-    print "  <TH ALIGN=\"left\">Max<br>Votes<br>per<br>bug</TH>\n";
-    print "  <TH ALIGN=\"left\">Votes<br>to<br>confirm</TH>\n";
-    print "  <TH ALIGN=\"left\">Bugs</TH>\n";
-    print "  <TH ALIGN=\"left\">Action</TH>\n";
-    print "</TR>";
-    while ( MoreSQLData() ) {
-        my ($product, $description, $disallownew, $votesperuser,
-            $maxvotesperbug, $votestoconfirm, $bugs) = FetchSQLData();
-        $description ||= "<FONT COLOR=\"red\">missing</FONT>";
-        $disallownew = $disallownew ? 'closed' : 'open';
-        $bugs        ||= 'none';
-        print "<TR>\n";
-        print "  <TD VALIGN=\"top\"><A HREF=\"editproducts.cgi?action=edit&product=", url_quote($product), "\"><B>$product</B></A></TD>\n";
-        print "  <TD VALIGN=\"top\">$description</TD>\n";
-        print "  <TD VALIGN=\"top\">$disallownew</TD>\n";
-        print "  <TD VALIGN=\"top\" ALIGN=\"right\">$votesperuser</TD>\n";
-        print "  <TD VALIGN=\"top\" ALIGN=\"right\">$maxvotesperbug</TD>\n";
-        print "  <TD VALIGN=\"top\" ALIGN=\"right\">$votestoconfirm</TD>\n";
-        print "  <TD VALIGN=\"top\" ALIGN=\"right\">$bugs</TD>\n";
-        print "  <TD VALIGN=\"top\"><A HREF=\"editproducts.cgi?action=del&product=", url_quote($product), "\">Delete</A></TD>\n";
-        print "</TR>";
+if (Param('useclassification')) {
+    if ($classification) {
+        $classhtmlvar = "&classification=" . url_quote($classification);
+        $classhtmlvarstart = "?classification=" . url_quote($classification);
+        $localtrailer .= ", <A HREF=\"editproducts.cgi" . $classhtmlvarstart . "\">edit</A> in this classification";    
     }
-    print "<TR>\n";
-    print "  <TD VALIGN=\"top\" COLSPAN=7>Add a new product</TD>\n";
-    print "  <TD VALIGN=\"top\" ALIGN=\"middle\"><A HREF=\"editproducts.cgi?action=add\">Add</A></TD>\n";
-    print "</TR></TABLE>\n";
+    elsif (!$product) {
+        my $query = 
+            "SELECT classifications.name, classifications.description,
+                    COUNT(classification_id) AS product_count
+             FROM classifications
+             LEFT JOIN products
+                  ON classifications.id = products.classification_id " .
+                  $dbh->sql_group_by('classifications.id',
+                                     'classifications.name,
+                                      classifications.description') . "
+             ORDER BY name";
 
-    PutTrailer();
+        $vars->{'classifications'} = $dbh->selectall_arrayref($query,
+                                                              {'Slice' => {}});
+
+        $template->process("admin/products/list-classifications.html.tmpl",
+                           $vars)
+            || ThrowTemplateError($template->error());
+
+        exit;
+    }
+}
+
+
+#
+# action = '' -> Show a nice list of products, unless a product
+#                is already specified (then edit it)
+#
+
+if (!$action && !$product) {
+
+    if (Param('useclassification')) {
+        CheckClassificationNew($classification);
+    }
+
+    my @execute_params = ();
+    my @products = ();
+
+    my $query = "SELECT products.name,
+                        COALESCE(products.description,'') AS description, 
+                        disallownew = 0 AS status,
+                        votesperuser,  maxvotesperbug, votestoconfirm,
+                        COUNT(bug_id) AS bug_count
+                 FROM products";
+
+    if (Param('useclassification')) {
+        $query .= " INNER JOIN classifications " .
+                  "ON classifications.id = products.classification_id";
+    }
+
+    $query .= " LEFT JOIN bugs ON products.id = bugs.product_id";
+
+    if (Param('useclassification')) {
+        $query .= " WHERE classifications.name = ? ";
+
+        # trick_taint is OK because we use this in a placeholder in a SELECT
+        trick_taint($classification);
+
+        push(@execute_params,
+             $classification);
+    }
+
+    $query .= " " . $dbh->sql_group_by('products.name',
+                                       'products.description, disallownew,
+                                        votesperuser, maxvotesperbug,
+                                        votestoconfirm');
+    $query .= " ORDER BY products.name";
+
+    $vars->{'products'} = $dbh->selectall_arrayref($query,
+                                                   {'Slice' => {}},
+                                                   @execute_params);
+
+    $vars->{'classification'} = $classification;
+    $template->process("admin/products/list.html.tmpl",
+                       $vars)
+      || ThrowTemplateError($template->error());
+
     exit;
 }
 
@@ -262,12 +382,15 @@ unless ($action) {
 if ($action eq 'add') {
     PutHeader("Add product");
 
+    if (Param('useclassification')) {
+        CheckClassification($classification);
+    }
     #print "This page lets you add a new product to bugzilla.\n";
 
     print "<FORM METHOD=POST ACTION=editproducts.cgi>\n";
     print "<TABLE BORDER=0 CELLPADDING=4 CELLSPACING=0><TR>\n";
 
-    EmitFormElements('', '', '', 0, 0, 10000, 0, "---");
+    EmitFormElements($classification,'', '', '', 0, 0, 10000, 0, "---");
 
     print "</TR><TR>\n";
     print "  <TH ALIGN=\"right\">Version:</TH>\n";
@@ -282,6 +405,7 @@ if ($action eq 'add') {
     print "<INPUT TYPE=HIDDEN NAME=\"action\" VALUE=\"new\">\n";
     print "<INPUT TYPE=HIDDEN NAME='subcategory' VALUE='-All-'>\n";
     print "<INPUT TYPE=HIDDEN NAME='open_name' VALUE='All Open'>\n";
+    print "<INPUT TYPE=HIDDEN NAME='classification' VALUE='",html_quote($classification),"'>\n";
     print "</FORM>";
 
     my $other = $localtrailer;
@@ -301,20 +425,42 @@ if ($action eq 'new') {
 
     # Cleanups and validity checks
 
+    my $classification_id = 1;
+    if (Param('useclassification')) {
+        CheckClassification($classification);
+        $classification_id = get_classification_id($classification);
+    }
+
     unless ($product) {
         print "You must enter a name for the new product. Please press\n";
         print "<b>Back</b> and try again.\n";
         PutTrailer($localtrailer);
         exit;
     }
-    if (TestProduct($product)) {
-        print "The product '$product' already exists. Please press\n";
-        print "<b>Back</b> and try again.\n";
-        PutTrailer($localtrailer);
-        exit;
+
+    my $existing_product = TestProduct($product);
+
+    if ($existing_product) {
+
+        # Check for exact case sensitive match:
+        if ($existing_product eq $product) {
+            print "The product '$product' already exists. Please press\n";
+            print "<b>Back</b> and try again.\n";
+            PutTrailer($localtrailer);
+            exit;
+        }
+
+        # Next check for a case-insensitive match:
+        if (lc($existing_product) eq lc($product)) {
+            print "The new product '$product' differs from existing product ";
+            print "'$existing_product' only in case. Please press\n";
+            print "<b>Back</b> and try again.\n";
+            PutTrailer($localtrailer);
+            exit;
+        }
     }
 
-    my $version = trim($::FORM{version} || '');
+    my $version = trim($cgi->param('version') || '');
 
     if ($version eq '') {
         print "You must enter a version for product '$product'. Please press\n";
@@ -323,22 +469,22 @@ if ($action eq 'new') {
         exit;
     }
 
-    my $description  = trim($::FORM{description}  || '');
-    my $milestoneurl = trim($::FORM{milestoneurl} || '');
+    my $description  = trim($cgi->param('description')  || '');
+    my $milestoneurl = trim($cgi->param('milestoneurl') || '');
     my $disallownew = 0;
-    $disallownew = 1 if $::FORM{disallownew};
-    my $votesperuser = $::FORM{votesperuser};
+    $disallownew = 1 if $cgi->param('disallownew');
+    my $votesperuser = $cgi->param('votesperuser');
     $votesperuser ||= 0;
-    my $maxvotesperbug = $::FORM{maxvotesperbug};
+    my $maxvotesperbug = $cgi->param('maxvotesperbug');
     $maxvotesperbug = 10000 if !defined $maxvotesperbug;
-    my $votestoconfirm = $::FORM{votestoconfirm};
+    my $votestoconfirm = $cgi->param('votestoconfirm');
     $votestoconfirm ||= 0;
-    my $defaultmilestone = $::FORM{defaultmilestone} || "---";
+    my $defaultmilestone = $cgi->param('defaultmilestone') || "---";
 
     # Add the new product.
     SendSQL("INSERT INTO products ( " .
             "name, description, milestoneurl, disallownew, votesperuser, " .
-            "maxvotesperbug, votestoconfirm, defaultmilestone" .
+            "maxvotesperbug, votestoconfirm, defaultmilestone, classification_id" .
             " ) VALUES ( " .
             SqlQuote($product) . "," .
             SqlQuote($description) . "," .
@@ -352,9 +498,10 @@ if ($action eq 'new') {
             SqlQuote($votesperuser) . "," .
             SqlQuote($maxvotesperbug) . "," .
             SqlQuote($votestoconfirm) . "," .
-            SqlQuote($defaultmilestone) . ")");
-    SendSQL("SELECT LAST_INSERT_ID()");
-    my $product_id = FetchOneColumn();
+            SqlQuote($defaultmilestone) . "," .
+            SqlQuote($classification_id) . ")");
+    my $product_id = $dbh->bz_last_key('products', 'id');
+
     SendSQL("INSERT INTO versions ( " .
           "value, product_id" .
           " ) VALUES ( " .
@@ -377,13 +524,16 @@ if ($action eq 'new') {
                 "VALUES (" .
                 SqlQuote($productgroup) . ", " .
                 SqlQuote("Access to bugs in the $product product") . ", 1, NOW())");
-        SendSQL("SELECT last_insert_id()");
-        my $gid = FetchOneColumn();
+        my $gid = $dbh->bz_last_key('groups', 'id');
         my $admin = GroupNameToId('admin');
-        SendSQL("INSERT INTO group_group_map (member_id, grantor_id, isbless)
-                 VALUES ($admin, $gid, 0)");
-        SendSQL("INSERT INTO group_group_map (member_id, grantor_id, isbless)
-                 VALUES ($admin, $gid, 1)");
+        # If we created a new group, give the "admin" group priviledges
+        # initially.
+        SendSQL("INSERT INTO group_group_map (member_id, grantor_id, grant_type)
+                 VALUES ($admin, $gid," . GROUP_MEMBERSHIP .")");
+        SendSQL("INSERT INTO group_group_map (member_id, grantor_id, grant_type)
+                 VALUES ($admin, $gid," . GROUP_BLESS .")");
+        SendSQL("INSERT INTO group_group_map (member_id, grantor_id, grant_type)
+                 VALUES ($admin, $gid," . GROUP_VISIBLE .")");
 
         # Associate the new group and new product.
         SendSQL("INSERT INTO group_control_map " .
@@ -394,14 +544,15 @@ if ($action eq 'new') {
                 CONTROLMAPNA . ", 0)");
     }
 
-    if ($::FORM{createseries}) {
+    if ($cgi->param('createseries')) {
         # Insert default charting queries for this product.
         # If they aren't using charting, this won't do any harm.
         GetVersionTable();
 
-        # $::FORM{'open_name'} and $product are sqlquoted by the series
-        # code and never used again here, so we can trick_taint them.
-        trick_taint($::FORM{'open_name'});
+        # $open_name and $product are sqlquoted by the series code 
+        # and never used again here, so we can trick_taint them.
+        my $open_name = $cgi->param('open_name');
+        trick_taint($open_name);
         trick_taint($product);
     
         my @series;
@@ -422,11 +573,11 @@ if ($action eq 'new') {
         my @openedstatuses = OpenStates();
         my $query = 
                join("&", map { "bug_status=" . url_quote($_) } @openedstatuses);
-        push(@series, [$::FORM{'open_name'}, $query]);
+        push(@series, [$open_name, $query]);
     
         foreach my $sdata (@series) {
             my $series = new Bugzilla::Series(undef, $product, 
-                            $::FORM{'subcategory'},
+                            scalar $cgi->param('subcategory'),
                             $sdata->[0], $::userid, 1,
                             $sdata->[1] . "&product=" . url_quote($product), 1);
             $series->writeToDatabase();
@@ -439,7 +590,8 @@ if ($action eq 'new') {
     PutTrailer($localtrailer,
         "<a href=\"editproducts.cgi?action=add\">add</a> a new product",
         "<a href=\"editcomponents.cgi?action=add&product=" .
-        url_quote($product) . "\">add</a> components to this new product");
+        url_quote($product) . $classhtmlvar .
+        "\">add</a> components to this new product");
     exit;
 }
 
@@ -454,15 +606,23 @@ if ($action eq 'new') {
 if ($action eq 'del') {
     PutHeader("Delete product");
     CheckProduct($product);
+    my $classification_id=1;
+    if (Param('useclassification')) {
+        CheckClassificationProduct($classification,$product);
+        $classification_id = get_classification_id($classification);
+    }
 
     # display some data about the product
-    SendSQL("SELECT id, description, milestoneurl, disallownew
-             FROM products
-             WHERE name=" . SqlQuote($product));
-    my ($product_id, $description, $milestoneurl, $disallownew) = FetchSQLData();
+    SendSQL("SELECT classifications.description,
+                    products.id, products.description, milestoneurl, disallownew
+             FROM products,classifications
+             WHERE products.name=" . SqlQuote($product) .
+            " AND classifications.id=" . SqlQuote($classification_id));
+    my ($class_description, $product_id, $prod_description, $milestoneurl, $disallownew) = FetchSQLData();
     my $milestonelink = $milestoneurl ? "<a href=\"$milestoneurl\">$milestoneurl</a>"
                                       : "<font color=\"red\">missing</font>";
-    $description ||= "<FONT COLOR=\"red\">description missing</FONT>";
+    $prod_description ||= "<FONT COLOR=\"red\">description missing</FONT>";
+    $class_description ||= "<FONT COLOR=\"red\">description missing</FONT>";
     $disallownew = $disallownew ? 'closed' : 'open';
     
     print "<TABLE BORDER=1 CELLPADDING=4 CELLSPACING=0>\n";
@@ -470,13 +630,23 @@ if ($action eq 'del') {
     print "  <TH VALIGN=\"top\" ALIGN=\"left\">Part</TH>\n";
     print "  <TH VALIGN=\"top\" ALIGN=\"left\">Value</TH>\n";
 
+    if (Param('useclassification')) {
+        print "</TR><TR>\n";
+        print "  <TD VALIGN=\"top\">Classification:</TD>\n";
+        print "  <TD VALIGN=\"top\">$classification</TD>\n";
+
+        print "</TR><TR>\n";
+        print "  <TD VALIGN=\"top\">Description:</TD>\n";
+        print "  <TD VALIGN=\"top\">$class_description</TD>\n";
+    }
+
     print "</TR><TR>\n";
     print "  <TD VALIGN=\"top\">Product:</TD>\n";
     print "  <TD VALIGN=\"top\">$product</TD>\n";
 
     print "</TR><TR>\n";
     print "  <TD VALIGN=\"top\">Description:</TD>\n";
-    print "  <TD VALIGN=\"top\">$description</TD>\n";
+    print "  <TD VALIGN=\"top\">$prod_description</TD>\n";
 
     if (Param('usetargetmilestone')) {
         print "</TR><TR>\n";
@@ -532,7 +702,7 @@ if ($action eq 'del') {
     #
     if (Param('usetargetmilestone')) {
         print "</TD>\n</TR><TR>\n";
-        print "  <TH ALIGN=\"right\" VALIGN=\"top\"><A HREF=\"editmilestones.cgi?product=", url_quote($product), "\">Edit milestones:</A></TH>\n";
+        print "  <TH ALIGN=\"right\" VALIGN=\"top\"><A HREF=\"editmilestones.cgi?product=", url_quote($product), $classhtmlvar, "\">Edit milestones:</A></TH>\n";
         print "  <TD>";
         SendSQL("SELECT value
                  FROM milestones
@@ -554,10 +724,10 @@ if ($action eq 'del') {
     print "</TD>\n</TR><TR>\n";
     print "  <TD VALIGN=\"top\">Bugs:</TD>\n";
     print "  <TD VALIGN=\"top\">";
-    SendSQL("SELECT count(bug_id),product_id
-             FROM bugs
-             GROUP BY product_id
-             HAVING product_id=$product_id");
+    SendSQL("SELECT count(bug_id), product_id
+             FROM bugs " .
+            $dbh->sql_group_by('product_id') . "
+             HAVING product_id = $product_id");
     my $bugs = FetchOneColumn();
     print $bugs || 'none';
 
@@ -587,6 +757,8 @@ one.";
     print "<INPUT TYPE=HIDDEN NAME=\"action\" VALUE=\"delete\">\n";
     print "<INPUT TYPE=HIDDEN NAME=\"product\" VALUE=\"" .
         html_quote($product) . "\">\n";
+    print "<INPUT TYPE=HIDDEN NAME=\"classification\" VALUE=\"" .
+        html_quote($classification) . "\">\n";
     print "</FORM>";
 
     PutTrailer($localtrailer);
@@ -600,79 +772,57 @@ one.";
 #
 
 if ($action eq 'delete') {
-    PutHeader("Deleting product");
     CheckProduct($product);
     my $product_id = get_product_id($product);
 
-    # lock the tables before we start to change everything:
+    my $bug_ids =
+      $dbh->selectcol_arrayref("SELECT bug_id FROM bugs WHERE product_id = ?",
+                               undef, $product_id);
 
-    SendSQL("LOCK TABLES attachments WRITE,
-                         bugs WRITE,
-                         bugs_activity WRITE,
-                         components WRITE,
-                         dependencies WRITE,
-                         versions WRITE,
-                         products WRITE,
-                         groups WRITE,
-                         group_control_map WRITE,
-                         profiles WRITE,
-                         milestones WRITE,
-                         flaginclusions WRITE,
-                         flagexclusions WRITE");
-
-    # According to MySQL doc I cannot do a DELETE x.* FROM x JOIN Y,
-    # so I have to iterate over bugs and delete all the indivial entries
-    # in bugs_activies and attachments.
-
-    if (Param("allowbugdeletion")) {
-        SendSQL("SELECT bug_id
-             FROM bugs
-             WHERE product_id=$product_id");
-        while (MoreSQLData()) {
-            my $bugid = FetchOneColumn();
-
-            PushGlobalSQLState();
-            SendSQL("DELETE FROM attachments WHERE bug_id=$bugid");
-            SendSQL("DELETE FROM bugs_activity WHERE bug_id=$bugid");
-            SendSQL("DELETE FROM dependencies WHERE blocked=$bugid");
-            PopGlobalSQLState();
+    my $nb_bugs = scalar(@$bug_ids);
+    if ($nb_bugs) {
+        if (Param("allowbugdeletion")) {
+            foreach my $bug_id (@$bug_ids) {
+                my $bug = new Bugzilla::Bug($bug_id, $whoid);
+                $bug->remove_from_db();
+            }
         }
-        print "Attachments, bug activity and dependencies deleted.<BR>\n";
-
-
-        # Deleting the rest is easier:
-
-        SendSQL("DELETE FROM bugs
-             WHERE product_id=$product_id");
-        print "Bugs deleted.<BR>\n";
+        else {
+            ThrowUserError("product_has_bugs", { nb => $nb_bugs });
+        }
     }
 
-    SendSQL("DELETE FROM components
-             WHERE product_id=$product_id");
+    PutHeader("Deleting product");
+    print "All references to deleted bugs removed.<P>\n" if $nb_bugs;
+
+    $dbh->bz_lock_tables('products WRITE', 'components WRITE',
+                         'versions WRITE', 'milestones WRITE',
+                         'group_control_map WRITE',
+                         'flaginclusions WRITE', 'flagexclusions WRITE');
+
+    $dbh->do("DELETE FROM components WHERE product_id = ?", undef, $product_id);
     print "Components deleted.<BR>\n";
 
-    SendSQL("DELETE FROM versions
-             WHERE product_id=$product_id");
-    print "Versions deleted.<P>\n";
+    $dbh->do("DELETE FROM versions WHERE product_id = ?", undef, $product_id);
+    print "Versions deleted.<BR>\n";
 
-    # deleting associated target milestones - matthew@zeroknowledge.com
-    SendSQL("DELETE FROM milestones
-             WHERE product_id=$product_id");
-    print "Milestones deleted.<BR>\n";
+    $dbh->do("DELETE FROM milestones WHERE product_id = ?", undef, $product_id);
+    print "Milestones deleted.<P>\n";
 
-    SendSQL("DELETE FROM group_control_map
-             WHERE product_id=$product_id");
+    $dbh->do("DELETE FROM group_control_map WHERE product_id = ?",
+             undef, $product_id);
     print "Group controls deleted.<BR>\n";
 
-    SendSQL("DELETE FROM flaginclusions
-             WHERE product_id=$product_id");
-    SendSQL("DELETE FROM flagexclusions
-             WHERE product_id=$product_id");
-    print "Flag inclusions and exclusions deleted.<BR>\n";
+    $dbh->do("DELETE FROM flaginclusions WHERE product_id = ?",
+             undef, $product_id);
+    $dbh->do("DELETE FROM flagexclusions WHERE product_id = ?",
+             undef, $product_id);
+    print "Flag inclusions and exclusions deleted.<P>\n";
 
-    SendSQL("DELETE FROM products
-             WHERE id=$product_id");
-    print "Product '$product' deleted.<BR>\n";
+    $dbh->do("DELETE FROM products WHERE id = ?", undef, $product_id);
+    print "Product '$product' deleted.<P>\n";
+
+    $dbh->bz_unlock_tables();
 
     unlink "$datadir/versioncache";
     PutTrailer($localtrailer);
@@ -682,33 +832,53 @@ if ($action eq 'delete') {
 
 
 #
-# action='edit' -> present the edit products from
+# action='edit' -> present the 'edit product' form
+# If a product is given with no action associated with it, then edit it.
 #
 # (next action would be 'update')
 #
 
-if ($action eq 'edit') {
+if ($action eq 'edit' || (!$action && $product)) {
     PutHeader("Edit product");
     CheckProduct($product);
+    my $classification_id=1;
+    if (Param('useclassification')) {
+        # If a product has been given with no classification associated
+        # with it, take this information from the DB
+        if ($classification) {
+            CheckClassificationProduct($classification, $product);
+        } else {
+            trick_taint($product);
+            $classification =
+                $dbh->selectrow_array("SELECT classifications.name
+                                       FROM products, classifications
+                                       WHERE products.name = ?
+                                       AND classifications.id = products.classification_id",
+                                       undef, $product);
+        }
+        $classification_id = get_classification_id($classification);
+    }
 
     # get data of product
-    SendSQL("SELECT id,description,milestoneurl,disallownew,
+    SendSQL("SELECT classifications.description,
+                    products.id,products.description,milestoneurl,disallownew,
                     votesperuser,maxvotesperbug,votestoconfirm,defaultmilestone
-             FROM products
-             WHERE name=" . SqlQuote($product));
-    my ($product_id,$description, $milestoneurl, $disallownew,
+             FROM products,classifications
+             WHERE products.name=" . SqlQuote($product) .
+            " AND classifications.id=" . SqlQuote($classification_id));
+    my ($class_description, $product_id,$prod_description, $milestoneurl, $disallownew,
         $votesperuser, $maxvotesperbug, $votestoconfirm, $defaultmilestone) =
         FetchSQLData();
 
     print "<FORM METHOD=POST ACTION=editproducts.cgi>\n";
     print "<TABLE  BORDER=0 CELLPADDING=4 CELLSPACING=0><TR>\n";
 
-    EmitFormElements($product, $description, $milestoneurl, 
+    EmitFormElements($classification, $product, $prod_description, $milestoneurl, 
                      $disallownew, $votesperuser, $maxvotesperbug,
                      $votestoconfirm, $defaultmilestone);
     
     print "</TR><TR VALIGN=top>\n";
-    print "  <TH ALIGN=\"right\"><A HREF=\"editcomponents.cgi?product=", url_quote($product), "\">Edit components:</A></TH>\n";
+    print "  <TH ALIGN=\"right\"><A HREF=\"editcomponents.cgi?product=", url_quote($product), $classhtmlvar, "\">Edit components:</A></TH>\n";
     print "  <TD>";
     SendSQL("SELECT name,description
              FROM components
@@ -728,7 +898,7 @@ if ($action eq 'edit') {
 
 
     print "</TD>\n</TR><TR>\n";
-    print "  <TH ALIGN=\"right\" VALIGN=\"top\"><A HREF=\"editversions.cgi?product=", url_quote($product), "\">Edit versions:</A></TH>\n";
+    print "  <TH ALIGN=\"right\" VALIGN=\"top\"><A HREF=\"editversions.cgi?product=", url_quote($product), $classhtmlvar, "\">Edit versions:</A></TH>\n";
     print "  <TD>";
     SendSQL("SELECT value
              FROM versions
@@ -751,7 +921,7 @@ if ($action eq 'edit') {
     #
     if (Param('usetargetmilestone')) {
         print "</TD>\n</TR><TR>\n";
-        print "  <TH ALIGN=\"right\" VALIGN=\"top\"><A HREF=\"editmilestones.cgi?product=", url_quote($product), "\">Edit milestones:</A></TH>\n";
+        print "  <TH ALIGN=\"right\" VALIGN=\"top\"><A HREF=\"editmilestones.cgi?product=", url_quote($product), $classhtmlvar, "\">Edit milestones:</A></TH>\n";
         print "  <TD>";
         SendSQL("SELECT value
                  FROM milestones
@@ -771,7 +941,7 @@ if ($action eq 'edit') {
     }
 
     print "</TD>\n</TR><TR>\n";
-    print "  <TH ALIGN=\"right\" VALIGN=\"top\"><A HREF=\"editproducts.cgi?action=editgroupcontrols&product=", url_quote($product), "\">Edit Group Access Controls</A></TH>\n";
+    print "  <TH ALIGN=\"right\" VALIGN=\"top\"><A HREF=\"editproducts.cgi?action=editgroupcontrols&product=", url_quote($product), $classhtmlvar,"\">Edit Group Access Controls</A></TH>\n";
     print "<TD>\n";
     SendSQL("SELECT id, name, isactive, entry, membercontrol, othercontrol, canedit " .
             "FROM groups, " .
@@ -794,20 +964,22 @@ if ($action eq 'edit') {
     print "</TD>\n</TR><TR>\n";
     print "  <TH ALIGN=\"right\">Bugs:</TH>\n";
     print "  <TD>";
-    SendSQL("SELECT count(bug_id),product_id
-             FROM bugs
-             GROUP BY product_id
-             HAVING product_id=$product_id");
+    SendSQL("SELECT count(bug_id), product_id
+             FROM bugs " .
+            $dbh->sql_group_by('product_id') . "
+             HAVING product_id = $product_id");
     my $bugs = '';
     $bugs = FetchOneColumn() if MoreSQLData();
     print $bugs || 'none';
 
     print "</TD>\n</TR></TABLE>\n";
 
+    print "<INPUT TYPE=HIDDEN NAME=\"classification\" VALUE=\"" .
+        html_quote($classification) . "\">\n";
     print "<INPUT TYPE=HIDDEN NAME=\"productold\" VALUE=\"" .
         html_quote($product) . "\">\n";
     print "<INPUT TYPE=HIDDEN NAME=\"descriptionold\" VALUE=\"" .
-        html_quote($description) . "\">\n";
+        html_quote($prod_description) . "\">\n";
     print "<INPUT TYPE=HIDDEN NAME=\"milestoneurlold\" VALUE=\"" .
         html_quote($milestoneurl) . "\">\n";
     print "<INPUT TYPE=HIDDEN NAME=\"disallownewold\" VALUE=\"$disallownew\">\n";
@@ -827,7 +999,6 @@ if ($action eq 'edit') {
     exit;
 }
 
-
 #
 # action='updategroupcontrols' -> update the product
 #
@@ -836,28 +1007,26 @@ if ($action eq 'updategroupcontrols') {
     my $product_id = get_product_id($product);
     my @now_na = ();
     my @now_mandatory = ();
-    foreach my $f (keys %::FORM) {
+    foreach my $f ($cgi->param()) {
         if ($f =~ /^membercontrol_(\d+)$/) {
             my $id = $1;
-            if ($::FORM{$f} == CONTROLMAPNA) {
+            if ($cgi->param($f) == CONTROLMAPNA) {
                 push @now_na,$id;
-            } elsif ($::FORM{$f} == CONTROLMAPMANDATORY) {
+            } elsif ($cgi->param($f) == CONTROLMAPMANDATORY) {
                 push @now_mandatory,$id;
             }
         }
     }
-    if (!($::FORM{'confirmed'})) {
-        $vars->{'form'} = \%::FORM;
-        $vars->{'mform'} = \%::MFORM;
+    if (!defined $cgi->param('confirmed')) {
         my @na_groups = ();
         if (@now_na) {
             SendSQL("SELECT groups.name, COUNT(bugs.bug_id) 
                      FROM bugs, bug_group_map, groups
-                     WHERE groups.id IN(" . join(',',@now_na) . ")
+                     WHERE groups.id IN(" . join(', ', @now_na) . ")
                      AND bug_group_map.group_id = groups.id
                      AND bug_group_map.bug_id = bugs.bug_id
-                     AND bugs.product_id = $product_id
-                     GROUP BY groups.name");
+                     AND bugs.product_id = $product_id " .
+                    $dbh->sql_group_by('groups.name'));
             while (MoreSQLData()) {
                 my ($groupname, $bugcount) = FetchSQLData();
                 my %g = ();
@@ -870,14 +1039,15 @@ if ($action eq 'updategroupcontrols') {
         my @mandatory_groups = ();
         if (@now_mandatory) {
             SendSQL("SELECT groups.name, COUNT(bugs.bug_id) 
-                     FROM bugs, groups
-                     LEFT JOIN bug_group_map
-                     ON bug_group_map.group_id = groups.id
-                     AND bug_group_map.bug_id = bugs.bug_id
-                     WHERE groups.id IN(" . join(',',@now_mandatory) . ")
-                     AND bugs.product_id = $product_id
-                     AND bug_group_map.bug_id IS NULL
-                     GROUP BY groups.name");
+                       FROM bugs
+                  LEFT JOIN bug_group_map
+                         ON bug_group_map.bug_id = bugs.bug_id
+                 INNER JOIN groups
+                         ON bug_group_map.group_id = groups.id
+                      WHERE groups.id IN(" . join(', ', @now_mandatory) . ")
+                        AND bugs.product_id = $product_id
+                        AND bug_group_map.bug_id IS NULL " .
+                        $dbh->sql_group_by('groups.name'));
             while (MoreSQLData()) {
                 my ($groupname, $bugcount) = FetchSQLData();
                 my %g = ();
@@ -901,8 +1071,8 @@ if ($action eq 'updategroupcontrols') {
             "WHERE isbuggroup != 0 AND isactive != 0");
     while (MoreSQLData()){
         my ($groupid, $groupname) = FetchSQLData();
-        my $newmembercontrol = $::FORM{"membercontrol_$groupid"} || 0;
-        my $newothercontrol = $::FORM{"othercontrol_$groupid"} || 0;
+        my $newmembercontrol = $cgi->param("membercontrol_$groupid") || 0;
+        my $newothercontrol = $cgi->param("othercontrol_$groupid") || 0;
         #  Legality of control combination is a function of
         #  membercontrol\othercontrol
         #                 NA SH DE MA
@@ -919,12 +1089,12 @@ if ($action eq 'updategroupcontrols') {
                              header_done => 1});
         }
     }
-    SendSQL("LOCK TABLES groups READ,
-             group_control_map WRITE,
-             bugs WRITE,
-             bugs_activity WRITE,
-             bug_group_map WRITE,
-             fielddefs READ");
+    $dbh->bz_lock_tables('groups READ',
+                         'group_control_map WRITE',
+                         'bugs WRITE',
+                         'bugs_activity WRITE',
+                         'bug_group_map WRITE',
+                         'fielddefs READ');
     SendSQL("SELECT id, name, entry, membercontrol, othercontrol, canedit " .
             "FROM groups " .
             "LEFT JOIN group_control_map " .
@@ -933,10 +1103,10 @@ if ($action eq 'updategroupcontrols') {
     while (MoreSQLData()) {
         my ($groupid, $groupname, $entry, $membercontrol, 
             $othercontrol, $canedit) = FetchSQLData();
-        my $newentry = $::FORM{"entry_$groupid"} || 0;
-        my $newmembercontrol = $::FORM{"membercontrol_$groupid"} || 0;
-        my $newothercontrol = $::FORM{"othercontrol_$groupid"} || 0;
-        my $newcanedit = $::FORM{"canedit_$groupid"} || 0;
+        my $newentry = $cgi->param("entry_$groupid") || 0;
+        my $newmembercontrol = $cgi->param("membercontrol_$groupid") || 0;
+        my $newothercontrol = $cgi->param("othercontrol_$groupid") || 0;
+        my $newcanedit = $cgi->param("canedit_$groupid") || 0;
         my $oldentry = $entry;
         $entry = $entry || 0;
         $membercontrol = $membercontrol || 0;
@@ -1001,12 +1171,12 @@ if ($action eq 'updategroupcontrols') {
             my ($removed, $timestamp) = FetchSQLData();
             LogActivityEntry($bugid, "bug_group", $removed, "",
                              $::userid, $timestamp);
-            if ($mailiscurrent != 0) {
-                SendSQL("UPDATE bugs SET lastdiffed = " . SqlQuote($timestamp)
-                     . " WHERE bug_id = $bugid");
+            my $diffed = "";
+            if ($mailiscurrent) {
+                $diffed = ", lastdiffed = " . SqlQuote($timestamp);
             }
-            SendSQL("UPDATE bugs SET delta_ts = " . SqlQuote($timestamp)
-                 . " WHERE bug_id = $bugid");
+            SendSQL("UPDATE bugs SET delta_ts = " . SqlQuote($timestamp) .
+                    $diffed . " WHERE bug_id = $bugid");
             PopGlobalSQLState();
             $count++;
         }
@@ -1035,17 +1205,19 @@ if ($action eq 'updategroupcontrols') {
             my ($added, $timestamp) = FetchSQLData();
             LogActivityEntry($bugid, "bug_group", "", $added,
                              $::userid, $timestamp);
-            if ($mailiscurrent != 0) {
-                SendSQL("UPDATE bugs SET lastdiffed = " . SqlQuote($timestamp)
-                     . " WHERE bug_id = $bugid");
+            my $diffed = "";
+            if ($mailiscurrent) {
+                $diffed = ", lastdiffed = " . SqlQuote($timestamp);
             }
-            SendSQL("UPDATE bugs SET delta_ts = " . SqlQuote($timestamp)
-                 . " WHERE bug_id = $bugid");
+            SendSQL("UPDATE bugs SET delta_ts = " . SqlQuote($timestamp) .
+                    $diffed . " WHERE bug_id = $bugid");
             PopGlobalSQLState();
             $count++;
         }
         print "added $count bugs<p>\n";
     }
+    $dbh->bz_unlock_tables();
+
     print "Group control updates done<P>\n";
 
     PutTrailer($localtrailer);
@@ -1059,21 +1231,21 @@ if ($action eq 'updategroupcontrols') {
 if ($action eq 'update') {
     PutHeader("Update product");
 
-    my $productold          = trim($::FORM{productold}          || '');
-    my $description         = trim($::FORM{description}         || '');
-    my $descriptionold      = trim($::FORM{descriptionold}      || '');
-    my $disallownew         = trim($::FORM{disallownew}         || '');
-    my $disallownewold      = trim($::FORM{disallownewold}      || '');
-    my $milestoneurl        = trim($::FORM{milestoneurl}        || '');
-    my $milestoneurlold     = trim($::FORM{milestoneurlold}     || '');
-    my $votesperuser        = trim($::FORM{votesperuser}        || 0);
-    my $votesperuserold     = trim($::FORM{votesperuserold}     || 0);
-    my $maxvotesperbug      = trim($::FORM{maxvotesperbug}      || 0);
-    my $maxvotesperbugold   = trim($::FORM{maxvotesperbugold}   || 0);
-    my $votestoconfirm      = trim($::FORM{votestoconfirm}      || 0);
-    my $votestoconfirmold   = trim($::FORM{votestoconfirmold}   || 0);
-    my $defaultmilestone    = trim($::FORM{defaultmilestone}    || '---');
-    my $defaultmilestoneold = trim($::FORM{defaultmilestoneold} || '---');
+    my $productold          = trim($cgi->param('productold')          || '');
+    my $description         = trim($cgi->param('description')         || '');
+    my $descriptionold      = trim($cgi->param('descriptionold')      || '');
+    my $disallownew         = trim($cgi->param('disallownew')         || '');
+    my $disallownewold      = trim($cgi->param('disallownewold')      || '');
+    my $milestoneurl        = trim($cgi->param('milestoneurl')        || '');
+    my $milestoneurlold     = trim($cgi->param('milestoneurlold')     || '');
+    my $votesperuser        = trim($cgi->param('votesperuser')        || 0);
+    my $votesperuserold     = trim($cgi->param('votesperuserold')     || 0);
+    my $maxvotesperbug      = trim($cgi->param('maxvotesperbug')      || 0);
+    my $maxvotesperbugold   = trim($cgi->param('maxvotesperbugold')   || 0);
+    my $votestoconfirm      = trim($cgi->param('votestoconfirm')      || 0);
+    my $votestoconfirmold   = trim($cgi->param('votestoconfirmold')   || 0);
+    my $defaultmilestone    = trim($cgi->param('defaultmilestone')    || '---');
+    my $defaultmilestoneold = trim($cgi->param('defaultmilestoneold') || '---');
 
     my $checkvotes = 0;
 
@@ -1101,12 +1273,12 @@ if ($action eq 'update') {
     # Note that we got the $product_id using $productold above so it will
     # remain static even after we rename the product in the database.
 
-    SendSQL("LOCK TABLES products WRITE,
-                         versions READ,
-                         groups WRITE,
-                         group_control_map WRITE,
-                         profiles WRITE,
-                         milestones READ");
+    $dbh->bz_lock_tables('products WRITE',
+                         'versions READ',
+                         'groups WRITE',
+                         'group_control_map WRITE',
+                         'profiles WRITE',
+                         'milestones READ');
 
     if ($disallownew ne $disallownewold) {
         $disallownew = $disallownew ? 1 : 0;
@@ -1119,6 +1291,7 @@ if ($action eq 'update') {
     if ($description ne $descriptionold) {
         unless ($description) {
             print "Sorry, I can't delete the description.";
+            $dbh->bz_unlock_tables(UNLOCK_ABORT);
             PutTrailer($localtrailer);
             exit;
         }
@@ -1169,6 +1342,7 @@ if ($action eq 'update') {
                 "  AND product_id = $product_id");
         if (!FetchOneColumn()) {
             print "Sorry, the milestone $defaultmilestone must be defined first.";
+            $dbh->bz_unlock_tables(UNLOCK_ABORT);
             PutTrailer($localtrailer);
             exit;
         }
@@ -1184,11 +1358,15 @@ if ($action eq 'update') {
     if ($product ne $productold) {
         unless ($product) {
             print "Sorry, I can't delete the product name.";
+            $dbh->bz_unlock_tables(UNLOCK_ABORT);
             PutTrailer($localtrailer);
             exit;
         }
-        if (TestProduct($product)) {
+
+        if (lc($product) ne lc($productold) &&
+            TestProduct($product)) {
             print "Sorry, product name '$product' is already in use.";
+            $dbh->bz_unlock_tables(UNLOCK_ABORT);
             PutTrailer($localtrailer);
             exit;
         }
@@ -1196,8 +1374,8 @@ if ($action eq 'update') {
         SendSQL("UPDATE products SET name=$qp WHERE id=$product_id");
         print "Updated product name.<BR>\n";
     }
+    $dbh->bz_unlock_tables();
     unlink "$datadir/versioncache";
-    SendSQL("UNLOCK TABLES");
 
     if ($checkvotes) {
         # 1. too many votes for a single user on a single bug.
@@ -1256,7 +1434,7 @@ if ($action eq 'update') {
         # 3. enough votes to confirm
         SendSQL("SELECT bug_id FROM bugs " .
                 "WHERE product_id = $product_id " .
-                "  AND bug_status = '$::unconfirmedstate' " .
+                "  AND bug_status = 'UNCONFIRMED' " .
                 "  AND votes >= $votestoconfirm");
         if (MoreSQLData()) {
             print "<br>Checking unconfirmed bugs in this product for any which now have sufficient votes.";
@@ -1294,7 +1472,8 @@ if ($action eq 'editgroupcontrols') {
             "WHERE isbuggroup != 0 " .
             "AND (isactive != 0 OR entry IS NOT NULL " .
             "OR bugs.bug_id IS NOT NULL) " .
-            "GROUP BY name");
+            $dbh->sql_group_by('name', 'id, entry, membercontrol,
+                                othercontrol, canedit, isactive'));
     my @groups = ();
     while (MoreSQLData()) {
         my %group = ();
@@ -1312,6 +1491,7 @@ if ($action eq 'editgroupcontrols') {
     }
     $vars->{'header_done'} = $headerdone;
     $vars->{'product'} = $product;
+    $vars->{'classification'} = $classification;
     $vars->{'groups'} = \@groups;
     $vars->{'const'} = {
         'CONTROLMAPNA' => CONTROLMAPNA,
