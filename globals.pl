@@ -116,22 +116,18 @@ $::unconfirmedstate = "UNCONFIRMED";
 sub AppendComment {
     my ($bugid, $who, $comment, $isprivate, $timestamp, $work_time) = @_;
     $work_time ||= 0;
-    
+
+    if ($work_time) {
+        require Bugzilla::Bug;
+        Bugzilla::Bug::ValidateTime($work_time, "work_time");
+    }
+
     # Use the date/time we were given if possible (allowing calling code
     # to synchronize the comment's timestamp with those of other records).
     $timestamp = ($timestamp ? SqlQuote($timestamp) : "NOW()");
-    
+
     $comment =~ s/\r\n/\n/g;     # Get rid of windows-style line endings.
     $comment =~ s/\r/\n/g;       # Get rid of mac-style line endings.
-
-    # allowing negatives though so people can back out errors in time reporting
-    if (defined $work_time) {
-       # regexp verifies one or more digits, optionally followed by a period and
-       # zero or more digits, OR we have a period followed by one or more digits
-       if ($work_time !~ /^-?(?:\d+(?:\.\d*)?|\.\d+)$/) { 
-          ThrowUserError("need_numeric_value", {}, "abort");
-       }
-    } else { $work_time = 0 };
 
     if ($comment =~ /^\s*$/) {  # Nothin' but whitespace
         return;
@@ -497,11 +493,16 @@ sub CanEditProductId {
     return (!defined($result));
 }
 
-#
-# This function determines if a user can enter bugs in the named
-# product.
+# This function determines whether or not a user can enter
+# bugs into the named product.
 sub CanEnterProduct {
-    my ($productname) = @_;
+    my ($productname, $verbose) = @_;
+    my $dbh = Bugzilla->dbh;
+
+    return unless defined($productname);
+    trick_taint($productname);
+
+    # First check whether or not the user has access to that product.
     my $query = "SELECT group_id IS NULL " .
                 "FROM products " .
                 "LEFT JOIN group_control_map " .
@@ -511,12 +512,51 @@ sub CanEnterProduct {
         $query .= "AND group_id NOT IN(" . 
                    join(',', values(%{Bugzilla->user->groups})) . ") ";
     }
-    $query .= "WHERE products.name = " . SqlQuote($productname) . " LIMIT 1";
-    PushGlobalSQLState();
-    SendSQL($query);
-    my ($ret) = FetchSQLData();
-    PopGlobalSQLState();
-    return ($ret);
+    $query .= "WHERE products.name = ? LIMIT 1";
+
+    my $has_access = $dbh->selectrow_array($query, undef, $productname);
+    if (!$has_access) {
+        # Do we require the exact reason why we cannot enter
+        # bugs into that product? Returning -1 explicitely
+        # means the user has no access to the product or the
+        # product does not exist.
+        return (defined($verbose)) ? -1 : 0;
+    }
+
+    # Check if the product is open for new bugs and has
+    # at least one component.
+    my $allow_new_bugs =
+        $dbh->selectrow_array("SELECT CASE WHEN disallownew = 0 THEN 1 ELSE 0 END
+                               FROM products INNER JOIN components
+                               ON components.product_id = products.id
+                               WHERE products.name = ? LIMIT 1",
+                               undef, $productname);
+
+    # Return 1 if the user can enter bugs into that product;
+    # return 0 if the product is closed for new bug entry;
+    # return undef if the product has no component.
+    return $allow_new_bugs;
+}
+
+# Call CanEnterProduct() and display an error message
+# if the user cannot enter bugs into that product.
+sub CanEnterProductOrWarn {
+    my ($product) = @_;
+
+    if (!defined($product)) {
+        ThrowUserError("no_products");
+    }
+    my $status = CanEnterProduct($product, 1);
+    trick_taint($product);
+
+    if (!defined($status)) {
+        ThrowUserError("no_components", { product => $product});
+    } elsif (!$status) {
+        ThrowUserError("product_disabled", { product => $product});
+    } elsif ($status < 0) {
+        ThrowUserError("entry_access_denied", { product => $product});
+    }
+    return $status;
 }
 
 sub GetEnterableProducts {
@@ -618,13 +658,14 @@ sub GetSelectableProductHash {
 sub GetFieldDefs {
     my $extra = "";
     if (!UserInGroup(Param('timetrackinggroup'))) {
-        $extra = "WHERE name NOT IN ('estimated time', 'remaining_time', " .
+        $extra = "AND name NOT IN ('estimated_time', 'remaining_time', " .
                  "'work_time', 'percentage_complete')";
     }
 
     my @fields;
     PushGlobalSQLState();
-    SendSQL("SELECT name, description FROM fielddefs $extra ORDER BY sortkey");
+    SendSQL("SELECT name, description FROM fielddefs " .
+            "WHERE obsolete = 0 $extra ORDER BY sortkey");
     while (MoreSQLData()) {
         my ($name, $description) = FetchSQLData();
         push(@fields, { name => $name, description => $description });
@@ -1397,7 +1438,7 @@ sub RemoveVotes {
             my $msg = PerformSubsts(Param("voteremovedmail"),
                                     \%substs);
 
-            Bugzilla::BugMail::MessageToMTA($msg);
+            Bugzilla::BugMail::MessageToMTA($msg, $substs{'to'});
         }
         SendSQL("SELECT SUM(vote_count) FROM votes WHERE bug_id = $id");
         my $v = FetchOneColumn();

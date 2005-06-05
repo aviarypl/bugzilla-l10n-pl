@@ -166,8 +166,9 @@
 
   [% ELSIF error == "entry_access_denied" %]
     [% title = "Brak dostępu" %]
-    Niestety nie posiadasz uprawnień dostępu do [% terms.bledu %]
-    w produkcie [% product FILTER html %].
+    Niestety, produkt <em>[% product FILTER html %]</em> nie istnieje
+    lub nie posiadasz uprawnień do wprowadzania [% terms.bledow %]
+    w tym produkcie.
 
   [% ELSIF error == "file_not_specified" %]
     [% title = "Nie podano pliku" %]
@@ -477,15 +478,6 @@
     Musisz podać nazwę komponentu, aby możliwe było określenia właściciela tego 
     [% terms.bledu %].
 
-  [% ELSIF error == "need_numeric_value" %]
-    [% title = "Wymagana wartość numeryczna" %]
-    Pole 'godzin' musi być wartością numeryczną.
-
-  [% ELSIF error == "need_positive_number" %]
-    [% title = "Wymagana dodatnia wartość numeryczna" %]
-    Pole <em>[% field_descs.$field FILTER html %]</em> musi zawierać dodatnią
-    wartość numeryczną.
-
   [% ELSIF error == "need_product" %]
     [% title = "Wymagana nazwa produktu" %]
     Musisz podać nazwę produktu, aby możliwe było określenia właściciela tego 
@@ -562,6 +554,24 @@
     Nie utworzono żadnego produktu, dla którego można utworzyć [% terms.blad %],
     lub nie masz uprawnień do dostępu do żadnego produktu.
 
+  [% ELSIF error == "number_not_numeric" %]
+    [% title = "Wymagana wartość liczbowa" %]
+    Wartość '[% num FILTER html %]' w polu 
+    <em>[% field_descs.$field FILTER html %]</em>  
+    nie jest liczbą.
+
+  [% ELSIF error == "number_too_large" %]
+    [% title = "Za duża liczba" %]
+    Wartość '[% num FILTER html %]' w polu 
+    <em>[% field_descs.$field FILTER html %]</em> 
+    jest większa od maksymalnej dopuszczalnej wartości '[% max_num FILTER html %]'.
+
+  [% ELSIF error == "number_too_small" %]
+    [% title = "Za mała liczba" %]
+    Wartość '[% num FILTER html %]' w polu 
+    <em>[% field_descs.$field FILTER html %]</em> 
+    jest mniejsza od minimalnej dopuszczalnej wartości '[% min_num FILTER html %]'.
+
   [% ELSIF error == "old_password_incorrect" %]
     [% title = "Niewłaściwe stare hasło" %]
     Nie podałeś prawidłowego starego hasła.
@@ -588,6 +598,10 @@
     kilobajtów (KB).
     Łatki nie mogą być większe niż [% Param('maxpatchsize') %] KB.
     Spróbuj podzielić łatkę na kilka części.
+  [% ELSIF error == "product_disabled" %]
+    [% title = BLOCK %]Product closed for [% terms.Bugs %] Entry[% END %]
+    Niestety możliwość wprowadzania [% terms.bledow %] w produkcie
+    <em>[% product FILTER html %]</em> została wyłączona.
 
   [% ELSIF error == "product_edit_denied" %]
     [% title = "Brak dostępu do edycji produktu" %]

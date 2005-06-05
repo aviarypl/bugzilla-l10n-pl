@@ -265,12 +265,18 @@ sub initBug  {
   return $self;
 }
 
+# Note: If you add a new method, remember that you must check the error
+# state of the bug before returning any data. If $self->{error} is
+# defined, then return something empty. Otherwise you risk potential
+# security holes.
+
 sub dup_id {
     my ($self) = @_;
-
     return $self->{'dup_id'} if exists $self->{'dup_id'};
 
     $self->{'dup_id'} = undef;
+    return if $self->{'error'};
+
     if ($self->{'resolution'} eq 'DUPLICATE') { 
         my $dbh = Bugzilla->dbh;
         $self->{'dup_id'} =
@@ -288,7 +294,7 @@ sub actual_time {
 
     return $self->{'actual_time'} if exists $self->{'actual_time'};
 
-    return undef unless (Bugzilla->user && 
+    return undef unless (!$self->{'error'} && Bugzilla->user && 
                          Bugzilla->user->in_group(Param("timetrackinggroup")));
 
     my $sth = Bugzilla->dbh->prepare("SELECT SUM(work_time)
@@ -301,11 +307,9 @@ sub actual_time {
 
 sub longdescs {
     my ($self) = @_;
-
     return $self->{'longdescs'} if exists $self->{'longdescs'};
-
+    return [] if $self->{'error'};
     $self->{'longdescs'} = &::GetComments($self->{bug_id});
-
     return $self->{'longdescs'};
 }
 
@@ -315,6 +319,7 @@ sub use_keywords {
 
 sub use_votes {
     my ($self) = @_;
+    return 0 if $self->{'error'};
 
     return Param('usevotes')
       && $::prodmaxvotes{$self->{product}} > 0;
@@ -322,8 +327,8 @@ sub use_votes {
 
 sub groups {
     my $self = shift;
-
     return $self->{'groups'} if exists $self->{'groups'};
+    return [] if $self->{'error'};
 
     my @groups;
 
@@ -387,6 +392,7 @@ sub groups {
 sub user {
     my $self = shift;
     return $self->{'user'} if exists $self->{'user'};
+    return {} if $self->{'error'};
 
     $self->{'user'} = {};
 
@@ -420,6 +426,7 @@ sub user {
 sub choices {
     my $self = shift;
     return $self->{'choices'} if exists $self->{'choices'};
+    return {} if $self->{'error'};
 
     &::GetVersionTable();
 
@@ -492,10 +499,29 @@ sub EmitDependList {
 }
 
 sub ValidateTime {
-  my ($time, $field) = @_;
-  if ($time > 99999.99 || $time < 0 || !($time =~ /^(?:\d+(?:\.\d*)?|\.\d+)$/)) {
-    &::ThrowUserError("need_positive_number", {field => "$field"}, "abort");
-  }
+    my ($time, $field) = @_;
+
+    # regexp verifies one or more digits, optionally followed by a period and
+    # zero or more digits, OR we have a period followed by one or more digits
+    # (allow negatives, though, so people can back out errors in time reporting)
+    if ($time !~ /^-?(?:\d+(?:\.\d*)?|\.\d+)$/) {
+        &::ThrowUserError("number_not_numeric",
+                       {field => "$field", num => "$time"},
+                       "abort");
+    }
+
+    # Only the "work_time" field is allowed to contain a negative value.
+    if ( ($time < 0) && ($field ne "work_time") ) {
+        &::ThrowUserError("number_too_small",
+                       {field => "$field", num => "$time", min_num => "0"},
+                       "abort");
+    }
+
+    if ($time > 99999.99) {
+        &::ThrowUserError("number_too_large",
+                       {field => "$field", num => "$time", max_num => "99999.99"},
+                       "abort");
+    }
 }
 
 sub AUTOLOAD {

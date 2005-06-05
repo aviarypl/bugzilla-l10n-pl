@@ -852,7 +852,7 @@ sub NewProcessOnePerson ($$$$$$$$$$$$$) {
     
     my $msg = PerformSubsts($template, \%substs);
 
-    MessageToMTA($msg);
+    MessageToMTA($msg, $person);
 
     push(@sentlist, $person);
     return 1;
@@ -885,10 +885,8 @@ sub encode_mail_header {
     return $encoded;
 }
 
-# XXX: Should eventually add $mail_from and $mail_to options to 
-# control the SMTP Envelope. -mkanat
-sub MessageToMTA ($) {
-   my ($msg) = (@_);
+sub MessageToMTA ($;$) {
+   my ($msg, $rcpt_to) = (@_);
    my $header;
 
    $msg =~ s/(^Subject:)\s+(.*?)(?=[\n\r][\w\n\r])/encode_mail_header($1,$2)/sem;

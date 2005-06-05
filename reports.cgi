@@ -71,8 +71,6 @@ push( @myproducts, GetSelectableProducts());
 
 if (! defined $cgi->param('product')) {
 
-    print $cgi->header();
-    PutHeader("Bug Charts");
     choose_product(@myproducts);
     PutFooter();
 
@@ -87,9 +85,7 @@ if (! defined $cgi->param('product')) {
 
     # We don't want people to be able to view
     # reports for products they don't have permissions for...
-    if (($product ne '-All-') && (!CanEnterProduct($product))) {
-        ThrowUserError("report_access_denied");
-    }
+    if ($product ne '-All-') { CanEnterProductOrWarn($product) }
           
     # We've checked that the product exists, and that the user can see it
     # This means that is OK to detaint
@@ -122,6 +118,9 @@ sub choose_product {
     open(DATA, "$dir/$datafile")
       || ThrowCodeError("chart_file_open_fail", {filename => "$dir/$datafile"});
  
+    print $cgi->header();
+    PutHeader("Bug Charts");
+
     print <<FIN;
 <center>
 <h1>Welcome to the Bugzilla Charting Kitchen</h1>

@@ -807,7 +807,7 @@ if ($my_webservergroup && !$silent) {
         # that we can't chgrp to
         my $webservergid = (getgrnam($my_webservergroup))[2]
                            or die("no such group: $my_webservergroup");
-        if ($< != 0 && !grep(/^$webservergid$/, split(" ", $)))) {
+        if ($< != 0 && !grep($_ eq $webservergid, split(" ", $)))) {
             print <<EOF;
 
 Warning: you have entered a value for the "webservergroup" parameter in 
@@ -1489,7 +1489,7 @@ if ($my_db_check) {
 
 
     my @databases = $dbh->func('_ListDBs');
-    unless (grep /^$my_db_name$/, @databases) {
+    unless (grep($_ eq $my_db_name, @databases)) {
        print "Creating database $my_db_name ...\n";
        if (!$dbh->func('createdb', $my_db_name, 'admin')) {
             my $error = $dbh->errstr;
@@ -1968,10 +1968,11 @@ $table{bug_group_map} =
      index(group_id)';
 
 # 2002-07-19, davef@tetsubo.com, bug 67950:
+# 2005-02-20, LpSolit@gmail.com, bug 277504
 # Store quips in the db.
 $table{quips} =
     'quipid mediumint not null auto_increment primary key,
-     userid mediumint not null default 0, 
+     userid mediumint null, 
      quip text not null,
      approved tinyint(1) not null default 1';
 
@@ -2064,7 +2065,7 @@ my $my_platforms  = '"' . join('", "', @my_platforms)  . '"';
 
 # go throught our %table hash and create missing tables
 while (my ($tabname, $fielddef) = each %table) {
-    next if grep /^$tabname$/, @tables;
+    next if grep($_ eq $tabname, @tables);
     print "Creating table $tabname ...\n";
 
     # add lines here if you add more --LOCAL-- config vars that end up in
@@ -2897,14 +2898,24 @@ AddField('products', 'votestoconfirm', 'smallint not null');
 
 # 2000-03-21 Adding a table for target milestones to 
 # database - matthew@zeroknowledge.com
-
-$sth = $dbh->prepare("SELECT count(*) from milestones");
-$sth->execute();
-if (!($sth->fetchrow_arrayref()->[0])) {
+# If the milestones table is empty, and we're still back in a Bugzilla
+# that has a bugs.product field, that means that we just created
+# the milestones table and it needs to be populated.
+my $milestones_exist = $dbh->selectrow_array("SELECT 1 FROM milestones");
+if (!$milestones_exist && GetFieldDef('bugs', 'product')) {
     print "Replacing blank milestones...\n";
     $dbh->do("UPDATE bugs SET target_milestone = '---', delta_ts=delta_ts WHERE target_milestone = ' '");
     
-# Populate milestone table with all exisiting values in database
+    # If we are upgrading from 2.8 or earlier, we will have *created*
+    # the milestones table with a product_id field, but Bugzilla expects
+    # it to have a "product" field. So we change the field backward so
+    # other code can run. The change will be reversed later in checksetup.
+    if (GetFieldDef('milestones', 'product_id')) {
+        DropField('milestones', 'product_id');
+        AddField('milestones', 'product', 'varchar(64) not null');
+    }
+
+    # Populate the milestone table with all existing values in the database
     $sth = $dbh->prepare("SELECT DISTINCT target_milestone, product FROM bugs");
     $sth->execute();
     
@@ -3207,14 +3218,12 @@ if (GetFieldDef('bugs_activity', 'oldvalue')) {
 # http://bugzilla.mozilla.org/show_bug.cgi?id=90933
 ChangeFieldType("profiles", "disabledtext", "mediumtext not null");
 
-# 2001-07-26 myk@mozilla.org bug39816: 
-# Add fields to the bugs table that record whether or not the reporter,
-# assignee, QA contact, and users on the cc: list can see bugs even when
+# 2001-07-26 myk@mozilla.org            bug 39816 (original)
+# 2002-02-06 bbaetz@student.usyd.edu.au bug 97471 (revision)
+# Add fields to the bugs table that record whether or not the reporter
+# and users on the cc: list can see bugs even when
 # they are not members of groups to which the bugs are restricted.
-# 2002-02-06 bbaetz@student.usyd.edu.au - assignee/qa can always see the bug
 AddField("bugs", "reporter_accessible", "tinyint not null default 1");
-#AddField("bugs", "assignee_accessible", "tinyint not null default 1");
-#AddField("bugs", "qacontact_accessible", "tinyint not null default 1");
 AddField("bugs", "cclist_accessible", "tinyint not null default 1");
 
 # 2001-08-21 myk@mozilla.org bug84338:
@@ -3525,15 +3534,18 @@ if (GetFieldDef("profiles", "groupset")) {
                        VALUES($uid, $gid, 0, " . GRANT_DIRECT . ")");
             }
         }
-        # Create user can bless group grants for old groupsets.
-        # Get each user with the old blessgroupset bit set
-        $sth2 = $dbh->prepare("SELECT userid FROM profiles
-                   WHERE (blessgroupset & $bit) != 0");
-        $sth2->execute();
-        while (my ($uid) = $sth2->fetchrow_array) {
-            $dbh->do("INSERT INTO user_group_map
-                   (user_id, group_id, isbless, grant_type)
-                   VALUES($uid, $gid, 1, " . GRANT_DIRECT . ")");
+        # Create user can bless group grants for old groupsets, but only
+        # if we're upgrading from a Bugzilla that had blessing.
+        if(GetFieldDef('profiles', 'blessgroupset')) {
+            # Get each user with the old blessgroupset bit set
+            $sth2 = $dbh->prepare("SELECT userid FROM profiles
+                       WHERE (blessgroupset & $bit) != 0");
+            $sth2->execute();
+            while (my ($uid) = $sth2->fetchrow_array) {
+                $dbh->do("INSERT INTO user_group_map
+                       (user_id, group_id, isbless, grant_type)
+                       VALUES($uid, $gid, 1, " . GRANT_DIRECT . ")");
+            }
         }
         # Create bug_group_map records for old groupsets.
         # Get each bug with the old group bit set.
@@ -3792,17 +3804,19 @@ if (TableExists("attachstatuses") && TableExists("attachstatusdefs")) {
 
     print "done.\n";
 }
-
 # 2004-12-13 Nick.Barnes@pobox.com bug 262268
 # Check flag type names for spaces and commas, and rename them.
 if (TableExists("flagtypes")) {
-    # Get names and IDs which are broken.
+    # Get all names and IDs, to find broken ones and to
+    # check for collisions when renaming.
     $sth = $dbh->prepare("SELECT name, id FROM flagtypes");
     $sth->execute();
 
     my %flagtypes;
     my @badflagnames;
     
+    # find broken flagtype names, and populate a hash table
+    # to check for collisions.
     while (my ($name, $id) = $sth->fetchrow_array()) {
         $flagtypes{$name} = $id;
         if ($name =~ /[ ,]/) {
@@ -3815,7 +3829,9 @@ if (TableExists("flagtypes")) {
         my $sth = $dbh->prepare("UPDATE flagtypes SET name = ? WHERE id = ?");
         foreach $flagname (@badflagnames) {
             print "  Bad flag type name \"$flagname\" ...\n";
+            # find a new name for this flagtype.
             ($tryflagname = $flagname) =~ tr/ ,/__/;
+            # avoid collisions with existing flagtype names.
             while (defined($flagtypes{$tryflagname})) {
                 print "  ... can't rename as \"$tryflagname\" ...\n";
                 $tryflagname .= "'";
@@ -4098,7 +4114,30 @@ if (GetFieldDef("user_group_map", "isderived")) {
 
 AddField('flags', 'is_active', 'tinyint not null default 1');
 
-    
+# 2005-02-21 - LpSolit@gmail.com - Bug 279910
+# qacontact_accessible and assignee_accessible field names no longer exist
+# in the 'bugs' table. Their corresponding entries in the 'bugs_activity'
+# table should therefore be marked as obsolete, meaning that they cannot
+# be used anymore when querying the database - they are not deleted in
+# order to keep track of these fields in the activity table.
+if (!GetFieldDef('fielddefs', 'obsolete')) {
+    AddField('fielddefs', 'obsolete', 'tinyint not null default 0');
+    print "Marking qacontact_accessible and assignee_accessible as obsolete fields...\n";
+    $dbh->do("UPDATE fielddefs SET obsolete = 1
+              WHERE name = 'qacontact_accessible'
+                 OR name = 'assignee_accessible'");
+}
+
+
+# 2005-02-20 - LpSolit@gmail.com - Bug 277504
+# When migrating quips from the '$datadir/comments' file to the DB,
+# the user ID should be NULL instead of 0 (which is an invalid user ID).
+if (!GetFieldDef('quips', 'userid')->[2]) {
+    ChangeFieldType('quips', 'userid', 'mediumint null');
+    print "Changing owner to NULL for quips where the owner is unknown...\n";
+    $dbh->do('UPDATE quips SET userid = NULL WHERE userid = 0');
+}
+
 
 # If you had to change the --TABLE-- definition in any way, then add your
 # differential change code *** A B O V E *** this comment.

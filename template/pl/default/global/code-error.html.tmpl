@@ -43,7 +43,7 @@
     zmiennej <em>action</em>.
   
   [% ELSIF error == "attachment_already_obsolete" %]
-    Załącznik #[% attachid FILTER html %] ([% description FILTER html %]) 
+    Załącznik #[% attach_id FILTER html %] ([% description FILTER html %]) 
     został już oznaczony jako przestarzały.
 
   [% ELSIF error == "auth_err" %]

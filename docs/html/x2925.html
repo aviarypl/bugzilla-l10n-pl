@@ -2,7 +2,8 @@
 <HTML
 ><HEAD
 ><TITLE
->The Apache webserver is not serving Bugzilla pages</TITLE
+>I installed a Perl module, but 
+      checksetup.pl claims it's not installed!</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
@@ -13,12 +14,11 @@ REL="UP"
 TITLE="Troubleshooting"
 HREF="troubleshooting.html"><LINK
 REL="PREVIOUS"
-TITLE="General Advice"
-HREF="general-advice.html"><LINK
+TITLE="The Apache webserver is not serving Bugzilla pages"
+HREF="x2918.html"><LINK
 REL="NEXT"
-TITLE="I installed a Perl module, but 
-      checksetup.pl claims it's not installed!"
-HREF="x2875.html"></HEAD
+TITLE="Bundle::Bugzilla makes me upgrade to Perl 5.6.1"
+HREF="x2935.html"></HEAD
 ><BODY
 CLASS="section"
 BGCOLOR="#FFFFFF"
@@ -46,7 +46,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="general-advice.html"
+HREF="x2918.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -60,7 +60,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="x2875.html"
+HREF="x2935.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -74,44 +74,39 @@ CLASS="section"
 ><H1
 CLASS="section"
 ><A
-NAME="AEN2868"
->B.2. The Apache webserver is not serving Bugzilla pages</A
+NAME="AEN2925"
+>B.3. I installed a Perl module, but 
+      <TT
+CLASS="filename"
+>checksetup.pl</TT
+> claims it's not installed!</A
 ></H1
 ><P
->After you have run <B
-CLASS="command"
->checksetup.pl</B
-> twice,
-    run <B
-CLASS="command"
->testserver.pl http://yoursite.yourdomain/yoururl</B
->
-    to confirm that your webserver is configured properly for
-    Bugzilla.
-    </P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="programlisting"
->&#13;<SAMP
-CLASS="prompt"
->bash$</SAMP
-> ./testserver.pl http://landfill.bugzilla.org/bugzilla-tip
-TEST-OK Webserver is running under group id in $webservergroup.
-TEST-OK Got ant picture.
-TEST-OK Webserver is executing CGIs.
-TEST-OK Webserver is preventing fetch of http://landfill.bugzilla.org/bugzilla-tip/localconfig.
-</PRE
-></FONT
-></TD
-></TR
-></TABLE
+>This could be caused by one of two things:</P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>You have two versions of Perl on your machine. You are installing
+        modules into one, and Bugzilla is using the other. Rerun the CPAN
+        commands (or manual compile) using the full path to Perl from the 
+        top of <TT
+CLASS="filename"
+>checksetup.pl</TT
+>. This will make sure you 
+        are installing the modules in the right place.
+        </P
+></LI
+><LI
+><P
+>The permissions on your library directories are set incorrectly.
+	They must, at the very least, be readable by the webserver user or
+	group. It is recommended that they be world readable.
+        </P
+></LI
+></OL
 ></DIV
 ><DIV
 CLASS="NAVFOOTER"
@@ -129,7 +124,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="general-advice.html"
+HREF="x2918.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -147,7 +142,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="x2875.html"
+HREF="x2935.html"
 ACCESSKEY="N"
 >Next</A
 ></TD
@@ -157,7 +152,7 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->General Advice</TD
+>The Apache webserver is not serving Bugzilla pages</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
@@ -171,11 +166,7 @@ ACCESSKEY="U"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->I installed a Perl module, but 
-      <TT
-CLASS="filename"
->checksetup.pl</TT
-> claims it's not installed!</TD
+>Bundle::Bugzilla makes me upgrade to Perl 5.6.1</TD
 ></TR
 ></TABLE
 ></DIV
