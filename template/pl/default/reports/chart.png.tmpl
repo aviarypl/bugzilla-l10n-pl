@@ -19,8 +19,8 @@
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #%]
 
-[% y_label = "Bugs" %]
-[% x_label = "Time" %]
+[% y_label = "$terms.Bledy" %]
+[% x_label = "Czas" %]
 
 [% IF chart.cumulate %]
   [% USE graph = GD.Graph.area(width, height) %]

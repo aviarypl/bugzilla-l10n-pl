@@ -39,10 +39,10 @@
 [% body %]
 
 [% IF author.login == recipient.login %]
-  To edit your whine schedule, visit the following URL:
+  Aby edytować ustawienia przypominania, odwiedź poniższy URL:
   [%+ Param('urlbase') %]editwhines.cgi
 [% ELSE %]
-  This search was scheduled by [% author.login %].
+  To przypomnienie zostało przygotowane na prośbę [% author.login %].
 [% END %]
 
 
@@ -52,16 +52,16 @@
 [%+ "-" FILTER repeat(query.title.length) %]
 
  [% FOREACH bug=query.bugs %]
-  [% terms.Bug +%] [%+ bug.bug_id %]:
+  [% terms.Blad +%] #[%+ bug.bug_id %]:
   [%+ Param('urlbase') %]show_bug.cgi?id=[% bug.bug_id +%]
-  Priority: [%+ bug.priority -%]
-  Severity: [%+ bug.bug_severity -%]
-  Platform: [%+ bug.rep_platform %]
-  Assignee: [%+ bug.$assignee_login_string %]
-    Status: [%+ status_descs.${bug.bug_status} %]
-            [%- IF bug.resolution -%] Resolution: [% resolution_descs.${bug.resolution} -%]
+  Priorytet:     [%+ bug.priority -%]
+  Waga [% terms.bledu %]:    [%+ bug.bug_severity -%]
+  Platforma:     [%+ bug.rep_platform %]
+  Przypisany do: [%+ bug.$assignee_login_string %]
+  Status:        [%+ status_descs.${bug.bug_status} %]
+            [%- IF bug.resolution -%] Rozwiązanie:   [% resolution_descs.${bug.resolution} -%]
                                 [%- END %]
-   Summary: [% bug.short_desc %]
+   Podsumowanie: [% bug.short_desc %]
 
  [% END %]
 

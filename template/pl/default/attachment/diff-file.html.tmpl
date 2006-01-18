@@ -133,7 +133,7 @@ incremental_restore()
 [% END %]
 
 [% BLOCK odmlini %]
-  [% linia < 2 ? "linia" : linia % 10 > 1 &&  linia % 10 < 5 ? "linie" : "linii" %]
+  [% PROCESS ODMIEN c=linia o1="linia" o2="linie" o3="linii %]
 [% END %]
 
 </table>

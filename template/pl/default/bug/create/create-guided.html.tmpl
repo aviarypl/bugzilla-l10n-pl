@@ -36,13 +36,11 @@
 
 <p>
   <font color="red">
-    This is a template used on mozilla.org.  This template, and the
-    comment-guided.txt.tmpl template that formats the data submitted via 
-    the form in this template, are included as a demo of what it's
-    possible to do with custom templates in general, and custom [% terms.bug %]
-    entry templates in particular. As much of the text will not apply, 
-    you should alter it 
-    if you want to use this form on your [% terms.Bugzilla %] installation.
+    Ten wzorzec formularza, wraz z comment-guided.txt.tmpl, jest używany przez
+    mozilla.org. Został on umieszczony wyłącznie jako przykład tego co może
+    zostać osiągnięte przy użyciu własnych wzorców, a zwłaszcza własnych wzorców
+    wprowadzania nowych raportów o [% terms.bledach %]. Prawdopodobnie będziesz
+    zmuszony dostosować go do swoich potrzeb, we własnej instalacji [% terms.Bugzilli %].
   </font>
 </p>
 
@@ -120,7 +118,6 @@ function PutDescription() {
   <font color="red">Prosimy o niepomijanie tego kroku.</font>
   Około 50% wszystkich raportów o [% terms.bledach %] zgłoszonych w 
   [%+ terms.Bugzilli %] to duplikaty istniejących już raportów.
-  Fakt ten w znacznym stopniu marnuje czas osób odpowiedzialnych za QA.
 </p>
 
 [%# Include other products if sensible %]
@@ -143,10 +140,10 @@ function PutDescription() {
 </iframe>
 
 <p>
-    Jeśli nie znajdziesz tam opisu swojego problemu, spróbuj wpisać w poniższe
-    okienko dwa lub trzy słowa opisujące Twój [% terms.blad %]. Przykładowo
+    Jeśli nie znajdziesz tam opisu swojego [% terms.bledu %], spróbuj wpisać w
+    poniższe okienko dwa, trzy słowa opisujące Twój problem. Przykładowo
     może to być: <tt><b>pop3 mail</b></tt> lub <tt><b>kopiuj wklej</b></tt>.
-    Wyniki zostaną wyśweitlone w powyższym okienku.
+    Wyniki zostaną wyświetlone powyżej.
   </p>
 
 [%# All bugs opened inside the past six months %]
@@ -189,8 +186,7 @@ function PutDescription() {
   Jeśli znalazłeś [% terms.blad %] który wygląda tak jak Twój, możesz
   dodać do niego komentarz, lecz nie twórz nowego raportu. Prosimy również
   o niedodawanie komentarzy takich jak "naprawcie ten [% terms.blad %]" -
-  to może tylko spowodować że osóby odpowiedzialne za ten ten [% terms.blad %] 
-  zdenerwują i zwykle zamiast przyśpieszyć, zwalnia to tempo naprawy.
+  to w żadnym stopniu nie przyczynia się do szybszej naprawy.
 </p>
 
 <p>
@@ -531,12 +527,11 @@ function PutDescription() {
   przy rozwiązywania tego [% terms.bledu %] przy użyciu poczty elektronicznej.
 
 <p>  
-  Please be warned
-  that we get a lot of [% terms.bug %] reports filed - it may take quite a 
-  while to get around to yours. You can help the process by making sure your 
-  [%+ terms.bug %] is
-  complete and easy to understand, and by quickly replying to any questions
-  which may arrive by email.
+  Proszę mieć na uwadze, że otrzymujemy wielką ilość raportów o  [% terms.bledach %] 
+  i tym samym może nieco potrwać nim ktoś zainteresuje się Twoim raportem.
+  Możesz ułatwić ten proces poprzez udzielenie maksymalnie szczegółowych i
+  łatwych do zrozumienia informacji, oraz szybkie odpowiedzi na pytania
+  otrzymywane pocztą elektroniczną.
 </p>
 
     </form>

@@ -51,10 +51,10 @@
 
     <p align="left">
       [% IF author.login == recipient.login %]
-        <a href="[%+ Param('urlbase') FILTER html %]editwhines.cgi">Click
-            here to edit your whine schedule</a>
+        <a href="[%+ Param('urlbase') FILTER html %]editwhines.cgi">Kliknij
+            tutaj aby edytować ustawienia przypominania</a>
       [% ELSE %]
-        This search was scheduled by [% author.login FILTER html %].
+        To przypomnienie zostało przygotowane na prośbę [% author.login FILTER html %].
       [% END %]
     </p>
 
@@ -66,13 +66,13 @@
   <table width="100%">
     <tr>
       <th align="left">ID</th>
-      <th align="left">Sev</th>
-      <th align="left">Pri</th>
+      <th align="left">Waga</th>
+      <th align="left">Pri.</th>
       <th align="left">Plt</th>
-      <th align="left">Assignee</th>
+      <th align="left">Przypisany do</th>
       <th align="left">Status</th>
-      <th align="left">Resolution</th>
-      <th align="left">Summary</th>
+      <th align="left">Rozwiązanie</th>
+      <th align="left">Podsumowanie</th>
     </tr>
 
     [% FOREACH bug=query.bugs %]

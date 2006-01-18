@@ -38,7 +38,7 @@
         bug.user.canconfirm %]
     <input type="radio" id="knob-confirm" name="knob" value="confirm">
     <label for="knob-confirm">
-      Potwierdź istnienie [% terms.bledu %] (zmień <b>[% status_descs.NEW FILTER html %]</b>))
+      Potwierdź istnienie [% terms.bledu %] (zmień status na <b>[% status_descs.NEW FILTER html %]</b>))
     </label>
     <br>
     [% knum = knum + 1 %]
@@ -61,7 +61,7 @@
       [% IF bug.resolution %]
         <input type="radio" id="knob-clear" name="knob" value="clearresolution">
         <label for="knob-clear">
-          Usuń rozwiązanie jako
+          Usuń rozwiązanie 
           <b>[% status_descs.${bug.resolution} FILTER html %]</b>)
         </label>
         <br>
@@ -111,7 +111,7 @@
         [% IF bug.isunconfirmed && bug.user.canconfirm %]
           &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="andconfirm" name="andconfirm">
           <label for="andconfirm">
-            oraz potwierdź istnienie [% terms.bledu %] (change status to <b>[% status_descs.NEW FILTER html %]</b>)
+            oraz potwierdź istnienie [% terms.bledu %] (zmień status na <b>[% status_descs.NEW FILTER html %]</b>)
           </label>
           <br>
         [% END %]

@@ -35,18 +35,19 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = "Set up whining" %]
+[% title = "Ustawienia przypominania" %]
 [% PROCESS global/header.html.tmpl %]
 
 <p>
-  "Whining" is when [% terms.Bugzilla %] executes a saved query at a regular interval
-  and sends the resulting list of [% terms.bugs %] via email.
+  "Przypominanie" w [% terms.Bugzilli %] działa na zasadzie okresowego
+  wykonywania jednego z zapamiętanych wyszukiwań i wysyłania wynikowej listy 
+  [% terms.bledow %] pocztą elektroniczną.
 </p>
 
 <p>
-  To set up a new whine event, click "Add a new event."  Enter a subject line
-  for the message that will be sent, along with a block of text that will
-  accompany the [% terms.bug %] list in the body of the message.
+  Aby zdefiniować nowe zdarzenie, kliknij na "Dodaj nowe zdarzenie".
+  Podaj temat wiadomości oraz treść która wraz z listą [% terms.bledow %] 
+  zostanie umieszczona w ciele wiadomości.
 </p>
 
 <p>

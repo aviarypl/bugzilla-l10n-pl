@@ -55,14 +55,14 @@
   <table width="100%">
     <tr>
       <td>
-        <b>[% terms.Blad %]#:</b>
-        <a href="show_bug.cgi?id=[% bug.bug_id %]">[% bug.bug_id %]</a>
+        <b>[% terms.Blad %]:</b> 
+        #<a href="show_bug.cgi?id=[% bug.bug_id %]">[% bug.bug_id %]</a>
         [% IF Param("usebugaliases") AND bug.alias %]  
           ([% bug.alias FILTER html %])
         [% END %]
       </td>
       <td>
-        <b> Product: </b>&nbsp;
+        <b> Produkt: </b>&nbsp;
         [% IF Param("useclassification") %]
           [[% bug.classification FILTER html %]]&nbsp;
         [% END %]
@@ -82,7 +82,7 @@
                                name => "bug_status" } %]
       [% PROCESS cell attr = { description => "Waga błędu",
                                name => "bug_severity" } %]
-      [% PROCESS cell attr = { description => "Prioritet",
+      [% PROCESS cell attr = { description => "Priorytet",
                                name => "priority" } %]
     </tr>
 

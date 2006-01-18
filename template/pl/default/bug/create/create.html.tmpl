@@ -26,7 +26,7 @@
 
 [% product_name = product FILTER html %]
 [% PROCESS global/header.html.tmpl
-  title = "Enter $terms.Bug: $product_name"
+  title = "Tworzenie raportu $terms.bledu: $product_name"
   h2 = "Tutaj możesz dodać nowy raport o błędzie do ${terms.Bugzilli}."
   onload="set_assign_to();"
 %]
@@ -407,16 +407,15 @@ function set_assign_to() {
     <td></td>
     <td colspan="3">
       <br>
-      We've made a guess at your
   [% IF Param('defaultplatform') %]
-      operating system. Please check it
+      System operacyjny został ustawiony
   [% ELSIF Param('defaultopsys') %]
-      platform. Please check it
+      Platforma sprzętowa została ustawiona
   [% ELSE %]
-      operating system and platform. Please check them
+      System operacyjny oraz platforma zostały ustawione
   [% END %]
-      and, if we got it wrong, email
-      [%+ Param('maintainer') %].
+      na podstawie danych Twojej przeglądarki. Jeśli wykryte wartości są
+      niepoprawne prosimy o informację na adres [%+ Param('maintainer') %].
     </td>
   </tr>
 [% END %]

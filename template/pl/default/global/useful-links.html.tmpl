@@ -56,7 +56,7 @@
             [% IF user.get_flag('can_logout') %]
             | <a href="relogin.cgi">Wyloguj&nbsp;się</a>&nbsp;
             [% ELSE %]
-              | Logged&nbsp;in&nbsp;as&nbsp;
+              | Zalogowany&nbsp;jako&nbsp;
             [% END %]
               [% user.login FILTER html %]
         [% ELSE %]
@@ -90,7 +90,7 @@
                                                IF user.groups.editcomponents %]
         [% ' | <a href="editkeywords.cgi">Słów&nbsp;kluczowych</a>' 
                                                  IF user.groups.editkeywords %]
-        [% ' | <a href="editwhines.cgi">Whining</a>' 
+        [% ' | <a href="editwhines.cgi">Przypominania</a>' 
                                               IF user.groups.bz_canusewhines %]
     </div>
   </div>

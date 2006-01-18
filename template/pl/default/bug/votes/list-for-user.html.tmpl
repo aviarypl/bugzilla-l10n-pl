@@ -106,7 +106,7 @@
         [% FOREACH bug = product.bugs %]
           <tr [% IF bug.id == bug_id && canedit %] 
             class="bz_bug_being_voted_on" [% END %]>
-            <td>[% IF bug.id == bug_id && canedit %]Enter New Vote here &rarr;
+            <td>[% IF bug.id == bug_id && canedit %]Zagłosuj &rarr;
               [%- END %]</td>
             <td align="right"><a name="vote_[% bug.id %]">
               [% IF canedit %]
@@ -139,7 +139,7 @@
           <td></td>
           <td colspan="3">
             Oddano [% product.total +%]
-            [%+ PROCESS odmiana l=product.total s1="glos" s2="głosy" s3="głosów" %]
+            [%+ PROCESS ODMIEN c=product.total o1="glos" o2="głosy" o3="głosów" %]
             z [% product.maxvotes +%].
             <br>
             <br>
@@ -160,7 +160,7 @@
       [% IF onevoteproduct %]
         zaznacz odpowiednie pole
       [% END %]
-      i kliknij an odnośniku <b>Zmień swoje głosy</b>.
+      i kliknij na odnośniku <b>Zmień swoje głosy</b>.
     [% END %]
   </form>
 [% ELSE %]
@@ -171,22 +171,12 @@
     [% ELSE %]
     ten użytkownik nie głosuje
     [% END %]
-    na żadny [% terms.blad %].
+    na żaden [% terms.blad %].
   </p>
 [% END %]
 
 <p>
   <a href="page.cgi?id=voting.html">Pomoc do systemu głosowania</a>.
 </p>
-
-[% BLOCK odmiana -%]
-  [%- IF l == 1 -%]
-    [%- s1 -%]
-  [%- ELSIF (l % 100 < 10 || l % 100 > 20) &&l % 10 > 1 && l % 10 < 5 -%]
-    [%- s2 -%]
-  [%- ELSE -%]
-    [%- s3 -%]
-  [%- END -%]
-[%- END %]
 
 [% PROCESS global/footer.html.tmpl %]

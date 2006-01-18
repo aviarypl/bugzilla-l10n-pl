@@ -53,12 +53,12 @@
 
   <p>
   [% IF use_target_milestone %]
-    Przenosisz [% terms.blad %](y) do produktu
+    Przenosisz [% terms.blad %]([% terms.bledy %]) do produktu
     <b>[% cgi.param("product") FILTER html %]</b>,
     tym samym wersja, komponent, docelowa wersja [% terms.bledu %]
     przestają być prawidłowe. Proszę teraz uaktualnić te pola:
   [% ELSE %]
-    Przenosisz [% terms.blad %](y) do produktu
+    Przenosisz [% terms.blad %]([% terms.blady %]) do produktu
     <b>[% cgi.param("product") FILTER html %]</b>,
     tym samym wersja i komponent [% terms.bledu %] przestają być
     prawidłowe. Proszę teraz uaktualnić te pola:
@@ -105,7 +105,7 @@
 
 </form>
 <hr>
-<a href="query.cgi">Anuluj i powróc do strony zapytań</a>
+<a href="query.cgi">Anuluj i powróć do strony zapytań</a>
 
 [% PROCESS global/footer.html.tmpl %]
 

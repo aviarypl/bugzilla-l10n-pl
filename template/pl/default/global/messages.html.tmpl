@@ -50,9 +50,9 @@
             [% IF    field == 'login_name' %]
               Identyfikator konta został zmieniony na [% otheruser.login FILTER html %].
             [% ELSIF field == 'realname' %]
-              Dane osobowe zostały uaktulanione.
+              Dane osobowe zostały uaktualnione.
             [% ELSIF field == 'cryptpassword' %]
-              Nowe hasło zostało ustawiono.
+              Nowe hasło zostało ustawione.
             [% ELSIF field == 'disabledtext' %]
               Objaśnienie powodu wyłączenia konta zostało zmodyfikowane.
             [% END %]
@@ -79,14 +79,13 @@
         [% IF groups_denied_rights_to_bless.size %]
           <li>
             Odebrano prawo do modyfikacji członkostwa grup[% 'y' IF groups_granted_denied_to_bless.size == 1 %]
-            The account has been denied rights to bless the
             [%+ groups_denied_rights_to_bless.join(', ') FILTER html %].
           </li>
         [% END %]
       </ul>
     [% ELSE %]
       [% title = "Nie dokonano żadnych zmian dla konta $otheruser.login" %]
-      Nie dokonałeś żadnych zmian dla konta
+      Nie dokonano żadnych zmian dla konta
       [%+ otheruser.login FILTER html %].
     [% END %]
 
@@ -210,8 +209,8 @@
 
   [% ELSIF message_tag == "remaining_time_zeroed" %]
     Wartość pola [% field_descs.remaining_time FILTER html %] została
-    automatycznie zmienona na zero, w związku z oznaczenim [% terms.bug %]
-    jaki RESOLVED lub CLOSED.
+    automatycznie zmieniona na zero, w związku z oznaczeniem [% terms.bledu %]
+    na [% status_descs.RESOLVED FILTER html %] lub [% status_descs.CLOSED FILTER html %].
 
   [% ELSIF message_tag == "series_created" %]
     [% title = "Tworzenie serii" %]
@@ -229,7 +228,7 @@
     [% Param("shutdownhtml") %]
     [% IF userid %]
       <p>Ze względów bezpieczeństwa, zostałeś automatycznie wylogowany.
-      Ciasteczki przechowujące informacje pozwalające na automatyczne
+      Ciasteczko przechowujące informacje pozwalające na automatyczne
       zalogowanie zostało usunięte.
     [% END %]
 

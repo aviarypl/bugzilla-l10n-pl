@@ -151,11 +151,11 @@ function doOnSelectProduct(selectmode) {
           <td valign="top">
             <table>
               <tr valign="bottom">
-                <th align="left"><u>C</u>lassification:</th>
+                <th align="left">K<u>l</u>asyfikacja:</th>
               </tr>
               <tr valign="top">
                 <td align="left">
-                  <label for="classification">
+                  <label for="classification" accesskey="l">
                     <select name="classification" multiple="multiple" size="5" id="classification"
                             onchange="doOnSelectProduct(1);">
                     [% FOREACH cat = classification %]
@@ -309,7 +309,7 @@ function doOnSelectProduct(selectmode) {
   [% IF UserInGroup(Param("timetrackinggroup")) %]
     <tr>
       <th align="right">
-        Dead<u>l</u>ine:
+        Ost. Termi<u>n</u>:
       </th>
       <td>
         from&nbsp;
@@ -318,7 +318,7 @@ function doOnSelectProduct(selectmode) {
         <input name="deadlineto" size="10" maxlength="10">
       </td>
       <td>
-        <small>(YYYY-MM-DD)</small>
+        <small>(RRRR-MM-DD)</small>
       </td>
     </tr>
   [% END %]

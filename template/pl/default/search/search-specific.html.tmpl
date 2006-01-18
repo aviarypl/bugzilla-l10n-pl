@@ -22,7 +22,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl 
-  title = "Znajdź określony " _ terms.blad
+  title = "Znajdź określony $terms.blad"
   h1 = ""
   style = "td.selected_tab {
              border-width: 2px 2px 0px;
@@ -65,7 +65,7 @@ spróbować szukać używając słów "bezpieczeństwo SSL flash".
     </td>
     <td>
       <select name="bug_status" id="bug_status">
-        [% statuses = [ { name = 'open', label = "Otworzony" },
+        [% statuses = [ { name = 'open', label = "Otwarty" },
                         { name = 'closed', label = "Zamknięty" },
                         { name = 'all', label = "Wszystkie" } ] %]
         [% FOREACH status = statuses %]

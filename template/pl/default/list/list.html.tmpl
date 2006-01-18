@@ -53,9 +53,9 @@
 
 <div align="center">
   [% IF Param('timezone') %]
-    <b>[% time2str("%a, %Y-%m-%d %T %Z", currenttime, Param('timezone')) %]</b><br>
+    <b>[% time2str("%Y-%m-%d %H:%M %Z", currenttime, Param('timezone')) %]</b><br>
   [% ELSE %]
-    <b>[% time2str("%a, %Y-%m-%d %T", currenttime) %]</b><br>
+    <b>[% time2str("%Y-%m-%d %H:%M", currenttime) %]</b><br>
   [% END %]
 
   [% IF debug %]
@@ -71,8 +71,9 @@
 
 [% IF toolong %]
   <h2>
-    Ta lista jest zbyt duża dla małego rozumku [% terms.Bugzilli %], przyciski Następny/Poprzedni/Pierwszy/Ostatni nie
-     zostaną wyświetlone na stronach z [% terms.bledami %].
+    Ta lista jest zbyt duża dla małego rozumku [% terms.Bugzilli %], przyciski
+    Następny/Poprzedni/Pierwszy/Ostatni nie zostaną wyświetlone na stronach
+    z [% terms.bledami %].
   </h2>
 [% END %]
 
@@ -83,12 +84,8 @@
 [%############################################################################%]
 
 [% IF bugs.size > 9 %]
-  Znaleziono [% bugs.size %] 
-  [%+ IF bugs.size % 100 > 20 && bugs.size % 10 > 1 && bugs.size % 10 < 5 %]
-    [%+ terms.bledy %].
-  [% ELSE %]
-    [%+ terms.bledow %].
-  [% END %]
+  Znaleziono [% bugs.size %] [% PROCESS ODMIEN c=bugs.size o1="$terms.blad"
+    o2="$terms.bledy" o2="$terms.bledow" %]
 [% END %]
 
 [%############################################################################%]
@@ -114,10 +111,9 @@
   [% terms.zeroSearchResults %].
 [% ELSIF bugs.size == 1 %]
   Znaleziono jeden [% terms.blad %].
-[% ELSIF (bugs.size % 100 < 10 || bugs.size % 100 > 20) && bugs.size % 10 > 1 && bugs.size % 10 < 5 %]
-  Znaleziono [% bugs.size %] [%+ terms.bledy %].
 [% ELSE %]
-  Znaleziono [% bugs.size %] [%+ terms.bledow %].
+  Znaleziono [% bugs.size %] [% PROCESS ODMIEN c=bugs.size o1="$terms.blad"
+    o2="$terms.bledy" o2="$terms.bledow" %]
 [% END %]
 
 <br>
