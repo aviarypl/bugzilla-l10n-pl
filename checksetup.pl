@@ -30,7 +30,7 @@
 #                 Gervase Markham <gerv@gerv.net>
 #                 Erik Stambaugh <erik@dasbistro.com>
 #                 Dave Lawrence <dkl@redhat.com>
-#                 Max Kanat-Alexander <mkanat@kerio.com>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 #
 #
 #
@@ -53,7 +53,7 @@
 #     - set defaults for local configuration variables
 #     - create and populate the data directory after installation
 #     - set the proper rights for the *.cgi, *.html, etc. files
-#     - verify that the code can access MySQL
+#     - verify that the code can access the database server
 #     - creates the database 'bugs' if it does not exist
 #     - creates the tables inside the database if they don't exist
 #     - automatically changes the table definitions if they are from
@@ -300,12 +300,8 @@ my $modules = [
         version => '1.38' 
     }, 
     { 
-        name => 'DBD::mysql', 
-        version => '2.9003' 
-    }, 
-    { 
         name => 'File::Spec', 
-        version => '0.82' 
+        version => '0.84' 
     }, 
     {
         name => 'File::Temp',
@@ -679,8 +675,8 @@ LocalVar('db_host', q[
 # How to access the SQL database:
 #
 $db_host = 'localhost';         # where is the database?
-$db_name = 'bugs';              # name of the MySQL database
-$db_user = 'bugs';              # user to attach to the MySQL database
+$db_name = 'bugs';              # name of the SQL database
+$db_user = 'bugs';              # user to attach to the SQL database
 
 # Sometimes the database server is running on a non-standard
 # port. If that's the case for your database server, set this
@@ -755,7 +751,7 @@ my $my_db_name = ${*{$main::{'db_name'}}{SCALAR}};
 my $my_index_html = ${*{$main::{'index_html'}}{SCALAR}};
 my $my_create_htaccess = ${*{$main::{'create_htaccess'}}{SCALAR}};
 my $my_webservergroup = ${*{$main::{'webservergroup'}}{SCALAR}};
-# mkanat@kerio.com - bug 17453
+# mkanat@bugzilla.org - bug 17453
 # The following values have been removed from localconfig.
 # However, if we are upgrading from a Bugzilla with enums to a 
 # Bugzilla without enums, we use these values one more time so 
@@ -996,7 +992,7 @@ if ($my_create_htaccess) {
     open HTACCESS, '>', '.htaccess';
     print HTACCESS <<'END';
 # don't allow people to retrieve non-cgi executable files or our private data
-<FilesMatch ^(.*\.pl|.*localconfig.*|runtests.sh)$>
+<FilesMatch ^(.*\.pl|.*localconfig.*)$>
   deny from all
 </FilesMatch>
 <FilesMatch ^(localconfig.js|localconfig.rdf)$>
@@ -1163,9 +1159,12 @@ if (@oldparams) {
 }
 
 # Set mail_delivery_method to SMTP and prompt for SMTP server
-# if running on Windows and set to sendmail (Mail::Mailer doesn't
-# support sendmail on Windows)
-if ($^O =~ /MSWin32/i && Param('mail_delivery_method') eq 'sendmail') {
+# if running on Windows and no third party sendmail wrapper
+# is available
+if ($^O =~ /MSWin32/i
+    && Param('mail_delivery_method') eq 'sendmail'
+    && !-e SENDMAIL_EXE)
+{
     print "\nBugzilla requires an SMTP server to function on Windows.\n" .
         "Please enter your SMTP server's hostname: ";
     my $smtp = $answer{'SMTP_SERVER'} 
@@ -1294,7 +1293,7 @@ unless ($switch{'no_templates'}) {
 
 # These are the files which need to be marked executable
 my @executable_files = ('whineatnews.pl', 'collectstats.pl',
-   'checksetup.pl', 'importxml.pl', 'runtests.sh', 'testserver.pl',
+   'checksetup.pl', 'importxml.pl', 'runtests.pl', 'testserver.pl',
    'whine.pl');
 
 # tell me if a file is executable.  All CGI files and those in @executable_files
@@ -1418,21 +1417,17 @@ if ($^O !~ /MSWin32/i) {
 # This is done here, because some modules require params to be set up, which
 # won't have happened earlier.
 
-# The only use for loading globals.pl is for Crypt(), which should at some
-# point probably be factored out into Bugzilla::Auth::*
-
-# XXX - bug 278792: Crypt has been moved to Bugzilla::Auth::bz_crypt.
-# This section is probably no longer needed, but we need to make sure
-# that things still work if we remove globals.pl. So that's for later.
-
-# It's safe to use Bugzilla::Auth here because parameters have now been
-# defined.
-require Bugzilla::Auth;
-import Bugzilla::Auth 'bz_crypt';
+# It's never safe to "use" a Bugzilla module in checksetup. If a module
+# prerequisite is missing, and you "use" a module that requires it,
+# then instead of our nice normal checksetup message the user would
+# get a cryptic perl error about the missing module.
 
 # This is done so we can add new settings as developers need them.
 require Bugzilla::User::Setting;
 import Bugzilla::User::Setting qw(add_setting);
+
+require Bugzilla::Util;
+import Bugzilla::Util qw(bz_crypt trim html_quote);
 
 # globals.pl clears the PATH, but File::Find uses Cwd::cwd() instead of
 # Cwd::getcwd(), which we need to do because `pwd` isn't in the path - see
@@ -1469,15 +1464,33 @@ $::ENV{'PATH'} = $origPath;
 if ($my_db_check) {
     # Do we have the database itself?
 
+    # Unfortunately, $my_db_driver doesn't map perfectly between DBD
+    # and Bugzilla::DB. We need to fix the case a bit.
+    (my $dbd_name = trim($my_db_driver)) =~ s/(\w+)/\u\L$1/g;
+    # And MySQL is special, because it's all lowercase in DBD.
+    $dbd_name = 'mysql' if $dbd_name eq 'Mysql';
+
+    my $dbd = "DBD::$dbd_name";
+    unless (eval("require $dbd")) {
+        print "Bugzilla requires that perl's $dbd be installed.\n"
+              . "To install this module, you can do:\n "
+              . "   " . install_command($dbd) . "\n";
+        exit;
+    }
+
     my $dbh = Bugzilla::DB::connect_main("no database connection");
     my $sql_want = $dbh->REQUIRED_VERSION;
     my $sql_server = $dbh->PROGRAM_NAME;
+    my $dbd_ver = $dbh->DBD_VERSION;
+    unless (have_vers($dbd, $dbd_ver)) {
+        die "Bugzilla requires at least version $dbd_ver of $dbd.";
+    }
 
     printf("Checking for %15s %-9s ", $sql_server, "(v$sql_want)") unless $silent;
     my $sql_vers = $dbh->bz_server_version;
 
-    # Check what version of MySQL is installed and let the user know
-    # if the version is too old to be used with Bugzilla.
+    # Check what version of the database server is installed and let
+    # the user know if the version is too old to be used with Bugzilla.
     if ( vers_cmp($sql_vers,$sql_want) > -1 ) {
         print "ok: found v$sql_vers\n" unless $silent;
     } else {
@@ -1714,7 +1727,7 @@ AddFDef("content", "Content", 0);
 # Detect changed local settings
 ###########################################################################
 
-# mkanat@kerio.com - bug 17453
+# mkanat@bugzilla.org - bug 17453
 # Create the values for the tables that hold what used to be enum types.
 # Don't populate the tables if the table isn't empty.
 sub PopulateEnumTable ($@) {
@@ -1745,7 +1758,7 @@ sub PopulateEnumTable ($@) {
     }
 }
 
-# mkanat@kerio.com - bug 17453
+# mkanat@bugzilla.org - bug 17453
 # Set default values for what used to be the enum types.
 # These values are no longer stored in localconfig.
 # However, if we are upgrading from a Bugzilla with enums to a 
@@ -2217,7 +2230,7 @@ if ($comp_init_owner && $comp_init_owner->{TYPE} eq 'TINYTEXT') {
         my $initialownerid = $s2->fetchrow_array();
 
         unless (defined $initialownerid) {
-            print "Warning: You have an invalid initial owner '$initialowner'\n" .
+            print "Warning: You have an invalid default assignee '$initialowner'\n" .
               "in component '$value' of program '$program'. !\n";
             $initialownerid = 0;
         }
@@ -2257,7 +2270,7 @@ if ($comp_init_qa && $comp_init_qa->{TYPE} eq 'TINYTEXT') {
 
         unless (defined $initialqacontactid) {
             if ($initialqacontact ne '') {
-                print "Warning: You have an invalid initial QA contact $initialqacontact' in program '$program', component '$value'!\n";
+                print "Warning: You have an invalid default QA contact $initialqacontact' in program '$program', component '$value'!\n";
             }
             $initialqacontactid = 0;
         }
@@ -3300,7 +3313,7 @@ if ($mapcnt == 0) {
     # First, get all the existing products and their groups.
     $sth = $dbh->prepare("SELECT groups.id, products.id, groups.name, " .
                          "products.name FROM groups, products " .
-                         "WHERE isbuggroup != 0 AND isactive != 0");
+                         "WHERE isbuggroup != 0");
     $sth->execute();
     while (my ($groupid, $productid, $groupname, $productname) 
             = $sth->fetchrow_array()) {
@@ -3514,7 +3527,7 @@ if (!$series_exists) {
     }
 }
 
-AddFDef("owner_idle_time", "Time Since Owner Touched", 0);
+AddFDef("owner_idle_time", "Time Since Assignee Touched", 0);
 
 # 2004-04-12 - Keep regexp-based group permissions up-to-date - Bug 240325
 if ($dbh->bz_column_info("user_group_map", "isderived")) {
@@ -3586,7 +3599,7 @@ $dbh->bz_rename_column('whine_schedules', 'mailto_userid', 'mailto');
 $dbh->bz_add_column('whine_schedules', 'mailto_type', 
     {TYPE => 'INT2', NOTNULL => 1, DEFAULT => '0'});
 
-# 2005-01-29 - mkanat@kerio.com
+# 2005-01-29 - mkanat@bugzilla.org
 if (!$dbh->bz_column_info('longdescs', 'already_wrapped')) {
     # Old, pre-wrapped comments should not be auto-wrapped
     $dbh->bz_add_column('longdescs', 'already_wrapped',
@@ -3650,7 +3663,10 @@ if (!$dbh->bz_index_info('bugs', 'bugs_short_desc_idx')) {
     $dbh->bz_add_index('bugs', 'bugs_short_desc_idx', 
                        {TYPE => 'FULLTEXT', FIELDS => [qw(short_desc)]});
 }
-if (!$dbh->bz_index_info('longdescs', 'longdescs_thetext_idx')) {
+# Right now, we only create the "thetext" index on MySQL.
+if ($dbh->isa('Bugzilla::DB::Mysql') 
+    && !$dbh->bz_index_info('longdescs', 'longdescs_thetext_idx')) 
+{
     print "Adding full-text index for thetext column in longdescs table...\n";
     $dbh->bz_add_index('longdescs', 'longdescs_thetext_idx',
         {TYPE => 'FULLTEXT', FIELDS => [qw(thetext)]});
@@ -3670,8 +3686,8 @@ if (!$dbh->bz_index_info('longdescs', 'longdescs_thetext_idx')) {
         print "Removing paths from filenames in attachments table...\n";
         
         $sth = $dbh->prepare("SELECT attach_id, filename FROM attachments " . 
-                             "WHERE " . $dbh->sql_position(q{'/'}, 'filename') .
-                             " OR " . $dbh->sql_position(q{'\\\\'}, 'filename'));
+                "WHERE " . $dbh->sql_position(q{'/'}, 'filename') . " > 0 OR " .
+                           $dbh->sql_position(q{'\\\\'}, 'filename') . " > 0");
         $sth->execute;
         
         while (my ($attach_id, $filename) = $sth->fetchrow_array) {
@@ -3753,8 +3769,6 @@ if ($emptygroupid) {
 }
 
 # 2005-02-12 bugreport@peshkin.net, bug 281787
-$dbh->bz_add_index('attachments', 'attachments_submitter_id_idx',
-                   [qw(submitter_id)]);
 $dbh->bz_add_index('bugs_activity', 'bugs_activity_who_idx', [qw(who)]);
 
 # This lastdiffed change and these default changes are unrelated,
@@ -3943,6 +3957,47 @@ $dbh->bz_alter_column('versions', 'value',
 $dbh->bz_add_index('versions', 'versions_product_id_idx',
                    {TYPE => 'UNIQUE', FIELDS => [qw(product_id value)]});
 
+# Milestone sortkeys get a default just like all other sortkeys.
+if (!exists $dbh->bz_column_info('milestones', 'sortkey')->{DEFAULT}) {
+    $dbh->bz_alter_column('milestones', 'sortkey', 
+                          {TYPE => 'INT2', NOTNULL => 1, DEFAULT => 0});
+}
+
+# 2005-06-14 - LpSolit@gmail.com - Bug 292544: only set creation_ts
+# when all bug fields have been correctly set.
+$dbh->bz_alter_column('bugs', 'creation_ts', {TYPE => 'DATETIME'});
+
+if (!exists $dbh->bz_column_info('whine_queries', 'title')->{DEFAULT}) {
+
+    # The below change actually has nothing to do with the whine_queries
+    # change, it just has to be contained within a schema change so that
+    # it doesn't run every time we run checksetup.
+
+    # Old Bugzillas have "other" as an OS choice, new ones have "Other"
+    # (capital O).
+    # XXX - This should be moved inside of a later schema change, once
+    #       we have one to move it to the inside of.
+    print "Setting any 'other' op_sys to 'Other'...\n";
+    $dbh->do('UPDATE op_sys SET value = ? WHERE value = ?',
+             undef, "Other", "other");
+    $dbh->do('UPDATE bugs SET op_sys = ? WHERE op_sys = ?',
+             undef, "Other", "other");
+    if (Param('defaultopsys') eq 'other') {
+        # We can't actually fix the param here, because WriteParams() will
+        # make $datadir/params unwriteable to the webservergroup.
+        # It's too much of an ugly hack to copy the permission-fixing code
+        # down to here. (It would create more potential future bugs than
+        # it would solve problems.)
+        print "WARNING: Your 'defaultopsys' param is set to 'other', but"
+            . " Bugzilla now\n"
+            . "         uses 'Other' (capital O).\n";
+    }
+
+    # Add a DEFAULT to whine_queries stuff so that editwhines.cgi
+    # works on PostgreSQL.
+    $dbh->bz_alter_column('whine_queries', 'title', {TYPE => 'varchar(128)', 
+                          NOTNULL => 1, DEFAULT => "''"});
+}
 
 
 # If you had to change the --TABLE-- definition in any way, then add your
@@ -3951,12 +4006,12 @@ $dbh->bz_add_index('versions', 'versions_product_id_idx',
 # That is: if you add a new field, you first search for the first occurrence
 # of --TABLE-- and add your field to into the table hash. This new setting
 # would be honored for every new installation. Then add your
-# bz_add_field/bz_drop_field/bz_change_field_type/bz_rename_field code above. 
+# bz_add_field/bz_drop_field/bz_change_field_type/bz_rename_field code above.
 # This would then be honored by everyone who updates his Bugzilla installation.
 #
 
 #
-# BugZilla uses --GROUPS-- to assign various rights to its users. 
+# BugZilla uses --GROUPS-- to assign various rights to its users.
 #
 
 AddGroup('tweakparams', 'Can tweak operating parameters');
@@ -3967,6 +4022,16 @@ AddGroup('editcomponents', 'Can create, destroy, and edit components.');
 AddGroup('editkeywords', 'Can create, destroy, and edit keywords.');
 AddGroup('admin', 'Administrators');
 
+# 2005-06-29 bugreport@peshkin.net, bug 299156
+if ($dbh->bz_index_info('attachments', 'attachments_submitter_id_idx') 
+   && (scalar(@{$dbh->bz_index_info('attachments', 
+                                    'attachments_submitter_id_idx'
+                                   )->{FIELDS}}) < 2)
+      ) {
+    $dbh->bz_drop_index('attachments', 'attachments_submitter_id_idx');
+}
+$dbh->bz_add_index('attachments', 'attachments_submitter_id_idx',
+                   [qw(submitter_id bug_id)]);
 
 if (!GroupDoesExist("editbugs")) {
     my $id = AddGroup('editbugs', 'Can edit all bug fields.', ".*");
@@ -4020,6 +4085,9 @@ add_setting ("comment_sort_order", {"oldest_to_newest" => 1,
                                     "newest_to_oldest" => 2,
                                     "newest_to_oldest_desc_first" => 3}, 
              "oldest_to_newest" );
+
+# 2005-06-29 wurblzap@gmail.com -- Bug 257767
+add_setting ('csv_colsepchar', {',' => 1, ';' => 2 }, ',' );
 
 ###########################################################################
 # Create Administrator  --ADMIN--
@@ -4133,7 +4201,7 @@ if ($sth->rows == 0) {
             }
         }
         $sth = $dbh->prepare("SELECT login_name FROM profiles " .
-                              "WHERE login_name = ?");
+                              "WHERE " . $dbh->sql_istrcmp('login_name', '?'));
         $sth->execute($login);
         if ($sth->rows > 0) {
             print "$login already has an account.\n";
@@ -4236,9 +4304,10 @@ if ($sth->rows == 0) {
     }
 
     # Put the admin in each group if not already    
-    my $userid = $dbh->selectrow_array(
-        "SELECT userid FROM profiles WHERE login_name = ?", undef, $login); 
-   
+    my $userid = $dbh->selectrow_array("SELECT userid FROM profiles WHERE " .
+                                       $dbh->sql_istrcmp('login_name', '?'),
+                                       undef, $login);
+
     # Admins get explicit membership and bless capability for the admin group
     my ($admingroupid) = $dbh->selectrow_array("SELECT id FROM groups 
                                                 WHERE name = 'admin'");

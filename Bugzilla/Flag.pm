@@ -74,8 +74,6 @@ use Bugzilla::Attachment;
 use Bugzilla::BugMail;
 use Bugzilla::Constants;
 
-use constant TABLES_ALREADY_LOCKED => 1;
-
 # Note that this line doesn't actually import these variables for some reason,
 # so I have to use them as $::template and $::vars in the package code.
 use vars qw($template $vars); 
@@ -97,8 +95,6 @@ use vars qw($template $vars);
 basic sets of columns and tables for getting flag types from th
 database.  B<Used by get, match, sqlify_criteria and perlify_record>
 
-=back
-
 =cut
 
 my @base_columns = 
@@ -112,9 +108,9 @@ my @base_columns =
 Which database(s) is the data coming from?
 
 Note: when adding tables to @base_tables, make sure to include the separator 
-(i.e. a comma or words like "LEFT OUTER JOIN") before the table name, 
-since tables take multiple separators based on the join type, and therefore 
-it is not possible to join them later using a single known separator.
+(i.e. words like "LEFT OUTER JOIN") before the table name, since tables take
+multiple separators based on the join type, and therefore it is not possible
+to join them later using a single known separator.
 B<Used by get, match, sqlify_criteria and perlify_record>
 
 =back
@@ -131,9 +127,13 @@ my @base_tables = ("flags");
 
 =head1 PUBLIC FUNCTIONS
 
-=over C<get($id)>
+=over
+
+=item C<get($id)>
 
 Retrieves and returns a flag from the database.
+
+=back
 
 =cut
 
@@ -237,17 +237,47 @@ Validates fields containing flag modifications.
 =cut
 
 sub validate {
+    my ($cgi, $bug_id, $attach_id) = @_;
+
     my $user = Bugzilla->user;
-    my ($cgi, $bug_id) = @_;
-  
+    my $dbh = Bugzilla->dbh;
+
     # Get a list of flags to validate.  Uses the "map" function
     # to extract flag IDs from form field names by matching fields
     # whose name looks like "flag-nnn", where "nnn" is the ID,
     # and returning just the ID portion of matching field names.
     my @ids = map(/^flag-(\d+)$/ ? $1 : (), $cgi->param());
-  
-    foreach my $id (@ids)
-    {
+
+    return unless scalar(@ids);
+    
+    # No flag reference should exist when changing several bugs at once.
+    ThrowCodeError("flags_not_available", { type => 'b' }) unless $bug_id;
+
+    # No reference to existing flags should exist when creating a new
+    # attachment.
+    if ($attach_id && ($attach_id < 0)) {
+        ThrowCodeError("flags_not_available", { type => 'a' });
+    }
+
+    # Make sure all flags belong to the bug/attachment they pretend to be.
+    my $field = ($attach_id) ? "attach_id" : "bug_id";
+    my $field_id = $attach_id || $bug_id;
+    my $not = ($attach_id) ? "" : "NOT";
+
+    my $invalid_data =
+        $dbh->selectrow_array("SELECT 1 FROM flags
+                               WHERE id IN (" . join(',', @ids) . ")
+                               AND ($field != ? OR attach_id IS $not NULL) " .
+                               $dbh->sql_limit(1),
+                               undef, $field_id);
+
+    if ($invalid_data) {
+        ThrowCodeError("invalid_flag_association",
+                       { bug_id    => $bug_id,
+                         attach_id => $attach_id });
+    }
+
+    foreach my $id (@ids) {
         my $status = $cgi->param("flag-$id");
         
         # Make sure the flag exists.
@@ -271,48 +301,60 @@ sub validate {
             ThrowCodeError("flag_status_invalid", 
                            { id => $id, status => $status });
         }
-        
+
+        # Make sure the user didn't specify a requestee unless the flag
+        # is specifically requestable. If the requestee was set before
+        # the flag became specifically unrequestable, leave it as is.
+        my $old_requestee =
+            $flag->{'requestee'} ? $flag->{'requestee'}->login : '';
+        my $new_requestee = trim($cgi->param("requestee-$id") || '');
+
+        if ($status eq '?'
+            && !$flag->{type}->{is_requesteeble}
+            && $new_requestee
+            && ($new_requestee ne $old_requestee))
+        {
+            ThrowCodeError("flag_requestee_disabled",
+                           { name => $flag->{type}->{name} });
+        }
+
         # Make sure the requestee is authorized to access the bug.
         # (and attachment, if this installation is using the "insider group"
         # feature and the attachment is marked private).
         if ($status eq '?'
             && $flag->{type}->{is_requesteeble}
-            && trim($cgi->param("requestee-$id")))
+            && $new_requestee
+            && ($old_requestee ne $new_requestee))
         {
-            my $requestee_email = trim($cgi->param("requestee-$id"));
-            my $old_requestee = 
-              $flag->{'requestee'} ? $flag->{'requestee'}->login : '';
+            # We know the requestee exists because we ran
+            # Bugzilla::User::match_field before getting here.
+            my $requestee = Bugzilla::User->new_from_login($new_requestee);
 
-            if ($old_requestee ne $requestee_email) {
-                # We know the requestee exists because we ran
-                # Bugzilla::User::match_field before getting here.
-                my $requestee = Bugzilla::User->new_from_login($requestee_email);
+            # Throw an error if the user can't see the bug.
+            # Note that if permissions on this bug are changed,
+            # can_see_bug() will refer to old settings.
+            if (!$requestee->can_see_bug($bug_id)) {
+                ThrowUserError("flag_requestee_unauthorized",
+                               { flag_type => $flag->{'type'},
+                                 requestee => $requestee,
+                                 bug_id => $bug_id,
+                                 attach_id =>
+                                   $flag->{target}->{attachment}->{id} });
+            }
 
-                # Throw an error if the user can't see the bug.
-                if (!$requestee->can_see_bug($bug_id))
-                {
-                    ThrowUserError("flag_requestee_unauthorized",
-                                   { flag_type => $flag->{'type'},
-                                     requestee => $requestee,
-                                     bug_id => $bug_id,
-                                     attach_id =>
-                                       $flag->{target}->{attachment}->{id} });
-                }
-
-                # Throw an error if the target is a private attachment and
-                # the requestee isn't in the group of insiders who can see it.
-                if ($flag->{target}->{attachment}->{exists}
-                    && $cgi->param('isprivate')
-                    && Param("insidergroup")
-                    && !$requestee->in_group(Param("insidergroup")))
-                {
-                    ThrowUserError("flag_requestee_unauthorized_attachment",
-                                   { flag_type => $flag->{'type'},
-                                     requestee => $requestee,
-                                     bug_id    => $bug_id,
-                                     attach_id =>
-                                      $flag->{target}->{attachment}->{id} });
-                }
+            # Throw an error if the target is a private attachment and
+            # the requestee isn't in the group of insiders who can see it.
+            if ($flag->{target}->{attachment}->{exists}
+                && $cgi->param('isprivate')
+                && Param("insidergroup")
+                && !$requestee->in_group(Param("insidergroup")))
+            {
+                ThrowUserError("flag_requestee_unauthorized_attachment",
+                               { flag_type => $flag->{'type'},
+                                 requestee => $requestee,
+                                 bug_id    => $bug_id,
+                                 attach_id =>
+                                  $flag->{target}->{attachment}->{id} });
             }
         }
 
@@ -400,14 +442,16 @@ sub process {
     # no longer valid.
     my $flag_ids = $dbh->selectcol_arrayref(
         "SELECT flags.id 
-        FROM (flags INNER JOIN bugs ON flags.bug_id = bugs.bug_id)
-          LEFT OUTER JOIN flaginclusions i
-            ON (flags.type_id = i.type_id 
+           FROM flags
+     INNER JOIN bugs
+             ON flags.bug_id = bugs.bug_id
+      LEFT JOIN flaginclusions AS i
+             ON flags.type_id = i.type_id 
             AND (bugs.product_id = i.product_id OR i.product_id IS NULL)
-            AND (bugs.component_id = i.component_id OR i.component_id IS NULL))
-        WHERE bugs.bug_id = ?
-        AND flags.is_active = 1
-        AND i.type_id IS NULL",
+            AND (bugs.component_id = i.component_id OR i.component_id IS NULL)
+          WHERE bugs.bug_id = ?
+            AND flags.is_active = 1
+            AND i.type_id IS NULL",
         undef, $bug_id);
 
     foreach my $flag_id (@$flag_ids) { clear($flag_id) }
@@ -447,6 +491,9 @@ sub update_activity {
                   (bug_id, attach_id, who, bug_when, fieldid, removed, added)
                   VALUES ($bug_id, $attach_id, $::userid, $timestamp,
                   $field_id, $sql_removed, $sql_added)");
+
+        $dbh->do("UPDATE bugs SET delta_ts = $timestamp WHERE bug_id = ?",
+                 undef, $bug_id);
     }
 }
 
@@ -678,9 +725,10 @@ sub clear {
 
 =over
 
-=item C<FormToNewFlags($target, $cgi)
+=item C<FormToNewFlags($target, $cgi)>
 
-Someone pleasedocument this function.
+Checks whether or not there are new flags to create and returns an
+array of flag objects. This array is then passed to Flag::create().
 
 =back
 
@@ -688,24 +736,50 @@ Someone pleasedocument this function.
 
 sub FormToNewFlags {
     my ($target, $cgi) = @_;
-    
-    # Get information about the setter to add to each flag.
-    # Uses a conditional to suppress Perl's "used only once" warnings.
-    my $setter = new Bugzilla::User($::userid);
 
+    my $dbh = Bugzilla->dbh;
+    
     # Extract a list of flag type IDs from field names.
     my @type_ids = map(/^flag_type-(\d+)$/ ? $1 : (), $cgi->param());
     @type_ids = grep($cgi->param("flag_type-$_") ne 'X', @type_ids);
-    
-    # Process the form data and create an array of flag objects.
+
+    return () unless (scalar(@type_ids) && $target->{'exists'});
+
+    # Get information about the setter to add to each flag.
+    my $setter = new Bugzilla::User($::userid);
+
+    # Get a list of active flag types available for this target.
+    my $flag_types = Bugzilla::FlagType::match(
+        { 'target_type'  => $target->{'type'},
+          'product_id'   => $target->{'product_id'},
+          'component_id' => $target->{'component_id'},
+          'is_active'    => 1 });
+
     my @flags;
-    foreach my $type_id (@type_ids) {
+    foreach my $flag_type (@$flag_types) {
+        my $type_id = $flag_type->{'id'};
+
+        # We are only interested in flags the user tries to create.
+        next unless scalar(grep { $_ == $type_id } @type_ids);
+
+        # Get the number of active flags of this type already set for this target.
+        my $has_flags = count(
+            { 'type_id'     => $type_id,
+              'target_type' => $target->{'type'},
+              'bug_id'      => $target->{'bug'}->{'id'},
+              'attach_id'   => $target->{'attachment'}->{'id'},
+              'is_active'   => 1 });
+
+        # Do not create a new flag of this type if this flag type is
+        # not multiplicable and already has an active flag set.
+        next if (!$flag_type->{'is_multiplicable'} && $has_flags);
+
         my $status = $cgi->param("flag_type-$type_id");
-        &::trick_taint($status);
+        trick_taint($status);
     
         # Create the flag record and populate it with data from the form.
         my $flag = { 
-            type   => Bugzilla::FlagType::get($type_id) , 
+            type   => $flag_type ,
             target => $target , 
             setter => $setter , 
             status => $status 
@@ -833,7 +907,7 @@ sub notify {
         my @new_cc_list;
         foreach my $cc (split(/[, ]+/, $flag->{'type'}->{'cc_list'})) {
             my $ccuser = Bugzilla::User->new_from_login($cc,
-                                                        TABLES_ALREADY_LOCKED)
+                                                        DERIVE_GROUPS_TABLES_ALREADY_LOCKED)
               || next;
 
             next if $flag->{'target'}->{'bug'}->{'restricted'}
@@ -950,6 +1024,8 @@ Converts a row from the database into a Perl record.
 
 =back
 
+=end private
+
 =cut
 
 sub perlify_record {
@@ -972,8 +1048,6 @@ sub perlify_record {
     return $flag;
 }
 
-=end private
-
 =head1 SEE ALSO
 
 =over
@@ -981,6 +1055,7 @@ sub perlify_record {
 =item B<Bugzilla::FlagType>
 
 =back
+
 
 =head1 CONTRIBUTORS
 

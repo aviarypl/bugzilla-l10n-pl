@@ -51,8 +51,12 @@ sub login {
     for ($env_id, $env_email, $env_realname) { $_ ||= '' };
     # make sure the email field contains only a valid email address
     my $emailregexp = Param("emailregexp");
-    $env_email =~ /($emailregexp)/;
-    $env_email = $1;
+    if ($env_email =~ /($emailregexp)/) {
+        $env_email = $1;
+    }
+    else {
+        return undef;
+    }
     # untaint the remaining values
     trick_taint($env_id);
     trick_taint($env_realname);
@@ -84,7 +88,8 @@ sub login {
             # also sent), and the id, so that we have a way of telling that we
             # got something instead of a bunch of NULLs
             $sth = $dbh->prepare("SELECT extern_id, userid, disabledtext " .
-                                 "FROM profiles WHERE login_name=?");
+                                 "FROM profiles WHERE " .
+                                 $dbh->sql_istrcmp('login_name', '?'));
             $sth->execute($env_email);
 
             $sth->execute();

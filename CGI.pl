@@ -67,15 +67,21 @@ require 'globals.pl';
 use vars qw($template $vars);
 
 # If Bugzilla is shut down, do not go any further, just display a message
-# to the user about the downtime.  (do)editparams.cgi is exempted from
-# this message, of course, since it needs to be available in order for
+# to the user about the downtime and log out.  (do)editparams.cgi is exempted
+# from this message, of course, since it needs to be available in order for
 # the administrator to open Bugzilla back up.
 if (Param("shutdownhtml") && $0 !~ m:(^|[\\/])(do)?editparams\.cgi$:) {
-    $::vars->{'message'} = "shutdown";
+    # For security reasons, log out users when Bugzilla is down.
+    # Bugzilla->login() is required to catch the logincookie, if any.
+    my $user = Bugzilla->login(LOGIN_OPTIONAL);
+    my $userid = $user->id;
+    Bugzilla->logout();
     
     # Return the appropriate HTTP response headers.
     print Bugzilla->cgi->header();
     
+    $::vars->{'message'} = "shutdown";
+    $::vars->{'userid'} = $userid;
     # Generate and return an HTML message about the downtime.
     $::template->process("global/message.html.tmpl", $::vars)
       || ThrowTemplateError($::template->error());
@@ -262,8 +268,13 @@ sub GetBugActivity {
         $suppwhere = "AND COALESCE(attachments.isprivate, 0) = 0";
     }
     my $query = "
-        SELECT COALESCE(fielddefs.description, bugs_activity.fieldid),
-               fielddefs.name, bugs_activity.attach_id, " .
+        SELECT COALESCE(fielddefs.description, " 
+               # This is a hack - PostgreSQL requires both COALESCE
+               # arguments to be of the same type, and this is the only
+               # way supported by both MySQL 3 and PostgreSQL to convert
+               # an integer to a string. MySQL 4 supports CAST.
+               . $dbh->sql_string_concat('bugs_activity.fieldid', q{''}) .
+               "), fielddefs.name, bugs_activity.attach_id, " .
         $dbh->sql_date_format('bugs_activity.bug_when', '%Y.%m.%d %H:%i:%s') .
             ", bugs_activity.removed, bugs_activity.added, profiles.login_name
           FROM bugs_activity

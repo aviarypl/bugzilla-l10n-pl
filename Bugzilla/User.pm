@@ -23,7 +23,7 @@
 #                 Joel Peshkin <bugreport@peshkin.net> 
 #                 Byron Jones <bugzilla@glob.com.au>
 #                 Shane H. W. Travis <travis@sedsystems.ca>
-#                 Max Kanat-Alexander <mkanat@kerio.com>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 #                 Gervase Markham <gerv@gerv.net>
 
 ################################################################################
@@ -41,14 +41,24 @@ use Bugzilla::Error;
 use Bugzilla::Util;
 use Bugzilla::Constants;
 use Bugzilla::User::Setting;
-use Bugzilla::Auth;
-use Bugzilla::BugMail;
 
 use base qw(Exporter);
 @Bugzilla::User::EXPORT = qw(insert_new_user is_available_username
     login_to_id
     UserInGroup
+    USER_MATCH_MULTIPLE USER_MATCH_FAILED USER_MATCH_SUCCESS
+    MATCH_SKIP_CONFIRM
 );
+
+#####################################################################
+# Constants
+#####################################################################
+
+use constant USER_MATCH_MULTIPLE => -1;
+use constant USER_MATCH_FAILED   => 0;
+use constant USER_MATCH_SUCCESS  => 1;
+
+use constant MATCH_SKIP_CONFIRM  => 1;
 
 ################################################################################
 # Functions
@@ -72,7 +82,8 @@ sub new {
 # in the id its already had to validate (or the User.pm object, of course)
 sub new_from_login {
     my $invocant = shift;
-    return $invocant->_create("login_name=?", @_);
+    my $dbh = Bugzilla->dbh;
+    return $invocant->_create($dbh->sql_istrcmp('login_name', '?'), @_);
 }
 
 # Internal helper for the above |new| methods
@@ -207,13 +218,19 @@ sub queries {
     my $dbh = Bugzilla->dbh;
     my $sth = $dbh->prepare(q{ SELECT
                              DISTINCT name, query, linkinfooter,
-                                      CASE WHEN whine_queries.id 
-                                      IS NOT NULL THEN 1 ELSE 0 END,
+                                      CASE WHEN whine_queries.id IS NOT NULL
+                                      THEN 1 ELSE 0 END,
                                       UPPER(name) AS uppername 
                                  FROM namedqueries
+                            LEFT JOIN whine_events
+                                   ON whine_events.owner_userid =
+                                      namedqueries.userid
                             LEFT JOIN whine_queries
-                                   ON whine_queries.query_name = name
-                                WHERE userid=?
+                                   ON whine_queries.query_name =
+                                      namedqueries.name
+                                  AND whine_queries.eventid = 
+                                      whine_events.id
+                                WHERE namedqueries.userid=?
                              ORDER BY uppername});
     $sth->execute($self->{id});
 
@@ -280,33 +297,51 @@ sub groups {
 sub bless_groups {
     my $self = shift;
 
-    return $self->{bless_groups} if defined $self->{bless_groups};
+    return $self->{'bless_groups'} if defined $self->{'bless_groups'};
     return {} unless $self->id;
 
     my $dbh = Bugzilla->dbh;
-    # Get all groups for the user where:
-    #    + They have direct bless privileges
-    #    + They are a member of a group that inherits bless privs.
-    # Because of the second requirement, derive_groups must be up-to-date
-    # for this to function properly in all circumstances.
-    my $bless_groups = $dbh->selectcol_arrayref(
-        q{SELECT DISTINCT groups.name, groups.id
-            FROM groups, user_group_map, group_group_map AS ggm
-           WHERE user_group_map.user_id = ?
-             AND ((user_group_map.isbless = 1
-                   AND groups.id=user_group_map.group_id)
-                  OR (groups.id = ggm.grantor_id
-                      AND ggm.grant_type = } . GROUP_BLESS .
-                   q{ AND user_group_map.group_id = ggm.member_id
-                      AND user_group_map.isbless = 0))},
-         { Columns=>[1,2] }, $self->{id});
+    my $query;
+    my $connector;
+    my @bindValues;
 
-    # The above gives us an arrayref [name, id, name, id, ...]
-    # Convert that into a hashref
-    my %bless_groups_hashref = @$bless_groups;
-    $self->{bless_groups} = \%bless_groups_hashref;
+    if ($self->in_group('editusers')) {
+        # Users having editusers permissions may bless all groups.
+        $query = 'SELECT DISTINCT id, name, description FROM groups';
+        $connector = 'WHERE';
+    }
+    else {
+        # Get all groups for the user where:
+        #    + They have direct bless privileges
+        #    + They are a member of a group that inherits bless privs.
+        # Because of the second requirement, derive_groups must be up-to-date
+        # for this to function properly in all circumstances.
+        $query = q{
+            SELECT DISTINCT groups.id, groups.name, groups.description
+                       FROM groups, user_group_map, group_group_map AS ggm
+                      WHERE user_group_map.user_id = ?
+                        AND ((user_group_map.isbless = 1
+                              AND groups.id=user_group_map.group_id)
+                             OR (groups.id = ggm.grantor_id
+                                 AND ggm.grant_type = ?
+                                 AND user_group_map.group_id = ggm.member_id
+                                 AND user_group_map.isbless = 0))};
+        $connector = 'AND';
+        @bindValues = ($self->id, GROUP_BLESS);
+    }
 
-    return $self->{bless_groups};
+    # If visibilitygroups are used, restrict the set of groups.
+    if ((!$self->in_group('editusers')) && Param('usevisibilitygroups')) {
+        # Users need to see a group in order to bless it.
+        my $visibleGroups = join(', ', @{$self->visible_groups_direct()})
+            || return $self->{'bless_groups'} = [];
+        $query .= " $connector id in ($visibleGroups)";
+    }
+
+    $query .= ' ORDER BY name';
+
+    return $self->{'bless_groups'} =
+        $dbh->selectall_arrayref($query, {'Slice' => {}}, @bindValues);
 }
 
 sub in_group {
@@ -343,7 +378,7 @@ sub can_see_bug {
     # is cached because this may be called for every row in buglists or
     # every bug in a dependency list.
     unless ($sth) {
-        $sth = $dbh->prepare("SELECT reporter, assigned_to, qa_contact,
+        $sth = $dbh->prepare("SELECT 1, reporter, assigned_to, qa_contact,
                              reporter_accessible, cclist_accessible,
                              COUNT(cc.who), COUNT(bug_group_map.bug_id)
                              FROM bugs
@@ -354,22 +389,23 @@ sub can_see_bug {
                                ON bugs.bug_id = bug_group_map.bug_id
                                AND bug_group_map.group_ID NOT IN(" .
                                join(',',(-1, values(%{$self->groups}))) .
-                               ") WHERE bugs.bug_id = ? " .
+                               ") WHERE bugs.bug_id = ? 
+                               AND creation_ts IS NOT NULL " .
                              $dbh->sql_group_by('bugs.bug_id', 'reporter, ' .
                              'assigned_to, qa_contact, reporter_accessible, ' .
                              'cclist_accessible'));
     }
     $sth->execute($bugid);
-    my ($reporter, $owner, $qacontact, $reporter_access, $cclist_access,
+    my ($ready, $reporter, $owner, $qacontact, $reporter_access, $cclist_access,
         $isoncclist, $missinggroup) = $sth->fetchrow_array();
     $sth->finish;
     $self->{sthCanSeeBug} = $sth;
-    return ( (($reporter == $userid) && $reporter_access)
-           || (Param('useqacontact') && $qacontact && 
-              ($qacontact == $userid))
-           || ($owner == $userid)
-           || ($isoncclist && $cclist_access)
-           || (!$missinggroup) );
+    return ($ready
+            && ((($reporter == $userid) && $reporter_access)
+                || (Param('useqacontact') && $qacontact && ($qacontact == $userid))
+                || ($owner == $userid)
+                || ($isoncclist && $cclist_access)
+                || (!$missinggroup)));
 }
 
 sub get_selectable_products {
@@ -530,18 +566,39 @@ sub derive_groups {
     $dbh->bz_unlock_tables() unless $already_locked;
 }
 
+sub product_responsibilities {
+    my $self = shift;
+
+    return $self->{'product_resp'} if defined $self->{'product_resp'};
+    return [] unless $self->id;
+
+    my $h = Bugzilla->dbh->selectall_arrayref(
+        qq{SELECT products.name AS productname,
+                  components.name AS componentname,
+                  initialowner,
+                  initialqacontact
+           FROM products, components
+           WHERE products.id = components.product_id
+             AND ? IN (initialowner, initialqacontact)
+          },
+        {'Slice' => {}}, $self->id);
+    $self->{'product_resp'} = $h;
+
+    return $h;
+}
+
 sub can_bless {
     my $self = shift;
 
     if (!scalar(@_)) {
         # If we're called without an argument, just return 
         # whether or not we can bless at all.
-        return scalar(keys %{$self->bless_groups}) ? 1 : 0;
+        return scalar(@{$self->bless_groups}) ? 1 : 0;
     }
 
     # Otherwise, we're checking a specific group
     my $group_name = shift;
-    return exists($self->bless_groups->{$group_name});
+    return (grep {$$_{'name'} eq $group_name} (@{$self->bless_groups})) ? 1 : 0;
 }
 
 sub flatten_group_membership {
@@ -604,8 +661,9 @@ sub match {
         if (&::Param('usevisibilitygroups')) {
             $query .= ", user_group_map ";
         }
-        $query    .= "WHERE (login_name LIKE $sqlstr " .
-                     "OR realname LIKE $sqlstr) ";
+        $query .= "WHERE ("  
+            . $dbh->sql_istrcmp('login_name', $sqlstr, "LIKE") . " OR " .
+              $dbh->sql_istrcmp('realname', $sqlstr, "LIKE") . ") ";
         if (&::Param('usevisibilitygroups')) {
             $query .= "AND user_group_map.user_id = userid " .
                       "AND isbless = 0 " .
@@ -631,7 +689,7 @@ sub match {
         my $sqlstr = &::SqlQuote($str);
         my $query  = "SELECT userid, realname, login_name " .
                      "FROM profiles " .
-                     "WHERE login_name = $sqlstr ";
+                     "WHERE " . $dbh->sql_istrcmp('login_name', $sqlstr);
         # Exact matches don't care if a user is disabled.
 
         &::PushGlobalSQLState();
@@ -647,7 +705,7 @@ sub match {
         && (length($str) >= 3))
     {
 
-        my $sqlstr = &::SqlQuote(uc($str));
+        my $sqlstr = &::SqlQuote(lc($str));
 
         my $query   = "SELECT DISTINCT userid, realname, login_name, " .
                       "LENGTH(login_name) AS namelength " .
@@ -655,10 +713,10 @@ sub match {
         if (&::Param('usevisibilitygroups')) {
             $query .= ", user_group_map";
         }
-        $query     .= " WHERE " . $dbh->sql_position($sqlstr,
-                                                     "UPPER(login_name)") .
-                      " OR " . $dbh->sql_position($sqlstr,
-                                                  "UPPER(realname)");
+        $query     .= " WHERE (" .
+                $dbh->sql_position($sqlstr, 'LOWER(login_name)') . " > 0" .
+                      " OR " .
+                $dbh->sql_position($sqlstr, 'LOWER(realname)') . " > 0)";
         if (&::Param('usevisibilitygroups')) {
             $query .= " AND user_group_map.user_id = userid" .
                       " AND isbless = 0" .
@@ -702,6 +760,11 @@ sub match {
 # searchable fields have been replaced by exact fields and the calling script
 # is executed as normal.
 #
+# You also have the choice of *never* displaying the confirmation screen.
+# In this case, match_field will return one of the three USER_MATCH 
+# constants described in the POD docs. To make match_field behave this
+# way, pass in MATCH_SKIP_CONFIRM as the third argument.
+#
 # match_field must be called early in a script, before anything external is
 # done with the form data.
 #
@@ -723,9 +786,11 @@ sub match {
 sub match_field {
     my $cgi          = shift;   # CGI object to look up fields in
     my $fields       = shift;   # arguments as a hash
+    my $behavior     = shift || 0; # A constant that tells us how to act
     my $matches      = {};      # the values sent to the template
     my $matchsuccess = 1;       # did the match fail?
     my $need_confirm = 0;       # whether to display confirmation screen
+    my $match_multiple = 0;     # whether we ever matched more than one user
 
     # prepare default form values
 
@@ -860,6 +925,7 @@ sub match_field {
             elsif ((scalar(@{$users}) > 1)
                     && (&::Param('maxusermatches') != 1)) {
                 $need_confirm = 1;
+                $match_multiple = 1;
 
                 if ((&::Param('maxusermatches'))
                    && (scalar(@{$users}) > &::Param('maxusermatches')))
@@ -878,7 +944,19 @@ sub match_field {
         }
     }
 
-    return 1 unless $need_confirm; # skip confirmation if not needed.
+    my $retval;
+    if (!$matchsuccess) {
+        $retval = USER_MATCH_FAILED;
+    }
+    elsif ($match_multiple) {
+        $retval = USER_MATCH_MULTIPLE;
+    }
+    else {
+        $retval = USER_MATCH_SUCCESS;
+    }
+
+    # Skip confirmation if we were told to, or if we don't need to confirm.
+    return $retval if ($behavior == MATCH_SKIP_CONFIRM || !$need_confirm);
 
     $vars->{'script'}        = $ENV{'SCRIPT_NAME'}; # for self-referencing URLs
     $vars->{'fields'}        = $fields; # fields being matched
@@ -1024,7 +1102,7 @@ sub wants_mail {
     }
     
     my $wants_mail = 
-        $dbh->selectrow_array("SELECT * 
+        $dbh->selectrow_array("SELECT 1 
                               FROM email_setting
                               WHERE user_id = $self->{'id'}
                               AND relationship = $relationship 
@@ -1033,7 +1111,18 @@ sub wants_mail {
                               
     return defined($wants_mail) ? 1 : 0;
 }
-  
+
+sub is_mover {
+    my $self = shift;
+
+    if (!defined $self->{'is_mover'}) {
+        my @movers = map { trim($_) } split(',', Param('movers'));
+        $self->{'is_mover'} = ($self->id
+                               && lsearch(\@movers, $self->login) != -1);
+    }
+    return $self->{'is_mover'};
+}
+
 sub get_userlist {
     my $self = shift;
 
@@ -1091,8 +1180,9 @@ sub insert_new_user ($$;$$) {
 
     # Insert the new user record into the database.
     $dbh->do("INSERT INTO profiles 
-                          (login_name, realname, cryptpassword, disabledtext) 
-                   VALUES (?, ?, ?, ?)",
+                          (login_name, realname, cryptpassword, disabledtext,
+                           refreshed_when) 
+                   VALUES (?, ?, ?, ?, '1901-01-01 00:00:00')",
              undef, 
              ($username, $realname, $cryptpassword, $disabledtext));
 
@@ -1101,6 +1191,13 @@ sub insert_new_user ($$;$$) {
 
     foreach my $rel (RELATIONSHIPS) {
         foreach my $event (POS_EVENTS, NEG_EVENTS) {
+            # These "exceptions" define the default email preferences.
+            # 
+            # We enable mail unless the change was made by the user, or it's
+            # just a CC list addition and the user is not the reporter.
+            next if ($event == EVT_CHANGED_BY_ME);
+            next if (($event == EVT_CC) && ($rel != REL_REPORTER));
+
             $dbh->do("INSERT INTO email_setting " . 
                      "(user_id, relationship, event) " . 
                      "VALUES ($userid, $rel, $event)");
@@ -1133,12 +1230,14 @@ sub is_available_username ($;$) {
     #
     # substring/locate stuff: bug 165221; this used to use regexes, but that
     # was unsafe and required weird escaping; using substring to pull out
-    # the new/old email addresses and locate() to find the delimeter (':')
+    # the new/old email addresses and sql_position() to find the delimiter (':')
     # is cleaner/safer
     my $sth = $dbh->prepare(
         "SELECT eventdata FROM tokens WHERE tokentype = 'emailold'
-        AND SUBSTRING(eventdata, 1, (LOCATE(':', eventdata) - 1)) = ?
-        OR SUBSTRING(eventdata, (LOCATE(':', eventdata) + 1)) = ?");
+        AND SUBSTRING(eventdata, 1, (" 
+        . $dbh->sql_position(q{':'}, 'eventdata') . "-  1)) = ?
+        OR SUBSTRING(eventdata, (" 
+        . $dbh->sql_position(q{':'}, 'eventdata') . "+ 1)) = ?");
     $sth->execute($username, $username);
 
     if (my ($eventdata) = $sth->fetchrow_array()) {
@@ -1157,8 +1256,9 @@ sub login_to_id ($) {
     my $dbh = Bugzilla->dbh;
     # $login will only be used by the following SELECT statement, so it's safe.
     trick_taint($login);
-    my $user_id = $dbh->selectrow_array(
-        "SELECT userid FROM profiles WHERE login_name = ?", undef, $login);
+    my $user_id = $dbh->selectrow_array("SELECT userid FROM profiles WHERE " .
+                                        $dbh->sql_istrcmp('login_name', '?'),
+                                        undef, $login);
     if ($user_id) {
         return $user_id;
     } else {
@@ -1194,6 +1294,32 @@ there is currently no way to modify a user from this package.
 
 Note that the currently logged in user (if any) is available via
 L<Bugzilla-E<gt>user|Bugzilla/"user">.
+
+=head1 CONSTANTS
+
+=over
+
+=item C<USER_MATCH_MULTIPLE>
+
+Returned by C<match_field()> when at least one field matched more than 
+one user, but no matches failed.
+
+=item C<USER_MATCH_FAILED>
+
+Returned by C<match_field()> when at least one field failed to match 
+anything.
+
+=item C<USER_MATCH_SUCCESS>
+
+Returned by C<match_field()> when all fields successfully matched only one
+user.
+
+=item C<MATCH_SKIP_CONFIRM>
+
+Passed in to match_field to tell match_field to never display a 
+confirmation screen.
+
+=back
 
 =head1 METHODS
 
@@ -1318,10 +1444,12 @@ and getting all of the groups would be overkill.
 
 =item C<bless_groups>
 
-Returns a hashref of group names for groups that the user can bless. The keys
-are the names of the groups, whilst the values are the respective group ids.
-(This is so that a set of all groupids for groups the user can bless can be
-obtained by C<values(%{$user-E<gt>bless_groups})>.)
+Returns an arrayref of hashes of C<groups> entries, where the keys of each hash
+are the names of C<id>, C<name> and C<description> columns of the C<groups>
+table.
+The arrayref consists of the groups the user can bless, taking into account
+that having editusers permissions means that you can bless all groups, and
+that you need to be aware of a group in order to bless a group.
 
 =item C<can_see_bug(bug_id)>
 
@@ -1383,6 +1511,32 @@ all MySQL supported, this will go away.
 
 =end undocumented
 
+=item C<product_responsibilities>
+
+Retrieve user's product responsibilities as a list of hashes.
+One hash per Bugzilla component the user has a responsibility for.
+These are the hash keys:
+
+=over
+
+=item productname
+
+Name of the product.
+
+=item componentname
+
+Name of the component.
+
+=item initialowner
+
+User ID of default assignee.
+
+=item initialqacontact
+
+User ID of default QA contact.
+
+=back
+
 =item C<can_bless>
 
 When called with no arguments:
@@ -1417,14 +1571,20 @@ Returns true if the user wants mail for a given set of events. This method is
 more general than C<wants_bug_mail>, allowing you to check e.g. permissions
 for flag mail.
 
+=item C<is_mover>
+
+Returns true if the user is in the list of users allowed to move bugs
+to another database. Note that this method doesn't check whether bug
+moving is enabled.
+
 =back
 
 =head1 CLASS FUNCTIONS
 
-=over4
-
 These are functions that are not called on a User object, but instead are
 called "statically," just like a normal procedural function.
+
+=over 4
 
 =item C<insert_new_user>
 

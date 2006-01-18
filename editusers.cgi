@@ -25,9 +25,9 @@ use vars qw( $vars );
 
 use Bugzilla;
 use Bugzilla::User;
+use Bugzilla::Flag;
 use Bugzilla::Config;
 use Bugzilla::Constants;
-use Bugzilla::Auth;
 use Bugzilla::Util;
 
 Bugzilla->login(LOGIN_REQUIRED);
@@ -68,7 +68,7 @@ mirrorListSelectionValues();
 ###########################################################################
 if ($action eq 'search') {
     # Allow to restrict the search to any group the user is allowed to bless.
-    $vars->{'restrictablegroups'} = groupsUserMayBless($user, 'id', 'name');
+    $vars->{'restrictablegroups'} = $user->bless_groups();
     $template->process('admin/users/search.html.tmpl', $vars)
        || ThrowTemplateError($template->error());
 
@@ -83,7 +83,7 @@ if ($action eq 'search') {
     my $nextCondition;
     my $visibleGroups;
 
-    if (Param('usevisibilitygroups')) {
+    if (!$editusers && Param('usevisibilitygroups')) {
         # Show only users in visible groups.
         $visibleGroups = visibleGroupsAsString();
 
@@ -197,7 +197,7 @@ if ($action eq 'search') {
     $otherUser 
         || ThrowCodeError('invalid_user_id', {'userid' => $cgi->param('userid')});
 
-    canSeeUser($otherUserID)
+    $editusers || canSeeUser($otherUserID)
         || ThrowUserError('auth_failure', {reason => "not_visible",
                                            action => "modify",
                                            object => "user"});
@@ -228,7 +228,7 @@ if ($action eq 'search') {
                          'group_group_map READ',
                          'group_group_map AS ggm READ');
  
-    canSeeUser($otherUserID)
+    $editusers || canSeeUser($otherUserID)
         || ThrowUserError('auth_failure', {reason => "not_visible",
                                            action => "modify",
                                            object => "user"});
@@ -317,7 +317,7 @@ if ($action eq 'search') {
     # silently.
     # XXX: checking for existence of each user_group_map entry
     #      would allow to display a friendlier error message on page reloads.
-    foreach (@{groupsUserMayBless($user, 'id', 'name')}) {
+    foreach (@{$user->bless_groups()}) {
         my $id = $$_{'id'};
         my $name = $$_{'name'};
 
@@ -396,27 +396,18 @@ if ($action eq 'search') {
     $editusers || ThrowUserError('auth_failure', {group  => "editusers",
                                                   action => "delete",
                                                   object => "users"});
-    canSeeUser($otherUserID) || ThrowUserError('auth_failure',
-                                               {reason => "not_visible",
-                                                action => "delete",
-                                                object => "user"});
-
     $vars->{'otheruser'}      = $otherUser;
     $vars->{'editcomponents'} = UserInGroup('editcomponents');
 
-    # If the user is initial owner or initial QA contact of a component,
-    # then no deletion is possible.
-    $vars->{'product_responsibilities'} = productResponsibilities($otherUserID);
-
     # Find other cross references.
-    $vars->{'bugs'} = $dbh->selectrow_array(
+    $vars->{'assignee_or_qa'} = $dbh->selectrow_array(
         qq{SELECT COUNT(*)
            FROM bugs
-           WHERE assigned_to = ? OR
-                 qa_contact = ? OR
-                 reporter = ?
-          },
-        undef, ($otherUserID, $otherUserID, $otherUserID));
+           WHERE assigned_to = ? OR qa_contact = ?},
+        undef, ($otherUserID, $otherUserID));
+    $vars->{'reporter'} = $dbh->selectrow_array(
+        'SELECT COUNT(*) FROM bugs WHERE reporter = ?',
+        undef, $otherUserID);
     $vars->{'cc'} = $dbh->selectrow_array(
         'SELECT COUNT(*) FROM cc WHERE who = ?',
         undef, $otherUserID);
@@ -470,19 +461,29 @@ if ($action eq 'search') {
         || ThrowCodeError('invalid_user_id', {'userid' => $cgi->param('userid')});
     my $otherUserLogin = $otherUser->login();
 
+    # Cache for user accounts.
+    my %usercache = (0 => new Bugzilla::User());
+    my %updatedbugs;
+
     # Lock tables during the check+removal session.
     # XXX: if there was some change on these tables after the deletion
     #      confirmation checks, we may do something here we haven't warned
     #      about.
-    $dbh->bz_lock_tables('products READ',
+    $dbh->bz_lock_tables('bugs WRITE',
+                         'bugs_activity WRITE',
+                         'attachments READ',
+                         'fielddefs READ',
+                         'products READ',
                          'components READ',
                          'logincookies WRITE',
                          'profiles WRITE',
                          'profiles_activity WRITE',
                          'groups READ',
+                         'bug_group_map READ',
                          'user_group_map WRITE',
                          'group_group_map READ',
                          'flags WRITE',
+                         'flagtypes READ',
                          'cc WRITE',
                          'namedqueries WRITE',
                          'tokens WRITE',
@@ -500,21 +501,52 @@ if ($action eq 'search') {
                                  {group  => "editusers",
                                   action => "delete",
                                   object => "users"});
-    canSeeUser($otherUserID) || ThrowUserError('auth_failure',
-                                               {reason => "not_visible",
-                                                action => "delete",
-                                                object => "user"});
-    productResponsibilities($otherUserID)
+    @{$otherUser->product_responsibilities()}
         && ThrowUserError('user_has_responsibility');
 
     Bugzilla->logout_user_by_id($otherUserID);
 
-    # Reference removals.
-    $dbh->do('UPDATE flags set requestee_id = NULL WHERE requestee_id = ?',
-             undef, $otherUserID);
+    # Get the timestamp for LogActivityEntry.
+    my $timestamp = $dbh->selectrow_array('SELECT NOW()');
+
+    # When we update a bug_activity entry, we update the bug timestamp, too.
+    my $sth_set_bug_timestamp =
+        $dbh->prepare('UPDATE bugs SET delta_ts = ? WHERE bug_id = ?');
+
+    # Reference removals which need LogActivityEntry.
+    my $statement_flagupdate = 'UPDATE flags set requestee_id = NULL
+                                 WHERE bug_id = ?
+                                   AND attach_id %s
+                                   AND requestee_id = ?';
+    my $sth_flagupdate_attachment =
+        $dbh->prepare(sprintf($statement_flagupdate, '= ?'));
+    my $sth_flagupdate_bug =
+        $dbh->prepare(sprintf($statement_flagupdate, 'IS NULL'));
+
+    my $buglist = $dbh->selectall_arrayref('SELECT DISTINCT bug_id, attach_id
+                                              FROM flags
+                                             WHERE requestee_id = ?',
+                                           undef, $otherUserID);
+
+    foreach (@$buglist) {
+        my ($bug_id, $attach_id) = @$_;
+        my @old_summaries = Bugzilla::Flag::snapshot($bug_id, $attach_id);
+        if ($attach_id) {
+            $sth_flagupdate_attachment->execute($bug_id, $attach_id, $otherUserID);
+        }
+        else {
+            $sth_flagupdate_bug->execute($bug_id, $otherUserID);
+        }
+        my @new_summaries = Bugzilla::Flag::snapshot($bug_id, $attach_id);
+        # Let update_activity do all the dirty work, including setting
+        # the bug timestamp.
+        Bugzilla::Flag::update_activity($bug_id, $attach_id,
+                                        $dbh->quote($timestamp),
+                                        \@old_summaries, \@new_summaries);
+        $updatedbugs{$bug_id} = 1;
+    }
 
     # Simple deletions in referred tables.
-    $dbh->do('DELETE FROM cc WHERE who = ?', undef, $otherUserID);
     $dbh->do('DELETE FROM logincookies WHERE userid = ?', undef, $otherUserID);
     $dbh->do('DELETE FROM namedqueries WHERE userid = ?', undef, $otherUserID);
     $dbh->do('DELETE FROM profiles_activity WHERE userid = ? OR who = ?', undef,
@@ -526,7 +558,19 @@ if ($action eq 'search') {
     $dbh->do('DELETE FROM watch WHERE watcher = ? OR watched = ?', undef,
              ($otherUserID, $otherUserID));
 
-    # More complex deletions in referred tables.
+    # Deletions in referred tables which need LogActivityEntry.
+    $buglist = $dbh->selectcol_arrayref('SELECT bug_id FROM cc
+                                          WHERE who = ?',
+                                        undef, $otherUserID);
+    $dbh->do('DELETE FROM cc WHERE who = ?', undef, $otherUserID);
+    foreach my $bug_id (@$buglist) {
+        LogActivityEntry($bug_id, 'cc', $otherUser->login, '', $userid,
+                         $timestamp);
+        $sth_set_bug_timestamp->execute($timestamp, $bug_id);
+        $updatedbugs{$bug_id} = 1;
+    }
+
+    # Even more complex deletions in referred tables.
     my $id;
 
     # 1) Series
@@ -570,6 +614,53 @@ if ($action eq 'search') {
         $sth_deleteWhineEvent->execute($id);
     }
 
+    # 3) Bugs
+    # 3.1) fall back to the default assignee
+    $buglist = $dbh->selectall_arrayref(
+        'SELECT bug_id, initialowner
+         FROM bugs
+         INNER JOIN components ON components.id = bugs.component_id
+         WHERE assigned_to = ?', undef, $otherUserID);
+
+    my $sth_updateAssignee = $dbh->prepare(
+        'UPDATE bugs SET assigned_to = ?, delta_ts = ? WHERE bug_id = ?');
+
+    foreach my $bug (@$buglist) {
+        my ($bug_id, $default_assignee_id) = @$bug;
+        $sth_updateAssignee->execute($default_assignee_id,
+                                     $timestamp, $bug_id);
+        $updatedbugs{$bug_id} = 1;
+        $default_assignee_id ||= 0;
+        $usercache{$default_assignee_id} ||=
+            new Bugzilla::User($default_assignee_id);
+        LogActivityEntry($bug_id, 'assigned_to', $otherUser->login,
+                         $usercache{$default_assignee_id}->login,
+                         $userid, $timestamp);
+    }
+
+    # 3.2) fall back to the default QA contact
+    $buglist = $dbh->selectall_arrayref(
+        'SELECT bug_id, initialqacontact
+         FROM bugs
+         INNER JOIN components ON components.id = bugs.component_id
+         WHERE qa_contact = ?', undef, $otherUserID);
+
+    my $sth_updateQAcontact = $dbh->prepare(
+        'UPDATE bugs SET qa_contact = ?, delta_ts = ? WHERE bug_id = ?');
+
+    foreach my $bug (@$buglist) {
+        my ($bug_id, $default_qa_contact_id) = @$bug;
+        $sth_updateQAcontact->execute($default_qa_contact_id,
+                                      $timestamp, $bug_id);
+        $updatedbugs{$bug_id} = 1;
+        $default_qa_contact_id ||= 0;
+        $usercache{$default_qa_contact_id} ||=
+            new Bugzilla::User($default_qa_contact_id);
+        LogActivityEntry($bug_id, 'qa_contact', $otherUser->login,
+                         $usercache{$default_qa_contact_id}->login,
+                         $userid, $timestamp);
+    }
+
     # Finally, remove the user account itself.
     $dbh->do('DELETE FROM profiles WHERE userid = ?', undef, $otherUserID);
 
@@ -577,9 +668,15 @@ if ($action eq 'search') {
 
     $vars->{'message'} = 'account_deleted';
     $vars->{'otheruser'}{'login'} = $otherUserLogin;
-    $vars->{'restrictablegroups'} = groupsUserMayBless($user, 'id', 'name');
+    $vars->{'restrictablegroups'} = $user->bless_groups();
     $template->process('admin/users/search.html.tmpl', $vars)
        || ThrowTemplateError($template->error());
+
+    # Send mail about what we've done to bugs.
+    # The deleted user is not notified of the changes.
+    foreach (keys(%updatedbugs)) {
+        Bugzilla::BugMail::Send($_);
+    }
 
 ###########################################################################
 } else {
@@ -607,46 +704,6 @@ sub visibleGroupsAsString {
     return join(', ', @{$user->visible_groups_direct()});
 }
 
-# Give a list of IDs of groups the user may bless.
-sub groupsUserMayBless {
-    my $user = shift;
-    my $fieldList = join(', ', @_);
-    my $query;
-    my $connector;
-    my @bindValues;
-
-    $user->derive_groups(1);
-
-    if ($editusers) {
-        $query = "SELECT DISTINCT $fieldList FROM groups";
-        $connector = 'WHERE';
-    } else {
-        $query = qq{SELECT DISTINCT $fieldList
-                    FROM groups
-                    LEFT JOIN user_group_map AS ugm
-                           ON groups.id = ugm.group_id
-                    LEFT JOIN group_group_map AS ggm
-                           ON ggm.member_id = ugm.group_id
-                          AND ggm.grant_type = ?
-                    WHERE user_id = ?
-                      AND (ugm.isbless = 1 OR groups.id = ggm.grantor_id)
-                   };
-        @bindValues = (GROUP_BLESS, $userid);
-        $connector = 'AND';
-    }
-
-    # If visibilitygroups are used, restrict the set of groups.
-    if (Param('usevisibilitygroups')) {
-        # Users need to see a group in order to bless it.
-        my $visibleGroups = visibleGroupsAsString() || return {};
-        $query .= " $connector id in ($visibleGroups)";
-    }
-
-    $query .= ' ORDER BY name';
-
-    return $dbh->selectall_arrayref($query, {'Slice' => {}}, @bindValues);
-}
-
 # Determine whether the user can see a user. (Checks for existence, too.)
 sub canSeeUser {
     my $otherUserID = shift;
@@ -672,41 +729,18 @@ sub canSeeUser {
     return $dbh->selectrow_array($query, undef, $otherUserID);
 }
 
-# Retrieve product responsibilities, usable for both display and verification.
-sub productResponsibilities {
-    my $userid = shift;
-    my $h = $dbh->selectall_arrayref(
-           qq{SELECT products.name AS productname,
-                     components.name AS componentname,
-                     initialowner,
-                     initialqacontact
-              FROM products, components
-              WHERE products.id = components.product_id
-                AND ? IN (initialowner, initialqacontact)
-             },
-           {'Slice' => {}}, $userid);
-
-    if (@$h) {
-        return $h;
-    } else {
-        return undef;
-    }
-}
-
 # Retrieve user data for the user editing form. User creation and user
 # editing code rely on this to call derive_groups().
 sub userDataToVars {
-    my $userid = shift;
-    my $user = new Bugzilla::User($userid);
+    my $otheruserid = shift;
+    my $otheruser = new Bugzilla::User($otheruserid);
     my $query;
     my $dbh = Bugzilla->dbh;
 
-    $user->derive_groups();
+    $otheruser->derive_groups();
 
-    $vars->{'otheruser'} = $user;
-    $vars->{'groups'} = groupsUserMayBless($user, 'id', 'name', 'description');
-    $vars->{'disabledtext'} = $dbh->selectrow_array(
-        'SELECT disabledtext FROM profiles WHERE userid = ?', undef, $userid);
+    $vars->{'otheruser'} = $otheruser;
+    $vars->{'groups'} = $user->bless_groups();
 
     $vars->{'permissions'} = $dbh->selectall_hashref(
         qq{SELECT id,
@@ -737,10 +771,10 @@ sub userDataToVars {
                  AND directbless.grant_type = ?
           } . $dbh->sql_group_by('id'),
         'id', undef,
-        ($userid, GRANT_DIRECT,
-         $userid, GRANT_REGEXP,
-         $userid, GRANT_DERIVED,
-         $userid, GRANT_DIRECT));
+        ($otheruserid, GRANT_DIRECT,
+         $otheruserid, GRANT_REGEXP,
+         $otheruserid, GRANT_DERIVED,
+         $otheruserid, GRANT_DIRECT));
 
     # Find indirect bless permission.
     $query = qq{SELECT groups.id
@@ -751,7 +785,8 @@ sub userDataToVars {
                   AND ugm.isbless = 0
                   AND ggm.grant_type = ?
                } . $dbh->sql_group_by('id');
-    foreach (@{$dbh->selectall_arrayref($query, undef, ($userid, GROUP_BLESS))}) {
+    foreach (@{$dbh->selectall_arrayref($query, undef,
+                                        ($otheruserid, GROUP_BLESS))}) {
         # Merge indirect bless permissions into permission variable.
         $vars->{'permissions'}{${$_}[0]}{'indirectbless'} = 1;
     }

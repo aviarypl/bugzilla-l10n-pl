@@ -24,7 +24,7 @@
 #                 Andreas Franke <afranke@mathweb.org>
 #                 Myk Melez <myk@mozilla.org>
 #                 Michael Schindler <michael@compressconsult.com>
-#                 Max Kanat-Alexander <mkanat@kerio.com>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 
 use strict;
 
@@ -136,16 +136,21 @@ sub init {
     }
 
     if (lsearch($fieldsref, 'map_classifications.name') >= 0) {
+        push @supptables, "INNER JOIN products AS map_products " .
+                          "ON bugs.product_id = map_products.id";
         push @supptables,
                 "INNER JOIN classifications AS map_classifications " .
                 "ON map_products.classification_id = map_classifications.id";
-        push @supptables, "INNER JOIN products AS map_products " .
-                          "ON bugs.product_id = map_products.id";
     }
 
     if (lsearch($fieldsref, 'map_components.name') >= 0) {
         push @supptables, "INNER JOIN components AS map_components " .
                           "ON bugs.component_id = map_components.id";
+    }
+    
+    if (grep($_ =~/AS (actual_time|percentage_complete)$/, @$fieldsref)) {
+        push(@supptables, "INNER JOIN longdescs AS ldtime " .
+                          "ON ldtime.bug_id = bugs.bug_id");
     }
 
     my $minvotes;
@@ -215,11 +220,6 @@ sub init {
             $t = "anywords";
         }
         push(@specialchart, ["keywords", $t, $params->param('keywords')]);
-    }
-
-    if (lsearch($fieldsref, "(SUM(ldtime.work_time)*COUNT(DISTINCT ldtime.bug_when)/COUNT(bugs.bug_id)) AS actual_time") != -1) {
-        push(@supptables, "INNER JOIN longdescs AS ldtime " .
-                          "ON ldtime.bug_id = bugs.bug_id");
     }
 
     foreach my $id ("1", "2") {
@@ -988,10 +988,10 @@ sub init {
              $term = "$ff != $q";
          },
          ",casesubstring" => sub {
-             $term = $dbh->sql_position($q, $ff);
+             $term = $dbh->sql_position($q, $ff) . " > 0";
          },
          ",substring" => sub {
-             $term = $dbh->sql_position(lc($q), "LOWER($ff)");
+             $term = $dbh->sql_position(lc($q), "LOWER($ff)") . " > 0";
          },
          ",substr" => sub {
              $funcsbykey{",substring"}->();
@@ -1304,6 +1304,13 @@ sub init {
     # to other parts of the query, so we want to create it before we
     # write the FROM clause.
     foreach my $orderitem (@inputorder) {
+        # Some fields have 'AS' aliases. The aliases go in the ORDER BY,
+        # not the whole fields.
+        # XXX - Ideally, we would get just the aliases in @inputorder,
+        # and we'd never have to deal with this.
+        if ($orderitem =~ /\s+AS\s+(.+)$/i) {
+            $orderitem = $1;
+        }
         BuildOrderBy($orderitem, \@orderby);
     }
     # Now JOIN the correct tables in the FROM clause.
@@ -1357,7 +1364,7 @@ sub init {
     }
 
     $query .= " WHERE " . join(' AND ', (@wherepart, @andlist)) .
-              " AND ((bug_group_map.group_id IS NULL)";
+              " AND bugs.creation_ts IS NOT NULL AND ((bug_group_map.group_id IS NULL)";
 
     if ($user->id) {
         my $userid = $user->id;
@@ -1371,7 +1378,8 @@ sub init {
 
     foreach my $field (@fields, @orderby) {
         next if ($field =~ /(AVG|SUM|COUNT|MAX|MIN|VARIANCE)\s*\(/i ||
-                 $field =~ /^\d+$/ || $field eq "bugs.bug_id");
+                 $field =~ /^\d+$/ || $field eq "bugs.bug_id" ||
+                 $field =~ /^relevance/);
         if ($field =~ /.*AS\s+(\w+)$/i) {
             push(@groupby, $1) if !grep($_ eq $1, @groupby);
         } else {
@@ -1412,7 +1420,7 @@ sub SqlifyDate {
     if ($str =~ /^(-|\+)?(\d+)([dDwWmMyY])$/) {   # relative date
         my ($sign, $amount, $unit, $date) = ($1, $2, lc $3, time);
         my ($sec, $min, $hour, $mday, $month, $year, $wday)  = localtime($date);
-        if ($sign eq '+') { $amount = -$amount; }
+        if ($sign && $sign eq '+') { $amount = -$amount; }
         if ($unit eq 'w') {                  # convert weeks to days
             $amount = 7*$amount + $wday;
             $unit = 'd';
@@ -1466,7 +1474,7 @@ sub ListIDsForEmail {
     } elsif ($type eq 'substring') {
         &::SendSQL("SELECT userid FROM profiles WHERE " .
             $dbh->sql_position(lc(::SqlQuote($email)), "LOWER(login_name)") .
-            " " . $dbh->sql_limit(51));
+            " > 0 " . $dbh->sql_limit(51));
         while (&::MoreSQLData()) {
             my ($id) = &::FetchSQLData();
             push(@list, $id);
@@ -1522,7 +1530,7 @@ sub GetByWordListSubstr {
     foreach my $word (split(/[\s,]+/, $strs)) {
         if ($word ne "") {
             push(@list, $dbh->sql_position(lc(::SqlQuote($word)),
-                                           "LOWER($field)"));
+                                           "LOWER($field)") . " > 0");
         }
     }
 

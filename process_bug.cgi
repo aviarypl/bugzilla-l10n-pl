@@ -142,7 +142,7 @@ ValidateComment(scalar $cgi->param('comment'));
 # is a bug alias that gets converted to its corresponding bug ID
 # during validation.
 foreach my $field ("dependson", "blocked") {
-    if (defined $cgi->param($field) && $cgi->param($field) ne "") {
+    if ($cgi->param($field)) {
         my @validvalues;
         foreach my $id (split(/[\s,]+/, $cgi->param($field))) {
             next unless $id;
@@ -165,12 +165,11 @@ foreach my $field ("dependson", "blocked") {
     'assigned_to'               => { 'type' => 'single' },
     '^requestee(_type)?-(\d+)$' => { 'type' => 'single' },
 });
-# Validate flags, but only if the user is changing a single bug,
-# since the multi-change form doesn't include flag changes.
-if (defined $cgi->param('id')) {
-    Bugzilla::Flag::validate($cgi, $cgi->param('id'));
-    Bugzilla::FlagType::validate($cgi, $cgi->param('id'));
-}
+
+# Validate flags in all cases. validate() should not detect any
+# reference to flags if $cgi->param('id') is undefined.
+Bugzilla::Flag::validate($cgi, $cgi->param('id'));
+Bugzilla::FlagType::validate($cgi, $cgi->param('id'));
 
 ######################################################################
 # End Data/Security Validation
@@ -402,6 +401,7 @@ sub CheckCanChangeField {
         return 1;
     # numeric fields need to be compared using == 
     } elsif (($field eq "estimated_time" || $field eq "remaining_time")
+             && $newvalue ne $cgi->param('dontchange')
              && $oldvalue == $newvalue)
     {
         return 1;
@@ -446,8 +446,8 @@ sub CheckCanChangeField {
     # variable which gets passed to the error template.
     #
     # $PrivilegesRequired = 0 : no privileges required;
-    # $PrivilegesRequired = 1 : the reporter, owner or an empowered user;
-    # $PrivilegesRequired = 2 : the owner or an empowered user;
+    # $PrivilegesRequired = 1 : the reporter, assignee or an empowered user;
+    # $PrivilegesRequired = 2 : the assignee or an empowered user;
     # $PrivilegesRequired = 3 : an empowered user.
 
     # Allow anyone with "editbugs" privs to change anything.
@@ -467,7 +467,7 @@ sub CheckCanChangeField {
 
     # START DO_NOT_CHANGE
     # $reporterid, $ownerid and $qacontactid are caches of the results of
-    # the call to find out the owner, reporter and qacontact of the current bug.
+    # the call to find out the assignee, reporter and qacontact of the current bug.
     if ($lastbugid != $bugid) {
         SendSQL("SELECT reporter, assigned_to, qa_contact FROM bugs
                  WHERE bug_id = $bugid");
@@ -476,7 +476,7 @@ sub CheckCanChangeField {
     }    
     # END DO_NOT_CHANGE
 
-    # Allow the owner to change anything else.
+    # Allow the assignee to change anything else.
     if ($ownerid == $whoid) {
         return 1;
     }
@@ -493,7 +493,7 @@ sub CheckCanChangeField {
     # The reporter may not:
     # - reassign bugs, unless the bugs are assigned to him;
     #   in that case we will have already returned 1 above
-    #   when checking for the owner of the bug.
+    #   when checking for the assignee of the bug.
     if ($field eq "assigned_to") {
         $PrivilegesRequired = 2;
         return 0;
@@ -595,14 +595,11 @@ if (defined $cgi->param('id')) {
     }
 }
 
-my $action = '';
-if (defined $cgi->param('action')) {
-  $action = trim($cgi->param('action'));
-}
-if (Param("move-enabled") && $action eq Param("move-button-text")) {
+my $action = trim($cgi->param('action') || '');
+
+if ($action eq Param('move-button-text')) {
   $cgi->param('buglist', join (":", @idlist));
   do "move.pl" || die "Error executing move.cgi: $!";
-  PutFooter();
   exit;
 }
 
@@ -1023,19 +1020,53 @@ SWITCH: for ($cgi->param('knob')) {
         last SWITCH;
     };
     /^duplicate$/ && CheckonComment( "duplicate" ) && do {
+        # You cannot mark bugs as duplicates when changing
+        # several bugs at once.
+        unless (defined $cgi->param('id')) {
+            ThrowUserError('dupe_not_allowed');
+        }
+
         # Make sure we can change the original bug (issue A on bug 96085)
         CheckFormFieldDefined($cgi, 'dup_id');
         $duplicate = $cgi->param('dup_id');
         ValidateBugID($duplicate, 'dup_id');
         $cgi->param('dup_id', $duplicate);
 
+        # Make sure the bug is not already marked as a dupe
+        # (may appear in race condition)
+        my $dupe_of =
+            $dbh->selectrow_array("SELECT dupe_of FROM duplicates
+                                   WHERE dupe = ?",
+                                   undef, $cgi->param('id'));
+        if ($dupe_of) {
+            ThrowUserError("dupe_entry_found", { dupe_of => $dupe_of });
+        }
+
+        # Make sure a loop isn't created when marking this bug
+        # as duplicate.
+        my %dupes;
+        $dupe_of = $duplicate;
+        my $sth = $dbh->prepare('SELECT dupe_of FROM duplicates
+                                 WHERE dupe = ?');
+
+        while ($dupe_of) {
+            if ($dupe_of == $cgi->param('id')) {
+                ThrowUserError('dupe_loop_detected', { bug_id  => $cgi->param('id'),
+                                                       dupe_of => $duplicate });
+            }
+            # If $dupes{$dupe_of} is already set to 1, then a loop
+            # already exists which does not involve this bug.
+            # As the user is not responsible for this loop, do not
+            # prevent him from marking this bug as a duplicate.
+            last if exists $dupes{"$dupe_of"};
+            $dupes{"$dupe_of"} = 1;
+            $sth->execute($dupe_of);
+            $dupe_of = $sth->fetchrow_array;
+        }
+
         # Also, let's see if the reporter has authorization to see
         # the bug to which we are duping. If not we need to prompt.
         DuplicateUserConfirm();
-
-        if (!defined $cgi->param('id') || $duplicate == $cgi->param('id')) {
-            ThrowUserError("dupe_of_self_disallowed");
-        }
 
         # DUPLICATE bugs should have no time remaining.
         _remove_remaining_time();
@@ -1308,71 +1339,11 @@ foreach my $id (@idlist) {
           || ThrowTemplateError($template->error());
         exit;
     }
-        
-    my %deps;
-    if (defined $cgi->param('dependson')) {
-        my $me = "blocked";
-        my $target = "dependson";
-        my %deptree;
-        for (1..2) {
-            $deptree{$target} = [];
-            my %seen;
-            foreach my $i (split('[\s,]+', $cgi->param($target))) {
-                next if $i eq "";
-                
-                if ($id eq $i) {
-                    ThrowUserError("dependency_loop_single");
-                }
-                if (!exists $seen{$i}) {
-                    push(@{$deptree{$target}}, $i);
-                    $seen{$i} = 1;
-                }
-            }
-            # populate $deps{$target} as first-level deps only.
-            # and find remainder of dependency tree in $deptree{$target}
-            @{$deps{$target}} = @{$deptree{$target}};
-            my @stack = @{$deps{$target}};
-            while (@stack) {
-                my $i = shift @stack;
-                SendSQL("SELECT $target FROM dependencies WHERE $me = " .
-                        SqlQuote($i));
-                while (MoreSQLData()) {
-                    my $t = FetchOneColumn();
-                    # ignore any _current_ dependencies involving this bug,
-                    # as they will be overwritten with data from the form.
-                    if ($t != $id && !exists $seen{$t}) {
-                        push(@{$deptree{$target}}, $t);
-                        push @stack, $t;
-                        $seen{$t} = 1;
-                    }
-                }
-            }
 
-            if ($me eq 'dependson') {
-                my @deps   =  @{$deptree{'dependson'}};
-                my @blocks =  @{$deptree{'blocked'}};
-                my @union = ();
-                my @isect = ();
-                my %union = ();
-                my %isect = ();
-                foreach my $b (@deps, @blocks) { $union{$b}++ && $isect{$b}++ }
-                @union = keys %union;
-                @isect = keys %isect;
-                if (@isect > 0) {
-                    my $both;
-                    foreach my $i (@isect) {
-                       $both = $both . GetBugLink($i, "#" . $i) . " ";
-                    }
-
-                    ThrowUserError("dependency_loop_multi",
-                                   { both => $both });
-                }
-            }
-            my $tmp = $me;
-            $me = $target;
-            $target = $tmp;
-        }
-    }
+    # Gather the dependency list, and make sure there are no circular refs
+    my %deps = Bugzilla::Bug::ValidateDependencies($cgi->param('dependson'),
+                                                   $cgi->param('blocked'),
+                                                   $id);
 
     #
     # Start updating the relevant database entries
@@ -1395,7 +1366,7 @@ foreach my $id (@idlist) {
     }
 
     if ($cgi->param('comment') || $work_time) {
-        AppendComment($id, Bugzilla->user->login, $cgi->param('comment'),
+        AppendComment($id, $whoid, $cgi->param('comment'),
                       $cgi->param('commentprivacy'), $timestamp, $work_time);
         $bug_changed = 1;
     }
@@ -1433,9 +1404,8 @@ foreach my $id (@idlist) {
             while (MoreSQLData()) {
                 push(@list, FetchOneColumn());
             }
-            SendSQL("UPDATE bugs SET delta_ts = $sql_timestamp, keywords = " .
-                    SqlQuote(join(', ', @list)) .
-                    " WHERE bug_id = $id");
+            $dbh->do("UPDATE bugs SET keywords = ? WHERE bug_id = ?",
+                     undef, join(', ', @list), $id);
         }
     }
     my $query = "$basequery\nwhere bug_id = $id";
@@ -1557,7 +1527,7 @@ foreach my $id (@idlist) {
                                                   undef, $id)};
         @dependencychanged{@oldlist} = 1;
 
-        if (defined $cgi->param('dependson')) {
+        if (defined $cgi->param($target)) {
             my %snapshot;
             my @newlist = sort {$a <=> $b} @{$deps{$target}};
             @dependencychanged{@newlist} = 1;
@@ -1724,7 +1694,7 @@ foreach my $id (@idlist) {
     $i = 0;
     foreach my $col (@::log_columns) {
         # Consider NULL db entries to be equivalent to the empty string
-        $newvalues[$i] ||= '';
+        $newvalues[$i] = defined($newvalues[$i]) ? $newvalues[$i] : '';
         # Convert the deadline to the YYYY-MM-DD format.
         if ($col eq 'deadline') {
             $newvalues[$i] = format_time($newvalues[$i], "%Y-%m-%d");
@@ -1759,7 +1729,7 @@ foreach my $id (@idlist) {
             }
 
             # save off the old value for passing to Bugzilla::BugMail so
-            # the old owner can be notified
+            # the old assignee can be notified
             #
             if ($col eq 'assigned_to') {
                 $old = ($old) ? DBID_to_name($old) : "";
@@ -1804,19 +1774,6 @@ foreach my $id (@idlist) {
     }
     $dbh->bz_unlock_tables();
 
-    $vars->{'mailrecipients'} = { 'cc' => \@ccRemoved,
-                                  'owner' => $origOwner,
-                                  'qacontact' => $origQaContact,
-                                  'changer' => Bugzilla->user->login };
-
-    $vars->{'id'} = $id;
-    
-    # Let the user know the bug was changed and who did and didn't
-    # receive email about the change.
-    $template->process("bug/process/results.html.tmpl", $vars)
-      || ThrowTemplateError($template->error());
-    $vars->{'header_done'} = 1;
-    
     if ($duplicate) {
         # Check to see if Reporter of this bug is reporter of Dupe 
         SendSQL("SELECT reporter FROM bugs WHERE bug_id = " .
@@ -1838,7 +1795,7 @@ foreach my $id (@idlist) {
                     "VALUES ($reporter, $duplicate)");
         }
         # Bug 171639 - Duplicate notifications do not need to be private. 
-        AppendComment($duplicate, Bugzilla->user->login,
+        AppendComment($duplicate, $whoid,
                       "*** Bug " . $cgi->param('id') .
                       " has been marked as a duplicate of this bug. ***",
                       0, $timestamp);
@@ -1846,7 +1803,27 @@ foreach my $id (@idlist) {
         CheckFormFieldDefined($cgi,'comment');
         SendSQL("INSERT INTO duplicates VALUES ($duplicate, " .
                 $cgi->param('id') . ")");
-        
+    }
+
+    # Now all changes to the DB have been made. It's time to email
+    # all concerned users, including the bug itself, but also the
+    # duplicated bug and dependent bugs, if any.
+
+    $vars->{'mailrecipients'} = { 'cc' => \@ccRemoved,
+                                  'owner' => $origOwner,
+                                  'qacontact' => $origQaContact,
+                                  'changer' => Bugzilla->user->login };
+
+    $vars->{'id'} = $id;
+    $vars->{'type'} = "bug";
+    
+    # Let the user know the bug was changed and who did and didn't
+    # receive email about the change.
+    $template->process("bug/process/results.html.tmpl", $vars)
+      || ThrowTemplateError($template->error());
+    $vars->{'header_done'} = 1;
+    
+    if ($duplicate) {
         $vars->{'mailrecipients'} = { 'changer' => Bugzilla->user->login }; 
 
         $vars->{'id'} = $duplicate;

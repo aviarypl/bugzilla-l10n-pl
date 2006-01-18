@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML
 ><HEAD
 ><TITLE
@@ -7,7 +7,7 @@
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
 REL="HOME"
-TITLE="The Bugzilla Guide - 2.19.2 
+TITLE="The Bugzilla Guide - 2.20 
     Development 
     Release"
 HREF="index.html"><LINK
@@ -39,7 +39,7 @@ CELLSPACING="0"
 ><TH
 COLSPAN="3"
 ALIGN="center"
->The Bugzilla Guide - 2.19.2 
+>The Bugzilla Guide - 2.20 
     Development 
     Release</TH
 ></TR
@@ -186,17 +186,16 @@ TYPE="1"
 HREF="installation.html#install-perl"
 >Install Perl</A
 >
-        (5.6.0 or above for non-Windows platforms; 5.8.1
+        (5.6.1 or above for non-Windows platforms; 5.8.1
         for Windows)
         </P
 ></LI
 ><LI
 ><P
 ><A
-HREF="installation.html#install-mysql"
->Install MySQL</A
+HREF="installation.html#install-database"
+>Install a Database Engine</A
 >
-        (3.23.41 or above)
         </P
 ></LI
 ><LI
@@ -260,32 +259,44 @@ HREF="http://www.perl.com"
 TARGET="_top"
 >http://www.perl.com</A
 >.
-      Although Bugzilla runs with Perl 5.6.0,
-      it's a good idea to be using the latest stable version. 
-      As of this writing, that is Perl 5.8.3.</P
+      Although Bugzilla runs with Perl 5.6.1,
+      it's a good idea to be using the latest stable version.
+      </P
 ></DIV
 ><DIV
 CLASS="section"
 ><H2
 CLASS="section"
 ><A
-NAME="install-mysql"
->2.1.2. MySQL</A
+NAME="install-database"
+>2.1.2. Database Engine</A
 ></H2
+><P
+>From Bugzilla 2.20, support is included for using both the MySQL and
+      PostgreSQL database servers. You only require one of these systems to make
+      use of Bugzilla.</P
+><DIV
+CLASS="section"
+><H3
+CLASS="section"
+><A
+NAME="install-mysql"
+>2.1.2.1. MySQL</A
+></H3
 ><P
 >Installed Version Test: <TT
 CLASS="filename"
 >mysql -V</TT
 ></P
 ><P
->&#13;      If you don't have it and your OS doesn't provide official packages, 
-      visit <A
+>&#13;          If you don't have it and your OS doesn't provide official packages, 
+          visit <A
 HREF="http://www.mysql.com"
 TARGET="_top"
 >http://www.mysql.com</A
 >. You need MySQL version
-      3.23.41 or higher.
-      </P
+          3.23.41 or higher.
+          </P
 ><DIV
 CLASS="note"
 ><P
@@ -308,15 +319,15 @@ ALIGN="LEFT"
 VALIGN="TOP"
 ><P
 > Many of the binary
-        versions of MySQL store their data files in 
-        <TT
+            versions of MySQL store their data files in 
+            <TT
 CLASS="filename"
 >/var</TT
 >.
-        On some Unix systems, this is part of a smaller root partition,
-        and may not have room for your bug database. To change the data
-         directory, you have to build MySQL from source yourself, and
-         set it as an option to <TT
+            On some Unix systems, this is part of a smaller root partition,
+            and may not have room for your bug database. To change the data
+            directory, you have to build MySQL from source yourself, and
+            set it as an option to <TT
 CLASS="filename"
 >configure</TT
 >.</P
@@ -326,10 +337,40 @@ CLASS="filename"
 ></DIV
 ><P
 >If you install from something other than a packaging/installation
-      system, such as .rpm (Redhat Package), .deb (Debian Package), .exe
-      (Windows Executable), or .msi (Microsoft Installer), make sure the MySQL
-      server is started when the machine boots.
-      </P
+          system, such as .rpm (Redhat Package), .deb (Debian Package), .exe
+          (Windows Executable), or .msi (Microsoft Installer), make sure the MySQL
+          server is started when the machine boots.
+          </P
+></DIV
+><DIV
+CLASS="section"
+><H3
+CLASS="section"
+><A
+NAME="install-pg"
+>2.1.2.2. PostgreSQL</A
+></H3
+><P
+>Installed Version Test: <TT
+CLASS="filename"
+>psql -V</TT
+></P
+><P
+>&#13;          If you don't have it and your OS doesn't provide official packages, 
+          visit <A
+HREF="http://www.postgresql.org/"
+TARGET="_top"
+>http://www.postgresql.org/</A
+>. You need PostgreSQL
+          version 7.3.x or higher.
+          </P
+><P
+>If you install from something other than a packaging/installation
+          system, such as .rpm (Redhat Package), .deb (Debian Package), .exe
+          (Windows Executable), or .msi (Microsoft Installer), make sure the
+          PostgreSQL server is started when the machine boots.
+          </P
+></DIV
 ></DIV
 ><DIV
 CLASS="section"
@@ -474,7 +515,8 @@ HREF="configuration.html"
 CLASS="filename"
 >su</TT
 > to root. You should
-      remain as root until the end of the install. Then run:
+      remain as root until the end of the install. To check you have the
+      required modules, run:
       </P
 ><TABLE
 BORDER="0"
@@ -489,7 +531,7 @@ CLASS="screen"
 ><SAMP
 CLASS="prompt"
 >bash#</SAMP
-> ./checksetup.pl</PRE
+> ./checksetup.pl --check-modules</PRE
 ></FONT
 ></TD
 ></TR
@@ -592,6 +634,39 @@ CLASS="QUOTE"
 ></TR
 ></TABLE
 ></DIV
+><DIV
+CLASS="note"
+><P
+></P
+><TABLE
+CLASS="note"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="../images/note.gif"
+HSPACE="5"
+ALT="Note"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>If you are using a package-based system, and attempting to install the
+        Perl modules from CPAN, you may need to install the "development" packages for
+        MySQL and GD before attempting to install the related Perl modules. The names of
+        these packages will vary depending on the specific distribution you are using,
+        but are often called <TT
+CLASS="filename"
+>&#60;packagename&#62;-devel</TT
+>.</P
+></TD
+></TR
+></TABLE
+></DIV
 ><P
 >&#13;        Here is a complete list of modules and their minimum versions.
         Some modules have special installation notes, which follow.
@@ -624,7 +699,7 @@ TYPE="1"
 ></LI
 ><LI
 ><P
->&#13;            DBI (1.36)
+>&#13;            DBI (1.38)
           </P
 ></LI
 ><LI
@@ -633,12 +708,17 @@ TYPE="1"
 HREF="installation.html#install-modules-dbd-mysql"
 >DBD::mysql</A
 >
-            (2.1010)
+            (2.9003) if using MySQL
           </P
 ></LI
 ><LI
 ><P
->&#13;            File::Spec (0.82)
+>&#13;            DBD::Pg (1.31) if using PostgreSQL
+          </P
+></LI
+><LI
+><P
+>&#13;            File::Spec (0.84)
           </P
 ></LI
 ><LI
@@ -658,6 +738,16 @@ HREF="installation.html#install-modules-template"
 ><LI
 ><P
 >&#13;            Text::Wrap (2001.0131)
+          </P
+></LI
+><LI
+><P
+>&#13;            Mail::Mailer (1.65)
+          </P
+></LI
+><LI
+><P
+>&#13;            Storable (any)
           </P
 ></LI
 ></OL

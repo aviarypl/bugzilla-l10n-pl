@@ -22,7 +22,7 @@
 #                 Chris Yeh      <cyeh@bluemartini.com>
 #                 Bradley Baetz  <bbaetz@acm.org>
 #                 Dave Miller    <justdave@bugzilla.org>
-#                 Max Kanat-Alexander <mkanat@kerio.com>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 #                 Frédéric Buclin <LpSolit@gmail.com>
 
 package Bugzilla::Bug;
@@ -30,7 +30,7 @@ package Bugzilla::Bug;
 use strict;
 
 use vars qw($legal_keywords @legal_platform
-            @legal_priority @legal_severity @legal_opsys @legal_bugs_status
+            @legal_priority @legal_severity @legal_opsys @legal_bug_status
             @settable_resolution %components %versions %target_milestone
             @enterable_products %milestoneurl %prodmaxvotes);
 
@@ -137,14 +137,14 @@ sub initBug  {
       return $self;
   }
 
-# default userid 0, or get DBID if you used an email address
-  unless (defined $user_id) {
+  # If the user is not logged in, sets $user_id to 0.
+  # Else gets $user_id from the user login name if this
+  # argument is not numeric.
+  my $stored_user_id = $user_id;
+  if (!defined $user_id) {
     $user_id = 0;
-  }
-  else {
-     if ($user_id =~ /^\@/) {
-        $user_id = login_to_id($user_id); 
-     }
+  } elsif (!detaint_natural($user_id)) {
+    $user_id = login_to_id($stored_user_id); 
   }
 
   $self->{'who'} = new Bugzilla::User($user_id);
@@ -163,12 +163,16 @@ sub initBug  {
       reporter_accessible, cclist_accessible,
       estimated_time, remaining_time, " .
       $dbh->sql_date_format('deadline', '%Y-%m-%d') . "
-    FROM bugs LEFT JOIN votes using(bug_id),
-      classifications, products, components
-    WHERE bugs.bug_id = ?
-      AND classifications.id = products.classification_id
-      AND products.id = bugs.product_id
-      AND components.id = bugs.component_id " .
+    FROM bugs
+       LEFT JOIN votes
+           USING (bug_id)
+      INNER JOIN components
+              ON components.id = bugs.component_id
+      INNER JOIN products
+              ON products.id = bugs.product_id
+      INNER JOIN classifications
+              ON classifications.id = products.classification_id
+      WHERE bugs.bug_id = ? " .
     $dbh->sql_group_by('bugs.bug_id', 'alias, products.classification_id,
       classifications.name, bugs.product_id, products.name, version,
       rep_platform, op_sys, bug_status, resolution, priority,
@@ -584,9 +588,8 @@ sub user {
     return $self->{'user'} if exists $self->{'user'};
     return {} if $self->{'error'};
 
-    my @movers = map { trim $_ } split(",", Param("movers"));
-    my $canmove = Param("move-enabled") && Bugzilla->user->id && 
-                  (lsearch(\@movers, Bugzilla->user->login) != -1);
+    my $user = Bugzilla->user;
+    my $canmove = Param('move-enabled') && $user->is_mover;
 
     # In the below, if the person hasn't logged in, then we treat them
     # as if they can do anything.  That's because we don't know why they
@@ -594,17 +597,17 @@ sub user {
     # Display everything as if they have all the permissions in the
     # world; their permissions will get checked when they log in and
     # actually try to make the change.
-    my $unknown_privileges = !Bugzilla->user->id
-                             || Bugzilla->user->in_group("editbugs");
+    my $unknown_privileges = !$user->id
+                             || $user->in_group("editbugs");
     my $canedit = $unknown_privileges
-                  || Bugzilla->user->id == $self->{assigned_to_id}
+                  || $user->id == $self->{assigned_to_id}
                   || (Param('useqacontact')
                       && $self->{'qa_contact_id'}
-                      && Bugzilla->user->id == $self->{qa_contact_id});
+                      && $user->id == $self->{qa_contact_id});
     my $canconfirm = $unknown_privileges
-                     || Bugzilla->user->in_group("canconfirm");
-    my $isreporter = Bugzilla->user->id
-                     && Bugzilla->user->id == $self->{reporter_id};
+                     || $user->in_group("canconfirm");
+    my $isreporter = $user->id
+                     && $user->id == $self->{reporter_id};
 
     $self->{'user'} = {canmove    => $canmove,
                        canconfirm => $canconfirm,
@@ -663,7 +666,7 @@ sub choices {
        'priority' => \@::legal_priority,
        'bug_severity' => \@::legal_severity,
        'op_sys' => \@::legal_opsys,
-       'bug_status' => \@::legal_bugs_status,
+       'bug_status' => \@::legal_bug_status,
        'resolution' => \@res,
        'component' => $::components{$self->{product}},
        'version' => $::versions{$self->{product}},
@@ -692,7 +695,7 @@ sub bug_alias_to_id ($) {
 #####################################################################
 
 sub AppendComment ($$$;$$$) {
-    my ($bugid, $who, $comment, $isprivate, $timestamp, $work_time) = @_;
+    my ($bugid, $whoid, $comment, $isprivate, $timestamp, $work_time) = @_;
     $work_time ||= 0;
     my $dbh = Bugzilla->dbh;
 
@@ -713,7 +716,6 @@ sub AppendComment ($$$;$$$) {
     # Comments are always safe, because we always display their raw contents,
     # and we use them in a placeholder below.
     trick_taint($comment); 
-    my $whoid = &::DBNameToIdAndCheck($who);
     my $privacyval = $isprivate ? 1 : 0 ;
     $dbh->do(q{INSERT INTO longdescs
                       (bug_id, who, bug_when, thetext, isprivate, work_time)
@@ -964,19 +966,10 @@ sub CheckIfVotedConfirmed {
                  "VALUES (?, ?, ?, ?, ?, ?)",
                  undef, ($id, $who, $timestamp, $fieldid, '0', '1'));
 
-        AppendComment($id, &::DBID_to_name($who),
+        AppendComment($id, $who,
                       "*** This bug has been confirmed by popular vote. ***",
                       0, $timestamp);
 
-        my $template = Bugzilla->template;
-        my $vars = $::vars;
-
-        $vars->{'type'} = "votes";
-        $vars->{'id'} = $id;
-        $vars->{'mailrecipients'} = { 'changer' => $who };
-
-        $template->process("bug/process/results.html.tmpl", $vars)
-          || ThrowTemplateError($template->error());
         $ret = 1;
     }
     return $ret;
@@ -1033,6 +1026,78 @@ sub ValidateBugAlias {
     $_[0] = $alias;
 }
 
+# Validate and return a hash of dependencies
+sub ValidateDependencies($$$) {
+    my $fields = {};
+    $fields->{'dependson'} = shift;
+    $fields->{'blocked'} = shift;
+    my $id = shift || 0;
+
+    unless (defined($fields->{'dependson'})
+            || defined($fields->{'blocked'}))
+    {
+        return;
+    }
+
+    my $dbh = Bugzilla->dbh;
+    my %deps;
+    my %deptree;
+    foreach my $pair (["blocked", "dependson"], ["dependson", "blocked"]) {
+        my ($me, $target) = @{$pair};
+        $deptree{$target} = [];
+        $deps{$target} = [];
+        next unless $fields->{$target};
+
+        my %seen;
+        foreach my $i (split('[\s,]+', $fields->{$target})) {
+            if ($id == $i) {
+                ThrowUserError("dependency_loop_single");
+            }
+            if (!exists $seen{$i}) {
+                push(@{$deptree{$target}}, $i);
+                $seen{$i} = 1;
+            }
+        }
+        # populate $deps{$target} as first-level deps only.
+        # and find remainder of dependency tree in $deptree{$target}
+        @{$deps{$target}} = @{$deptree{$target}};
+        my @stack = @{$deps{$target}};
+        while (@stack) {
+            my $i = shift @stack;
+            my $dep_list =
+                $dbh->selectcol_arrayref("SELECT $target
+                                          FROM dependencies
+                                          WHERE $me = ?", undef, $i);
+            foreach my $t (@$dep_list) {
+                # ignore any _current_ dependencies involving this bug,
+                # as they will be overwritten with data from the form.
+                if ($t != $id && !exists $seen{$t}) {
+                    push(@{$deptree{$target}}, $t);
+                    push @stack, $t;
+                    $seen{$t} = 1;
+                }
+            }
+        }
+    }
+
+    my @deps   = @{$deptree{'dependson'}};
+    my @blocks = @{$deptree{'blocked'}};
+    my @union = ();
+    my @isect = ();
+    my %union = ();
+    my %isect = ();
+    foreach my $b (@deps, @blocks) { $union{$b}++ && $isect{$b}++ }
+    @union = keys %union;
+    @isect = keys %isect;
+    if (scalar(@isect) > 0) {
+        my $both = "";
+        foreach my $i (@isect) {
+           $both .= &::GetBugLink($i, "#" . $i) . " ";
+        }
+        ThrowUserError("dependency_loop_multi", { both => $both });
+    }
+    return %deps;
+}
 
 sub AUTOLOAD {
   use vars qw($AUTOLOAD);

@@ -20,7 +20,8 @@
 #
 # Contributor(s): Terry Weissman <terry@mozilla.org>
 #                 Matthew Tuck <matty@chariot.net.au>
-#                 Max Kanat-Alexander <mkanat@kerio.com>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
+#                 Marc Schumann <wurblzap@gmail.com>
 
 use strict;
 
@@ -173,6 +174,75 @@ if (defined $cgi->param('cleangroupsnow')) {
     (my $after) = FetchSQLData();
     Status("Cleaned table for $count users " .
            "- reduced from $before records to $after records");
+}
+
+###########################################################################
+# Create missing group_control_map entries
+###########################################################################
+
+if (defined $cgi->param('createmissinggroupcontrolmapentries')) {
+    Status(qq{OK, now creating <code>SHOWN</code> member control entries
+              for product/group combinations lacking one.});
+
+    my $na    = CONTROLMAPNA;
+    my $shown = CONTROLMAPSHOWN;
+    my $insertsth = $dbh->prepare(
+        qq{INSERT INTO group_control_map (
+                       group_id, product_id, entry,
+                       membercontrol, othercontrol, canedit
+                      )
+               VALUES (
+                       ?, ?, 0,
+                       $shown, $na, 0
+                      )});
+    my $updatesth = $dbh->prepare(qq{UPDATE group_control_map
+                                        SET membercontrol = $shown
+                                      WHERE group_id   = ?
+                                        AND product_id = ?});
+    my $counter = 0;
+
+    # Find all group/product combinations used for bugs but not set up
+    # correctly in group_control_map
+    my $invalid_combinations = $dbh->selectall_arrayref(
+        qq{    SELECT bugs.product_id,
+                      bgm.group_id,
+                      gcm.membercontrol,
+                      groups.name,
+                      products.name
+                 FROM bugs
+           INNER JOIN bug_group_map AS bgm
+                   ON bugs.bug_id = bgm.bug_id
+           INNER JOIN groups
+                   ON bgm.group_id = groups.id
+           INNER JOIN products
+                   ON bugs.product_id = products.id
+            LEFT JOIN group_control_map AS gcm
+                   ON bugs.product_id = gcm.product_id
+                  AND    bgm.group_id = gcm.group_id
+                WHERE COALESCE(gcm.membercontrol, $na) = $na
+          } . $dbh->sql_group_by('bugs.product_id, bgm.group_id'));
+
+    foreach (@$invalid_combinations) {
+        my ($product_id, $group_id, $currentmembercontrol,
+            $group_name, $product_name) = @$_;
+
+        $counter++;
+        if (defined($currentmembercontrol)) {
+            Status(qq{Updating <code>NA/<em>xxx</em></code> group control
+                      setting for group <em>$group_name</em> to
+                      <code>SHOWN/<em>xxx</em></code> in product
+                      <em>$product_name</em>.});
+            $updatesth->execute($group_id, $product_id);
+        }
+        else {
+            Status(qq{Generating <code>SHOWN/NA</code> group control setting
+                      for group <em>$group_name</em> in product
+                      <em>$product_name</em>.});
+            $insertsth->execute($group_id, $product_id);
+        }
+    }
+
+    Status("Repaired $counter defective group control settings.");
 }
 
 ###########################################################################
@@ -380,7 +450,7 @@ CrossCheck("products", "id",
            ["flaginclusions", "product_id", "type_id"],
            ["flagexclusions", "product_id", "type_id"]);
 
-# Check the former enum types -mkanat@kerio.com
+# Check the former enum types -mkanat@bugzilla.org
 CrossCheck("bug_status", "value",
             ["bugs", "bug_status"]);
 
@@ -656,8 +726,8 @@ if (defined $cgi->param('rebuildkeywordcache')) {
 # General bug checks
 ###########################################################################
 
-sub BugCheck ($$) {
-    my ($middlesql, $errortext) = @_;
+sub BugCheck ($$;$$) {
+    my ($middlesql, $errortext, $repairparam, $repairtext) = @_;
     
     SendSQL("SELECT DISTINCT bugs.bug_id " .
             "FROM $middlesql " .
@@ -672,6 +742,11 @@ sub BugCheck ($$) {
 
     if (@badbugs) {
         Alert("$errortext: " . BugListLinks(@badbugs));
+        if ($repairparam) {
+            $repairtext ||= 'Repair these bugs';
+            print qq{<a href="sanitycheck.cgi?$repairparam=1">$repairtext</a>.},
+                  '<p>';
+        }
     }
 }
 
@@ -702,7 +777,7 @@ BugCheck("bugs WHERE bug_status = 'UNCONFIRMED' AND everconfirmed = 1",
          "Bugs that are UNCONFIRMED but have everconfirmed set");
 # The below list of resolutions is hardcoded because we don't know if future
 # resolutions will be confirmed, unconfirmed or maybeconfirmed.  I suspect
-# they will be maybeconfirmed, eg ASLEEP and REMIND.  This hardcoding should
+# they will be maybeconfirmed, e.g. ASLEEP and REMIND.  This hardcoding should
 # disappear when we have customised statuses.
 BugCheck("bugs WHERE bug_status IN ('NEW', 'ASSIGNED', 'REOPENED') AND everconfirmed = 0",
          "Bugs with confirmed status but don't have everconfirmed set"); 
@@ -758,27 +833,27 @@ Status("Checking for bugs with groups violating their product's group controls")
 BugCheck("bugs
          INNER JOIN bug_group_map
             ON bugs.bug_id = bug_group_map.bug_id
-         INNER JOIN groups
-            ON bug_group_map.group_id = groups.id
           LEFT JOIN group_control_map
             ON bugs.product_id = group_control_map.product_id
-            AND bug_group_map.group_id = group_control_map.group_id
-         WHERE groups.isactive != 0
-         AND ((group_control_map.membercontrol = " . CONTROLMAPNA . ")
+           AND bug_group_map.group_id = group_control_map.group_id
+         WHERE ((group_control_map.membercontrol = " . CONTROLMAPNA . ")
          OR (group_control_map.membercontrol IS NULL))",
-         "Have groups not permitted for their products");
+         'Have groups not permitted for their products',
+         'createmissinggroupcontrolmapentries',
+         'Permit the missing groups for the affected products
+          (set member control to <code>SHOWN</code>)');
 
 BugCheck("bugs
-         INNER JOIN bug_group_map
-            ON bugs.bug_id = bug_group_map.bug_id
-         INNER JOIN groups
-            ON bug_group_map.group_id = groups.id
-          LEFT JOIN group_control_map
+         INNER JOIN group_control_map
             ON bugs.product_id = group_control_map.product_id
-            AND bug_group_map.group_id = group_control_map.group_id
-         WHERE groups.isactive != 0
-         AND group_control_map.membercontrol = " . CONTROLMAPMANDATORY . "
-         AND bug_group_map.group_id IS NULL",
+         INNER JOIN groups
+            ON group_control_map.group_id = groups.id
+          LEFT JOIN bug_group_map
+            ON bugs.bug_id = bug_group_map.bug_id
+           AND group_control_map.group_id = bug_group_map.group_id
+         WHERE group_control_map.membercontrol = " . CONTROLMAPMANDATORY . "
+           AND bug_group_map.group_id IS NULL
+           AND groups.isactive != 0",
          "Are missing groups required for their products");
 
 

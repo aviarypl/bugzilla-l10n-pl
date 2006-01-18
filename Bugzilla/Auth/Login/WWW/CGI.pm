@@ -53,8 +53,8 @@ sub login {
     
     $cgi->delete('Bugzilla_login', 'Bugzilla_password');
 
-    my $authmethod = Param("user_verify_class");
-    my ($authres, $userid, $extra, $info) =
+    # Perform the actual authentication, get the method name from the class name
+    my ($authmethod, $authres, $userid, $extra, $info) =
       Bugzilla::Auth->authenticate($username, $passwd);
 
     if ($authres == AUTH_OK) {
@@ -232,12 +232,8 @@ sub logout {
 
 sub clear_browser_cookies {
     my $cgi = Bugzilla->cgi;
-    $cgi->send_cookie(-name => "Bugzilla_login",
-                      -value => "",
-                      -expires => "Tue, 15-Sep-1998 21:49:00 GMT");
-    $cgi->send_cookie(-name => "Bugzilla_logincookie",
-                      -value => "",
-                      -expires => "Tue, 15-Sep-1998 21:49:00 GMT");
+    $cgi->remove_cookie('Bugzilla_login');
+    $cgi->remove_cookie('Bugzilla_logincookie');
 }
 
 1;

@@ -271,7 +271,7 @@
     [% FOREACH resolution = resolutions %]
       [% NEXT IF !resolution %]
       <option value="[% resolution FILTER html %]" [% 'selected="selected"' IF resolution == "FIXED" %]>
-        [% resolution FILTER html %]
+        [% resolution_descs.$resolution FILTER html %]
       </option>
     [% END %]
   </select><br>
@@ -317,12 +317,12 @@
        name="knob"
        value="reassignbycomponent">
 <label for="knob-reassignbycomponent">
-  Reassign [% terms.bugs %] to owner of selected component
+  Reassign [% terms.bugs %] to default assignee of selected component
 </label><br>
 
 <input type="submit" value="Commit">
 
-[% IF ismover %]
+[% IF Param('move-enabled') && user.is_mover %]
   <input type="submit" name="action" value="[% Param('move-button-text') %]">
 [% END %]
 

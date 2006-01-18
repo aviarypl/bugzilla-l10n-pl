@@ -135,7 +135,7 @@
 'reports/report-table.csv.tmpl' => [
   'num_bugs',
   'data.$tbl.$col.$row',
-  'title',
+  'colsepchar',
 ],
 
 'reports/report-table.html.tmpl' => [
@@ -190,6 +190,7 @@
 
 'reports/chart.csv.tmpl' => [
   'data.$j.$i', 
+  'colsepchar',
 ],
 
 'reports/create-chart.html.tmpl' => [
@@ -231,6 +232,7 @@
 
 'list/list.csv.tmpl' => [
   'bug.bug_id', 
+  'colsepchar',
 ],
 
 'list/list.js.tmpl' => [
@@ -535,6 +537,11 @@
   'classification_url_part', 
 ],
 
+'admin/products/confirm-delete.html.tmpl' => [
+  'classification_url_part', 
+  'bug_count', 
+],
+
 'admin/products/footer.html.tmpl' => [
   'classification_url_part', 
   'classification_text', 
@@ -581,7 +588,8 @@
 'admin/users/confirm-delete.html.tmpl' => [
   'andstring',
   'responsibilityterms.$responsibility',
-  'bugs',
+  'reporter',
+  'assignee_or_qa',
   'cc',
   'flags.requestee',
   'flags.setter',

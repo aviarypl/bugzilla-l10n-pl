@@ -203,7 +203,7 @@ if ($cgi->param('update')) {
 
             for my $sid (@scheduleids) {
                 if ($cgi->param("remove_schedule_$sid")) {
-                    # having the owner id in here is a security failsafe
+                    # having the assignee id in here is a security failsafe
                     $sth = $dbh->prepare("SELECT whine_schedules.id " .
                                          "FROM whine_schedules " .
                                          "LEFT JOIN whine_events " .
@@ -221,23 +221,14 @@ if ($cgi->param('update')) {
                     }
                 }
                 else {
-                    my $o_day         = $cgi->param("orig_day_$sid");
-                    my $day           = $cgi->param("day_$sid");
-                    my $o_time        = $cgi->param("orig_time_$sid");
-                    my $time          = $cgi->param("time_$sid");
-                    my $o_mailto      = $cgi->param("orig_mailto_$sid");
-                    my $mailto        = $cgi->param("mailto_$sid");
-                    my $o_mailto_type = lc $cgi->param("orig_mailto_type_$sid");
-                    my $mailto_type   = $cgi->param("mailto_type_$sid");
-
-                    $o_day         = '' unless length($o_day);
-                    $o_time        = '' unless length($o_time);
-                    $o_mailto      = '' unless length($o_mailto);
-                    $o_mailto_type = '' unless length($o_mailto_type);
-                    $day           = '' unless length($day);
-                    $time          = '' unless length($time);
-                    $mailto        = '' unless length($mailto);
-                    $mailto_type   = '' unless length($mailto_type);
+                    my $o_day         = $cgi->param("orig_day_$sid") || '';
+                    my $day           = $cgi->param("day_$sid") || '';
+                    my $o_time        = $cgi->param("orig_time_$sid") || '';
+                    my $time          = $cgi->param("time_$sid") || '';
+                    my $o_mailto      = $cgi->param("orig_mailto_$sid") || '';
+                    my $mailto        = $cgi->param("mailto_$sid") || '';
+                    my $o_mailto_type = $cgi->param("orig_mailto_type_$sid") || 0;
+                    my $mailto_type   = $cgi->param("mailto_type_$sid") || 0;
 
                     my $mailto_id = $userid;
 
@@ -246,19 +237,26 @@ if ($cgi->param('update')) {
                         if ($mailto_type == MAILTO_USER) {
                             # detaint
                             my $emailregexp = Param('emailregexp');
-                            $mailto =~ /($emailregexp)/;
-                            $mailto =~ $1;
-                            $mailto_id = login_to_id($mailto);
+                            if ($mailto =~ /($emailregexp)/) {
+                                $mailto_id = login_to_id($1);
+                            }
+                            else {
+                                ThrowUserError("illegal_email_address", 
+                                               { addr => $mailto });
+                            }
                         }
                         elsif ($mailto_type == MAILTO_GROUP) {
                             # detaint the group parameter
-                            $mailto =~ /^([0-9a-z_\-\.]+)/i;
-                            my $group = $1;
-
-                            $mailto_id = Bugzilla::Group::ValidateGroupName(
-                                $group, ($user));
-                            $mailto_id || ThrowUserError(
-                                'invalid_group_name', {name => $group});
+                            if ($mailto =~ /^([0-9a-z_\-\.]+)$/i) {
+                                $mailto_id = Bugzilla::Group::ValidateGroupName(
+                                                 $1, ($user)) || 
+                                             ThrowUserError(
+                                                 'invalid_group_name', 
+                                                 { name => $1 });
+                            } else {
+                                ThrowUserError('invalid_group_name',
+                                               { name => $mailto });
+                            }
                         }
                         else {
                             # bad value, so it will just mail to the whine
@@ -271,11 +269,11 @@ if ($cgi->param('update')) {
 
                     if ( ($o_day  ne $day) ||
                          ($o_time ne $time) ||
-                         ($o_mailto != $mailto) ||
+                         ($o_mailto ne $mailto) ||
                          ($o_mailto_type != $mailto_type) ){
 
-                        trick_taint($day) if length($day);
-                        trick_taint($time) if length($time);
+                        trick_taint($day);
+                        trick_taint($time);
 
                         # the schedule table must be locked
                         $sth = $dbh->prepare("UPDATE whine_schedules " .
@@ -318,42 +316,25 @@ if ($cgi->param('update')) {
                     }
                 }
                 else {
-                    my $o_sort      = $cgi->param("orig_query_sort_$qid");
-                    my $sort        = $cgi->param("query_sort_$qid");
-                    my $o_queryname = $cgi->param("orig_query_name_$qid");
-                    my $queryname   = $cgi->param("query_name_$qid");
-                    my $o_title     = $cgi->param("orig_query_title_$qid");
-                    my $title       = $cgi->param("query_title_$qid");
+                    my $o_sort      = $cgi->param("orig_query_sort_$qid") || 0;
+                    my $sort        = $cgi->param("query_sort_$qid") || 0;
+                    my $o_queryname = $cgi->param("orig_query_name_$qid") || '';
+                    my $queryname   = $cgi->param("query_name_$qid") || '';
+                    my $o_title     = $cgi->param("orig_query_title_$qid") || '';
+                    my $title       = $cgi->param("query_title_$qid") || '';
                     my $o_onemailperbug =
-                            $cgi->param("orig_query_onemailperbug_$qid");
+                            $cgi->param("orig_query_onemailperbug_$qid") || 0;
                     my $onemailperbug   =
-                            $cgi->param("query_onemailperbug_$qid");
+                            $cgi->param("query_onemailperbug_$qid") ? 1 : 0;
 
-                    $o_sort          = '' unless length($o_sort);
-                    $o_queryname     = '' unless length($o_queryname);
-                    $o_title         = '' unless length($o_title);
-                    $o_onemailperbug = '' unless length($o_onemailperbug);
-                    $sort            = '' unless length($sort);
-                    $queryname       = '' unless length($queryname);
-                    $title           = '' unless length($title);
-                    $onemailperbug   = '' unless length($onemailperbug);
-
-                    if ($onemailperbug eq 'on') {
-                        $onemailperbug = 1;
-                    }
-                    elsif ($onemailperbug eq 'off') {
-                        $onemailperbug = 0;
-                    }
-
-                    if ( ($o_sort ne $sort) ||
+                    if ( ($o_sort != $sort) ||
                          ($o_queryname ne $queryname) ||
-                         ($o_onemailperbug xor $onemailperbug) ||
+                         ($o_onemailperbug != $onemailperbug) ||
                          ($o_title ne $title) ){
 
-                        detaint_natural($sort)      if length $sort;
-                        trick_taint($queryname)     if length $queryname;
-                        trick_taint($title)         if length $title;
-                        trick_taint($onemailperbug) if length $onemailperbug;
+                        detaint_natural($sort);
+                        trick_taint($queryname);
+                        trick_taint($title);
 
                         $sth = $dbh->prepare("UPDATE whine_queries " .
                                              "SET sortkey=?, " .
@@ -471,8 +452,8 @@ sub get_events {
     $sth->execute($userid);
     while (my ($ev, $sub, $bod) = $sth->fetchrow_array) {
         $events->{$ev} = {
-            'subject' => $sub,
-            'body' => $bod,
+            'subject' => $sub || '',
+            'body' => $bod || '',
         };
     }
     return $events;

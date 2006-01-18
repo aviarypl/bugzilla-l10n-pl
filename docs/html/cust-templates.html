@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML
 ><HEAD
 ><TITLE
@@ -7,7 +7,7 @@
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
 REL="HOME"
-TITLE="The Bugzilla Guide - 2.19.2 
+TITLE="The Bugzilla Guide - 2.20 
     Development 
     Release"
 HREF="index.html"><LINK
@@ -39,7 +39,7 @@ CELLSPACING="0"
 ><TH
 COLSPAN="3"
 ALIGN="center"
->The Bugzilla Guide - 2.19.2 
+>The Bugzilla Guide - 2.20 
     Development 
     Release</TH
 ></TR
@@ -425,7 +425,7 @@ TARGET="_top"
         to properly HTML filter data that has been passed into the template.
         This means that if the data can possibly contain special HTML characters
         such as &#60;, and the data was not intended to be HTML, they need to be
-        converted to entity form, ie &#38;lt;.  You use the 'html' filter in the
+        converted to entity form, i.e. &#38;lt;.  You use the 'html' filter in the
         Template Toolkit to do this.  If you forget, you may open up
         your installation to cross-site scripting attacks.
       </P
@@ -433,7 +433,7 @@ TARGET="_top"
 >&#13;        Also note that Bugzilla adds a few filters of its own, that are not
         in standard Template Toolkit.  In particular, the 'url_quote' filter
         can convert characters that are illegal or have special meaning in URLs,
-        such as &#38;, to the encoded form, ie %26.  This actually encodes most
+        such as &#38;, to the encoded form, i.e. %26.  This actually encodes most
         characters (but not the common ones such as letters and numbers and so
         on), including the HTML-special characters, so there's never a need to
         HTML filter afterwards.

@@ -11,7 +11,7 @@
 #
 # The Original Code is the Bugzilla Bug Tracking System.
 #
-# Contributor(s): Max Kanat-Alexander <mkanat@kerio.com>
+# Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
 
 # This is a script to edit the values of fields that have drop-down
 # or select boxes. It is largely a copy of editmilestones.cgi, but 
@@ -19,6 +19,8 @@
 
 use strict;
 use lib ".";
+
+require "CGI.pl";
 
 use Bugzilla;
 use Bugzilla::Util;
@@ -355,8 +357,8 @@ if ($action eq 'update') {
         }
         trick_taint($value);
 
-        $dbh->do("UPDATE bugs SET $field = ?, delta_ts = NOW()
-                   WHERE $field = ?", undef, $value, $valueold);
+        $dbh->do("UPDATE bugs SET $field = ? WHERE $field = ?",
+                 undef, $value, $valueold);
 
         $dbh->do("UPDATE $field SET value = ? WHERE value = ?",
                  undef, $value, $valueold);

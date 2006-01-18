@@ -24,7 +24,7 @@
 #                 Christopher Aillon <christopher@aillon.com>
 #                 Joel Peshkin <bugreport@peshkin.net>
 #                 Dave Lawrence <dkl@redhat.com>
-#                 Max Kanat-Alexander <mkanat@kerio.com>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 
 # Contains some global variables and routines used throughout bugzilla.
 
@@ -36,7 +36,6 @@ use Bugzilla::Util;
 # Bring ChmodDataFile in until this is all moved to the module
 use Bugzilla::Config qw(:DEFAULT ChmodDataFile $localconfig $datadir);
 use Bugzilla::BugMail;
-use Bugzilla::Auth;
 use Bugzilla::User;
 
 # Shut up misguided -w warnings about "used only once".  For some reason,
@@ -310,7 +309,8 @@ sub GenerateVersionTable {
     print $fh "1;\n";
     close $fh;
 
-    rename $tmpname, "$datadir/versioncache" || die "Can't rename $tmpname to versioncache";
+    rename ($tmpname, "$datadir/versioncache")
+        || die "Can't rename $tmpname to versioncache";
     ChmodDataFile("$datadir/versioncache", 0666);
 }
 
@@ -468,19 +468,30 @@ sub CanEnterProduct {
     }
 
     # Check if the product is open for new bugs and has
-    # at least one component.
-    my $allow_new_bugs =
-        $dbh->selectrow_array("SELECT CASE WHEN disallownew = 0 THEN 1 ELSE 0 END
-                               FROM products INNER JOIN components
-                               ON components.product_id = products.id
-                               WHERE products.name = ? " .
-                               $dbh->sql_limit(1),
-                               undef, $productname);
+    # at least one component and has at least one version.
+    my ($allow_new_bugs, $has_version) = 
+        $dbh->selectrow_array('SELECT CASE WHEN disallownew = 0 THEN 1 ELSE 0 END, ' .
+                              'versions.value IS NOT NULL ' .
+                              'FROM products INNER JOIN components ' .
+                              'ON components.product_id = products.id ' .
+                              'LEFT JOIN versions ' .
+                              'ON versions.product_id = products.id ' .
+                              'WHERE products.name = ? ' .
+                              $dbh->sql_limit(1), undef, $productname);
 
-    # Return 1 if the user can enter bugs into that product;
-    # return 0 if the product is closed for new bug entry;
-    # return undef if the product has no component.
-    return $allow_new_bugs;
+
+    if (defined $verbose) {
+        # Return (undef, undef) if the product has no components,
+        # Return (?,     0)     if the product has no versions,
+        # Return (0,     ?)     if the product is closed for new bug entry,
+        # Return (1,     1)     if the user can enter bugs into the product,
+        return ($allow_new_bugs, $has_version);
+    } else {
+        # Return undef if the product has no components
+        # Return 0 if the product has no versions, or is closed for bug entry
+        # Return 1 if the user can enter bugs into the product
+        return ($allow_new_bugs && $has_version);
+    }
 }
 
 # Call CanEnterProduct() and display an error message
@@ -491,17 +502,19 @@ sub CanEnterProductOrWarn {
     if (!defined($product)) {
         ThrowUserError("no_products");
     }
-    my $status = CanEnterProduct($product, 1);
+    my ($allow_new_bugs, $has_version) = CanEnterProduct($product, 1);
     trick_taint($product);
 
-    if (!defined($status)) {
-        ThrowUserError("no_components", { product => $product});
-    } elsif (!$status) {
+    if (!defined $allow_new_bugs) {
+        ThrowUserError("missing_component", { product => $product });
+    } elsif (!$allow_new_bugs) {
         ThrowUserError("product_disabled", { product => $product});
-    } elsif ($status < 0) {
+    } elsif ($allow_new_bugs < 0) {
         ThrowUserError("entry_access_denied", { product => $product});
+    } elsif (!$has_version) {
+        ThrowUserError("missing_version", { product => $product });
     }
-    return $status;
+    return 1;
 }
 
 sub GetEnterableProducts {
@@ -794,7 +807,7 @@ sub quoteUrls {
               ~<a href=\"mailto:$2\">$1$2</a>~igx;
 
     # attachment links - handle both cases separately for simplicity
-    $text =~ s~((?:^Created\ an\ |\b)attachment\s*\(id=(\d+)\))
+    $text =~ s~((?:^Created\ an\ |\b)attachment\s*\(id=(\d+)\)(\s\[edit\])?)
               ~($things[$count++] = GetAttachmentLink($2, $1)) &&
                ("\0\0" . ($count-1) . "\0\0")
               ~egmx;
@@ -877,8 +890,13 @@ sub GetAttachmentLink {
     my ($title, $className) = @{$::attachlink{$attachid}};
     # $title will be undefined if the attachment didn't exist in the database.
     if (defined $title) {
-        my $linkval = "attachment.cgi?id=$attachid&amp;action=edit";
-        return qq{<a href="$linkval" class="$className" title="$title">$link_text</a>};
+        $link_text =~ s/ \[edit\]$//;
+        my $linkval = "attachment.cgi?id=$attachid&amp;action=";
+        # Whitespace matters here because these links are in <pre> tags.
+        return qq|<span class="$className">|
+               . qq|<a href="${linkval}view" title="$title">$link_text</a>|
+               . qq| <a href="${linkval}edit" title="$title">[edit]</a>|
+               . qq|</span>|;
     }
     else {
         return qq{$link_text};
@@ -894,8 +912,11 @@ sub GetAttachmentLink {
 
 sub GetBugLink {
     my ($bug_num, $link_text, $comment_num) = @_;
-    $bug_num || return "&lt;missing bug number&gt;";
-    detaint_natural($bug_num) || return "&lt;invalid bug number&gt;";
+    if (! defined $bug_num || $bug_num eq "") {
+        return "&lt;missing bug number&gt;";
+    }
+    my $quote_bug_num = html_quote($bug_num);
+    detaint_natural($bug_num) || return "&lt;invalid bug number: $quote_bug_num&gt;";
 
     # If we've run GetBugLink() for this bug number before, %::buglink
     # will contain an anonymous array ref of relevent values, if not

@@ -29,7 +29,7 @@ use lib qw(.);
 use Bugzilla;
 use Bugzilla::Constants;
 use Bugzilla::Search;
-use Bugzilla::Auth;
+use Bugzilla::Util;
 use Bugzilla::User;
 
 require "CGI.pl";
@@ -109,7 +109,7 @@ sub SaveAccount {
 
         if($old_login_name ne $new_login_name) {
             $cgi->param('Bugzilla_password') 
-              || ThrowCodeError("old_password_required");
+              || ThrowUserError("old_password_required");
 
             use Bugzilla::Token;
             # Block multiple email changes for the same user.
@@ -152,18 +152,16 @@ sub SaveSettings {
     foreach my $name (@setting_list) {
         next if ! ($settings->{$name}->{'is_enabled'});
         my $value = $cgi->param($name);
+        my $setting = new Bugzilla::User::Setting($name);
 
-        # de-taint the value.
-        if ($value =~ /^([-\w]+)$/ ) {
-            $value = $1;
-        }
         if ($value eq "${name}-isdefault" ) {
             if (! $settings->{$name}->{'is_default'}) {
-                 $settings->{$name}->reset_to_default;
+                $settings->{$name}->reset_to_default;
             }
         }
         else {
-           $settings->{$name}->set($value);
+            $setting->validate_value($value);
+            $settings->{$name}->set($value);
         }
     }
     $vars->{'settings'} = Bugzilla->user->settings(1);
@@ -255,7 +253,9 @@ sub SaveEmail {
 
     # Global positive events: a ticked box means "send me mail."
     foreach my $event (GLOBAL_EVENTS) {
-        if (1 == $cgi->param("email-" . REL_ANY . "-$event")) {
+        if (defined($cgi->param("email-" . REL_ANY . "-$event"))
+            && $cgi->param("email-" . REL_ANY . "-$event") == 1)
+        {
             $dbh->do("INSERT INTO email_setting " . 
                      "(user_id, relationship, event) " . 
                      "VALUES ($userid, " . REL_ANY . ", $event)");

@@ -22,6 +22,7 @@
 #                 Jeroen Ruigrok van der Werven <asmodai@wxs.nl>
 #                 Dave Lawrence <dkl@redhat.com>
 #                 Tomas Kopal <Tomas.Kopal@altap.cz>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 
 =head1 NAME
 
@@ -49,6 +50,7 @@ use base qw(Bugzilla::DB);
 use constant REQUIRED_VERSION => '3.23.41';
 use constant PROGRAM_NAME => 'MySQL';
 use constant MODULE_NAME  => 'Mysql';
+use constant DBD_VERSION  => '2.9003';
 
 sub new {
     my ($class, $user, $pass, $host, $dbname, $port, $sock) = @_;
@@ -62,7 +64,7 @@ sub new {
 
     # all class local variables stored in DBI derived class needs to have
     # a prefix 'private_'. See DBI documentation.
-    $self->{private_bz_tables_locked} = 0;
+    $self->{private_bz_tables_locked} = "";
 
     bless ($self, $class);
     
@@ -107,6 +109,12 @@ sub sql_fulltext_search {
     my ($self, $column, $text) = @_;
 
     return "MATCH($column) AGAINST($text)";
+}
+
+sub sql_istring {
+    my ($self, $string) = @_;
+    
+    return $string;
 }
 
 sub sql_to_days {
@@ -157,13 +165,15 @@ sub sql_group_by {
 sub bz_lock_tables {
     my ($self, @tables) = @_;
 
+    my $list = join(', ', @tables);
     # Check first if there was no lock before
     if ($self->{private_bz_tables_locked}) {
-        ThrowCodeError("already_locked");
+        ThrowCodeError("already_locked", { current => $self->{private_bz_tables_locked},
+                                           new => $list });
     } else {
-        $self->do('LOCK TABLE ' . join(', ', @tables)); 
+        $self->do('LOCK TABLE ' . $list); 
     
-        $self->{private_bz_tables_locked} = 1;
+        $self->{private_bz_tables_locked} = $list;
     }
 }
 
@@ -178,7 +188,7 @@ sub bz_unlock_tables {
     } else {
         $self->do("UNLOCK TABLES");
     
-        $self->{private_bz_tables_locked} = 0;
+        $self->{private_bz_tables_locked} = "";
     }
 }
 
@@ -260,6 +270,10 @@ sub bz_setup_database {
         # We estimate one minute for each 3000 bugs, plus 3 minutes just
         # to handle basic MySQL stuff.
         my $rename_time = int($bug_count / 3000) + 3;
+        # And 45 minutes for every 15,000 attachments, per some experiments.
+        my ($attachment_count) = 
+            $self->selectrow_array("SELECT COUNT(*) FROM attachments");
+        $rename_time += int(($attachment_count * 45) / 15000);
         # If we're going to take longer than 5 minutes, we let the user know
         # and allow them to abort.
         if ($rename_time > 5) {
@@ -337,6 +351,11 @@ sub bz_setup_database {
 
         # Go through all the tables.
         foreach my $table (@tables) {
+            # Will contain the names of old indexes as keys, and the 
+            # definition of the new indexes as a value. The values
+            # include an extra hash key, NAME, with the new name of 
+            # the index.
+            my %rename_indexes;
             # And go through all the columns on each table.
             my @columns = $self->bz_table_columns_real($table);
 
@@ -359,20 +378,20 @@ sub bz_setup_database {
             foreach my $column (@columns) {
                 # If we have an index named after this column, it's an 
                 # old-style-name index.
-                # This will miss PRIMARY KEY indexes, but that's OK 
-                # because we aren't renaming them.
                 if (my $index = $self->bz_index_info_real($table, $column)) {
                     # Fix the name to fit in with the new naming scheme.
-                    my $new_name = $table . "_" .
-                                   $index->{FIELDS}->[0] . "_idx";
-                    print "Renaming index $column to $new_name...\n";
-                    # Unfortunately, MySQL has no way to rename an index. :-(
-                    # So we have to drop and recreate the indexes.
-                    $self->bz_drop_index_raw($table, $column, "silent");
-                    $self->bz_add_index_raw($table, $new_name, 
-                                             $index, "silent");
+                    $index->{NAME} = $table . "_" .
+                                     $index->{FIELDS}->[0] . "_idx";
+                    print "Renaming index $column to " 
+                          . $index->{NAME} . "...\n";
+                    $rename_indexes{$column} = $index;
                 } # if
             } # foreach column
+
+            my @rename_sql = $self->_bz_schema->get_rename_indexes_ddl(
+                $table, %rename_indexes);
+            $self->do($_) foreach (@rename_sql);
+
         } # foreach table
     } # if old-name indexes
 
@@ -464,7 +483,7 @@ sub bz_setup_database {
 
 =begin private
 
-=head 1 MYSQL-SPECIFIC DATABASE-READING METHODS
+=head1 MYSQL-SPECIFIC DATABASE-READING METHODS
 
 These methods read information about the database from the disk,
 instead of from a Schema object. They are only reliable for MySQL 
@@ -581,11 +600,13 @@ sub bz_index_list_real {
 
 =back
 
-=head 1 MYSQL-SPECIFIC "SCHEMA BUILDER"
+=head1 MYSQL-SPECIFIC "SCHEMA BUILDER"
 
 MySQL needs to be able to read in a legacy database (from before 
 Schema existed) and create a Schema object out of it. That's what
 this code does.
+
+=end private
 
 =cut
 
@@ -623,10 +644,3 @@ sub _bz_build_schema_from_disk {
     return $schema;
 }
 1;
-
-__END__
-
-=back
-
-=end private
-

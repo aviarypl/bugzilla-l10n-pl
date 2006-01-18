@@ -140,7 +140,7 @@ if (!UserInGroup("editbugs") || $cgi->param('assigned_to') eq "") {
 
 my @bug_fields = ("version", "rep_platform",
                   "bug_severity", "priority", "op_sys", "assigned_to",
-                  "bug_status", "bug_file_loc", "short_desc",
+                  "bug_status", "everconfirmed", "bug_file_loc", "short_desc",
                   "target_milestone", "status_whiteboard");
 
 if (Param("usebugaliases")) {
@@ -209,18 +209,14 @@ CheckFormFieldDefined($cgi, 'assigned_to');
 CheckFormFieldDefined($cgi, 'bug_file_loc');
 CheckFormFieldDefined($cgi, 'comment');
 
+my $everconfirmed = ($cgi->param('bug_status') eq 'UNCONFIRMED') ? 0 : 1;
+$cgi->param(-name => 'everconfirmed', -value => $everconfirmed);
+
 my @used_fields;
 foreach my $field (@bug_fields) {
     if (defined $cgi->param($field)) {
         push (@used_fields, $field);
     }
-}
-
-if (defined $cgi->param('bug_status') 
-    && $cgi->param('bug_status') ne 'UNCONFIRMED') 
-{
-    push(@used_fields, "everconfirmed");
-    $cgi->param(-name => 'everconfirmed', -value => 1);
 }
 
 $cgi->param(-name => 'product_id', -value => $product_id);
@@ -264,8 +260,7 @@ if ($cgi->param('keywords') && UserInGroup("editbugs")) {
 
 # Check for valid dependency info. 
 foreach my $field ("dependson", "blocked") {
-    if (UserInGroup("editbugs") && defined($cgi->param($field)) &&
-        $cgi->param($field) ne "") {
+    if (UserInGroup("editbugs") && $cgi->param($field)) {
         my @validvalues;
         foreach my $id (split(/[\s,]+/, $cgi->param($field))) {
             next unless $id;
@@ -275,63 +270,12 @@ foreach my $field ("dependson", "blocked") {
         $cgi->param(-name => $field, -value => join(",", @validvalues));
     }
 }
-# Gather the dependecy list, and make sure there are no circular refs
+# Gather the dependency list, and make sure there are no circular refs
 my %deps;
-if (UserInGroup("editbugs") && defined($cgi->param('dependson'))) {
-    my $me = "blocked";
-    my $target = "dependson";
-    my %deptree;
-    for (1..2) {
-        $deptree{$target} = [];
-        my %seen;
-        foreach my $i (split('[\s,]+', $cgi->param($target))) {
-            if (!exists $seen{$i}) {
-                push(@{$deptree{$target}}, $i);
-                $seen{$i} = 1;
-            }
-        }
-        # populate $deps{$target} as first-level deps only.
-        # and find remainder of dependency tree in $deptree{$target}
-        @{$deps{$target}} = @{$deptree{$target}};
-        my @stack = @{$deps{$target}};
-        while (@stack) {
-            my $i = shift @stack;
-            SendSQL("SELECT $target FROM dependencies WHERE $me = " .
-                    SqlQuote($i));
-            while (MoreSQLData()) {
-                my $t = FetchOneColumn();
-                if (!exists $seen{$t}) {
-                    push(@{$deptree{$target}}, $t);
-                    push @stack, $t;
-                    $seen{$t} = 1;
-                } 
-            }
-        }
-        
-        if ($me eq 'dependson') {
-            my @deps   =  @{$deptree{'dependson'}};
-            my @blocks =  @{$deptree{'blocked'}};
-            my @union = ();
-            my @isect = ();
-            my %union = ();
-            my %isect = ();
-            foreach my $b (@deps, @blocks) { $union{$b}++ && $isect{$b}++ }
-            @union = keys %union;
-            @isect = keys %isect;
-            if (@isect > 0) {
-                my $both;
-                foreach my $i (@isect) {
-                    $both = $both . GetBugLink($i, "#" . $i) . " ";
-                }
-
-                ThrowUserError("dependency_loop_multi",
-                               { both => $both });
-            }
-        }
-        my $tmp = $me;
-        $me = $target;
-        $target = $tmp;
-    }
+if (UserInGroup("editbugs")) {
+    %deps = Bugzilla::Bug::ValidateDependencies($cgi->param('dependson'),
+                                                $cgi->param('blocked'),
+                                                undef);
 }
 
 # get current time
@@ -340,8 +284,9 @@ my $timestamp = FetchOneColumn();
 my $sql_timestamp = SqlQuote($timestamp);
 
 # Build up SQL string to add bug.
+# creation_ts will only be set when all other fields are defined.
 my $sql = "INSERT INTO bugs " . 
-  "(" . join(",", @used_fields) . ", reporter, creation_ts, delta_ts, " .
+  "(" . join(",", @used_fields) . ", reporter, delta_ts, " .
   "estimated_time, remaining_time, deadline) " .
   "VALUES (";
 
@@ -355,7 +300,7 @@ $comment = trim($comment);
 # OK except for the fact that it causes e-mail to be suppressed.
 $comment = $comment ? $comment : " ";
 
-$sql .= "$::userid, $sql_timestamp, $sql_timestamp, ";
+$sql .= "$::userid, $sql_timestamp, ";
 
 # Time Tracking
 if (UserInGroup(Param("timetrackinggroup")) &&
@@ -429,6 +374,11 @@ while (MoreSQLData()) {
 }
 
 # Add the bug report to the DB.
+$dbh->bz_lock_tables('bugs WRITE', 'bug_group_map WRITE', 'longdescs WRITE',
+                     'cc WRITE', 'keywords WRITE', 'dependencies WRITE',
+                     'bugs_activity WRITE', 'groups READ', 'user_group_map READ',
+                     'keyworddefs READ', 'fielddefs READ');
+
 SendSQL($sql);
 
 # Get the bug ID back.
@@ -473,10 +423,10 @@ if (UserInGroup("editbugs")) {
                 " keywords = " . SqlQuote(join(', ', @list)) .
                 " WHERE bug_id = $id");
     }
-    if (defined $cgi->param('dependson')) {
-        my $me = "blocked";
-        my $target = "dependson";
-        for (1..2) {
+    if ($cgi->param('dependson') || $cgi->param('blocked')) {
+        foreach my $pair (["blocked", "dependson"], ["dependson", "blocked"]) {
+            my ($me, $target) = @{$pair};
+
             foreach my $i (@{$deps{$target}}) {
                 SendSQL("INSERT INTO dependencies ($me, $target) values " .
                         "($id, $i)");
@@ -484,12 +434,16 @@ if (UserInGroup("editbugs")) {
                 # Log the activity for the other bug:
                 LogActivityEntry($i, $me, "", $id, $user->id, $timestamp);
             }
-            my $tmp = $me;
-            $me = $target;
-            $target = $tmp;
         }
     }
 }
+
+# All fields related to the newly created bug are set.
+# The bug can now be made accessible.
+$dbh->do("UPDATE bugs SET creation_ts = ? WHERE bug_id = ?",
+          undef, ($timestamp, $id));
+
+$dbh->bz_unlock_tables();
 
 # Email everyone the details of the new bug 
 $vars->{'mailrecipients'} = {'changer' => Bugzilla->user->login};

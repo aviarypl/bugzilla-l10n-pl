@@ -22,6 +22,7 @@
 #                 Jeroen Ruigrok van der Werven <asmodai@wxs.nl>
 #                 Dave Lawrence <dkl@redhat.com>
 #                 Tomas Kopal <Tomas.Kopal@altap.cz>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 
 =head1 NAME
 
@@ -51,6 +52,7 @@ use constant BLOB_TYPE => { pg_type => DBD::Pg::PG_BYTEA };
 use constant REQUIRED_VERSION => '7.03.0000';
 use constant PROGRAM_NAME => 'PostgreSQL';
 use constant MODULE_NAME  => 'Pg';
+use constant DBD_VERSION  => '1.31';
 
 sub new {
     my ($class, $user, $pass, $host, $dbname, $port) = @_;
@@ -68,7 +70,7 @@ sub new {
 
     # all class local variables stored in DBI derived class needs to have
     # a prefix 'private_'. See DBI documentation.
-    $self->{private_bz_tables_locked} = 0;
+    $self->{private_bz_tables_locked} = "";
 
     bless ($self, $class);
 
@@ -145,9 +147,11 @@ sub sql_string_concat {
 sub bz_lock_tables {
     my ($self, @tables) = @_;
    
+    my $list = join(', ', @tables);
     # Check first if there was no lock before
     if ($self->{private_bz_tables_locked}) {
-        ThrowCodeError("already_locked");
+        ThrowCodeError("already_locked", { current => $self->{private_bz_tables_locked},
+                                           new => $list });
     } else {
         my %read_tables;
         my %write_tables;
@@ -173,7 +177,7 @@ sub bz_lock_tables {
                           ' IN ROW SHARE MODE') if keys %read_tables;
         Bugzilla->dbh->do('LOCK TABLE ' . join(', ', keys %write_tables) .
                           ' IN ROW EXCLUSIVE MODE') if keys %write_tables;
-        $self->{private_bz_tables_locked} = 1;
+        $self->{private_bz_tables_locked} = $list;
     }
 }
 
@@ -186,7 +190,7 @@ sub bz_unlock_tables {
         return if $abort;
         ThrowCodeError("no_matching_lock");
     } else {
-        $self->{private_bz_tables_locked} = 0;
+        $self->{private_bz_tables_locked} = "";
         # End transaction, tables will be unlocked automatically
         if ($abort) {
             $self->bz_rollback_transaction();
@@ -194,6 +198,40 @@ sub bz_unlock_tables {
             $self->bz_commit_transaction();
         }
     }
+}
+
+#####################################################################
+# Custom Database Setup
+#####################################################################
+
+sub bz_setup_database {
+    my $self = shift;
+    $self->SUPER::bz_setup_database(@_);
+
+    # PostgreSQL doesn't like having *any* index on the thetext
+    # field, because it can't have index data longer than 2770
+    # characters on that field.
+    $self->bz_drop_index('longdescs', 'longdescs_thetext_idx');
+
+    # PostgreSQL also wants an index for calling LOWER on
+    # login_name, which we do with sql_istrcmp all over the place.
+    $self->bz_add_index('profiles', 'profiles_login_name_lower_idx', 
+        {FIELDS => ['LOWER(login_name)'], TYPE => 'UNIQUE'});
+}
+
+#####################################################################
+# Custom Schema Information Functions
+#####################################################################
+
+# Pg includes the PostgreSQL system tables in table_list_real, so 
+# we need to remove those.
+sub bz_table_list_real {
+    my $self = shift;
+
+    my @full_table_list = $self->SUPER::bz_table_list_real(@_);
+    # All PostgreSQL system tables start with "pg_" or "sql_"
+    my @table_list = grep(!/(^pg_)|(^sql_)/, @full_table_list);
+    return @table_list;
 }
 
 1;

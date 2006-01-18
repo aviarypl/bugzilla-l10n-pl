@@ -23,7 +23,7 @@
 #                 Stephan Niemz  <st.n@gmx.net>
 #                 Andreas Franke <afranke@mathweb.org>
 #                 Myk Melez <myk@mozilla.org>
-#                 Max Kanat-Alexander <mkanat@kerio.com>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 
 ################################################################################
 # Script Initialization
@@ -382,6 +382,27 @@ if ($cgi->param('cmdtype') eq "dorem") {
         # the SQL, and the SQL is only a DELETE.
         my $qname = $cgi->param('namedcmd');
         trick_taint($qname);
+
+        # Do not forget the saved search if it is being used in a whine
+        my $whines_in_use = 
+            $dbh->selectcol_arrayref('SELECT DISTINCT whine_events.subject
+                                                 FROM whine_events
+                                           INNER JOIN whine_queries
+                                                   ON whine_queries.eventid
+                                                      = whine_events.id
+                                                WHERE whine_events.owner_userid
+                                                      = ?
+                                                  AND whine_queries.query_name
+                                                      = ?
+                                      ', undef, Bugzilla->user->id, $qname);
+        if (scalar(@$whines_in_use)) {
+            ThrowUserError('saved_search_used_by_whines', 
+                           { subjects    => join(',', @$whines_in_use),
+                             search_name => $qname                      }
+            );
+        }
+
+        # If we are here, then we can safely remove the saved search
         $dbh->do("DELETE FROM namedqueries"
             . " WHERE userid = ? AND name = ?"
             , undef, ($userid, $qname));
@@ -492,7 +513,7 @@ DefineColumn("bug_status"        , "bugs.bug_status"            , "Status"      
 DefineColumn("resolution"        , "bugs.resolution"            , "Result"           );
 DefineColumn("short_short_desc"  , "bugs.short_desc"            , "Summary"          );
 DefineColumn("short_desc"        , "bugs.short_desc"            , "Summary"          );
-DefineColumn("status_whiteboard" , "bugs.status_whiteboard"     , "Status Summary"   );
+DefineColumn("status_whiteboard" , "bugs.status_whiteboard"     , "Whiteboard"       );
 DefineColumn("component"         , "map_components.name"        , "Component"        );
 DefineColumn("product"           , "map_products.name"          , "Product"          );
 DefineColumn("classification"    , "map_classifications.name"   , "Classification"   );
@@ -707,8 +728,7 @@ if ($order) {
                 else {
                     my $vars = { fragment => $fragment };
                     if ($order_from_cookie) {
-                        $cgi->send_cookie(-name => 'LASTORDER',
-                                          -expires => 'Tue, 15-Sep-1998 21:49:00 GMT');
+                        $cgi->remove_cookie('LASTORDER');
                         ThrowCodeError("invalid_column_name_cookie", $vars);
                     }
                     else {
@@ -734,7 +754,15 @@ foreach my $fragment (split(/,/, $order)) {
         # Add order columns to selectnames
         # The fragment has already been validated
         $fragment =~ s/\s+(asc|desc)$//;
-        $fragment =~ tr/a-zA-Z\.0-9\-_//cd;
+        # This fixes an issue where columns being used in the ORDER BY statement
+        # can have the SQL that generates the value changed to become invalid -
+        # mainly affects time tracking.
+        if ($fragment =~ / AS (\w+)/) {
+            $fragment = $columns->{$1}->{'name'};
+        }
+        else {
+            $fragment =~ tr/a-zA-Z\.0-9\-_//cd;
+        }
         push @selectnames, $fragment;
     }
 }
@@ -772,7 +800,8 @@ if (defined $cgi->param('limit')) {
     }
 }
 elsif ($fulltext) {
-    $query .= " " . $dbh->sql_limit(200);
+    $query .= " " . $dbh->sql_limit(FULLTEXT_BUGLIST_LIMIT);
+    $vars->{'sorted_by_relevance'} = 1;
 }
 
 
@@ -862,7 +891,7 @@ while (my @row = $buglist_sth->fetchrow_array()) {
         $bug->{'opendate'} = DiffDate($bug->{'opendate'});
     }
 
-    # Record the owner, product, and status in the big hashes of those things.
+    # Record the assignee, product, and status in the big hashes of those things.
     $bugowners->{$bug->{'assigned_to'}} = 1 if $bug->{'assigned_to'};
     $bugproducts->{$bug->{'product'}} = 1 if $bug->{'product'};
     $bugstatuses->{$bug->{'bug_status'}} = 1 if $bug->{'bug_status'};
@@ -893,15 +922,15 @@ if (@bugidlist) {
             $dbh->sql_group_by('bugs.bug_id'));
     $sth->execute();
     while (my ($bug_id, $min_membercontrol) = $sth->fetchrow_array()) {
-        $min_membercontrol{$bug_id} = $min_membercontrol;
+        $min_membercontrol{$bug_id} = $min_membercontrol || CONTROLMAPNA;
     }
     foreach my $bug (@bugs) {
         next unless defined($min_membercontrol{$bug->{'bug_id'}});
-        if ($min_membercontrol{$bug->{'bug_id'}} == CONTROLMAPSHOWN
-              || $min_membercontrol{$bug->{'bug_id'}} == CONTROLMAPDEFAULT) {
-            $bug->{'secure_mode'} = 'manual';
-        } elsif ($min_membercontrol{$bug->{'bug_id'}} == CONTROLMAPMANDATORY) {
+        if ($min_membercontrol{$bug->{'bug_id'}} == CONTROLMAPMANDATORY) {
             $bug->{'secure_mode'} = 'implied';
+        }
+        else {
+            $bug->{'secure_mode'} = 'manual';
         }
     }
 }
@@ -932,17 +961,7 @@ $vars->{'closedstates'} = ['CLOSED', 'VERIFIED', 'RESOLVED'];
 $vars->{'urlquerypart'} = $::buffer;
 $vars->{'urlquerypart'} =~ s/(order|cmdtype)=[^&]*&?//g;
 $vars->{'order'} = $order;
-
-# The user's login account name (i.e. email address).
-my $login = Bugzilla->user->login;
-
 $vars->{'caneditbugs'} = UserInGroup('editbugs');
-
-# Whether or not this user is authorized to move bugs to another installation.
-$vars->{'ismover'} = 1
-  if Param('move-enabled')
-    && defined($login)
-      && Param('movers') =~ /^(\Q$login\E[,\s])|([,\s]\Q$login\E[,\s]+)/;
 
 my @bugowners = keys %$bugowners;
 if (scalar(@bugowners) > 1 && UserInGroup('editbugs')) {
@@ -1013,14 +1032,16 @@ if ($format->{'extension'} eq "html") {
     }
     my $bugids = join(":", @bugidlist);
     # See also Bug 111999
-    if (length($bugids) < 4000) {
+    if (length($bugids) == 0) {
+        $cgi->remove_cookie('BUGLIST');
+    }
+    elsif (length($bugids) < 4000) {
         $cgi->send_cookie(-name => 'BUGLIST',
                           -value => $bugids,
                           -expires => 'Fri, 01-Jan-2038 00:00:00 GMT');
     }
     else {
-        $cgi->send_cookie(-name => 'BUGLIST',
-                          -expires => 'Tue, 15-Sep-1998 21:49:00 GMT');
+        $cgi->remove_cookie('BUGLIST');
         $vars->{'toolong'} = 1;
     }
 

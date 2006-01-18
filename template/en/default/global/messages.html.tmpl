@@ -17,6 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #                 Max Kanat-Alexander <mkanat@bugzilla.org>
   #%]
 
 [%# This is a list of all the possible messages. Please keep them in
@@ -93,7 +94,6 @@
       You didn't request any change on the user account
       [%+ otheruser.login FILTER html %].
     [% END %]
-    [%# changed_fields.join(', ') %]
 
   [% ELSIF message_tag == "account_deleted" %]
     [% title = "User $otheruser.login deleted" %]
@@ -111,7 +111,7 @@
     [% link  = "Click here if the page does not redisplay automatically." %]
 
   [% ELSIF message_tag == "buglist_updated_named_query" %]
-    OK, your search named <code>[% queryname FILTER html %]</code> is updated.
+    Your search named <code>[% queryname FILTER html %]</code> has been updated.
 
   [% ELSIF message_tag == "buglist_new_default_query" %]
     OK, you now have a new default search.  You may
@@ -127,8 +127,11 @@
 
   [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
     [% terms.Bugs %] on this list are sorted by relevance, with the most
-    relevant [% terms.bugs %] at the top.  Only the 200 most relevant 
-    [%+ terms.bugs %] are shown.
+    relevant [% terms.bugs %] at the top.
+    [% IF bugs.size == constants.FULLTEXT_BUGLIST_LIMIT %]
+      Only the [% constants.FULLTEXT_BUGLIST_LIMIT FILTER html %]
+      most relevant [% terms.bugs %] are shown.
+    [% END %]
 
   [% ELSIF message_tag == "change_columns" %]
     [% title = "Change columns" %]
@@ -233,6 +236,20 @@
   [% ELSIF message_tag == "shutdown" %]
     [% title = "$terms.Bugzilla is Down" %]
     [% Param("shutdownhtml") %]
+    [% IF userid %]
+      <p>For security reasons, you have been logged out automatically.
+      The cookie that was remembering your login is now gone.
+    [% END %]
+
+  [% ELSIF message_tag == "user_match_failed" %]
+    You entered a username that did not match any known 
+    [% terms.Bugzilla %] users, so we have instead left
+    the [% match_field FILTER html %] field blank.
+
+  [% ELSIF message_tag == "user_match_multiple" %]
+    You entered a username that matched more than one
+    user, so we have instead left the [% match_field FILTER html %]
+    field blank.
     
   [% ELSE %]
     [%# Give sensible error if error functions are used incorrectly.

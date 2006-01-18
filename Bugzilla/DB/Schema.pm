@@ -19,6 +19,8 @@
 #
 # Contributor(s): Andrew Dunstan <andrew@dunslane.net>,
 #                 Edward J. Sabol <edwardjsabol@iname.com>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
+#                 Dennis Melentyev <dennis.melentyev@infopulse.com.ua>
 
 package Bugzilla::DB::Schema;
 
@@ -34,7 +36,12 @@ use strict;
 use Bugzilla::Error;
 use Bugzilla::Util;
 
+use Safe;
+# Historical, needed for SCHEMA_VERSION = '1.00'
 use Storable qw(dclone freeze thaw);
+
+# New SCHEMA_VERSION (2.00) use this
+use Data::Dumper;
 
 =head1 NAME
 
@@ -71,6 +78,7 @@ module directly, but should instead rely on methods provided by
 Bugzilla::DB.
 
 =cut
+
 #--------------------------------------------------------------------------
 # Define the Bugzilla abstract database schema and version as constants.
 
@@ -139,7 +147,7 @@ which can be used to specify the type of index such as UNIQUE or FULLTEXT.
 
 =cut
 
-use constant SCHEMA_VERSION  => '1.00';
+use constant SCHEMA_VERSION  => '2.00';
 use constant ABSTRACT_SCHEMA => {
 
     # BUG-RELATED TABLES
@@ -155,7 +163,7 @@ use constant ABSTRACT_SCHEMA => {
             bug_file_loc        => {TYPE => 'TEXT'},
             bug_severity        => {TYPE => 'varchar(64)', NOTNULL => 1},
             bug_status          => {TYPE => 'varchar(64)', NOTNULL => 1},
-            creation_ts         => {TYPE => 'DATETIME', NOTNULL => 1},
+            creation_ts         => {TYPE => 'DATETIME'},
             delta_ts            => {TYPE => 'DATETIME', NOTNULL => 1},
             short_desc          => {TYPE => 'MEDIUMTEXT', NOTNULL => 1},
             op_sys              => {TYPE => 'varchar(64)', NOTNULL => 1},
@@ -309,7 +317,7 @@ use constant ABSTRACT_SCHEMA => {
         INDEXES => [
             attachments_bug_id_idx => ['bug_id'],
             attachments_creation_ts_idx => ['creation_ts'],
-            attachments_submitter_id_idx => ['submitter_id'],
+            attachments_submitter_id_idx => ['submitter_id', 'bug_id'],
         ],
     },
 
@@ -468,7 +476,8 @@ use constant ABSTRACT_SCHEMA => {
         FIELDS => [
             product_id => {TYPE => 'INT2', NOTNULL => 1},
             value      => {TYPE => 'varchar(20)', NOTNULL => 1},
-            sortkey    => {TYPE => 'INT2', NOTNULL => 1},
+            sortkey    => {TYPE => 'INT2', NOTNULL => 1,
+                           DEFAULT => 0},
         ],
         INDEXES => [
             milestones_product_id_idx => {FIELDS => [qw(product_id value)],
@@ -912,7 +921,8 @@ use constant ABSTRACT_SCHEMA => {
                               DEFAULT => '0'},
             onemailperbug => {TYPE => 'BOOLEAN', NOTNULL => 1,
                               DEFAULT => 'FALSE'},
-            title         => {TYPE => 'varchar(128)', NOTNULL => 1},
+            title         => {TYPE => 'varchar(128)', NOTNULL => 1,
+                              DEFAULT => "''"},
         ],
         INDEXES => [
             whine_queries_eventid_idx => ['eventid'],
@@ -1030,12 +1040,12 @@ DB-specific code in a subclass. Methods which are prefixed with C<_>
 are considered protected. Subclasses may override these methods, but
 other modules should not invoke these methods directly.
 
-=over 4
-
 =cut
 
 #--------------------------------------------------------------------------
 sub new {
+
+=over
 
 =item C<new>
 
@@ -1381,6 +1391,7 @@ sub get_add_column_ddl {
  Returns:     An array of SQL statements.
 
 =cut
+
     my ($self, $table, $column, $definition, $init_value) = @_;
     my @statements;
     push(@statements, "ALTER TABLE $table ADD COLUMN $column " .
@@ -1563,6 +1574,7 @@ sub get_drop_index_ddl {
  Returns:     An array of SQL statements.
 
 =cut
+
     my ($self, $table, $name) = @_;
 
     # Although ANSI SQL-92 doesn't specify a method of dropping an index,
@@ -1592,6 +1604,7 @@ sub get_drop_column_ddl {
  Returns:     An array of SQL statements.
 
 =cut
+
 sub get_drop_table_ddl {
     my ($self, $table) = @_;
     return ("DROP TABLE $table");
@@ -1624,6 +1637,7 @@ sub get_rename_column_ddl {
  Returns:     nothing
 
 =cut
+
 sub delete_table {
     my ($self, $name) = @_;
 
@@ -1672,6 +1686,7 @@ sub get_column_abstract {
               undef.
 
 =cut
+
 sub get_indexes_on_column_abstract {
     my ($self, $table, $column) = @_;
     my %ret_hash;
@@ -1700,7 +1715,7 @@ sub get_indexes_on_column_abstract {
 
 sub get_index_abstract {
 
-=item C<get_index_abstract($table, $index)
+=item C<get_index_abstract($table, $index)>
 
  Description: Returns an index definition from the internal abstract schema.
  Params:      $table - The table the index is on.
@@ -1749,6 +1764,7 @@ sub get_table_abstract {
  Returns:     nothing
 
 =cut
+
 sub add_table {
     my ($self, $name, $definition) = @_;
     (die "Table already exists: $name")
@@ -1896,6 +1912,7 @@ sub _set_object {
  Returns:     nothing
 
 =cut
+
 sub delete_index {
     my ($self, $table, $name) = @_;
 
@@ -1919,6 +1936,9 @@ sub columns_equal {
  Params:      $col_one, $col_two - The columns to compare. Hash 
                   references, in C<ABSTRACT_SCHEMA> format.
  Returns:     C<1> if the columns are identical, C<0> if they are not.
+
+=back
+
 =cut
 
     my $self = shift;
@@ -1953,17 +1973,24 @@ sub columns_equal {
               Do not attempt to manipulate this data directly,
               as the format may change at any time in the future.
               The only thing you should do with the returned value
-              is either store it somewhere or deserialize it.
+              is either store it somewhere (coupled with appropriate 
+              SCHEMA_VERSION) or deserialize it.
 
 =cut
+
 sub serialize_abstract {
     my ($self) = @_;
-    # We do this so that any two stored Schemas will have the
-    # same byte representation if they are identical.
-    # We don't need it currently, but it might make things
-    # easier in the future.
-    local $Storable::canonical = 1;
-    return freeze($self->{abstract_schema});
+    
+    # Make it ok to eval
+    local $Data::Dumper::Purity = 1;
+    
+    # Avoid cross-refs
+    local $Data::Dumper::Deepcopy = 1;
+    
+    # Always sort keys to allow textual compare
+    local $Data::Dumper::Sortkeys = 1;
+    
+    return Dumper($self->{abstract_schema});
 }
 
 =item C<deserialize_abstract($serialized, $version)>
@@ -1979,15 +2006,20 @@ sub serialize_abstract {
               However, it will represent the serialized data instead of
               ABSTRACT_SCHEMA.
 =cut
+
 sub deserialize_abstract {
     my ($class, $serialized, $version) = @_;
 
-    my $thawed_hash = thaw($serialized);
-
-    # At this point, we have no backwards-compatibility
-    # code to write, so $version is ignored.
-    # For what $version ought to be used for, see the
-    # "private" section of the SCHEMA_VERSION docs.
+    my $thawed_hash;
+    if (int($version) < 2) {
+        $thawed_hash = thaw($serialized);
+    }
+    else {
+        my $cpt = new Safe;
+        $cpt->reval($serialized) ||
+            die "Unable to restore cached schema: " . $@;
+        $thawed_hash = ${$cpt->varglob('VAR1')};
+    }
 
     return $class->new(undef, $thawed_hash);
 }
@@ -2003,6 +2035,8 @@ sub deserialize_abstract {
 These methods are generally called on the class instead of on a specific
 object.
 
+=over
+
 =item C<get_empty_schema()>
 
  Description: Returns a Schema that has no tables. In effect, this
@@ -2010,17 +2044,18 @@ object.
  Params:      none
  Returns:     A "empty" Schema object.
 
+=back
+
 =cut
 
 sub get_empty_schema {
     my ($class) = @_;
-    return $class->deserialize_abstract(freeze({}));
+    return $class->deserialize_abstract(Dumper({}), SCHEMA_VERSION);
 }
 
 1;
-__END__
 
-=back
+__END__
 
 =head1 ABSTRACT DATA TYPES
 

@@ -17,7 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
-  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #                 FrÃ©dÃ©ric Buclin <LpSolit@gmail.com>
   #%]
 
 [%# INTERFACE:
@@ -31,6 +31,12 @@
   #
   # Note that you must explicitly filter every single template variable
   # in this file; if you do not wish to change it, use the "none" filter.
+  # 
+  # Extension- or custom-specific error handling  can be easily added 
+  # via hooks: just place your <extension>-errors.html.tmpl into 
+  # template/en/extension/hook/global/user-error.html.tmpl/errors/
+  # Note: be aware of uniqueness of error string parameter value, since 
+  # nobody can guarantee the hook files processing order in the future
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
@@ -228,6 +234,11 @@
     [% title = "Classification Does Not Exist" %]
     The classification '[% name FILTER html %]' does not exist.
 
+  [% ELSIF error == "classification_doesnt_exist_for_product" %]
+    [% title = "Classification Does Not Exist For Product" %]
+    The classification '[% classification FILTER html %]' does not exist
+    for product '[% product FILTER html %]'.
+
   [% ELSIF error == "classification_not_deletable" %]
     [% title = "Default Classification Can Not Be Deleted" %]
     You can not delete the default classification
@@ -274,17 +285,17 @@
     '[% name FILTER html %]' is too long ([% name.size %] characters).
 
   [% ELSIF error == "component_need_initialowner" %]
-    [% title = "Component Requires Initial Owner" %]
-    You must enter an initial owner for component '[% name FILTER html %]'.
+    [% title = "Component Requires Default Assignee" %]
+    You must enter a default assignee for component '[% name FILTER html %]'.
 
   [% ELSIF error == "component_need_valid_initialowner" %]
-    [% title = "Component Requires A Valid Initial Owner" %]
-    You must use an existing [% terms.Bugzilla %] account as initial owner for
+    [% title = "Component Requires A Valid Default Assignee" %]
+    You must use an existing [% terms.Bugzilla %] account as the default assignee for
     component '[% name FILTER html %]'.
 
   [% ELSIF error == "component_need_valid_initialqacontact" %]
-    [% title = "Component Requires A Valid Initial QA Contact" %]
-    You must use an existing [% terms.Bugzilla %] account as initial QA contact for
+    [% title = "Component Requires A Valid Default QA Contact" %]
+    You must use an existing [% terms.Bugzilla %] account as default QA contact for
     component '[% name FILTER html %]'.
      
   [% ELSIF error == "product_not_specified" %]
@@ -320,9 +331,26 @@
     [% title = "Description Required" %]
     You must provide a description of the [% terms.bug %].
 
-  [% ELSIF error == "dupe_of_self_disallowed" %]
-    [% title = "Cannot mark $terms.abug as a duplicate of itself" %]
-    You can't mark [% terms.abug %] as a duplicate of itself.
+  [% ELSIF error == "dupe_entry_found" %]
+    [% title = "Already marked as duplicate" %]
+    This [% terms.bug %] has already been marked as a duplicate
+    of [% terms.bug %] [%+ dupe_of FILTER html %].
+
+  [% ELSIF error == "dupe_not_allowed" %]
+    [% title = "Cannot mark $terms.bugs as duplicates" %]
+    You cannot mark [% terms.bugs %] as duplicates when
+    changing several [% terms.bugs %] at once.
+
+  [% ELSIF error == "dupe_loop_detected" %]
+    [% title = "Loop detected among duplicates" %]
+    You cannot mark [% terms.bug %] [%+ bug_id FILTER html %] as
+    a duplicate of
+    [% IF dupe_of == bug_id %]
+      itself
+    [% ELSE %]
+      [%+ terms.bug %] [%+ dupe_of FILTER html %], because it
+      would create a duplicate loop
+    [% END %].
 
   [% ELSIF error == "email_change_in_progress" %]
     [% title = "Email Change Already In Progress" %]
@@ -342,9 +370,9 @@
   
   [% ELSIF error == "entry_access_denied" %]
     [% title = "Permission Denied" %]
-    Sorry, either the product <em>[% product FILTER html %]</em> does not
-    exist, or you don't have the required permissions to
-    enter [% terms.abug %] against that product.
+    Sorry, either the product <em>[% product FILTER html %]</em>
+    does not exist or you aren't authorized to
+    enter [% terms.abug %] into it.
 
   [% ELSIF error == "fieldname_invalid" %]
     [% title = "Specified Field Does Not Exist" %]
@@ -505,7 +533,7 @@
     from <em>[% oldvalue FILTER html %]</em> to 
     <em>[% newvalue FILTER html %]</em>, but only
     [% IF privs < 3 %]
-      the owner
+      the assignee
       [% IF privs < 2 %] or reporter [% END %]
       of the [% terms.bug %], or
     [% END %]
@@ -735,7 +763,20 @@
   [% ELSIF error == "missing_category" %]
     [% title = "Missing Category" %]
     You did not specify a category for this series.
-                
+
+  [% ELSIF error == "missing_component" %]
+    [% title = "Missing Component" %]
+    Sorry, the product <em>[% product FILTER html %]</em>
+    has to have at least one component in order for you to
+    enter [% terms.abug %] into it.<p>
+    [% IF UserInGroup("editcomponents") %]
+      <a href="editcomponents.cgi?action=add&amp;product=[% product FILTER url_quote %]">Create
+      a new component</a>.
+    [% ELSE %]
+      Please contact [% Param("maintainer") %] and ask them
+      to add a component to this product.
+    [% END %]
+
   [% ELSIF error == "missing_content_type" %]
     [% title = "Missing Content-Type" %]
      You asked [% terms.Bugzilla %] to auto-detect the content type, but
@@ -784,14 +825,27 @@
     [% title = "Missing Subcategory" %]
     You did not specify a subcategory for this series.
                 
+  [% ELSIF error == "missing_version" %]
+    [% title = "Missing Version" %]
+    Sorry, the product <em>[% product FILTER html %]</em>
+    has to have at least one version in order for you to
+    enter [% terms.abug %] into it.<p>
+    [% IF UserInGroup("editcomponents") %]
+      <a href="editversions.cgi?action=add&amp;product=[% product FILTER url_quote %]">Create
+      a new version</a>.
+    [% ELSE %]
+      Please contact [% Param("maintainer") %] and ask them
+      to add a version to this product.
+    [% END %]
+
   [% ELSIF error == "need_component" %]
     [% title = "Component Required" %]
-    You must specify a component to help determine the new owner of these 
+    You must specify a component to help determine the new assignee of these 
     [% terms.bugs %].
 
   [% ELSIF error == "need_product" %]
     [% title = "Product Required" %]
-    You must specify a product to help determine the new owner of these [% terms.bugs %].
+    You must specify a product to help determine the new assignee of these [% terms.bugs %].
 
   [% ELSIF error == "need_quip" %]
     [% title = "Quip Required" %]
@@ -814,18 +868,6 @@
     You cannot change the component for a list of [% terms.bugs %] covering more than
     one product.
 
-  [% ELSIF error == "no_components" %]
-    [% title = "No Components" %]
-    Sorry; there needs to be at least one component for this product in order
-    to create a new [% terms.bug %].
-    [% IF UserInGroup("editcomponents") %]
-      <a href="editcomponents.cgi?product=[% product FILTER url_quote %]">Create
-        a new component</a>.
-    [% ELSE %]
-       Please contact [% Param("maintainer") %], giving the name of
-       the product in which you tried to create a new [% terms.bug %].
-    [% END %]
-
   [% ELSIF error == "no_dupe_stats" %]
     [% title = "Cannot Find Duplicate Statistics" %]
     There are no duplicate statistics for today ([% today FILTER html %]) 
@@ -846,11 +888,6 @@
     There are no duplicate statistics for today ([% today FILTER html %]), 
     and an error
     occurred opening yesterday's dupes file: [% error_msg FILTER html %].
-
-  [% ELSIF error == "no_html_in_quips" %]
-    [% title = "No HTML In Quips" %]
-    Sorry - for security reasons, support for HTML tags has been turned off
-    in quips.
 
   [% ELSIF error == "no_new_quips" %]
     [% title = "No New Quips" %]
@@ -922,7 +959,7 @@
 
   [% ELSIF error == "product_disabled" %]
     [% title = BLOCK %]Product closed for [% terms.Bugs %] Entry[% END %]
-    Sorry, entering [% terms.bugs %] into
+    Sorry, entering [% terms.bugs %] into the
     product <em>[% product FILTER html %]</em> has been disabled.
 
   [% ELSIF error == "product_edit_denied" %]
@@ -947,7 +984,7 @@
   [% ELSIF error == "reassign_to_empty" %]
     [% title = "Illegal Reassignment" %]
     To reassign [% terms.abug %], you must provide an address for
-    the new owner. If you did not intentionally clear out the 
+    the new assignee. If you did not intentionally clear out the 
     "Reassign [% terms.bug %] to" field, [% Param("browserbugmessage") %]
 
   [% ELSIF error == "report_access_denied" %]
@@ -966,6 +1003,12 @@
   [% ELSIF error == "require_summary" %]
     [% title = "Summary Needed" %]
     You must enter a summary for this [% terms.bug %].
+
+  [% ELSIF error == "saved_search_used_by_whines" %]
+    [% title = "Saved Search In Use" %]
+    The saved search <em>[% search_name FILTER html %]</em> is being used 
+    by <a href="editwhines.cgi">Whining events</a> with the following subjects:
+    [%+ subjects FILTER html %]
 
   [% ELSIF error == "search_content_without_matches" %]
     [% title = "Illegal Search" %]
@@ -1077,8 +1120,8 @@
 
   [% ELSIF error == "user_has_responsibility" %]
     [% title = "Can't Delete User Account" %]
-    The user you want to delete is set up for roles as initial [% terms.bug %]
-    owner or QA contact for at least one component.
+    The user you want to delete is set up for roles as default [% terms.bug %]
+    assignee or QA contact for at least one component.
     For this reason, you cannot delete the account at this time.
 
   [% ELSIF error == "user_login_required" %]
@@ -1111,10 +1154,18 @@
     The file you are trying to attach is empty!
 
   [% ELSE %]
-    [% title = "Error string not found" %]
-    The user error string <code>[% error FILTER html %]</code> was not found.
-    Please send email to [% Param("maintainer") %] describing the steps taken
-    to obtain this message.
+
+    [%# Try to find hooked error messages %]
+    [% error_message = Hook.process("errors") %]
+
+    [% IF not error_message %]
+      [% title = "Error string not found" %]
+      The user error string <code>[% error FILTER html %]</code> was not found.
+      Please send email to [% Param("maintainer") %] describing the steps taken
+      to obtain this message.
+    [% ELSE %]
+      [% error_message FILTER none %]
+    [% END %]
   [% END %]
 [% END %]
 
@@ -1142,7 +1193,8 @@
   
 [% USE Bugzilla %]
 [% namedcmd = Bugzilla.cgi.param("namedcmd") %]
-[% IF namedcmd AND error != "missing_query" %]
+[% IF namedcmd AND error != "missing_query" 
+               AND error != "saved_search_used_by_whines" %]
   <p>  
     Alternatively, you can    
     <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=

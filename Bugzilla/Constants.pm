@@ -26,6 +26,7 @@
 #                 Bradley Baetz <bbaetz@student.usyd.edu.au>
 #                 Christopher Aillon <christopher@aillon.com>
 #                 Shane H. W. Travis <travis@sedsystems.ca>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 
 package Bugzilla::Constants;
 use strict;
@@ -67,6 +68,8 @@ use base qw(Exporter);
 
     COMMENT_COLS
 
+    DERIVE_GROUPS_TABLES_ALREADY_LOCKED
+
     UNLOCK_ABORT
     
     RELATIONSHIPS
@@ -82,6 +85,10 @@ use base qw(Exporter);
         
     GLOBAL_EVENTS
     EVT_FLAG_REQUESTED EVT_REQUESTED_FLAG
+
+    FULLTEXT_BUGLIST_LIMIT
+
+    SENDMAIL_EXE
 );
 
 @Bugzilla::Constants::EXPORT_OK = qw(contenttypes);
@@ -171,6 +178,10 @@ use constant DEFAULT_QUERY_NAME => '(Default query)';
 # The column length for displayed (and wrapped) bug comments.
 use constant COMMENT_COLS => 80;
 
+# Used to indicate to User::new and User::new_from_login calls
+# that the derive_groups tables are already locked
+use constant DERIVE_GROUPS_TABLES_ALREADY_LOCKED => 1;
+
 # used by Bugzilla::DB to indicate that tables are being unlocked
 # because of error
 use constant UNLOCK_ABORT => 1;
@@ -220,5 +231,11 @@ use constant EVT_REQUESTED_FLAG     => 101; # I have requested a flag
 
 use constant GLOBAL_EVENTS => EVT_FLAG_REQUESTED, EVT_REQUESTED_FLAG;
 
+#  Number of bugs to return in a buglist when performing
+#  a fulltext search.
+use constant FULLTEXT_BUGLIST_LIMIT => 200;
+
+# Path to sendmail.exe (Windows only)
+use constant SENDMAIL_EXE => '/usr/lib/sendmail.exe';
 
 1;

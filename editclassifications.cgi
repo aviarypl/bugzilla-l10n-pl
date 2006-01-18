@@ -16,7 +16,7 @@
 # The Initial Developer of the Original Code is Albert Ting
 #
 # Contributor(s): Albert Ting <alt@sonic.net>
-#                 Max Kanat-Alexander <mkanat@kerio.com>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 #
 # Direct any questions on this source code to mozilla.org
 
@@ -29,7 +29,7 @@ use Bugzilla::Util;
 use Bugzilla::Error;
 use Bugzilla::Config qw($datadir);
 
-require "globals.pl";
+require "CGI.pl";
 
 my $cgi = Bugzilla->cgi;
 my $dbh = Bugzilla->dbh;

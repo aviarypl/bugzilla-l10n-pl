@@ -23,6 +23,7 @@
 #                 Bradley Baetz <bbaetz@student.usyd.edu.au>
 #                 Christopher Aillon <christopher@aillon.com>
 #                 Tomas Kopal <Tomas.Kopal@altap.cz>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 
 package Bugzilla::DB;
 
@@ -72,6 +73,9 @@ use constant BLOB_TYPE => DBI::SQL_BLOB;
 # Bugzilla.pm. See bug 192531 for details.
 our $_current_sth;
 our @SQLStateStack = ();
+
+my $_fetchahead;
+
 sub SendSQL {
     my ($str) = @_;
 
@@ -82,6 +86,8 @@ sub SendSQL {
     # This is really really ugly, but its what we get for not doing
     # error checking for 5 years. See bug 189446 and bug 192531
     $_current_sth->{RaiseError} = 0;
+
+    undef $_fetchahead;
 }
 
 # Its much much better to use bound params instead of this
@@ -98,8 +104,6 @@ sub SqlQuote {
     return $res;
 }
 
-# XXX - mod_perl
-my $_fetchahead;
 sub MoreSQLData {
     return 1 if defined $_fetchahead;
 
@@ -187,7 +191,7 @@ sub _handle_error {
 }
 
 # List of abstract methods we are checking the derived class implements
-our @_abstract_methods = qw(REQUIRED_VERSION PROGRAM_NAME
+our @_abstract_methods = qw(REQUIRED_VERSION PROGRAM_NAME DBD_VERSION
                             new sql_regexp sql_not_regexp sql_limit sql_to_days
                             sql_date_format sql_interval
                             bz_lock_tables bz_unlock_tables);
@@ -215,6 +219,19 @@ sub import {
     $Exporter::ExportLevel++ if $is_exporter;
     $pkg->SUPER::import(@_);
     $Exporter::ExportLevel-- if $is_exporter;
+}
+
+sub sql_istrcmp {
+    my ($self, $left, $right, $op) = @_;
+    $op ||= "=";
+
+    return $self->sql_istring($left) . " $op " . $self->sql_istring($right);
+}
+
+sub sql_istring {
+    my ($self, $string) = @_;
+
+    return "LOWER($string)";
 }
 
 sub sql_position {
@@ -495,7 +512,10 @@ sub bz_drop_column {
             $table, $column);
         print "Deleting unused column $column from table $table ...\n";
         foreach my $sql (@statements) {
-            $self->do($sql);
+            # Because this is a deletion, we don't want to die hard if
+            # we fail because of some local customization. If something
+            # is already gone, that's fine with us!
+            eval { $self->do($sql); } or warn "Failed SQL: [$sql] Error: $@";
         }
         $self->_bz_real_schema->delete_column($table, $column);
         $self->_bz_store_real_schema;
@@ -535,7 +555,12 @@ sub bz_drop_index_raw {
     my @statements = $self->_bz_schema->get_drop_index_ddl(
         $table, $name);
     print "Removing index '$name' from the $table table...\n" unless $silent;
-    $self->do($_) foreach (@statements);
+    foreach my $sql (@statements) {
+        # Because this is a deletion, we don't want to die hard if
+        # we fail because of some local customization. If something
+        # is already gone, that's fine with us!
+        eval { $self->do($sql) } or warn "Failed SQL: [$sql] Error: $@";
+    }
 }
 
 sub bz_drop_table {
@@ -546,7 +571,12 @@ sub bz_drop_table {
     if ($table_exists) {
         my @statements = $self->_bz_schema->get_drop_table_ddl($name);
         print "Dropping table $name...\n";
-        $self->do($_) foreach (@statements);
+        foreach my $sql (@statements) {
+            # Because this is a deletion, we don't want to die hard if
+            # we fail because of some local customization. If something
+            # is already gone, that's fine with us!
+            eval { $self->do($sql); } or warn "Failed SQL: [$sql] Error: $@";
+        }
         $self->_bz_real_schema->delete_table($name);
         $self->_bz_store_real_schema;
     }
@@ -820,7 +850,9 @@ sub _bz_init_schema_storage {
  Params:      none
  Returns:     A C<Bugzilla::DB::Schema> object representing the database
               as it exists on the disk.
+
 =cut
+
 sub _bz_real_schema {
     my ($self) = @_;
     return $self->{private_real_schema} if exists $self->{private_real_schema};
@@ -837,7 +869,6 @@ sub _bz_real_schema {
     return $self->{private_real_schema};
 }
 
-
 =item C<_bz_store_real_schema()>
 
  Description: Stores the _bz_real_schema structures in the database
@@ -848,7 +879,12 @@ sub _bz_real_schema {
 
  Precondition: $self->{_bz_real_schema} must exist.
 
+=back
+
+=end private
+
 =cut
+
 sub _bz_store_real_schema {
     my ($self) = @_;
 
@@ -875,9 +911,6 @@ sub _bz_store_real_schema {
 1;
 
 __END__
-=back
-
-=end private
 
 =head1 NAME
 
@@ -897,7 +930,7 @@ Bugzilla::DB - Database access routines, using L<DBI>
 
   # Execute the query
   $sth->execute;
-  
+
   # Get the results
   my @result = $sth->fetchrow_array;
 
@@ -963,6 +996,13 @@ to the admin to let them know what DB they're running.
 The name of the Bugzilla::DB module that we are. For example, for the MySQL
 Bugzilla::DB module, this would be "Mysql." For PostgreSQL it would be "Pg."
 
+=item C<DBD_VERSION>
+
+The minimum version of the DBD module that we require for this database.
+
+=back
+
+
 =head1 CONNECTION
 
 A new database handle to the required database can be created using this
@@ -1018,6 +1058,7 @@ should not be called from anywhere else.
               implementation in its super class.
 
 =back
+
 
 =head1 ABSTRACT METHODS
 
@@ -1148,6 +1189,33 @@ formatted SQL command have prefix C<sql_>. All other methods have prefix C<bz_>.
               $text = text to search for (scalar)
  Returns:     formatted SQL for for full text search
 
+=item C<sql_istrcmp>
+
+ Description: Returns SQL for a case-insensitive string comparison.
+ Params:      $left - What should be on the left-hand-side of the
+                      operation.
+              $right - What should be on the right-hand-side of the
+                       operation.
+              $op (optional) - What the operation is. Should be a 
+                  valid ANSI SQL comparison operator, like "=", "<", 
+                  "LIKE", etc. Defaults to "=" if not specified.
+ Returns:     A SQL statement that will run the comparison in 
+              a case-insensitive fashion.
+ Note:        Uses sql_istring, so it has the same performance concerns.
+              Try to avoid using this function unless absolutely necessary.
+              Subclass Implementors: Override sql_istring instead of this
+              function, most of the time (this function uses sql_istring).
+
+=item C<sql_istring>
+
+ Description: Returns SQL syntax "preparing" a string or text column for
+              case-insensitive comparison. 
+ Params:      $string - string to convert (scalar)
+ Returns:     formatted SQL making the string case insensitive
+ Note:        The default implementation simply calls LOWER on the parameter.
+              If this is used to search on a text column with index, the index
+              will not be usually used unless it was created as LOWER(column).
+
 =item C<bz_lock_tables>
 
  Description: Performs a table lock operation on specified tables.
@@ -1172,13 +1240,14 @@ formatted SQL command have prefix C<sql_>. All other methods have prefix C<bz_>.
               back). False (0) or no param if the operation succeeded.
  Returns:     none
 
+=back
+
+
 =head1 IMPLEMENTED METHODS
 
 These methods are implemented in Bugzilla::DB, and only need
 to be implemented in subclasses if you need to override them for 
 database-compatibility reasons.
-
-=over 4
 
 =head2 General Information Methods
 
@@ -1197,6 +1266,8 @@ These methods return information about data in the database.
  Params:      $table = name of table containing serial column (scalar)
               $column = name of column containing serial data type (scalar)
  Returns:     Last inserted ID (scalar)
+
+=back
 
 
 =head2 Schema Modification Methods
@@ -1352,6 +1423,9 @@ MySQL only.
  Params:      none
  Returns:     List of all the "bug" fields
 
+=back
+
+
 =head2 Transaction Methods
 
 These methods deal with the starting and stopping of transactions 
@@ -1379,6 +1453,9 @@ in the database.
  Params:      none
  Returns:     none
 
+=back
+
+
 =head1 SUBCLASS HELPERS
 
 Methods in this class are intended to be used by subclasses to help them
@@ -1398,6 +1475,7 @@ with their functions.
               our check for implementation of new() by derived class useles.
 
 =back
+
 
 =head1 DEPRECATED ROUTINES
 
@@ -1435,6 +1513,7 @@ PushGlobalSQLState
 PopGlobalSQLState
 
 =back
+
 
 =head1 SEE ALSO
 

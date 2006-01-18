@@ -22,7 +22,7 @@
 #                 Jacob Steenhagen <jake@bugzilla.org>
 #                 Bradley Baetz <bbaetz@student.usyd.edu.au>
 #                 Christopher Aillon <christopher@aillon.com>
-#                 Max Kanat-Alexander <mkanat@kerio.com>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 
 package Bugzilla::Util;
 
@@ -33,11 +33,13 @@ use base qw(Exporter);
                              detaint_signed
                              html_quote url_quote value_quote xml_quote
                              css_class_quote
+                             i_am_cgi
                              lsearch max min
                              diff_arrays diff_strings
                              trim wrap_comment find_wrap_point
                              format_time format_time_decimal
-                             file_mod_time);
+                             file_mod_time
+                             bz_crypt);
 
 use Bugzilla::Config;
 use Bugzilla::Error;
@@ -59,20 +61,20 @@ sub is_tainted {
 sub trick_taint {
     require Carp;
     Carp::confess("Undef to trick_taint") unless defined $_[0];
-    $_[0] =~ /^(.*)$/s;
-    $_[0] = $1;
+    my ($match) = $_[0] =~ /^(.*)$/s;
+    $_[0] = $match;
     return (defined($_[0]));
 }
 
 sub detaint_natural {
-    $_[0] =~ /^(\d+)$/;
-    $_[0] = $1;
+    my ($match) = $_[0] =~ /^(\d+)$/;
+    $_[0] = $match;
     return (defined($_[0]));
 }
 
 sub detaint_signed {
-    $_[0] =~ /^([-+]?\d+)$/;
-    $_[0] = $1;
+    my ($match) = $_[0] =~ /^([-+]?\d+)$/;
+    $_[0] = $match;
     # Remove any leading plus sign.
     if (defined($_[0]) && $_[0] =~ /^\+(\d+)$/) {
         $_[0] = $1;
@@ -127,6 +129,12 @@ sub xml_quote {
     $var =~ s/\"/\&quot;/g;
     $var =~ s/\'/\&apos;/g;
     return $var;
+}
+
+sub i_am_cgi {
+    # I use SERVER_SOFTWARE because it's required to be
+    # defined for all requests in the CGI spec.
+    return exists $ENV{'SERVER_SOFTWARE'} ? 1 : 0;
 }
 
 sub lsearch {
@@ -309,6 +317,31 @@ sub file_mod_time ($) {
     return $mtime;
 }
 
+sub bz_crypt ($) {
+    my ($password) = @_;
+
+    # The list of characters that can appear in a salt.  Salts and hashes
+    # are both encoded as a sequence of characters from a set containing
+    # 64 characters, each one of which represents 6 bits of the salt/hash.
+    # The encoding is similar to BASE64, the difference being that the
+    # BASE64 plus sign (+) is replaced with a forward slash (/).
+    my @saltchars = (0..9, 'A'..'Z', 'a'..'z', '.', '/');
+
+    # Generate the salt.  We use an 8 character (48 bit) salt for maximum
+    # security on systems whose crypt uses MD5.  Systems with older
+    # versions of crypt will just use the first two characters of the salt.
+    my $salt = '';
+    for ( my $i=0 ; $i < 8 ; ++$i ) {
+        $salt .= $saltchars[rand(64)];
+    }
+
+    # Crypt the password.
+    my $cryptedpassword = crypt($password, $salt);
+
+    # Return the crypted password.
+    return $cryptedpassword;
+}
+
 sub ValidateDate {
     my ($date, $format) = @_;
     my $date2;
@@ -368,6 +401,9 @@ Bugzilla::Util - Generic utility functions for bugzilla
 
   # Functions for dealing with files
   $time = file_mod_time($filename);
+
+  # Cryptographic Functions
+  $crypted_password = bz_crypt($password);
 
 =head1 DESCRIPTION
 
@@ -521,8 +557,6 @@ The intended use of this function is to wrap comments that are about to be
 displayed or emailed. Generally, wrapped text should not be stored in the
 database.
 
-=back
-
 =item C<find_wrap_point($string, $maxpos)>
 
 Search for a comma, a whitespace or a hyphen to split $string, within the first
@@ -552,6 +586,9 @@ the routine has to "guess" the date format that was passed to $dbh->sql_date_for
 Returns a number with 2 digit precision, unless the last digit is a 0. Then it 
 returns only 1 digit precision.
 
+=back
+
+
 =head2 Files
 
 =over 4
@@ -563,3 +600,25 @@ of the "mtime" parameter of the perl "stat" function.
 
 =back
 
+=head2 Cryptography
+
+=over 4
+
+=item C<bz_crypt($password)>
+
+Takes a string and returns a C<crypt>ed value for it, using a random salt.
+
+Please always use this function instead of the built-in perl "crypt"
+when initially encrypting a password.
+
+=begin undocumented
+
+Random salts are generated because the alternative is usually
+to use the first two characters of the password itself, and since
+the salt appears in plaintext at the beginning of the encrypted
+password string this has the effect of revealing the first two
+characters of the password to anyone who views the encrypted version.
+
+=end undocumented
+
+=back

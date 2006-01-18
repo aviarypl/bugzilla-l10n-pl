@@ -228,9 +228,10 @@ sub get_next_event {
 
         $dbh->bz_lock_tables('whine_schedules WRITE',
                              'whine_events READ',
-                             'profiles READ',
+                             'profiles WRITE',
                              'groups READ',
-                             'user_group_map READ');
+                             'group_group_map READ',
+                             'user_group_map WRITE');
 
         # Get the event ID for the first pending schedule
         $sth_next_scheduled_event->execute;
@@ -239,7 +240,8 @@ sub get_next_event {
         return undef unless $fetched;
         my ($eventid, $owner_id, $subject, $body) = @{$fetched};
 
-        my $owner = Bugzilla::User->new($owner_id);
+        my $owner = Bugzilla::User->new($owner_id,
+                                        DERIVE_GROUPS_TABLES_ALREADY_LOCKED);
 
         my $whineatothers = $owner->in_group('bz_canusewhineatothers');
 
@@ -261,7 +263,7 @@ sub get_next_event {
                             $user_objects{$mailto} = $owner;
                         }
                         elsif ($whineatothers) {
-                            $user_objects{$mailto} = Bugzilla::User->new($mailto);
+                            $user_objects{$mailto} = Bugzilla::User->new($mailto,DERIVE_GROUPS_TABLES_ALREADY_LOCKED);
                         }
                     }
                 }
@@ -280,7 +282,7 @@ sub get_next_event {
                         for my $row (@{$sth->fetchall_arrayref}) {
                             if (not defined $user_objects{$row->[0]}) {
                                 $user_objects{$row->[0]} =
-                                    Bugzilla::User->new($row->[0]);
+                                    Bugzilla::User->new($row->[0],DERIVE_GROUPS_TABLES_ALREADY_LOCKED);
                             }
                         }
                     }

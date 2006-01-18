@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML
 ><HEAD
 ><TITLE
@@ -7,13 +7,13 @@
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
 REL="HOME"
-TITLE="The Bugzilla Guide - 2.19.2 
+TITLE="The Bugzilla Guide - 2.20 
     Development 
     Release"
 HREF="index.html"><LINK
 REL="PREVIOUS"
-TITLE="Flags"
-HREF="flags.html"><LINK
+TITLE="Whining"
+HREF="whining.html"><LINK
 REL="NEXT"
 TITLE="Troubleshooting"
 HREF="troubleshooting.html"></HEAD
@@ -36,7 +36,7 @@ CELLSPACING="0"
 ><TH
 COLSPAN="3"
 ALIGN="center"
->The Bugzilla Guide - 2.19.2 
+>The Bugzilla Guide - 2.20 
     Development 
     Release</TH
 ></TR
@@ -46,7 +46,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="flags.html"
+HREF="whining.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -320,6 +320,12 @@ HREF="faq.html#faq-admin-cvsupdate"
 >A.3.4. <A
 HREF="faq.html#faq-admin-enable-unconfirmed"
 >&#13;            How do I make it so that bugs can have an UNCONFIRMED status?
+          </A
+></DT
+><DT
+>A.3.5. <A
+HREF="faq.html#faq-admin-moving"
+>&#13;            How do I move a Bugzilla installation from one machine to another?
           </A
 ></DT
 ></DL
@@ -1413,7 +1419,7 @@ CLASS="computeroutput"
 >&#38;ctype=rdf</SAMP
 > to the URL. RDF
             is meant to be machine readable and thus it is assumed that the
-            URL would be generated programatically so there is no user visible
+            URL would be generated programmatically so there is no user visible
             link to this format.
           </P
 ><P
@@ -1908,6 +1914,174 @@ TARGET="_top"
 >bug
             162060</A
 >.
+          </P
+></DIV
+></DIV
+><DIV
+CLASS="qandaentry"
+><DIV
+CLASS="question"
+><P
+><A
+NAME="faq-admin-moving"
+></A
+><B
+>A.3.5. </B
+>
+            How do I move a Bugzilla installation from one machine to another?
+          </P
+></DIV
+><DIV
+CLASS="answer"
+><P
+><B
+> </B
+>
+            Use mysqldump to make a backup of the bugs database. For a
+            typical Bugzilla setup, such a command might look like this:
+            <TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><FONT
+COLOR="#000000"
+><PRE
+CLASS="programlisting"
+>&#13;/usr/bin/mysqldump -u(username) -p(password) --database bugs &#62; bugzilla-backup.txt
+            </PRE
+></FONT
+></TD
+></TR
+></TABLE
+>
+            See the <A
+HREF="http://dev.mysql.com/doc/mysql/en/mysqldump.html"
+TARGET="_top"
+>&#13;            mysqldump documentation</A
+> for more information on using 
+            the tool, including how to restore your copy onto the destination
+            machine.
+          </P
+><DIV
+CLASS="warning"
+><P
+></P
+><TABLE
+CLASS="warning"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="../images/warning.gif"
+HSPACE="5"
+ALT="Warning"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>&#13;              Depending on the size of your database, and the power of your
+              machine, the mysqldump command could be running long enough
+              that the password would be visible to someone using the
+              <B
+CLASS="command"
+>ps</B
+> command. If you are on a multi-user
+              machine, and this is a concern to you, create an entry in
+              the file <TT
+CLASS="filename"
+>~/.my.cnf</TT
+> that looks like this:
+              <TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><FONT
+COLOR="#000000"
+><PRE
+CLASS="programlisting"
+>&#13;[mysqldump]
+user=bugs
+password=mypassword
+              </PRE
+></FONT
+></TD
+></TR
+></TABLE
+>
+              and then leave the 'user' and 'password' params out of the
+              command line.
+            </P
+></TD
+></TR
+></TABLE
+></DIV
+><P
+>&#13;            On your new machine, follow the instructions found in <A
+HREF="installing-bugzilla.html"
+>Chapter 2</A
+> as far as setting up the physical
+            environment of the new machine with perl, webserver, modules, etc. 
+            Having done that, you can either: copy your entire Bugzilla
+            directory from the old machine to a new one (if you want to keep
+            your existing code and modifications), or download a newer version
+            (if you are planning to upgrade at the same time). Even if you are
+            upgrading to clean code, you will still want to bring over the 
+            <TT
+CLASS="filename"
+>localconfig</TT
+> file, and the 
+            <TT
+CLASS="filename"
+>data</TT
+> directory from the
+            old machine, as they contain configuration information that you 
+            probably won't want to re-create.
+          </P
+><DIV
+CLASS="note"
+><P
+></P
+><TABLE
+CLASS="note"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="../images/note.gif"
+HSPACE="5"
+ALT="Note"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>&#13;              If the location or port number of your SQL server changed
+              as part of the move, you'll need to update the appropriate
+              variables in localconfig before taking the next step.
+            </P
+></TD
+></TR
+></TABLE
+></DIV
+><P
+>&#13;            Once you have your code in place, and your database has
+            been restored from the backup you made in step 1, run
+            <B
+CLASS="command"
+>checksetup.pl</B
+>. This will upgrade your
+            database (if necessary), rebuild your templates, etc.
           </P
 ></DIV
 ></DIV
@@ -2614,7 +2788,7 @@ CLASS="answer"
             regularly updated at intervals from the main database.
           </P
 ><P
->&#13;            MySQL has some synchronization features builtin to the
+>&#13;            MySQL has some synchronization features built-in to the
             latest releases. It would be great if someone looked into
             the possibilities there and provided a report to the
             newsgroup on how to effectively synchronize two Bugzilla
@@ -2742,7 +2916,7 @@ CLASS="answer"
 ><P
 >&#13;            Microsoft has some advice on this matter, as well:
             <A
-NAME="AEN2825"
+NAME="AEN2975"
 ></A
 ><BLOCKQUOTE
 CLASS="BLOCKQUOTE"
@@ -3244,13 +3418,13 @@ TARGET="_top"
             enhancement for Bugzilla.
           </P
 ><P
->&#13;            You can view bugs marked for 2.20 release
+>&#13;            You can view bugs marked for 2.20.1 release
             <A
 HREF="http://bugzilla.mozilla.org/buglist.cgi?product=Bugzilla&#38;target_milestone=Bugzilla+&#38;bz-nextver;"
 TARGET="_top"
 >here</A
 >.
-            This list includes bugs for the 2.20 release that have already
+            This list includes bugs for the 2.20.1 release that have already
             been fixed and checked into CVS. Please consult the
             <A
 HREF="http://www.bugzilla.org/"
@@ -3417,7 +3591,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="flags.html"
+HREF="whining.html"
 ACCESSKEY="P"
 >Prev</A
 ></TD
@@ -3445,7 +3619,7 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Flags</TD
+>Whining</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"

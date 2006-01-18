@@ -23,6 +23,7 @@
 #                 Daniel Raichle <draichle@gmx.net>
 #                 Dave Miller <justdave@syndicomm.com>
 #                 Alexander J. Vincent <ajvincent@juno.com>
+#                 Max Kanat-Alexander <mkanat@bugzilla.org>
 
 ################################################################################
 # Script Initialization
@@ -900,11 +901,23 @@ sub insert
     # The order of these function calls is important, as both Flag::validate
     # and FlagType::validate assume User::match_field has ensured that the
     # values in the requestee fields are legitimate user email addresses.
-    Bugzilla::User::match_field($cgi, {
-        '^requestee(_type)?-(\d+)$' => { 'type' => 'single' }
-    });
-    Bugzilla::Flag::validate($cgi, $bugid);
-    Bugzilla::FlagType::validate($cgi, $bugid, $cgi->param('id'));
+    my $match_status = Bugzilla::User::match_field($cgi, {
+        '^requestee(_type)?-(\d+)$' => { 'type' => 'single' },
+    }, MATCH_SKIP_CONFIRM);
+
+    $vars->{'match_field'} = 'requestee';
+    if ($match_status == USER_MATCH_FAILED) {
+        $vars->{'message'} = 'user_match_failed';
+    }
+    elsif ($match_status == USER_MATCH_MULTIPLE) {
+        $vars->{'message'} = 'user_match_multiple';
+    }
+
+    # Flag::validate() should not detect any reference to existing
+    # flags when creating a new attachment. Setting the third param
+    # to -1 will force this function to check this point.
+    Bugzilla::Flag::validate($cgi, $bugid, -1);
+    Bugzilla::FlagType::validate($cgi, $bugid);
 
     # Escape characters in strings that will be used in SQL statements.
     my $sql_filename = SqlQuote($filename);
@@ -965,11 +978,7 @@ sub insert
                 $cgi->param('description') . "\n";
   $comment .= ("\n" . $cgi->param('comment')) if defined $cgi->param('comment');
 
-  AppendComment($bugid,
-                Bugzilla->user->login,
-                $comment,
-                $isprivate,
-                $timestamp);
+  AppendComment($bugid, $userid, $comment, $isprivate, $timestamp);
 
   # Make existing attachments obsolete.
   my $fieldid = GetFieldID('attachments.isobsolete');
@@ -1142,7 +1151,7 @@ sub update
     Bugzilla::User::match_field($cgi, {
         '^requestee(_type)?-(\d+)$' => { 'type' => 'single' }
     });
-    Bugzilla::Flag::validate($cgi, $bugid);
+    Bugzilla::Flag::validate($cgi, $bugid, $attach_id);
     Bugzilla::FlagType::validate($cgi, $bugid, $attach_id);
 
   # Lock database tables in preparation for updating the attachment.
@@ -1156,7 +1165,7 @@ sub update
           # Bugzilla::User needs to rederive groups. profiles and 
           # user_group_map would be READ locks instead of WRITE locks if it
           # weren't for derive_groups, which needs to write to those tables.
-          'bugs READ', 'profiles WRITE', 'email_setting READ',
+          'bugs WRITE', 'profiles WRITE', 'email_setting READ',
           'cc READ', 'bug_group_map READ', 'user_group_map WRITE',
           'group_group_map READ', 'groups READ');
 
@@ -1245,13 +1254,9 @@ sub update
   # Unlock all database tables now that we are finished updating the database.
   $dbh->bz_unlock_tables();
 
-  # Get the user's login name since the AppendComment and header functions
-  # need it.
-  my $who = Bugzilla->user->login;
-
   # If the user submitted a comment while editing the attachment,
   # add the comment to the bug.
-  if (defined $cgi->param('comment'))
+  if ($cgi->param('comment'))
   {
     # Prepend a string to the comment to let users know that the comment came
     # from the "edit attachment" screen.
@@ -1259,11 +1264,11 @@ sub update
                   $cgi->param('comment');
 
     # Append the comment to the list of comments in the database.
-    AppendComment($bugid, $who, $comment, $cgi->param('isprivate'), $timestamp);
+    AppendComment($bugid, $userid, $comment, $cgi->param('isprivate'), $timestamp);
   }
   
   # Define the variables and functions that will be passed to the UI template.
-  $vars->{'mailrecipients'} = { 'changer' => $who };
+  $vars->{'mailrecipients'} = { 'changer' => Bugzilla->user->login };
   $vars->{'attachid'} = $attach_id; 
   $vars->{'bugid'} = $bugid; 
 

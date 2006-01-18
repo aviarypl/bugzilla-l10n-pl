@@ -97,18 +97,28 @@ if (defined $cgi->param('rememberedquery')) {
             }
         }
         if (defined $cgi->param('splitheader')) {
-            $splitheader = $cgi->param('splitheader');
+            $splitheader = $cgi->param('splitheader')? 1: 0;
         }
     }
     my $list = join(" ", @collist);
     my $urlbase = Param("urlbase");
 
-    $cgi->send_cookie(-name => 'COLUMNLIST',
-                      -value => $list,
-                      -expires => 'Fri, 01-Jan-2038 00:00:00 GMT');
-    $cgi->send_cookie(-name => 'SPLITHEADER',
-                      -value => $cgi->param('splitheader'),
-                      -expires => 'Fri, 01-Jan-2038 00:00:00 GMT');
+    if ($list) {
+        $cgi->send_cookie(-name => 'COLUMNLIST',
+                          -value => $list,
+                          -expires => 'Fri, 01-Jan-2038 00:00:00 GMT');
+    }
+    else {
+        $cgi->remove_cookie('COLUMNLIST');
+    }
+    if ($splitheader) {
+        $cgi->send_cookie(-name => 'SPLITHEADER',
+                          -value => $splitheader,
+                          -expires => 'Fri, 01-Jan-2038 00:00:00 GMT');
+    }
+    else {
+        $cgi->remove_cookie('SPLITHEADER');
+    }
 
     $vars->{'message'} = "change_columns";
     $vars->{'redirect_url'} = "buglist.cgi?".$cgi->param('rememberedquery');

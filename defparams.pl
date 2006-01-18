@@ -54,6 +54,7 @@ use Socket;
 
 use Bugzilla::Config qw(:DEFAULT $templatedir $webdotdir);
 use Bugzilla::Util;
+use Bugzilla::Constants;
 
 # Checking functions for the various values
 # Some generic checking functions are included in Bugzilla::Config
@@ -236,6 +237,18 @@ sub find_languages {
     }
     closedir DIR;
     return join(', ', @languages);
+}
+
+sub check_mail_delivery_method {
+    my $check = check_multi(@_);
+    return $check if $check;
+    my $mailer = shift;
+    if ($mailer eq 'sendmail' && $^O =~ /MSWin32/i) {
+        # look for sendmail.exe 
+        return "Failed to locate " . SENDMAIL_EXE
+            unless -e SENDMAIL_EXE;
+    }
+    return "";
 }
 
 # OK, here are the parameter definitions themselves.
@@ -607,7 +620,7 @@ sub find_languages {
             <dl>
               <dt>DB</dt>
               <dd>
-                Bugzilla\'s builtin authentication. This is the most common
+                Bugzilla\'s built-in authentication. This is the most common
                 choice.
               </dd>
               <dt>LDAP</dt>
@@ -674,7 +687,8 @@ sub find_languages {
    name => 'mail_delivery_method',
    desc => 'Defines how email is sent, or if it is sent at all.<br><ul>' .
            '<li>\'sendmail\', \'smtp\' and \'qmail\' are all MTAs. ' .
-           '(only SMTP is available in Windows.)</li>' .
+           'You need to install a third-party sendmail replacement if ' .
+           'you want to use sendmail on Windows.' .
            '<li>\'testfile\' is useful for debugging: all email is stored' .
            'in data/mailer.testfile instead of being sent. For more ' .
            'information, see the Mail::Mailer manual.</li>' .
@@ -683,10 +697,10 @@ sub find_languages {
            'stored.</li></ul>' ,
    type => 's',
    choices => $^O =~ /MSWin32/i 
-                  ? ['smtp', 'testfile', 'none']
+                  ? ['smtp', 'testfile', 'sendmail', 'none']
                   : ['sendmail', 'smtp', 'qmail', 'testfile', 'none'],
    default => 'sendmail',
-   checker => \&check_multi
+   checker => \&check_mail_delivery_method
   },
 
   {
@@ -736,7 +750,7 @@ To use the wonders of Bugzilla, you can use the following:
    name => 'newchangedmail',
    desc => 'The email that gets sent to people when a bug changes. Within ' .
            'this text, %to% gets replaced with the e-mail address of the ' .
-           'person recieving the mail.  %bugid% gets replaced by the bug ' .
+           'person receiving the mail.  %bugid% gets replaced by the bug ' .
            'number.  %diffs% gets replaced with what\'s changed. ' .
            '%neworchanged% is "New:" if this mail is reporting a new bug or ' .
            'empty if changes were made to an existing one. %summary% gets ' .
@@ -758,6 +772,8 @@ To: %to%
 Subject: [Bug %bugid%] %neworchanged%%summary%
 %threadingmarker%
 X-Bugzilla-Reason: %reasonsheader%
+X-Bugzilla-Product: %product%
+X-Bugzilla-Component: %component%
 
 %urlbase%show_bug.cgi?id=%bugid%
 
@@ -770,8 +786,9 @@ Configure bugmail: %urlbase%userprefs.cgi?tab=email
 
   {
    name => 'whinedays',
-   desc => 'The number of days that we\'ll let a bug sit untouched in a NEW ' .
-           'state before our cronjob will whine at the owner.',
+   desc => q{The number of days that we'll let a bug sit untouched in a NEW
+             state before our cronjob will whine at the owner.<br>
+             Set to 0 to disable whining.},
    type => 't',
    default => 7
   },
@@ -810,7 +827,7 @@ Generally, this means one of three things:
 (2) You decide the bug doesn\'t belong to you, and you reassign it to someone
     else.  (Hint: if you don\'t know who to reassign it to, make sure that
     the Component field seems reasonable, and then use the "Reassign bug to
-    owner of selected component" option.)
+    default assignee of selected component" option.)
 (3) You decide the bug belongs to you, but you can\'t solve it this moment.
     Just use the "Accept bug" command.
 
@@ -965,7 +982,7 @@ You will get this message once a day until you\'ve dealt with these bugs!
    package</a> will generate the graphs remotely.</li>
    <li>A blank value will disable dependency graphing.</li>
    </ul>
-   The default value is a publically-accessible webdot server. If you change
+   The default value is a publicly-accessible webdot server. If you change
    this value, make certain that the webdot server can read files from your
    webdot directory. On Apache you do this by editing the .htaccess file,
    for other systems the needed measures may vary. You can run checksetup.pl
@@ -988,7 +1005,7 @@ You will get this message once a day until you\'ve dealt with these bugs!
 
   {
    name => 'emailregexpdesc',
-   desc => 'This describes in english words what kinds of legal addresses ' .
+   desc => 'This describes in English words what kinds of legal addresses ' .
            'are allowed by the <tt>emailregexp</tt> param.',
    type => 'l',
    default => 'A legal address must contain exactly one \'@\', and at least ' .
@@ -1027,7 +1044,7 @@ You will get this message once a day until you\'ve dealt with these bugs!
            'why the vote(s) were removed. %votesremoved%, %votesold% and ' .
            '%votesnew% is the number of votes removed, before and after ' .
            'respectively. %votesremovedtext%, %votesoldtext% and ' .
-           '%votesnewtext% are these as sentences, eg "You had 2 votes on ' .
+           '%votesnewtext% are these as sentences, e.g. "You had 2 votes on ' .
            'this bug."  %count% is also supported for backwards ' .
            'compatibility. %<i>anythingelse</i>% gets replaced by the ' .
            'definition of that parameter (as defined on this page).',

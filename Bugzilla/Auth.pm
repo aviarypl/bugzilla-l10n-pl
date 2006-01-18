@@ -23,8 +23,6 @@
 package Bugzilla::Auth;
 
 use strict;
-use base qw(Exporter);
-@Bugzilla::Auth::EXPORT = qw(bz_crypt);
 
 use Bugzilla::Config;
 use Bugzilla::Constants;
@@ -42,31 +40,6 @@ BEGIN {
         }
         require "Bugzilla/Auth/Verify/" . $verifyclass . ".pm";
     }
-}
-
-sub bz_crypt ($) {
-    my ($password) = @_;
-
-    # The list of characters that can appear in a salt.  Salts and hashes
-    # are both encoded as a sequence of characters from a set containing
-    # 64 characters, each one of which represents 6 bits of the salt/hash.
-    # The encoding is similar to BASE64, the difference being that the
-    # BASE64 plus sign (+) is replaced with a forward slash (/).
-    my @saltchars = (0..9, 'A'..'Z', 'a'..'z', '.', '/');
-
-    # Generate the salt.  We use an 8 character (48 bit) salt for maximum
-    # security on systems whose crypt uses MD5.  Systems with older
-    # versions of crypt will just use the first two characters of the salt.
-    my $salt = '';
-    for ( my $i=0 ; $i < 8 ; ++$i ) {
-        $salt .= $saltchars[rand(64)];
-    }
-
-    # Crypt the password.
-    my $cryptedpassword = crypt($password, $salt);
-
-    # Return the crypted password.
-    return $cryptedpassword;
 }
 
 # PRIVATE
@@ -107,13 +80,15 @@ sub authenticate {
     my @args   = @_;
     my @firstresult = ();
     my @result = ();
+    my $current_verify_method;
     for my $method (split /,\s*/, Param("user_verify_class")) {
+        $current_verify_method = $method;
         $method = "Bugzilla::Auth::Verify::" . $method;
         @result = $method->authenticate(@args);
         @firstresult = @result unless @firstresult;
 
         if (($result[0] != AUTH_NODATA)&&($result[0] != AUTH_LOGINFAILED)) {
-            $current_verify_class = $method;
+            unshift @result, ($current_verify_method);
             return @result;
         }
     }
@@ -123,13 +98,16 @@ sub authenticate {
     # see if we can set $current to the first verify method that
     # will allow a new login
 
+    my $chosen_verify_method;
     for my $method (split /,\s*/, Param("user_verify_class")) {
+        $current_verify_method = $method;
         $method = "Bugzilla::Auth::Verify::" . $method;
         if ($method->can_edit('new')) {
-            $current_verify_class = $method;
+            $chosen_verify_method = $method;
         }
     }
 
+    unshift @result, $chosen_verify_method;
     return @result;
 }
 
@@ -155,11 +133,6 @@ __END__
 
 Bugzilla::Auth - Authentication handling for Bugzilla users
 
-=head1 SYNOPSIS
-
-  # Class Functions
-  $crypted = bz_crypt($password);
-
 =head1 DESCRIPTION
 
 Handles authentication for Bugzilla users.
@@ -178,23 +151,6 @@ C<Bugzilla::Auth> contains several helper methods to be used by
 authentication or login modules.
 
 =over 4
-
-=item C<bz_crypt($password)>
-
-Takes a string and returns a C<crypt>ed value for it, using a random salt.
-
-Please always use this function instead of the built-in perl "crypt"
-when initially encrypting a password.
-
-=begin undocumented
-
-Random salts are generated because the alternative is usually
-to use the first two characters of the password itself, and since
-the salt appears in plaintext at the beginning of the encrypted
-password string this has the effect of revealing the first two
-characters of the password to anyone who views the encrypted version.
-
-=end undocumented
 
 =item C<Bugzilla::Auth::get_netaddr($ipaddr)>
 
@@ -222,16 +178,15 @@ This method is passed a username and a password, and returns a list
 containing up to four return values, depending on the results of the
 authentication.
 
-The first return value is one of the status codes defined in
-L<Bugzilla::Constants|Bugzilla::Constants> and described below.  The
-rest of the return values are status code-specific and are explained in
-the status code descriptions.
-
-=over 4
+The first return value is the name of the class that generated the results 
+constined in the remaining return values.  The second return value is one of 
+the status codes defined in L<Bugzilla::Constants|Bugzilla::Constants> and 
+described below.  The rest of the return values are status code-specific 
+and are explained in the status code descriptions.
 
 =item C<AUTH_OK>
 
-Authentication succeeded. The second variable is the userid of the new
+Authentication succeeded. The third variable is the userid of the new
 user.
 
 =item C<AUTH_NODATA>
@@ -241,11 +196,11 @@ cases, such as cookie authentication when the cookie is not present.
 
 =item C<AUTH_ERROR>
 
-An error occurred when trying to use the login mechanism. The second return
+An error occurred when trying to use the login mechanism. The third return
 value may contain the Bugzilla userid, but will probably be C<undef>,
-signifiying that the userid is unknown. The third value is a tag describing
+signifiying that the userid is unknown. The fourth value is a tag describing
 the error used by the authentication error templates to print a description
-to the user. The optional fourth argument is a hashref of values used as part
+to the user. The optional fifth argument is a hashref of values used as part
 of the tag's error descriptions.
 
 This error template must have a name/location of
@@ -255,27 +210,25 @@ I<account/auth/C<lc(authentication-type)>-error.html.tmpl>.
 
 An incorrect username or password was given. Note that for security reasons,
 both cases return the same error code. However, in the case of a valid
-username, the second argument may be the userid. The authentication
+username, the third argument may be the userid. The authentication
 mechanism may not always be able to discover the userid if the password is
 not known, so whether or not this argument is present is implementation
 specific. For security reasons, the presence or lack of a userid value should
 not be communicated to the user.
 
-The third argument is an optional tag from the authentication server
+The fourth argument is an optional tag from the authentication server
 describing the error. The tag can be used by a template to inform the user
 about the error.  Similar to C<AUTH_ERROR>, an optional hashref may be
-present as a fourth argument, to be used by the tag to give more detailed 
+present as a fifth argument, to be used by the tag to give more detailed 
 information.
 
 =item C<AUTH_DISABLED>
 
 The user successfully logged in, but their account has been disabled.
-The second argument in the returned array is the userid, and the third
+The third argument in the returned array is the userid, and the fourth
 is some text explaining why the account was disabled. This text would
 typically come from the C<disabledtext> field in the C<profiles> table.
 Note that this argument is a string, not a tag.
-
-=back
 
 =item C<current_verify_class>
 
@@ -312,6 +265,8 @@ by trying cookies as a fallback.
 
 The login interface consists of the following methods:
 
+=over 4
+
 =item C<login>, which takes a C<$type> argument, using constants found in
 C<Bugzilla::Constants>.
 
@@ -323,8 +278,6 @@ When a login is required, but data is not present, it is the job of the
 login method to prompt the user for this data.
 
 The constants accepted by C<login> include the following:
-
-=over 4
 
 =item C<LOGIN_OPTIONAL>
 
@@ -342,13 +295,9 @@ I<requirelogin> parameter.
 
 A login is always required to access this data.
 
-=back
-
 =item C<logout>, which takes a C<Bugzilla::User> argument for the user
 being logged out, and an C<$option> argument. Possible values for
 C<$option> include:
-
-=over 4
 
 =item C<LOGOUT_CURRENT>
 

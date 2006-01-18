@@ -77,7 +77,7 @@ our $webdotdir = "$datadir/webdot";
 Exporter::export_ok_tags('admin', 'db', 'locations');
 
 # Bugzilla version
-$Bugzilla::Config::VERSION = "2.19.3";
+$Bugzilla::Config::VERSION = "2.20";
 
 use Safe;
 
@@ -204,7 +204,7 @@ sub UpdateParams {
                 $param{'defaultplatform'} = 'Other';
             }
             if (!exists $param{'defaultopsys'}) {
-                $param{'defaultopsys'} = 'other';
+                $param{'defaultopsys'} = 'Other';
             }
         }
         delete $param{'usebrowserinfo'};
@@ -299,8 +299,8 @@ sub WriteParams {
     ChmodDataFile("$datadir/params", 0666);
 }
 
-# Some files in the data directory must be world readable iff we don't have
-# a webserver group. Call this function to do this.
+# Some files in the data directory must be world readable if and only if
+# we don't have a webserver group. Call this function to do this.
 # This will become a private function once all the datafile handling stuff
 # moves into this package
 

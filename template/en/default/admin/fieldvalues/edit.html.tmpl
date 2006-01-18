@@ -11,7 +11,7 @@
   #
   # The Original Code is the Bugzilla Bug Tracking System.
   #
-  # Contributor(s): Max Kanat-Alexander <mkanat@kerio.com>
+  # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
   #%]
 
 [%# INTERFACE:
@@ -23,7 +23,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]Edit Value '[% value FILTER html %]'  '
-                   [%- filter FILTER html %]'[% END %]
+                   [%- field FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
