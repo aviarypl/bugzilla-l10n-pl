@@ -26,25 +26,24 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-   title = "Default Preferences"
+   title = "Domyślne wartości opcji"
  %]
 
 [% PROCESS "global/setting-descs.none.tmpl" %]
 
 <p>
-This lets you edit the default preferences values.
+Ta strona umożliwia ustalenie domyślnych wartości dla opcji.
 </p>
 <p>
-The Default Value displayed for each preference will apply to all users who
-do not choose their own value, and to anyone who is not logged in.
+Domyślna wartości opcji jest używane przez wszystkich użytkowników którzy nie
+zmienili wartości danej opcji, lub którzy nie są zalogowani.
 </p>
 <p>
-The 'Enabled' checkbox controls whether or not this preference is available
-to users.<br>
-If it is checked, users will see this preference on their User Preferences page,
-and will be allowed to choose their own value if they desire.<br>
-If it is not checked, this preference will not appear on the User Preference
-page, and the Default Value will automatically apply to everyone.
+Pole 'Włączona' kontroluje czy dana opcja jest dostępna dla użytkowników.<br>
+Jeśli jest ono zaznaczone, użytkownicy będą widzieć i mieć możliwość zmiany opcji
+dzięki panelowi w "Ustawieniach".<br>
+Jeśli pole nie zostanie zaznaczone, opcja nie będzie wyświetlana i wartość domyślna
+będzie używana przez wszystkich.
 </p>
 <hr>
 
@@ -52,9 +51,9 @@ page, and the Default Value will automatically apply to everyone.
     <form name="adminsettingform" method="post" action="editsettings.cgi">
       <table border="1" cellpadding="4">
       <tr>
-        <th>Preference Text</th>
-        <th>Default Value</th>
-        <th>Enabled</th>
+        <th>Tekst opcji</th>
+        <th>Wartość domyślna</th>
+        <th>Włączona</th>
       <tr>
 
       [% FOREACH name = setting_names %]
@@ -89,14 +88,14 @@ page, and the Default Value will automatically apply to everyone.
       <tr>
         <td width="150"></td>
         <td>
-          <input type="submit" value="Submit Changes">
+          <input type="submit" value="Wyślij zmiany">
         </td>
       </tr>
     </table>
   
   </form>
 [% ELSE %]
-  There are no preferences to edit.
+  Brak opcji do edycji.
 [% END %]
 
 [% PROCESS global/footer.html.tmpl %]

@@ -28,18 +28,18 @@
   # product: string; the name of the product the version belongs to
   #%]
   
-[% title = BLOCK %]Updating Version '[% name FILTER html %]' of Product
+[% title = BLOCK %]Aktualizacja wersjo '[% name FILTER html %]' produktu
                    '[% product FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
 [% IF updated_name %]
-  <p>Updated Version name to: '[% name FILTER html %]'.</p>
+  <p>Zmieniono nazwę na: '[% name FILTER html %]'.</p>
 [% END %]
 
 [% UNLESS updated_name %]
-  <p>Nothing changed for version '[% name FILTER html %]'.
+  <p>Nie dokonano żadnych zmian dla wersji '[% name FILTER html %]'.
 [% END %]
    
 <p>

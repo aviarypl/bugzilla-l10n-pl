@@ -21,7 +21,7 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Add user"
+  title = "Dodawanie użytkownika"
   style_urls = ['skins/standard/editusers.css']
   onload = "document.forms['f'].login.focus()"
 %]
@@ -39,18 +39,18 @@
   %]
 </table>
 <p>
-  <input type="submit" value="Add" />
+  <input type="submit" value="Dodaj" />
   <input type="hidden" name="action" value="new" />
   [% INCLUDE listselectionhiddenfields %]
 </p>
 </form>
 
 <p>
-  You can also <a href="editusers.cgi">find a user</a>
+  Możesz również <a href="editusers.cgi">poszukać użytkownika</a>
   [% IF listselectionvalues %],
-    or
-    <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">go
-    back to the user list</a>
+    lub
+    <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">powrócić
+    do listy użytkowników</a>
   [% END %].
 </p>
 

@@ -97,9 +97,9 @@
         [% ELSE %]
           [% IF c.yesno_field %]
             [% IF row.${c.name} %]
-              Yes
+              Tak
             [% ELSE %]
-              No
+              Nie
             [% END %]
           [% ELSE %]
             [% IF c.allow_html_content %]
@@ -120,7 +120,7 @@
 [% END %]
 
 [% IF data.size == 0 %]
-  <tr><td colspan="[% columns.size %]" align="center"><i>&lt;none&gt;</i></td></tr>
+  <tr><td colspan="[% columns.size %]" align="center"><i>&lt;brak&gt;</i></td></tr>
 [% END %]
 
 

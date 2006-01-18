@@ -32,7 +32,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Select milestone of product
+[% title = BLOCK %]Wybór wersji docelowej produktu
                    '[% product FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -47,19 +47,19 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Edit milestone..."
+       heading => "Edytuj wersję docelową..."
        contentlink => edit_contentlink
      },
      { 
        name => "sortkey"
-       heading => "Sortkey"
+       heading => "Klucz sortowania"
      },
    ]
 %]
 
 [% columns.push({
-     heading => "Action"
-     content => "Delete"
+     heading => "Akcja"
+     content => "Usuń"
      contentlink => delete_contentlink
    }) %]
 

@@ -29,7 +29,7 @@
   #            the default milestone.
   #%]
   
-[% title = BLOCK %]Deleted Milestone '[% name FILTER html %]' of Product
+[% title = BLOCK %]Usuwanie wersji docelowej '[% name FILTER html %]' produktu 
                    '[% product FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -37,21 +37,20 @@
 
 <p>
 [% IF bug_count %]
-
-  [% bug_count %]
-  [% IF bug_count > 1 %] 
-    [%+ terms.bugs %]
+  [% IF bug_count == 1 %]
+    Jeden [% terms.blad %] został przepisany
   [% ELSE %]
-    [%+ terms.bug %]
+    [% bug_count %] [% PROCESS ODMIEN c=bug_count o1="" o2=terms.bledy o3=terms.bledow %]
+    zostało przepisanych
   [% END %]
-  reassigned to the default milestone.
+  do domyślnej wersji docelowej.
 
 [% ELSE %]
-  No [% terms.bugs %] were targetted at the milestone.
+  Żaden [% terms.blad %] nie był przypisany do tej wersji docelowej.
 [% END %]
 </p>
 
-<p>Milestone '[% name FILTER html %]' deleted.</p>
+<p>Wersja docelowa '[% name FILTER html %]' została usunięta.</p>
 
 <p>
 

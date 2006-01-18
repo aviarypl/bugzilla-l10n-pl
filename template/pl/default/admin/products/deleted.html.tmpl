@@ -16,26 +16,26 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = 'Deleting product'
+  title = 'Usuwanie produktu'
 %]
 
 [% IF nb_bugs %]
-  All references to deleted [% terms.bugs %] removed.
+  Wszystkie odwołania do usuniętych [% terms.bledow %] zostały skasowane.
 [% END %]
 
 <p>
-  Components deleted.<br>
-  Versions deleted.<br>
-  Milestones deleted.
+  Komponenty zostały skasowane.<br>
+  Wersje zostały skasowane.<br>
+  Wersje docelowe zostały skasowane.
 </p>
 
 <p>
-  Group controls deleted.<br>
-  Flag inclusions and exclusions deleted.
+  Grupy kontroli zostały skasowane.<br>
+  Włączenia i wyłączenia flag zostały skasowane.
 </p>
 
 <p>
-  Product [% product FILTER html %] deleted.
+  Produkt [% product FILTER html %] został usunięty.
 </p>
 
 [% PROCESS admin/products/footer.html.tmpl

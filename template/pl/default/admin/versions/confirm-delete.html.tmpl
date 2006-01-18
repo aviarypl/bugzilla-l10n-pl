@@ -29,7 +29,7 @@
   #
   #%]
 
-[% title = BLOCK %]Delete Version of Product '[% product FILTER html %]'
+[% title = BLOCK %]Usuwanie wersji produktu '[% product FILTER html %]'
   [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -38,22 +38,22 @@
 
 <table border="1" cellpadding="4" cellspacing="0">
 <tr bgcolor="#6666FF">
-  <th valign="top" align="left">Field</th>
-  <th valign="top" align="left">Value</th>
+  <th valign="top" align="left">Pole</th>
+  <th valign="top" align="left">Wartość</th>
 </tr>
 <tr>
-  <td valign="top">Version:</td>
+  <td valign="top">Wersja:</td>
   <td valign="top">[% name FILTER html %]</td>
 </tr>
 <tr>
-  <td valign="top">Version of Product:</td>
+  <td valign="top">Produkt:</td>
   <td valign="top">[% product FILTER html %]</td>
 </tr>
 <tr>
-  <td valign="top">[% terms.Bugs %]:</td>
+  <td valign="top">[% terms.Bledy %]:</td>
   <td valign="top">
 [% IF bug_count %]
-  <a title="List of [% terms.bugs %] targetted at version '
+  <a title="Lista [% terms.bledow %] używających wersji '
            [% name FILTER html %]'"
      href="buglist.cgi?version=[% name FILTER url_quote %]&amp;product=
           [%- product FILTER url_quote %]">[% bug_count %]</a>
@@ -64,32 +64,31 @@
 </tr>
 </table>
 
-<h2>Confirmation</h2>
+<h2>Potwierdzenie</h2>
   
 [% IF bug_count %]
 
-  Sorry, there
-  [% IF bug_count > 1 %] 
-    are [% bug_count %] [%+ terms.bugs %] 
-  [% ELSE %]
-    is [% bug_count %] [%+ terms.bug %] 
-  [% END %]
+    Niestety ta wersja jest nadal używana przez [% bug_count %] 
+    
+    [% PROCESS ODMIEN c=bug_count o1="$terms.blad"
+        o2="$terms.bledy" o3="$terms.bledow" %]
 
-  outstanding for this version. You must move 
+    Musisz najpierw zmienić wersję dla
 
-  [% IF bug_count > 1 %]
-     those [% terms.bugs %] 
-  [% ELSE %]
-     that [% terms.bug %]
-  [% END %]
-  to another version before you can delete this one.
+    [% IF bug_count > 1 %]
+       tego [% terms.bledu %] 
+    [% ELSE %]
+       tych [% terms.bladow %]
+    [% END %],
+    
+    zanim możliwe będzie skasowanie tej wersji.
 
 [% ELSE %]
 
-  <p>Do you really want to delete this version?<p>
+  <p>Czy na pewno chcesz usunąć tą wersję?<p>
   
   <form method="post" action="editversions.cgi">
-    <input type="submit" value="Yes, delete">
+    <input type="submit" value="Tak, usuń">
     <input type="hidden" name="action" value="delete">
     <input type="hidden" name="product" value="[% product FILTER html %]">
     <input type="hidden" name="version" value="[% name FILTER html %]">

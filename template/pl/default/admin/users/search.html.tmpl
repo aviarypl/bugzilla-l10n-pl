@@ -24,7 +24,7 @@
  
 
 [% PROCESS global/header.html.tmpl
-  title = "Search users"
+  title = "Szukanie użytkowników"
   style_urls = ['skins/standard/editusers.css']
   onload = "document.forms['f'].matchstr.focus()"
 %]
@@ -35,18 +35,18 @@
 
 <form name="f" method="get" action="editusers.cgi">
 <input type="hidden" name="action" value="list" />
-<p><label for="matchstr">List users with login name matching</label>
+<p><label for="matchstr">Wyszukaj identyfikatory użytkowników</label>
 <input size="32" name="matchstr" id="matchstr" />
 <select name="matchtype">
-  <option value="substr" selected="selected">case-insensitive substring</option>
-  <option value="regexp">case-insensitive regexp</option>
-  <option value="notregexp">not (case-insensitive regexp)</option>
+  <option value="substr" selected="selected">zawierających ten podciąg</option>
+  <option value="regexp">pasujących do tego regexpa</option>
+  <option value="notregexp">niepasujących do tego regexpa</option>
 </select>
-<input type="submit" value="Search" /></p>
+<input type="submit" value="Znajdź" /></p>
 
 [% IF restrictablegroups.size %]
   <p><input type="checkbox" name="grouprestrict" value="1" id="grouprestrict" />
-  <label for="grouprestrict">Restrict to users belonging to group</label>
+  <label for="grouprestrict">Ogranicz do członków grupy</label>
   <select name="groupid"
           onchange="document.forms['f'].grouprestrict.checked=true">
     [% FOREACH group = restrictablegroups %]
@@ -58,11 +58,11 @@
 
 [% IF editusers %]
   <p>
-    You can also <a href="editusers.cgi?action=add">add a new user</a>
+    Możesz również <a href="editusers.cgi?action=add">dodać nowego użytkownika</a>
     [%- IF listselectionvalues %],
-      or
-      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">show
-      the user list again</a>
+      lub
+      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">wrócić
+      listy użytkowników</a>
     [%- END %].
   </p>
 [% END %]

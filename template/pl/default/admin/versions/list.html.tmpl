@@ -31,7 +31,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Select version of product
+[% title = BLOCK %]Wybor wersji produktu
                    '[% product FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -46,12 +46,12 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Edit version..."
+       heading => "Edycja wersji..."
        contentlink => edit_contentlink
      },
      {
-       heading => "Action"
-       content => "Delete"
+       heading => "Akcja"
+       content => "Usuń"
        contentlink => delete_contentlink
      }
    ]

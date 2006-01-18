@@ -33,22 +33,22 @@
   # product: string; the name of the product the milestone belongs to
   #%]
   
-[% title = BLOCK %]Updating Milestone '[% name FILTER html %]' of Product
+[% title = BLOCK %]Aktualizacja wersji docelowej '[% name FILTER html %]' produktu
                    '[% product FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
 [% IF updated_name %]
-  <p>Updated Milestone name to: '[% name FILTER html %]'.</p>
+  <p>Zmieniono nazwę wersji docelowej na: '[% name FILTER html %]'.</p>
 [% END %]
 
 [% IF updated_sortkey %]
-  <p>Updated Milestone sortkey to: '[% sortkey FILTER html %]'.</p>
+  <p>Zmieniono klucz sortowania na: '[% sortkey FILTER html %]'.</p>
 [% END %]
 
 [% UNLESS updated_sortkey || updated_name %]
-  <p>Nothing changed for milestone '[% name FILTER html %]'.
+  <p>Nie dokonano żadnych zmian '[% name FILTER html %]'.
 [% END %]
    
 <p>

@@ -38,12 +38,12 @@
     [%- classification FILTER url_quote %]
   [%- END %]
   [% classification_title = BLOCK %] 
-    in classification '[% classification FILTER html %]'
+    klasyfikacji '[% classification FILTER html %]'
   [% END %]
 [% END %]
   
 [% PROCESS global/header.html.tmpl
-  title = "Select product $classification_title"
+  title = "Wybór produktu $classification_title"
 %]
 
 [% edit_contentlink = BLOCK %]
@@ -61,37 +61,37 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Edit product..."
+       heading => "Edytuj produkt..."
        contentlink => edit_contentlink
      },
      { 
        name => "description"
-       heading => "Description"
+       heading => "Opis"
        allow_html_content => 1
      },
      { 
        name => "status"
-       heading => "Open For New $terms.Bugs"
+       heading => "Można zgłaszać nowe $terms.bledy"
        yesno_field => 1
      },
      { 
        name => "votesperuser"
-       heading => "Votes Per User"
+       heading => "Głosów na osobę"
        align => 'right'
      },
      { 
        name => "maxvotesperbug"
-       heading => "Maximum Votes Per $terms.Bug"
+       heading => "Maksymalna liczba głosów na $terms.blad"
        align => 'right'
      },
      { 
        name => "votestoconfirm"
-       heading => "Votes To Confirm"
+       heading => "Wymagana liczba głosów do potwierdzenia"
        align => 'right'
      },
      { 
        name => "bug_count"
-       heading => "$terms.Bug Count"
+       heading => "Liczba $terms.bledow"
        align => 'right'
        contentlink => bug_count_contentlink
      },
@@ -99,8 +99,8 @@
 %]
 
 [% columns.push({
-     heading => "Action"
-     content => "Delete"
+     heading => "Akcja"
+     content => "Usuń"
      contentlink => delete_contentlink
    })
 %]

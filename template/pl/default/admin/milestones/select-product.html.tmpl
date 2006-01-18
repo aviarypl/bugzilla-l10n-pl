@@ -32,7 +32,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edit milestones for which product?"
+  title = "Edycja wersji docelowej dla którego produktu?"
 %]
 
 [% bug_count_contentlink = BLOCK %]buglist.cgi?target_milestone=%%name%%&amp;product=
@@ -41,12 +41,12 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Edit milestones of..."
+       heading => "Edytuj wersje docelowe..."
        contentlink => "editmilestones.cgi?product=%%name%%" 
      },
      { 
        name => "description"
-       heading => "Description" 
+       heading => "Opis" 
        allow_html_content => 1
      }
    ]

@@ -31,7 +31,7 @@
   #
   #%]
 
-[% title = BLOCK %]Delete Milestone of Product '[% product FILTER html %]'
+[% title = BLOCK %]Usuwanie wersji docelowej produktu '[% product FILTER html %]'
   [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -40,56 +40,56 @@
 
 <table border="1" cellpadding="4" cellspacing="0">
 <tr bgcolor="#6666FF">
-  <th valign="top" align="left">Field</th>
-  <th valign="top" align="left">Value</th>
+  <th valign="top" align="left">Pole</th>
+  <th valign="top" align="left">Wartość</th>
 </tr>
 <tr>
-  <td valign="top">Milestone:</td>
+  <td valign="top">Wersja docelowa:</td>
   <td valign="top">[% name FILTER html %]</td>
 </tr>
 <tr>
-  <td valign="top">Milestone of Product:</td>
+  <td valign="top">Produkt:</td>
   <td valign="top">[% product FILTER html %]</td>
 </tr>
 <tr>
-  <td valign="top">[% terms.Bugs %]:</td>
+  <td valign="top">[% terms.Bledy %]:</td>
   <td valign="top">
 [% IF bug_count %]
-  <a title="List of [% terms.bugs %] targetted at milestone '
+  <a title="Lista [% terms.bledow %] z wersją docelową '
            [% name FILTER html %]'"
      href="buglist.cgi?target_milestone=[% name FILTER url_quote %]&amp;product=
           [%- product FILTER url_quote %]">[% bug_count %]</a>
 [% ELSE %]
-  None
+  Brak
 [% END %]
   </td>
 </tr>
 </table>
 
-<h2>Confirmation</h2>
+<h2>Potwierdzenie</h2>
   
 [% IF bug_count %]
 
   <table border="0" cellpadding="20" width="70%" bgcolor="red">
   <tr><td>
-    There
-    [% IF bug_count > 1 %] 
-      are [% bug_count %] [%+ terms.bugs %] 
-    [% ELSE %]
-      is 1 [% terms.bug %]
-    [% END %]
-    entered for this milestone! When you delete this milestone,
-    <b><blink>ALL</blink></b> stored [% terms.bugs %] will be reassigned to
-    the default milestone of this product.
+  [% IF bug_count == 1 %]
+    Istnieje jeden [% terms.blad %] z tą wersją docelową.
+  [% ELSE %]
+    Istnieje [% bug_count %] [% PROCESS ODMIEN c=bug_count o1="" o2=terms.bledy o3=terms.bledow %] 
+    z tą wersją docelową.
+  [% END %]
+    Usunięcie tej wersji docelowej spowoduje zmianę wartości tego pola
+    dla <b><blink>WSZYSTKICH</blink></b> tych [% terms.bledow %] na wartość
+    domyślną.
   </td></tr>
   </table>
 
 [% END %]
 
-<p>Do you really want to delete this milestone?<p>
+<p>Czy jesteś pewien że chcesz usunąć tą wersję docelową?<p>
 
 <form method="post" action="editmilestones.cgi">
-  <input type="submit" value="Yes, delete">
+  <input type="submit" value="Tak, usuń">
   <input type="hidden" name="action" value="delete">
   <input type="hidden" name="product" value="[% product FILTER html %]">
   <input type="hidden" name="milestone" value="[% name FILTER html %]">

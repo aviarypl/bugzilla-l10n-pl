@@ -25,17 +25,17 @@
   # product: string; the name of the product the version belongs to
   #%]
   
-[% title = BLOCK %]Adding new Version of Product
+[% title = BLOCK %]Dodawanie wersji dla produktu
                    '[% product FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
-<p>The version '<a title="Edit version '[% name FILTER html %]' of product '
+<p>Wersja '<a title="Edytuj wersję '[% name FILTER html %]' produktu '
    [%- product FILTER html %]'"
    href="editversions.cgi?action=edit&amp;product=
    [%- product FILTER url_quote %]&amp;version=[% name FILTER url_quote %]">
-   [%- name FILTER html %]</a>' has been created.</p>
+   [%- name FILTER html %]</a>' została utworzona.</p>
 
 <p>
 

@@ -36,7 +36,7 @@
      [%- classification FILTER url_quote %]
   [% END %]
   [% classification_text = BLOCK %] 
-    of classification '[% classification FILTER html %]'
+    klasyfikacji '[% classification FILTER html %]'
   [% END %]
 [% END %]
   
@@ -45,22 +45,22 @@
 <hr>
 
 [% UNLESS no_add_product_link %]
-  <a title="Add a product"
-     href="editproducts.cgi?action=add">Add</a> a product[% -%]
+  <a title="Dodawanie produktu"
+     href="editproducts.cgi?action=add">Dodaj</a> produkt[% -%]
 [%# Strictly speaking, we should not have to check for a
     classification if they are enabled, but I'm just being paranoid %]
   [% IF Param('useclassification') && classification %]
-    (<a title="Add a product to classification '
+    (<a title="Dodawanie produktu do klasyfikacji '
                [%- classification FILTER html %]'"
          href="editproducts.cgi?action=add
-               [%- classification_url_part %]">to
-     classification '[% classification FILTER html %]'</a>)
+               [%- classification_url_part %]">do
+     klasyfikacji '[% classification FILTER html %]'</a>)
   [% END %].
 [% END %]
 
 [% IF name && !no_edit_product_link %]
-  Edit product <a 
-  title="Edit Product '[% name FILTER html %]' 
+  Edytuj produkt <a 
+  title="Edycja produktu '[% name FILTER html %]' 
          [% classification_text %]"
   href="editproducts.cgi?action=edit&amp;product=
         [%- name FILTER url_quote %][% classification_url_part %]">
@@ -70,15 +70,15 @@
 
 [%# Edit other products (in a classification if specified): %]
 [% UNLESS no_edit_other_products_link %]
-  Edit <a 
+  Edytuj <a 
   href="editproducts.cgi?
-        [%- classification_url_part_start FILTER none %]">other products
+        [%- classification_url_part_start FILTER none %]">inne produkty 
           [% classification_text %]</a>.
    
 [% END %]
 
 [% IF Param('useclassification') && classification %]
-  Edit classification <a href="editclassifications.cgi?action=edit
+  Edytuj klasyfikację <a href="editclassifications.cgi?action=edit
     [%- classification_url_part %]">'
     [%- classification FILTER html %]'</a>.
 
