@@ -117,7 +117,7 @@
 
   [% IF !Param("allowbugdeletion") %]
 
-    Niestety ten produkt nadal ma [% bug_count %] 
+    Niestety ten komponent nadal ma [% bug_count %] 
     
     [% PROCESS ODMIEN c=bug_count o1="przypisany $terms.blad"
         o2="przypisane $terms.bledy" o3="przypisanych $terms.bledow" %]
@@ -142,7 +142,7 @@
           o2="przypisane $terms.bledy!" o3="przypisanych $terms.bledow!" %]
         
       Jeśli skasujesz ten komponent, <b><blink>WSZYSTKIE</blink></b> 
-      [% terms.bledy %] oraz cała ich historia również zostaną  usunięte.
+      [% terms.bledy %] oraz cała ich historia również zostanie  usunięta.
       </td></tr></table>
 
   [% END %]
