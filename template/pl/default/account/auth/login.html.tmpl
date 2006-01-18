@@ -1,0 +1,133 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #                 Toms Baugis <toms@myrealbox.com>
+  #%]
+
+[%# INTERFACE:
+  # target: string. URL to go to after login.
+  # has_db: true if DB is one of the available authentication mechanisms
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% PROCESS global/header.html.tmpl
+  title = "Logowanie do $terms.Bugzilli",
+  onload = "document.forms['login'].Bugzilla_login.focus()"
+%]
+
+<p>
+  Do poprawnego działania wymagany jest prawidłowy identyfikator użytkownika i hasło.
+</p>
+
+<form name="login" action="[% target FILTER html %]" method="POST">
+  <table>
+    <tr>
+      <td align="right">
+        <b>Identyfikator:</b>
+      </td>
+      <td>
+        <input size="35" name="Bugzilla_login">
+      </td>
+    </tr>
+    <tr>
+      <td align="right">
+        <b>Hasło:</b>
+      </td>
+      <td>
+        <input type="password" size="35" name="Bugzilla_password">
+      </td>
+    </tr>
+
+    [% IF Param('rememberlogin') == 'defaulton' || 
+          Param('rememberlogin') == 'defaultoff' %]
+      <tr>
+        <td>&nbsp;</td>
+        <td>
+          <input type="checkbox" name="Bugzilla_remember" value="on"
+                 [% "checked" IF Param('rememberlogin') == "defaulton" %]>
+          Zapamiętaj mnie
+        </td>
+      </tr>
+    [% END %]
+
+    [% IF Param('loginnetmask') < 32 %]
+      <tr>
+        <td align="right">
+          <b>
+             Ogranicz sesję<br>
+             do tego adresu IP:
+          </b>
+        </td>
+        <td>
+          <input type="checkbox" name="Bugzilla_restrictlogin"
+                 checked="checked">
+          (Użycie tej opcji zwiększa bezpieczeństwo)
+        </td>
+      </tr>
+    [% END %]
+  </table>
+
+  [% PROCESS "global/hidden-fields.html.tmpl"
+     exclude="^Bugzilla_(login|password|restrictlogin)$" %]
+     
+  <input type="submit" name="GoAheadAndLogIn" value="Zaloguj">
+  <p>
+    (Uwaga: Upewnij się że "ciasteczka" są włączone dla tej witryny.
+    W przeciwnym wypadku często będziesz proszony o ponowne zalogowanie się.)
+  </p>
+</form>
+
+[%# Allow the user to create a new account, or request a token to change
+  # their password, assuming that our auth method allows that.
+  #%]
+
+[% IF caneditaccount %]
+
+  [% IF Param("createemailregexp") %]
+    <hr>
+
+    <p>
+      Jeśli nie posiadasz konta [% terms.Bugzilli %], możesz
+      <a href="createaccount.cgi">utworzyć nowe konto</a>.
+    </p>
+  [% END %]
+
+  [%# For now, password change requests only apply to the DB
+    # verification method #%]
+
+  [% IF has_db != 0 %]
+    <hr>
+
+    <a name="forgot"></a>
+    <form method="get" action="token.cgi">
+      <input type="hidden" name="a" value="reqpw">
+      Jeśli posiadasz już konto, do którego zapomniałeś hasła, możesz
+      wysłać  prośbę o zmianę hasła (wpisz identyfikator użytkownika
+      i kliknij na przycisk).<br>
+      <input size="35" name="loginname">
+      <input type="submit" value="Wyślij prośbę">
+    </form>
+
+  [% END %]
+
+  <hr>
+[% END %]
+
+[% PROCESS global/footer.html.tmpl %]

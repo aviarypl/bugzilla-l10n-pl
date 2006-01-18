@@ -1,0 +1,566 @@
+[%# 1.0@mozilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #                 Christine Begle <cbegle@mozilla.org>
+  #%]
+
+[%# INTERFACE:
+  # This template has the same interface as create.html.tmpl
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% USE Bugzilla %]
+[% cgi = Bugzilla.cgi %]
+
+[% PROCESS global/header.html.tmpl
+   title = "Utwórz nowy raport o $terms.bledzie"
+   onload = "PutDescription()"
+ %]
+
+<p>
+  <font color="red">
+    This is a template used on mozilla.org.  This template, and the
+    comment-guided.txt.tmpl template that formats the data submitted via 
+    the form in this template, are included as a demo of what it's
+    possible to do with custom templates in general, and custom [% terms.bug %]
+    entry templates in particular. As much of the text will not apply, 
+    you should alter it 
+    if you want to use this form on your [% terms.Bugzilla %] installation.
+  </font>
+</p>
+
+[% tablecolour = "#FFFFCC" %]
+
+[%# This script displays the descriptions for selected components. %]
+<script type="text/javascript">
+var descriptions = [
+[% FOREACH c = component_ %]
+  '[% c.description FILTER js %]',
+[% END %]
+];
+
+function PutDescription() {
+    if ((document.getElementById) && (document.body.innerHTML)) {
+        var componentIndex = document.getElementById('component').selectedIndex;
+        if (componentIndex != -1) {
+            var description = document.getElementById('description');
+            description.innerHTML = descriptions[componentIndex];
+        }
+    }
+}
+</script>
+
+[%# Browser sniff to try and reduce the incidence of Netscape 6/7 bugs %]
+
+[% IF cgi.user_agent('Netscape(\d)') %]
+  [% matches = cgi.user_agent().match('Netscape(\d)') %]
+  <div style="background-color: lightgrey;
+              border: 1px solid black;
+              padding: 2px">
+    <font color="#990000">
+      <b>
+        Używasz Netscape [% matches.0 %].
+        [% terms.Bledy %] dotyczące tej przeglądarki możesz zgłosić w
+        <a href="http://home.netscape.com/browsers/[% matches.0 %]/feedback/index.html">
+         Netscape [% matches.0 %] Feedback Center.</a>
+      </b>
+    </font>
+    Ten formularz służy wyłącznie do zgłaszania [% terms.bledow %] w przeglądarce
+    Mozilli oraz w innych produktach oferowanych przez mozilla.org. Aby w tym
+    formularzu zgłosić [% terms.blad %] który znalazłeś w Netscape [% matches.0 %],
+    musisz najpierw sprawdzić czy występuje on w którejś z aktualnych wersji
+    <a href="http://ftp.mozilla.org/pub/mozilla.org/mozilla/nightly/latest/">Mozilli</a>,
+    <a href="http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-trunk/">Firefoxa</a> lub
+    <a href="http://ftp.mozilla.org/pub/mozilla.org/camino/nightly/latest/">Camino</a>.
+  </div>
+[% END %]
+
+<p>
+  Ten formularz zbiera informacje wymagane do stworzenia wartościowego
+  raportu o [% terms.bledzie %] (lub propozycji). Być może jest on nieco długi,
+  lecz zawiera on wszystkie informacje wymagane przez programistę by zrozumieć
+  [% terms.blad %] i sprawdzić jego występowanie, które to kroki są zawsze wymagane przy
+  naprawie [% terms.bledu %]. Proszę zauważyć że <strong>raporty o [% terms.bledach %]
+  nie są przyjmowane poprzez pocztę elektroniczną</strong> - prosimy nie wysyłać listów
+  do programistów i członków mozilla.org z raportami o [% terms.bledach %].
+  <font color="red">Prosimy również, o niezgłaszanie [% terms.bledow %] o
+  przeglądarce/programie pocztowym starszym niż dwa tygodnie - najpierw ściągnij
+  nową wersję
+  <a href="http://ftp.mozilla.org/pub/mozilla.org/mozilla/nightly/latest/">Mozilli</a>,
+  <a href="http://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-trunk/">Firefoxa</a>,
+  <a href="http://ftp.mozilla.org/pub/mozilla.org/camino/nightly/latest/">Camino</a>
+  lub  
+  <a href="http://ftp.mozilla.org/pub/mozilla.org/thunderbird/nightly/">Thunderbirda</a>
+  i sprawdź czy problem nadal występuje.
+  </font>
+</p>
+
+<a name="step1"></a>
+<h3>Krok 1. - poszukaj swojego [% terms.bledu %]</h3>
+
+<p>
+  Proszę sprawdzić czy Twój [% terms.blad %] nie został już zgłoszony wcześniej.
+  <font color="red">Prosimy o niepomijanie tego kroku.</font>
+  Około 50% wszystkich raportów o [% terms.bledach %] zgłoszonych w 
+  [%+ terms.Bugzilli %] to duplikaty istniejących już raportów.
+  Fakt ten w znacznym stopniu marnuje czas osób odpowiedzialnych za QA.
+</p>
+
+[%# Include other products if sensible %]
+[% IF product == "Firefox" %]
+  [% productstring = "product=Mozilla%20Application%20Suite&amp;product=Firefox" %]
+[% ELSIF product == "Thunderbird" %]
+  [% productstring = "product=Mozilla%20Application%20Suite&amp;product=Thunderbird" %]
+[% ELSE %]
+  [% productstring = BLOCK %]product=[% product FILTER url_quote %][% END %]
+[% END %]
+
+<p>
+    <a href="duplicates.cgi?[% productstring %]&format=simple" target="somebugs">Sto najczęściej zgłaszanych</a> (początkowo wczytane) |
+    <a href="duplicates.cgi?[% productstring %]&format=simple&sortby=delta&reverse=1&maxrows=100&changedsince=14" target="somebugs">Najczęstsze z dwóch ostatnich tygodni</a>  
+</p>
+
+<iframe name="somebugs" width="100%" height="80%"
+  style="border: 2px black solid"
+  src="duplicates.cgi?[% productstring %]&format=simple">
+</iframe>
+
+<p>
+    Jeśli nie znajdziesz tam opisu swojego problemu, spróbuj wpisać w poniższe
+    okienko dwa lub trzy słowa opisujące Twój [% terms.blad %]. Przykładowo
+    może to być: <tt><b>pop3 mail</b></tt> lub <tt><b>kopiuj wklej</b></tt>.
+    Wyniki zostaną wyśweitlone w powyższym okienku.
+  </p>
+
+[%# All bugs opened inside the past six months %]
+  <form action="buglist.cgi" method="get" target="somebugs">
+    <input type="hidden" name="format" value="simple">
+    <input type="hidden" name="order" value="relevance desc">
+    <input type="hidden" name="bug_status" value="__all__">
+    <input type="hidden" name="product" value="[% product FILTER html %]">
+    [% IF product == "Firefox" OR 
+          product == "Thunderbird" OR 
+          product == "Mozilla Application Suite" OR
+          product == "Camino" %]
+      <input type="hidden" name="product" value="Core">
+      <input type="hidden" name="product" value="Toolkit">
+      <input type="hidden" name="product" value="PSM">
+      <input type="hidden" name="product" value="NSPR">
+      <input type="hidden" name="product" value="NSS">
+    [% END %]      
+    <input type="hidden" name="chfieldfrom" value="-6m">
+    <input type="hidden" name="chfieldto" value="Now">
+    <input type="hidden" name="chfield" value="[Bug creation]">
+    <input type="text" name="content" size="40">
+    <input type="submit" value="Szukaj">
+  </form>
+
+  <iframe name="somebugs" width="100%" height="80%"
+    style="border: 2px black solid"
+    src="duplicates.cgi?product=[% product FILTER uri %]&format=simple">
+  </iframe>
+[% END %]
+
+<p>
+  Przejrzyj wyniki wyszukiwania. Jeśli otrzymasz
+  <tt><b>[% terms.zeroSearchResults %]</b></tt>, [% terms.Bugzilla %] nie
+  znalazła [% terms.bledow %] pasujących do Twojego zapytania.
+  Sprawdź czy nie zrobiłeś jakiejś literówki, lub spróbuj z innymi słowami.
+</p>
+
+<p>
+  Jeśli znalazłeś [% terms.blad %] który wygląda tak jak Twój, możesz
+  dodać do niego komentarz, lecz nie twórz nowego raportu. Prosimy również
+  o niedodawanie komentarzy takich jak "naprawcie ten [% terms.blad %]" -
+  to może tylko spowodować że osóby odpowiedzialne za ten ten [% terms.blad %] 
+  zdenerwują i zwykle zamiast przyśpieszyć, zwalnia to tempo naprawy.
+</p>
+
+<p>
+  Jeśli znalazłeś [% terms.blad %] podobny do Twojego, przeczytaj go i zanotuj
+  komponent dla którego go zgłoszono. Powinieneś swój [% terms.blad %] dodać
+  do tego samego komponentu.
+</p>
+
+
+<a name="step2"></a>
+<h3>Krok 2. - podawanie informacji</h3>
+
+<p>
+  Jeśli jesteś w pełni przeświadczony że Twojego [% terms.bledu %] nie zgłoszono
+  wcześniej, wypełnij ten formularz tak szczegółowo jak to tylko możliwe. Im więcej
+  informacji przekażesz, tym większa szansa że zostanie on zrozumiany i uda się
+  sprawdzić jego występowania zainteresowanym osobom.
+</p>
+
+<form method="post" action="post_bug.cgi">
+  <input type="hidden" name="format" value="guided">
+  <input type="hidden" name="assigned_to" value="">
+  <input type="hidden" name="priority"
+         value="[% default.priority FILTER html %]">
+  <input type="hidden" name="version"
+         value="[% default.version FILTER html %]">
+
+<table valign="top" cellpadding="5" cellspacing="5" border="0">
+
+  <tr bgcolor="[% tablecolour %]">
+    <td align="right" valign="middle">
+      <b>Produkt</b>
+    </td>
+    <td valign="top">
+      <input type="hidden" name="product" value="[% product FILTER html %]">
+      [% product FILTER html %]
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="middle">
+      <b>Komponent</b>
+    </td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td valign="top">
+            <select name="component" id="component"
+                    size="5" onchange="PutDescription()">
+              [% FOREACH c = component_ %]
+                <option value="[% c.name FILTER html %]"
+                  [% " selected=\"selected\"" IF c == default.component_ %]>
+                  [% c.name FILTER html %]
+                </option>
+              [% END %]
+            </select>
+          </td>
+          <td valign="top" width="100%">
+              <div id="description" style="color: green; margin-left: 10px;
+                                           height: 5em; overflow: auto;">
+                <script type="text/javascript">
+                  if ((document.getElementById) && (document.body.innerHTML)) {
+                    document.write("\
+                    Wybierz komponent żeby zobaczyć jego opis.");
+                  }
+                </script>
+              </div>
+          </td>
+        </tr>
+      </table>
+      <p>
+        Określa obszar występowania problemu.
+        Aby wybrać poprawny komponent, użyj tego, który był
+        używany przez podobne [% terms.bledy %] uzyskane w wyniku
+        wyszukiwania, lub przejrzyj pełną listę 
+        <a href="describecomponents.cgi?product=
+            [% product FILTER url_quote %]">dostępnych komponentów</a>
+        jeśli potrzebujesz dodatkowych informacji.
+      </p>
+    </td>
+  </tr>
+
+  [%# We override rep_platform and op_sys for simplicity. The values chosen
+      are based on which are most common in the b.m.o database %]
+  [% rep_platform = [ "PC", "Macintosh", "All", "Other" ] %]
+
+  <tr bgcolor="[% tablecolour %]">
+    <td align="right" valign="middle">
+      <b>Platforma sprzętowa</b>
+    </td>
+    <td valign="top">
+      [% PROCESS select sel = 'rep_platform' %]
+    </td>
+  </tr>
+
+  [% op_sys = [ "Windows 98", "Windows NT", "Windows 2000", "Windows XP",
+                "Mac System 9.x", "MacOS X",
+                "Linux", "All", "other" ] %]
+
+  <tr>
+    <td align="right" valign="middle">
+      <b>System operacyjny</b>
+    </td>
+    <td valign="top">
+      [% PROCESS select sel = 'op_sys' %]
+    </td>
+  </tr>
+
+  [% matches = cgi.user_agent('Gecko/(\d+)') %]
+  [% buildid = cgi.user_agent() IF matches %]
+
+  <tr bgcolor="[% tablecolour %]">
+    <td align="right" valign="middle">
+      <b>Identyfikator wersji przeglądarki<br>(User Agent)</b>
+    </td>
+    <td valign="top">
+      <input type="text" size="80" name="buildid" value="[% buildid %]">
+      <p>
+        Jeśli zgłaszasz [% terms.blad %] w Mozilli,
+        ta linia zaczynająca się od <tt>"Mozilla/5.0"</tt> jest identyczna z
+        tym co jest wyświetlane w <tt>Pomoc | O Mozilli</tt>.
+        Jednoznacznie identyfikuje ona wersję Mozilli używaną przez Ciebie.
+        Jeśli zaobserwowałeś problem na tej konkretnej kopii Mozilli, informacja ta
+        jest poprawna i nie musisz jej zmieniać. Jeśli sprawiająca problemy Mozilla nie
+        uruchamia się, wpisz tutaj URL z którego ją ściągnąłeś.
+      </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      <b>URL</b>
+    </td>
+    <td valign="top">
+      <input type="text" size="80" name="bug_file_loc" value="http://">
+      <p>
+        URL strony która pokazuje problem (opcjonalne).
+        <b>UWAGA</b>: Jeśli zgłaszasz [% terms.blad %] dotyczący wadliwego działania
+        jakiejś strony, proszę zapoznać się z 
+        <a href="http://www.mozilla.org/docs/web-developer/faq.html">Mozilla
+        Web Developer FAQ</a>, który wyjaśnia jak radzić sobie ze starymi i źle
+        napisanymi stronami.
+      </p>
+   </td>
+  </tr>
+
+  <tr bgcolor="[% tablecolour %]">
+    <td align="right" valign="middle">
+      <b>Podsumowanie</b>
+    </td>
+    <td valign="top">
+      <input type="text" size="80" name="short_desc" id="short_desc">
+      <p>
+        Krótki tekst wyjaśniający problem.
+        Powinien być opisowy i zawierać sporą ilości słów kluczowych.
+      </p>
+      <p>
+        <tt>
+          <font color="#990000">Zły przykład</font>: program pocztowy nawalił
+        </tt>
+        <br>
+        <tt>
+          <font color="#009900">Dobry przykład</font>:
+          crash podczas zamykania okno programu pocztowego gdy jest
+          sprawdzana poczta przy użyciu POP3
+        </tt>
+      </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="middle">
+      <b>Detale</b>
+    </td>
+    <td valign="top">
+      <textarea rows="6" cols="80" name="comment"></textarea>
+      <p>
+        Dodatkowe informacje do tego co zawarto w podsumowaniu. Powinny być tak
+        szczegółowe jak to tylko możliwe.
+      </p>
+      <p>
+        <tt>
+          <font color="#990000">Zły przykład</font>: Ta strona wygląda strasznie
+          w Mozilli. Inne przeglądarki wyświetlają ją prawidłowo!
+        </tt>
+        <br>
+        <tt>
+          <font color="#009900">Good example</font>: Na pierwszej stronie
+          http://www.foo.com/, tekst w pierwszej kolumnie powinien być
+          w pełni wyjustowany -- tekst powinien przylegać i do lewej jak i
+          prawej krawędzi. W Mozilli tekst jest przyciągany wyłącznie do
+          lewej krawędzi.
+        </tt>
+      </p>
+    </td>
+  </tr>
+
+  <tr bgcolor="[% tablecolour %]">
+    <td align="right" valign="middle">
+      <b>Powtarzalność</b>
+    </td>
+    <td valign="top">
+      <p>
+        Jak często udaje Ci się powtórzyć ten błąd?
+      </p>
+      <select name="reproducible">
+        <option name="AlwaysReproducible" value="Zawsze">
+          Za każdym razem.
+        </option>
+        <option name="Sometimes" value="Czasami">
+          Czasami, lecz nie zawsze.
+        </option>
+        <option name="DidntTry" value="Nie próbowałem">
+          Nie próbowałem powtórzyć.
+        </option>
+        <option name="NotReproducible" value="Nie udało się powtórzyć">
+          Próbowałem powtórzyć lecz nie udało się.
+        </option>
+      </select>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="middle">
+      <b>Kroki aby powtórzyć</b>
+    </td>
+    <td valign="top">
+<textarea rows="4" cols="80" name="reproduce_steps">
+1.
+2.
+3.
+</textarea>
+      <p>
+        Opisz tutaj w jaki kroki należy wykonać, aby powtórzyć ten problem.
+        Podaj również wszelkie przygotowawcze czynności.
+      </p>
+    </td>
+  </tr>
+
+  <tr bgcolor="[% tablecolour %]">
+    <td valign="middle" align="right">
+      <b>Otrzymany rezultat</b>
+    </td>
+    <td valign="top">
+      <textarea rows="4" cols="80" name="actual_results"></textarea>
+      <p>
+        Co uzyskałeś po wykonaniu powyższych czynności?
+      </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="middle" align="right">
+      <b>Oczekiwane rezultaty</b>
+    </td>
+    <td valign="top">
+      <textarea rows="4" cols="80" name="expected_results"></textarea>
+      <p>
+        Co powinieneś otrzymać w wyniku tych czynności?
+      </p>
+    </td>
+  </tr>
+
+  <tr bgcolor="[% tablecolour %]">
+    <td valign="middle" align="right">
+      <b>Dodatkowe informacje</b>
+    </td>
+    <td valign="top">
+      <textarea rows="8" cols="80" name="additional_info"></textarea>
+      <p>
+        Umieść tutaj wszelkie dodatkowe dane, które Twoim zdaniem są związane
+        z zaobserwowanym [% terms.bledem %], przykładowo może to być używany
+        <b>motyw</b> (czy [% terms.blad %] występuje z domyślnym motywem?),
+        <b>identyfikator awarii Talkbacka</b>, lub specjalne informacje na
+        temat <b>konfiguracji Twojego komputera</b>. Wszelkie informacje dłuższe
+        niż kilka linii, takie jak <b>zrzut stosu</b> lub <b>przykład w HTMLu</b>,
+        powinien zostać dodany przy użyciu odnośnika "Utwórz nowy załącznik" ze
+        strony [% terms.bledu %], już po wypełnieniu raportu. Jeśli uważasz że 
+        informacje o opcjach użytych przy budowie Twojego pakietu są istotne,
+        możesz je dodać używając danych pochodzących ze strony <tt>about:buildconfig</tt>.
+        <br>
+        <br>
+        Jeśli raportujesz awarię krytyczną, staraj się podać moduł w którym się to
+        zdarzyło (np. <tt>Application Violation w gkhtml.dll</tt>).
+      </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top" align="right">
+      <b>Waga [% terms.bledu %]</b>
+    </td>
+    <td valign="top">
+      <select name="bug_severity">
+        <option name="critical" value="critical">
+          Krytyczny: Krytyczna awaria, zawieszenie programu lub inny problem prowadzący
+          do utraty danych.
+        </option>
+        <option name="major" value="major">
+          Ważny: Braki w poważnej funkcjonalności.
+        </option>
+        <option name="normal" value="normal" selected="selected">
+          Normalny: [% terms.Blad %] który powinien być naprawiony.
+        </option>
+        <option name="minor" value="minor">
+          Drobny: Pomniejsze braki funkcjonalności, lub takie na dla których istnieją
+          łatwe sposoby ominięcia.
+        </option>
+        <option name="trivial" value="trivial">
+          Trywialne: Kosmetyczne problemy, takie jak literówka lub źle ułożony tekst.
+        </option>
+        <option name="enhancement" value="enhancement">
+          Propozycja: Prośba o nową funkcjonalność.
+        </option>
+      </select>
+      <p>
+        Say how serious the problem is, or if your [% terms.bug %] is a 
+        request for a new feature.
+      </p>
+    </td>
+  </tr>
+</table>
+
+
+<a name="step3"></a>
+<h3>Krok 3. - wysyłanie raportu o [% terms.bledzie %]</h3>
+
+<p>
+  <input type="submit" value="    Wyślij raport o [% terms.bledzie %]    "
+   onclick="if (this.form.comment.value == '')
+   { alert('Proszę podać trochę informacji o swoim [% terms.bledzie %].');
+     this.form.comment.focus();
+     return false; } return true;">
+</p>
+
+<p>
+  To wszystko! Dziękujemy bardzo. Zostaniesz poinformowany o wszelkich postępach
+  przy rozwiązywania tego [% terms.bledu %] przy użyciu poczty elektronicznej.
+
+<p>  
+  Please be warned
+  that we get a lot of [% terms.bug %] reports filed - it may take quite a 
+  while to get around to yours. You can help the process by making sure your 
+  [%+ terms.bug %] is
+  complete and easy to understand, and by quickly replying to any questions
+  which may arrive by email.
+</p>
+
+    </form>
+
+[% PROCESS global/footer.html.tmpl %]
+
+[%############################################################################%]
+[%# Block for SELECT fields                                                  #%]
+[%############################################################################%]
+
+[% BLOCK select %]
+  [%- transTable = selectTransTable.$sel -%]
+
+  <select name="[% sel %]">
+    [%- IF default.$sel %]
+      <option value="[% default.$sel FILTER html %]" selected="selected">
+        [% (transTable.${default.$sel} || default.$sel ) FILTER html -%]
+      </option>
+    [% END %]
+    [%- FOREACH x = $sel %]
+      [% NEXT IF x == default.$sel %]
+      <option value="[% x FILTER html %]">
+        [%- (transTable.$x || x) FILTER html -%]
+      </option>
+    [%- END %]
+  </select>
+[% END %]

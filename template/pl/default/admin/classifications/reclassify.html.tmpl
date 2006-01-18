@@ -1,0 +1,84 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Albert Ting <alt@sonic.net>
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = "Zmiana klasyfikacji produktów"
+%]
+
+[% main_classification = classification %]
+
+<form method=post action="editclassifications.cgi">
+  <table border=0 cellpadding=4 cellspacing=0>
+    <tr>
+      <td valign="top">Klasyfikacja:</td>
+      <td valign="top" colspan=3>[% main_classification FILTER html %]</td>
+
+    </tr><tr>
+      <td valign="top">Opis:</td>
+      <td valign="top" colspan=3>
+        [% IF description %]
+          [% description %]
+        [% ELSE %]
+          <font color="red">brak opisu</font>
+        [% END %]
+      </td>
+
+    </tr><tr>
+      <td valign="top">Produkty:</td>
+      <td valign="top">Produkty</td>
+      <td></td>
+      <td valign="top">Produkty w [% main_classification FILTER html %]</td>
+
+    </tr><tr>
+      <td></td>
+      <td valign="top">
+      <select name="prodlist" id="prodlist" multiple="multiple" size="20">
+        [% FOREACH cl = class_products %]
+          <option value="[% cl.value FILTER html %]">
+             [% cl.name FILTER html %]
+          </option>
+        [% END %]
+      </select></td>
+
+      <td align="center">
+        <input type=submit value="     Dodaj &gt;&gt;  " name="add_products"><br><br>
+        <input type=submit value="&lt;&lt; Usuń" name="remove_products">
+      </td>
+
+      <td valign="middle" rowspan=2>
+        <select name="myprodlist" id="myprodlist" multiple="multiple" size="20">
+          [% FOREACH product = selected_products %]
+            <option value="[% product FILTER html %]">
+              [% product FILTER html %]
+            </option>
+          [% END %]
+      </select></td>
+    </tr>
+  </table>
+
+  <input type=hidden name="action" value="reclassify">
+  <input type=hidden name="classification" value="[% main_classification FILTER html %]">
+</form>
+
+<p>Wróc do <a href="./">głównej strony</a>
+lub <a href="editclassifications.cgi">edytuj</a> inne klasyfikacje.
+
+[% PROCESS global/footer.html.tmpl %] 

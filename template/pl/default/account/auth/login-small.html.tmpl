@@ -1,0 +1,76 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Jacob Steenhagen <jake@bugzilla.org>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+<form name="login" action="[% cgi.script_name FILTER html %]" method="POST">
+  <table>
+    <tr>
+      <td align="right"><b>Identyfikator:</b></td>
+      <td><input size="20" name="Bugzilla_login"></td>
+    </tr>
+    <tr>
+      <td align="right"><b>Hasło:</b></td>
+      <td><input type="password" size="20" name="Bugzilla_password"></td>
+    </tr>
+
+    [% IF Param('rememberlogin') == 'defaulton' || 
+          Param('rememberlogin') == 'defaultoff' %]
+      <tr>
+        <td>&nbsp;</td>
+        <td>
+          <input type="checkbox" name="Bugzilla_remember" value="on"
+                 [% "checked" IF Param('rememberlogin') == "defaulton" %]>
+          Zapamiętaj mnie
+        </td>
+      </tr>
+    [% END %]
+
+    [% IF Param('loginnetmask') < 32 %]
+      <tr>
+        <td align="right">
+          <b>
+             Ogranicz sesję<br>
+             do tego adresu IP:
+          </b>
+        </td>
+        <td>
+          <input type="checkbox" name="Bugzilla_restrictlogin"
+                 checked="checked">
+          (Użycie tej opcji zwiększa bezpieczeństwo)
+        </td>
+      </tr>
+    [% END %]
+
+    <tr>
+      <td><input type="submit" name="GoAheadAndLogIn" value="Zaloguj"></td>
+
+      [%# For now, password change requests only apply to the DB
+        # verification method #%]
+
+      [% IF has_db != 0 %]
+        <td>[ <a href="index.cgi?GoAheadAndLogIn=1#forgot">Zapomnij moje hasło</a> ]</td>
+      [% END %]
+    </tr>
+  </table>
+
+</form>
+
