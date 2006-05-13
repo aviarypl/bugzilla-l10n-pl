@@ -35,43 +35,45 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = "Set up whining" %]
+[% title = "Ustawienia przypominania" %]
 [% PROCESS global/header.html.tmpl %]
 
 <p>
-  "Whining" is when [% terms.Bugzilla %] executes a saved query at a regular interval
-  and sends the resulting list of [% terms.bugs %] via email.
+  "Przypominanie" w [% terms.Bugzilli %] działa na zasadzie okresowego
+  wykonywania jednego z zapamiętanych wyszukiwań i wysyłania wynikowej listy 
+  [% terms.bledow %] pocztą elektroniczną.
 </p>
 
 <p>
-  To set up a new whine event, click "Add a new event."  Enter a subject line
-  for the message that will be sent, along with a block of text that will
-  accompany the [% terms.bug %] list in the body of the message.
+  Aby zdefiniować nowe zdarzenie, kliknij na "Dodaj nowe zdarzenie".
+  Podaj temat wiadomości oraz treść która wraz z listą [% terms.bledow %] 
+  zostanie umieszczona w ciele wiadomości.
 </p>
 
 <p>
-  Schedules are added to an event by clicking on "Add a new schedule."  A schedule
-  consists of a day, a time of day or interval of times
-  (e.g., every 15 minutes), and a target email address that may or may not be
-  alterable, depending on your privileges.  Events may have more than one schedule
-  in order to run at multiple times or for different users.
+  Harmonogramy są dodawne do zdarzeń, przez kliknięcie na "Dodaje nowy harmonogram." Harmonogram
+  składa się z dnia, godziny lub odcinka czasu
+  (n.p., co 15 minut), oraz docelowego adresu email, który może, lub nie może być zmieniany, 
+  zależnie od Twoich uprawnień. Zdarzenia mogą mieć więcej niż jeden harmonogram,
+  aby mogły być uruchamiane w różnych godzinach, lub przez różnych użytkowników.
 </p>
 
 <p>
-  Queries come from saved searches, which are created by executing a <a
-  href="query.cgi">search</a>, then telling [% terms.Bugzilla %] to remember
-  the search under a particular name.  Add a query by clicking "Add a new
-  query", and select the desired saved search name under "Search" and add a
-  title for the [% terms.bug %] table.  The optional number entered under
-  "Sort" will determine the execution order (lowest to highest) if multiple
-  queries are listed.  If you check "One message per [% terms.bug %]," each [%
-  terms.bug %] that matches the search will be sent in its own email message.
+  Zapytania to zachowane wyniki wyszukiwań, które są tworzone poprzez wywołanie
+  <a href="query.cgi">wyszukiwania</a>, a następnie zapamiętanie wyników wyszukiwania w
+  programie [% terms.Bugzilla %] pod podaną nazwą. Dodaj zapytanie, klikając na
+  "Dodaj nowe zapytanie", wybierając zachowane wyszukiwanie i podając tytuł dla
+  tabeli [% terms.bug %]. Opcjonalne numery wprowadzone do "Sortowania" określą
+  kolejność wykonywania (od najniższej do najwyższej), w sytuacji kiedy będzie istniało
+  wiele zapytań. Jeżeli zaznaczysz "Jeden wiadomość na [% terms.bug %]," każdy [%
+  terms.bug %], który będzie pasował do wyszukiwania zostanie
+  wysłany w osobnym e-mailu.
 </p>
 
 <form method="post" action="editwhines.cgi">
 [%# This hidden submit button must be here to set default behavior when
     the user presses return on a form input field #%]
-<input type="submit" value="Update / Commit" name="commit"
+<input type="submit" value="Aktualizuj / Zatwierdź" name="commit"
        style="visibility: hidden">
 <input type="hidden" name="update" value="1">
 
@@ -81,17 +83,17 @@
        style="border: 1px solid;">
   <tr>
     <th align="left" bgcolor="#FFFFFF" colspan="2">
-      Event: 
+      Zdarzenie: 
     </th>
     <td align="right">
-      <input type="submit" value="Remove Event"
+      <input type="submit" value="Usuń zdarzenie"
              name="remove_event_[% event.key %]">
     </td>
   </tr>
 
   <tr>
     <td valign="top" align="right">
-      Email subject line:
+      Tytuł e-maila:
     </td>
     <td>
       <input type="text" name="event_[% event.key %]_subject"
@@ -102,7 +104,7 @@
 
   <tr>
     <td valign="top" align="right">
-      Descriptive text sent within whine message:
+      Opisowy tekst wysyłany w wiadomości:
     </td>
     <td>
       <textarea name="event_[% event.key %]_body"
@@ -115,11 +117,11 @@
 
     <tr>
       <td valign="top" align="right">
-        Schedule:
+        Harmonogram:
       </td>
       <td align="left" bgcolor="#FFEEEE">
-        Not scheduled to run<br>
-        <input type="submit" value="Add a new schedule"
+        Nie zaplanowano uruchamiania<br>
+        <input type="submit" value="Dodaj nowy harmonogram"
                name="add_schedule_[% event.key %]">
       </td>
     </tr>
@@ -128,18 +130,18 @@
 
     <tr>
       <td valign="top" align="right">
-        Schedule:
+        Harmonogram:
       </td>
       <td align="left" bgcolor="#EEFFEE">
 
         <table>
           <tr>
             <th>
-              Interval
+              Interwał
             </th>
             [% IF mail_others %]
               <th>
-                Mail to
+                Mail do
               </th>
             [% END %]
           </tr>
@@ -164,10 +166,10 @@
                   <select name="mailto_type_[% schedule.id %]">
                     <option value="0" [% IF schedule.mailto_type == 0 %]
                                         selected
-                                      [% END %]>User</option>
+                                      [% END %]>Użytkownik</option>
                     <option value="1" [% IF schedule.mailto_type == 1 %]
                                         selected
-                                      [% END %]>Group</option>
+                                      [% END %]>Grupa</option>
                   </select>
                   <input type="hidden" name="orig_mailto_[% schedule.id %]"
                          value="[% schedule.mailto FILTER html %]">
@@ -176,7 +178,7 @@
                 [% END %]
               </td>
               <td align="left">
-                <input type="submit" value="Remove"
+                <input type="submit" value="Usuń"
                        name="remove_schedule_[% schedule.id %]">
               </td>
             </tr>
@@ -184,7 +186,7 @@
 
         <tr>
           <td>
-            <input type="submit" value="Add a new schedule"
+            <input type="submit" value="Dodaj nowy harmonogram"
                    name="add_schedule_[% event.key %]">
           </td>
         </tr>
@@ -201,14 +203,14 @@
 
     <tr>
       <td valign="top" align="right">
-        Queries:
+        Zapytania:
       </td>
       <td align="left" colspan="1">
-        No queries <br>
-        <input type="submit" value="Add a new query" name="add_query_[% event.key %]">
+        Brak zapytań <br>
+        <input type="submit" value="Dodaj nowe zapytanie" name="add_query_[% event.key %]">
       </td>
       <td align="right" valign="bottom">
-        <input type="submit" value="Update / Commit" name="commit">
+        <input type="submit" value="Aktualizuj / Zatwierdź" name="commit">
       </td>
     </tr>
 
@@ -216,15 +218,15 @@
 
     <tr>
       <td valign="top" align="right">
-        Queries:
+        Zapytania:
       </td>
       <td align="left">
 
         <table>
           <tr>
-            <th>Sort</th>
-            <th>Search</th>
-            <th>Title</th>
+            <th>Kolejność</th>
+            <th>Szukanie</th>
+            <th>Nazwa</th>
           </tr>
 
           [% FOREACH query = event.value.queries %]
@@ -254,10 +256,10 @@
                 <input type="checkbox" [% IF query.onemailperbug == 1 %]
                        checked [% END %]name="query_onemailperbug_
                        [% query.id %]">
-                One message per [% terms.bug %]
+                Jedna wiadomość na [% terms.bug %]
               </td>
               <td align="right">
-                <input type="submit" value="Remove"
+                <input type="submit" value="Usuń"
                        name="remove_query_[% query.id %]">
               </td>
             </tr>
@@ -266,7 +268,7 @@
 
           <tr>
             <td colspan="3">
-              <input type="submit" value="Add a new query"
+              <input type="submit" value="Dodaj nowe zapytanie"
                      name="add_query_[% event.key %]">
             </td>
           </tr>
@@ -275,7 +277,7 @@
 
       </td>
       <td align="right" valign="bottom">
-        <input type="submit" value="Update / Commit" name="commit">
+        <input type="submit" value="Aktualizuj / Zatwierdź" name="commit">
       </td>
     </tr>
 
@@ -286,7 +288,7 @@
 [% END %]
 
 <p align="left">
-  <input type="submit" value="Add a new event" name="add_event">
+  <input type="submit" value="Dodaj nowe zdarzenie" name="add_event">
 </p>
 
 </form>
@@ -306,7 +308,7 @@
     </select>
 
   [% ELSE %]
-    Please visit the <a href="query.cgi">Search</a> page and save a query
+    Przejdź do strony <a href="query.cgi">Szukaj</a> i zapisz zapytanie
   [% END %]
 
 [%+ END %]
@@ -315,47 +317,47 @@
   <select name="day_[% schedule.id %]">
       [%
         options = [
-            ['All',  'Each day',                 ],
-            ['MF',   'Monday through Friday',    ],
-            ['Sun',  'Sunday',                   ],
-            ['Mon',  'Monday',                   ],
-            ['Tue',  'Tuesday',                  ],
-            ['Wed',  'Wednesday',                ],
-            ['Thu',  'Thursday',                 ],
-            ['Fri',  'Friday',                   ],
-            ['Sat',  'Saturday',                 ],
-            ['1',    'On the 1st of the month',  ],
-            ['2',    'On the 2nd of the month',  ],
-            ['3',    'On the 3rd of the month',  ],
-            ['4',    'On the 4th of the month',  ],
-            ['5',    'On the 5th of the month',  ],
-            ['6',    'On the 6th of the month',  ],
-            ['7',    'On the 7th of the month',  ],
-            ['8',    'On the 8th of the month',  ],
-            ['9',    'On the 9th of the month',  ],
-            ['10',   'On the 10th of the month', ],
-            ['11',   'On the 11th of the month', ],
-            ['12',   'On the 12th of the month', ],
-            ['13',   'On the 13th of the month', ],
-            ['14',   'On the 14th of the month', ],
-            ['15',   'On the 15th of the month', ],
-            ['16',   'On the 16th of the month', ],
-            ['17',   'On the 17th of the month', ],
-            ['18',   'On the 18th of the month', ],
-            ['19',   'On the 19th of the month', ],
-            ['20',   'On the 20th of the month', ],
-            ['21',   'On the 21st of the month', ],
-            ['22',   'On the 22nd of the month', ],
-            ['23',   'On the 23rd of the month', ],
-            ['24',   'On the 24th of the month', ],
-            ['25',   'On the 25th of the month', ],
-            ['26',   'On the 26th of the month', ],
-            ['27',   'On the 27th of the month', ],
-            ['28',   'On the 28th of the month', ],
-            ['29',   'On the 29th of the month', ],
-            ['30',   'On the 30th of the month', ],
-            ['31',   'On the 31st of the month', ],
-            ['last', 'Last day of the month',    ],
+            ['All',  'Każdego dnia',             ],
+            ['MF',   'Poniedziałek do Piątku',   ],
+            ['Sun',  'Niedziela',                ],
+            ['Mon',  'Poniedziałek',             ],
+            ['Tue',  'Wtorek',                   ],
+            ['Wed',  'Środa',                    ],
+            ['Thu',  'Czwartek',                 ],
+            ['Fri',  'Piątek',                   ],
+            ['Sat',  'Sobote',                   ],
+            ['1',    '1 dnia każdego miesiąca',  ],
+            ['2',    '2 dnia każdego miesiąca',  ],
+            ['3',    '3 dnia każdego miesiąca',  ],
+            ['4',    '4 dnia każdego miesiąca',  ],
+            ['5',    '5 dnia każdego miesiąca',  ],
+            ['6',    '6 dnia każdego miesiąca',  ],
+            ['7',    '7 dnia każdego miesiąca',  ],
+            ['8',    '8 dnia każdego miesiąca',  ],
+            ['9',    '9 dnia każdego miesiąca',  ],
+            ['10',   '10 dnia każdego miesiąca', ],
+            ['11',   '11 dnia każdego miesiąca', ],
+            ['12',   '12 dnia każdego miesiąca', ],
+            ['13',   '13 dnia każdego miesiąca', ],
+            ['14',   '14 dnia każdego miesiąca', ],
+            ['15',   '15 dnia każdego miesiąca', ],
+            ['16',   '16 dnia każdego miesiąca', ],
+            ['17',   '17 dnia każdego miesiąca', ],
+            ['18',   '18 dnia każdego miesiąca', ],
+            ['19',   '19 dnia każdego miesiąca', ],
+            ['20',   '20 dnia każdego miesiąca', ],
+            ['21',   '21 dnia każdego miesiąca', ],
+            ['22',   '22 dnia każdego miesiąca', ],
+            ['23',   '23 dnia każdego miesiąca', ],
+            ['24',   '24 dnia każdego miesiąca', ],
+            ['25',   '25 dnia każdego miesiąca', ],
+            ['26',   '26 dnia każdego miesiąca', ],
+            ['27',   '27 dnia każdego miesiąca', ],
+            ['28',   '28 dnia każdego miesiąca', ],
+            ['29',   '29 dnia każdego miesiąca', ],
+            ['30',   '30 dnia każdego miesiąca', ],
+            ['31',   '31 dnia każdego miesiąca', ],
+            ['last', 'Ostatniego dnia każdego miesiąca',    ],
         ]
       %]
 
@@ -374,33 +376,33 @@
 
   [%
     options = [
-        [ '0',     'at midnight',      ],
-        [ '1',     'at 01:00',         ],
-        [ '2',     'at 02:00',         ],
-        [ '3',     'at 03:00',         ],
-        [ '4',     'at 04:00',         ],
-        [ '5',     'at 05:00',         ],
-        [ '6',     'at 06:00',         ],
-        [ '7',     'at 07:00',         ],
-        [ '8',     'at 08:00',         ],
-        [ '9',     'at 09:00',         ],
-        [ '10',    'at 10:00',         ],
-        [ '11',    'at 11:00',         ],
-        [ '12',    'at 12:00',         ],
-        [ '13',    'at 13:00',         ],
-        [ '14',    'at 14:00',         ],
-        [ '15',    'at 15:00',         ],
-        [ '16',    'at 16:00',         ],
-        [ '17',    'at 17:00',         ],
-        [ '18',    'at 18:00',         ],
-        [ '19',    'at 19:00',         ],
-        [ '20',    'at 20:00',         ],
-        [ '21',    'at 21:00',         ],
-        [ '22',    'at 22:00',         ],
-        [ '23',    'at 23:00',         ],
-        [ '60min', 'every hour',       ],
-        [ '30min', 'every 30 minutes', ],
-        [ '15min', 'every 15 minutes', ],
+        [ '0',     'o połnocy',      ],
+        [ '1',     'o 01:00',         ],
+        [ '2',     'o 02:00',         ],
+        [ '3',     'o 03:00',         ],
+        [ '4',     'o 04:00',         ],
+        [ '5',     'o 05:00',         ],
+        [ '6',     'o 06:00',         ],
+        [ '7',     'o 07:00',         ],
+        [ '8',     'o 08:00',         ],
+        [ '9',     'o 09:00',         ],
+        [ '10',    'o 10:00',         ],
+        [ '11',    'o 11:00',         ],
+        [ '12',    'o 12:00',         ],
+        [ '13',    'o 13:00',         ],
+        [ '14',    'o 14:00',         ],
+        [ '15',    'o 15:00',         ],
+        [ '16',    'o 16:00',         ],
+        [ '17',    'o 17:00',         ],
+        [ '18',    'o 18:00',         ],
+        [ '19',    'o 19:00',         ],
+        [ '20',    'o 20:00',         ],
+        [ '21',    'o 21:00',         ],
+        [ '22',    'o 22:00',         ],
+        [ '23',    'o 23:00',         ],
+        [ '60min', 'co godzinęr',       ],
+        [ '30min', 'co 30 minut', ],
+        [ '15min', 'co 15 minut', ],
     ]
   %]
 
