@@ -1,0 +1,107 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
+  #%]
+
+[%# INTERFACE:
+  # value: string; The field value being deleted.
+  # bug_count: number; The number of bugs that have this field value.
+  # value_count: number; The number of values left for this field, including
+  #              this value.
+  # field: string; The name of the field.
+  #%]
+
+[% title = BLOCK %]Usuwanie wartości '[% value FILTER html %]' z pola
+  '[% field FILTER html %]'[% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+%]
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr bgcolor="#6666FF">
+  <th valign="top" align="left">Pole</th>
+  <th valign="top" align="left">Wartość</th>
+</tr>
+<tr>
+  <td valign="top">Nazwa pola:</td>
+  <td valign="top">[% field FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">Wartość pola:</td>
+  <td valign="top">[% value FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">[% terms.Bledy %]:</td>
+  <td valign="top">
+[% IF bug_count %]
+  <a title="Lista [% terms.bledow %] dla których '[% field FILTER html %]' jest równe '
+            [% value FILTER html %]'"
+     href="buglist.cgi?[% field FILTER url_quote %]=[%- value FILTER url_quote %]">[% bug_count FILTER html %]</a>
+[% ELSE %]
+  Brak
+[% END %]
+  </td>
+</tr>
+</table>
+
+<h2>Potwierdzenie</h2>
+  
+[% IF bug_count %]
+
+    Niestety nadal [% bug_count %] 
+    
+    [% PROCESS ODMIEN c=bug_count o1="$terms.blad używa"
+       o2="$terms.bledy używają" o3="$terms.bledow używa" %]
+    
+    tej wartości pola. Musisz najpierw zmienić wartość pola dla
+    <a title="Lista [% terms.bledow %] dla których '[% field FILTER html %]' jest równe '[% value FILTER html %]'"
+       href="buglist.cgi?[% field FILTER url_quote %]=[%- value FILTER url_quote %]">
+    [% IF bug_count > 1 %]
+       tych [% terms.bledow %] 
+    [% ELSE %]
+       tego [% terms.bledu %]
+    [% END %]
+    </a>
+    na inną, zanim możliwe będzie usunięcie tej wartości.
+
+[% END %]
+
+[% IF value_count == 1 %]
+
+    <p>Niestety, lecz '[% value FILTER html %]' jest jedyną wartością pola
+    '[%- field FILTER html %]', nie może więc być skasowana.</p>
+
+  [% ELSE %]
+
+    [% IF bug_count == 0 %]
+
+      <p>Czy jesteś pewien że chcesz usunąć tą wartość?<p>
+  
+      <form method="post" action="editvalues.cgi">
+        <input type="submit" value="Tak, usuń">
+        <input type="hidden" name="action" value="delete">
+        <input type="hidden" name="field" value="[% field FILTER html %]">
+        <input type="hidden" name="value" value="[% value FILTER html %]">
+      </form>
+
+  [% END %]
+
+[% END %]
+
+[% PROCESS admin/fieldvalues/footer.html.tmpl
+  no_edit_link = 1
+ +%]
+
+[% PROCESS global/footer.html.tmpl %] 

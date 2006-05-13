@@ -1,0 +1,419 @@
+[%# 1.0@bugzilla.org %]
+[%# -*- mode: html -*- %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Erik Stambaugh <erik@dasbistro.com>
+  #%]
+
+[%# INTERFACE:
+  # events: hash, keyed by event_id number.  Values are anonymous hashes of:
+  #     schedule: array of hashes containing schedule info:
+  #         day:    value in day column
+  #         time:   value selected in time column
+  #         mailto_type: 0=user 1=group
+  #         mailto: recipient's id (profile or group)
+  #     queries:  as with schedule, an anonymous array containing hashes of:
+  #         name:  the named query's name
+  #         title: title to be displayed on the results
+  #         sort:  integer that sets execution order on named queries
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% title = "Ustawienia przypominania" %]
+[% PROCESS global/header.html.tmpl %]
+
+<p>
+  "Przypominanie" w [% terms.Bugzilli %] działa na zasadzie okresowego
+  wykonywania jednego z zapamiętanych wyszukiwań i wysyłania wynikowej listy 
+  [% terms.bledow %] pocztą elektroniczną.
+</p>
+
+<p>
+  Aby zdefiniować nowe zdarzenie, kliknij na "Dodaj nowe zdarzenie".
+  Podaj temat wiadomości oraz treść która wraz z listą [% terms.bledow %] 
+  zostanie umieszczona w ciele wiadomości.
+</p>
+
+<p>
+  Harmonogramy są dodawne do zdarzeń, przez kliknięcie na "Dodaje nowy harmonogram." Harmonogram
+  składa się z dnia, godziny lub odcinka czasu
+  (n.p., co 15 minut), oraz docelowego adresu email, który może, lub nie może być zmieniany, 
+  zależnie od Twoich uprawnień. Zdarzenia mogą mieć więcej niż jeden harmonogram,
+  aby mogły być uruchamiane w różnych godzinach, lub przez różnych użytkowników.
+</p>
+
+<p>
+  Zapytania to zachowane wyniki wyszukiwań, które są tworzone poprzez wywołanie
+  <a href="query.cgi">wyszukiwania</a>, a następnie zapamiętanie wyników wyszukiwania w
+  programie [% terms.Bugzilla %] pod podaną nazwą. Dodaj zapytanie, klikając na
+  "Dodaj nowe zapytanie", wybierając zachowane wyszukiwanie i podając tytuł dla
+  tabeli [% terms.bug %]. Opcjonalne numery wprowadzone do "Sortowania" określą
+  kolejność wykonywania (od najniższej do najwyższej), w sytuacji kiedy będzie istniało
+  wiele zapytań. Jeżeli zaznaczysz "Jeden wiadomość na [% terms.bug %]," każdy [%
+  terms.bug %], który będzie pasował do wyszukiwania zostanie
+  wysłany w osobnym e-mailu.
+</p>
+
+<form method="post" action="editwhines.cgi">
+[%# This hidden submit button must be here to set default behavior when
+    the user presses return on a form input field #%]
+<input type="submit" value="Aktualizuj / Zatwierdź" name="commit"
+       style="visibility: hidden">
+<input type="hidden" name="update" value="1">
+
+[% FOREACH event = events %]
+
+<table cellspacing="2px" cellpadding="2px" border="0" width="100%"
+       style="border: 1px solid;">
+  <tr>
+    <th align="left" bgcolor="#FFFFFF" colspan="2">
+      Zdarzenie: 
+    </th>
+    <td align="right">
+      <input type="submit" value="Usuń zdarzenie"
+             name="remove_event_[% event.key %]">
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top" align="right">
+      Tytuł e-maila:
+    </td>
+    <td>
+      <input type="text" name="event_[% event.key %]_subject"
+             size="60" maxlength="128" value="
+             [%- event.value.subject FILTER html %]">
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top" align="right">
+      Opisowy tekst wysyłany w wiadomości:
+    </td>
+    <td>
+      <textarea name="event_[% event.key %]_body"
+                rows="5" cols="80">
+          [% event.value.body FILTER html %]</textarea>
+    </td>
+  </tr>
+
+  [% IF event.value.schedule.size == 0 %]
+
+    <tr>
+      <td valign="top" align="right">
+        Harmonogram:
+      </td>
+      <td align="left" bgcolor="#FFEEEE">
+        Nie zaplanowano uruchamiania<br>
+        <input type="submit" value="Dodaj nowy harmonogram"
+               name="add_schedule_[% event.key %]">
+      </td>
+    </tr>
+
+  [% ELSE %]
+
+    <tr>
+      <td valign="top" align="right">
+        Harmonogram:
+      </td>
+      <td align="left" bgcolor="#EEFFEE">
+
+        <table>
+          <tr>
+            <th>
+              Interwał
+            </th>
+            [% IF mail_others %]
+              <th>
+                Mail do
+              </th>
+            [% END %]
+          </tr>
+          [% FOREACH schedule = event.value.schedule %]
+            <tr>
+              <td align="left">
+
+                [%# these hidden fields allow us to compare old values instead
+                    of reading the database to tell if a field has changed %]
+
+                <input type="hidden" value="[% schedule.day FILTER html %]"
+                       name="orig_day_[% schedule.id %]">
+                <input type="hidden" value="[% schedule.time FILTER html %]"
+                       name="orig_time_[% schedule.id %]">
+                [% PROCESS day_field val=schedule.day %]
+                [% PROCESS time_field val=schedule.time %]
+              </td>
+              <td align="left">
+                [% IF mail_others %]
+                  <input type="hidden" name="orig_mailto_type_[% schedule.id %]"
+                         value="[% schedule.mailto_type FILTER html %]">
+                  <select name="mailto_type_[% schedule.id %]">
+                    <option value="0" [% IF schedule.mailto_type == 0 %]
+                                        selected
+                                      [% END %]>Użytkownik</option>
+                    <option value="1" [% IF schedule.mailto_type == 1 %]
+                                        selected
+                                      [% END %]>Grupa</option>
+                  </select>
+                  <input type="hidden" name="orig_mailto_[% schedule.id %]"
+                         value="[% schedule.mailto FILTER html %]">
+                  <input type="text" name="mailto_[% schedule.id %]"
+                         value="[% schedule.mailto FILTER html %]" size="30">
+                [% END %]
+              </td>
+              <td align="left">
+                <input type="submit" value="Usuń"
+                       name="remove_schedule_[% schedule.id %]">
+              </td>
+            </tr>
+          [% END %]
+
+        <tr>
+          <td>
+            <input type="submit" value="Dodaj nowy harmonogram"
+                   name="add_schedule_[% event.key %]">
+          </td>
+        </tr>
+
+        </table>
+
+      </td>
+
+    </tr>
+
+  [% END %]
+
+  [% IF event.value.queries.size == 0 %]
+
+    <tr>
+      <td valign="top" align="right">
+        Zapytania:
+      </td>
+      <td align="left" colspan="1">
+        Brak zapytań <br>
+        <input type="submit" value="Dodaj nowe zapytanie" name="add_query_[% event.key %]">
+      </td>
+      <td align="right" valign="bottom">
+        <input type="submit" value="Aktualizuj / Zatwierdź" name="commit">
+      </td>
+    </tr>
+
+  [% ELSE %]
+
+    <tr>
+      <td valign="top" align="right">
+        Zapytania:
+      </td>
+      <td align="left">
+
+        <table>
+          <tr>
+            <th>Kolejność</th>
+            <th>Szukanie</th>
+            <th>Nazwa</th>
+          </tr>
+
+          [% FOREACH query = event.value.queries %]
+
+            <tr>
+              <td align="left">
+                <input type="text" name="query_sort_[% query.id %]"
+                       size="3" value="[% query.sort %]">
+                <input type="hidden" value="[% query.sort %]"
+                       name="orig_query_sort_[% query.id %]">
+              </td>
+              <td align="left">
+                <input type="hidden" value="[% query.name FILTER html %]"
+                       name="orig_query_name_[% query.id %]">
+                [% PROCESS query_field thisquery=query.name %]
+              </td>
+              <td align="left">
+                <input type="hidden" value="[% query.title FILTER html %]"
+                       name="orig_query_title_[% query.id %]">
+                <input type="text" name="query_title_[% query.id %]"
+                       size="50" value="[% query.title FILTER html %]"
+                       maxlength="64">
+              </td>
+              <td align="left">
+                <input type="hidden" value="[% query.onemailperbug FILTER html %]"
+                       name="orig_query_onemailperbug_[% query.id %]">
+                <input type="checkbox" [% IF query.onemailperbug == 1 %]
+                       checked [% END %]name="query_onemailperbug_
+                       [% query.id %]">
+                Jedna wiadomość na [% terms.bug %]
+              </td>
+              <td align="right">
+                <input type="submit" value="Usuń"
+                       name="remove_query_[% query.id %]">
+              </td>
+            </tr>
+
+          [% END %]
+
+          <tr>
+            <td colspan="3">
+              <input type="submit" value="Dodaj nowe zapytanie"
+                     name="add_query_[% event.key %]">
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+      <td align="right" valign="bottom">
+        <input type="submit" value="Aktualizuj / Zatwierdź" name="commit">
+      </td>
+    </tr>
+
+  [% END %]
+
+</table>
+
+[% END %]
+
+<p align="left">
+  <input type="submit" value="Dodaj nowe zdarzenie" name="add_event">
+</p>
+
+</form>
+
+[% PROCESS global/footer.html.tmpl %]
+
+[% BLOCK query_field +%]
+
+  [% IF available_queries.size > 0 %]
+
+    <select name="query_name_[% query.id %]">
+      [% FOREACH q = available_queries %]
+        <option [% "selected" IF q == thisquery %] value="[% q FILTER html %]">
+            [% q FILTER html %]
+        </option>
+      [% END %]
+    </select>
+
+  [% ELSE %]
+    Przejdź do strony <a href="query.cgi">Szukaj</a> i zapisz zapytanie
+  [% END %]
+
+[%+ END %]
+
+[% BLOCK day_field +%]
+  <select name="day_[% schedule.id %]">
+      [%
+        options = [
+            ['All',  'Każdego dnia',             ],
+            ['MF',   'Poniedziałek do Piątku',   ],
+            ['Sun',  'Niedziela',                ],
+            ['Mon',  'Poniedziałek',             ],
+            ['Tue',  'Wtorek',                   ],
+            ['Wed',  'Środa',                    ],
+            ['Thu',  'Czwartek',                 ],
+            ['Fri',  'Piątek',                   ],
+            ['Sat',  'Sobote',                   ],
+            ['1',    '1 dnia każdego miesiąca',  ],
+            ['2',    '2 dnia każdego miesiąca',  ],
+            ['3',    '3 dnia każdego miesiąca',  ],
+            ['4',    '4 dnia każdego miesiąca',  ],
+            ['5',    '5 dnia każdego miesiąca',  ],
+            ['6',    '6 dnia każdego miesiąca',  ],
+            ['7',    '7 dnia każdego miesiąca',  ],
+            ['8',    '8 dnia każdego miesiąca',  ],
+            ['9',    '9 dnia każdego miesiąca',  ],
+            ['10',   '10 dnia każdego miesiąca', ],
+            ['11',   '11 dnia każdego miesiąca', ],
+            ['12',   '12 dnia każdego miesiąca', ],
+            ['13',   '13 dnia każdego miesiąca', ],
+            ['14',   '14 dnia każdego miesiąca', ],
+            ['15',   '15 dnia każdego miesiąca', ],
+            ['16',   '16 dnia każdego miesiąca', ],
+            ['17',   '17 dnia każdego miesiąca', ],
+            ['18',   '18 dnia każdego miesiąca', ],
+            ['19',   '19 dnia każdego miesiąca', ],
+            ['20',   '20 dnia każdego miesiąca', ],
+            ['21',   '21 dnia każdego miesiąca', ],
+            ['22',   '22 dnia każdego miesiąca', ],
+            ['23',   '23 dnia każdego miesiąca', ],
+            ['24',   '24 dnia każdego miesiąca', ],
+            ['25',   '25 dnia każdego miesiąca', ],
+            ['26',   '26 dnia każdego miesiąca', ],
+            ['27',   '27 dnia każdego miesiąca', ],
+            ['28',   '28 dnia każdego miesiąca', ],
+            ['29',   '29 dnia każdego miesiąca', ],
+            ['30',   '30 dnia każdego miesiąca', ],
+            ['31',   '31 dnia każdego miesiąca', ],
+            ['last', 'Ostatniego dnia każdego miesiąca',    ],
+        ]
+      %]
+
+      [% FOREACH option = options %]
+        <option value="[% option.0 %]" 
+                [%- IF val == option.0 +%] selected[% END %]>
+                [%- option.1 -%]
+        </option>
+      [% END %]
+
+  </select>
+[%+ END %]
+
+[% BLOCK time_field +%]
+<select name="time_[% schedule.id %]">
+
+  [%
+    options = [
+        [ '0',     'o połnocy',      ],
+        [ '1',     'o 01:00',         ],
+        [ '2',     'o 02:00',         ],
+        [ '3',     'o 03:00',         ],
+        [ '4',     'o 04:00',         ],
+        [ '5',     'o 05:00',         ],
+        [ '6',     'o 06:00',         ],
+        [ '7',     'o 07:00',         ],
+        [ '8',     'o 08:00',         ],
+        [ '9',     'o 09:00',         ],
+        [ '10',    'o 10:00',         ],
+        [ '11',    'o 11:00',         ],
+        [ '12',    'o 12:00',         ],
+        [ '13',    'o 13:00',         ],
+        [ '14',    'o 14:00',         ],
+        [ '15',    'o 15:00',         ],
+        [ '16',    'o 16:00',         ],
+        [ '17',    'o 17:00',         ],
+        [ '18',    'o 18:00',         ],
+        [ '19',    'o 19:00',         ],
+        [ '20',    'o 20:00',         ],
+        [ '21',    'o 21:00',         ],
+        [ '22',    'o 22:00',         ],
+        [ '23',    'o 23:00',         ],
+        [ '60min', 'co godzinęr',       ],
+        [ '30min', 'co 30 minut', ],
+        [ '15min', 'co 15 minut', ],
+    ]
+  %]
+
+      [% FOREACH option = options %]
+        <option value="[% option.0 %]" 
+                [%- IF val == option.0 +%] selected[% END %]>
+                [%- option.1 -%]
+        </option>
+      [% END %]
+
+</select>
+
+[%+ END %]
+

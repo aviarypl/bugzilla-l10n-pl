@@ -1,0 +1,351 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #%]
+
+[%# INTERFACE:
+  # header_done: boolean. True if the header has already been printed.
+  # error: string. The tag of the error.
+  # variables: hash. Useful data about the problem. The keys are the variable
+  #  names, and the values the variable values.
+  #%]
+
+[%# This is a list of all the possible code errors. Please keep them in
+  # alphabetical order by error tag, and leave a blank line between errors.
+  #
+  # Note that you must explicitly filter every single template variable
+  # in this file; if you do not wish to change it, use the "none" filter.
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% DEFAULT title = "Błąd wewnętrzny" %]
+
+[% error_message = BLOCK %]
+  [% IF    error == "action_unrecognized" %]
+    Nie można rozpoznać wartości (<em>[% action FILTER html %]</em>)
+    zmiennej <em>action</em>.
+  
+  [% ELSIF error == "attachment_already_obsolete" %]
+    Załącznik #[% attach_id FILTER html %] ([% description FILTER html %]) 
+    został już oznaczony jako przestarzały.
+
+  [% ELSIF error == "auth_err" %]
+    [% title = "Błąd uwierzytelniania" %]
+    [%# Authentication errors are in a template depending on the auth method,
+        for pluggability.
+      #%] 
+    [% INCLUDE "account/auth/$authmethod-error.html.tmpl" %]
+
+  [% ELSIF error == "authres_unhandled" %]
+    Wartość zwracana przez kod obsługi uwierzytelniania nie została obsłużona 
+    przez procedurę logowania.
+
+  [% ELSIF error == "bad_page_cgi_id" %]
+    [% title = "Invalid Page ID" %]
+    Identyfikator strony <code>[% page_id FILTER html %]</code> nie jest
+    prawidłowym identyfikatorem.
+
+  [% ELSIF error == "bad_arg" %]
+    Nieprawidłowy argument <code>[% argument FILTER html %]</code> został
+    wysłany do funkcji <code>[% function FILTER html %]</code>.
+
+  [% ELSIF error == "bug_error" %]
+    Podczas próby wyświetlenia [% terms.bledu %] #[% bug.bug_id FILTER html %], 
+    wystąpił błąd [% bug.error FILTER html %].
+    
+  [% ELSIF error == "chart_data_not_generated" %]
+    Narzędzie zliczające liczbę [% terms.bledow %] nie zostało jeszcze uruchomione.
+        
+  [% ELSIF error == "chart_datafile_corrupt" %]
+    Plik z danymi wykresów jest uszkodzony.
+        
+  [% ELSIF error == "chart_dir_nonexistent" %]
+    Jeden z katalogów (<tt>[% dir FILTER html %]</tt> lub
+    <tt>[% graphdir FILTER html %]</tt>) nie istnieje.
+  
+  [% ELSIF error == "chart_file_open_fail" %]
+    Nie można otworzyć pliku <tt>[% filename FILTER html %]</tt> z danymi do wykresu.
+  
+  [% ELSIF error == "chart_lines_not_installed" %]
+    Wykresy nie będą wyświetlane do czasu zainstalowania Perlowego modułu
+    Chart::Lines. Uruchom checksetup.pl aby otrzymać instrukcje postępowania.
+
+  [% ELSIF error == "cookies_need_value" %]
+    Wszystkie ciasteczka muszą mieć ustawioną wartość.
+
+  [% ELSIF error == "field_type_mismatch" %]
+    Nie jest możliwe jednoczesne używanie <code>[% field FILTER html %]</code>
+    z <code>[% type FILTER html %]</code>.
+
+  [% ELSIF error == "gd_not_installed" %]
+    Wykresy nie będą wyświetlane do czasu zainstalowania Perlowego modułu GD.
+    Uruchom checksetup.pl aby otrzymać instrukcje postępowania.
+
+  [% ELSIF error == "illegal_content_type_method" %]
+    Twój formularz został uszkodzony podczas wysyłania. Pole <em>content
+    method</em>, które określa sposób w jaki należy wykryć typ zawartości,
+    powinno być jednym z <em>autodetect</em>, <em>list</em>,
+    lub <em>manual</em>. Obecna wartość pola to
+    <em>[% contenttypemethod FILTER html %]</em>.
+
+  [% ELSIF error == "illegal_field" %]
+    Wymagane pole [% field FILTER html %] nie zostało wypełnione.
+
+  [% ELSIF error == "inactive_group" %]
+    Próba dodania [% terms.bledu %] do nieaktywnej grupy, identyfikowanej poprzez
+    '[% bit FILTER html %]'.
+
+  [% ELSIF error == "invalid_attach_id_to_obsolete" %]
+     Numer [% attach_id FILTER html %], podany jako jeden z identyfikatorów
+     załączników do oznaczenia jako przestarzały, jest nieprawidłowy.
+          
+  [% ELSIF error == "invalid_column_name_cookie" %]
+    [% title = "Nieprawidłowa nazwa kolumny" %]
+     Kolejność sortowania opisana w Twoim "ciasteczku" zawiera nieprawidłową
+     nazwę kolumny (<em>[% fragment FILTER html %]</em>).
+     "Ciasteczko" zostało usunięte.
+         
+  [% ELSIF error == "invalid_column_name_form" %]
+    [% title = "Nieprawidłowa nazwa kolumny" %]
+     Kolejność sortowania opisana w Twoim "ciasteczku" zawiera nieprawidłową
+     nazwę kolumny (<em>[% fragment FILTER html %]</em>).
+         
+  [% ELSIF error == "invalid_component" %]
+    [% title = "Nieprawidłowy komponent" %]
+    Komponent [% name FILTER html %] nie jest zdefiniowany w produkcie
+    [% product FILTER html %].
+    
+  [% ELSIF error == "invalid_dimensions" %]
+    [% title = "Nieprawidłowe wymiary" %]
+    Podana wysokość lub szerokość nie jest poprawną dodatnią liczbą całkowitą.
+  [% ELSIF error == "invalid_flag_association" %]
+    [% title = "Nieprawidłowe przypisanie flag" %]
+    Niektóre flagi nie przynależą do
+    [% IF attach_id %]
+      załącznika [% attach_id FILTER html %].
+    [% ELSE %]
+      [%+ terms.bledu %] [%+ bug_id FILTER html %].
+    [% END %]
+
+  [% ELSIF error == "invalid_isactive_flag" %]
+    [% title = "Invalid isactive flag" %]        
+    Flaga 'aktywne' została ustawiona nieprawidłowo. To może oznaczać problem
+    w [% terms.Bugzilli %] lub w Twojej przeglądarce.
+
+  [% ELSIF error == "invalid_series_id" %]
+    [% title = "Nieprawidłowa seria" %]
+    Atrybut series_id [% series_id FILTER html %] jest nieprawidłowy. Możliwe
+    jest że ta seria została usunięta.
+    
+  [% ELSIF error == "mismatched_bug_ids_on_obsolete" %]
+    Załącznik #[% attach_id FILTER html %] ([% description FILTER html %]) 
+    jest dołączony do [% terms.bledu %] #[%+ attach_bug_id FILTER html %], 
+    lecz Ty próbowałeś oznaczyć go jako przestarzały podczas dodawania
+    załącznika do [% terms.bledu %] #[%+ my_bug_id FILTER html %].
+        
+  [% ELSIF error == "flag_nonexistent" %]
+    Flaga o identyfikatorze #[% id FILTER html %] nie istnieje.
+
+  [% ELSIF error == "flags_not_available" %]
+    [% title = "Edycja flag jest niemożliwa" %]
+    [% IF type == "b" %]
+      Flagi nie mogą zostać zmieniony podczas
+      zmiany kilku [% terms.bledow %] równocześnie.
+    [% ELSE %]
+      Odwołanie do istniejącej flagi podczas tworzenia
+      nowych załączników jest niedopuszczalne.
+    [% END %] 
+
+  [% ELSIF error == "flag_requestee_disabled" %]
+    [% title = "Flaga o którą nie można poprosić" %]
+    Nie można prosić o ustawienie flagi <em>[% name FILTER html %]</em>.
+  
+  [% ELSIF error == "flag_status_invalid" %]
+    Status <em>[% status FILTER html %]</em> flagi
+    [% IF id %]
+      o identyfikatorze #[% id FILTER html %]
+    [% END %]
+    jest niepoprawny.
+  
+  [% ELSIF error == "flag_type_component_nonexistent" %]
+    W produkcie <em>[% product FILTER html %]</em> nie istniej
+    komponent <em>[% name FILTER html %]</em>.
+  
+  [% ELSIF error == "flag_type_component_without_product" %]
+    Komponent został wybrany, lecz nie wybrano produktu.
+  
+  [% ELSIF error == "flag_type_id_invalid" %]
+    Identyfikator typu flagi <em>[% id FILTER html %]</em> nie jest
+    dodatnią liczbą całkowitą.
+
+  [% ELSIF error == "flag_type_inactive" %]
+    [% title = "Nieaktywne typy flag" %]
+    Niektóre typy flag są nieaktywne i nie mogą być użyte do tworzenia nowych flag.
+
+  [% ELSIF error == "flag_type_nonexistent" %]
+    Nie istnieje flaga, której identyfikator typu jest równy <em>[% id FILTER html %]</em>.
+  
+  [% ELSIF error == "flag_type_product_nonexistent" %]
+    Produkt <em>[% product FILTER html %]</em> nie istnieje.
+  
+  [% ELSIF error == "flag_type_target_type_invalid" %]
+    Typ elementu nie jest ani <em>[% terms.bledem %]</em>, ani <em>załącznikiem</em>
+    lecz <em>[% target_type FILTER html %]</em>.
+  
+  [% ELSIF error == "invalid_field_name" %]
+    Nie można użyć [% field FILTER html %] jako nazwy pola.
+
+  [% ELSIF error == "invalid_keyword_id" %]
+    Identyfikator słowa kluczowego <em>[% id FILTER html %]</em> nie został znaleziony.
+
+  [% ELSIF error == "invalid_user_id" %]
+    [% title = "Nieprawidłowy identyfikator użytkownika" %]
+    Użytkownik o identyfikatorze <em>[% userid FILTER html %]</em> nie istnieje.
+
+  [% ELSIF error == "missing_bug_id" %]
+    Nie podano identyfikatora [% terms.bledu %].
+    
+  [% ELSIF error == "missing_series_id" %]
+    Przy dodawaniu serii do bazy danych, nie został zwrócony identyfikator serii.
+    Seria: [% series.category FILTER html %] / 
+    [%+ series.subcategory FILTER html %] / 
+    [%+ series.name FILTER html %].
+    
+  [% ELSIF error == "no_y_axis_defined" %]
+    Oś Y nie została zdefiniowana podczas tworzenia raportu. Oś X jest opcjonalna, lecz
+    oś Y musi zostać podana.
+    
+  [% ELSIF error == "need_quipid" %]
+    Wymagany jest poprawny identyfikator sentencji.
+
+  [% ELSIF error == "request_queue_group_invalid" %]
+    Pole grupa <em>[% group FILTER html %]</em> jest nieprawidłowe.
+
+  [% ELSIF error == "report_axis_invalid" %]
+    <em>[% val FILTER html %]</em> nie jest prawidłową wartością dla
+    [%+ IF    fld == "x" %]osi poziomej.
+    [%+ ELSIF fld == "y" %]osi pionowej.
+    [%+ ELSIF fld == "z" %]wielokrotnych tabel/obrazków.
+    [%+ ELSE %]osi raportów.[% END %]
+
+  [% ELSIF error == "setting_info_invalid" %]
+    Utworzenie nowej opcji wymaga podania jej nazwy, listy
+    par wartość/kolejność sortowania, oraz domyślnej wartości.
+
+  [% ELSIF error == "setting_name_invalid" %]
+    Nazwa opcji <em>[% name FILTER html %]</em> nie jest prawidłowa.
+    Musi ona zaczynać się od litery i zawierać wyłącznie
+    litery, cyfry oraz symbole '_', '-', '.' i ':'.
+
+  [% ELSIF error == "setting_value_invalid" %]
+    Wartość "<code>[% value FILTER html %]</code>" nie znajduje się na liście
+    dopuszczalnych wartości opcji <em>[% name FILTER html %]</em>.
+
+  [% ELSIF error == "token_generation_error" %]
+    Wystąpił poważny błąd w systemie generowania żetonów.
+
+  [% ELSIF error == "template_error" %]
+    [% template_error_msg FILTER html %]
+
+  [% ELSIF error == "unable_to_retrieve_password" %]
+     Nie można otrzymać Twojego starego hasła z bazy danych.
+
+  [% ELSIF error == "undefined_field" %]
+    Pole formularza [% field FILTER html %] nie jest zdefiniowane; [% Param('browserbugmessage') %]
+    [%# Useful message if browser did not select show_bug radio button %]
+    [% IF field == "knob" %]
+      Sprawdź czy pole "Pozostaw jako..." zostało zaznaczone
+    [% END %]
+
+  [% ELSIF error == "unknown_action" %]
+    [% IF action %]
+       Nieznana akcja [% action FILTER html %]!
+    [% ELSE %]
+       Nie można stwierdzić co chcesz zrobić.
+    [% END %]
+
+  [% ELSIF error == "nested_transaction" %]
+    Próba rozpoczęcia nowej transakcji bez zakończenia poprzedniej.
+
+  [% ELSIF error == "not_in_transaction" %]
+    Próba zakończenia, nie rozpoczętej wcześniej transakcji.
+
+  [% ELSIF error == "already_locked" %]
+    Próba zablokowania tabeli bez zwolnienia poprzedniej blokady:
+    <p>Tabele aktualnie zablokowane:<br>[% current FILTER html %]
+    <p>Tabele do zablokowania:<br>[% new FILTER html %]
+
+  [% ELSIF error == "no_matching_lock" %]
+    Próba zwolnienia blokady dla niezablokowanych tabel.
+
+  [% ELSIF error == "comma_operator_deprecated" %]
+    [% title = "Błąd wewnętrzny generatora zapytań SQL" %]
+    Wystąpił błąd wewnętrzny generatora zapytań SQL,
+    utworzono zapytanie bez bezpośredniego użycia klauzuli JOIN.
+
+  [% ELSE %]
+    [% title = "Błąd wewnętrzny" %]
+    Wystąpił błąd wewnętrzny, lecz [% terms.Bugzilla %] nie wie
+    co kod błędu <code>[% error FILTER html %]</code> znaczy.
+
+    Jeśli jesteś zwykłym użytkownikiem [% terms.Bugzilli %], proszę zapisać tą stronę
+    i wysłać ją do [% Param('maintainer') %].
+  [% END %]
+[% END %]
+
+[% UNLESS header_done %]
+  [% PROCESS global/header.html.tmpl %]
+[% END %]
+
+<tt>
+  <p>
+    Wystąpił błąd wewnętrzny [% terms.Bugzilli %]. Proszę zapisać tą stroną
+    i wysłać ją do [% Param("maintainer") %] wraz z opisem czynności, które
+    doprowadziły do wystąpienia tego błędu.
+  </p>
+  <script type="text/javascript"> <!--
+    document.write("<p>URL: " + 
+                    document.location.href.replace(/&/g,"&amp;")
+                                          .replace(/</g,"&lt;")
+                                          .replace(/>/g,"&gt;") + "</p>");
+  // -->
+  </script>
+</tt>
+
+<table cellpadding="20">
+  <tr>
+    <td bgcolor="#ff0000">
+      <font size="+2">
+        [% error_message FILTER none %]
+      </font>
+    </td>
+  </tr>
+</table>
+
+[% IF variables %]
+  <pre>
+Variables:
+  [% FOREACH key = variables.keys %]
+    [%+ key FILTER html %]: [%+ variables.$key FILTER html %]
+  [% END %]
+  </pre>
+[% END %]
+
+[% PROCESS global/footer.html.tmpl %]

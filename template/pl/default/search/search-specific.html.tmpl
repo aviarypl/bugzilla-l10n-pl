@@ -1,0 +1,132 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Myk Melez <myk@mozilla.org>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% PROCESS global/header.html.tmpl 
+  title = "Znajdź określony $terms.blad"
+  h1 = ""
+  style = "td.selected_tab {
+             border-width: 2px 2px 0px;
+             border-style: solid; 
+           }
+           td.unselected_tab, td.spacer {
+             border-width: 0px 0px 2px 0px;
+             border-style: solid; 
+           }"
+%]
+
+[% PROCESS search/tabs.html.tmpl %]
+
+<p>
+Znajdź określony [% terms.blad %] podając słowa, które go określają.
+[% terms.Bugzilla %] przeszuka podsumowania, opisy i komentarze [% terms.bledow %] i 
+zwróci listę [% terms.bledow %] spełniającą te warunki, posortowaną według związku
+z pytaniem.
+</p>
+
+<p>
+Przykładowo, jeśli [% terms.blad %] którego szukasz, jest na temat samoczynnego
+wyłączenia przeglądarki na stronie z SSL, zawierającego animację Flash, możesz
+spróbować szukać używając słów "bezpieczeństwo SSL flash".
+</p>
+
+<form method="get" action="buglist.cgi">
+<input type="hidden" name="query_format" value="specific">
+<input type="hidden" name="order" value="relevance desc">
+
+[% statuskw = { "open" => "otwarty",
+                "closed" => "zamknięty",
+                "all" => "dowolny"
+              } %]
+
+<table>
+  <tr>
+    <td align="right" valign="baseline">
+      <b><label for="bug_status">Status:</label></b>
+    </td>
+    <td>
+      <select name="bug_status" id="bug_status">
+        [% statuses = [ { name = 'open', label = "Otwarty" },
+                        { name = 'closed', label = "Zamknięty" },
+                        { name = 'all', label = "Wszystkie" } ] %]
+        [% FOREACH status = statuses %]
+            <option value="__[% status.name %]__" 
+                  [% " selected" IF default.bug_status.0 == "__${status.name}__" %]>
+            [% status.label FILTER html %]
+          </option>
+        [% END %]
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td align="right" valign="baseline">
+      <b><label for="product">Produkt:</label></b>
+    </td>
+    <td>
+      <select name="product" id="product">
+        <option value="">Wszystkie</option>
+        [% IF Param('useclassification') %]
+          [% FOREACH c = classification %]
+            <optgroup label="[% c.name FILTER html %]">
+            [% FOREACH p = c.products %]
+              <option value="[% p FILTER html %]"
+                [% " selected" IF lsearch(default.product, p) != -1 %]>
+                [% p FILTER html %]
+              </option>
+            [% END %]
+            </optgroup>
+          [% END %]
+        [% ELSE %]
+          [% FOREACH p = product %]
+            <option value="[% p.name FILTER html %]"
+              [% " selected" IF lsearch(default.product, p.name) != -1 %]>
+              [% p.name FILTER html %]
+            </option>
+          [% END %]
+        [% END %]
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td align="right" valign="baseline">
+      <b><label for="content">Słowa:</label></b>
+    </td>
+    <td>
+      <input name="content" size="40" id="content"
+             value="[% default.content.0 FILTER html %]">
+      <script type="text/javascript"> <!--
+          document.forms['queryform'].content.focus(); 
+      // -->
+      </script>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      <input type="submit" value="Wyszukaj">
+    </td>
+  </tr>
+</table>
+</form>
+
+[% PROCESS global/footer.html.tmpl %]
+

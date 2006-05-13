@@ -1,0 +1,103 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # Contributor(s): Marc Schumann <wurblzap@gmail.com>
+  #%]
+
+[%# INTERFACE:
+  #
+  # listselectionvalues: selection values to recreate the current user list.
+  # editusers:           is viewing user member of editusers?
+  # users:               list of user information (id, login_name, realname,
+  #                      disabledtext).
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = "Wybór użytkownika"
+  style_urls = ['skins/standard/editusers.css']
+%]
+
+[% PROCESS admin/users/listselectvars.html.tmpl
+  listselectionvalues = listselectionvalues
+%]
+
+[% listselectionurlparams = INCLUDE listselectionurlparams %]
+
+[% columns =
+  [{name               => 'login_name'
+    heading            => 'Edycja użytkownika...'
+    contentlink        => 'editusers.cgi?action=edit&amp;userid=%%userid%%' _
+                          listselectionurlparams
+    allow_html_content => 1
+   }
+   {name               => 'realname'
+    heading            => 'Imię i nazwisko'
+    allow_html_content => 1
+   }
+  ]
+%]
+
+[% IF Param('allowuserdeletion') && editusers %]
+  [% columns.push({heading     => 'Akcja'
+                   content     => 'Usuń'
+                   contentlink => 'editusers.cgi?action=del' _
+                                  '&amp;userid=%%userid%%' _
+                                  listselectionurlparams
+                  }
+                 )
+  %]
+[% END %]
+
+[% FOREACH thisuser = users %]
+  [%# We FILTER html here because we need admin/table.html.tmpl to accept HTML
+    # for styling, so we cannot let admin/table.html.tmpl do the FILTER.
+    #%]
+  [% thisuser.login_name = BLOCK %]
+    [% thisuser.login_name FILTER html %]
+  [% END %]
+  [% IF thisuser.realname %]
+    [% thisuser.realname = BLOCK %]
+      [% thisuser.realname FILTER html %]
+    [% END %]
+  [% ELSE %]
+    [% SET thisuser.realname = '<span style="color: red">brak</span>' %]
+  [% END %]
+  [% IF thisuser.disabledtext %]
+    [% thisuser.login_name = "<span class=\"bz_inactive\">$thisuser.login_name</span>" %]
+    [% thisuser.realname = "<span class=\"bz_inactive\">$thisuser.realname</span>" %]
+  [% END %]
+[% END %]
+
+<p>Znaleziono [% users.size %]
+   [% IF users.size == 1 %]
+     użytkownika
+   [% ELSE %]
+     użytkowników
+   [% END %].</p>
+
+[% PROCESS admin/table.html.tmpl
+  columns = columns
+  data    = users
+%]
+
+<p>
+  Jeśli nie chcesz zmieniać danych żadnego z tych kont, możesz 
+  <a href="editusers.cgi">poszukać innych użytkowników</a>
+  [% IF editusers %]
+    lub
+    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">dodać
+    nowego użytkownika</a>
+  [% END %].
+</p>
+
+[% PROCESS global/footer.html.tmpl %]

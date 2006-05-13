@@ -1,0 +1,101 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #%]
+
+[%# INTERFACE:
+  # name: string; The name of the version
+  #
+  # bug_count: number; The number of bugs targetted at the version
+  #
+  # product: string; The name of the product
+  #
+  #%]
+
+[% title = BLOCK %]Usuwanie wersji produktu '[% product FILTER html %]'
+  [% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+%]
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr bgcolor="#6666FF">
+  <th valign="top" align="left">Pole</th>
+  <th valign="top" align="left">Wartość</th>
+</tr>
+<tr>
+  <td valign="top">Wersja:</td>
+  <td valign="top">[% name FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">Produkt:</td>
+  <td valign="top">[% product FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">[% terms.Bledy %]:</td>
+  <td valign="top">
+[% IF bug_count %]
+  <a title="Lista [% terms.bledow %] używających wersji '
+           [% name FILTER html %]'"
+     href="buglist.cgi?version=[% name FILTER url_quote %]&amp;product=
+          [%- product FILTER url_quote %]">[% bug_count %]</a>
+[% ELSE %]
+  None
+[% END %]
+  </td>
+</tr>
+</table>
+
+<h2>Potwierdzenie</h2>
+  
+[% IF bug_count %]
+
+    Niestety ta wersja jest nadal używana przez [% bug_count %] 
+    
+    [% PROCESS ODMIEN c=bug_count o1="$terms.blad"
+        o2="$terms.bledy" o3="$terms.bledow" %]
+
+    Musisz najpierw zmienić wersję dla
+
+    [% IF bug_count > 1 %]
+       tego [% terms.bledu %] 
+    [% ELSE %]
+       tych [% terms.bladow %]
+    [% END %],
+    
+    zanim możliwe będzie skasowanie tej wersji.
+
+[% ELSE %]
+
+  <p>Czy na pewno chcesz usunąć tą wersję?<p>
+  
+  <form method="post" action="editversions.cgi">
+    <input type="submit" value="Tak, usuń">
+    <input type="hidden" name="action" value="delete">
+    <input type="hidden" name="product" value="[% product FILTER html %]">
+    <input type="hidden" name="version" value="[% name FILTER html %]">
+  </form>
+
+[% END %]
+
+[% PROCESS admin/versions/footer.html.tmpl %]
+
+[% PROCESS global/footer.html.tmpl %] 
