@@ -16,18 +16,15 @@
   # Copyright (C) 1998 Netscape Communications Corporation. All
   # Rights Reserved.
   #
-  # Contributor(s): Gavin Shelley (bugzilla@chimpychompy.org)
+  # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
   #
   #%]
 
 [%# INTERFACE:
-  # products: array of hashes having the following properties:
-  #   - name: string; The name of the product.
-  #   - description: string; The description of the product.
+  # products: array of product objects
+  # showbugcounts: if defined, then bug counts should be included in the table
   #%]
-
-[% USE Bugzilla %]
-[% cgi = Bugzilla.cgi %]
 
 [% PROCESS global/variables.none.tmpl %]
 
@@ -35,8 +32,6 @@
   title = "Edycja wersji docelowej dla którego produktu?"
 %]
 
-[% bug_count_contentlink = BLOCK %]buglist.cgi?target_milestone=%%name%%&amp;product=
-  [%- product FILTER url_quote %][% END %]
 
 [% columns = [
      { 
@@ -52,10 +47,27 @@
    ]
 %]
 
+[% IF showbugcounts %]
+
+  [% columns.push({
+      name => 'bug_count'
+      heading => "$terms.Bledy"
+      align => "right"
+      contentlink => "buglist.cgi?product=%%name%%"
+    })
+  %]
+
+[% END %]
+
 [% PROCESS admin/table.html.tmpl
      columns = columns
      data = products
 %]
+
+[% IF !showbugcounts %]
+  <p><a href="editmilestones.cgi?showbugcounts=1">
+    Odśwież stronę i wyświetl w tabeli liczbę [% terms.bledow %] (wolne)</a></p>
+[% END %]
 
 <p>
 

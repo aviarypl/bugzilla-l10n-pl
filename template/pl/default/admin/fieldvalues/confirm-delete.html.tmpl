@@ -20,13 +20,16 @@
   # value_count: number; The number of values left for this field, including
   #              this value.
   # field: string; The name of the field.
+  # param_name: string; The name of the parameter (defaultxxx) associated
+  #             with the field.
   #%]
 
-[% title = BLOCK %]Usuwanie wartości '[% value FILTER html %]' z pola
-  '[% field FILTER html %]'[% END %]
+[% title = BLOCK %]Delete Value '[% value FILTER html %]' from the 
+  '[% field FILTER html %]' field[% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
+  style_urls = ['skins/standard/admin.css']
 %]
 
 <table border="1" cellpadding="4" cellspacing="0">
@@ -50,53 +53,56 @@
             [% value FILTER html %]'"
      href="buglist.cgi?[% field FILTER url_quote %]=[%- value FILTER url_quote %]">[% bug_count FILTER html %]</a>
 [% ELSE %]
-  Brak
+  None
 [% END %]
   </td>
 </tr>
 </table>
 
 <h2>Potwierdzenie</h2>
-  
-[% IF bug_count %]
 
-    Niestety nadal [% bug_count %] 
-    
-    [% PROCESS ODMIEN c=bug_count o1="$terms.blad używa"
-       o2="$terms.bledy używają" o3="$terms.bledow używa" %]
-    
-    tej wartości pola. Musisz najpierw zmienić wartość pola dla
-    <a title="Lista [% terms.bledow %] dla których '[% field FILTER html %]' jest równe '[% value FILTER html %]'"
-       href="buglist.cgi?[% field FILTER url_quote %]=[%- value FILTER url_quote %]">
-    [% IF bug_count > 1 %]
-       tych [% terms.bledow %] 
-    [% ELSE %]
-       tego [% terms.bledu %]
+[% IF (Param(param_name) == value) || bug_count || (value_count == 1) %]
+
+  <p>Niestety, wartość '[% value FILTER html %]' nie może zostać usunięta
+  z pola '[% field FILTER html %]' z powodu następujących błędów:</p>
+
+  <ul class="warningmessages">
+    [% IF Param(param_name) == value %]
+      <li>'[% value FILTER html %]' jest domyślną wartością dla
+          pola '[% field FILTER html %]'.
+          [% IF user.groups.tweakparams %]
+            Musisz najpierw <a href="editparams.cgi?section=bugfields#
+            [%- param_name FILTER url_quote %]">zmienić domyślną wartość</a> dla
+            tego pola, zanim będziesz mógł skasować tą.
+          [% END %]
     [% END %]
-    </a>
-    na inną, zanim możliwe będzie usunięcie tej wartości.
 
-[% END %]
+    [% IF bug_count %]
+      <li>
+          [% PROCESS ODMIEN c=bug_count o1="Jest 1 $terms.blad"
+            o2="Są $bug_count błędy" o3="Jest $bug_count błędów" %]
+          z tą wartością pola. Musisz zmienić wartości pól w 
+          <a title="liście [% terms.bledow %] gdzie '[% field FILTER html %]' ma wartość '[% value FILTER html %]'"
+             href="buglist.cgi?[% field FILTER url_quote %]=[% value FILTER url_quote %]">
+            zanim będziesz mógł skasować te wartości.
+    [% END %]
 
-[% IF value_count == 1 %]
+    [% IF value_count == 1 %]
+      <li>'[% value FILTER html %]' jest ostatnią wartościa dla
+          '[%- field FILTER html %]', więc nie może zostać usunięta.
+    [% END %]
+  </ul>
 
-    <p>Niestety, lecz '[% value FILTER html %]' jest jedyną wartością pola
-    '[%- field FILTER html %]', nie może więc być skasowana.</p>
+[% ELSE %]
 
-  [% ELSE %]
+  <p>Czy jesteś pewien że chcesz usunąć tą wartość/p>
 
-    [% IF bug_count == 0 %]
-
-      <p>Czy jesteś pewien że chcesz usunąć tą wartość?<p>
-  
-      <form method="post" action="editvalues.cgi">
-        <input type="submit" value="Tak, usuń">
-        <input type="hidden" name="action" value="delete">
-        <input type="hidden" name="field" value="[% field FILTER html %]">
-        <input type="hidden" name="value" value="[% value FILTER html %]">
-      </form>
-
-  [% END %]
+  <form method="post" action="editvalues.cgi">
+    <input type="submit" value="Tak, usuń">
+    <input type="hidden" name="action" value="delete">
+    <input type="hidden" name="field" value="[% field FILTER html %]">
+    <input type="hidden" name="value" value="[% value FILTER html %]">
+  </form>
 
 [% END %]
 
