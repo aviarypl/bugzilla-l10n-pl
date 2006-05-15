@@ -21,9 +21,10 @@
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
-
-[% PROCESS global/header.html.tmpl title="Potwierdzenie zmiany kontroli grupy dla produktu \'$product\'" %]
-
+[% title = BLOCK %]
+  Potwierdzenie zmiany kontroli grupy dla produktu '[%- product.name FILTER html %]'
+[% END %]
+[% PROCESS global/header.html.tmpl title = title %]
 [% FOREACH group = mandatory_groups %]
 <P>
 grupa '[% group.name FILTER html %]' wpływa na [% group.count %] 

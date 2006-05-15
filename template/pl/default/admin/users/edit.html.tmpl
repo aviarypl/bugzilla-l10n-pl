@@ -134,7 +134,7 @@
     [% IF listselectionvalues %],
     [% END %]
   [% END %]
-  [% IF listselectionvalues %]
+  [% IF listselectionvalues.matchtype != 'exact' %]
     <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">wrócić
     do listy użytkowników</a>,
   [% END %]

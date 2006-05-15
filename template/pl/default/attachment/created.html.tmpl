@@ -45,12 +45,17 @@
       </h2>
 
       [% PROCESS "bug/process/bugmail.html.tmpl" mailing_bugid = bugid %]
-
+      [% IF convertedbmp %]
+        <p>
+          <b>Uwaga:</b> [% terms.Bugzilla %] automatycznie skonwertuje Twoje pliki BMP do formatu PNG.
+        </p>
+      [% END %]
       [% IF contenttypemethod == 'autodetect' %]
         <p>
           <b>Uwaga:</b> wykryty typ załącznika to <em>[% contenttype %]</em>. Jeśli ta wartość
           jest nieprawidłowa, możesz poprawić typ MIME 
           <a href="attachment.cgi?id=[% attachid %]&amp;action=edit">edytując załącznik</a>.
+         edytując <a href="attachment.cgi?id=[% attachid %]&amp;action=edit">właściwości załącznika</a>.
         </p>
       [% END %]
     </td>

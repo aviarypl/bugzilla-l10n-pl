@@ -15,10 +15,11 @@
   #%]
 
 [%# INTERFACE:
-  # name: string; the name of the product
+  # product: Bugzilla::Product Object; the product
   #
-  # classification: string; If classifications are enabled, then this is 
-  #                         the currently selected classification
+  # classification: Bugzilla::Classification object ; If classifications
+  #                         are enabled, then this is the currently 
+  #                         selected classification
   #
   # no_XXX_link: boolean; if defined, then don't show the corresponding
   #                       link. Supported parameters are:
@@ -30,13 +31,13 @@
 
 [% IF Param('useclassification') && classification %]
   [% classification_url_part = BLOCK %]&amp;classification=
-     [%- classification FILTER url_quote %]
+     [%- classification.name FILTER url_quote %]
   [% END %]
   [% classification_url_part_start = BLOCK %]classification=
-     [%- classification FILTER url_quote %]
+     [%- classification.name FILTER url_quote %]
   [% END %]
   [% classification_text = BLOCK %] 
-    klasyfikacji '[% classification FILTER html %]'
+    of classification '[% classification.name FILTER html %]'
   [% END %]
 [% END %]
   
@@ -46,25 +47,27 @@
 
 [% UNLESS no_add_product_link %]
   <a title="Dodawanie produktu"
-     href="editproducts.cgi?action=add">Dodaj</a> produkt[% -%]
+     href="editproducts.cgi?action=add">Add</a> a product[% -%]
 [%# Strictly speaking, we should not have to check for a
     classification if they are enabled, but I'm just being paranoid %]
   [% IF Param('useclassification') && classification %]
     (<a title="Dodawanie produktu do klasyfikacji '
-               [%- classification FILTER html %]'"
+               [%- classification.name FILTER html %]'"
          href="editproducts.cgi?action=add
-               [%- classification_url_part %]">do
-     klasyfikacji '[% classification FILTER html %]'</a>)
+               [%- classification_url_part %]">to
+     classification '[% classification.name FILTER html %]'
+     </a>)
   [% END %].
 [% END %]
 
-[% IF name && !no_edit_product_link %]
-  Edytuj produkt <a 
-  title="Edycja produktu '[% name FILTER html %]' 
-         [% classification_text %]"
+[% IF product && !no_edit_product_link %]
+  Edycja produktu <a 
+  title="Edycja produktu '[% product.name FILTER html %]' 
+         [%- classification_text %]"
   href="editproducts.cgi?action=edit&amp;product=
-        [%- name FILTER url_quote %][% classification_url_part %]">
-        '[% name FILTER html %]'</a>.
+        [%- product.name FILTER url_quote %]
+        [%- classification_url_part %]">
+        '[% product.name FILTER html %]'</a>.
 [% END %]
 
 
@@ -72,7 +75,7 @@
 [% UNLESS no_edit_other_products_link %]
   Edytuj <a 
   href="editproducts.cgi?
-        [%- classification_url_part_start FILTER none %]">inne produkty 
+        [%- classification_url_part_start FILTER none %]">inne produkty
           [% classification_text %]</a>.
    
 [% END %]
@@ -80,7 +83,7 @@
 [% IF Param('useclassification') && classification %]
   Edytuj klasyfikację <a href="editclassifications.cgi?action=edit
     [%- classification_url_part %]">'
-    [%- classification FILTER html %]'</a>.
+    [%- classification.name FILTER html %]'</a>.
 
 [% END %]
 
