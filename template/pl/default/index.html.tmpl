@@ -1,0 +1,143 @@
+[%# 1.0@bugzilla.org %]
+[%# -*- mode: html -*- %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Terry Weissman <terry@mozilla.org>
+  #                 Jacob Steenhagen <jake@bugzilla.org>
+  #                 Vitaly Harisov  <vitaly@rathedg.com>
+  #%]
+
+[%# INTERFACE:
+  # release: a hash containing data about new releases, if any.
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+
+[% PROCESS global/header.html.tmpl
+   title = "$terms.Bugzilla Strona główna"
+   header = "Strona główna" 
+   header_addl_info = "version $constants.BUGZILLA_VERSION"
+   style_urls = [ 'skins/standard/index.css' ]
+   onload = 'document.forms[\'f\'].quicksearch.focus();'
+%]
+
+
+<script type="text/javascript">
+<!--
+function addSidebar() {
+  if ((typeof window.sidebar == "object") && (typeof window.sidebar.addPanel == "function"))
+  {
+    var sidebarname=window.location.host;
+    if (!/bug/i.test(sidebarname))
+      sidebarname="[% terms.Bugzilla %] "+sidebarname;
+    window.sidebar.addPanel (sidebarname, "[% Param('urlbase') %]sidebar.cgi", "");
+  }
+  else
+  {
+    var rv = window.confirm ("Twoja przeglądarka nie obsługuje rozszerzenia panelu bocznego.  " + "Czy chcesz ją zaktualizować?");
+    if (rv)
+      document.location.href = "http://www.mozilla.org/";
+  }
+}
+//-->
+</script>
+
+[% IF release %]
+  <div id="new_release">
+    [% IF release.data %]
+      [% IF release.deprecated %]
+        <p>[% terms.Bugzilla %] [%+ release.deprecated FILTER html %] nie jest już wspierana.
+        Radzimy zaktualizować wersję do najnowszej, w celu zachowania bezpieczeństwa systemu.</p>
+      [% END %]
+
+      <p>Nowa wersja [% terms.Bugzilla %] ([% release.data.latest_ver FILTER html %])
+      jest dostępna pod adresem
+      <a href="[% release.data.url FILTER html %]">[% release.data.url FILTER html %]</a>.<br>
+      Data wydania: [% release.data.date FILTER html %]</p>
+
+      <p class="notice">Ta wiadomość jest wyświetlana jedynie zalogowanym użytkownikom z uprawnieniami administratora.
+      Możesz skonfigurować treść tej wiadomości na stronie
+      <a href="editparams.cgi?section=core#upgrade_notification">Parametry</a>.</p>
+    [% ELSIF release.error == "no_update" %]
+      <p>The local XML file '[% release.xml_file FILTER html %]' cannot be updated.
+      Please make sure the web server can edit this file.</p>
+    [% ELSIF release.error == "no_access" %]
+      <p>The local XML file '[% release.xml_file FILTER html %]' cannot be read.
+      Please make sure this file exists and has the correct rights set on it.</p>
+    [% ELSIF release.error == "corrupted" %]
+      <p>The local XML file '[% release.xml_file FILTER html %]' has an invalid XML format.
+      Please delete it and try accessing this page again.</p>
+    [% ELSIF release.error == "unknown_parameter" %]
+      <p>'[% Param("upgrade_notification") FILTER html %]' is not a valid notification
+      parameter. Please check this parameter in the
+      <a href="editparams.cgi?section=core#upgrade_notification">Parameters</a> page.</p>
+    [% END %]
+  </div>
+[% END %]
+
+<div id="page-index">
+  <div class="intro"></div>
+
+  <p>Tutaj powinno się znaleźć mnóstwo ciepłych słów tłumaczących czym jest [% terms.Bugzilla %].</p>
+
+  <p>Ale tak naprawdę wszystko sprowadza się do takiego wyboru:</p>
+  <ul>
+    <li id="query"><a href="query.cgi">Przeszukaj istniejące zgłoszenia [% terms.bug %]</a></li>
+    <li id="enter-bug"><a href="enter_bug.cgi">Stwórz nowy raport [% terms.bug %]</a></li>
+    <li id="report"><a href="report.cgi">Raporty i wykresy podsumowujące</a></li>
+[% IF user.id %]
+    <li id="userprefs"><a href="userprefs.cgi">Zmień hasło lub ustawienia użytkownika</a></li>
+  [% IF user.authorizer.can_logout %]
+    <li id="logout"><a href="relogin.cgi">Wyloguj się [% user.login FILTER html %]</a></li>
+  [% END %]
+[% ELSIF user.authorizer.can_login %]
+  </ul>
+    [% PROCESS "account/auth/login-small.html.tmpl" %]
+  <ul>
+  [% IF Param('createemailregexp') && user.authorizer.user_can_create_account %]
+    <li id="account"><a href="createaccount.cgi">Stwórz nowe konto [% terms.Bugzilla %]</a></li>
+  [% END %]
+[% END %]
+    <li id="sidebar"><a href="javascript:addSidebar()">Dodaj do panelu bocznego</a> (wymaga przeglądarki Mozilli takiej jak Mozilla Firefox)</li>
+    <li id="quick_search_plugin">
+      <a href="javascript:window.external.AddSearchProvider('[% Param('urlbase') %]search_plugin.cgi')">Zainstaluj wtyczkę Szybkiego Wyszukiwania</a> (wymaga Firefoksa 2 lub Internet Explorera 7)
+    </li>
+
+
+    [%# List items of links to more things users can do on this installation. %]
+    [% Hook.process("links") %]
+
+  </ul>
+
+  <form id="f" name="f" action="buglist.cgi" method="get"
+        onsubmit="if (this.quicksearch.value == '')
+                  { alert('Proszę wprowadzić jeden lub więcej terminów do wyszukania.');
+                    return false; } return true;">
+  <div>
+    <p>Wprowadź [% terms.abug %] # lub terminy do wyszukania:</p>
+    <input id="quicksearch" type="text" name="quicksearch">
+    <input id="find" type="submit" value="Szukaj">
+    <a href="page.cgi?id=quicksearch.html">[Pomoc]</a>
+  </div>
+  </form>
+
+  <div class="outro"></div>
+</div>
+
+[% PROCESS global/footer.html.tmpl %]
