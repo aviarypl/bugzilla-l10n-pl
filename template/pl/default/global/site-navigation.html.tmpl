@@ -65,21 +65,21 @@
 
   [%# *** Dependencies, Votes, Activity, Print-version *** %]
   [% IF bug %]
-    <link rel="Show" title="Dependency Tree"
+    <link rel="Show" title="Drzewo zale¿noœci"
           href="showdependencytree.cgi?id=[% bug.bug_id %]&amp;hide_resolved=1">
     [% IF Param('webdotbase') %]
-      <link rel="Show" title="Dependency Graph"
+    <link rel="Show" title="Graf zale¿noœci"
             href="showdependencygraph.cgi?id=[% bug.bug_id %]">
     [% END %]
 
     [% IF bug.use_votes %]
-      <link rel="Show" title="Votes ([% bug.votes %])"
+      <link rel="Show" title="G³osy ([% bug.votes %])"
             href="votes.cgi?action=show_bug&amp;bug_id=[% bug.bug_id %]">
     [% END %]
 
-      <link rel="Show" title="[% terms.Bug %] Activity"
+      <link rel="Show" title="Raport aktywnoœci [% terms.bledu %]"
             href="show_activity.cgi?id=[% bug.bug_id %]">
-      <link rel="Show" title="Printer-Friendly Version"
+      <link rel="Show" title="Wersja do druku"
             href="show_bug.cgi?format=multiple&amp;id=[% bug.bug_id %]">
   [% END %]
 
@@ -87,12 +87,12 @@
   [%# *** Saved Searches *** %]
   [% IF user.showmybugslink %]
     [% user_login = user.login FILTER url_quote %]
-    <link rel="Saved&nbsp;Searches" title="My [% terms.Bugs %]"
+    <link rel="Zapamiêtane&nbsp;wyszukiwania" title="Moje [% terms.bledy %]"
           href="[% Param('mybugstemplate').replace('%userid%', user_login) %]">
   [% END %]
 
   [% FOREACH q = user.queries %]
-    <link rel="Saved&nbsp;Searches" 
+    <link rel="Zapamiêtane&nbsp;wyszukiwania" 
           title="[% q.name FILTER html %]"
           href="buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% q.name FILTER url_quote %]">
   [% END %]
@@ -107,21 +107,21 @@
 
   [%# *** Bugzilla Administration Tools *** %]
   [% IF user.login %] 
-    [% '<link rel="Administration" title="Parameters"    
+    [% '<link rel="Administracja" title="Parametry"    
               href="editparams.cgi">' IF user.groups.tweakparams %]
-    [% '<link rel="Administration" title="Users"    
+    [% '<link rel="Administracja" title="U¿ytkownicy"    
               href="editusers.cgi">' IF user.groups.editusers %]
     [% '<link rel="Administration" title="Products" href="editproducts.cgi">'
        IF user.groups.editcomponents || user.get_products_by_permission("editcomponents").size %]
-    [% '<link rel="Administration" title="Flag Types"   
+    [% '<link rel="Administracja" title="Typy flag"   
               href="editflagtypes.cgi">' IF user.groups.editcomponents %]
-    [% '<link rel="Administration" title="Groups"        
+    [% '<link rel="Administracja" title="Grupy"        
               href="editgroups.cgi">' IF user.groups.creategroups %]
-    [% '<link rel="Administration" title="Keywords"      
+    [% '<link rel="Administracja" title="S³owa kluczowe"      
               href="editkeywords.cgi">' IF user.groups.editkeywords %]
-    [% '<link rel="Administration" title="Whining"       
+    [% '<link rel="Administration" title="Przypominanie"       
               href="editwhines.cgi">' IF user.groups.bz_canusewhines %]
-    [% '<link rel="Administration" title="Sanity Check"  
+    [% '<link rel="Administracja" title="Sprawdzanie poprawnoœci"  
               href="sanitycheck.cgi">' IF user.groups.editcomponents %]
   [% END %]  
 [% END %]

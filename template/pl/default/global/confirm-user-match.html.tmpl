@@ -40,7 +40,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% IF matchsuccess == 1 %]
-  [% PROCESS global/header.html.tmpl title="Confirm Match" %]
+  [% PROCESS global/header.html.tmpl title="Potwierdzenie dopasowania" %]
 
 [% USE Bugzilla %]
 
@@ -54,18 +54,17 @@
   >
 
   <p>
-    [% terms.Bugzilla %] cannot make a conclusive match for one or more of the
-    names and/or email addresses you entered on the previous page.<br>
-    Please examine the lists of potential matches below and select the
-    one you want, or go back to the previous page to revise the names
-    you entered.
+    Nie mo¿na jednoznacznie okreœliæ prawid³owych
+    nazw/adresów e-mail osób, które podano na poprzedniej stronie.<br>
+    Proszê spróbowaæ wybraæ prawid³owego u¿ytkownika z poni¿szej listy,
+    lub wróciæ do poprzedniej strony i poprawiæ wpisane nazwy/adresy.
   </p>
 [% ELSE %]
-  [% PROCESS global/header.html.tmpl title="Match Failed" %]
+  [% PROCESS global/header.html.tmpl title="Nieudane dopasowanie" %]
   <p>
-    [% terms.Bugzilla %] was unable to make any match at all for one or more of
-    the names and/or email addresses you entered on the previous page.<br>
-    Please go back and try other names or email addresses.
+    Nie mo¿na jednoznacznie okreœliæ prawid³owych
+    nazw/adresów e-mail osób, które podano na poprzedniej stronie.<br>
+    Proszê wróciæ do poprzedniej strony i poprawiæ wpisane nazwy/adresy.
   </p>
 [% END %]
 
@@ -90,17 +89,16 @@
                 [% IF query.value.users.size > 1 %]
                   [% IF query.value.status == 'fail' %]
                     <font color="#FF0000">
-                      matches multiple users.
+                      pasuje do wielu u¿ytkowników.
                     </font>
-                    Please go back and try again with a more specific
-                    name/address.
+                      Proszê wróciæ do poprzedniej strony
+                      i spróbowaæ podaæ bardziej jednoznaczne nazwy/adresy.
                   [% ELSE %]
                     [% IF query.value.status == 'trunc' %]
-                      matched
-                      more than the maximum
-                      of [% query.value.users.size %] users:<br>
+                      pasuje do wiêkszej liczby u¿ytkowników ni¿ maksymaln¹
+                      dopuszczaln¹ wartoœæ ([% query.value.users.size %] u¿ytkowników):<br>
                     [% ELSE %]
-                      matched:<br>
+                      pasuje do:<br>
                     [% END %]
                     <select name="[% field.key FILTER html %]"
                      id="[% field.key FILTER html %]"
@@ -121,17 +119,17 @@
                     </select>
                   [% END %]
                 [% ELSE %]
-                  matched
+                  pasuje do
                   <b>[% query.value.users.0.identity FILTER html %]</b>
                   <br>
                 [% END %]
             [% ELSE %]
                 [% IF (query.key.length < 3) && !(Param('emailsuffix'))
                     && (Param('usermatchmode') == 'search') %]
-                  <font color="#FF0000">was too short for substring match
-                  (minimum 3 characters)</font>
+                  <font color="#FF0000">jest za krótki
+                  (minimalnie 3 znaki)</font>
                 [% ELSE %]
-                  <font color="#FF0000">did not match anything</font>
+                  <font color="#FF0000">nie pasuje do ¿adnego u¿ytkownika</font>
                 [% END %]
             [% END %]
         [% END %]
@@ -151,7 +149,7 @@
   [% PROCESS "global/hidden-fields.html.tmpl" exclude="^Bugzilla_(login|password)$" %]
 
   <p>
-    <input type="submit" id="continue" value="Continue">
+    <input type="submit" id="continue" value="Kontynuuj">
   </p>
 
   </form>
@@ -169,7 +167,7 @@
   [%-# ELSIF for things that don't belong in the field_descs hash here -%]
 
   [% ELSIF field_name.match("^requestee") %]
-    [% fields.${field_name}.flag_type.name %] requestee
+    o ustawienie flagi <code>[% fields.${field_name}.flag_type.name %]</code> poproszono
 
   [% ELSE %]
     [% field_name FILTER html %]

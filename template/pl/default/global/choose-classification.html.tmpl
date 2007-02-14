@@ -22,11 +22,11 @@
   #%]
 
 [% IF target == "enter_bug.cgi" %]
-  [% title = "Select Classification" %]
-  [% subheader = "Please select the classification." %]
+  [% title = "Wybór klasyfikacji" %]
+  [% h2 = "Proszê wybraæ klasyfikacjê." %]
 [% END %]
 
-[% DEFAULT title = "Choose the classification" %]
+[% DEFAULT title = "Wybór klasyfikacji" %]
 [% PROCESS global/header.html.tmpl %]
 
 <table>
@@ -40,7 +40,7 @@
       All</a>:
     </th>
 
-    <td valign="top">&nbsp;Show all products</td>
+    <td valign="top">&nbsp;Wyœwietl wszystkie produkty</td>
   </tr>
   <tr>
     <th colspan="2">&nbsp;</th>

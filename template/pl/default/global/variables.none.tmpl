@@ -53,5 +53,56 @@
   "bit" => "bit",
   "bits" => "bits",
   "Bugzilla" => "Bugzilla"
+  "blad" => "b³¹d",
+  "Blad" => "B³¹d",
+  "bledu" => "b³êdu",
+  "Bledu" => "B³êdu",
+  "bledy" => "b³êdy",
+  "Bledy" => "B³êdy",
+  "bledow" => "b³êdów",
+  "Bledow" => "B³êdów",
+  "bledach" => "b³êdach",
+  "Bledach" => "B³êdach",
+  "bledami" => "b³êdami",
+  "Bledami" => "B³êdami",
+  "bledzie" => "b³êdzie",
+  "Bledzie" => "B³êdzie",
+  "zeroSearchResults" => "Nie znaleziono b³êdów",
+  "bit" => "bit",
+  "bits" => "bits",
+  "Bugzilla" => "Bugzilla"
+  "Bugzilli" => "Bugzilli"
+  "Bugzille" => "Bugzillê"
   }
+
+  selectTransTable = {
+    op_sys => {
+      All => 'Wszystkie',
+      other => 'Inny'
+    },
+    rep_platform => {
+      All => 'Wszystkie',
+      Other => 'Inna'
+    },
+    bug_severity => {
+      blocker => 'blokuj¹cy',
+      critical => 'krytyczny',
+      major => 'wa¿ny',
+      normal => 'normalny',
+      minor => 'drobny',
+      trivial => 'trywialny',
+      enhancement => 'propozycja'
+    }
+  }  
 %]
+
+[% BLOCK ODMIEN -%]
+  [%- IF c == 1 -%]
+    [%- o1 -%]
+  [%- ELSIF (c % 100 < 10 || c % 100 > 20) && c % 10 > 1 && c % 10 < 5 -%]
+    [%- o2 -%]
+  [%- ELSE -%]
+    [%- o3 -%]
+  [%- END -%]
+[%- END %]
+
