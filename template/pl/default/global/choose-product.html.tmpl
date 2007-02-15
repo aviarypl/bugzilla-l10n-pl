@@ -31,14 +31,14 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% IF target == "enter_bug.cgi" %]
-  [% title = "Zg³aszanie $terms.bledu" %]
-  [% subheader = BLOCK %]Proszê wybraæ produkt, dla którego bêdzie zg³aszany [% terms.blad %]. [% END %]
+  [% title = "ZgÅ‚aszanie $terms.bledu" %]
+  [% subheader = BLOCK %]ProszÄ™ wybraÄ‡ produkt, dla ktÃ³rego bÄ™dzie zgÅ‚aszany [% terms.blad %]. [% END %]
 [% ELSIF target == "describecomponents.cgi" %]
-  [% title = "Opisy komponentów $terms.Bugzilli" %]
-  [% subheader = "Proszê wybraæ produkt, którego komponenty bêd¹ opisane." %]
+  [% title = "Opisy komponentÃ³w $terms.Bugzilli" %]
+  [% subheader = "ProszÄ™ wybraÄ‡ produkt, ktÃ³rego komponenty bÄ™dÅ¡ opisane." %]
 [% END %]
 
-[% DEFAULT title = "Wybór produktu" %]
+[% DEFAULT title = "WybÃ³r produktu" %]
 [% PROCESS global/header.html.tmpl %]
 
 <table>

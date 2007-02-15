@@ -111,7 +111,7 @@ function addSidebar() {
     [% PROCESS "account/auth/login-small.html.tmpl" %]
   <ul>
   [% IF Param('createemailregexp') && user.authorizer.user_can_create_account %]
-    <li id="account"><a href="createaccount.cgi">Stwórz nowe konto [% terms.Bugzilla %]</a></li>
+    <li id="account"><a href="createaccount.cgi">Stwórz nowe konto w [% terms.Bugzilli %]</a></li>
   [% END %]
 [% END %]
     <li id="sidebar"><a href="javascript:addSidebar()">Dodaj do panelu bocznego</a> (wymaga przeglądarki Mozilli takiej jak Mozilla Firefox)</li>
@@ -130,7 +130,7 @@ function addSidebar() {
                   { alert('Proszę wprowadzić jeden lub więcej terminów do wyszukania.');
                     return false; } return true;">
   <div>
-    <p>Wprowadź [% terms.abug %] # lub terminy do wyszukania:</p>
+    <p>Wprowadź # [% terms.bledu %] lub terminy do wyszukania:</p>
     <input id="quicksearch" type="text" name="quicksearch">
     <input id="find" type="submit" value="Szukaj">
     <a href="page.cgi?id=quicksearch.html">[Pomoc]</a>

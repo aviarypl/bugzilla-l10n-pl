@@ -35,18 +35,18 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% DEFAULT title = "B³¹d wewnêtrzny" %]
+[% DEFAULT title = "BÅ‚Ä…d wewnÄ™trzny" %]
 
 [% error_message = BLOCK %]
   [% IF    error == "action_unrecognized" %]
-    [% docslinks = {'query.html' => "Searching for $terms.bugs",
-                    'list.html'  => "$terms.Bug lists"} %]
-    Nie mo¿na rozpoznaæ wartoœci (<em>[% action FILTER html %]</em>)
+    [% docslinks = {'query.html' => "Trwa szukanie $terms.bledow",
+                    'list.html'  => "Listy $terms.bledow"} %]
+    Nie moÅ¼na rozpoznaÄ‡ wartoÅ›ci (<em>[% action FILTER html %]</em>)
     zmiennej <em>action</em>.
   
   [% ELSIF error == "attachment_already_obsolete" %]
-    Za³¹cznik #[% attach_id FILTER html %] ([% description FILTER html %]) 
-    zosta³ ju¿ oznaczony jako zdezaktualizowany.
+    ZaÅ‚Ä…cznik #[% attach_id FILTER html %] ([% description FILTER html %]) 
+    zostaÅ‚ juÅ¼ oznaczony jako zdezaktualizowany.
 
   [% ELSIF error == "auth_invalid_email" %]
     [% title = "Invalid Email Address" %]
@@ -63,21 +63,21 @@
     <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt>, or any whitespace.
 
   [% ELSIF error == "authres_unhandled" %]
-    Wartoœæ zwracana przez [% value FILTER html %] nie zosta³a obs³u¿ona 
-    przez procedurê logowania.
+    WartoÅ›Ä‡ zwracana przez [% value FILTER html %] nie zostaÅ‚a obsÅ‚uÅ¼ona 
+    przez procedurÄ™ logowania.
 
   [% ELSIF error == "bad_page_cgi_id" %]
-    [% title = "B³êdny identyfikator strony" %]
+    [% title = "BÅ‚Ä™dny identyfikator strony" %]
     Identyfikator strony <code>[% page_id FILTER html %]</code> nie jest
-    prawid³owym identyfikatorem.
+    prawidÅ‚owym identyfikatorem.
 
   [% ELSIF error == "bad_arg" %]
-    Nieprawid³owy argument <code>[% argument FILTER html %]</code> zosta³
-    wys³any do funkcji <code>[% function FILTER html %]</code>.
+    NieprawidÅ‚owy argument <code>[% argument FILTER html %]</code> zostaÅ‚
+    wysÅ‚any do funkcji <code>[% function FILTER html %]</code>.
 
   [% ELSIF error == "bug_error" %]
-    Podczas próby wyœwietlenia [% terms.bledu %] [%+ bug.bug_id FILTER html %], 
-    wyst¹pi³ b³¹d [% bug.error FILTER html %].
+    Podczas prÃ³by wyÅ›wietlenia [% terms.bledu %] [%+ bug.bug_id FILTER html %], 
+    wystÄ…piÅ‚ bÅ‚Ä…d [% bug.error FILTER html %].
     
   [% ELSIF error == "chart_data_not_generated" %]
     [% admindocslinks = {'extraconfig.html' => 'Setting up Charting'} %]
@@ -94,14 +94,14 @@
     and reference this error.
 
   [% ELSIF error == "chart_datafile_corrupt" %]
-    Plik z danymi wykresów [% file FILTER html %] jest uszkodzony.
+    Plik z danymi wykresÃ³w [% file FILTER html %] jest uszkodzony.
         
   [% ELSIF error == "chart_dir_nonexistent" %]
-    Jeden z katalogów (<tt>[% dir FILTER html %]</tt> lub
+    Jeden z katalogÃ³w (<tt>[% dir FILTER html %]</tt> lub
     <tt>[% graph_dir FILTER html %]</tt>) nie istnieje.
   
   [% ELSIF error == "chart_file_open_fail" %]
-    Nie mo¿na otworzyæ pliku <tt>[% filename FILTER html %]</tt> z danymi do wykresu.
+    Nie moÅ¼na otworzyÄ‡ pliku <tt>[% filename FILTER html %]</tt> z danymi do wykresu.
   
   [% ELSIF error == "chart_lines_not_installed" %]
     [% admindocslinks = {'installation.html#install-perlmodules' => 'Installing Perl modules necessary for Charting'} %]
@@ -123,7 +123,7 @@
     [% new FILTER html %] because [% new FILTER html %] already exists.
 
   [% ELSIF error == "cookies_need_value" %]
-    Wszystkie ciasteczka musz¹ mieæ ustawion¹ wartoœæ.
+    Wszystkie ciasteczka muszÄ… mieÄ‡ ustawionÄ… wartoÅ›Ä‡.
 
   [% ELSIF error == "env_no_email" %]
     [% terms.Bugzilla %] did not receive an email address from the 
@@ -147,40 +147,40 @@
     account source says that '[% extern_user FILTER html %]' has that ID.
 
   [% ELSIF error == "field_type_mismatch" %]
-    Nie jest mo¿liwe jednoczesne u¿ywanie <code>[% field FILTER html %]</code>
+    Nie jest moÅ¼liwe jednoczesne uÅ¼ywanie <code>[% field FILTER html %]</code>
     z <code>[% type FILTER html %]</code>.
 
   [% ELSIF error == "gd_not_installed" %]
     [% admindocslinks = {'installation.html#install-perlmodules' => 'Installing Perl modules necessary for Charting'} %]
-    Wykresy nie bêd¹ wyœwietlane do czasu zainstalowania Perlowego modu³u GD.
-    Uruchom checksetup.pl aby otrzymaæ instrukcje postêpowania.
+    Wykresy nie bÄ™dÄ… wyÅ›wietlane do czasu zainstalowania Perlowego moduÅ‚u GD.
+    Uruchom checksetup.pl aby otrzymaÄ‡ instrukcje postÄ™powania.
 
   [% ELSIF error == "illegal_content_type_method" %]
-    Twój formularz zosta³ uszkodzony podczas wysy³ania. Pole <em>content
-    method</em>, które okreœla sposób w jaki nale¿y wykryæ typ zawartoœci,
-    powinno byæ jednym z <em>autodetect</em>, <em>list</em>,
-    lub <em>manual</em>. Obecna wartoœæ pola to
+    TwÃ³j formularz zostaÅ‚ uszkodzony podczas wysyÅ‚ania. Pole <em>content
+    method</em>, ktÃ³re okreÅ›la sposÃ³b w jaki naleÅ¼y wykryÄ‡ typ zawartoÅ›ci,
+    powinno byÄ‡ jednym z <em>autodetect</em>, <em>list</em>,
+    lub <em>manual</em>. Obecna wartoÅ›Ä‡ pola to
     <em>[% contenttypemethod FILTER html %]</em>.
 
   [% ELSIF error == "illegal_field" %]
-    Wymagane pole [% field FILTER html %] nie zosta³o wype³nione.
+    Wymagane pole [% field FILTER html %] nie zostaÅ‚o wypeÅ‚nione.
 
   [% ELSIF error == "inactive_group" %]
     Attempted to add [% terms.bug %] to the '[% name FILTER html %]'
     group, which is not used for [% terms.bugs %].
 
   [% ELSIF error == "invalid_attach_id_to_obsolete" %]
-     Numer [% attach_id FILTER html %], podany jako jeden z identyfikatorów
-     za³¹czników do oznaczenia jako zdezaktualizowany, jest nieprawid³owy.
+     Numer [% attach_id FILTER html %], podany jako jeden z identyfikatorÃ³w
+     zaÅ‚Ä…cznikÃ³w do oznaczenia jako zdezaktualizowany, jest nieprawidÅ‚owy.
           
   [% ELSIF error == "invalid_column_name_cookie" %]
-    [% title = "Nieprawid³owa nazwa kolumny" %]
-     Kolejnoœæ sortowania opisana w Twoim "ciasteczku" zawiera nieprawid³ow¹
-     nazwê kolumny (<em>[% fragment FILTER html %]</em>).
-     "Ciasteczko" zosta³o usuniête.
+    [% title = "NieprawidÅ‚owa nazwa kolumny" %]
+     KolejnoÅ›Ä‡ sortowania opisana w Twoim "ciasteczku" zawiera nieprawidÅ‚owÄ…
+     nazwÄ™ kolumny (<em>[% fragment FILTER html %]</em>).
+     "Ciasteczko" zostaÅ‚o usuniÄ™te.
          
   [% ELSIF error == "invalid_column_name_form" %]
-    [% title = "Nieprawid³owa nazwa kolumny" %]
+    [% title = "NieprawidÅ‚owa nazwa kolumny" %]
      The custom sort order specified in your form submission contains an
      invalid column name <em>[% fragment FILTER html %]</em>.
 
@@ -189,22 +189,22 @@
     The type <em>[% type FILTER html %]</em> is not a valid field type.
 
   [% ELSIF error == "invalid_dimensions" %]
-    [% title = "Nieprawid³owe wymiary" %]
-    Podana wysokoœæ lub szerokoœæ nie jest poprawn¹ dodatni¹ liczb¹ ca³kowit¹.
+    [% title = "NieprawidÅ‚owe wymiary" %]
+    Podana wysokoÅ›Ä‡ lub szerokoÅ›Ä‡ nie jest poprawnÄ… dodatniÄ… liczbÄ… caÅ‚kowitÄ….
 
   [% ELSIF error == "invalid_flag_association" %]
-    [% title = "Nieprawid³owe przypisanie flag" %]
-    Niektóre flagi nie przynale¿¹ do
+    [% title = "NieprawidÅ‚owe przypisanie flag" %]
+    NiektÃ³re flagi nie przynaleÅ¼Ä… do
     [% IF attach_id %]
-      za³¹cznika [% attach_id FILTER html %].
+      zaÅ‚Ä…cznika [% attach_id FILTER html %].
     [% ELSE %]
       [%+ terms.bledu %] [%+ bug_id FILTER html %].
     [% END %]
 
   [% ELSIF error == "invalid_series_id" %]
-    [% title = "Nieprawid³owa seria" %]
-    Atrybut series_id [% series_id FILTER html %] jest nieprawid³owy. Mo¿liwe
-    jest ¿e ta seria zosta³a usuniêta.
+    [% title = "NieprawidÅ‚owa seria" %]
+    Atrybut series_id [% series_id FILTER html %] jest nieprawidÅ‚owy. MoÅ¼liwe
+    jest Å¼e ta seria zostaÅ‚a usuniÄ™ta.
 
   [% ELSIF error == "invalid_webservergroup" %]
     There is no such group: [% group FILTER html %]. Check your $webservergroup
@@ -214,8 +214,8 @@
     Unexpected error in list comparing code.
 
   [% ELSIF error == "mismatched_bug_ids_on_obsolete" %]
-    Za³¹cznik [% attach_id FILTER html %] ([% description FILTER html %]) 
-    jest do³¹czony do [% terms.bledu %] [%+ attach_bug_id FILTER html %], 
+    ZaÅ‚Ä…cznik [% attach_id FILTER html %] ([% description FILTER html %]) 
+    jest doÅ‚Ä…czony do [% terms.bledu %] [%+ attach_bug_id FILTER html %], 
     but you tried to flag it as obsolete while creating a new attachment to 
     [% terms.bug %] [%+ my_bug_id FILTER html %].
         
@@ -223,18 +223,18 @@
     Flaga o identyfikatorze #[% id FILTER html %] nie istnieje.
 
   [% ELSIF error == "flags_not_available" %]
-    [% title = "Edycja flag jest niemo¿liwa" %]
+    [% title = "Edycja flag jest niemoÅ¼liwa" %]
     [% IF type == "b" %]
-      Flagi nie mog¹ zostaæ zmieniony podczas
-      zmiany kilku [% terms.bledow %] równoczeœnie.
+      Flagi nie mogÄ… zostaÄ‡ zmieniony podczas
+      zmiany kilku [% terms.bledow %] rÃ³wnoczeÅ›nie.
     [% ELSE %]
-      Odwo³anie do istniej¹cej flagi podczas tworzenia
-      nowych za³¹czników jest niedopuszczalne.
+      OdwoÅ‚anie do istniejÄ…cej flagi podczas tworzenia
+      nowych zaÅ‚Ä…cznikÃ³w jest niedopuszczalne.
     [% END %] 
 
   [% ELSIF error == "flag_requestee_disabled" %]
-    [% title = "Flaga o któr¹ nie mo¿na poprosiæ" %]
-    Nie mo¿na prosiæ o ustawienie flagi <em>[% name FILTER html %]</em>.
+    [% title = "Flaga o ktÃ³rÄ… nie moÅ¼na poprosiÄ‡" %]
+    Nie moÅ¼na prosiÄ‡ o ustawienie flagi <em>[% name FILTER html %]</em>.
   
   [% ELSIF error == "flag_status_invalid" %]
     Status <em>[% status FILTER html %]</em> flagi
@@ -250,17 +250,17 @@
     to create new flags.
 
   [% ELSIF error == "flag_type_nonexistent" %]
-    Nie istnieje flaga, której identyfikator typu jest równy <em>[% id FILTER html %]</em>.
+    Nie istnieje flaga, ktÃ³rej identyfikator typu jest rÃ³wny <em>[% id FILTER html %]</em>.
 
   [% ELSIF error == "flag_type_target_type_invalid" %]
-    Typ elementu nie jest ani <em>[% terms.bledem %]</em>, ani <em>za³¹cznikiem</em>
+    Typ elementu nie jest ani <em>[% terms.bledem %]</em>, ani <em>zaÅ‚Ä…cznikiem</em>
     lecz <em>[% target_type FILTER html %]</em>.
   
   [% ELSIF error == "invalid_field_name" %]
-    Nie mo¿na u¿yæ [% field FILTER html %] jako nazwy pola.
+    Nie moÅ¼na uÅ¼yÄ‡ [% field FILTER html %] jako nazwy pola.
 
   [% ELSIF error == "invalid_keyword_id" %]
-    Identyfikator s³owa kluczowego <em>[% id FILTER html %]</em> nie zosta³ znaleziony.
+    Identyfikator sÅ‚owa kluczowego <em>[% id FILTER html %]</em> nie zostaÅ‚ znaleziony.
 
   [% ELSIF error == "invalid_user" %]
     [% title = "Invalid User" %]
@@ -303,7 +303,7 @@
     Nie podano identyfikatora [% terms.bledu %].
     
   [% ELSIF error == "missing_series_id" %]
-    Przy dodawaniu serii do bazy danych, nie zosta³ zwrócony identyfikator serii.
+    Przy dodawaniu serii do bazy danych, nie zostaÅ‚ zwrÃ³cony identyfikator serii.
     Seria: [% series.category FILTER html %] / 
     [%+ series.subcategory FILTER html %] / 
     [%+ series.name FILTER html %].
@@ -343,22 +343,22 @@
     Specified comparison type is not supported.
 
   [% ELSIF error == "request_queue_group_invalid" %]
-    Pole grupa <em>[% group FILTER html %]</em> jest nieprawid³owe.
+    Pole grupa <em>[% group FILTER html %]</em> jest nieprawidÅ‚owe.
 
   [% ELSIF error == "report_axis_invalid" %]
-    <em>[% val FILTER html %]</em> nie jest prawid³ow¹ wartoœci¹ dla
+    <em>[% val FILTER html %]</em> nie jest prawidÅ‚owÄ… wartoÅ›ciÄ… dla
     [%+ IF    fld == "x" %]osi poziomej.
     [%+ ELSIF fld == "y" %]osi pionowej.
-    [%+ ELSIF fld == "z" %]wielokrotnych tabel/obrazków.
-    [%+ ELSE %]osi raportów.[% END %]
+    [%+ ELSIF fld == "z" %]wielokrotnych tabel/obrazkÃ³w.
+    [%+ ELSE %]osi raportÃ³w.[% END %]
 
   [% ELSIF error == "setting_info_invalid" %]
     Utworzenie nowej opcji wymaga podania jej nazwy, listy
-    par wartoœæ/kolejnoœæ sortowania, oraz domyœlnej wartoœci.
+    par wartoÅ›Ä‡/kolejnoÅ›Ä‡ sortowania, oraz domyÅ›lnej wartoÅ›ci.
 
   [% ELSIF error == "setting_name_invalid" %]
-    Nazwa opcji <em>[% name FILTER html %]</em> nie jest prawid³owa.
-    Musi ona zaczynaæ siê od litery i zawieraæ wy³¹cznie
+    Nazwa opcji <em>[% name FILTER html %]</em> nie jest prawidÅ‚owa.
+    Musi ona zaczynaÄ‡ siÄ™ od litery i zawieraÄ‡ wyÅ‚Ä…cznie
     litery, cyfry oraz symbole '_', '-', '.' i ':'.
 
   [% ELSIF error == "setting_subclass_invalid" %]
@@ -366,8 +366,8 @@
     <code>[% subclass FILTER html %]</code>.
 
   [% ELSIF error == "setting_value_invalid" %]
-    Wartoœæ "<code>[% value FILTER html %]</code>" nie znajduje siê na liœcie
-    dopuszczalnych wartoœci opcji <em>[% name FILTER html %]</em>.
+    WartoÅ›Ä‡ "<code>[% value FILTER html %]</code>" nie znajduje siÄ™ na liÅ›cie
+    dopuszczalnych wartoÅ›ci opcji <em>[% name FILTER html %]</em>.
 
   [% ELSIF error == "soap_not_installed" %]
     [% admindocslinks = {'installation.html#install-perlmodules' => 'Installing Perl modules'} %]
@@ -376,7 +376,7 @@
     Run checksetup.pl for installation instructions.
 
   [% ELSIF error == "token_generation_error" %]
-    Wyst¹pi³ powa¿ny b³¹d w systemie generowania ¿etonów.
+    WystÄ…piÅ‚ powaÅ¼ny bÅ‚Ä…d w systemie generowania Å¼etonÃ³w.
 
   [% ELSIF error == "template_error" %]
     [% template_error_msg FILTER html %]
@@ -385,20 +385,20 @@
     Template with invalid file name found in hook call: [% name FILTER html %].
 
   [% ELSIF error == "unable_to_retrieve_password" %]
-     Nie mo¿na pobraæ poprzedniego has³a u¿ytkownika z bazy danych.
+     Nie moÅ¼na pobraÄ‡ poprzedniego hasÅ‚a uÅ¼ytkownika z bazy danych.
 
   [% ELSIF error == "undefined_field" %]
     Pole formularza [% field FILTER html %] nie jest zdefiniowane
     [%# Useful message if browser did not select show_bug radio button %]
     [% IF field == "knob" %]
-      Proszê sprawdziæ czy pole "Pozostaw jako..." zosta³o zaznaczone
+      ProszÄ™ sprawdziÄ‡ czy pole "Pozostaw jako..." zostaÅ‚o zaznaczone
     [% END %]
 
   [% ELSIF error == "unknown_action" %]
     [% IF action %]
        Nieznana akcja [% action FILTER html %]!
     [% ELSE %]
-       Nie mo¿na okreœliæ intencji u¿ytkownika.
+       Nie moÅ¼na okreÅ›liÄ‡ intencji uÅ¼ytkownika.
     [% END %]
 
   [% ELSIF error == "usage_mode_invalid" %]
@@ -409,10 +409,10 @@
     Attachment #[% attach_id FILTER html %] must be a patch.
 
   [% ELSIF error == "nested_transaction" %]
-    Podjêto próbê rozpoczêcia nowej transakcji bez zakoñczenia poprzedniej.
+    PodjÄ™to prÃ³bÄ™ rozpoczÄ™cia nowej transakcji bez zakoÅ„czenia poprzedniej.
 
   [% ELSIF error == "not_in_transaction" %]
-    Podjêto próbê zakoñczenia nie rozpoczêtej wczeœniej transakcji.
+    PodjÄ™to prÃ³bÄ™ zakoÅ„czenia nie rozpoczÄ™tej wczeÅ›niej transakcji.
 
   [% ELSIF error == "already_locked" %]
     Attempted to lock a table without releasing previous lock first:
@@ -420,23 +420,23 @@
     <p>Tables requesting locking:<br>[% new FILTER html %]
 
   [% ELSIF error == "no_matching_lock" %]
-    Próba zwolnienia blokady dla niezablokowanych tabel.
+    PrÃ³ba zwolnienia blokady dla niezablokowanych tabel.
 
   [% ELSIF error == "comma_operator_deprecated" %]
-    [% title = "B³¹d wewnêtrzny generatora zapytañ SQL" %]
-    Wyst¹pi³ b³¹d wewnêtrzny generatora zapytañ SQL,
-    utworzono zapytanie bez bezpoœredniego u¿ycia klauzuli JOIN.
+    [% title = "BÅ‚Ä…d wewnÄ™trzny generatora zapytaÅ„ SQL" %]
+    WystÄ…piÅ‚ bÅ‚Ä…d wewnÄ™trzny generatora zapytaÅ„ SQL,
+    utworzono zapytanie bez bezpoÅ›redniego uÅ¼ycia klauzuli JOIN.
 
   [% ELSIF error == "invalid_post_bug_submit_action" %]
     Invalid setting for post_bug_submit_action
 
   [% ELSE %]
-    [% title = "B³¹d wewnêtrzny" %]
-    Wyst¹pi³ b³¹d wewnêtrzny, lecz nie mo¿na okreœliæ
-    co oznacza kod b³êdu: <code>[% error FILTER html %]</code>.
+    [% title = "BÅ‚Ä…d wewnÄ™trzny" %]
+    WystÄ…piÅ‚ bÅ‚Ä…d wewnÄ™trzny, lecz nie moÅ¼na okreÅ›liÄ‡
+    co oznacza kod bÅ‚Ä™du: <code>[% error FILTER html %]</code>.
 
-    Jeœli jesteœ zwyk³ym u¿ytkownikiem [% terms.Bugzilli %], proszê zapisaæ t¹ stronê
-    i wys³aæ j¹ do [% Param('maintainer') %].
+    JeÅ›li jesteÅ› zwykÅ‚ym uÅ¼ytkownikiem [% terms.Bugzilli %], proszÄ™ zapisaÄ‡ tÄ… stronÄ™
+    i wysÅ‚aÄ‡ jÄ… do [% Param('maintainer') %].
   [% END %]
 [% END %]
 
@@ -462,9 +462,9 @@
 
 <tt>
   <p>
-    Wyst¹pi³ b³¹d wewnêtrzny [% terms.Bugzilli %]. Proszê zapisaæ t¹ stron¹
-    i wys³aæ j¹ do [% Param("maintainer") %] wraz z opisem czynnoœci, które
-    doprowadzi³y do wyst¹pienia tego b³êdu.
+    WystÄ…piÅ‚ bÅ‚Ä…d wewnÄ™trzny [% terms.Bugzilli %]. ProszÄ™ zapisaÄ‡ tÄ… stronÄ…
+    i wysÅ‚aÄ‡ jÄ… do [% Param("maintainer") %] wraz z opisem czynnoÅ›ci, ktÃ³re
+    doprowadziÅ‚y do wystÄ…pienia tego bÅ‚Ä™du.
   </p>
   <script type="text/javascript"> <!--
     document.write("<p>URL: " + 

@@ -54,17 +54,17 @@
   >
 
   <p>
-    Nie mo¿na jednoznacznie okreœliæ prawid³owych
-    nazw/adresów e-mail osób, które podano na poprzedniej stronie.<br>
-    Proszê spróbowaæ wybraæ prawid³owego u¿ytkownika z poni¿szej listy,
-    lub wróciæ do poprzedniej strony i poprawiæ wpisane nazwy/adresy.
+    Nie moÅ¼na jednoznacznie okreÅ›liÄ‡ prawidÅ‚owych
+    nazw/adresÃ³w e-mail osÃ³b, ktÃ³re podano na poprzedniej stronie.<br>
+    ProszÄ™ sprÃ³bowaÄ‡ wybraÄ‡ prawidÅ‚owego uÅ¼ytkownika z poniÅ¼szej listy,
+    lub wrÃ³ciÄ‡ do poprzedniej strony i poprawiÄ‡ wpisane nazwy/adresy.
   </p>
 [% ELSE %]
   [% PROCESS global/header.html.tmpl title="Nieudane dopasowanie" %]
   <p>
-    Nie mo¿na jednoznacznie okreœliæ prawid³owych
-    nazw/adresów e-mail osób, które podano na poprzedniej stronie.<br>
-    Proszê wróciæ do poprzedniej strony i poprawiæ wpisane nazwy/adresy.
+    Nie moÅ¼na jednoznacznie okreÅ›liÄ‡ prawidÅ‚owych
+    nazw/adresÃ³w e-mail osÃ³b, ktÃ³re podano na poprzedniej stronie.<br>
+    ProszÄ™ wrÃ³ciÄ‡ do poprzedniej strony i poprawiÄ‡ wpisane nazwy/adresy.
   </p>
 [% END %]
 
@@ -89,14 +89,14 @@
                 [% IF query.value.users.size > 1 %]
                   [% IF query.value.status == 'fail' %]
                     <font color="#FF0000">
-                      pasuje do wielu u¿ytkowników.
+                      pasuje do wielu uÅ¼ytkownikÃ³w.
                     </font>
-                      Proszê wróciæ do poprzedniej strony
-                      i spróbowaæ podaæ bardziej jednoznaczne nazwy/adresy.
+                      ProszÄ™ wrÃ³ciÄ‡ do poprzedniej strony
+                      i sprÃ³bowaÄ‡ podaÄ‡ bardziej jednoznaczne nazwy/adresy.
                   [% ELSE %]
                     [% IF query.value.status == 'trunc' %]
-                      pasuje do wiêkszej liczby u¿ytkowników ni¿ maksymaln¹
-                      dopuszczaln¹ wartoœæ ([% query.value.users.size %] u¿ytkowników):<br>
+                      pasuje do wiÄ™kszej liczby uÅ¼ytkownikÃ³w niÅ¼ maksymalnÄ…
+                      dopuszczalnÄ… wartoÅ›Ä‡ ([% query.value.users.size %] uÅ¼ytkownikÃ³w):<br>
                     [% ELSE %]
                       pasuje do:<br>
                     [% END %]
@@ -126,10 +126,10 @@
             [% ELSE %]
                 [% IF (query.key.length < 3) && !(Param('emailsuffix'))
                     && (Param('usermatchmode') == 'search') %]
-                  <font color="#FF0000">jest za krótki
+                  <font color="#FF0000">jest za krÃ³tki
                   (minimalnie 3 znaki)</font>
                 [% ELSE %]
-                  <font color="#FF0000">nie pasuje do ¿adnego u¿ytkownika</font>
+                  <font color="#FF0000">nie pasuje do Å¼adnego uÅ¼ytkownika</font>
                 [% END %]
             [% END %]
         [% END %]

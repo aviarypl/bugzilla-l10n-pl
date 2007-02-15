@@ -33,9 +33,9 @@
 [% message = BLOCK %]
   [% IF    message_tag == "account_created" %]
     [% title = "Utworzono konto $otheruser.login" %]
-    Nowe konto [% otheruser.login FILTER html %] zosta³o utworzone
+    Nowe konto [% otheruser.login FILTER html %] zostaÅ‚o utworzone
     [% IF groups.size %]
-      Za pomoc¹ poni¿szego formularza mo¿na zmieniæ ustawienia grup.
+      Za pomocÄ… poniÅ¼szego formularza moÅ¼na zmieniÄ‡ ustawienia grup.
     [% END %]
     [% IF login_info %]
       You can now go to the <a href="index.cgi">Log In</a> page to enter
@@ -52,18 +52,18 @@
           + groups_added_to.size + groups_removed_from.size
           + groups_granted_rights_to_bless.size + groups_denied_rights_to_bless.size %]
       [% title = "Konto $loginold uaktualnione" %]
-      Poni¿sze zmiany dla konta [%+ loginold FILTER html %] zosta³y zatwierdzone:
+      PoniÅ¼sze zmiany dla konta [%+ loginold FILTER html %] zostaÅ‚y zatwierdzone:
       <ul>
         [% FOREACH field = changed_fields %]
           <li>
             [% IF    field == 'login_name' %]
-              Identyfikator konta zosta³ zmieniony na [% otheruser.login FILTER html %].
+              Identyfikator konta zostaÅ‚ zmieniony na [% otheruser.login FILTER html %].
             [% ELSIF field == 'realname' %]
-              Dane osobowe zosta³y uaktualnione.
+              Dane osobowe zostaÅ‚y uaktualnione.
             [% ELSIF field == 'cryptpassword' %]
-              Nowe has³o zosta³o ustawione.
+              Nowe hasÅ‚o zostaÅ‚o ustawione.
             [% ELSIF field == 'disabledtext' %]
-              Objaœnienie powodu wy³¹czenia konta zosta³o zmodyfikowane.
+              ObjaÅ›nienie powodu wyÅ‚Ä…czenia konta zostaÅ‚o zmodyfikowane.
             [% ELSIF field == 'disable_mail' %]
               [% IF otheruser.email_disabled %]
                 Bugmail has been disabled.
@@ -75,38 +75,38 @@
         [% END %]
         [% IF groups_added_to.size %]
           <li>
-            Konto zosta³o dodane do grup[% 'y' IF groups_added_to.size == 1 %]
+            Konto zostaÅ‚o dodane do grup[% 'y' IF groups_added_to.size == 1 %]
             [%+ groups_added_to.join(', ') FILTER html %].
           </li>
         [% END %]
         [% IF groups_removed_from.size %]
           <li>
-            Konto zosta³o usuniête z grup[% 'y' IF groups_removed_to.size == 1 %]
+            Konto zostaÅ‚o usuniÄ™te z grup[% 'y' IF groups_removed_to.size == 1 %]
             [%+ groups_removed_from.join(', ') FILTER html %].
           </li>
         [% END %]
         [% IF groups_granted_rights_to_bless.size %]
           <li>
-            Przyznano prawo do modyfikacji cz³onkostwa grup[% 'y' IF groups_granted_rights_to_bless.size == 1 %]
+            Przyznano prawo do modyfikacji czÅ‚onkostwa grup[% 'y' IF groups_granted_rights_to_bless.size == 1 %]
             [%+ groups_granted_rights_to_bless.join(', ') FILTER html %].
           </li>
         [% END %]
         [% IF groups_denied_rights_to_bless.size %]
           <li>
-            Odebrano prawo do modyfikacji cz³onkostwa grup[% 'y' IF groups_granted_denied_to_bless.size == 1 %]
+            Odebrano prawo do modyfikacji czÅ‚onkostwa grup[% 'y' IF groups_granted_denied_to_bless.size == 1 %]
             [%+ groups_denied_rights_to_bless.join(', ') FILTER html %].
           </li>
         [% END %]
       </ul>
     [% ELSE %]
-      [% title = "Nie dokonano ¿adnych zmian dla konta $otheruser.login" %]
-      Nie dokonano ¿adnych zmian dla konta
+      [% title = "Nie dokonano Å¼adnych zmian dla konta $otheruser.login" %]
+      Nie dokonano Å¼adnych zmian dla konta
       [%+ otheruser.login FILTER html %].
     [% END %]
 
   [% ELSIF message_tag == "account_deleted" %]
-    [% title = "Konto $otheruser.login zosta³o usuniête" %]
-    Konto [% otheruser.login FILTER html %] zosta³o pomyœlnie usuniête.
+    [% title = "Konto $otheruser.login zostaÅ‚o usuniÄ™te" %]
+    Konto [% otheruser.login FILTER html %] zostaÅ‚o pomyÅ›lnie usuniÄ™te.
 
   [% ELSIF message_tag == "attachment_creation_failed" %]
     The [% terms.bug %] was created successfully, but attachment creation
@@ -138,28 +138,28 @@
     [% title = BLOCK %]
       Trwa wczytywanie zapytania <code>[% namedcmd FILTER html %]</code>
     [% END %]
-    [% link  = "Kliknij tutaj jeœli strona nie zosta³a odœwie¿ona automatycznie." %]
+    [% link  = "Kliknij tutaj jeÅ›li strona nie zostaÅ‚a odÅ›wieÅ¼ona automatycznie." %]
 
   [% ELSIF message_tag == "buglist_updated_named_query" %]
-    Zapytanie <code>[% queryname FILTER html %]</code> zosta³o uaktualnione.
+    Zapytanie <code>[% queryname FILTER html %]</code> zostaÅ‚o uaktualnione.
 
   [% ELSIF message_tag == "buglist_new_default_query" %]
-    Domyœlne zapytanie zosta³o zapisane. Mo¿na równie¿, dodaæ
-    zak³adkê do wyników dowolnego zapytania.
+    DomyÅ›lne zapytanie zostaÅ‚o zapisane. MoÅ¼na rÃ³wnieÅ¼, dodaÄ‡
+    zakÅ‚adkÄ™ do wynikÃ³w dowolnego zapytania.
 
   [% ELSIF message_tag == "buglist_new_named_query" %]
-    Zapytanie <code>[% queryname FILTER html %]</code> zosta³o zapisane.
+    Zapytanie <code>[% queryname FILTER html %]</code> zostaÅ‚o zapisane.
 
   [% ELSIF message_tag == "buglist_query_gone" %]
     [% title = "Usuwanie zapytania" %]
-    [% link  = "Wróæ do strony zapytañ." %]
-    Zapytanie <code>[% namedcmd FILTER html %]</code> zosta³o usuniête.
+    [% link  = "WrÃ³Ä‡ do strony zapytaÅ„." %]
+    Zapytanie <code>[% namedcmd FILTER html %]</code> zostaÅ‚o usuniÄ™te.
 
   [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
-    [% terms.Bledy %] na tej liœcie s¹ posortowane wed³ug trafnoœci,
-    z [% terms.bledami %] najbli¿szymi zapytaniu na górze.
+    [% terms.Bledy %] na tej liÅ›cie sÄ… posortowane wedÅ‚ug trafnoÅ›ci,
+    z [% terms.bledami %] najbliÅ¼szymi zapytaniu na gÃ³rze.
     [% IF bugs.size == constants.FULLTEXT_BUGLIST_LIMIT %]
-      Wyœwietlanych jest wy³¹cznie pierwsze 
+      WyÅ›wietlanych jest wyÅ‚Ä…cznie pierwsze 
       [% constants.FULLTEXT_BUGLIST_LIMIT FILTER html %] [% terms.bledow %].
     [% END %]
 
@@ -167,7 +167,7 @@
     [% title = "Zmiana kolumn" %]
     Trwa ponowne wykonanie zapytania z nowymi kolumnami...
     Kliknij <a href="[% redirect_url FILTER html %]">tutaj</a>
-    jeœli strona nie odœwie¿y siê automatycznie.
+    jeÅ›li strona nie odÅ›wieÅ¼y siÄ™ automatycznie.
 
   [% ELSIF message_tag == "custom_field_created" %]
     [% title = "Custom Field Created" %]
@@ -180,20 +180,20 @@
     successfully updated.
 
   [% ELSIF message_tag == "emailold_change_cancelled" %]
-    [% title = "Anulowanie ¿¹dania zmiany adresu e-mail" %]
-    ¯¹danie zmiany adresu e-mail konta na adres
-    [%+ new_email FILTER html %] zosta³o anulowana.
+    [% title = "Anulowanie Å¼Ä…dania zmiany adresu e-mail" %]
+    Å»Ä…danie zmiany adresu e-mail konta na adres
+    [%+ new_email FILTER html %] zostaÅ‚o anulowana.
 
   [% ELSIF message_tag == "email_change_cancelled" %]
-    [% title = "Anulowanie ¿¹dania zmiany adresu e-mail" %]
-    ¯¹danie zmiany adresu e-mail z [%+ old_email FILTER html %]
-    na [%+ new_email FILTER html %] zosta³o anulowana.
+    [% title = "Anulowanie Å¼Ä…dania zmiany adresu e-mail" %]
+    Å»Ä…danie zmiany adresu e-mail z [%+ old_email FILTER html %]
+    na [%+ new_email FILTER html %] zostaÅ‚o anulowana.
 
   [% ELSIF message_tag == "email_change_cancelled_reinstated" %]
-    [% title = "Anulowanie ¿¹dania zmiany adresu e-mail" %]
-    ¯¹danie zmiany adresu e-mail z [%+ old_email FILTER html %]
-    na adres [%+ new_email FILTER html %] zosta³o anulowane.
-    Zosta³y przywrócone stare ustawienia.
+    [% title = "Anulowanie Å¼Ä…dania zmiany adresu e-mail" %]
+    Å»Ä…danie zmiany adresu e-mail z [%+ old_email FILTER html %]
+    na adres [%+ new_email FILTER html %] zostaÅ‚o anulowane.
+    ZostaÅ‚y przywrÃ³cone stare ustawienia.
 
   [% ELSIF message_tag == "flag_creation_failed" %]
     [% title = "Flag Creation Failure" %]
@@ -205,14 +205,14 @@
     [% url = "index.cgi?GoAheadAndLogIn=1" %]
     [% link = "Zaloguj ponownie." %]
     <b>Wylogowano</b>.
-    Ciasteczko, w którym by³y przechowywane informacje o danych
-    logowania, zosta³o usuniête.
-    Przy nastêpnej próbie logowania bêdzie trzeba podaæ wymagane 
+    Ciasteczko, w ktÃ³rym byÅ‚y przechowywane informacje o danych
+    logowania, zostaÅ‚o usuniÄ™te.
+    Przy nastÄ™pnej prÃ³bie logowania bÄ™dzie trzeba podaÄ‡ wymagane 
     informacje.
 
   [% ELSIF message_tag == "login_changed" %]
     [% title = "Zmiana identyfikatora logowania w $terms.Bugzill" %]
-    Nazwa u¿ytkownika w [% terms.Bugzilli %] zosta³a zmieniona.
+    Nazwa uÅ¼ytkownika w [% terms.Bugzilli %] zostaÅ‚a zmieniona.
 
   [% ELSIF message_tag == "parameters_updated" %]
     [% title = "Parameters Updated" %]
@@ -234,44 +234,44 @@
     [% END%]
 
   [% ELSIF message_tag == "password_change_cancelled" %]
-    [% title = "Anulowanie ¿¹dania zmiany has³a" %]
-    ¯¹danie zmiany has³a zosta³o anulowane.
+    [% title = "Anulowanie Å¼Ä…dania zmiany hasÅ‚a" %]
+    Å»Ä…danie zmiany hasÅ‚a zostaÅ‚o anulowane.
 
   [% ELSIF message_tag == "password_change_request" %]
-    [% title = "¯¹danie zmiany has³a" %]
-    ¯eton zmiany has³a zosta³ wys³any.
-    Instrukcje zawarte w e-mailu pozwol¹ zmieniæ has³o.
+    [% title = "Å»Ä…danie zmiany hasÅ‚a" %]
+    Å»eton zmiany hasÅ‚a zostaÅ‚ wysÅ‚any.
+    Instrukcje zawarte w e-mailu pozwolÄ… zmieniÄ‡ hasÅ‚o.
 
   [% ELSIF message_tag == "password_changed" %]
-    [% title = "Has³o zmienione" %]
-    Has³o zosta³o zmienione.
+    [% title = "HasÅ‚o zmienione" %]
+    HasÅ‚o zostaÅ‚o zmienione.
 
   [% ELSIF message_tag == "flag_type_created" %]
     [% title = "Tworzenie nowej flagi" %]
-      Flaga o typie <em>[% name FILTER html %]</em> zosta³a utworzona,
-      <a href="editflagtypes.cgi">Wróæ do panelu flag.</a>
+      Flaga o typie <em>[% name FILTER html %]</em> zostaÅ‚a utworzona,
+      <a href="editflagtypes.cgi">WrÃ³Ä‡ do panelu flag.</a>
     
   [% ELSIF message_tag == "flag_type_changes_saved" %]
     [% title = "Zmiana flagi" %]
     <p>
       Zmiany flagi typu <em>[% name FILTER html %]</em> 
-      zosta³y zapisane.
-      <a href="editflagtypes.cgi">Wróæ do panelu flag.</a>
+      zostaÅ‚y zapisane.
+      <a href="editflagtypes.cgi">WrÃ³Ä‡ do panelu flag.</a>
     </p>
     
   [% ELSIF message_tag == "flag_type_deleted" %]
     [% title = "Flag Type Deleted" %]
     <p>
-      Flaga typu <em>[% name FILTER html %]</em> zosta³a usuniêta.
-      <a href="editflagtypes.cgi">Wróæ do panelu flag.</a>
+      Flaga typu <em>[% name FILTER html %]</em> zostaÅ‚a usuniÄ™ta.
+      <a href="editflagtypes.cgi">WrÃ³Ä‡ do panelu flag.</a>
     </p>
     
   [% ELSIF message_tag == "flag_type_deactivated" %]
     [% title = "Deaktywacja flagi" %]
     <p>
       Flaga typu <em>[% flag_type.name FILTER html %]</em> 
-      zosta³a zdeaktywowana.
-      <a href="editflagtypes.cgi">Wróæ do panelu flag.</a>
+      zostaÅ‚a zdeaktywowana.
+      <a href="editflagtypes.cgi">WrÃ³Ä‡ do panelu flag.</a>
     </p>
     
   [% ELSIF message_tag == "install_admin_get_email" %]
@@ -359,12 +359,12 @@
   [% ELSIF message_tag == "product_invalid" %]
     [% title = "Opis komponentu $terms.Bugzilli" %]
     Produkt <em>[% product FILTER html %]</em> nie istnieje lub nie
-    ma do niego dostêpu. Poni¿sze lista zawiera wszystkie
-    produkty dostêpne dla bie¿¹cego u¿ytkownika.
+    ma do niego dostÄ™pu. PoniÅ¼sze lista zawiera wszystkie
+    produkty dostÄ™pne dla bieÅ¼Ä…cego uÅ¼ytkownika.
 
   [% ELSIF message_tag == "remaining_time_zeroed" %]
-    Wartoœæ pola [% field_descs.remaining_time FILTER html %] zosta³a
-    automatycznie zmieniona na zero, w zwi¹zku z oznaczeniem [% terms.bledu %]
+    WartoÅ›Ä‡ pola [% field_descs.remaining_time FILTER html %] zostaÅ‚a
+    automatycznie zmieniona na zero, w zwiÄ…zku z oznaczeniem [% terms.bledu %]
     na RESOLVED lub CLOSED.
 
   [% ELSIF message_tag == "sudo_started" %]
@@ -383,42 +383,42 @@
       Seria <em>[% series.category FILTER html %] /
       [%+ series.subcategory FILTER html %] / 
       [%+ series.name FILTER html %]</em>
-      zosta³a utworzona. Uwaga, dane pozwalaj¹ce utworzyæ wykres, zostan¹
+      zostaÅ‚a utworzona. Uwaga, dane pozwalajÄ…ce utworzyÄ‡ wykres, zostanÄ…
       zebrane dopiero za [%+ series.frequency * 2 %] dni.
       <br><br>
-      Wróæ do poprzedniej strony lub 
-      <a href="query.cgi?format=create-series">utwórz inn¹ seriê</a>.
+      WrÃ³Ä‡ do poprzedniej strony lub 
+      <a href="query.cgi?format=create-series">utwÃ³rz innÄ… seriÄ™</a>.
     
   [% ELSIF message_tag == "shutdown" %]
-    [% title = "Wy³¹czanie $terms.Bugzilli" %]
+    [% title = "WyÅ‚Ä…czanie $terms.Bugzilli" %]
     [% Param("shutdownhtml") %]
     [% IF userid %]
-      <p>Ze wzglêdów bezpieczeñstwa, nast¹pi³o automatyczne wylogowanie.
-      Ciasteczko przechowuj¹ce informacje pozwalaj¹ce na automatyczne
-      zalogowanie zosta³o usuniête.
+      <p>Ze wzglÄ™dÃ³w bezpieczeÅ„stwa, nastÄ…piÅ‚o automatyczne wylogowanie.
+      Ciasteczko przechowujÄ…ce informacje pozwalajÄ…ce na automatyczne
+      zalogowanie zostaÅ‚o usuniÄ™te.
     [% END %]
 
   [% ELSIF message_tag == "term" %]
     [% terms.$term FILTER html %]
 
   [% ELSIF message_tag == "user_match_failed" %]
-    Podano nazwê u¿ytkownika która nie pasuje do ¿adnego konta
-    [% terms.Bugzilli %], wiêc pole [% match_field FILTER html %] zosta³o
+    Podano nazwÄ™ uÅ¼ytkownika ktÃ³ra nie pasuje do Å¼adnego konta
+    [% terms.Bugzilli %], wiÄ™c pole [% match_field FILTER html %] zostaÅ‚o
     puste.
 
   [% ELSIF message_tag == "user_match_multiple" %]
-    Podano nazwê u¿ytkownika która pasuje do wiêcej ni¿ jednego
-    konta, wiêc pole [% match_field FILTER html %] pozostawiono
+    Podano nazwÄ™ uÅ¼ytkownika ktÃ³ra pasuje do wiÄ™cej niÅ¼ jednego
+    konta, wiÄ™c pole [% match_field FILTER html %] pozostawiono
     puste.
     
   [% ELSE %]
     [%# Give sensible error if error functions are used incorrectly.
       #%]        
-    Nieprawid³owe korzystanie z funkcji przekazywania wiadomoœci [% terms.Bugzilli %].
-    Podano napis '[% message_tag %]'. Prawid³owy sposób u¿ycia to stworzenie
-    znacznika i zdefiniowanie go wewn¹trz pliku messages.html.tmpl.<br>
+    NieprawidÅ‚owe korzystanie z funkcji przekazywania wiadomoÅ›ci [% terms.Bugzilli %].
+    Podano napis '[% message_tag %]'. PrawidÅ‚owy sposÃ³b uÅ¼ycia to stworzenie
+    znacznika i zdefiniowanie go wewnÄ…trz pliku messages.html.tmpl.<br>
     <br>
-    Jeœli jesteœ zwyk³ym u¿ytkownikiem [% terms.Bugzilli %], prosimy o przes³anie
-    tej wiadomoœci do [% Param('maintainer') %].
+    JeÅ›li jesteÅ› zwykÅ‚ym uÅ¼ytkownikiem [% terms.Bugzilli %], prosimy o przesÅ‚anie
+    tej wiadomoÅ›ci do [% Param('maintainer') %].
   [% END %]
 [% END %]

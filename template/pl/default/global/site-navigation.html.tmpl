@@ -65,19 +65,19 @@
 
   [%# *** Dependencies, Votes, Activity, Print-version *** %]
   [% IF bug %]
-    <link rel="Show" title="Drzewo zale¿noœci"
+    <link rel="Show" title="Drzewo zaleÅ¼noÅ›ci"
           href="showdependencytree.cgi?id=[% bug.bug_id %]&amp;hide_resolved=1">
     [% IF Param('webdotbase') %]
-    <link rel="Show" title="Graf zale¿noœci"
+    <link rel="Show" title="Graf zaleÅ¼noÅ›ci"
             href="showdependencygraph.cgi?id=[% bug.bug_id %]">
     [% END %]
 
     [% IF bug.use_votes %]
-      <link rel="Show" title="G³osy ([% bug.votes %])"
+      <link rel="Show" title="GÅ‚osy ([% bug.votes %])"
             href="votes.cgi?action=show_bug&amp;bug_id=[% bug.bug_id %]">
     [% END %]
 
-      <link rel="Show" title="Raport aktywnoœci [% terms.bledu %]"
+      <link rel="Show" title="Raport aktywnoÅ›ci [% terms.bledu %]"
             href="show_activity.cgi?id=[% bug.bug_id %]">
       <link rel="Show" title="Wersja do druku"
             href="show_bug.cgi?format=multiple&amp;id=[% bug.bug_id %]">
@@ -87,12 +87,12 @@
   [%# *** Saved Searches *** %]
   [% IF user.showmybugslink %]
     [% user_login = user.login FILTER url_quote %]
-    <link rel="Zapamiêtane&nbsp;wyszukiwania" title="Moje [% terms.bledy %]"
+    <link rel="ZapamiÄ™tane&nbsp;wyszukiwania" title="Moje [% terms.bledy %]"
           href="[% Param('mybugstemplate').replace('%userid%', user_login) %]">
   [% END %]
 
   [% FOREACH q = user.queries %]
-    <link rel="Zapamiêtane&nbsp;wyszukiwania" 
+    <link rel="ZapamiÄ™tane&nbsp;wyszukiwania" 
           title="[% q.name FILTER html %]"
           href="buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% q.name FILTER url_quote %]">
   [% END %]
@@ -109,7 +109,7 @@
   [% IF user.login %] 
     [% '<link rel="Administracja" title="Parametry"    
               href="editparams.cgi">' IF user.groups.tweakparams %]
-    [% '<link rel="Administracja" title="U¿ytkownicy"    
+    [% '<link rel="Administracja" title="UÅ¼ytkownicy"    
               href="editusers.cgi">' IF user.groups.editusers %]
     [% '<link rel="Administration" title="Products" href="editproducts.cgi">'
        IF user.groups.editcomponents || user.get_products_by_permission("editcomponents").size %]
@@ -117,11 +117,11 @@
               href="editflagtypes.cgi">' IF user.groups.editcomponents %]
     [% '<link rel="Administracja" title="Grupy"        
               href="editgroups.cgi">' IF user.groups.creategroups %]
-    [% '<link rel="Administracja" title="S³owa kluczowe"      
+    [% '<link rel="Administracja" title="SÅ‚owa kluczowe"      
               href="editkeywords.cgi">' IF user.groups.editkeywords %]
     [% '<link rel="Administration" title="Przypominanie"       
               href="editwhines.cgi">' IF user.groups.bz_canusewhines %]
-    [% '<link rel="Administracja" title="Sprawdzanie poprawnoœci"  
+    [% '<link rel="Administracja" title="Sprawdzanie poprawnoÅ›ci"  
               href="sanitycheck.cgi">' IF user.groups.editcomponents %]
   [% END %]  
 [% END %]
