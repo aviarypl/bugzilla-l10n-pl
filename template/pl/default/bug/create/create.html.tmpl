@@ -443,20 +443,20 @@ function handleWantsAttachment(wants_attachment) {
   [% END %]
 
   <tr>
-    <th align="right" valign="top">Attachment:</th>
+    <th align="right" valign="top">Załącznik:</th>
     <td colspan="3">
       <script type="text/javascript">
         <!--
         document.write( '<div id="attachment_false">'
-                      +   '<input type="button" value="Add an attachment" '
+                      +   '<input type="button" value="Dodaj załącznik" '
                       +          'onClick="handleWantsAttachment(true)"> '
-                      +   '<em style="display: none">This button has no '
-                      +   'functionality for you because your browser does '
-                      +   'not support CSS or does not use it.<\/em>'
+                      +   '<em style="display: none">Ten przycisk nie '
+                      +   'działa, ponieważ Twoja przeglądarka nie '
+                      +   'obsługuje CSS lub go nie używa.<\/em>'
                       + '<\/div>'
                       + '<div id="attachment_true" style="display: none">'
                       +   '<input type="button" '
-                      +          'value="Don\'t add an attachment " '
+                      +          'value="Nie dodawaj załącznika " '
                       +          'onClick="handleWantsAttachment(false)">');
         //-->
       </script>
@@ -482,7 +482,7 @@ function handleWantsAttachment(wants_attachment) {
       <tr>
         <td align="right" valign="top">
           <strong>
-            <a href="describekeywords.cgi">Keywords</a>:
+            <a href="describekeywords.cgi">Słowa kluczowe</a>:
           </strong>
         </td>
         <td colspan="3">
@@ -492,7 +492,7 @@ function handleWantsAttachment(wants_attachment) {
     [% END %]
     <tr>
       <td align="right">
-        <strong>Depends on:</strong>
+        <strong>Zależy od:</strong>
       </td>
       <td>
         <input name="dependson" accesskey="d" value="[% dependson FILTER html %]">
@@ -500,7 +500,7 @@ function handleWantsAttachment(wants_attachment) {
     </tr>
     <tr>
       <td align="right">
-        <strong>Blocks:</strong>
+        <strong>Blokuje:</strong>
       </td>
       <td>
         <input name="blocked" accesskey="b" value="[% blocked FILTER html %]">
@@ -514,7 +514,8 @@ function handleWantsAttachment(wants_attachment) {
     [% IF group.size %]
       <br>
         <strong>
-          Only users in all of the selected groups can view this [% terms.bug %]:
+          Wyłącznie osoby należące do zaznaczonych grup będą miały dostęp
+          do tego [% terms.bledu %]:
         </strong>
       <br>
       <font size="-1">
@@ -542,13 +543,13 @@ function handleWantsAttachment(wants_attachment) {
   <tr>
     <td></td>
     <td colspan="3">
-      <input type="submit" id="commit" value="    Commit    "
+      <input type="submit" id="commit" value="    Wyślij    "
              onclick="if (this.form.short_desc.value == '')
-             { alert('Please enter a summary sentence for this [% terms.bug %].');
+             { alert('Proszę wpisać podsumowanie dla tego [% terms.bledu %].');
                return false; } return true;">
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="submit" name="maketemplate" id="maketemplate"
-             value="Remember values as bookmarkable template">
+             value="Zapamiętaj wartości, jako wzorzec-zakładkę">
     </td>
   </tr>
 
@@ -559,14 +560,14 @@ function handleWantsAttachment(wants_attachment) {
       <br>
       We've made a guess at your
   [% IF Param('defaultplatform') %]
-      operating system. Please check it
+      System operacyjny został ustawiony
   [% ELSIF Param('defaultopsys') %]
-      platform. Please check it
+      Platforma sprzętowa została ustawiona
   [% ELSE %]
-      operating system and platform. Please check them
+      System operacyjny oraz platforma zostały ustawione
   [% END %]
-      and, if we got it wrong, email
-      [%+ Param('maintainer') %].
+      na podstawie danych Twojej przeglądarki. Jeśli wykryte wartości są
+      niepoprawne prosimy o informację na adres [%+ Param('maintainer') %].
     </td>
   </tr>
 [% END %]
