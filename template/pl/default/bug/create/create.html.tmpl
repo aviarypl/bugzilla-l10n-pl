@@ -26,7 +26,7 @@
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
-[% title = BLOCK %]Enter [% terms.Bug %]: [% product.name FILTER html %][% END %]
+[% title = BLOCK %]Dodaj [% terms.blad %]: [% product.name FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -179,17 +179,17 @@ function handleWantsAttachment(wants_attachment) {
   </tr>
 
   <tr>
-    <td align="right" valign="top"><strong>Reporter:</strong></td>
+    <td align="right" valign="top"><strong>Zgłaszający:</strong></td>
     <td valign="top">[% user.login FILTER html %]</td>
 
-    <td align="right" valign="top"><strong>Product:</strong></td>
+    <td align="right" valign="top"><strong>Produkt:</strong></td>
     <td valign="top">[% product.name FILTER html %]</td>
   </tr>
 
   [%# We can't use the select block in these two cases for various reasons. %]
   <tr>
     <td align="right" valign="top">
-      <strong>Version:</strong>
+      <strong>Wersja:</strong>
     </td>
     <td>
       <select name="version" size="5">
@@ -204,7 +204,7 @@ function handleWantsAttachment(wants_attachment) {
     <td align="right" valign="top">
       <strong>
         <a href="describecomponents.cgi?product=[% product.name FILTER url_quote %]">
-          Component</a>:
+          Komponent</a>:
       </strong>
     </td>
     <td>
@@ -225,16 +225,16 @@ function handleWantsAttachment(wants_attachment) {
   </tr>
 
   <tr>
-    [% sel = { description => 'Severity', name => 'bug_severity' } %]
+    [% sel = { description => "Waga $terms.bledu" , name => 'bug_severity' } %]
     [% INCLUDE select %]
 
-    [% sel = { description => 'Platform', name => 'rep_platform' } %]
+    [% sel = { description => 'Platforma', name => 'rep_platform' } %]
     [% INCLUDE select %]
   </tr>
 
   <tr>
     [% IF Param('letsubmitterchoosepriority') %]
-      [% sel = { description => 'Priority', name => 'priority' } %]
+      [% sel = { description => 'Priorytet', name => 'priority' } %]
       [% INCLUDE select %]
     [% ELSE %]
       <td colspan="2">

@@ -50,17 +50,16 @@
 
   [% ELSIF error == "auth_invalid_email" %]
     [% title = "Invalid Email Address" %]
-    We received an email address (<b>[% addr FILTER html %]</b>)
-    that didn't pass our syntax checking for a legal email address,
-    when trying to create or update your account.
+    Adres email, otrzymany podczas zakładania lub modyfikacji konta, (<b>[% addr FILTER html %]</b>)
+    nie przechodzi testu poprawności składni adresu email.
     [% IF default %]
-      A legal address must contain exactly one '@',
-      and at least one '.' after the @.
+      Prawidłowy adres email musi zawierać dokładnie jeden znak '@',
+      i przynajmniej jeden znak '.' po @.
     [% ELSE %]
       [%+ Param('emailregexpdesc') %]
     [% END %]
-    It must also not contain any of these special characters:
-    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt>, or any whitespace.
+    Nie może też zawierać żadnego z poniższych znaków specjalnych:
+    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt>, ani białych znaków.
 
   [% ELSIF error == "authres_unhandled" %]
     Wartość zwracana przez [% value FILTER html %] nie została obsłużona 
@@ -80,18 +79,17 @@
     wystąpił błąd [% bug.error FILTER html %].
     
   [% ELSIF error == "chart_data_not_generated" %]
-    [% admindocslinks = {'extraconfig.html' => 'Setting up Charting'} %]
+    [% admindocslinks = {'extraconfig.html' => 'Konfiguracja wykresów'} %]
     [% IF product %]
-      Charts for the <em>[% product FILTER html %]</em> product are not
-      available yet because no charting data has been collected for it since it
-      was created.
+      Wykresy dla produktu <em>[% product FILTER html %]</em> nie są dostępne, ponieważ
+      żadne dane nie zostały zebrane od czasu ich utworzenia.
     [% ELSE %]
-      No charting data has been collected yet.
+      Żadne dane do wykresów nie zostały jeszcze zebrane.
     [% END %]
-    Please wait a day and try again.
-    If you're seeing this message after a day, then you should contact
+    Proszę odczekać dzień i spróbować ponownie.
+    Jeśli widzisz ten komunikat nadal po tym dniu, należy się skontaktować z
     <a href="mailto:[% Param('maintainer') %]">[% Param('maintainer') %]</a>
-    and reference this error.
+    i opisać problem.
 
   [% ELSIF error == "chart_datafile_corrupt" %]
     Plik z danymi wykresów [% file FILTER html %] jest uszkodzony.
@@ -104,9 +102,9 @@
     Nie można otworzyć pliku <tt>[% filename FILTER html %]</tt> z danymi do wykresu.
   
   [% ELSIF error == "chart_lines_not_installed" %]
-    [% admindocslinks = {'installation.html#install-perlmodules' => 'Installing Perl modules necessary for Charting'} %]
-    Charts will not work without the Chart::Lines Perl module being installed.
-    Run checksetup.pl for installation instructions.
+    [% admindocslinks = {'installation.html#install-perlmodules' => 'Do korzystania z wykresów niezbędna jest instalacja modułów Perl'} %]
+    Wykresy nie będą działać, póki nie zostanie zainstalowany modół Perl Chart::Lines.
+    Uruchom checksetup.pl, aby wyświetlić instrukcje instalacji.
 
   [% ELSIF error == "column_not_null_without_default" %]
     Failed adding the column [% name FILTER html %]:
