@@ -248,7 +248,7 @@ function handleWantsAttachment(wants_attachment) {
 
   [% IF Param('usetargetmilestone') && Param('letsubmitterchoosemilestone') %]
     <tr>
-      [% sel = { description => 'Target Milestone', name => 'target_milestone' } %]
+      [% sel = { description => 'Wersja docelowa', name => 'target_milestone' } %]
       [% INCLUDE select %]
       <td colspan="2">&nbsp;</td>
     </tr>
@@ -299,13 +299,13 @@ function handleWantsAttachment(wants_attachment) {
          size => 32
          emptyok => 1
        %]
-      <noscript>(Leave blank to assign to component's default assignee)</noscript>
+      <noscript>(Pozostaw puste, aby przypisać do właściciela komponentu)</noscript>
     </td>
   </tr>
   
 [% IF Param("useqacontact") %]
     <tr>
-      <td align="right"><strong>QA Contact:</strong></td>
+      <td align="right"><strong>Kontakt QA:</strong></td>
       <td colspan="2">
       [% INCLUDE global/userselect.html.tmpl
          name => "qa_contact"
@@ -314,13 +314,13 @@ function handleWantsAttachment(wants_attachment) {
          size => 32
          emptyok => 1
        %]
-        <noscript>(Leave blank to assign to default qa contact)</noscript>
+        <noscript>(Pozostaw puste, aby przypisać do domyślnego kontaktu QA)</noscript>
       </td>
     </tr>
 [% END %]
 
   <tr>
-    <td align="right"><strong>Cc:</strong></td>
+    <td align="right"><strong>Obserwatorzy:</strong></td>
     <td colspan="2">
       [% INCLUDE global/userselect.html.tmpl
          name => "cc"
@@ -333,7 +333,7 @@ function handleWantsAttachment(wants_attachment) {
   </tr>
 
   <tr>
-    <th align="right">Domyślne CC:</th>
+    <th align="right">Domyślni obserwatorzy:</th>
     <td colspan="2">
       <div id="initial_cc">
           <!-- This has to happen after everything above renders,
@@ -351,7 +351,7 @@ function handleWantsAttachment(wants_attachment) {
 
 [% IF user.in_group(Param('timetrackinggroup')) %]
   <tr>
-    <td align="right"><strong>Szacowany czas:</strong></td>
+    <td align="right"><strong>Szacunkowa liczba godzin:</strong></td>
     <td colspan="2">
       <input name="estimated_time" size="6" maxlength="6" value="0.0">
     </td>
@@ -360,7 +360,7 @@ function handleWantsAttachment(wants_attachment) {
     <td align="right"><strong>Deadline:</strong></td>
     <td colspan="2">
       <input name="deadline" size="10" maxlength="10" value="[% deadline FILTER html %]">
-      <small>(YYYY-MM-DD)</small>
+      <small>(RRRR-MM-DD)</small>
     </td>
   </tr>
 
@@ -436,7 +436,7 @@ function handleWantsAttachment(wants_attachment) {
         <input type="checkbox" id="commentprivacy" name="commentprivacy"
           [% " checked=\"checked\"" IF commentprivacy %]>
         <label for="commentprivacy">
-          Początkowy opis jest prywatny
+          Początkowo opis jest prywatny
         </label>
       </td>
     </tr>
@@ -519,7 +519,7 @@ function handleWantsAttachment(wants_attachment) {
         </strong>
       <br>
       <font size="-1">
-        (Pozostaw wszystkie opcje niezaznaczone, aby określić [% terms.blad %] jako publiczny.)
+        (Pozostaw wszystkie opcje niezaznaczone, aby uczynić [% terms.blad %] publicznym.)
       </font>
       <br>
       <br>

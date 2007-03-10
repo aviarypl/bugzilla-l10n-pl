@@ -29,9 +29,9 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Changes made to $terms.bug $bug_id"
-  header = "Activity log"
-  subheader = "$terms.Bug <a href=\"show_bug.cgi?id=$bug_id\">$bug_id</a>"
+  title = "Zmiany dokonane w $terms.bledzie $bug_id"
+  header = "Raport aktywności"
+  subheader = "$terms.Blad <a href=\"show_bug.cgi?id=$bug_id\">$bug_id</a>"
  %]
 
 <br>
@@ -39,7 +39,7 @@
 [% PROCESS bug/activity/table.html.tmpl %]
 
 <p>
-  <a href="show_bug.cgi?id=[% bug_id %]">Back to [% terms.bug %] 
+  <a href="show_bug.cgi?id=[% bug_id %]">Wróć do [% terms.bug %] 
   [%+ bug_id %]</a>
 </p>
 
