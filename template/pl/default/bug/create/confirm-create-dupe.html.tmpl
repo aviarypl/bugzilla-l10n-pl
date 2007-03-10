@@ -24,7 +24,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Already filed $terms.bug"
+  title = "$terms.Blad już zgłoszony"
 %]
 
 [% USE Bugzilla %]
@@ -33,13 +33,13 @@
   <tr>
     <td bgcolor="#ff0000">
       <font size="+2">
-        You already used the form to file [% "$terms.bug $bugid" FILTER bug_link(bugid) FILTER none %].
+        Ten formularz został już poprzednio użyty do utworzenia [% "$terms.bledu $bugid" FILTER bug_link(bugid) FILTER none %].
       </font>
     </td>
   </tr>
 </table>
 
-<p><font size="big">You are highly encouraged to visit [% "$terms.bug $bugid"
+<p><font size="big">Należy przejść do [% "$terms.bledu $bugid"
 FILTER bug_link(bugid) FILTER none %].</font></p>
 
 [% IF allow_override %]

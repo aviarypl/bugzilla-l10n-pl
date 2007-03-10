@@ -29,7 +29,7 @@
 [% USE Bugzilla %]
 [% cgi = Bugzilla.cgi %]
 User-Agent:       [%+ cgi.user_agent() %]
-Build Identifier: [%+ cgi.param("buildid") %]
+Identyfikator kompilacji: [%+ cgi.param("buildid") %]
 
 [%+ cgi.param("comment") IF cgi.param("comment") %]
 
@@ -38,17 +38,17 @@ Reproducible: [%+ cgi.param("reproducible") %]
 [% END %]
 
 [% IF !(cgi.param("reproduce_steps").match('^1\.\s+2\.\s+3\.\s+$') || cgi.param("reproduce_steps").match('^\s+$')) %]
-Steps to Reproduce:
+Kroki do odtworzenia:
 [%+ cgi.param("reproduce_steps") %]
 [% END %]
 
 [% IF cgi.param("actual_results") -%]
-Actual Results:  
+Aktualne rezultaty:  
 [%+ cgi.param("actual_results") %]
 [% END %]
 
 [% IF cgi.param("expected_results") %]
-Expected Results:  
+Oczekiwane rezultaty:  
 [%+ cgi.param("expected_results") %]
 [% END %]
 

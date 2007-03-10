@@ -30,7 +30,7 @@
 [% cgi = Bugzilla.cgi %]
 
 [% PROCESS global/header.html.tmpl
-   title = "Enter $terms.ABug"
+   title = "Dodawanie $terms.bledu"
    onload = "PutDescription()"
    style = "body, html { height: 100% }"
  %]
@@ -77,14 +77,14 @@ function PutDescription() {
               padding: 2px">
     <font color="#990000">
       <b>
-        You are using Netscape [% matches.0 %].
-        Report [% terms.bugs %] with this browser to the
+        Używasz przeglądarki Netscape [% matches.0 %].
+        [% terms.Bledy %] tej przegladarki należy zgłaszać do
         <a href="http://home.netscape.com/browsers/[% matches.0 %]/feedback/index.html">
-         Netscape [% matches.0 %] Feedback Center.</a>
+         Centrum Wsparcia Netscape [% matches.0 %].</a>
       </b>
     </font>
-    This form is only for reporting [% terms.bugs %] in the Mozilla web browser
-    and other products from mozilla.org. To report [% terms.abug %] you find 
+    Ten formularz służy wyłącznie do zgłaszania [% terms.bledow %] w przeglądarce Mozilla
+    i innych produktów z mozilla.org. To report [% terms.abug %] you find 
     in Netscape [% matches.0 %] with this form, you must reproduce it first in 
     a recent build of
     <a href="http://ftp.mozilla.org/pub/mozilla.org/mozilla/nightly/latest/">Mozilla</a>,

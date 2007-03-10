@@ -263,10 +263,10 @@ function handleWantsAttachment(wants_attachment) {
 [% IF bug_status.size <= 1 %]
   <input type="hidden" name="bug_status" 
          value="[% default.bug_status FILTER html %]">
-    <td align="right" valign="top"><strong>Initial State:</strong></td>
+    <td align="right" valign="top"><strong>Stan początkowy:</strong></td>
     <td valign="top">[% status_descs.${default.bug_status} FILTER html %]</td>
 [% ELSE %]
-    [% sel = { description => 'Initial State', name => 'bug_status' } %]
+    [% sel = { description => 'Stan początkowy', name => 'bug_status' } %]
     [% INCLUDE select %]
 [% END %]
     <td>&nbsp;</td>
@@ -288,7 +288,7 @@ function handleWantsAttachment(wants_attachment) {
   <tr>
     <td align="right">
       <strong>
-        <a href="page.cgi?id=fields.html#assigned_to">Assign To</a>:
+        <a href="page.cgi?id=fields.html#assigned_to">Przypisany do</a>:
       </strong>
     </td>
     <td colspan="2">
@@ -333,7 +333,7 @@ function handleWantsAttachment(wants_attachment) {
   </tr>
 
   <tr>
-    <th align="right">Default CC:</th>
+    <th align="right">Domyślne CC:</th>
     <td colspan="2">
       <div id="initial_cc">
           <!-- This has to happen after everything above renders,
@@ -351,7 +351,7 @@ function handleWantsAttachment(wants_attachment) {
 
 [% IF user.in_group(Param('timetrackinggroup')) %]
   <tr>
-    <td align="right"><strong>Estimated Hours:</strong></td>
+    <td align="right"><strong>Szacowany czas:</strong></td>
     <td colspan="2">
       <input name="estimated_time" size="6" maxlength="6" value="0.0">
     </td>
@@ -397,14 +397,14 @@ function handleWantsAttachment(wants_attachment) {
   [% END %]
 
   <tr>
-    <td align="right"><strong>Summary:</strong></td>
+    <td align="right"><strong>Podsumowanie:</strong></td>
     <td colspan="2">
       <input name="short_desc" size="60" value="[% short_desc FILTER html %]"
              maxlength="255">
     </td>
   </tr>
 
-  <tr><td align="right" valign="top"><strong>Description:</strong></td>
+  <tr><td align="right" valign="top"><strong>Opis:</strong></td>
     <td colspan="3">
       [% defaultcontent = BLOCK %]
         [% IF cloned_bug_id %]
@@ -436,7 +436,7 @@ function handleWantsAttachment(wants_attachment) {
         <input type="checkbox" id="commentprivacy" name="commentprivacy"
           [% " checked=\"checked\"" IF commentprivacy %]>
         <label for="commentprivacy">
-          Initial Description is Private
+          Początkowy opis jest prywatny
         </label>
       </td>
     </tr>
@@ -519,7 +519,7 @@ function handleWantsAttachment(wants_attachment) {
         </strong>
       <br>
       <font size="-1">
-        (Leave all boxes unchecked to make this a public [% terms.bug %].)
+        (Pozostaw wszystkie opcje niezaznaczone, aby określić [% terms.blad %] jako publiczny.)
       </font>
       <br>
       <br>
@@ -558,7 +558,6 @@ function handleWantsAttachment(wants_attachment) {
     <td></td>
     <td colspan="3">
       <br>
-      We've made a guess at your
   [% IF Param('defaultplatform') %]
       System operacyjny został ustawiony
   [% ELSIF Param('defaultopsys') %]
