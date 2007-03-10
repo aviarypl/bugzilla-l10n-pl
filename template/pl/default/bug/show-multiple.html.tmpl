@@ -26,7 +26,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Full Text $terms.Bug Listing"
+  title = "Pełna treść listy $terms.bledow"
   h1 = ""
   style_urls = ["skins/standard/show_multiple.css",
                 "skins/standard/buglist.css"]
@@ -38,7 +38,7 @@
   [% END %]
 [% ELSE %]
   <p>
-    You'd have more luck if you gave me some [% terms.bug %] numbers.
+    Miałbyś więcej szczęścia, gdybyś podał mi jakieś numery [% terms.bledow %].
   </p>
 [% END %]
 
