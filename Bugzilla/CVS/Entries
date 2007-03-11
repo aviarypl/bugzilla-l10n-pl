@@ -1,0 +1,42 @@
+/.cvsignore/1.1/Mon Aug 26 22:24:55 2002//
+/Attachment.pm/1.45/Sun Feb  4 15:36:46 2007//
+/Auth.pm/1.20/Wed Jul 12 11:51:43 2006//
+/Bug.pm/1.171/Sun Jan 28 21:19:12 2007//
+/BugMail.pm/1.104/Tue Feb  6 22:02:21 2007//
+/CGI.pm/1.31/Mon Nov 13 03:07:57 2006//
+/Chart.pm/1.14/Tue Jun 27 10:54:05 2006//
+/Classification.pm/1.11/Tue Dec 19 08:38:49 2006//
+/Component.pm/1.15/Fri Dec 22 18:10:21 2006//
+/Config.pm/1.70/Sat Dec  9 11:51:34 2006//
+/Constants.pm/1.68/Sat Feb  3 01:33:29 2007//
+/DB.pm/1.93/Sat Dec 16 16:30:22 2006//
+/Error.pm/1.19/Wed Oct  4 20:20:59 2006//
+/Field.pm/1.24/Wed Dec 20 05:14:24 2006//
+/Flag.pm/1.81/Sun Feb  4 15:36:47 2007//
+/FlagType.pm/1.37/Thu Aug 24 15:56:39 2006//
+/Group.pm/1.19/Fri Nov  3 23:16:47 2006//
+/Hook.pm/1.7/Tue Dec 19 06:43:10 2006//
+/Install.pm/1.12/Thu Dec 28 18:16:42 2006//
+/Keyword.pm/1.7/Tue Sep  5 19:18:26 2006//
+/Mailer.pm/1.7/Sun Feb  4 15:41:10 2007//
+/Milestone.pm/1.8/Tue Dec 19 10:35:42 2006//
+/Object.pm/1.11/Tue Dec 19 06:39:28 2006//
+/Product.pm/1.24/Tue Dec 19 10:35:42 2006//
+/Search.pm/1.145/Mon Jan 22 04:49:35 2007//
+/Series.pm/1.14/Mon Sep  4 16:21:47 2006//
+/Template.pm/1.67/Sun Dec 31 00:45:07 2006//
+/Token.pm/1.52/Mon Nov 20 19:05:49 2006//
+/Update.pm/1.5/Sun Jan 21 16:04:56 2007//
+/User.pm/1.148/Mon Feb  5 21:34:20 2007//
+/Util.pm/1.56/Fri Oct 20 18:52:24 2006//
+/Version.pm/1.11/Tue Dec 19 06:41:46 2006//
+/WebService.pm/1.5/Sun Feb  4 16:23:21 2007//
+D/Attachment////
+D/Auth////
+D/Config////
+D/DB////
+D/Install////
+D/Search////
+D/Template////
+D/User////
+D/WebService////
