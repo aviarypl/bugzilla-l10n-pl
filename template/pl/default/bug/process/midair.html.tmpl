@@ -42,13 +42,13 @@
   [% PROCESS bug/process/header.html.tmpl %]
 [% END %]
 
-<h1>Mid-air collision detected!</h1>
+<h1>Została wykryte kolizja z innym uaktualnieniem!</h1>
 
 <p>
-  Someone else has made changes to
-  [%+ "$terms.bug $bug_id" FILTER bug_link(bug_id) FILTER none %]
-  at the same time you were trying to.
-  The changes made were:
+  Ktoś inny dokonał zmian w
+  [%+ "$terms.bledzie $bug_id" FILTER bug_link(bug_id) FILTER none %]
+  w tym samym czasie kiedy ty próbujesz.
+  Te zmiany to:
 </p>
 
 <p>
@@ -57,7 +57,7 @@
 
 [% IF comments.size > start_at %]
 <p>
-  Added the comment(s):
+  Dodaj komentarz(e):
   <blockquote>
     [% PROCESS "bug/comments.html.tmpl" bug = { 'bug_id' => bug_id } %]
   </blockquote>
@@ -66,27 +66,27 @@
 
 [% IF cgi.param("comment") %]
 <p>
-  Your comment was:<br>
+  Twój komentarz:<br>
   <blockquote><pre>[% cgi.param("comment") FILTER wrap_comment FILTER html %]</pre></blockquote>
 </p>
 [% END %]
 
 <p>
-You have the following choices:
+Masz następujące możliwości:
 </p>
 
 <ul>
   <li>
     <form method="post" action="process_bug.cgi">
       [% PROCESS "global/hidden-fields.html.tmpl" exclude="^Bugzilla_(login|password)$" %]
-      <input type="submit" id="process" value="Submit my changes anyway">
-        This will cause all of the above changes to be overwritten
-        [% ", except for the added comment(s)" IF comments.size > start_at %].
+      <input type="submit" id="process" value="Wysłać swoje zmiany">
+        Spowoduje to, że powyższe zmiany zostaną nadpisane
+        [% ", za wyjątkiem dodanych komentarzy" IF comments.size > start_at %].
     </form>
   </li>
   <li>
-    Throw away my changes, and
-    [%+ "revisit $terms.bug $bug_id" FILTER bug_link(bug_id) FILTER none %]
+    Anulować swoje zmiany 
+    [%+ "i wrócić do $terms.bledu $bug_id" FILTER bug_link(bug_id) FILTER none %]
   </li>
 </ul>
 
