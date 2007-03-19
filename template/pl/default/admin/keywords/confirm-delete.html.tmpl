@@ -26,19 +26,19 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Delete Keyword"
+  title = "Usuwanie słowa kluczowego"
 %]
 
 <p>
   [% IF keyword.bug_count == 1 %]
-    There is one [% terms.bug %] with this keyword set.
+    Istnieje jeden [% terms.blad %] z tym słowem kluczowym.
   [% ELSE %]
-    There are [% keyword.bug_count FILTER html %] [%+ terms.bugs %] with
-    this keyword set.
+    Istnieje [% keyword.bug_count %] [% PROCESS ODMIEN c=keyword.bug_count o1="" o2=terms.bledy o3=terms.bledow %] 
+    z tym słowem kluczowym.
   [% END %]
   
-  Are you <b>sure</b> you want to delete
-  the <code>[% keyword.name FILTER html %]</code> keyword?
+  Czy <b>na pewno</b> usunąć
+  słowo kluczowe <code>[% keyword.name FILTER html %]</code>?
 </p>
 
 <form method="post" action="editkeywords.cgi">
@@ -47,9 +47,9 @@
   <input type="hidden" name="reallydelete" value="1">
   <input type="hidden" name="token" value="[% token FILTER html %]">
   <input type="submit" id="delete"
-         value="Yes, really delete the keyword">
+         value="Tak, usuń">
 </form>
 
-<p><a href="editkeywords.cgi">Edit other keywords</a>.</p>
+<p><a href="editkeywords.cgi">Edytuj inne słowa kluczowe</a>.</p>
 
 [% PROCESS global/footer.html.tmpl %] 

@@ -23,49 +23,49 @@
 [% DEFAULT btn_id = "find" %]
 
 <ul class="links">
-  <li><a href="./">Home</a></li>
-  <li><span class="separator">| </span><a href="enter_bug.cgi">New</a></li>
-  <li><span class="separator">| </span><a href="query.cgi">Search</a></li>
+  <li><a href="./">Początek</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">Nowy</a></li>
+  <li><span class="separator">| </span><a href="query.cgi">Szukaj</a></li>
 
   <li class="form">
     <span class="separator">| </span>
     <form action="buglist.cgi" method="get"
         onsubmit="if (this.quicksearch.value == '')
-                  { alert('Please enter one or more search terms first.');
+                  { alert('Proszę podać jedeno lub więcej haseł do wyszukiwania.');
                     return false; } return true;">
     <input class="txt" type="text" name="quicksearch">
     <input class="btn" type="submit" value="Find" id="[% btn_id FILTER html %]">
     [%-# Work around FF bug: keep this on one line %]</form></li>
 
-  <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
+  <li><span class="separator">| </span><a href="report.cgi">Raporty</a></li>
 
   <li>
     <span class="separator">| </span>
     [% IF user.id %]
       <a href="request.cgi?requester=[% user.login FILTER url_quote %]&amp;requestee=
-               [% user.login FILTER url_quote %]&amp;do_union=1&amp;group=type">My Requests</a>
+               [% user.login FILTER url_quote %]&amp;do_union=1&amp;group=type">Moje żądania</a>
     [% ELSE %]
-      <a href="request.cgi">Requests</a>
+      <a href="request.cgi">Żądania</a>
     [% END %]
   [%-# Work around FF bug: keep this on one line %]</li>
 
   [% IF user.id && Param('usevotes') %]
-    <li><span class="separator">| </span><a href="votes.cgi?action=show_user">My&nbsp;Votes</a></li>
+    <li><span class="separator">| </span><a href="votes.cgi?action=show_user">Moje&nbsp;głosy</a></li>
   [% END %]
 
   [% IF user.login %]
-    <li><span class="separator">| </span><a href="userprefs.cgi">Preferences</a></li>
+    <li><span class="separator">| </span><a href="userprefs.cgi">Preferencje</a></li>
     <li>
       <span class="separator">| </span>
       [% IF user.authorizer.can_logout %]
-        <a href="relogin.cgi">Log&nbsp;out</a>
+        <a href="relogin.cgi">Wyloguj</a>
       [% ELSE %]
-        Logged&nbsp;in&nbsp;as
+        Zalogowano&nbsp;jako 
       [% END %]
       [% IF sudoer %]
-        [%+ sudoer.login FILTER html %] (<b>impersonating
+        [%+ sudoer.login FILTER html %] (<b>używana tożsamość: 
         [%+ user.login FILTER html %]</b>
-        <a href="relogin.cgi?action=end-sudo">end session</a>)
+        <a href="relogin.cgi?action=end-sudo">zakończ sesję</a>)
       [% ELSE %]
         [%+ user.login FILTER html %]
       [% END %]
@@ -73,7 +73,7 @@
   [% ELSE %]
     [% IF Param('createemailregexp')
           && user.authorizer.user_can_create_account %]
-      <li><span class="separator">| </span><a href="createaccount.cgi">New&nbsp;Account</a></li>
+      <li><span class="separator">| </span><a href="createaccount.cgi">Nowe&nbsp;konto</a></li>
     [% END %]
     [% IF user.authorizer.can_login %]
       [%# Use the current script name. If an empty name is returned,
@@ -99,7 +99,7 @@
         [% script_name = script_name _ "?GoAheadAndLogIn=1" %]
       [% END %]
         
-      <li><span class="separator">| </span><a href="[% script_name FILTER html %]">Log&nbsp;In</a></li>
+      <li><span class="separator">| </span><a href="[% script_name FILTER html %]">Zaloguj</a></li>
     [% END %]
   [% END %]
 </ul>

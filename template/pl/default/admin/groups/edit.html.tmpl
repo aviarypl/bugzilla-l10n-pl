@@ -58,7 +58,7 @@
 <form method="post" action="editgroups.cgi">
   <table border="1" cellpadding="4">
     <tr>
-      <th>Group:</th>
+      <th>Grupa:</th>
       <td>
         [% IF isbuggroup %]
           <input type="hidden" name="oldname" value="[% name FILTER html %]">
@@ -70,7 +70,7 @@
     </tr>
 
     <tr>
-      <th>Description:</th>
+      <th>Opis:</th>
       <td>
         [% IF isbuggroup %]
           <input type="hidden" name="olddesc" value="[% description FILTER html %]">
@@ -82,7 +82,7 @@
     </tr>
 
     <tr>
-      <th>User Regexp:</th>
+      <th>Wyr. regularne użytkowników:</th>
       <td>
         <input type="hidden" name="oldregexp" value="[% regexp FILTER html %]">
         <input type="text" name="regexp" size="40" value="[% regexp FILTER html %]">
@@ -91,7 +91,7 @@
 
     [% IF isbuggroup %]
       <tr>
-        <th>Use For [% terms.Bugs %]:</th>
+        <th>Użycie dla [% terms.bledow %]:</th>
         <td>
           <input type="checkbox" name="isactive" value="1" [% (isactive == 1) ? "checked" : "" %]>
           <input type="hidden" name="oldisactive" value="[% isactive FILTER html %]">
@@ -100,35 +100,34 @@
     [% END %]
   </table>
 
-  <p>Users become members of this group in one of three ways:</p>
+  <p>Użytkownicy stają się członkami tej grupy gdy:</p>
     <ul>
-      <li> by being explicity included when the user is edited.
-      <li> by matching the user regexp above.
-      <li> by being a member of one of the groups included in this group
-           by checking the boxes below.
+      <li> są jawnie wpisani do grupy podczas w edycji użytkownika,
+      <li> ich adres e-mail pasuje do wyrażenia regularngo powyżej,
+      <li> są członkami jednej z dołączonych poniżej grup.
     </ul>
 
   [% usevisibility = Param('usevisibilitygroups') %]
 
-    <h4>Group Permissions</h4>
+    <h4>Uprawnienia grupy</h4>
   <table class="permissions" cellspacing="0" cellpadding="2">
     <tr>     
       [% IF usevisibility %]
         <th>
-          Visible
+          Widoczność
         </th>
       [% END %]
       <th>
-        Grant
+        Nadawanie
       </th>
       <th>
-        Inherit
+        Dziedziczenie
       </th>
       <th>
-        Group
+        Grupa
       </th>
       <th>
-        Description
+        Opis
       </th>
     </tr>
     [% row = 0 %]
@@ -175,41 +174,41 @@
     [% END %]
   </table>
 
-  <input type="submit" id="update" value="Save Changes">
+  <input type="submit" id="update" value="Zapisz zmiany">
   <br>
   <dl>
     [% IF usevisibility %]
-      <dt>Visibility:</dt>
+      <dt>Widoczność:</dt>
       <dd>
-        Members of the selected groups can be aware of the 
-        "[% name FILTER html %]" group
+	    Członkowie wybranych grup wiedzą o grupie
+        "[% name FILTER html %]"
       </dd>
     [% END %]
-    <dt>Grant:</dt>
+    <dt>Nadawanie:</dt>
     <dd>
-    Members of the selected groups can grant membership to the
-    "[% name FILTER html %]" group
+	Członkowie wybranych grup mogą nadawać członkostwo w grupie
+    "[% name FILTER html %]"
     </dd>
-    <dt>Inherit:</dt>
+    <dt>Dziedziczenie:</dt>
     <dd>
-      Members of the selected groups are automatically members of the
-      "[% name FILTER html %]" group
+	  Członkowie wybranych grup zostają automatycznie członkami 
+      grupy "[% name FILTER html %]"
     </dd>
   </dl>
   <table width="76%" border="0">
     <tr>
       <td>
-        <h4>Conversion of groups created with [% terms.Bugzilla %]
-        versions 2.16 and prior:</h4>
+        <h4>Konwersja grup utworzonych w [% terms.Bugzilli %]
+        2.16 i wcześniejszych:</h4>
 
         <ul>
-          <li>Remove all explicit memberships from this group: 
-            <input name="remove_explicit_members" type="submit" id="remove_explicit_members" value="Remove Memberships">
+          <li>Usuń wszystkich jawnych członków tej grupy: 
+            <input name="remove_explicit_members" type="submit" id="remove_explicit_members" value="Usuń członków">
           </li>
 
-          <li>Remove all explicit memberships that are included in the above
-            regular expression: 
-            <input name="remove_explicit_members_regexp" type="submit" id="remove_explicit_members_regexp" value="Remove memberships included in regular expression"> 
+          <li>Usuń wszystkich jawnych członków, których nazwy spełniają w/w 
+            wyrażenie regularne: 
+            <input name="remove_explicit_members_regexp" type="submit" id="remove_explicit_members_regexp" value="Usuń członków wg wyr. regularnego"> 
           </li>
         </ul>
       </td>
@@ -221,6 +220,6 @@
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
-<p>Back to the <a href="editgroups.cgi">group list</a>.</p>
+<p>Powrót do <a href="editgroups.cgi">listy grup</a>.</p>
 
 [% PROCESS global/footer.html.tmpl %] 

@@ -27,16 +27,16 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Add group"
-  subheader = "This page allows you to define a new user group."
+  title = "Dodawanie grupy"
+  h2 = "Strona ta umożliwia zdefiniowanie nowej grupy użytkowników."
 %]
 
 <form method="post" action="editgroups.cgi">
   <table border="1" cellpadding="4" cellspacing="0"><tr>
-    <th>New Name</th>
-    <th>New Description</th>
-    <th>New User RegExp</th>
-    <th>Use For [% terms.Bugs %]</th>
+    <th>Nazwa</th>
+    <th>Opis</th>
+    <th>Wyr. regularne użytkowników</th>
+    <th>Używaj dla [% terms.bledow %]</th>
   </tr><tr>
     <td><input size="20" name="name"></td>
     <td><input size="40" name="desc"></td>
@@ -46,42 +46,43 @@
 
   <input type="checkbox" name="insertnew" value="1"
     [% IF Param("makeproductgroups") %] checked[% END %]>
-    Insert new group into all existing products.<p>
+    Dodaj grupę dla wszystkich istniejących produktów.<p>
   <input type="submit" id="create" value="Add">
   <input type="hidden" name="action" value="new">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
-<p><b>Name</b> is what is used with the B<!-- blah -->ugzilla->user->in_group()
-function in any customized cgi files you write that use a given group.
-It can also be used by people submitting [% terms.bugs %] by email to
-limit [% terms.abug %] to a certain set of groups. It may not contain
-any spaces.</p>
+<p><b>Nazwa</b> to nazwa, która używana jest z funkcją <!-- blah -->ugzilla->user->in_group()
+w każdym ze zmonyfikowanych przez użytkownika plikach cgi.
+Może być ona także używana przez użytkowników wpisujących [% terms.bledy %] poprzez email
+w celu ograniczenia [% terms.bledu %] do określonego zbioru grup.
+Nazwa ta nie może zawierać spacji.</p>
 
-<p><b>Description</b> is what will be shown in the [% terms.bug %] reports
-to members of the group where they can choose whether
-the [% terms.bug %] will be restricted to others in the same group.</p>
+<p><b>Opis</b> jest tym co pojawi się w raportach [% terms.bledow %]
+dla członków grupy, gdzie mogą oni wybrać czy [% terms.blad %] będzie
+wyświetlany jedynie dla pozostałych osób z tej samej grupy.</p>
 
-<p>The <b>Use For [% terms.Bugs %]</b> flag determines whether or not the
-group is eligible to be used for [% terms.bugs %]. If you clear this, it will
-no longer be possible for users to add [% terms.bugs %] to this group,
-although [% terms.bugs %] already in the group will remain in the group.
-Doing so is a much less drastic way to stop a group from growing
-than deleting the group would be. <b>Note: If you are creating
-a group, you probably want it to be usable for [% terms.bugs %], in which
-case you should leave this checked.</b></p>
+<p>Flaga <b>Używaj dla [% terms.bledow %]</b> określa czy grupa
+może być używana dla [% terms.bledow %]. Jeśli zostanie ona odznaczona,
+nie będzie możliwe dodawanie nowych [% terms.bledow %] do tej grupy,
+jednakże [% terms.bledy %] będące już w grupie, pozostaną w niej.
+Jest to mniej drastyczny sposób na powstrzymanie wzrostu grupy
+niż jej usunięcie. <b>Uwaga: w przypadku tworzenia nowej grupy, 
+aby możliwe było dodawanie 
+[% terms.bledow %] do grupy, należy pozostawićto pole zaznaczone.</b></p>
 
-<p><b>User RegExp</b> is optional, and if filled in, will 
-automatically grant membership to this group to anyone with an 
-email address that matches this regular expression.</p>
+<p><b>Wyrażenie regularne użytkowników</b> (opcjonalne) 
+w przypadku wypełnienia automatycznie udzieli członkostwa
+w tej grupie każdemu, kogo adres e-mail
+pasuje do tego wyrażenia regularnego.</p>
 
-<p>By default, the new group will be associated with existing 
-products. Unchecking the "Insert new group into all existing 
-products" option will prevent this and make the group become 
-visible only when its controls have been added to a product.</p>
+<p>Domyślnie nowa grupa będzie skojarzona z istniejącymi 
+produktami. Odznaczając opcję "Dodaj grupę dla wszystkich 
+istniejących produktów" można zapobiec temu i grupa będzie 
+widoczna jedynie, gdy zostanie dodana do produktu.</p>
 
-<p>Back to the <a href="./">main [% terms.bugs %] page</a>
+<p>Wróć do <a href="./">strony głównej [% terms.bledow %]</a>
 
-or to the <a href="editgroups.cgi">group list</a>.
+lub do <a href="editgroups.cgi">listy grup</a>.
 
 [% PROCESS global/footer.html.tmpl %] 

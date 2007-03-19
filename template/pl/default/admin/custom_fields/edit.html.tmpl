@@ -21,7 +21,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% title = BLOCK %]
-  Edit the Custom Field '[% field.name FILTER html %]' ([% field.description FILTER html %])
+  Edycja pola dodatkowego '[% field.name FILTER html %]' ([% field.description FILTER html %])
 [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -39,44 +39,44 @@
 </script>
 
 <p>
-  Descriptions are a very short string describing the field and will be used as
-  the label for this field in the user interface.
+	Opisy to któtkie teksty objaśniające znaczenie pola. Zostaną one uźyte w interfejscie 
+	jako etykiety pól dodatkowych.
 </p>
 
 <form id="edit_field" action="editfields.cgi" method="GET">
   <table border="0" cellspacing="0" cellpadding="5">
     <tr>
-      <th align="right">Name:</th>
+      <th align="right">Nazwa:</th>
       <td>[% field.name FILTER html %]</td>
 
       <th align="right">
-        <label for="enter_bug">Can be set on [% terms.bug %] creation:</label>
+        <label for="enter_bug">Może być ustawione w trakcie tworzenia [% terms.bledu %]:</label>
       </th>
       <td><input type="checkbox" id="enter_bug" name="enter_bug" value="1"
                  [%- " checked" IF field.enter_bug %]
                  onchange="toggleCheckbox(this, 'new_bugmail');"></td>
     </tr>
     <tr>
-      <th align="right"><label for="desc">Description:</label></th>
+      <th align="right"><label for="desc">Opis:</label></th>
       <td><input type="text" id="desc" name="desc" size="40"
                  value="[% field.description FILTER html %]"></td>
 
       <th align="right">
-        <label for="new_bugmail">Displayed in bugmail for new [% terms.bugs %]:</label>
+        <label for="new_bugmail">Wyświetlane w powiadomieniach o nowych [% terms.bledach %]:</label>
       </th>
       <td><input type="checkbox" id="new_bugmail" name="new_bugmail" value="1"
                  [%- " checked" IF field.mailhead %]></td>
     </tr>
     <tr>
-      <th align="right">Type:</th>
+      <th align="right">Typ:</th>
       <td>[% field_types.${field.type} FILTER html %]</td>
 
-      <th align="right"><label for="obsolete">Is obsolete:</label></th>
+      <th align="right"><label for="obsolete">Zdezaktualizowane:</label></th>
       <td><input type="checkbox" id="obsolete" name="obsolete" value="1"
                  [%- " checked" IF field.obsolete %]></td>
     </tr>
     <tr>
-      <th align="right"><label for="sortkey">Sortkey:</label></th>
+      <th align="right"><label for="sortkey">Klucz sortowania:</label></th>
       <td>
         <input type="text" id="sortkey" name="sortkey" size="6" maxlength="6"
                value="[% field.sortkey FILTER html %]">
@@ -89,8 +89,8 @@
       <tr>
         <th>&nbsp;</th>
         <td colspan="3">
-          <a href="editvalues.cgi?field=[% field.name FILTER url_quote %]">Edit
-            legal values for this field</a>.
+          <a href="editvalues.cgi?field=[% field.name FILTER url_quote %]">Edytuj
+            dozwolone wartości dla tego pola</a>.
         </td>
       </tr>
     [% END %]
@@ -99,11 +99,11 @@
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="name" value="[% field.name FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type="submit" id="edit" value="Submit">
+  <input type="submit" id="edit" value="Zatwierdź">
 </form>
 
 <p>
-  <a href="editfields.cgi">Back to the list of existing custom fields</a>
+  <a href="editfields.cgi">Powrót do listy istniejących pól dodatkowych</a>
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

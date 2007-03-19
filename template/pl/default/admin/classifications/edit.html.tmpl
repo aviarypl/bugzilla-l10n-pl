@@ -20,18 +20,18 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edit classification"
+  title = "Edycja klasyfikacji"
 %]
 
 <form method=post action="editclassifications.cgi">
   <table  border=0 cellpadding=4 cellspacing=0>
     <tr>
-      <th align="right">Classification:</th>
+      <th align="right">Klasyfikacja:</th>
       <td><input size=64 maxlength=64 name="classification" 
                  value="[% classification.name FILTER html %]"></td>
     </tr>
     <tr>
-      <th align="right">Description:</th>
+      <th align="right">Opis:</th>
       <td>
         [% INCLUDE global/textarea.html.tmpl
           name           = 'description'
@@ -42,14 +42,14 @@
       </td>
     </tr>
     <tr>
-      <th align="right"><label for="sortkey">Sortkey:</label></th>
+      <th align="right"><label for="sortkey">Klucz sortowania:</label></th>
       <td><input id="sortkey" size="20" maxlength="20" name="sortkey" value="
       [%- classification.sortkey FILTER html %]"></td>
     </tr>
     <tr valign=top>
       <th align="right">
         <a href="editproducts.cgi?classification=[% classification.name FILTER url_quote %]">
-        Edit products</a>
+        Edytuj produkty</a>
       </th>
       <td>
         [% IF classification.products.size > 0 %]
@@ -61,14 +61,14 @@
                   [% IF product.description %]
                     [% product.description FILTER html_light %]
                   [% ELSE %]
-                    <font color="red">description missing</font>
+                    <font color="red">brak opisu</font>
                   [% END %]
                 </td>
               </tr>
             [% END %]
           </table>
         [% ELSE %]
-          <font color="red">none</font>
+          <font color="red">brak</font>
         [% END %]
       </td>
     </tr>
@@ -78,10 +78,10 @@
          value="[% classification.name FILTER html %]">
   <input type=hidden name="action" value="update">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type=submit value="Update">
+  <input type=submit value="Aktualizuj">
 </form>
 
-<p>Back to the <a href="./">main [% terms.bugs %] page</a>
-or <a href="editclassifications.cgi"> edit</a> more classifications.
+<p>Wróć do <a href="./">głównej strony [% terms.bledow %]</a> 
+lub <a href="editclassifications.cgi">edytuj</a> inne klasyfikacje.
 
 [% PROCESS global/footer.html.tmpl %] 

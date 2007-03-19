@@ -26,30 +26,32 @@
 [% PROCESS global/header.html.tmpl title = title %]
 
 <p>
-   There are [% flag_type.flag_count %] flags of type [% flag_type.name FILTER html %].
-   If you delete this type, those flags will also be deleted.  Note that
-   instead of deleting the type you can
+   Występuje [% flag_type.flag_count %] 
+   [% PROCESS ODMIEN c=flag_type.flag_count o1="flaga" o2="flagi" o3="flag" %] typu 
+   [% name FILTER html %].
+	W przypadku usunięcia tego typu w/w flagi zostaną także usunięte.
+	Zamiast usuwania można dokonać także 
    <a href="editflagtypes.cgi?action=deactivate&amp;id=[% flag_type.id %]&amp;token=
-           [%- token FILTER html %]">deactivate it</a>,
-   in which case the type and its flags will remain in the database
-   but will not appear in the [% terms.Bugzilla %] UI.
+           [%- token FILTER html %]">deaktywacji</a>, która sprawi że
+	typ i flagi tego typu pozostaną w bazie danych, ale nie będą wyświetlane w interfejsie 
+	uźytkownika.
 </p>
 
 <table>
    <tr>
       <td colspan="2">
-         Do you really want to delete this type?
+         Czy na pewno usunąć ten typ?
       </td>
    </tr>
    <tr>
       <td>
          <a href="editflagtypes.cgi?action=delete&amp;id=[% flag_type.id %]&amp;token=
-                 [%- token FILTER html %]">Yes, delete
+                 [%- token FILTER html %]">Tak, usuń
          </a>
       </td>
       <td align="right">
          <a href="editflagtypes.cgi">
-            No, don't delete
+            Nie, nie usuwaj
          </a>
       </td>
    </tr>

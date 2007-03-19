@@ -29,8 +29,8 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Select value for the
-                   '[% field FILTER html %]' field[% END %]
+[% title = BLOCK %]Wybór wartości dla pola
+                   '[% field FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
@@ -44,17 +44,17 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Edit field value..."
+       heading => "Edytuj wartość pola..."
        contentlink => edit_contentlink
      },
      { 
        name => "sortkey"
-       heading => "Sortkey"
+       heading => "Klucz sortowania"
      },
      {
        name => "action"
-       heading => "Action"
-       content => "Delete"
+       heading => "Czynność"
+       content => "Usuń"
        contentlink => delete_contentlink
      } ]
 %]
@@ -64,7 +64,7 @@
        match_value => "$default"
        match_field => 'name'
        override_content => 1
-       content => "(Default value)"
+       content => "(Wartość domyślna)"
        override_contentlink => 1
        contentlink => undef
      } ]
@@ -81,7 +81,7 @@
          match_value => "$static_value"
          match_field => 'name'
          override_content => 1
-         content => "(Non-deletable value)"
+         content => "(Wartość nieusuwalna)"
          override_contentlink => 1
          contentlink => undef
        })

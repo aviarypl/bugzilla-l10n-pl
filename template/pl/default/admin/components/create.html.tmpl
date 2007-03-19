@@ -25,8 +25,8 @@
   #               which the component belongs.
   #%]
   
-[% title = BLOCK %]Add component to Product '[% product.name FILTER html %]'[% END %]
-[% subheader = BLOCK %]This page allows you to add a new component to product
+[% title = BLOCK %]Dodawanie komponentu do produktu '[% product.name FILTER html %]'[% END %]
+[% subheader = BLOCK %]Ta strona pozwala dodać nowy komponent do produktu
                 '[% product.name FILTER html %]'.[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -36,11 +36,11 @@
 <form method="post" action="editcomponents.cgi">
   <table border="0" cellpadding="4" cellspacing="0">
     <tr>
-      <th align="right">Component:</th>
+      <th align="right">Komponent:</th>
       <td><input size="64" maxlength="64" name="component" value=""></td>
     </tr>
     <tr>
-      <th align="right">Description:</th>
+      <th align="right">Opis:</th>
       <td>
         [% INCLUDE global/textarea.html.tmpl
           name    = 'description'
@@ -51,7 +51,7 @@
       </td>
     </tr>
     <tr>
-      <th align="right"><label for="initialowner">Default Assignee:</label></th>
+      <th align="right"><label for="initialowner">Domyślny właściciel:</label></th>
       <td>
         [% INCLUDE global/userselect.html.tmpl
            name => "initialowner"
@@ -65,7 +65,7 @@
 [% IF Param('useqacontact') %]
     <tr>
       <th align="right">
-        <label for="initialqacontact">Default QA Contact:</label></th>
+        <label for="initialqacontact">Domyślny kontakt QA:</label></th>
       <td>
         [% INCLUDE global/userselect.html.tmpl
            name => "initialqacontact"
@@ -79,7 +79,7 @@
 [% END %]
     <tr>
       <th align="right">
-        <label for="initialcc">Default CC List:</label>
+        <label for="initialcc">Domyślna lista CC:</label>
       </th>
       <td>
         [% INCLUDE global/userselect.html.tmpl
@@ -91,13 +91,13 @@
         %]
         <br>
         [% IF !Param("usemenuforusers") %]
-          <em>Enter user names for the CC list as a comma-separated list.</em>
+          <em>Proszę podać nazwy użytkowników oddzielone przecinkami.</em>
         [% END %]
       </td>
     </tr>
   </table>
   <hr>
-  <input type="submit" id="create" value="Add">
+  <input type="submit" id="create" value="Dodaj">
   <input type="hidden" name="action" value="new">
   <input type="hidden" name='open_name' value='All Open'>
   <input type="hidden" name='nonopen_name' value='All Closed'>

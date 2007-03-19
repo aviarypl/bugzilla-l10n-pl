@@ -21,7 +21,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-           title = "Add a new Custom Field"
+           title = "Dodawanie pola dowolnego"
            onload = "document.getElementById('new_bugmail').disabled = true;" %]
 
 <script type="text/javascript">
@@ -35,32 +35,32 @@
 </script>
 
 <p>
-  Adding custom fields can make the interface of [% terms.Bugzilla %] very
-  complicated. Many admins who are new to [% terms.Bugzilla %] start off
-  adding many custom fields, and then their users complain that the interface
-  is "too complex". Please think carefully before adding any custom fields.
-  It may be the case that [% terms.Bugzilla %] already does what you need,
-  and you just haven't enabled the correct feature yet.
+  Dodatkowe pola mogą znacznie skomplikować interfejs [% terms.Bugzilli %].
+  Wielu początkujących administratorów [% terms.Bugzilli %] dodaje zbyt wiele
+  pól, co z kolei powoduje, że użytkownicy narzekają na zbyt skomplikowany
+  interfejs. Proszę dokładnie przemyśleć każde dodawane pole. Prawdopodobnie 
+  [% terms.Bugzilla %] zawiera już poszukiwaną funkcję, która nie jest skonfigurowana
+  albo włączona.
 </p>
 
 <ul>
-  <li>Custom field names must begin with "cf_" to distinguish them from
-      standard fields. If you omit "cf_" from the beginning of the name, it
-      will be added for you.</li>
-  <li>Descriptions are a very short string describing the field and will be
-      used as the label for this field in the user interface.</li>
+  <li>Pola dodatkowe muszą mieć nazwy rozpoczynające się od "cf_". Pozwala to odzróżnić 
+	  je od standardowych pól. W przypadku niedodania przedrostka "cf_" zostanie on 
+	  dodany automatycznie.</li>
+  <li>Opisy to któtkie teksty objaśniające znaczenie pola. Zostaną one uźyte w interfejscie 
+	  jako etykiety pól dodatkowych.</li>
 </ul>
 
 <form id="add_field" action="editfields.cgi" method="GET">
   <table border="0" cellspacing="0" cellpadding="5">
     <tr>
-      <th align="right"><label for="name">Name:</label></th>
+      <th align="right"><label for="name">Nazwa:</label></th>
       <td>
         <input type="text" id="name" name="name" value="cf_" size="40" maxlength="64">
       </td>
 
       <th align="right">
-        <label for="enter_bug">Can be set on [% terms.bug %] creation:</label>
+        <label for="enter_bug">Może być ustawione w trakcie tworzenia [% terms.bledu %]:</label>
       </th>
       <td>
         <input type="checkbox" id="enter_bug" name="enter_bug" value="1"
@@ -68,16 +68,16 @@
       </td>
     </tr>
     <tr>
-      <th align="right"><label for="desc">Description:</label></th>
+      <th align="right"><label for="desc">Opis:</label></th>
       <td><input type="text" id="desc" name="desc" value="" size="40"></td>
 
       <th align="right">
-        <label for="new_bugmail">Displayed in bugmail for new [% terms.bugs %]:</label>
+        <label for="new_bugmail">Wyświetlane w powiadomieniach o nowych [% terms.bledach %]:</label>
       </th>
       <td><input type="checkbox" id="new_bugmail" name="new_bugmail" value="1"></td>
     </tr>
     <tr>
-      <th align="right"><label for="type">Type:</label></th>
+      <th align="right"><label for="type">Typ:</label></th>
       <td>
         <select id="type" name="type">
           [% FOREACH type = field_types.keys %]
@@ -87,11 +87,11 @@
         </select>
       </td>
 
-      <th align="right"><label for="obsolete">Is obsolete:</label></th>
+      <th align="right"><label for="obsolete">Zdezaktualizowane:</label></th>
       <td><input type="checkbox" id="obsolete" name="obsolete" value="1"></td>
     </tr>
     <tr>
-      <th align="right"><label for="sortkey">Sortkey:</label></th>
+      <th align="right"><label for="sortkey">Klucz sortowania:</label></th>
       <td>
         <input type="text" id="sortkey" name="sortkey" size="6" maxlength="6">
       </td>
@@ -108,7 +108,7 @@
 </form>
 
 <p>
-  <a href="editfields.cgi">Back to the list of existing custom fields</a>
+  <a href="editfields.cgi">Powrót do listy istniejących pól dodatkowych</a>
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

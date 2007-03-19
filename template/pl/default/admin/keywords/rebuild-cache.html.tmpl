@@ -27,30 +27,30 @@
   #%]
   
 [% IF action == "update" %]
-  [% title = "Update keyword"%]
-  [% status = "updated" %]
+  [% title = "Aktualizacja słowa kluczowego" %]
+  [% status = "zaktualizowane" %]
 [% ELSIF action == "delete" %]
-  [% title = "Delete keyword" %]
-  [% status = "deleted" %]
+  [% title = "Usuwanie słowa kluczowego" %]
+  [% status = "usunięte" %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl %]
 
-Keyword [% keyword.name FILTER html %] [%+ status FILTER html %].
+Słowo kluczowe [% name FILTER html %] zostało [%+status FILTER html %].
 
 <p>
-  <b>After you have finished deleting or modifying keywords,
-  you need to rebuild the keyword cache.</b><br>
+  <b>Po zakończeniu usuwania lub zmiany słów kluczowych,
+  konieczne jest odbudowanie pamięci podręcznej słów kluczowych.</b><br>
   
-  Warning: on a very large installation of [% terms.Bugzilla %],
-  this can take several minutes.
+  Ostrzeżenie: na bardzo dużych instalacjach [% terms.Bugzilli %]
+  może to potrwać kilka minut.
 </p>
 
 <p>
-  <b><a href="sanitycheck.cgi?rebuildkeywordcache=1">Rebuild
-  keyword cache</a></b>
+  <b><a href="sanitycheck.cgi?rebuildkeywordcache=1">Odbuduj 
+  pamięć podręczną słów kluczowych</a></b>
 </p>
 
-<p><a href="editkeywords.cgi">Edit more keywords</a>.</p>
+<p><a href="editkeywords.cgi">Edytuj inne słowa kluczowe</a>.</p>
 
 [% PROCESS global/footer.html.tmpl %] 

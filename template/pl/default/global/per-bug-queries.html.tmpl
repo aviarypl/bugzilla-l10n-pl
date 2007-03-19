@@ -66,16 +66,16 @@
         <input type="hidden" name="remtype" value="asnamed">
         <input type="hidden" name="list_of_bugs" value="1">
         <select id="lob_action" name="action" onchange="update_text();">
-          <option value="add">Add</option>
+          <option value="add">Dodaj</option>
           [% IF lists_of_bugs.size %]
-            <option value="remove">Remove</option>
+            <option value="remove">Usuń</option>
           [% END %]
         </select>
 
         [% IF Param('docs_urlbase') %]
-          <a href="[% Param('docs_urlbase') %]query.html#individual-buglists">the named tag</a>
+          <a href="[% Param('docs_urlbase') %]query.html#individual-buglists">etykietę</a>
         [% ELSE %]
-          the named tag
+          etykietę
         [% END %]
 
         [% IF lists_of_bugs.size %]

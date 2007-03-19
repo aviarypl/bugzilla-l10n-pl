@@ -20,34 +20,34 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Reclassify products"
+  title = "Zmiana klasyfikacji produktów
 %]
 
 <form method=post action="editclassifications.cgi">
   <table border=0 cellpadding=4 cellspacing=0>
     <tr>
-      <td valign="top">Classification:</td>
+      <td valign="top">Klasyfikacja:</td>
       <td valign="top" colspan=3>[% classification.name FILTER html %]</td>
 
     </tr><tr>
-      <td valign="top">Description:</td>
+      <td valign="top">Opis:</td>
       <td valign="top" colspan=3>
         [% IF classification.description %]
           [% classification.description FILTER html_light %]
         [% ELSE %]
-          <font color="red">description missing</font>
+          <font color="red">brak opisu</font>
         [% END %]
       </td>
 
     </tr><tr>
-      <td valign="top">Sortkey:</td>
+      <td valign="top">Klucz sortowania:</td>
       <td valign="top" colspan=3>[% classification.sortkey FILTER html %]</td>
 
     </tr><tr>
-      <td valign="top">Products:</td>
-      <td valign="top">Products</td>
+      <td valign="top">Produkty:</td>
+      <td valign="top">Produkty</td>
       <td></td>
-      <td valign="top">[% classification.name FILTER html %] Products</td>
+      <td valign="top">Produkty w [% classification.name FILTER html %]</td>
 
     </tr><tr>
       <td></td>
@@ -65,8 +65,8 @@
       </select></td>
 
       <td align="center">
-        <input type=submit value="     Add &gt;&gt;  " name="add_products"><br><br>
-        <input type=submit value="&lt;&lt; Remove" name="remove_products">
+        <input type=submit value="     Dodaj &gt;&gt;  " name="add_products"><br><br>
+        <input type=submit value="&lt;&lt; Usun" name="remove_products">
       </td>
 
       <td valign="middle" rowspan=2>
@@ -85,8 +85,8 @@
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
-<p>Back to the <a href="./">main [% terms.bugs %] page</a>,
-or <a href="editclassifications.cgi"> edit</a> more classifications.
+<p>Wróć do <a href="./">głównej strony [% terms.bledow %]</a> 
+lub <a href="editclassifications.cgi">edytuj</a> inne klasyfikacje.
 
 [% PROCESS global/footer.html.tmpl %]
 

@@ -33,8 +33,8 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edit Groups"
-  subheader = "This lets you edit the groups available to put users in."
+  title = "Edycja grup"
+  subheader = "Ta strona pozwala ustawić grupy, do których można przypisać użytkowników."
 %]
 
 [% edit_contentlink = "editgroups.cgi?action=changeform&amp;group=%%id%%" %]
@@ -42,26 +42,26 @@
 
 [% columns =
   [{name               => 'name'
-    heading            => 'Name'
+    heading            => 'Nazwa'
     contentlink        => edit_contentlink
    }
    {name               => 'description'
-    heading            => 'Description'
+    heading            => 'Opis'
     allow_html_content => 1
    }
    {name               => 'userregexp'
-    heading            => 'User RegExp'
+    heading            => 'Wyr. regularne'
    }
    {name               => 'is_active_bug_group'
-    heading            => "Use For $terms.Bugs"
+    heading            => "Użyh dla $terms.bledow"
     align              => 'center'
    }
    {name               => 'type'
-    heading            => 'Type'
+    heading            => 'Typ'
     align              => 'center'
    }
    {name               => 'action'
-    heading            => 'Action'
+    heading            => 'Akcja'
    }
   ]
 %]
@@ -139,38 +139,38 @@
 <p><a href="editgroups.cgi?action=add">Add Group</a></p>
 
 <p>
-  <b>Name</b> is what is used with the B<!-- blah -->ugzilla->user->in_group()
-function in any customized cgi files you write that use a given group.
-It can also be used by people submitting [% terms.bugs %] by email to
-limit [% terms.abug %] to a certain set of groups.
+<b>Nazwa</b> to nazwa, która używana jest z funkcją <!-- blah -->ugzilla->user->in_group()
+w każdym ze zmonyfikowanych przez użytkownika plikach cgi.
+Może być ona także używana przez użytkowników wpisujących [% terms.bledy %] poprzez email
+w celu ograniczenia [% terms.bledu %] do określonego zbioru grup.
+Nazwa ta nie może zawierać spacji.
 </p>
 
 <p>
-  <b>Description</b> is what will be shown in the [% terms.bug %] reports
-to members of the group where they can choose whether the [% terms.bug %]
-will be restricted to others in the same group.
+<b>Opis</b> jest tym co pojawi się w raportach [% terms.bledow %]
+dla członków grupy, gdzie mogą oni wybrać czy [% terms.blad %] będzie
+wyświetlany jedynie dla pozostałych osób z tej samej grupy.
 </p>
 
 <p>
-  <b>User RegExp</b> is optional, and if filled in, will automatically
-grant membership to this group to anyone with an email address
-that matches this perl regular expression. Do not forget
-the trailing '$'.  Example '@mycompany\.com$'
+<b>Wyrażenie regularne użytkowników</b> (opcjonalne) 
+w przypadku wypełnienia automatycznie udzieli członkostwa
+w tej grupie każdemu, kogo adres e-mail
+pasuje do tego wyrażenia regularnego. Np: '@mycompany\.com$'
 </p>
 
 <p>
-  The <b>Use For [% terms.Bugs %]</b> flag determines whether or not
-the group is eligible to be used for [% terms.bugs %]. If you remove
-this flag, it will no longer be possible for users to add [% terms.bugs %]
-to this group, although [% terms.bugs %] already in the group will remain
-in the group. Doing so is a much less drastic way to stop a group
-from growing than deleting the group as well as a way to maintain
-lists of users without cluttering the lists of groups used
-for [% terms.bug %] restrictions.
+
+Flaga <b>Używaj dla [% terms.bledow %]</b> określa czy grupa
+może być używana dla [% terms.bledow %]. Jeśli zostanie ona odznaczona,
+nie będzie możliwe dodawanie nowych [% terms.bledow %] do tej grupy,
+jednakże [% terms.bledy %] będące już w grupie, pozostaną w niej.
+Jest to mniej drastyczny sposób na powstrzymanie wzrostu grupy
+niż jej usunięcie.
 </p>
 
 <p>
-  The <b>Type</b> field identifies system groups.
+  Pole <b>Typ</b> określa grupy systemowe.
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

@@ -19,18 +19,18 @@
   # field: string; the name of the field the value belongs to
   #%]
   
-[% title = BLOCK %]New Value '[% value FILTER html %]' added to 
-  '[% field FILTER html %]' field[% END %]
+[% title = BLOCK %]Nowa wartość '[% value FILTER html %]' pola 
+  '[% field FILTER html %]' została dodana[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
-<p>The value '<a title="Edit value '[% value FILTER html %]' of 
-   for the '[% field FILTER html %]' field"
+<p>Wartość '<a title="Edycja wartości '[% value FILTER html %]' pola
+   '[% field FILTER html %]'"
    href="editvalues.cgi?action=edit&amp;field=
    [%- field FILTER url_quote %]&amp;value=[% value FILTER url_quote %]">
-   [%- value FILTER html %]</a>' has been added as a valid choice for
-   the '[% field FILTER html %]' field.</p>
+   [%- value FILTER html %]</a>' została dodana do listy dopuszczalnych wartości
+   pola '[% field FILTER html %]'.</p>
 
 [% PROCESS admin/fieldvalues/footer.html.tmpl %]
 

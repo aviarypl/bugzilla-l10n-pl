@@ -26,7 +26,7 @@
   #               which the component belongs.
   #%]
   
-[% title = BLOCK %]Deleted Component '[% comp.name FILTER html %]' from Product
+[% title = BLOCK %]Usunięto komponent '[% comp.name FILTER html %]' z produktu 
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -34,23 +34,21 @@
 
 <p>
 [% IF comp.bug_count %]
-  [% comp.bug_count FILTER none %]
-  [%- IF comp.bug_count > 1 %] 
-    [%+ terms.bugs %]
-  [% ELSE %]
-    [%+ terms.bug %]
-  [% END %]
-  deleted.
+  [% comp.bug_count %]
+  Usunięto 
+  [% PROCESS ODMIEN c=comp.bug_count o1="$terms.blad."
+     o2="$terms.bledy." o3="$terms.bledow." %]
+
   </p><p>
-  All references to those deleted [% terms.bugs %] have been removed.
+  Wszystkie odwołania do usuniętych [% terms.bledow %] zostały usunięte.
 [% ELSE %]
-  No [% terms.bugs %] existed for the component.
+  Nie znaleziono [% terms.bledow %] w tym produkcie.
 [% END %]
 </p>
 
-<p>Flag inclusions and exclusions deleted.</p>
+<p>Ustawienia flag zostały skasowane.</p>
 
-<p>Component '[% comp.name FILTER html %]' deleted.</p>
+<p>Komponent '[% comp.name FILTER html %]' został usunięty.</p>
 
 [% PROCESS admin/components/footer.html.tmpl
   no_edit_component_link = 1

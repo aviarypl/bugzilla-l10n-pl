@@ -22,7 +22,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Edit Value '[% value FILTER html %]'  '
+[% title = BLOCK %]Edycja wartości '[% value FILTER html %]' pola '
                    [%- field FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -32,7 +32,7 @@
   <table border="0" cellpadding="4" cellspacing="0">
 
     <tr>
-      <th valign="top"><label for="value">Field Value:</label></th>
+      <th valign="top"><label for="value">Wartość pola:</label></th>
       <td>
         [% IF is_static %]
           <input type="hidden" name="value" value="[% value FILTER html %]">
@@ -44,7 +44,7 @@
       </td>
     </tr>
     <tr>
-      <th align="right"><label for="sortkey">Sortkey:</label></th>
+      <th align="right"><label for="sortkey">Klucz sortowania:</label></th>
       <td><input id="sortkey" size="20" maxlength="20" name="sortkey" value="
       [%- sortkey FILTER html %]"></td>
     </tr>
@@ -56,7 +56,7 @@
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="field" value="[% field FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type="submit" id="update" value="Update">
+  <input type="submit" id="update" value="Aktualizuj">
 </form>
 
 [% PROCESS admin/fieldvalues/footer.html.tmpl

@@ -50,7 +50,7 @@ function addSidebar() {
   }
   else
   {
-    var rv = window.confirm ("Twoja przeglądarka nie obsługuje rozszerzenia panelu bocznego.  " + "Czy chcesz ją zaktualizować?");
+    var rv = window.confirm ("Ta przeglądarka nie obsługuje rozszerzenia panelu bocznego.  " + "Czy zaktualizować przeglądarkę?");
     if (rv)
       document.location.href = "http://www.mozilla.org/";
   }
@@ -72,21 +72,21 @@ function addSidebar() {
       Data wydania: [% release.data.date FILTER html %]</p>
 
       <p class="notice">Ta wiadomość jest wyświetlana jedynie zalogowanym użytkownikom z uprawnieniami administratora.
-      Możesz skonfigurować treść tej wiadomości na stronie
+      Można skonfigurować treść tej wiadomości na stronie
       <a href="editparams.cgi?section=core#upgrade_notification">Parametry</a>.</p>
     [% ELSIF release.error == "no_update" %]
-      <p>The local XML file '[% release.xml_file FILTER html %]' cannot be updated.
-      Please make sure the web server can edit this file.</p>
+      <p>Lokalny plik XML '[% release.xml_file FILTER html %]' nie może być zaktualizowany.
+      Proszę sprawdzić czy serwer WWW może zapisywać do tego pliku.</p>
     [% ELSIF release.error == "no_access" %]
-      <p>The local XML file '[% release.xml_file FILTER html %]' cannot be read.
-      Please make sure this file exists and has the correct rights set on it.</p>
+      <p>Lokalny plik XML '[% release.xml_file FILTER html %]' nie może być odczytany.
+      Proszę sprawdzić czy ten plik istnieje i czy posiada odpowiednie prawa.</p>
     [% ELSIF release.error == "corrupted" %]
-      <p>The local XML file '[% release.xml_file FILTER html %]' has an invalid XML format.
-      Please delete it and try accessing this page again.</p>
+      <p>Lokalny plik XML '[% release.xml_file FILTER html %]' posiada błędny format XML.
+      Proszę usunąć ten plik i otworzyć tę stronę ponownie.</p>
     [% ELSIF release.error == "unknown_parameter" %]
-      <p>'[% Param("upgrade_notification") FILTER html %]' is not a valid notification
-      parameter. Please check this parameter in the
-      <a href="editparams.cgi?section=core#upgrade_notification">Parameters</a> page.</p>
+      <p>'[% Param("upgrade_notification") FILTER html %]' nie jest poprawnym parametrwm powiadamiania
+      Proszę sprawdzić ustawienie na stronie 
+      <a href="editparams.cgi?section=core#upgrade_notification">Parametery</a>.</p>
     [% END %]
   </div>
 [% END %]
@@ -104,7 +104,7 @@ function addSidebar() {
 [% IF user.id %]
     <li id="userprefs"><a href="userprefs.cgi">Zmień hasło lub ustawienia użytkownika</a></li>
   [% IF user.authorizer.can_logout %]
-    <li id="logout"><a href="relogin.cgi">Wyloguj się [% user.login FILTER html %]</a></li>
+    <li id="logout"><a href="relogin.cgi">Wyloguj [% user.login FILTER html %]</a></li>
   [% END %]
 [% ELSIF user.authorizer.can_login %]
   </ul>
@@ -119,7 +119,6 @@ function addSidebar() {
       <a href="javascript:window.external.AddSearchProvider('[% Param('urlbase') %]search_plugin.cgi')">Zainstaluj wtyczkę Szybkiego Wyszukiwania</a> (wymaga Firefoksa 2 lub Internet Explorera 7)
     </li>
 
-
     [%# List items of links to more things users can do on this installation. %]
     [% Hook.process("links") %]
 
@@ -130,7 +129,7 @@ function addSidebar() {
                   { alert('Proszę wprowadzić jeden lub więcej terminów do wyszukania.');
                     return false; } return true;">
   <div>
-    <p>Wprowadź # [% terms.bledu %] lub terminy do wyszukania:</p>
+    <p>Numer [% terms.bledu %] lub terminy do wyszukania:</p>
     <input id="quicksearch" type="text" name="quicksearch">
     <input id="find" type="submit" value="Szukaj">
     <a href="page.cgi?id=quicksearch.html">[Pomoc]</a>

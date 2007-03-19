@@ -24,44 +24,44 @@
 [% PROCESS "global/js-products.html.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title = 'Administer Flag Types'
+  title = 'Administracja typami flag'
   style = "
     table#flag_types_bugs tr th,
     table#flag_types_attachments tr th { text-align: left; }
     .inactive { color: #787878; }
     .multiplicable { display: block; }
   "
-  onload="selectProduct(document.forms[0], 'product', 'component', '__All__');"
+  onload="selectProduct(document.forms[0], 'product', 'component', '__Dowolny__');"
   javascript_urls=["productmenu.js"]
 %]
 
 <p>
-  Flags are markers that identify whether [% terms.abug %] or attachment has been granted
-  or denied some status.  Flags appear in the UI as a name and a status symbol
-  ("+" for granted, "-" for denied, and "?" for statuses requested by users).
+  Flagi są znacznikami określającymi czy [% terms.blad %] lub załącznik uzyskały 
+  lub nie pewien status. Flagi pojawiają się w interfejsie jako nazwy i symbol statusu
+  ("+" dla przyznanych, "-" dla odrzuconych i "?" dla statusów zażądanych przez użytkowników).
 </p>
 
 <p>
-  For example, you might define a "review" status for users to request review
-  for their patches.  When a patch writer requests review, the string "review?"
-  will appear in the attachment.  When a patch reviewer reviews the patch,
-  either the string "review+" or the string "review-" will appear in the patch,
-  depending on whether the patch passed or failed review.
+  Można na przykład zdefinować status "review", aby użytkownicy mogli zażądać sprawdzenia 
+  ich łatek. Gdy autor łatki zażąda jej sprawdzenia, obok załącznika pojawi się napis "review?"
+  Gdy łatka zostanie sprawdzona przez odpowiednią osobę,
+  obok łatki pojawi się napis "review+" lub "review-",
+  w zależności od tego, czy kontrola powiodła się czy nie.
 </p>
 
 <p>
-  You can restrict the list of flag types to those available for a given product
-  and component. If a product is selected with no component, only flag types
-  which are available to at least one component of the product are shown.
+  Można także ograniczyć listę typów flag do dostępnych dla danego produktu lub komponentu.
+  Jeśli wybrany jest produkt bez komponentów wyświetlane są tylko typy flag, które dostępne
+  są dla conajmniej jednego komponentu wybranego produktu.
 </p>
 
 <form action="editflagtypes.cgi" method="get">
   <table>
     <tr>
-      <th><label for="product">Product:</label></th>
+      <th><label for="product">Produkt:</label></th>
       <td>
         <select name="product" onchange="selectProduct(this.form, 'product', 'component', '__Any__');">
-          <option value="">__Any__</option>
+          <option value="">__Dowolny__</option>
           [% FOREACH prod = products %]
             <option value="[% prod.name FILTER html %]"
                     [% " selected" IF selected_product == prod.name %]>
@@ -69,10 +69,10 @@
           [% END %]
         </select>
       </td>
-      <th><label for="component">Component:</label></th>
+      <th><label for="component">Komponent:</label></th>
       <td>
         <select name="component">
-          <option value="">__Any__</option>
+          <option value="">__Dowolny__</option>
           [% FOREACH comp = components %]
             <option value="[% comp FILTER html %]"
                     [% " selected" IF selected_component == comp %]>
@@ -85,20 +85,20 @@
   </table>
 </form>
 
-<h3>Flag Types for [% terms.Bugs %]</h3>
+<h3>Typy flag dla [% terms.bledow %]</h3>
 
 [% PROCESS display_flag_types types=bug_types types_id='bugs' %]
 
 <p>
-  <a href="editflagtypes.cgi?action=enter&amp;target_type=bug">Create Flag Type for [% terms.Bugs %]</a>
+  <a href="editflagtypes.cgi?action=enter&amp;target_type=bug">Utwórz typ flagi dla [% terms.bledow %]</a>
 </p>
 
-<h3>Flag Types for Attachments</h3>
+<h3>Typy flag dla załączników</h3>
 
 [% PROCESS display_flag_types types=attachment_types types_id='attachments' %]
 
 <p>
-  <a href="editflagtypes.cgi?action=enter&amp;target_type=attachment">Create Flag Type For Attachments</a>
+  <a href="editflagtypes.cgi?action=enter&amp;target_type=attachment">Utwórz typ flagi dla załącznika</a>
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
@@ -108,37 +108,37 @@
   <table id="flag_types_[% types_id FILTER html %]" cellspacing="0" cellpadding="4" border="1">
 
     <tr>
-      <th>Edit name ...</th>
-      <th>Description</th>
-      <th>Sortkey</th>
-      <th>Properties</th>
-      <th>Grant group</th>
-      <th>Request group</th>
-      <th>Actions</th>
+      <th>Edytuj nazwę...</th>
+      <th>Opis</th>
+      <th>Klucz sortowania</th>
+      <th>Właściwości</th>
+      <th>Grupa nadająca</th>
+      <th>Grupa żądająca</th>
+      <th>Czynności</th>
     </tr>
 
     [% FOREACH type = types %]
 
-      <tr class="[% IF type.is_active %]active[% ELSE %]inactive[% END %]">
+      <tr class="[% IF type.is_active %]aktywny[% ELSE %]nieaktywny[% END %]">
         <td><a href="editflagtypes.cgi?action=edit&amp;id=[% type.id %]">[% type.name FILTER html FILTER no_break %]</a></td>
         <td>[% type.description FILTER html %]</td>
         <td align="right">[% type.sortkey FILTER html %]</td>
         <td>
           [% IF type.is_requestable %]
-            <span class="requestable">requestable</span>
+            <span class="requestable">żądalny</span>
           [% END %]
           [% IF type.is_requestable && type.is_requesteeble %]
             <span class="requesteeble">(specifically)</span>
           [% END %]
           [% IF type.is_multiplicable %]
-            <span class="multiplicable">multiplicable</span>
+            <span class="multiplicable">wielokrotny</span>
           [% END %]
         </td>
         <td>[% IF type.grant_group %][% type.grant_group.name FILTER html %][% END %]</td>
         <td>[% IF type.request_group %][% type.request_group.name FILTER html %][% END %]</td>
         <td>
-          <a href="editflagtypes.cgi?action=copy&amp;id=[% type.id %]">Copy</a>
-          | <a href="editflagtypes.cgi?action=confirmdelete&amp;id=[% type.id %]">Delete</a>
+          <a href="editflagtypes.cgi?action=copy&amp;id=[% type.id %]">Kopiuj</a>
+          | <a href="editflagtypes.cgi?action=confirmdelete&amp;id=[% type.id %]">Usuń</a>
         </td>
       </tr>
 

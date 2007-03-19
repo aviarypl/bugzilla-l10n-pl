@@ -87,7 +87,7 @@
       Żadne dane do wykresów nie zostały jeszcze zebrane.
     [% END %]
     Proszę odczekać dzień i spróbować ponownie.
-    Jeśli widzisz ten komunikat nadal po tym dniu, należy się skontaktować z
+    Jeśli ten komunikat nadal będzie wyświetlany, należy się skontaktować z
     <a href="mailto:[% Param('maintainer') %]">[% Param('maintainer') %]</a>
     i opisać problem.
 
@@ -107,42 +107,40 @@
     Uruchom checksetup.pl, aby wyświetlić instrukcje instalacji.
 
   [% ELSIF error == "column_not_null_without_default" %]
-    Failed adding the column [% name FILTER html %]:
-    You cannot add a NOT NULL column with no default to an existing table
-    unless you specify something for the <code>$init_value</code> argument.
+    Błąd podczas dodawania kolumny [% name FILTER html %]:
+    Nie można dodać kolumny bez wartości domyślnej z wpisem NOT NULL do istniejącej tabeli.
+    Proszę określić wartość dla argument <code>$init_value</code>.
 
   [% ELSIF error == "column_not_null_no_default_alter" %]
-    You cannot alter the [% name FILTER html %] column to be NOT NULL 
-    without specifying a default or something for $set_nulls_to, because
-    there are NULL values currently in it.
+    Nie można zmienić własności kolumny [% name FILTER html %] na NOT NULL 
+    bez określenia wartości domyślnej lub wartości dla $set_nulls_to, ponieważ
+    w kolumnie istnieją wartości NULL.
 
   [% ELSIF error == "column_rename_conflict" %]
-    Name conflict: Cannot rename [% old FILTER html %] to
-    [% new FILTER html %] because [% new FILTER html %] already exists.
+    Konflikt nazw: nie można zmienić nazwy [% old FILTER html %] na
+    [% new FILTER html %] poniewaź [% new FILTER html %] już istnieje.
 
   [% ELSIF error == "cookies_need_value" %]
     Wszystkie ciasteczka muszą mieć ustawioną wartość.
 
   [% ELSIF error == "env_no_email" %]
-    [% terms.Bugzilla %] did not receive an email address from the 
-    environment.
+    [% terms.Bugzilla %] nie otrzymała adresu e-mail ze środowiska.
     [% IF Param("auth_env_email") %]
-      This means that the '[% Param("auth_env_email") FILTER html %]'
-      environment variable was empty or did not exist.
+      Oznacza to, że zmienna środowiskowa '[% Param("auth_env_email") FILTER html %]'
+      jest pusta lub nie istnieje.
     [% ELSE %]
-      You need to set the "auth_env_email" environment variable to
-      the name of the environment variable that will contain the
-      user's email address.
+      Należy ustawić wartość zmiennej środowiskowej "auth_env_email" na nazwę zmiennej
+      środowiskowej, która zawiera adres e-mail użytkownika.
     [% END %]
 
   [% ELSIF error == "extension_invalid" %]
-    An error occurred processing hook [% name FILTER html %] in
-    extension [% extension FILTER html %]: [% errstr FILTER html %]
+    Błąd podczas przetwarzania [% name FILTER html %] w
+    rozszerzeniu [% extension FILTER html %]: [% errstr FILTER html %]
 
   [% ELSIF error == "extern_id_conflict" %]
-    The external ID '[% extern_id FILTER html %]' already exists
-    in the database for '[% username FILTER html %]', but your
-    account source says that '[% extern_user FILTER html %]' has that ID.
+    Zewnętrzny ID '[% extern_id FILTER html %]' już istnieje
+    w bazie danych dla '[% username FILTER html %]', ale źródło kont
+    podaje, że '[% extern_user FILTER html %]' posiada ten ID.
 
   [% ELSIF error == "field_type_mismatch" %]
     Nie jest możliwe jednoczesne używanie <code>[% field FILTER html %]</code>
@@ -154,7 +152,7 @@
     Uruchom checksetup.pl aby otrzymać instrukcje postępowania.
 
   [% ELSIF error == "illegal_content_type_method" %]
-    Twój formularz został uszkodzony podczas wysyłania. Pole <em>content
+    Formularz został uszkodzony podczas wysyłania. Pole <em>content
     method</em>, które określa sposób w jaki należy wykryć typ zawartości,
     powinno być jednym z <em>autodetect</em>, <em>list</em>,
     lub <em>manual</em>. Obecna wartość pola to
@@ -164,8 +162,8 @@
     Wymagane pole [% field FILTER html %] nie zostało wypełnione.
 
   [% ELSIF error == "inactive_group" %]
-    Attempted to add [% terms.bug %] to the '[% name FILTER html %]'
-    group, which is not used for [% terms.bugs %].
+    Próba dodania [% terms.bledu %] do grupy '[% name FILTER html %]', 
+	która nie jest używana dla [% terms.bledow %].
 
   [% ELSIF error == "invalid_attach_id_to_obsolete" %]
      Numer [% attach_id FILTER html %], podany jako jeden z identyfikatorów
@@ -184,7 +182,7 @@
 
   [% ELSIF error == "invalid_customfield_type" %]
     [% title = "Invalid Field Type" %]
-    The type <em>[% type FILTER html %]</em> is not a valid field type.
+    Typ <em>[% type FILTER html %]</em> nie jest poprawnym typem dla pola.
 
   [% ELSIF error == "invalid_dimensions" %]
     [% title = "Nieprawidłowe wymiary" %]
@@ -205,17 +203,17 @@
     jest że ta seria została usunięta.
 
   [% ELSIF error == "invalid_webservergroup" %]
-    There is no such group: [% group FILTER html %]. Check your $webservergroup
-    setting in [% constants.bz_locations.localconfig FILTER html %].
+    Brak grupy: [% group FILTER html %]. Proszę sprawdzić ustawienie $webservergroup
+    w [% constants.bz_locations.localconfig FILTER html %].
 
   [% ELSIF error == "list_comparison_error" %]
-    Unexpected error in list comparing code.
+    Nieoczekiwany błąd w kodzie porównywania list.
 
   [% ELSIF error == "mismatched_bug_ids_on_obsolete" %]
     Załącznik [% attach_id FILTER html %] ([% description FILTER html %]) 
     jest dołączony do [% terms.bledu %] [%+ attach_bug_id FILTER html %], 
-    but you tried to flag it as obsolete while creating a new attachment to 
-    [% terms.bug %] [%+ my_bug_id FILTER html %].
+    lecz próbowano oznaczyć go jako zdezaktualizowany podczas dodawania nowego załącznika do
+    [% terms.bledu %] [%+ my_bug_id FILTER html %].
         
   [% ELSIF error == "flag_nonexistent" %]
     Flaga o identyfikatorze #[% id FILTER html %] nie istnieje.
@@ -244,8 +242,8 @@
 
   [% ELSIF error == "flag_type_inactive" %]
     [% title = "Nieaktywne typy flag" %]
-    The flag type [% type FILTER html %] is inactive and cannot be used
-    to create new flags.
+    Typ flagi [% type FILTER html %] jest nieaktwyny i nie może być używany
+    do tworzenia nowych plag.
 
   [% ELSIF error == "flag_type_nonexistent" %]
     Nie istnieje flaga, której identyfikator typu jest równy <em>[% id FILTER html %]</em>.
@@ -261,40 +259,40 @@
     Identyfikator słowa kluczowego <em>[% id FILTER html %]</em> nie został znaleziony.
 
   [% ELSIF error == "invalid_user" %]
-    [% title = "Invalid User" %]
-    There is no user account
+    [% title = "Błędny użytkownik" %]
+    Brka konta użytkownika
     [% IF user_id %]
-      with ID <em>[% user_id FILTER html %]</em>.
+      z ID <em>[% user_id FILTER html %]</em>
     [% ELSIF user_login %]
-      with login name <em>[% user_login FILTER html %]</em>.
+      o nazwie <em>[% user_login FILTER html %]</em>
     [% ELSE %]
-      given.
+	  .
     [% END %]
 
   [% ELSIF error == "ldap_bind_failed" %]
-    Failed to bind to the LDAP server. The error message was: 
+    Powiązanie z serwerm LDAP nie powiodło się. Komunikat błąedu:
     <code>[% errstr FILTER html %]</code>
 
   [% ELSIF error == "ldap_cannot_retreive_attr" %]
-    The specified LDAP attribute [% attr FILTER html %] was not found.
+    Nie znaleziono podanego atrybutu [% attr FILTER html %] LDAP.
 
   [% ELSIF error == "ldap_connect_failed" %]
-    Could not connect to the LDAP server <code>[% server FILTER html %]</code>.
+    Nie można połączyć się z serwerem LDAP <code>[% server FILTER html %]</code>.
 
   [% ELSIF error == "ldap_start_tls_failed" %]
-    Could not start TLS with LDAP server: <code>[% error FILTER html %]</code>.
+    Nie można uruchomić TLS dla serwera LDAP: <code>[% error FILTER html %]</code>.
 
   [% ELSIF error == "ldap_search_error" %]
-    An error occurred while trying to search LDAP for 
+    Błąd podczas wyszukiwania LDAP dla 
     &quot;[% username FILTER html %]&quot;: 
    <code>[% errstr FILTER html %]</code>
 
   [% ELSIF error == "ldap_server_not_defined" %]
-    The LDAP server for authentication has not been defined.
+    Nie określono serwera LDAP dla auwierzytelniania.
 
   [% ELSIF error == "mail_send_error" %]
-    There was an error sending mail from '[% mail.header('From') FILTER html %]'
-    to '[% mail.header('To') FILTER html %]':
+    Błąd podczas wysyłania poczty od '[% mail.header('From') FILTER html %]'
+    do '[% mail.header('To') FILTER html %]':
     [% msg FILTER html %]
 
   [% ELSIF error == "missing_bug_id" %]
@@ -310,35 +308,35 @@
     Wymagany jest poprawny identyfikator sentencji.
 
   [% ELSIF error == "param_must_be_numeric" %]
-    [% title = "Invalid Parameter" %]
-    Invalid parameter passed to [% function FILTER html %].
-    It must be numeric.
+    [% title = "Błędny parametr" %]
+    Przekazano błędny parametr do [% function FILTER html %].
+    Parametr musi być liczbą.
 
   [% ELSIF error == "param_required" %]
-    [% title = "Missing Parameter" %]
-    The function <code>[% function FILTER html %]</code> requires
-    a <code>[% param FILTER html %]</code> argument, and that
-    argument was not set.
+    [% title = "Brak parametru" %]
+    Funkcja <code>[% function FILTER html %]</code> wymaga
+    parametru <code>[% param FILTER html %]</code>, który nie
+    został ustawiony.
 
   [% ELSIF error == "protection_violation" %]
-    The function <code>[% function FILTER html %]</code> was called
+    Wywołano funkcję <code>[% function FILTER html %]</code> 
 
     [% IF argument %]
-        with the argument <code>[% argument FILTER html %]</code>
+        z parametrem <code>[% argument FILTER html %]</code>
     [% END %]
 
-    from
+    z
    
     [% IF caller %]
-        <code>[%+ caller FILTER html %]</code>, which is
+        <code>[%+ caller FILTER html %]</code>, który znajduje się
     [% END %]
 
-    outside the package. This function may only be called from
-    a subclass of <code>[% superclass FILTER html %]</code>.
+    poza pakietu. Ta funkcja może być wywołwana tylko z
+    podklas klasy <code>[% superclass FILTER html %]</code>.
 
 
   [% ELSIF error == "unknown_comparison_type" %]
-    Specified comparison type is not supported.
+    Podany typ porówSpecified comparison type is not supported.
 
   [% ELSIF error == "request_queue_group_invalid" %]
     Pole grupa <em>[% group FILTER html %]</em> jest nieprawidłowe.
@@ -360,7 +358,7 @@
     litery, cyfry oraz symbole '_', '-', '.' i ':'.
 
   [% ELSIF error == "setting_subclass_invalid" %]
-    There is no such Setting subclass as
+    Nie ma takiej podklasy ustawień jak
     <code>[% subclass FILTER html %]</code>.
 
   [% ELSIF error == "setting_value_invalid" %]
@@ -369,9 +367,8 @@
 
   [% ELSIF error == "soap_not_installed" %]
     [% admindocslinks = {'installation.html#install-perlmodules' => 'Installing Perl modules'} %]
-    The XMLRPC interface will not work without the SOAP::Lite Perl module being
-    installed.
-    Run checksetup.pl for installation instructions.
+    Interfejs XMLRPC nie będzie działał bez zainstalowanego modułu perla SOAP::Lite.
+    Proszę uruchomić checksetup.pl, aby uzyskać intrukcje instalacji.
 
   [% ELSIF error == "token_generation_error" %]
     Wystąpił poważny błąd w systemie generowania żetonów.
@@ -380,7 +377,7 @@
     [% template_error_msg FILTER html %]
 
   [% ELSIF error == "template_invalid" %]
-    Template with invalid file name found in hook call: [% name FILTER html %].
+    Npotkano wzorzec z nieprwidłową nazwą pliku w wywołaniu: [% name FILTER html %].
 
   [% ELSIF error == "unable_to_retrieve_password" %]
      Nie można pobrać poprzedniego hasła użytkownika z bazy danych.
@@ -400,11 +397,11 @@
     [% END %]
 
   [% ELSIF error == "usage_mode_invalid" %]
-    '[% invalid_usage_mode FILTER html %]' is not a valid usage mode.
+    Tryb '[% invalid_usage_mode FILTER html %]' nie jest poprawnym trybem użycia.
 
   [% ELSIF error == "must_be_patch" %]
-    [% title = "Attachment Must Be Patch" %]
-    Attachment #[% attach_id FILTER html %] must be a patch.
+    [% title = "Załącznik musi być łatką" %]
+    Załącznik #[% attach_id FILTER html %] musi być łatką (patch).
 
   [% ELSIF error == "nested_transaction" %]
     Podjęto próbę rozpoczęcia nowej transakcji bez zakończenia poprzedniej.
@@ -413,9 +410,9 @@
     Podjęto próbę zakończenia nie rozpoczętej wcześniej transakcji.
 
   [% ELSIF error == "already_locked" %]
-    Attempted to lock a table without releasing previous lock first:
-    <p>Tables already locked:<br>[% current FILTER html %]
-    <p>Tables requesting locking:<br>[% new FILTER html %]
+    Próba zablokowania tabeli bez zwolnienia poprzedniej blokady:
+    <p>Tabele aktualnie zablokowane:<br>[% current FILTER html %]
+    <p>Tabele do zablokowania:<br>[% new FILTER html %]
 
   [% ELSIF error == "no_matching_lock" %]
     Próba zwolnienia blokady dla niezablokowanych tabel.
@@ -426,7 +423,7 @@
     utworzono zapytanie bez bezpośredniego użycia klauzuli JOIN.
 
   [% ELSIF error == "invalid_post_bug_submit_action" %]
-    Invalid setting for post_bug_submit_action
+    Błędne ustawienie dla post_bug_submit_action
 
   [% ELSE %]
     [% title = "Błąd wewnętrzny" %]

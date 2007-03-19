@@ -26,15 +26,15 @@
   #               which the component belongs.
   #%]
   
-[% title = BLOCK %]Adding new Component of Product
+[% title = BLOCK %]Dodawanie nowego komponentu do produktu
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
-<p>The component '<a href="editcomponents.cgi?action=edit&amp;product=
+<p>Komponent '<a href="editcomponents.cgi?action=edit&amp;product=
    [%- product.name FILTER url_quote %]&amp;component=[% comp.name FILTER url_quote %]">
-   [%- comp.name FILTER html %]</a>' has been created.</p>
+   [%- comp.name FILTER html %]</a>' został utworzony.</p>
 
 [% PROCESS admin/components/footer.html.tmpl %]
 

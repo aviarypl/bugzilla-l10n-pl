@@ -20,22 +20,22 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Update classification"
+  title = "Aktualizacja klasyfikacji"
 %]
 
 [% IF updated_sortkey %] 
-  Updated sortkey.<br>
+  Zaktualizowano klucz sortowania.<br>
 [% END %]
 
 [% IF updated_description %] 
-  Updated description.<br>
+  Uaktualniono opis.<br>
 [% END %]
 
 [% IF updated_classification %] 
-  Updated classification name.<br>
+  Uaktualniono nazwę klasyfikacji.<br>
 [% END %]
 
-<p>Back to the <a href="./">main [% terms.bugs %] page</a>
-or <a href="editclassifications.cgi"> edit</a> more classifications.
+<p>Wróć do <a href="./">głównej strony [% terms.bledow %]</a> 
+lub <a href="editclassifications.cgi">edytuj</a> inne klasyfikacje.
 
 [% PROCESS global/footer.html.tmpl %] 

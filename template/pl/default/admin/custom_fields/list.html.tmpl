@@ -20,37 +20,37 @@
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
-[% PROCESS global/header.html.tmpl title = "Custom Fields" %]
+[% PROCESS global/header.html.tmpl title = "Pola dodatkowe" %]
 
 [% columns = [
      {
        name => "name"
-       heading => "Edit custom field..."
+       heading => "Edytuj pola dodatkowe..."
        contentlink => "editfields.cgi?action=edit&amp;name=%%name%%"
      },
      {
        name => "description"
-       heading => "Description"
+       heading => "Opis"
      },
      {
        name => "sortkey"
-       heading => "Sortkey"
+       heading => "Klucz sortowania"
      },
      {
        name => "type"
-       heading => "Type"
+       heading => "Typ"
      },
      {
        name => "enter_bug"
-       heading => "Editable on Bug Creation"
+       heading => "Edycja przy tworzeniu błędu"
      },
      {
        name => "mailhead"
-       heading => "In Bugmail on Bug Creation"
+       heading => "W powiadomieniu o nowycm błędzie"
      },
      {
        name => "obsolete"
-       heading => "Is Obsolete"
+       heading => "Zdezaktualizowane"
      }
    ]
 %]
@@ -78,7 +78,7 @@
 %]
 
 <p>
-  <a href="editfields.cgi?action=add">Add a new custom field</a>
+  <a href="editfields.cgi?action=add">Dodaj nowe pole dodatkowe</a>
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

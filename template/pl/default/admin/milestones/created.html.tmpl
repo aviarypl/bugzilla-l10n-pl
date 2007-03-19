@@ -27,17 +27,17 @@
   #               which the milestone belongs.
   #%]
   
-[% title = BLOCK %]Adding new Milestone of Product
+[% title = BLOCK %]Dodawanie wersji docelowej dla produktu
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
-<p>The milestone '<a title="Edit milestone '[% milestone.name FILTER html %]' of 
-   product '[% product.name FILTER html %]'"
+<p>Wersja docelowa '<a title="Edytuj wersję docelową '[% milestone.name FILTER html %]' 
+   produktu '[% product.name FILTER html %]'"
    href="editmilestones.cgi?action=edit&amp;product=
    [%- product.name FILTER url_quote %]&amp;milestone=[% milestone.name FILTER url_quote %]">
-   [%- milestone.name FILTER html %]</a>' has been created.</p>
+   [%- milestone.name FILTER html %]</a>' zostałą dodana.</p>
 
 [% PROCESS admin/milestones/footer.html.tmpl %]
 
