@@ -28,7 +28,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Select component of product
+[% title = BLOCK %]Wybór komponentu produktu
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -45,17 +45,17 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Edit component..."
+       heading => "Edytuj komponent..."
        contentlink => edit_contentlink
      },
      { 
        name => "description"
-       heading => "Description" 
+       heading => "Opis" 
        allow_html_content => 1
      },
      { 
        name => "initialowner"
-       heading => "Default Assignee"
+       heading => "Domyślny właściciel"
      },
    ]
 %]
@@ -64,7 +64,7 @@
 
   [% columns.push({
        name => 'initialqacontact'
-       heading => 'QA Contact'
+       heading => 'Kontakt QA'
      }) %]
 
 [% END %]
@@ -73,7 +73,7 @@
 
   [% columns.push({
        name => 'bug_count'
-       heading => "$terms.Bugs"
+       heading => "$terms.Bledy"
        align => "right"
        contentlink => bug_count_contentlink
      }) %]
@@ -81,8 +81,8 @@
 [% END %]
 
 [% columns.push({
-     heading => "Action"
-     content => "Delete"
+     heading => "Akcja"
+     content => "Usuń"
      contentlink => delete_contentlink
    }) %]
 
@@ -113,13 +113,13 @@
      overrides = overrides
 %]
 
-<p><a href="editcomponents.cgi?action=add&amp;product=[% product.name FILTER url_quote %]">Add</a>
-    a new component to product '[% product.name FILTER html %]'</p>
+<p><a href="editcomponents.cgi?action=add&amp;product=[% product.name FILTER url_quote %]">Dodaj</a>
+    nowy komponent do produktu '[% product.name FILTER html %]'</p>
 
 [% IF ! showbugcounts %]
 
   <p><a href="editcomponents.cgi?product=[% product.name FILTER url_quote %]&amp;showbugcounts=1">
-      Redisplay table with [% terms.bug %] counts (slower)</a></p>
+      Odśwież stronę i wyświetl w tabeli liczbę [% terms.bledow %] (wolno)</a></p>
 
 [% END %]
 

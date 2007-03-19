@@ -98,7 +98,7 @@
   [% END %]
 
   [% FOREACH q = user.queries_subscribed %]
-    <link rel="Saved&nbsp;Search"
+    <link rel="Zapamiętane&nbsp;wyszukiwania"
           title="[% q.name FILTER html %] ([% q.user.login FILTER html %])"
           href="buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=
                  [% q.name FILTER url_quote %]&amp;sharer_id=
@@ -111,7 +111,7 @@
               href="editparams.cgi">' IF user.groups.tweakparams %]
     [% '<link rel="Administracja" title="Użytkownicy"    
               href="editusers.cgi">' IF user.groups.editusers %]
-    [% '<link rel="Administration" title="Products" href="editproducts.cgi">'
+    [% '<link rel="Administracja" title="Produkty" href="editproducts.cgi">'
        IF user.groups.editcomponents || user.get_products_by_permission("editcomponents").size %]
     [% '<link rel="Administracja" title="Typy flag"   
               href="editflagtypes.cgi">' IF user.groups.editcomponents %]
@@ -119,7 +119,7 @@
               href="editgroups.cgi">' IF user.groups.creategroups %]
     [% '<link rel="Administracja" title="Słowa kluczowe"      
               href="editkeywords.cgi">' IF user.groups.editkeywords %]
-    [% '<link rel="Administration" title="Przypominanie"       
+    [% '<link rel="Administracja" title="Przypominanie"       
               href="editwhines.cgi">' IF user.groups.bz_canusewhines %]
     [% '<link rel="Administracja" title="Sprawdzanie poprawności"  
               href="sanitycheck.cgi">' IF user.groups.editcomponents %]

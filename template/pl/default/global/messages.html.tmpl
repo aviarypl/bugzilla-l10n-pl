@@ -38,14 +38,14 @@
       Za pomocą poniższego formularza można zmienić ustawienia grup.
     [% END %]
     [% IF login_info %]
-      You can now go to the <a href="index.cgi">Log In</a> page to enter
-      this [% terms.Bugzilla %] installation.
+      Można teraz przejść do strony <a href="index.cgi">Logowania</a>, aby
+      zalogować się i pracować w tej instalacji [% terms.Bugzilli %].
     [% END %]
 
   [% ELSIF message_tag == "account_creation_cancelled" %]
     [% title = "User Account Creation Cancelled" %]
-    The creation of the user account [% account FILTER html %] has been
-    cancelled.
+    Tworzenie konta użytkownika [% account FILTER html %] zostało
+    anulowane.
 
   [% ELSIF message_tag == "account_updated" %]
     [% IF changed_fields.size
@@ -66,9 +66,9 @@
               Objaśnienie powodu wyłączenia konta zostało zmodyfikowane.
             [% ELSIF field == 'disable_mail' %]
               [% IF otheruser.email_disabled %]
-                Bugmail has been disabled.
+                Wyłączono pocztę dot. błędów (bugmail).
               [% ELSE %]
-                Bugmail has been enabled.
+                Włączono pocztę dot. błędów (bugmail).
               [% END %]
             [% END %]
           </li>
@@ -109,42 +109,42 @@
     Konto [% otheruser.login FILTER html %] zostało pomyślnie usunięte.
 
   [% ELSIF message_tag == "attachment_creation_failed" %]
-    The [% terms.bug %] was created successfully, but attachment creation
-    failed.
-    Please add your attachment by clicking the "Create a New Attachment" link
-    below.
+    [% terms.Blad %] został pomyślnie utworzony, lecz nie powiodło się utworzenie 
+	załącznika.
+    Proszę dodać załącznik poprzez odnoścnik "Utwórz nowy załącznik" link
+    poniżej.
 
   [% ELSIF message_tag == "bug_confirmed_by_votes" %]
-    *** This [% terms.bug %] has been confirmed by popular vote. ***
+    *** Ten [% terms.blad %] został potwierdzony poprzez głosowanie. ***
 
   [% ELSIF message_tag == "bug_duplicate_of" %]
-    *** This [% terms.bug %] has been marked as a duplicate of [% terms.bug %] [%+ dupe_of FILTER html %] ***
+    *** Ten [% terms.blad %] został oznaczony jako duplikat [% terms.bledu %] [%+ dupe_of FILTER html %] ***
 
   [% ELSIF message_tag == "bug_has_duplicate" %]
-    *** [% terms.Bug %] [%+ dupe FILTER html %] has been marked as a duplicate of this [% terms.bug %]. ***
+    *** [% terms.Blad %] [%+ dupe FILTER html %] został oznaczony jako duplikat tego [% terms.bledu %]. ***
 
   [% ELSIF message_tag == "bug_moved_to" %]
-    <p>[% terms.Bug %] moved to [% Param("move-to-url") FILTER html %].</p>
-    <p>If the move succeeded, [% login FILTER html %] will receive a mail
-    containing the number of the new [% terms.bug %] in the other database.
-    If all went well, please mark this [% terms.bug %] verified, and paste
-    in a link to the new [% terms.bug %]. Otherwise, reopen this [% terms.bug %].
+    <p>[% terms.Blad %] przesunięty do [% Param("move-to-url") FILTER html %].</p>
+    <p>Jeśli przesunięcie powiodło się, użytkownik [% login FILTER html %] otrzyma e-mail
+    zawierający numer nowego [% terms.bledu %] w innej bazie danych.
+    Jeśli wszystko zakończyło sie pomyślnie, proszę oznaczyć ten [% terms.blad %] jako VERIFIED i 
+    podać odnośnik do nowego [% terms.bledu %]. W przeciwnym wypadku proszę ponownie otworzyć ten [% terms.blad %].
 
   [% ELSIF message_tag == "buglist_adding_field" %]
-    [% title = "Adding field to search page..." %]
-    [% link  = "Click here if the page does not redisplay automatically." %]
+    [% title = "Dodawanie pola do strony wyszukiwania..." %]
+    [% link  = "Proszę kliknąć tutaj jeśli strona nie odświeża się autoamtycznie." %]
 
   [% ELSIF message_tag == "buglist_load_named_query" %]
     [% title = BLOCK %]
       Trwa wczytywanie zapytania <code>[% namedcmd FILTER html %]</code>
     [% END %]
-    [% link  = "Kliknij tutaj jeśli strona nie została odświeżona automatycznie." %]
+    [% link  = "Proszę kliknąć tutaj jeśli strona nie odświeża się autoamtycznie." %]
 
   [% ELSIF message_tag == "buglist_updated_named_query" %]
     Zapytanie <code>[% queryname FILTER html %]</code> zostało uaktualnione.
 
   [% ELSIF message_tag == "buglist_new_default_query" %]
-    Domyślne zapytanie zostało zapisane. Można również, dodać
+    Domyślne zapytanie zostało zapisane. Można również dodać
     zakładkę do wyników dowolnego zapytania.
 
   [% ELSIF message_tag == "buglist_new_named_query" %]
@@ -166,28 +166,28 @@
   [% ELSIF message_tag == "change_columns" %]
     [% title = "Zmiana kolumn" %]
     Trwa ponowne wykonanie zapytania z nowymi kolumnami...
-    Kliknij <a href="[% redirect_url FILTER html %]">tutaj</a>
+    Proszę kliknąć <a href="[% redirect_url FILTER html %]">tutaj</a>
     jeśli strona nie odświeży się automatycznie.
 
   [% ELSIF message_tag == "custom_field_created" %]
-    [% title = "Custom Field Created" %]
-    The new custom field '[% field.name FILTER html %]' has been
-    successfully created.
+    [% title = "Pole dowolne utworzone" %]
+    Nowe pole dowolne '[% field.name FILTER html %]' zostało
+    pomyślnie utworzone.
 
   [% ELSIF message_tag == "custom_field_updated" %]
-    [% title = "Custom Field Updated" %]
-    Properties of the '[% field.name FILTER html %]' field have been
-    successfully updated.
+    [% title = "Uaktualniono pole dowolne" %]
+    Własności pola '[% field.name FILTER html %]' zostały
+    pomyślnie uaktualnione.
 
   [% ELSIF message_tag == "emailold_change_cancelled" %]
     [% title = "Anulowanie żądania zmiany adresu e-mail" %]
     Żądanie zmiany adresu e-mail konta na adres
-    [%+ new_email FILTER html %] zostało anulowana.
+    [%+ new_email FILTER html %] zostało anulowane.
 
   [% ELSIF message_tag == "email_change_cancelled" %]
     [% title = "Anulowanie żądania zmiany adresu e-mail" %]
     Żądanie zmiany adresu e-mail z [%+ old_email FILTER html %]
-    na [%+ new_email FILTER html %] zostało anulowana.
+    na [%+ new_email FILTER html %] zostało anulowane.
 
   [% ELSIF message_tag == "email_change_cancelled_reinstated" %]
     [% title = "Anulowanie żądania zmiany adresu e-mail" %]
@@ -196,8 +196,8 @@
     Zostały przywrócone stare ustawienia.
 
   [% ELSIF message_tag == "flag_creation_failed" %]
-    [% title = "Flag Creation Failure" %]
-    An error occured while validating flags:
+    [% title = "Błąd tworzenia flagi" %]
+    Napotkano błąd podczas weryfikacji flag:
     [%+ flag_creation_error FILTER none %]
 
   [% ELSIF message_tag == "logged_out" %]
@@ -218,19 +218,19 @@
     [% title = "Parameters Updated" %]
     [% IF param_changed.size > 0 %]
       [% FOREACH param = param_changed %]
-        Changed <em>[% param FILTER html %]</em><br>
+        Zmieniono <em>[% param FILTER html %]</em><br>
         [% IF param == 'utf8' && Param('utf8') %]
-          <strong>You must now re-run checksetup.pl.</strong><br>
+          <strong>Należy teraz ponownie uruchomić skrypt checksetup.pl.</strong><br>
         [% END %]
       [% END %]
     [% ELSE %]
-      No changes made.
+      Nie dokonano żadnych zmian.
     [% END %]
 
     [% IF shutdown_is_active == 1 %]
       <hr>
-      [% terms.Bugzilla %] has now been shut down. To re-enable the system,
-      clear the <em>shutdownhtml</em> field.
+      [% terms.Bugzilla %] została wyłączona. Aby włączyć system ponownie, należy
+      wyczyścić pole <em>shutdownhtml</em>.
     [% END%]
 
   [% ELSIF message_tag == "password_change_cancelled" %]
@@ -275,86 +275,85 @@
     </p>
     
   [% ELSIF message_tag == "install_admin_get_email" %]
-    Enter the e-mail address of the administrator:
+    Proszę podać adres e-mail administratora:
 
   [% ELSIF message_tag == "install_admin_get_name" %]
-    Enter the real name of the administrator:
+    Proszę podać imię i nazwisko administratora:
 
   [% ELSIF message_tag == "install_admin_get_password" %]
-    Enter a password for the administrator account:
+    Proszę podać hasło dla konta administratora:
 
   [% ELSIF message_tag == "install_admin_get_password2" %]
-    Please retype the password to verify:
+    Proszę podać ponownie hasło administratora:
 
   [% ELSIF message_tag == "install_admin_created" %]
-    [% user.login FILTER html %] is now set up as an administrator.
+    Użytkownik [% user.login FILTER html %] jest teraz administratorem.
 
   [% ELSIF message_tag == "install_admin_setup" %]
-    Looks like we don't have an administrator set up yet.
-    Either this is your first time using [% terms.Bugzilla %], or your
-    administrator's privileges might have accidentally been deleted.
+    Prawdopodonie nie ma konta administratora.
+	Może to być pierwsze uruchominie [% terms.Bugzilli %] lub
+    uprawnienia administratora zostały przypadkowo usunięte.
 
   [% ELSIF message_tag == "install_column_add" %]
-    Adding new column '[% column FILTER html %]' to the '[% table FILTER html %]' table...
+    Dodawanie nowej kolumny '[% column FILTER html %]' do tabeli '[% table FILTER html %]'...
 
   [% ELSIF message_tag == "install_column_drop" %]
-    Deleting the '[% column FILTER html %]' column from the '[% table FILTER html %]' table...
+    Usuwanie kolumny '[% column FILTER html %]' z tabeli '[% table FILTER html %]'...
 
   [% ELSIF message_tag == "install_column_rename" %]
-    Renaming column '[% old FILTER html %]' to '[% new FILTER html %]'...
+    Zmiana nazwy kolumny '[% old FILTER html %]' na '[% new FILTER html %]'...
 
   [% ELSIF message_tag == "install_default_classification" %]
-    Creating default classification '[% name FILTER html %]'...
+    Tworzenie domyślnej klasyfikacji '[% name FILTER html %]'...
 
   [% ELSIF message_tag == "install_default_product" %]
-    Creating initial dummy product '[% name FILTER html %]'...
+    Tworzenie przykładowego produktu '[% name FILTER html %]'...
 
   [% ELSIF message_tag == "install_file_perms_fix" %]
-    Fixing file permissions...
+    Ustawianie uprawnień plików...
 
   [% ELSIF message_tag == "install_group_create" %]
-    Creating group [% name FILTER html %]...
+    Tworzenie grupy [% name FILTER html %]...
 
   [% ELSIF message_tag == "install_setting_new" %]
-    Adding a new user setting called '[% name FILTER html %]'
+    Dodawanie ustawienia użytkownika '[% name FILTER html %]'
 
   [% ELSIF message_tag == "install_table_drop" %]
-    Dropping the '[% name FILTER html %]' table...
+    Usuwanie tabeli '[% name FILTER html %]'...
 
   [% ELSIF message_tag == "install_urlbase_default" %]
-    Now that you have installed [% terms.Bugzilla %], you should visit the
-    'Parameters' page (linked in the footer of the Administrator
-    account) to ensure it is set up as you wish - this includes
-    setting the 'urlbase' option to the correct url.
+    Teraz, po instalacji [% terms.Bugzilli %], należy otworzyć stronę
+    'Parametry' (odnośnik znajduje się w stopce konta Administratora),
+	aby dokonać dalszych ustawień systemu. Włącznie z opcją 'urlbase',
+	która określa poprawny adres URL.
 
   [% ELSIF message_tag == "install_webservergroup_empty" %]
     ****************************************************************************
-    WARNING! You have not entered a value for the "webservergroup" parameter
-    in localconfig. This means that certain files and directories which need
-    to be editable by both you and the webserver must be world writable, and
-    other files (including the localconfig file which stores your database
-    password) must be world readable. This means that _anyone_ who can obtain
-    local access to this machine can do whatever they want to your 
-    [%+ terms.Bugzilla %] installation, and is probably also able to run 
-    arbitrary Perl code as the user that the webserver runs as.
+    UWAGA! Nie podano wartości dla parametru "webservergroup" w pliku
+    localconfig. Oznacza to, że pewne pliki i katalogi, które muszą być
+	dostępne dla zapisu przez użytkownika i serwer www oraz inne pliki (w tym
+	plik localconfig, który zawiera hasło bazy danych) muszą być dostępne do
+	zapisu dla wszystkich. Oznacza to, że _ktokolwiek_ kto ma dostęp do
+	teog komputera może dowolnie manipulować przy instalacji tej [%+ terms.Bugzilli %]
+	i uruchomić dowolny kod Perl jako użytkownik serwera www.
 
-    You really, really, really need to change this setting.
+    Naprawdę naprawdę należy zmienić tą opcję.
     ****************************************************************************
 
   [% ELSIF message_tag == "install_webservergroup_not_in" %]
-    Warning: you have entered a value for the "webservergroup" parameter in
-    localconfig, but you are not either a) running this script as [% constants.ROOT_USER FILTER html %]; 
-    or b) a member of this group. This can cause permissions problems and 
-    decreased security.  If you experience problems running [% terms.Bugzilla %]
-    scripts, log in as [% constants.ROOT_USER FILTER html %] and re-run this script, become a 
-    member of the group, or remove the value of the "webservergroup" parameter.
+    Uwaga: podano wartość parametru "webservergroup" w pliku 
+    localconfig, lecz skrypt ten nie jest uruchomiony przez a) użytkownika [% constants.ROOT_USER FILTER html %]; 
+    lub b) członka tej grupy. Może to spowodować problemy z uprawnieniami i zmniejszenie 
+    poziomy bezpieczeństwa.  W przypadku problemów z pracą skryptów [% terms.Bugzilli %],
+    należy zalogować się jako [% constants.ROOT_USER FILTER html %] i uruchomić ten skrypt ponownie, 
+	zostać członkiem tej sgrupy lub usunąć parametr "webservergroup".
 
   [% ELSIF message_tag == "install_webservergroup_windows" %]
-    Warning: You have set webservergroup in [% constants.bz_locations.localconfig FILTER html %]
-    Please understand that this does not bring you any security when
-    running under Windows.
-    Verify that the file permissions in your [% terms.Bugzilla %] directory are
-    suitable for your system. Avoid unnecessary write access.
+    Uwaga: ustawiono parametr webservergroup w [% constants.bz_locations.localconfig FILTER html %]
+    Proszę zauważyć, że ustawienie to nie powoduje zwiększenia bezpieczeństwa w przypadku
+	pracy systemu w środowisku Windows.
+    Proszę sprawdzić uprawnienia do plików w katalogu [% terms.Bugzilli %] i usunąć niepotrzebne
+	prawa zapisu.
 
   [% ELSIF message_tag == "product_invalid" %]
     [% title = "Opis komponentu $terms.Bugzilli" %]
@@ -369,14 +368,14 @@
 
   [% ELSIF message_tag == "sudo_started" %]
     [% title = "Sudo session started" %]
-      The sudo session has been started.  For the next 6 hours, or until you 
-      end the session, everything you do you do as the user you are 
-      impersonating ([% target FILTER html %]).
+      Rozpoczęto sesję sudo.  Przez następne 6 godzin lub do czasu zakończenia
+      sesji wszystkie działania będą wykonywane na koncie użytkownika
+      ([% target FILTER html %]).
   
   [% ELSIF message_tag == "sudo_ended" %]
     [% title = "Sudo session complete" %]
-      The sudo session has been ended.  From this point forward, everything you 
-      do you do as yourself.
+      Zakończono sesję sudo. Od tego czasu wszystkie akcje wykonywane są
+	  na koncie własnym użytkownika.
 
   [% ELSIF message_tag == "series_created" %]
     [% title = "Tworzenie serii" %]

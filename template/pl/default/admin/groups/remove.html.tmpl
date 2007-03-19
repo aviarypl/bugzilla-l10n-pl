@@ -34,29 +34,29 @@
 
 [% IF remove_all %]
   [% title = BLOCK %]
-    Removing All Explicit Group Memberships from '[% name FILTER html %]'
+    Usuwanie wszystkich jawnych członków z grupy '[% name FILTER html %]'
   [% END %]
 [% ELSE %]
   [% title = BLOCK %]
-    Removing All Explicit Group Memberships Matching Group RegExp from '[% name FILTER html %]'
+    Usuwanie wszystkich jawnych członków pasujących do wyrażenia regularnego z grupy '[% name FILTER html %]'
   [% END %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl %]
 
 [% IF remove_all %]
-  <p><b>Removing explicit membership</b></p>
+  <p><b>Usuwanie jawnych członków</b></p>
 [% ELSE %]
-  <p><b>Removing explicit memberships of users matching
+  <p><b>Usuwanie członków pasujących do wyrażenia regularnego
   '[% regexp FILTER html %]'...</b></p>
 [% END %]
     
 [% FOREACH user = users %]
-  [% user.login FILTER html %] removed<br>
+  [% user.login FILTER html %] usunięto<br>
 [% END %]
 
-<p><b>Done</b>.</p>
+<p><b>Zakończono</b>.</p>
 
-<p>Back to the <a href="editgroups.cgi">group list</a>.</p>
+<p>Powrót do <a href="editgroups.cgi">listy grup</a>.</p>
 
 [% PROCESS global/footer.html.tmpl %] 

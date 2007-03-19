@@ -45,45 +45,45 @@
       <div class="label">Edycja: </div>
       <ul class="links">
         [% IF user.groups.tweakparams %]
-          <li><span class="separator">[% sep %]</span><a href="editparams.cgi">Parameters</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editparams.cgi">Parametry</a></li>
           [% sep = "| " %]
-          <li><span class="separator">[% sep %]</span><a href="editsettings.cgi">User Preferences</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editsettings.cgi">Preferencje użytkownika</a></li>
         [% END %]
         [% IF user.groups.editcomponents %]
-          <li><span class="separator">[% sep %]</span><a href="sanitycheck.cgi">Sanity Check</a></li>
+          <li><span class="separator">[% sep %]</span><a href="sanitycheck.cgi">Sprawdzanie poprawności</a></li>
           [% sep = "| " %]
         [% END %]
         [% IF user.groups.editusers || user.can_bless %]
-          <li><span class="separator">[% sep %]</span><a href="editusers.cgi">Users</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editusers.cgi">Użytkownicy</a></li>
           [% sep = "| " %]
         [% END %]
         [% IF Param('useclassification') && user.groups.editclassifications %]
-          <li><span class="separator">[% sep %]</span><a href="editclassifications.cgi">Classifications</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editclassifications.cgi">Klasyfikacje</a></li>
           [% sep = "| " %]
         [% END %]
         [% IF user.groups.editcomponents || user.get_products_by_permission("editcomponents").size %]
-          <li><span class="separator">[% sep %]</span><a href="editproducts.cgi">Products</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editproducts.cgi">Produkty</a></li>
           [% sep = "| " %]
         [% END %]
         [% IF user.groups.editcomponents %]
-          <li><span class="separator">[% sep %]</span><a href="editflagtypes.cgi">Flags</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editflagtypes.cgi">Flagi</a></li>
           [% sep = "| " %]
         [% END %]
         [% IF user.groups.admin %]
-          <li><span class="separator">[% sep %]</span><a href="editfields.cgi">Custom Fields</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editfields.cgi">Pola dodatkowe</a></li>
           [% sep = "| " %]
-          <li><span class="separator">[% sep %]</span><a href="editvalues.cgi">Field Values</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editvalues.cgi">Wartości pól</a></li>
         [% END %]
         [% IF user.groups.creategroups %]
-          <li><span class="separator">[% sep %]</span><a href="editgroups.cgi">Groups</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editgroups.cgi">Grupy</a></li>
           [% sep = "| " %]
         [% END %]
         [% IF user.groups.editkeywords %]
-          <li><span class="separator">[% sep %]</span><a href="editkeywords.cgi">Keywords</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editkeywords.cgi">Słowa kluczowe</a></li>
           [% sep = "| " %]
         [% END %]
         [% IF user.groups.bz_canusewhines %]
-          <li><span class="separator">[% sep %]</span><a href="editwhines.cgi">Whining</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editwhines.cgi">Pryzpominanie</a></li>
           [% sep = "| " %]
         [% END %]
       </ul>
@@ -102,7 +102,7 @@
       <ul class="links">
         [% IF user.showmybugslink %]
           [% filtered_username = user.login FILTER url_quote %]
-          <li><a href="[% Param('mybugstemplate').replace('%userid%', filtered_username) %]">My [% terms.Bugs %]</a></li>
+          <li><a href="[% Param('mybugstemplate').replace('%userid%', filtered_username) %]">Moje [% terms.bledy %]</a></li>
           [% print_pipe = 1 %]
         [% END %]
 

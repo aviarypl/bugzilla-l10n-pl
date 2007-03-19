@@ -27,13 +27,13 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edit values for which field?"
+  title = "Wybór pola do edycji wartości?"
 %]
 
 [% columns = [
      { 
        name => "name"
-       heading => "Edit field values for..."
+       heading => "Edytuj wartości pola..."
        content_use_field = 1
        contentlink => "editvalues.cgi?field=%%name%%"
      }

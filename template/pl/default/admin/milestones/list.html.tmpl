@@ -31,7 +31,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Select milestone of product
+[% title = BLOCK %]Wybór wersji docelowej produktu
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -48,12 +48,12 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Edit milestone..."
+       heading => "Edytuj wersję docelową..."
        contentlink => edit_contentlink
      },
      { 
        name => "sortkey"
-       heading => "Sortkey"
+       heading => "Klucz sortowania"
      }
    ]
 %]
@@ -62,7 +62,7 @@
 
   [% columns.push({
        name => "bug_count"
-       heading => "$terms.Bugs"
+       heading => "$terms.Bledy"
        align => "right"
        contentlink => bug_count_contentlink
      })
@@ -72,8 +72,8 @@
 
 [% columns.push({
        name => "action"
-       heading => "Action"
-       content => "Delete"
+       heading => "Akcja"
+       content => "Usuń"
        contentlink => delete_contentlink
      })
 %]
@@ -84,7 +84,7 @@
      match_value => product.default_milestone
      match_field => 'name'
      override_content => 1
-     content => "(Default milestone)"
+     content => "(Domyślna wersja)"
      override_contentlink => 1
      contentlink => undef
    } ]
@@ -99,7 +99,7 @@
 [% IF ! showbugcounts %]
 
   <p><a href="editmilestones.cgi?product=[% product.name FILTER url_quote %]&amp;showbugcounts=1">
-      Redisplay table with [% terms.bug %] counts (slower)</a></p>
+    Odśwież stronę i wyświetl w tabeli liczbę [% terms.bledow %] (wolne)</a></p>
 
 [% END %]
 

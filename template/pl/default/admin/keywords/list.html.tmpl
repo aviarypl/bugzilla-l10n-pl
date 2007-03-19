@@ -32,29 +32,29 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Select keyword"
+  title = "Wybór słowa kluczowego"
 %]
 
 [% columns = [
      { 
        name => "name"
-       heading => "Edit keyword..."
+       heading => "Edytuj słowo kluczowe..."
        contentlink => "editkeywords.cgi?action=edit&amp;id=%%id%%" 
      },
      { 
        name => "description"
-       heading => "Description"
+       heading => "Opis" 
        allow_html_content => 1
      },
      { 
        name => "bug_count"
-       heading => "Bugs"
+       heading => "Błędy"
        align => "right"
        contentlink => "buglist.cgi?keywords=%%name%%"
      },
      { 
-       heading => "Action" 
-       content => "Delete"
+       heading => "Akcja" 
+       content => "Usuń"
        contentlink => "editkeywords.cgi?action=delete&amp;id=%%id%%"
      }
    ]
@@ -66,6 +66,6 @@
      footer = footer_row
 %]
 
-<p><a href="editkeywords.cgi?action=add">Add a new keyword</a></p>
+<p><a href="editkeywords.cgi?action=add">Dodaj nowe słowo kluczowe</a></p>
 
 [% PROCESS global/footer.html.tmpl %]

@@ -29,18 +29,18 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edit milestones for which product?"
+  title = "Wybór produktu, którego wersje docelowe będą edytowane"
 %]
 
 [% columns = [
      { 
        name => "name"
-       heading => "Edit milestones of..."
+       heading => "Edytuj wersje docelowe..."
        contentlink => "editmilestones.cgi?product=%%name%%" 
      },
      { 
        name => "description"
-       heading => "Description" 
+       heading => "Opis" 
        allow_html_content => 1
      }
    ]
@@ -50,7 +50,7 @@
 
   [% columns.push({
       name => 'bug_count'
-      heading => "$terms.Bugs"
+      heading => "$terms.Bledy"
       align => "right"
       contentlink => "buglist.cgi?product=%%name%%"
     })
@@ -65,7 +65,7 @@
 
 [% IF !showbugcounts %]
   <p><a href="editmilestones.cgi?showbugcounts=1">
-      Redisplay table with [% terms.bug %] counts (slower)</a></p>
+    Odśwież stronę i wyświetl w tabeli liczbę [% terms.bledow %] (wolne)</a></p>
 [% END %]
 
 [% PROCESS global/footer.html.tmpl %]

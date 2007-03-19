@@ -21,13 +21,13 @@
   #
   #%]
   
-[% title = BLOCK %]Deleted Value '[% value FILTER html %]' for the
-                   '[% field FILTER html %]' Field[% END %]
+[% title = BLOCK %]Usunięto wartość '[% value FILTER html %]' z pola
+                   '[% field FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
-<p>Field Value '[% value FILTER html %]' deleted.</p>
+<p>Wartość '[% value FILTER html %]' została usunięta.</p>
 
 [% PROCESS admin/fieldvalues/footer.html.tmpl
   no_edit_link = 1

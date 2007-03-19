@@ -23,7 +23,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% field_descs = { "[Bug creation]"       => "[Utworzono $terms.blad]",
+[% field_descs = { "[Bug creation]"       => "[Utworzenie $terms.bledu]",
                    "actual_time"          => "Faktyczny czas"
                    "alias"                => "Alias",
                    "assigned_to"          => "Przypisany do",
@@ -80,9 +80,9 @@
      IF !field_descs.${bz_field.name}.defined %]
 [% END %]
 
-[% field_types = { ${constants.FIELD_TYPE_UNKNOWN}       => "Unknown Type",
-                   ${constants.FIELD_TYPE_FREETEXT}      => "Free Text",
-                   ${constants.FIELD_TYPE_SINGLE_SELECT} => "Drop Down" } %]
+[% field_types = { ${constants.FIELD_TYPE_UNKNOWN}       => "Nieznany typ",
+                   ${constants.FIELD_TYPE_FREETEXT}      => "Pole tekstowe",
+                   ${constants.FIELD_TYPE_SINGLE_SELECT} => "Lista rozwijalna" } %]
 
 [% status_descs = { "UNCONFIRMED" => "UNCONFIRMED",
                     "NEW"         => "NEW",

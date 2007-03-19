@@ -20,7 +20,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Welcome to [% terms.Bugzilla %][% END %]
+[% title = BLOCK %]Witamy w [% terms.Bugzilli %][% END %]
 
 [% PROCESS global/header.html.tmpl
    title = title
@@ -29,61 +29,57 @@
 %]
 
 <div id="welcome-admin">
-  <p>Welcome, [% user.identity FILTER html %].</p>
+  <p>Witamy, [% user.identity FILTER html %].</p>
 
-  <p>You are seeing this page because some of the core parameters have not been set up yet.
-  The goal of this page is to inform you about the last steps required to set up
-  your installation correctly.</p>
+  <p>Niniejsza strona jest wyświetlona ponieważ pewne podstawowe parametry nie zostały jeszcze ustawione.
+  Celem tej strony jest poinformowanie o ostatnich krokach wymaganych do poprawnego skonfigurowania systemu.</p>
 
-  <p>As an administrator, several administrative links are available at the bottom of
-  this page. These links will always be visible, on all pages. Among these links,
-  you must visit at least the <a href="editparams.cgi">Parameters</a> one,
-  which is the page from where you can set all important parameters for this installation.
-  By clicking this link, you will be able to set among others:</p>
+  <p>Dla administratora dostępnych jest kilka odnośników u dołu tej strony.
+  Odnośniki te będą zawsze widoczne na wszystkich stronach. Spośród nich należy
+  odwiedzić co najmniej stronę <a href="editparams.cgi">Parametry</a>, gdzie można
+  ustawić najważniejsze parametry dla tej instalacji.
+  Pod tym odnośnikiem można m.in. ustawić:</p>
 
   <ul>
-    <li><a href="editparams.cgi?section=core#maintainer">maintainer</a>, the person
-    responsible for this installation if something is running wrong.</li>
+    <li><a href="editparams.cgi?section=core#maintainer">opiekuna</a> - osobę
+    odpowiedzialną za tą instalację, i z którą będzie można się skontaktować
+	jeśli będzie działo się coś niepożądanego.</li>
 
-    <li><a href="editparams.cgi?section=core#urlbase">urlbase</a>, which is the URL
-    pointing to this installation and which will be used in emails (which is also the
-    reason you see this page: as long as this parameter is not set, you will see this
-    page again and again).</li>
+    <li><a href="editparams.cgi?section=core#urlbase">urlbase</a> - podstawowy adres URL
+    wskazujący na tę instalację i który będzie używany w wiadomościach e-mail wysyłanych
+	do użytkowników. Do czasu ustawienia tego parametru niniejsza strona będzie
+	zawsze wyświetlana.</li>
 
-    <li><a href="editparams.cgi?section=core#cookiepath">cookiepath</a> is important
-    for your browser to manage your cookies correctly.</li>
+    <li><a href="editparams.cgi?section=core#cookiepath">ścieżkę ciasteczek</a>, która jest
+	ważna dla przeglądarek do poprawnego zarządzania ciasteczkami.</li>
 
-    <li><a href="editparams.cgi?section=core#utf8">utf8</a> will let you encode all
-    texts into UTF-8, if desired (it is strongly recommended to keep this parameter
-    turned on).</li>
+    <li><a href="editparams.cgi?section=core#utf8">utf8</a> pozwala kodować wszystkie
+	teksty za pomocą kodowania UTF-8 (zaleca się pozostawić tę opcję włączoną).</li>
   </ul>
 
-  <p>Also important are the following parameters:</p>
+  <p>Ważne są także następujące opcje:</p>
 
   <ul>
-    <li><a href="editparams.cgi?section=auth#requirelogin">requirelogin</a>, if turned
-    on, will protect your installation from users having no account on this installation.
-    In other words, users who are not explicitly authenticated with a valid account
-    cannot see any data. This is what you want if you want to keep your data private.</li>
+    <li><a href="editparams.cgi?section=auth#requirelogin">requirelogin</a> - jeśli włączona
+	użytkownicy będą musieli się zarejestrować, aby cokolwiek zobaczyć i dokonać jakichkolwiek zmian.
+	Opcja przydatna w przypadku wymagania zachowania poufności danych.</li>
 
     <li><a href="editparams.cgi?section=auth#createemailregexp">createemailregexp</a>
-    defines which users are allowed to create an account on this installation. If set
-    to ".*" (the default), everybody is free to create his own account. If set to
-    "@mycompany.com$", only users having an account @mycompany.com will be allowed to
-    create an account. If left blank, users will not be able to create accounts themselves;
-    only an administrator will be able to create one for them. If you want a private
-    installation, you must absolutely set this parameter to something different from
-    the default.</li>
+    określa którzy użytkownicy mają prawo założyć konto w tej instalacji.
+	Jeśli ustawiona na ".*" (domyślnie), to każdy posiadacz adresu e-mail może się zarejestrować. 
+	Jeśli opcję ustawi się np. na "@mycompany.com$" to tylko uzytkownicy mający adres w domenie
+	@mycompany.com będą mogli utworzyć sobie konto. W przypadku pozostawienia pustej wartości
+	konta będą mogły być zakładane tylko przez administratora. Dla nie otwartych instalacji
+	należy koniecznie ustawić wartość inną od domyślnej dla tej opcji.</li>
 
     <li><a href="editparams.cgi?section=mta#mail_delivery_method">mail_delivery_method</a>
-    defines the method used to send emails, such as sendmail or SMTP. You have to set
-    it correctly to send emails.</li>
+    określa metodę dostarczania poczty do użytkowników. Np. sendmail lub SMTP. Opcję te należy
+	ustawić, aby system mógł poprawnie wysyłać wiadomości e-mail.</li>
   </ul>
 
   <p>
-    After having set up all this, we recommend looking at [% terms.Bugzilla %]'s other
-    parameters as well at some time so that you understand what they do and whether you
-    want to modify their settings for your installation.
+    Po ustawieniu tych parametrów zalecamy przynajmniej pobieżne zapoznanie się z innymi parametrami 
+	[% terms.Bugzilli %] tak, aby mieć pojęcie co jeszcze można i należy skonfigurować.
   </p>
 </div>
 

@@ -28,7 +28,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Edit Milestone '[% milestone.name FILTER html %]' of product '
+[% title = BLOCK %]Edycja wersji docelowej '[% milestone.name FILTER html %]' produktu '
                    [%- product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -39,12 +39,12 @@
   <table border="0" cellpadding="4" cellspacing="0">
 
     <tr>
-      <th valign="top"><label for="milestone">Milestone:</label></th>
+      <th valign="top"><label for="milestone">Wersja docelowa:</label></th>
       <td><input id="milestone" size="20" maxlength="20" name="milestone" value="
       [%- milestone.name FILTER html %]"></td>
     </tr>
     <tr>
-      <th align="right"><label for="sortkey">Sortkey:</label></th>
+      <th align="right"><label for="sortkey">Klucz sortowania:</label></th>
       <td><input id="sortkey" size="20" maxlength="20" name="sortkey" value="
       [%- milestone.sortkey FILTER html %]"></td>
     </tr>
@@ -54,7 +54,7 @@
   <input type="hidden" name="milestoneold" value="[% milestone.name FILTER html %]">
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="product" value="[% product.name FILTER html %]">
-  <input type="submit" id="update" value="Update">
+  <input type="submit" id="update" value="Zaktualizuj">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 

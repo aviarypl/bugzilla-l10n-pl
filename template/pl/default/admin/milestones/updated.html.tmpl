@@ -27,22 +27,22 @@
   # 'XXX' field was updated during the edit just being handled.
   #%]
 
-[% title = BLOCK %]Updating Milestone '[% milestone.name FILTER html %]' of Product
+[% title = BLOCK %]Aktualizacja wersji docelowej '[% milestone.name FILTER html %]' produktu
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
 [% IF updated_name %]
-  <p>Updated Milestone name to: '[% milestone.name FILTER html %]'.</p>
+  <p>Zminiono nazwę wersji docelowej na: '[% milestone.name FILTER html %]'.</p>
 [% END %]
 
 [% IF updated_sortkey %]
-  <p>Updated Milestone sortkey to: '[% milestone.sortkey FILTER html %]'.</p>
+  <p>Zminiono klucza sortowania wersji docelowej na: '[% milestone.sortkey FILTER html %]'.</p>
 [% END %]
 
 [% UNLESS updated_sortkey || updated_name %]
-  <p>Nothing changed for milestone '[% milestone.name FILTER html %]'.</p>
+  <p>Brak zmian dla wersji docelowej '[% milestone.name FILTER html %]'.</p>
 
 [% END %]
 

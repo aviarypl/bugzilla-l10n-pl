@@ -28,26 +28,26 @@
   #                        this field has been updated
   #%]
   
-[% title = BLOCK %]Updating Value '[% value FILTER html %]' of the
-                   '[% field FILTER html %]' Field[% END %]
+[% title = BLOCK %]Aktualizacja wartości '[% value FILTER html %]' pola
+                   '[% field FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
 [% IF updated_value %]
-  <p>Updated field value to: '[% value FILTER html %]'.</p>
+  <p>Zmieniono wartość pola na: '[% value FILTER html %]'.</p>
   [% IF default_value_updated %]
-    <p>Note that this value is the default for this field.
-    All references to the default value will now point to this new value.</p>
+    <p>Od teraz jest to wartość domyślna dla tego pola. Wszystkie odniesienia do
+	wartości domyślnej wskazują teraz na nową wartość.</p>
   [% END %]
 [% END %]
 
 [% IF updated_sortkey %]
-  <p>Updated field value sortkey to: '[% sortkey FILTER html %]'.</p>
+  <p>Zmieniono klucz sortowania na: '[% sortkey FILTER html %]'.</p>
 [% END %]
 
 [% UNLESS (updated_sortkey || updated_value) %]
-  <p>Nothing changed for field value '[% value FILTER html %]'.</p>
+  <p>Nie dokonano żadnych zmian dla wartości '[% value FILTER html %]'.
 [% END %]
 
 [% PROCESS admin/fieldvalues/footer.html.tmpl %]
