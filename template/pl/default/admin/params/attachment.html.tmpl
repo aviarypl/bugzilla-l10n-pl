@@ -20,35 +20,33 @@
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #%]
 [%
-   title = "Attachments"
-   desc = "Set up attachment options"
+   title = "Załączniki"
+   desc = "Ustawienia dotyczące załączników"
 %]
 
 [% param_descs = {
-  allow_attachment_deletion => "If this option is on, administrators will be able to delete " _
-                               "the content of attachments.",
+  allow_attachment_deletion => "Jeśli opcja ta jest włączona administratorzy będą mogli " _
+                               "usuwać zawartość załączników.",
 
-  allow_attach_url => "If this option is on, it will be possible to " _
-                      "specify a URL when creating an attachment and " _
-                      "treat the URL itself as if it were an attachment.",
+  allow_attach_url => "W przypadku włączenia tej opcji możliwe będzie " _
+                      "podać adres URL podczas tworzenia załącznika " _
+                      "i traktowania tego adresu URL jako załącznik.",
 
-  maxpatchsize => "The maximum size (in kilobytes) of patches. $terms.Bugzilla will not " _
-                  "accept patches greater than this number of kilobytes in size. " _
-                  "To accept patches of any size (subject to the limitations of " _
-                  "your server software), set this value to zero.",
+  maxpatchsize => "Maksymalny rozmiar łatek (w kilobajtach). System $terms.Bugzilla nie" _
+                  "zaakceptuje łatek większych niż podana wartość. " _
+                  "Aby włączyć akceptowanie łatek dowolnych rozmiarów (zależnie również od serwera WWW), " _
+                  "należy ustawić wartość 0.",
 
-  maxattachmentsize => "The maximum size (in kilobytes) of non-patch attachments. " _
-                       "$terms.Bugzilla will not accept attachments greater than this number " _
-                       "of kilobytes in size. To accept attachments of any size " _
-                       "(subject to the limitations of your server software), set this " _
-                       "value to zero.",
+  maxattachmentsize => "Maksymalny rozmiar załączników nie będących łatkami (w kilobajtach). " _
+                       "System $terms.Bugzilla nie zaakceptuje łatek większych niż podana wartość. " _
+					   "Aby włączyć akceptowanie łatek dowolnych rozmiarów (zależnie również od serwera WWW), " _
+					   "należy ustawić wartość 0.",
+				  
+  maxlocalattachment => "Maksymalny rozmiar załączników określanych jako 'duży plik' (w megabajtach), " _
+                        "które będą przechowywane na serwerze. " _
+                        "Wartość zero oznacza, że załączniki nie będą przechowywane w systemie plików " _
+                        "serwera.",
 
-  maxlocalattachment => "The maximum size (in megabytes) of attachments identified by " _
-                        "the user as 'Big Files' to be stored locally on the webserver. " _
-                        "If set to zero, attachments will never be kept on the local " _
-                        "filesystem.",
-
-  convert_uncompressed_images => "If this option is on, attachments with content type image/bmp " _
-                                 "will be converted to image/png and compressed before uploading to " _
-                                 "the database to conserve disk space." }
+  convert_uncompressed_images => "W przypadku włączenia tej opcji w celu zaoszczędzenia miejsca załączniki typu image/bmp " _
+                                 "zostaną przekonwertowane do image/png i skompresowane przed zapisem do bazy danych." }
 %]

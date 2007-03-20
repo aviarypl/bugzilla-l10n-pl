@@ -20,27 +20,26 @@
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #%]
 [%
-   title = "Administrative Policies"
-   desc = "Set up account policies"
+   title = "Zasady administracyjne"
+   desc = "Ustawienia zasad dla kont"
 %]
 
 [% param_descs = {
-  allowbugdeletion => "The pages to edit products and components can delete all " _
-                      "associated $terms.bugs when you delete a product (or component). " _
-                      "Since that is a pretty scary idea, you have to turn on " _
-                      "this option before any such deletions will ever happen.",
+  allowbugdeletion => "Ze stron edycji produktów i komponentów można usuwać wszystkie " _
+                      "powiązane $terms.bledy podczas usuwania produktu lub komponentu. " _
+                      "Dla zwiększenia bezpieczeństwa, aby usuwanie to było możliwe, " _
+                      "należy wcześniej włączyć tą opcję.",
 
-  allowemailchange => "Users can change their own email address through the preferences. " _
-                      "Note that the change is validated by emailing both addresses, so " _
-                      "switching this option on will not let users use an invalid address.",
+  allowemailchange => "Użytkownicy mogą zmieniać w ustawieniach swój adres e-mail. " _
+                      "Zmiana adresu potwierdzana jest poprzez oba adresy, więc " _
+                      "włączenie tej opcji nie pozwoli używać nieprawidłowych adresów.",
 
-  allowuserdeletion => "The user editing pages are capable of letting you delete user accounts. " _
-                       "$terms.Bugzilla will issue a warning in case you'd run into inconsistencies " _
-                       "when you're about to do so, but such deletions remain kinda scary. " _
-                       "So, you have to turn on this option before any such deletions " _
-                       "will ever happen.",
+  allowuserdeletion => "Strony edycji użytkowników pozwalają administratorowi usuwać konta użytkowników. " _
+                       "W przypadku spowodowania przez usunięcie niespójności danych wyświetlone będzie ostrzeżenie. " _
+                       "Ze względów bezpieczeństwa danych należy najpierw włączyć tą opcję, aby " _
+                       "było możliwe usuwanie użytkowników, które powoduje niespójność danych.",
 
-  supportwatchers => "Support one user watching (ie getting copies of all related " _
-                     "email about) another's ${terms.bugs}. Useful for people going on " _
-                     "vacation, and QA folks watching particular developers' ${terms.bugs}." }
+  supportwatchers => "Obsługa śledzenia (tzn. otrzymywania kopii wiadomości pocztowych) " _
+                     " dotyczących ${terms.bledow}. Opcja przydatna w przypadku urlopów i wakacji " _
+                     "lub pracowników QA, którzy współpracują ściśle z deweloperami." }
 %]

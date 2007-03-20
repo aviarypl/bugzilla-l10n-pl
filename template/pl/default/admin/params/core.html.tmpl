@@ -21,86 +21,77 @@
   #%]
 
 [% 
-   title = "Required Settings"
-   desc = "Settings that are required for proper operation of $terms.Bugzilla" 
+   title = "Ustawienia obowiązkowe"
+   desc = "Ustawienia, które są wymagane do poprawnego działania $terms.Bugzilli" 
 %]
 
 [% param_descs = {
-  maintainer => "The email address of the person who maintains this installation " _
-                "of ${terms.Bugzilla}.",
+  maintainer => "Adres e-mail osoby odpowiedzialnej za działanie tej instalacji " _
+                "${terms.Bugzilli}.",
 
-  urlbase => "The URL that is the common initial leading part of all $terms.Bugzilla " _
-             "URLs.",
+  urlbase => "Początkowa część adresu URL wszystkich adresów generowanych przez $terms.Bugzille ",
 
-  docs_urlbase => "The URL that is the common initial leading part of all " _
-                  "$terms.Bugzilla documentation URLs. " _
-                  "It may be an absolute URL, or a URL relative to urlbase " _
-                  "above. " _
-                  "Leave this empty to suppress links to the documentation.",
+  docs_urlbase => "Początkowa część adresu URL wszystkich adresów " _
+                  "prowadzących do dokumentacji $terms.Bugzilli. " _
+                  "Może to być adres bezwzględny lub względem. adresu urlbase " _
+                  "powyżej. " _
+                  "Wartość pusta wyłącza odnośniki do dokumentacji.",
 
-  sslbase => "The URL that is the common initial leading part of all HTTPS " _
-             "(SSL) $terms.Bugzilla URLs.",
+  sslbase => "Początkowa część adresu URL wszystkich adresów HTTPS " _
+             "(SSL) ${terms.Bugzilli}.",
 
-  ssl => "Controls when $terms.Bugzilla should enforce sessions to use HTTPS by " _
-         "using <tt>sslbase</tt>.",
+  ssl => "Określa kiedy będą wymuszane sesje HTTPS z adresem " _
+         "<tt>sslbase</tt>.",
 
-  cookiedomain => "The domain for $terms.Bugzilla cookies. Normally blank. " _
-                  "If your website is at 'www.foo.com', setting this to " _
-                  "'.foo.com' will also allow 'bar.foo.com' to access " _
-                  "$terms.Bugzilla cookies. This is useful if you have more than " _
-                  "one hostname pointing at the same web server, and you " _
-                  "want them to share the $terms.Bugzilla cookie.",
+  cookiedomain => "Nazwa domeny dla ciasteczek $terms.Bugzilli. Zwykle wartość pusta. " _
+                  "Ustawienie '.foo.com' gdy witryna znajduje się pod adresem 'www.foo.com'" _
+                  "pozwoli odczytać ciasteczka także witrynie spod adresu 'bar.foo.com'. " _
+                  "Opcja może być przydatna gdy więcej nazw hostów wskazuje " _
+                  "na ten sam serwer WWW i zachodzi potrzeba udostępnienia " _
+                  "ciasteczek $terms.Bugzilli witrynom o różnych adresach URL.",
 
-  cookiepath => "Path, relative to your web document root, to which to restrict " _
-                "$terms.Bugzilla cookies. Normally this is the URI portion of your URL " _
-                "base. Begin with a / (single slash mark). For instance, if " _
-                "$terms.Bugzilla serves from 'http://www.somedomain.com/bugzilla/', set " _
-                "this parameter to /bugzilla/. Setting it to / will allow " _
-                "all sites served by this web server or virtual host to read " _
-                "$terms.Bugzilla cookies.",
+  cookiepath => "Ścieżka względem głównego katalogu serwera WWW, do której ograniczone " _
+                "będą ciasteczka ${terms.Bugzilli}. Zwykle jest to część URI bazowego adresu URL. " _
+                "Wartość powinna rozpoczynać się znakiem / (ukośnik). Przykładowo, jeśli " _
+                "$terms.Bugzilla znajduje się pod adresem 'http://www.somedomain.com/bugzilla/', należy " _
+                "ustawić tu wartość /bugzilla/. Wartość / pozwoli na odczyt ciasteczek wszystkim witrynom " _
+                "udostępnianym przez dany serwer WWW lub host wirtualny.",
 
-  timezone => "The timezone that your database server lives in. If set to '', " _
-              "then the timezone will not be displayed with the timestamps.",
+  timezone => "Strefa czasowe serwera bazy danych. Ustawienie wartości '' " _
+              "powoduje, że strefa czasowa nie będzie wyświetlana w znacznikach czasu.",
 
-  utf8 => "Use UTF-8 (Unicode) encoding for all text in ${terms.Bugzilla}. New " _
-          "installations should set this to true to avoid character encoding " _
-          "problems. <strong>Existing databases should set this to true " _
-          " only after the data has been converted from existing legacy " _
-          " character encodings to UTF-8, using the " _
-          " <kbd>contrib/recode.pl</kbd> script</strong>. <br><br> Note " _
-          " that if you  turn this parameter from &quot;off&quot; to " _
-          " &quot;on&quot;, you must re-run checksetup.pl immediately " _
-          " afterward.",
+  utf8 => "Użycie kodowania UTF-8 (Unicode) dla wszystkich tekstów w ${terms.Bugzilli}. W nowych " _
+          "instalacjach opcja ta powinna być włączona w celu uniknięcia problemów z kodowaniem znaków. " _
+          " <strong>W istniejących bazach opcję tę można włączyć tylko gdy " _
+          " dane zostały uprzednio przekonwertowane do UTF-8 za pomocą skryptu " _
+          " <kbd>contrib/recode.pl</kbd></strong>. <br><br> Uwaga: " _
+          " po wyłączeniu opcji, należy niezwłocznie uruchomić skrypt checksetup.pl.",
 
-  shutdownhtml => "If this field is non-empty, then $terms.Bugzilla will be completely " _
-                  "disabled and this text will be displayed instead of all the " _
-                  "$terms.Bugzilla pages.",
+  shutdownhtml => "Gdy pole to nie jest puste, to $terms.Bugzilla zostanie wyłączona, " _
+                  "a zawartość pola zostanie wyświetlona zamiast stron {$terms.Bugzilli}.",
 
-  announcehtml => "If this field is non-empty, then $terms.Bugzilla will " _
-                  "display whatever is in this field at the top of every " _
-                  "HTML page.  The HTML you put in this field is not " _
-                  "wrapped or enclosed in anything; you might want to " _
-                  "wrap it inside a <tt>&lt;div&gt;</tt>.  Give the div " _
-                  "<em>id=message</em> to get green text inside a " _
-                  "red box, or <em>class=bz_private</em> for dark " _
-                  "red on a red background.  Anything defined in " _
-                  "<tt>skins/standard/global.css</tt> or " _
-                  "<tt>skins/custom/global.css</tt> will work.  To get " _
-                  "centered text, use <em>style=\"text-align: " _
-                  "center;\"</em>.",
+  announcehtml => "Zawartość tego pola zostanie wyświetlona na górze każdej strony ${terms.Bugzilli}." _
+                  "Wpisany w tym miejscu kod HTML nie jest umieszczany w żadnym znaczniku. " _
+                  "Zaleca się użycie znacznika <tt>&lt;div&gt;</tt> otaczającego pozostały kod." _
+                  "Użycie identyfikatora <em>id=message</em> spowoduje, że wyświetlony będzie " _
+                  "zielony tekst na czerwonym tle. Klasa <em>class=bz_private</em> definiuje " _
+                  "czemnoczerwony tekst na czerwonym tle.  Można użyć dowolnego stylu z pliku " _
+                  "<tt>skins/standard/global.css</tt> lub " _
+                  "<tt>skins/custom/global.css</tt>.  Wyśrodkowany tekst można uzyskać " _
+                  "za pomocą stylu <em>style=\"text-align: center;\"</em>.",
 
-  upgrade_notification => "<p>$terms.Bugzilla can inform you when a new release is available. " _
-                          "The notification will appear on the $terms.Bugzilla homepage, " _
-                          "for administrators only.</p>" _
-                          "<ul><li>'development_snapshot' notifies you about the latest " _
-                          "release on the trunk, i.e. development snapshots.</li>" _
-                          "<li>'latest_stable_release' notifies you about the most recent release " _
-                          "available on the most recent stable branch. This branch may be " _
-                          "different from the branch your installation is based on.</li>" _
-                          "<li>'stable_branch_release' notifies you only about new releases " _
-                          "corresponding to the branch your installation is based on. " _
-                          "If you are running a release candidate, you will get " _
-                          "a notification for newer release candidates too.</li>" _
-                          "<li>'disabled' will never notify you about new releases and no " _
-                          "connection will be established to a remote server.</li></ul>" }
+  upgrade_notification => "<p>Możliwe jest otrzymywanie informacji o nowych wydaniach ${terms.Bugzilli}. " _
+                          "Powiadomienie będzie wyświetlane tylko dla administratorów na głównej stronie " _
+                          "${terms.Bugzilla}.</p>" _
+                          "<ul><li>'development_snapshot' powiadamia o najnowszych wydaniach z " _
+                          "rozwojowego kodu tzw. wersjach deweloperskich.</li>" _
+                          "<li>'latest_stable_release' powiadamia o nowych wydaniach " _
+                          "z najnowszej gałęzi stabilnego kodu. Gałąź ta może być inna " _
+                          "niż gałąź na której opiera się niniejsza instalacja systemu.</li>" _
+                          "<li>'stable_branch_release' powiadamia tylko o wydaniach z " _
+                          "gałęzi kodu na której oparta jest niniejsza instalacja. " _
+                          "W przypadku korzystania z wersji 'release candidate' wyświetlone zostaną " _
+                          "także powiadomienia o najnowszych wersjach 'release candidate'.</li>" _
+                          "<li>'disabled' - nie będą wyświetlane żadne powiadomienia i nie " _
+                          "będą wykonywane w tym celu żadne połączenia ze zdalnymi serwerami.</li></ul>" }
 %]

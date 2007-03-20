@@ -25,52 +25,52 @@
 %]
 
 [% param_descs = {
-  letsubmitterchoosepriority => "If this is on, then people submitting $terms.bugs can " _
-                                "choose an initial priority for that ${terms.bug}. " _
-                                "If off, then all $terms.bugs initially have the default " _
-                                "priority selected below.",
+  letsubmitterchoosepriority => "Włączenie tej opcji powoduje, że użytkownicy będą mogli określić " _
+                                "priorytet podczas tworzenia ${terms.bledu}. W razie wyłączenia " _
+                                "wszystkie $terms.bledy będą dodawane z domyślnym " _
+                                "priorytetem określonym poniżej.",
 
-  letsubmitterchoosemilestone => "If this is on, then people submitting $terms.bugs can " _
-                                 "choose the Target Milestone for that ${terms.bug}. " _
-                                 "If off, then all $terms.bugs initially have the default " _
-                                 "milestone for the product being filed in.",
+  letsubmitterchoosemilestone => "Włączenie tej opcji powoduje, że użytkownicy będą mogli określić " _
+                                "wersję docelową podczas tworzenia ${terms.bledu}. W razie wyłączenia " _
+                                "wszystkie $terms.bledy będą dodawane z domyślną " _
+                                "wersją docelową określoną poniżej.",
 
-  musthavemilestoneonaccept => "If you are using Target Milestone, do you want to require that " _
-                               "the milestone be set in order for a user to ACCEPT a ${terms.bug}?",
+  musthavemilestoneonaccept => "Określa czy ustawienie wersji docelowej jest wymagane do ZAAKCEPTOWANIA " _
+                               "${terms.bledu} (w przypadku korzystania z wersji docelowych)",
 
-  commentoncreate => "If this option is on, the user needs to enter a description " _
-                     "when entering a new ${terms.bug}.",
+  commentoncreate => "Włączenie opcji powoduje wymaganie wprowadzenia opisu podczas " _
+                     "zgłaszania nowego ${terms.bledu}.",
 
-  commentonaccept => "If this option is on, the user needs to enter a short comment if " _
-                     "he accepts the ${terms.bug}.",
+  commentonaccept => "Włączenie opcji powoduje, że użytkownik będzie musiał wpisać komentarz " _
+                     "przy zaakceptowaniu ${terms.bledu}.",
 
-  commentonclearresolution => "If this option is on, the user needs to enter a short comment if " _
-                              "the ${terms.bug}'s resolution is cleared.",
+  commentonclearresolution => "Włączenie opcji powoduje, że użytkownik będzie musiał wpisać komentarz " _
+                              "w przypadku usunięcia rozwiązania ${terms.bledu}.",
 
-  commentonconfirm => "If this option is on, the user needs to enter a short comment " _
-                      "when confirming a ${terms.bug}.",
+  commentonconfirm => "Włączenie opcji powoduje, że użytkownik będzie musiał wpisać komentarz " _
+                      "w przypadku potwierdzenia ${terms.bledu}.",
 
-  commentonresolve => "If this option is on, the user needs to enter a short comment if " _
-                      "the $terms.bug is resolved.",
+  commentonresolve => "Włączenie opcji powoduje, że użytkownik będzie musiał wpisać komentarz " _
+                      "w przypadku rozwiązania ${terms.bledu}",
 
-  commentonreassign => "If this option is on, the user needs to enter a short comment if " _
-                       "the $terms.bug is reassigned.",
+  commentonreassign => "Włączenie opcji powoduje, że użytkownik będzie musiał wpisać komentarz " _
+                       "w przypadku przypisania $terms.bledu innemu użytkownikowi.",
 
-  commentonreassignbycomponent => "If this option is on, the user needs to enter a short comment if " _
-                                  "the $terms.bug is reassigned by component.",
+  commentonreassignbycomponent => "Włączenie opcji powoduje, że użytkownik będzie musiał wpisać komentarz " _
+                                  "w przypadku gdy $terms.blad jest przepisywania poprzez komponent.",
 
-  commentonreopen => "If this option is on, the user needs to enter a short comment if " _
-                     "the $terms.bug is reopened.",
+  commentonreopen => "Włączenie opcji powoduje, że użytkownik będzie musiał wpisać komentarz " _
+                     "w przypadku ponownego otwarcia ${terms.bledu}.",
 
-  commentonverify => "If this option is on, the user needs to enter a short comment if " _
-                     "the $terms.bug is verified.",
+  commentonverify => "Włączenie opcji powoduje, że użytkownik będzie musiał wpisać komentarz " _
+                     "w przypadku weryfikacji ${terms.bledu}.",
 
-  commentonclose => "If this option is on, the user needs to enter a short comment if " _
-                    "the $terms.bug is closed.",
+  commentonclose => "Włączenie opcji powoduje, że użytkownik będzie musiał wpisać komentarz " _
+                    "gdy $terms.blad jest zamykany.",
 
-  commentonduplicate => "If this option is on, the user needs to enter a short comment " _
-                        "if the $terms.bug is marked as duplicate.",
+  commentonduplicate => "Włączenie opcji powoduje, że użytkownik będzie musiał wpisać komentarz " _
+                        "gdy $terms.blad oznaczany jest jako duplikat.",
 
-  noresolveonopenblockers => "Don\'t allow $terms.bugs to be resolved as fixed " _
-                             "if they have unresolved dependencies." }
+  noresolveonopenblockers => "Nie zezwalaj na rozwiązywanie $terms.bledow dopóki " _
+                             "posiadają one nierozwiązane zależności." }
 %]
