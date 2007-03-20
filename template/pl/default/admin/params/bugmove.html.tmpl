@@ -20,31 +20,33 @@
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #%]
 [%
-   title = "$terms.Bug Moving"
-   desc = "Set up parameters to move $terms.bugs to/from another installation"
+   title = "Przenoszenie $terms.bledow"
+   desc = "Parametry dotyczące przenoszenia $terms.bledow pomiędzy instalacjami $terms.Bugzilli "
 %]
 
 [% param_descs = {
-  "move-enabled" => "If this is on, $terms.Bugzilla will allow certain people " _
-                    "to move $terms.bugs to the defined database.",
+  "move-enabled" => "Włączenie opcji umożliwi pewnym użytkownikom $terms.Bugzilli " _
+                    "przenoszenie $terms.bledow do innej zdefiniowanej bazy danych.",
 
-  "move-button-text" => "The text written on the Move button. Explain where the $terms.bug is " _
-                        "being moved to.",
+  "move-button-text" => "Tekst na przycisku przenoszenia. Proszę wpisać system docelowy, do " _
+                        "którego  $terms.blad jest przenoszony.",
 
-  "move-to-url" => "The URL of the database we allow some of our $terms.bugs to be moved to.",
+  "move-to-url" => "Adres URL bazy, do której można przenosić $terms.bledy z tej bazy.",
 
-  "move-to-address" => "To move ${terms.bugs}, an email is sent to the target database. This is " _
-                       "the email address that database uses to listen for incoming ${terms.bugs}.",
+  "move-to-address" => "Przy przenoszeniu ${terms.bledow} wysyłany jest e-mail do bazy docelowej. " _
+                       "Wartość ta określa adres e-mail bazy docelowej, który przenaczony jest do obbioru " _
+					   "przenoszonych ${terms.bledow}.",
 
-  "moved-from-address" => "To move ${terms.bugs}, an email is sent to the target database. This is " _
-                          "the email address from which this mail, and error messages are sent.",
+  "moved-from-address" => "Przy przenoszeniu ${terms.bledow} wysyłany jest e-mail do bazy docelowej. " _
+                          "Wartość ta określa źródłowy adres e-mail, z którego wysyłane są żądania " _
+						  "przeniesienia i na który przesyłane są ewentualne komunikaty błędów.",
 
-  movers => "A list of people with permission to move $terms.bugs and reopen moved " _
-            "${terms.bugs} (in case the move operation fails).",
+  movers => "Lista użytkowników uprawnionych do przenoszenia i ponownego otwierania przenoszonych " _
+            "${terms.bledow} (w razie niepowodzenia operacji).",
 
-  "moved-default-product" => "$terms.Bugs moved from other databases to here are assigned " _
-                             "to this product.",
+  "moved-default-product" => "Produkt, do którego przypisywane będą $terms.bledy przenoszone " _
+                             "z innych baz.",
 
-  "moved-default-component" => "$terms.Bugs moved from other databases to here are assigned " _
-                               "to this component." }
+  "moved-default-component" => "Komponent, do którego $terms.Bugs przypisywane będą błędy przenoszone " _
+                               "z innych baz." }
 %]

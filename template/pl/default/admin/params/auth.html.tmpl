@@ -20,105 +20,102 @@
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #%]
 [%
-   title = "User Authentication"
-   desc = "Set up your authentication policies"
+   title = "Uwierzytelnianie użytkowników"
+   desc = "Ustawienia zasad uwierzytelniania użytkowników"
 %]
 
 [% param_descs = {
-  auth_env_id => "Environment variable used by external authentication system " _
-                 "to store a unique identifier for each user. Leave it blank " _
-                 "if there isn't one or if this method of authentication " _
-                 "is not being used.",
+  auth_env_id => "Zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
+                 "do przechowywania niepowtarzalnego identyfikatora każdego użytkownika. Wartość " _
+                 "pusta oznacza, że system nie korzysta ze zmiennej i/lub takiej " _
+                 "metody uwierzytelniania.",
 
-  auth_env_email => "Environment variable used by external authentication system " _
-                    "to store each user's email address. This is a required " _
-                    "field for environmental authentication. Leave it blank " _
-                    "if you are not going to use this feature.",
+  auth_env_email => "Zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
+                    "do przechowywania adresu e-mail użytkownika. Jest to pole wymagane do korzystania " _
+                    "z uwierzytelniania za pomocą środowiska. Proszę pozostawić pustą wartość " _
+                    "gdy ten system nie korzysta z takiej metody uwierzytelniania.",
 
-  auth_env_realname => "Environment variable used by external authentication system " _
-                       "to store the user's real name. Leave it blank if there " _
-                       "isn't one or if this method of authentication is not being " _
-                       "used.",
+  auth_env_realname => "Zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
+						"do przechowywania imienia i nazwiska użytkownika. Wartość " _
+						"pusta oznacza, że system nie korzysta ze zmiennej i/lub takiej " _
+						"metody uwierzytelniania.",
 
-  user_info_class => "Mechanism(s) to be used for gathering a user's login information.
-                      More than one may be selected. If the first one returns nothing,
-                      the second is tried, and so on.<br>
-                      The types are:
+  user_info_class => "Mechanizmy używane do pobierania informacji logowania użytkownika.
+                      Można wybrać więcej niż jedną opcję. W przypadku niepowodzenia pobrania
+					  danych za pomocą jednej metody, podejmowana jest próba za pomocą
+					  kolejnej. Dostępne typy:
                       <dl>
                         <dt>CGI</dt>
                         <dd>
-                          Asks for username and password via CGI form interface.
+                          Pytanie o nazwę użytkownika i hasło za pomocą formularzy i CGI.
                         </dd>
                         <dt>Env</dt>
                         <dd>
-                          Info for a pre-authenticated user is passed in system
-                          environment variables.
+						  Informacje dla uwierzytelnionych użytkownikach przekazywane są 
+						  poprzez zmienne środowiskowe.
                         </dd>
                       </dl>",
 
-  user_verify_class => "Mechanism(s) to be used for verifying (authenticating) information
-                        gathered by user_info_class.
-                        More than one may be selected. If the first one cannot find the
-                        user, the second is tried, and so on.<br>
-                        The types are:
+  user_verify_class => "Mechanizmy używane do uwierzytelniania użytkownika na podstawie informacji
+                        zebranych przez user_info_class.
+					    Można wybrać więcej niż jedną opcję. W przypadku nieznalezienia użytkownika
+					    za pomocą jednej metody, podejmowana jest próba za pomocą
+					    kolejnej. Dostępne typy:
                         <dl>
                           <dt>DB</dt>
                           <dd>
-                            ${terms.Bugzilla}'s built-in authentication. This is the most common
-                            choice.
+                            Wbudowane uwierzytelnianie ${terms.Bugzilli}. Najczęściej używana opcja.
                           </dd>
                           <dt>LDAP</dt>
                           <dd>
-                            LDAP authentication using an LDAP server. This method is
-                            experimental; please see the $terms.Bugzilla documentation for more
-                            information. Using this method requires additional parameters
-                            to be set above.
+						    Uwierzytelnianie LDAP za pomocą serwera LDAP. Ta metoda jest w stadium
+							eksperymentalnym. Więcej informacji można znaleźć w dokumentacji
+							$terms.Bugzilli. Do korzystania z tej motody należy ustawić 
+							dodatkowe parametry powyżej.
                           </dd>
                         </dl>",
 
-  rememberlogin => "Controls management of session cookies
+  rememberlogin => "Określa metodę zarządzania ciasteczkami z danymi sesji
                     <ul>
                       <li>
-                        on - Session cookies never expire (the user has to login only
-                        once per browser).
+                        on - ciasteczka sesji nigdy nie wygasają (wymagane jest tylko jedno logowanie
+						użytkownika za pomocą danej przeglądarki).
                       </li>
                       <li>
-                        off - Session cookies last until the users session ends (the user
-                        will have to login in each new browser session).
+                        off - ciasteczka wygasają wraz z zamknięciem sesji (użytkownik
+                        musi zalogować się w każdej sesji przeglądarki).
                       </li>
                       <li>
-                        defaulton/defaultoff - Default behavior as described
-                        above, but user can choose whether $terms.Bugzilla will remember his
-                        login or not.
+                        defaulton/defaultoff - domyślne działanie jak opisano wyżej, ale
+                        użytkownik może zdecydować czy jego sesja me być zapamiętana.
                       </li>
                     </ul>",
 
-  loginnetmask => "The number of bits for the netmask used if a user chooses to " _
-                  "allow a login to be valid for more than a single IP. Setting " _
-                  "this to 32 disables this feature.<br> " _
-                  "Note that enabling this may decrease the security of your system.",
+  loginnetmask => "Ilość bitów maski sieci w przypadku gdy użytkownik wybrał opcję  " _
+                  "zezwolenia logowania z więcej niż jednego adresu IP. Wartość " _
+                  "32 wyłącza tą opcję.<br> " _
+                  "Uwaga: włączenie opcji może spowodować obniżenie poziomu bezpieczeństwa systemu.",
 
-  requirelogin => "If this option is set, all access to the system beyond the " _
-                  "front page will require a login. No anonymous users will " _
-                  "be permitted.",
+  requirelogin => "Włączenie tej opcji spowoduje, że dostęp poza stronę główną " _
+                  "będzie wymagał logowania. Dostęp do danych będą mieli tylko " _
+                  "zalogowani użytkownicy.",
 
-  emailregexp => "This defines the regexp to use for legal email addresses. The " _
-                 "default tries to match fully qualified email addresses. Another " _
-                 "popular value to put here is <tt>^[^@]+$</tt>, which means " _
-                 "'local usernames, no @ allowed.'",
+  emailregexp => "Określa wyrażenie regularne kontrolujące poprawny adres e-mail. Wartość " _
+                 "domyślna określa wszystkie poprawne adresy e-mail. Często stosowana " _
+                 "wartość to <tt>^[^@]+$</tt>, która oznacza " _
+                 "'lokalne nazwy użytkowników, bez znaku @.'",
 
-  emailregexpdesc => "This describes in English words what kinds of legal addresses " _
-                     "are allowed by the <tt>emailregexp</tt> param.",
+  emailregexpdesc => "Pole to służy do opisania słowami adresów e-mail dozwolonych przez  " _
+                     "wartość parametru <tt>emailregexp</tt>.",
 
-  emailsuffix => "This is a string to append to any email addresses when actually " _
-                 "sending mail to that address. It is useful if you have changed " _
-                 "the <tt>emailregexp</tt> param to only allow local usernames, " _
-                 "but you want the mail to be delivered to username@my.local.hostname.",
+  emailsuffix => "Ciąg znaków dołączany do każdego adresu e-mail podczas wysyłania poczty. " _
+                 "Opcja przydatna w przypadku zmiany opcji <tt>emailregexp</tt> na zezwalającą. " _
+                 "tylko na lokalne nazwy użytkowników - wtedy poczta będzie dostarczana " _
+				 "pod adresy w formie nazwa_użytkownika@lokalna.nazwa.hosta.",
 
-  createemailregexp => "This defines the regexp to use for email addresses that are " _
-                       "permitted to self-register using a 'New Account' feature. The " _
-                       "default (.*) permits any account matching the emailregexp " _
-                       "to be created. If this parameter is left blank, no users " _
-                       "will be permitted to create their own accounts and all accounts " _
-                       "will have to be created by an administrator." }
+  createemailregexp => "Określa wyrażenie regularne kontrolujące adresy e-mail użytkowników, " _
+                       "którzy mogą zarejestrować się samodzielnie za pomocą opcji 'Nowe konto'. The " _
+                       "Domyślna wartość (.*) zezwala na rejestrację z dowolnego konta e-mail. " _
+                       "W przypadku pozostawienia pustej wartości możliwość samodzielnej rejestracji " _
+                       "jest wyłączona, a wszystkie konta będą musiały być tworzone przez administratora." }
 %]

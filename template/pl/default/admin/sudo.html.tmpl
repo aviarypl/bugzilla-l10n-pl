@@ -22,33 +22,33 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-   title = "Begin sudo session"
+   title = "Sesja sudo"
    style_urls = ['skins/standard/admin.css']
  %]
  
 [% DEFAULT target_login = "" %]
 
 <p>
-  The <b>sudo</b> feature of [% terms.Bugzilla %] allows you to impersonate a 
-  user for a short time  While an sudo session is in progress, every action you 
-  perform will be taking place as if you had logged in as the user whom will be 
-  impersonating.
+  Opcja <b>sudo</b> w [% terms.Bugzilli %] pozwala czasowo przyjąć tożsamość 
+  innego użytkownika. Podczas sesji sudo wszystkie czynności wykonywane są
+  tak jakby były wykonywane przez użytkownika, którego tożsamość jest
+  przyjęta.
 </p>
 
 <p class="areyoureallyreallysure">
-  This is a very powerful feature; you should be very careful while using it.  
-  Your actions may be logged more carefully than normal.
+  Proszę zachować szczególną ostrożność przy korzystaniu z tej funkcji.
+  Wykonywane czynności mogą być zapisywanie w dzienniku zdarzeń ze szczególną dokładnością.  
 </p>
 
 <form action="relogin.cgi" method="POST">
   <p>
-    To begin, 
+    Aby rozpocząć, należy
     [% IF Param('usemenuforusers') %]
-      select 
+      wybrać 
     [% ELSE %]
-      enter the login of 
+      podać nazwę 
     [% END %]
-    <label for="target_login">the <u>u</u>ser to impersonate</label>:
+    <label for="target_login"><u>u</u>żytkownika, którego tożsamość będzie przyjęta</label>:
     [% INCLUDE global/userselect.html.tmpl
        id => "target_login"
        name => "target_login"
@@ -61,42 +61,39 @@
   
   [% IF !Param('usemenuforusers') %]
     <p>
-      The username must be entered exactly.  No matching will be performed.
+      Nazwa użytkownika musi być wpisana dokładnie. Nie będą wyświetlane żadne podpowiedzi.
     </p>
   [% END %]
   
   <p>
-    Next, please take a moment to explain <label for="reason">why you are doing
-    this:<br>
+    Proszę poświęcić chwilę na wyjaćnienie <label for="reason">powodów użycia tej funkcji:<br>
     <input type="text" id="reason" name="reason" size="80" maxlength="200"
            value="[% reason_default FILTER html %]">
   </p>
   
   <p>
-    The message you enter here will be sent to the impersonated user by email.
-    You may leave this empty if you wish, but they will still know that you 
-    are impersonating them.
+    Wprowadzona wiadomość zostanie wysłana do użytkownika, którego tożsamość
+	zostanie użyta. Można pozostawić puste pole, ale wiadomość zostanie
+	wysłana mimo wszystko, a użytkownik zostanie poinformowany o sesji sudo.
   </p>
   
   [% IF user.authorizer.can_login %]
     <p>
-      Finally, enter <label for="Bugzilla_password">your [% terms.Bugzilla %]
-      password</label>:
+      Proszę podać własne <label for="Bugzilla_password">hasło [% terms.Bugzilli %]</label>:
       <input type="hidden" name="Bugzilla_login" value="
       [%- user.login FILTER html %]">
       <input type="password" id="Bugzilla_password" name="Bugzilla_password"
              maxlength="20" size="20">
       <br>
-      This is done for two reasons.  First of all, it is done to reduce 
-      the chances of someone doing large amounts of damage using your 
-      already-logged-in account.  Second, it is there to force you to take the 
-      time to consider if you really need to use this feature.
+	  Uwierzytelnianie wykonywane jest w celu zredukowania ryzyka szkód
+	  dokonanych za pomocą pozostawionej sesji, jak i skłonienie użytkownika
+	  do ponownego rozważenia konieczności użycia tej funkcji.
     </p>
   [% END %]
   
   <p>
-    Click the button to begin the session:
-    <input type="submit" value="Begin Session">
+    Proszę nacisnąć przycisk, aby rozpocząć sesję:
+    <input type="submit" value="Rozpocznik sesję">
     <input type="hidden" name="action" value="begin-sudo">
     <input type="hidden" name="token" value="[% token FILTER html %]">
   </p>
