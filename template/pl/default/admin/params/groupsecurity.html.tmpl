@@ -20,44 +20,40 @@
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #%]
 [%
-   title = "Group Security"
-   desc = "Decide how you will use Security Groups"
+   title = "Zabezpieczenia grup"
+   desc = "Określa sposób użycia zabezpieczenia grup"
 %]
 
 [% param_descs = {
-  makeproductgroups => "If this is on, $terms.Bugzilla will associate a $terms.bug group " _
-                       "with each product in the database, and use it for querying ${terms.bugs}.",
+  makeproductgroups => "Włączenie opcji spowoduje, że z każdym produktem w bazie zostanie skojarzona grupa dla ${terms.bledow}, " _
+                       "która będzie używana przy zapytaniach o ${terms.bledy}.",
 
-  useentrygroupdefault => "If this is on, $terms.Bugzilla will use product $terms.bug groups " _
-                          "by default to restrict who can enter ${terms.bugs}. If this is on, " _
-                          "users can see any product to which they have entry access in search menus. " _
-                          "If this is off, users can see any product to which they have not " _
-                          "been excluded by a mandatory restriction.",
+  useentrygroupdefault => "Włączenie opcji spowoduje, że grupy dla $terms.bledow zostaną " _
+                          "użyte do ograniczenia dostępu do ${terms.bledow}. Przy włączonej opcji " _
+                          "użytkownicy mają dostęp do produktów, które mogą wybrać w menu wyszukiwania. " _
+                          "Przy wyłączonej opcji użytkownicy mają dostęp do wszystkich produktów, do których " _
+						  "dostęp nie został im jawnie odebrany.",
 
-  chartgroup => "The name of the group of users who can use the 'New Charts' " _
-                "feature. Administrators should ensure that the public categories " _
-                "and series definitions do not divulge confidential information " _
-                "before enabling this for an untrusted population. If left blank, " _
-                "no users will be able to use New Charts.",
+  chartgroup => "Nazwa grupy, której członkowie mogą korzystać z funkcji 'Nowe wykresy'. " _
+                "Przed udostępnieniem tej dunkcji administrator powinien zapewnić, że publicznie " _
+                "dostępne kategorie i serie danych  nie mogą zostać użyte do ujawnienia poufnych informacji. " _
+                "Wartość pusta powoduje, że żaden użytkownik nie będzie mógł skorzystać z funkcji Nowe wykresy.",
 
-  insidergroup => "The name of the group of users who can see/change private " _
-                  "comments and attachments.",
+  insidergroup => "Nazwa grupy użytkowników, której członkowie mogą zobaczyć/zmieniać prywatne " _
+                  "komentarze i załączniki.",
 
-  timetrackinggroup => "The name of the group of users who can see/change time tracking " _
-                       "information.",
+  timetrackinggroup => "Nazwa grupy użytkowników, której członkowie mogą zobaczyć/zmieniać informacje " _
+                       "o śledzeniu czasu pracy.",
 
-  querysharegroup => "The name of the group of users who can share their " _
-                     "saved searches with others.",
+  querysharegroup => "Nazwa grupy użytkowników, której członkowie mogą udostępniać swoje " _
+                     "zapisane wyszukiwania.",
 
-  usevisibilitygroups => "Do you wish to restrict visibility of users to members of " _
-                         "specific groups?",
+  usevisibilitygroups => "Czy ograniczyć możliwość podgląd użytkowników do członków określonych grup?",
   
-  strict_isolation => "Don't allow users to be assigned to, " _
-                      "be qa-contacts on, " _
-                      "be added to CC list, " _
-                      "or make or remove dependencies " _
-                      "involving any bug that is in a product on which that " _
-                      "user is forbidden to edit.", 
-
+  strict_isolation => "Nie zezwalaj: przypisywać jako " _
+                      "kontaktów QA, " _
+                      "dodawać do list obserwatorów, " _
+                      "dodawać lub usuwać zależności " _
+                      "w błędach użytkownikom, którzy nie mają praw edycji do produktu zawierającego dany błąd."
  }
 %]

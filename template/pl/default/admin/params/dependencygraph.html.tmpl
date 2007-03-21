@@ -20,31 +20,31 @@
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #%]
 [%
-   title = "Dependency Graphs"
-   desc = "Optional setup for dependency graphing"
+   title = "Grafy zależności"
+   desc = "Dodatkowe ustawnienia dla rysowania grafów zależności"
 %]
 
 [% param_descs = {
-  webdotbase => "It is possible to show graphs of dependent ${terms.bugs}. You may set
-                 this parameter to any of the following:
+  webdotbase => "Możliwe jest wyświetlanie grafów zależności ${terms.bledow}. Tą opcję można ustawić na:
                  <ul>
                    <li>
-                     A complete file path to 'dot' (part of
-                     <a href=\"http://www.graphviz.org\">GraphViz</a>) will
-                     generate the graphs locally.
+                     Pełną ścieżka do narzędzia 'dot' (część pakietu 
+                     <a href=\"http://www.graphviz.org\">GraphViz</a>), co włączy lokalne
+                     generowanie grafów.
                    </li>
                    <li>
-                     A URL prefix pointing to an installation of the
+                     Przedrostek adresu URL wskazujący na instalację pakietu 
                      <a href=\"http://www.research.att.com/~north/cgi-bin/webdot.cgi\">webdot
-                     package</a> will generate the graphs remotely.
+                     </a>, co włączy zdalną generację grafów.
                    </li>
                    <li>
-                     A blank value will disable dependency graphing.
+				     Wartość pustą, która oznaczw wyłączenie rysowania grafów.
                    </li>
                  </ul>
-                 The default value is a publicly-accessible webdot server. If you change
-                 this value, make certain that the webdot server can read files from your
-                 webdot directory. On Apache you do this by editing the .htaccess file,
-                 for other systems the needed measures may vary. You can run checksetup.pl
-                 to recreate the .htaccess file if it has been lost."}
+				 Domyślną wartością jest publicznie dostępny serwer webdot. W razie zmiany
+				 tej opcji należy opewnić się, że serwer webdot może odczytywać pliki
+				 z katalogu webdot na tym serwerze. W przypadku serwera Apache należy
+				 zmodyfikować plik .htaccess, dla innych serwerów prawdopodobnie wykonać
+				 trzeba inne czynności. W razie utraty pliku .htaccess należy ponownie
+				 uruchomić skrypt checksetup.pl."}
 %]
