@@ -20,8 +20,8 @@
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #%]
 [%
-   title = "Localization"
-   desc = "Define what languages you want made available to your users"
+   title = "Lokalizacja"
+   desc = "Pozwala ustawić języki interfejsu dostępne dla użytkowników systemu"
 %]
 
 [%# Get the list of available languages %]
@@ -33,14 +33,14 @@
 [% END %]
 
 [% param_descs = {
-  languages => "A comma-separated list of RFC 1766 language tags. These " _
-               "identify the languages in which you wish $terms.Bugzilla output " _
-               "to be displayed. Note that you must install the appropriate " _
-               "language pack before adding a language to this Param. The " _
-               "language used is the one in this list with the highest " _
-               "q-value in the user's Accept-Language header.<br> " _
-               "Available languages: $available_languages" ,
+  languages => "Lista kodów języków wg RFC 1766 rozdzielonych przecinkami. " _
+               "Określają one języki, w których będzie wyświetlany interfejs " _
+               "${terms.Bugzilli}. Uwaga: przed dodaniem języka w tym miejscu " _
+               "należy zainstalować odpowiedni pakiet językowy. Użyty zostanie język, " _
+               "który znajduje się w tej liście i który ma najwyższy priorytet " _
+               "w nagłówku Accept-Language wysyłanym przez przeglądarkę użytkownika.<br> " _
+               "Dostępne języki: $available_languages" ,
 
-  defaultlanguage => "The UI language $terms.Bugzilla falls back on if no suitable " _
-                     "language is found in the user's Accept-Language header." }
+  defaultlanguage => "Domyślny język intefejsu $terms.Bugzilli, w przypadku nieznalezienia " _
+                     "odpowiedniej wartości w nagłówku Accept-Language użytkownika." }
 %]

@@ -83,7 +83,7 @@
           [% sep = "| " %]
         [% END %]
         [% IF user.groups.bz_canusewhines %]
-          <li><span class="separator">[% sep %]</span><a href="editwhines.cgi">Pryzpominanie</a></li>
+          <li><span class="separator">[% sep %]</span><a href="editwhines.cgi">Przypominanie</a></li>
           [% sep = "| " %]
         [% END %]
       </ul>
@@ -126,7 +126,7 @@
                      [% q.name FILTER url_quote %]&amp;sharer_id=
                      [% q.user.id FILTER url_quote %]"
                class="shared"
-               title="Shared by [% q.user.identity FILTER html %]"
+               title="Współdzielone przez [% q.user.identity FILTER html %]"
                >[% q.name FILTER html FILTER no_break %]</a></li>
           [% print_pipe = 1 %]
         [% END %]

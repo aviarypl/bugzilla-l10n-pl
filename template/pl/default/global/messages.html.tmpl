@@ -111,7 +111,7 @@
   [% ELSIF message_tag == "attachment_creation_failed" %]
     [% terms.Blad %] został pomyślnie utworzony, lecz nie powiodło się utworzenie 
 	załącznika.
-    Proszę dodać załącznik poprzez odnoścnik "Utwórz nowy załącznik" link
+    Proszę dodać załącznik poprzez odnośnik "Utwórz nowy załącznik"
     poniżej.
 
   [% ELSIF message_tag == "bug_confirmed_by_votes" %]
@@ -132,13 +132,13 @@
 
   [% ELSIF message_tag == "buglist_adding_field" %]
     [% title = "Dodawanie pola do strony wyszukiwania..." %]
-    [% link  = "Proszę kliknąć tutaj jeśli strona nie odświeża się autoamtycznie." %]
+    [% link  = "Proszę kliknąć tutaj jeśli strona nie odświeża się automatycznie." %]
 
   [% ELSIF message_tag == "buglist_load_named_query" %]
     [% title = BLOCK %]
       Trwa wczytywanie zapytania <code>[% namedcmd FILTER html %]</code>
     [% END %]
-    [% link  = "Proszę kliknąć tutaj jeśli strona nie odświeża się autoamtycznie." %]
+    [% link  = "Proszę kliknąć tutaj jeśli strona nie odświeża się automatycznie." %]
 
   [% ELSIF message_tag == "buglist_updated_named_query" %]
     Zapytanie <code>[% queryname FILTER html %]</code> zostało uaktualnione.
@@ -215,7 +215,7 @@
     Nazwa użytkownika w [% terms.Bugzilli %] została zmieniona.
 
   [% ELSIF message_tag == "parameters_updated" %]
-    [% title = "Parameters Updated" %]
+    [% title = "Zaktualizowano parametry" %]
     [% IF param_changed.size > 0 %]
       [% FOREACH param = param_changed %]
         Zmieniono <em>[% param FILTER html %]</em><br>
@@ -260,7 +260,7 @@
     </p>
     
   [% ELSIF message_tag == "flag_type_deleted" %]
-    [% title = "Flag Type Deleted" %]
+    [% title = "Usunięto typ flag" %]
     <p>
       Flaga typu <em>[% name FILTER html %]</em> została usunięta.
       <a href="editflagtypes.cgi">Wróć do panelu flag.</a>
@@ -291,7 +291,7 @@
 
   [% ELSIF message_tag == "install_admin_setup" %]
     Prawdopodonie nie ma konta administratora.
-	Może to być pierwsze uruchominie [% terms.Bugzilli %] lub
+	Może to być pierwsze uruchomienie [% terms.Bugzilli %] lub
     uprawnienia administratora zostały przypadkowo usunięte.
 
   [% ELSIF message_tag == "install_column_add" %]
@@ -334,7 +334,7 @@
 	dostępne dla zapisu przez użytkownika i serwer www oraz inne pliki (w tym
 	plik localconfig, który zawiera hasło bazy danych) muszą być dostępne do
 	zapisu dla wszystkich. Oznacza to, że _ktokolwiek_ kto ma dostęp do
-	teog komputera może dowolnie manipulować przy instalacji tej [%+ terms.Bugzilli %]
+	tego komputera może dowolnie manipulować przy instalacji tej [%+ terms.Bugzilli %]
 	i uruchomić dowolny kod Perl jako użytkownik serwera www.
 
     Naprawdę naprawdę należy zmienić tą opcję.
@@ -344,7 +344,7 @@
     Uwaga: podano wartość parametru "webservergroup" w pliku 
     localconfig, lecz skrypt ten nie jest uruchomiony przez a) użytkownika [% constants.ROOT_USER FILTER html %]; 
     lub b) członka tej grupy. Może to spowodować problemy z uprawnieniami i zmniejszenie 
-    poziomy bezpieczeństwa.  W przypadku problemów z pracą skryptów [% terms.Bugzilli %],
+    poziomu bezpieczeństwa.  W przypadku problemów z pracą skryptów [% terms.Bugzilli %],
     należy zalogować się jako [% constants.ROOT_USER FILTER html %] i uruchomić ten skrypt ponownie, 
 	zostać członkiem tej sgrupy lub usunąć parametr "webservergroup".
 
@@ -358,7 +358,7 @@
   [% ELSIF message_tag == "product_invalid" %]
     [% title = "Opis komponentu $terms.Bugzilli" %]
     Produkt <em>[% product FILTER html %]</em> nie istnieje lub nie
-    ma do niego dostępu. Poniższe lista zawiera wszystkie
+    ma do niego dostępu. Poniższa lista zawiera wszystkie
     produkty dostępne dla bieżącego użytkownika.
 
   [% ELSIF message_tag == "remaining_time_zeroed" %]
@@ -367,13 +367,13 @@
     na RESOLVED lub CLOSED.
 
   [% ELSIF message_tag == "sudo_started" %]
-    [% title = "Sudo session started" %]
+    [% title = "Rozpoczęto sesję sudo" %]
       Rozpoczęto sesję sudo.  Przez następne 6 godzin lub do czasu zakończenia
       sesji wszystkie działania będą wykonywane na koncie użytkownika
       ([% target FILTER html %]).
   
   [% ELSIF message_tag == "sudo_ended" %]
-    [% title = "Sudo session complete" %]
+    [% title = "Zakończono sesję sudo" %]
       Zakończono sesję sudo. Od tego czasu wszystkie akcje wykonywane są
 	  na koncie własnym użytkownika.
 
@@ -417,7 +417,7 @@
     Podano napis '[% message_tag %]'. Prawidłowy sposób użycia to stworzenie
     znacznika i zdefiniowanie go wewnątrz pliku messages.html.tmpl.<br>
     <br>
-    Jeśli jesteś zwykłym użytkownikiem [% terms.Bugzilli %], prosimy o przesłanie
+    Zwykłych użytkownikowników [% terms.Bugzilli %], prosimy o przesłanie
     tej wiadomości do [% Param('maintainer') %].
   [% END %]
 [% END %]

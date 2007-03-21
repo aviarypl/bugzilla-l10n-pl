@@ -46,9 +46,9 @@
 
 [% title = BLOCK %]
   [% IF curpanel == -1 %]
-    Parameters: Index
+    Parametry: indeks
   [% ELSE %]
-    Configuration:
+    Konfiguracja:
     [%+ current_panel.title FILTER html %]
   [% END %]
 [% END %]
@@ -66,7 +66,7 @@
       <table id="menu">
         <tr>
           <td class="index">
-            <a href="editparams.cgi?section=index" title="Show all parameters">Index</a>
+            <a href="editparams.cgi?section=index" title="Pokaż wszystkie parametry">Indeks</a>
           </td>
         </tr>
         [% FOREACH panel = panels %]
@@ -90,9 +90,9 @@
         [% PROCESS admin/params/index.html.tmpl panels = panels %]
       [% ELSE %]
         <p>
-          This lets you edit the basic operating parameters of [% terms.Bugzilla %].
-          Be careful!<br>
-          Any item you check "Reset" on will get reset to its default value.
+		  Ta strona pozwala na edycję podstawowych parametrów systemu [% terms.Bugzilla %].
+          Prosimy o ostrożność.<br>
+          Zaznaczenie opcji "Przywróć domyślny" spowoduje przywrócenie domyślnej wartości parametru.
         </p>
         [%# CONTENT PANEL %]
         <form method="post" action="editparams.cgi">
@@ -100,8 +100,8 @@
           <input type="hidden" name="section" value="[% current_panel.name FILTER html %]">
           <input type="hidden" name="action" value="save">
           <input type="hidden" name="token" value="[% token FILTER html %]">
-          <input type="reset" value="Reset form">
-          <input type="submit" name="action" value="Save Changes">
+          <input type="reset" value="Przywróć">
+          <input type="submit" name="action" value="Zapisz zmiany">
         </form>
       [% END %]
     </td>
