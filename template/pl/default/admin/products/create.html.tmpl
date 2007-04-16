@@ -21,7 +21,7 @@
   #
   #%]
 
-[% title = BLOCK %]Add Product[% END %]
+[% title = BLOCK %]Dodawanie produktu[% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -42,18 +42,18 @@
     [% PROCESS "admin/products/edit-common.html.tmpl" %]
 
     <tr>
-      <th align="right">Version:</th>
+      <th align="right">Wersja:</th>
       <td><input size="64" maxlength="255" name="version" 
                 value="[% version FILTER html %]">
       </td>
     </tr>
     <tr>
-      <th align="right">Create chart datasets for this product:</th>
+      <th align="right">Twórz zestawy danych dla tego produktu:</th>
       <td><input type="checkbox" name="createseries" value="1"></td>
     </tr>
   </table>
 
-  <input type="submit" value="Add">
+  <input type="submit" value="Dodaj">
   <input type="hidden" name="subcategory" value="-All-">
   <input type="hidden" name="open_name"   value="All Open">
   <input type="hidden" name="action" value="new">

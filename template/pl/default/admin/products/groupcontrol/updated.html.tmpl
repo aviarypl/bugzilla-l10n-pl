@@ -23,7 +23,7 @@
   #%]
 
 [% title = BLOCK %]
-    Update group access controls for [% product.name FILTER html %]
+    Aktualizacja kontroli grup dla produktu [% product.name FILTER html %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -32,21 +32,20 @@
 <p>
 [% IF removed_na.size > 0 %]
   [% FOREACH g = removed_na %]
-    Removing [% terms.bugs %] from group '[% g.name FILTER html %]' which
-    no longer applies to this product<p>
-    [% g.bug_count FILTER html %] [%+ terms.bugs %] removed<p>
+    Usuwanie [% terms.bledow %] z grupy '[% g.name FILTER html %]', która
+    nie jest już odpowiednia dla tego produktu<p>
+    [% terms.Bledow %] usuniętych: [% g.bug_count FILTER html %]<p>
   [% END %]
 [% END %]
 
 [% IF added_mandatory.size > 0 %]
   [% FOREACH g = added_mandatory %]
-    Adding [% terms.bugs %] to group '[% g.name FILTER html %]' which is 
-    mandatory for this product<p>
-    [% g.bug_count FILTER html %] [%+ terms.bugs %] added<p>
-  [% END %]
+    Dodawanie [% terms.bledow %] do grupy '[% g.name FILTER html %]', która
+    jest obowiązkowa dla tego produktu<p>
+    [% terms.Bledow %] dodanych: [% g.bug_count FILTER html %]<p>  [% END %]
 [% END %]
 
-Group control updates done<p>
+Zakończono aktualizację kontroli grup<p>
 
 [% PROCESS admin/products/footer.html.tmpl %]
 

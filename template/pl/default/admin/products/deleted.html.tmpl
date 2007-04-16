@@ -21,26 +21,26 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = 'Deleting product'
+  title = 'Usuwanie produktu'
 %]
 
 [% IF product.bug_count %]
-  All references to deleted [% terms.bugs %] removed.
+  Wszystkie odniesienia do usuniętych[% terms.bledow %] zostały usunięte.
 [% END %]
 
 <p>
-  Components deleted.<br>
-  Versions deleted.<br>
-  Milestones deleted.
+  Usunięto komponenty.<br>
+  Usunięto wersje.<br>
+  Usunięto wersje docelowe.
 </p>
 
 <p>
-  Group controls deleted.<br>
-  Flag inclusions and exclusions deleted.
+  Usunięto kontrolę grup.<br>
+  Usunięto włączenia i wyłączenia flag.
 </p>
 
 <p>
-  Product [% product.name FILTER html %] deleted.
+  Product [% product.name FILTER html %] został usunięty.
 </p>
 
 [% PROCESS admin/products/footer.html.tmpl

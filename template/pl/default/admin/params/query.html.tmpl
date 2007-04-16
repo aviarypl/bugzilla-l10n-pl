@@ -20,39 +20,38 @@
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #%]
 [%
-   title = "Query Defaults"
-   desc = "Default options for query and buglists"
+   title = "Wartości domyślne zapytań"
+   desc = "Wartości domyślne zapytań i list błędów"
 %]
 
 [% param_descs = {
-  quip_list_entry_control => "Controls how easily users can add entries to the quip list.
+  quip_list_entry_control => "Określa zasady rozszerzania listy sentencji:
                               <ul>
                                 <li>
-                                  open - Users may freely add to the quip list, and
-                                  their entries will immediately be available for viewing.
+                                  open - użytkownicy mogą dowolnie dodawać sentencje, a
+                                  ich wpisy będą natychmist dostępne i używane.
                                 </li>
                                 <li>
-                                  moderated - quips can be entered, but need to be approved
-                                  by an admin before they will be shown.
+                                  moderated - można dodawać sentencje, lecz przed ich użyciem muszą być
+                                  one zatwierdzone przez administratora.
                                 </li>
                                 <li>
-                                  closed - no new additions to the quips list are allowed.
+                                  closed - nie można dodawać nowych sentencji.
                                 </li>
                               </ul>",
 
-  mostfreqthreshold => "The minimum number of duplicates $terms.abug needs to show up on the " _
-                       "<a href=\"duplicates.cgi\">most frequently reported $terms.bugs page</a>. " _
-                       "If you have a large database and this page takes a long time to " _
-                       "load, try increasing this number.",
+  mostfreqthreshold => "Ilość duplikatów $terms.bledu, po którym zostanie on wyświetlony w liście " _
+                       "<a href=\"duplicates.cgi\">najczęściej zgłaszanych $terms.bledow</a>. " _
+                       "W przypadku dużej bazy i długiego czasu ładowania strony z w/w listą, należy " _
+                       "zwiększyć tą wartość.",
 
-  mybugstemplate => "This is the URL to use to bring up a simple 'all of my $terms.bugs' " _
-                    "list for a user. %userid% will get replaced with the login name of a user.",
+  mybugstemplate => "Adres URL wyświetlający prostą listę 'wszystkie moje $terms.bledy'. " _
+                    "Zmienna %userid% będzie zamieniona na nazwę użytkownika.",
 
-  defaultquery => "This is the default query that initially comes up when you " _
-                  "access the advanced query page. It's in URL parameter " _
-                  "format, which makes it hard to read. Sorry!",
+  defaultquery => "Domyślne zapytanie po otwarciu strony zaawansowanego wyszukiwania. " _
+                  "Zapytanie w trudnoczytelnym formacie parametrów URL. Przepraszamy.",
 
-  quicksearch_comment_cutoff => "The maximum number of search terms for a QuickSearch " _
-                                "to search comments. If the QuickSearch query contains " _
-                                "more terms than this value, QuickSearch will not search comments." }
+  quicksearch_comment_cutoff => "Maksymalna liczba słów dla szybkiego wyszukiwania w komentarzach. " _
+                                "Jeśli szybkie zapytanie zawiera więcej słów niż podana wartość, to " _
+                                "komentarze nie będą przeszukiwane." }
 %]

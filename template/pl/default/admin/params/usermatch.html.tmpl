@@ -20,27 +20,27 @@
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #%]
 [%
-   title = "User Matching"
-   desc = "Set up your user matching policies"
+   title = "Dopasowywanie nazw użytkowników"
+   desc = "Ustawienia zasad dopasowywania nazw użytkowników"
 %]
 
 [% param_descs = {
-  usemenuforusers => "If this option is set, $terms.Bugzilla will offer you a list " _
-                     "to select from (instead of a text entry field) where a user " _
-                     "needs to be selected. This option should not be enabled on " _
-                     "sites where there are a large number of users.",
+  usemenuforusers => "Włączenie opcji spowoduje, że $terms.Bugzilla wyświetlać będzie " _
+                     "listę użytkowników (zamiast pola tekstowego), kiedy będzie potrzeba " _
+                     "wybrania użytkownika. Opcji tej nie należy włączać w instalacjach " _
+                     "z dużą liczbą użytkowników.",
 
-  usermatchmode => "Allow match strings to be entered for user names when entering " _
-                   "and editing ${terms.bugs}.<p> " _
-                   "'off' disables matching,<br> " _
-                   "'wildcard' allows only wildcards,<br> " _
-                   "and 'search' allows both wildcards and substring (freetext) matches.",
+  usermatchmode => "Zezwala na użycie dopasowań podczas podawania/wyszukiwania nazw użytkowników przy " _
+                   "zgłaszaniu i edycji ${terms.bledow}.<p> " _
+                   "Wartość 'off' wyłącza dopasowywanie,<br> " _
+                   "'wildcard' zezwala tylko na znaki zastępujące,<br> " _
+                   "a 'search' zezwala na znaki zastępujące i proste dopasowania podanych fragmentów nazw.",
 
-  maxusermatches => "Search for no more than this many matches.<br> " _
-                    "If set to '1', no users will be displayed on ambiguous matches. " _
-                    "This is useful for user privacy purposes.<br> " _
-                    "A value of zero means no limit.",
+  maxusermatches => "Ograniczenie liczby wyszukiwanych nazw użytkowników.<br> " _
+                    "Wartość '1' oznacza, że żadne nazwy użytkowników nie będą wyświetlane w razie " _
+                    "niejasności w dopasowaniu podanej nazwy. Wartość przydatna dla celów zachowania poufności.<br> " _
+                    "Wartość '0' oznacza brak ograniczenia.",
 
-  confirmuniqueusermatch => "Whether a confirmation screen should be displayed when only " _
-                            "one user matches a search entry." }
+  confirmuniqueusermatch => "Określa czy wyświetlać ekran potwierdzenia gdy tylko jeden użytkownik " _
+                            "pasuje do wyszukiwanego ciągu." }
 %]

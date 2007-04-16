@@ -20,14 +20,14 @@
   #%]
 
 [% PROCESS global/header.html.tmpl 
-  title = 'New Product Created'
+  title = 'Utworzono nowy produkt'
 %]
 <br>
 <div style='border: 1px red solid; padding: 1ex;'>
-  <b>You will need to   
+  <b>Należy 
    <a href="editcomponents.cgi?action=add&product=[% product.name FILTER url_quote %]">
-     add at least one component
-   </a> before you can enter [% terms.bugs %] against this product
+     dodać conajmniej jeden komponent
+   </a>, aby mieć możliwość zgłaszania [% terms.bledow %] dla tego produktu.
   </b>
 </div>
 
