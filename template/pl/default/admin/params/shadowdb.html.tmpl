@@ -20,31 +20,31 @@
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #%]
 [%
-   title = "Shadow Database"
-   desc = "An optional hack to increase database performance"
+   title = "Kopia bazy danych"
+   desc = "Dodatkowa metoda zwiększająca wydajność operacji na bazie danych"
 %]
 
 [% param_descs = {
-  shadowdbhost => "The host the shadow database is on.",
+  shadowdbhost => "Host dodatkowej bazy danych.",
 
-  shadowdbport => "The port the shadow database is on. Ignored if " _
-                  "<tt>shadowdbhost</tt> is blank. Note: if the host is the local " _
-                  "machine, then MySQL will ignore this setting, and you must " _
-                  "specify a socket below.",
+  shadowdbport => "Port dodatkowej bazy danych. Wartość ignorowana jeśli " _
+                  "opcja <tt>shadowdbhost</tt> jest pusta. Uwaga: jeśli hostem bazy jest " _
+                  "lokalny komputer, to MySQL zignoruje ten parametr. Należy w takim " _
+                  "przypadku określić gniazdo poniżej.",
 
-  shadowdbsock => "The socket used to connect to the shadow database, if the host " _
-                  "is the local machine. This setting is required because MySQL " _
-                  "ignores the port specified by the client and connects using " _
-                  "its compiled-in socket path (on unix machines) when connecting " _
-                  "from a client to a local server. If you leave this blank, and " _
-                  "have the database on localhost, then the <tt>shadowdbport</tt> " _
-                  "will be ignored.",
+  shadowdbsock => "Gniazdo połączenia do dodatkowej bazy danych jeśli znajduje się ona " _
+                  "na lokalnym komputerze. Opcja ta jest wymagana ponieważ MySQL " _
+                  "ignoruje podany port i łączy się z lokalnym serwerem za pomocą domyślnej " _
+                  "ścieżki do gniazda (na komputerach z systemami unix). " _
+                  "Pozostawienie pustej wartości w przypadku posiadania bazy na lokalnym komputerze" _
+                  "(localhost) spowoduje, że opcja <tt>shadowdbport</tt> " _
+                  "zostanie zignorowana.",
 
-  shadowdb => "If non-empty, then this is the name of another database in " _
-              "which $terms.Bugzilla will use as a read-only copy of everything. " _
-              "This is done so that long slow read-only operations can be used " _
-              "against this db, and not lock up things for everyone else. This " _
-              "database is on the <tt>shadowdbhost</tt>, and must exist. " _
-              "$terms.Bugzilla does not update it, if you use this parameter, then " _
-              "you need to set up replication for your database." }
+  shadowdb => "Wartość niepusta określa nazwę dodatkowej bazy danych, której" _
+              "$terms.Bugzilla będzie używać jako kopii bazy do odczytu. " _
+              "Długie, blokujące połączenia i zapytania będą wykonywane na tej bazie, " _
+              "a inni użytkownicy nie będą doświadczać opóźnień. Baza ta znajduje się na " _
+              "komputerze <tt>shadowdbhost</tt> i musi istnieć. " _
+              "$terms.Bugzilla sama z siebie nie replikuje bazy. W przypadku korzystania z tej " _
+              "opcji należy samodzielnie zapewnić replikację bazy danych." }
 %]

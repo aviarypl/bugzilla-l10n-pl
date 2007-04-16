@@ -26,19 +26,19 @@
 
 [% IF Param('useclassification') %]
   <tr>
-    <th align="right"><b>Classification:</b></th>
+    <th align="right"><b>Klasyfikacja:</b></th>
     <td><b>[% classification.name FILTER html %]</b></td>
   </tr>
 [% END %]
     
 <tr>
-  <th align="right">Product:</th>
+  <th align="right">Produkt:</th>
   <td><input size="64" maxlength="64" name="product" 
              value="[% product.name FILTER html %]">
   </td>
 </tr>
 <tr>
-  <th align="right">Description:</th>
+  <th align="right">Opis:</th>
   <td><textarea rows="4" cols="64" wrap="virtual" name="description">
         [% product.description FILTER html %]</textarea>
   </td>
@@ -46,13 +46,13 @@
 
 [% IF Param('usetargetmilestone') -%]
   <tr>
-    <th align="right">URL describing milestones for this product:</th>
+    <th align="right">Adres URL opisujący wersje docelowe tego produktu:</th>
     <td><input type="text" size="64" maxlength="255" name="milestoneurl"
                value="[% product.milestoneurl FILTER html %]">
     </td>
   </tr>
   <tr>
-    <th align="right">Default milestone:</th>
+    <th align="right">Domyślna wersja docelowa:</th>
     <td>
       [% IF product.milestones.size %]
         <select name="defaultmilestone">
@@ -71,7 +71,7 @@
 [% END %]
     
 <tr>
-  <th align="right">Closed for [% terms.bug %] entry:</th>
+  <th align="right">Zamknięty dla nowych [% terms.bledow %]:</th>
   <td><input type="checkbox" name="disallownew" value="1"
        [% IF product.disallownew == "1" %]
              checked="checked"[% END %]>
@@ -82,19 +82,19 @@
 <tr class="param_disabled">
   <td colspan="2"
       style="font-family: arial; font-style: italic; font-size: 0.7em; text-align: center;">
-    The 'usevotes' parameter is currently 'off'. These voting
-    settings will take effect when the parameter is next enabled.</td>
+    Opcja 'usevotes' jest wyłączona. Ustawienia głosowań
+    odniosą skutek tylko wtedy gdy opcja ta jest włączona.</td>
 </tr>
 [% END %]
 <tr [% IF !Param('usevotes') %]class="param_disabled" [% END %]>
-  <th align="right">Maximum votes per person:</th>
+  <th align="right">Maksymalna ilość głosów na osobę:</th>
   <td><input size="5" maxlength="5" name="votesperuser" 
              value="[% product.votesperuser FILTER html %]">
   </td>
 </tr>
 <tr [% IF !Param('usevotes') %]class="param_disabled" [% END %]>
   <th align="right">
-    Maximum votes a person can put on a single [% terms.bug %]:
+    Maksymalna ilość głosów na pojedynczy [% terms.bug %], które może oddać jedna osoba:
   </th>
   <td><input size="5" maxlength="5" name="maxvotesperbug" 
              value="[% product.maxvotesperbug FILTER html %]">
@@ -102,13 +102,13 @@
 </tr>
 <tr [% IF !Param('usevotes') %]class="param_disabled" [% END %]>
   <th align="right">
-    Confirmation threshold:
+    Próg potwierdzenia:
   </th>
   <td>
-    Enter the number of votes [% terms.abug %] in this product needs to
-    automatically get out of the
-    <a href="page.cgi?id=fields.html#status">[% status_descs.UNCONFIRMED FILTER html %]</a>
-    state.<br>
+    Proszę podać liczbę głosów na [% terms.blad %] w tym produkcie, która powoduje 
+    automatyczną zmianę stanu [% terms.bledu %] z 
+    <a href="page.cgi?id=fields.html#status">[% status_descs.UNCONFIRMED FILTER html %]</a>.
+	<br>
     <input size="5" maxlength="5" name="votestoconfirm" 
            value="[% product.votestoconfirm FILTER html %]">
   </td>

@@ -20,47 +20,47 @@
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #%]
 [%
-   title = "Email"
-   desc = "How will outgoing mail be delivered?"
+   title = "Wiadomości em-ail"
+   desc = "Określenie sposobów dostarczana wychodzących wiadomości"
 %]
 
 [% param_descs = {
-  mail_delivery_method => "Defines how email is sent, or if it is sent at all.<br>
+  mail_delivery_method => "Określa czy i jak wysyłane są wiadomości e-mail<br>
                            <ul>
                              <li>
-                               'Sendmail', 'SMTP' and 'Qmail' are all MTAs.
-                               You need to install a third-party sendmail replacement if
-                               you want to use sendmail on Windows.
+                               'Sendmail', 'SMTP' i 'Qmail' to programy dostarczające pocztę (MTA).
+                               Aby użyć programu sendmail pod Windows należy zainstalować
+                               jego odpowiednik dla Windows.
                              </li>
                              <li>
-                               'Test' is useful for debugging: all email is stored
-                               in 'data/mailer.testfile' instead of being sent.
+                               Wartość 'Test' jest przydatna do uruchamiania i wyszukiwania błędów.
+							   Wszystkie wiadomości zapisywane są do pliku 
+                               'data/mailer.testfile', a nie wysyłane.
                              </li>
                              <li>
-                               'none' will completely disable email. $terms.Bugzilla continues
-                               to act as though it is sending mail, but nothing is sent or
-                               stored.
+                               Wartość 'none' wyłącza całkowicie wysyłanie wiadomości. $terms.Bugzilla będzie
+							   informować o wysłaniu wiadomości, lecz nic nie zostanie wysłane.
                              </li>
                            </ul>",
 
-  mailfrom => "The email address of the $terms.Bugzilla mail daemon.  Some email systems " _
-              "require this to be a valid email address.",
+  mailfrom => "Adres e-mail demona $terms.Bugzilli. Niektóre serwery pocztowe wymagają " _
+              "aby ten adres był poprawny.",
 
-  sendmailnow => "Sites using anything older than version 8.12 of 'sendmail' " _
-                 "can achieve a significant performance increase in the " _
-                 "UI -- at the cost of delaying the sending of mail -- by " _
-                 "disabling this parameter. Sites using 'sendmail' 8.12 or " _
-                 "higher should leave this on, as they will see no benefit from " _
-                 "turning it off. Sites using an MTA other than 'sendmail' " _
-                 "<b>must</b> leave it on, or no $terms.bug mail will be sent.",
+  sendmailnow => "W instalacjach używających programu sendmail starszego niż 8.12 " _
+                 "można uzyskać znaczące przyspieszenie działania interfejsu " _
+                 "w przypadku opóźnionego wysyłania wiadomości. Można to uzyskać " _
+                 "wyłączając tę opcję. W instalacjako korzystających z programu 'sendmail' " _
+                 "8.12 lub nowszego należy opcję pozostawić włączoną, ponieważ wyłączenie " _
+                 "nie przynosi żadnych korzyści. W przypadku korzystania z innego programu " _
+                 "dostarczającego pocztę włączenie tej opcji <b>jest wymagane</b>. W przeciwnym " _
+				 "wypadku nie będą wysyłane żadne wiadomości.",
 
-  smtpserver => "The SMTP server address (if using SMTP for mail delivery).",
+  smtpserver => "Adres serwera SMTP (w przypadku korzystania z dostarczania SMTP).",
 
-  whinedays => "The number of days that we'll let a $terms.bug sit untouched in a NEW " _
-               "state before our cronjob will whine at the owner.<br> " _
-               "Set to 0 to disable whining.",
+  whinedays => "Liczba dni, po których wysłane zostanie przypomnienie o nowym $terms.bledzie do właściciela. " _
+               "<br> Wartość 0 wyłącza przypominanie.",
 
-  globalwatchers => "A comma-separated list of users who should receive a " _
-                    "copy of every notification mail the system sends." }
+  globalwatchers => "Lista nazw użytkowników rozdzielonych przecinkami, którzy będą otrzymywać " _
+                    "kopię każdej wiadomości wysyłanej przez system." }
 
 %]

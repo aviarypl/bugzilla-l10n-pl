@@ -22,7 +22,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-    Edit Group Controls for [% product.name FILTER html %]
+    Edycja kontroli grup dla [% product.name FILTER html %]
 [% END %]
 [% PROCESS global/header.html.tmpl 
    title = title 
@@ -37,15 +37,15 @@
 
   <table id="form" cellspacing="0" cellpadding="4" border="1">
     <tr bgcolor="#6666ff">
-      <th>Group</th>
-      <th>Entry</th>
+      <th>Grupa</th>
+      <th>Wpisywanie</th>
       <th>MemberControl</th>
       <th>OtherControl</th>
       <th>Canedit</th>
       <th>editcomponents</th>
       <th>canconfirm</th>
       <th>editbugs</th>
-      <th>[% terms.Bugs %]</th>
+      <th>[% terms.Bledy %]</th>
     </tr>
     [% FOREACH group = groups %]
       [% IF group.isactive == 0 AND group.bugcount > 0 %]
@@ -54,7 +54,7 @@
             [% group.name FILTER html %]
           </td>
           <td align="center" colspan=7>
-            Disabled
+            Wyłączone
           </td>
           <td>
             [% group.bugcount %]
@@ -74,22 +74,22 @@
               <option value=[% const.CONTROLMAPNA %]
                 [% " selected=\"selected\""
                   IF group.membercontrol == const.CONTROLMAPNA %]
-                >NA
+                >Niedostępne
               </option>
               <option value=[% const.CONTROLMAPSHOWN %]
                 [% " selected=\"selected\""
                   IF group.membercontrol == const.CONTROLMAPSHOWN %]
-                >Shown
+                >Pokazywane
               </option>
               <option value=[% const.CONTROLMAPDEFAULT %]
                 [% " selected=\"selected\""
                   IF group.membercontrol == const.CONTROLMAPDEFAULT %]
-                >Default
+                >Domyślne
               </option>
               <option value=[% const.CONTROLMAPMANDATORY %]
                 [% " selected=\"selected\""
                   IF group.membercontrol == const.CONTROLMAPMANDATORY %]
-                >Mandatory
+                >Wymagane
               </option>
             </select>
           </td>
@@ -98,22 +98,22 @@
               <option value=[% const.CONTROLMAPNA %]
                 [% " selected=\"selected\""
                   IF group.othercontrol == const.CONTROLMAPNA %]
-                >NA
+                >Niedostępne
               </option>
               <option value=[% const.CONTROLMAPSHOWN %]
                 [% " selected=\"selected\""
                   IF group.othercontrol == const.CONTROLMAPSHOWN %]
-                >Shown
+                >Pokazywane
               </option>
               <option value=[% const.CONTROLMAPDEFAULT %]
                 [% " selected=\"selected\""
                   IF group.othercontrol == const.CONTROLMAPDEFAULT %]
-                >Default
+                >Domyślne
               </option>
               <option value=[% const.CONTROLMAPMANDATORY %]
                 [% " selected=\"selected\""
                   IF group.othercontrol == const.CONTROLMAPMANDATORY %]
-                >Mandatory
+                >Wymagane
               </option>
             </select>
           </td>
@@ -148,44 +148,40 @@
 
 
 <p>
-These settings control the relationship of the groups to this
-product.
+Te ustawienia pozwalają kontrolować zależności pomiędzy grupami a produktem.
 </p>
 <p>
-If any group has <b>Entry</b> selected, then this product will
-restrict [% terms.bug %] entry to only those users who are members of all the
-groups with entry selected.
+Jeśli dla którejś grupy zaznaczono opcję <b>Wpisywanie</b> to 
+[% terms.bledy %] dla tego produktu, będą mogli wprowadzać jedynie użytkownicy, 
+którzy są członkami wszystkich grup z zaznaczonym wpisem.
 </p>
 <p>
-If any group has <b>Canedit</b> selected, then this product
-will be read-only for any users who are not members of all of
-the groups with Canedit selected. ONLY users who are members of
-all the canedit groups will be able to edit. This is an additional
-restriction that further restricts what can be edited by a user.
+Jeśli któraś z grup ma zaznaczoną opcję <b>CanEdit</b> produkt ten
+będzie tylko do odczytu dla użytkowników, którzy nie są członkami wszystkich
+grup z zaznaczoną opcją CanEdit. JEDYNIE użytkownicy, którzy są członkami
+wszystkich grup CanEdit będą mieli prawo do edycji. Jest to dodatkowe
+ograniczenie tego, co może być edytowane przez użytkownika.
 </p>
 <p>
-The following settings control let you choose privileges on a <b>per-product basis</b>.
-This is a convenient way to give privileges to some users for some products
-only, without having to give them global privileges which would affect all
-products:
+Poniższe ustawienia pozwalają ustalić uprawnienia <b>dla poszczególnych produktów</b>.
+Jest to wygodny sposób przyznania praw użytkownikom tylko do pewnych produktów
+bez konieczności przyznawania globalnych uprawnień, które dotyczą wszystkich produktów:
 </p>
 <p>
-Any group having <b>editcomponents</b> selected allows users who are
-in this group to edit all aspects of this product, including components,
-milestones and versions.
+Członkowie grupy, która ma ustawione prawo <b>editcomponents</b> mogą modyfikować
+wszystkie własności tego produktu włącznie z komponentami, wersjami docelowymi i wersjami.
 </p>
 <p>
-Any group having <b>canconfirm</b> selected allows users who are
-in this group to confirm [% terms.bugs %] in this product.
+Członkowie grupy, która ma ustawione prawo <b>canconfirm</b> mogą potwierdzać
+[% terms.bledy %] w tym produkcie.
 </p>
 <p>
-Any group having <b>editbugs</b> selected allows users who are
-in this group to edit all fields of [% terms.bugs %] in this product.
+Członkowie grupy, która ma ustawione prawo <b>editbugs</b> mogą modyfikować
+wszystkie pola [% terms.bledow %] w tym produkcie.
 </p>
 <p>
-The <b>MemberControl</b> and <b>OtherControl</b> fields
-indicate which [% terms.bugs %] will be placed in
-this group according to the following definitions.
+Pola <b>MemberControl</b> i <b>OtherControl</b> wskazują wg poniższych opisów,
+które [% terms.bledy %] zostaną umieszczone w tej grupie.
 </p>
 
 <table border=1>
@@ -197,132 +193,132 @@ this group according to the following definitions.
       OtherControl
     </th>
     <th>
-      Interpretation
+      Interpretacja
     </th>
   </tr>
   <tr>
     <td>
-      NA
+      Niedostępne
     </td>
     <td>
-      NA
+      Niedostępne
     </td>
     <td>
-      [% terms.Bugs %] in this product are never associated with this group.
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Shown
-    </td>
-    <td>
-      NA
-    </td>
-    <td>
-      [% terms.Bugs %] in this product are permitted to be restricted to this
-      group.  Users who are members of this group will be able to place [% terms.bugs %] in
-      this group.
+      [% terms.Bledy %] dotyczące tego produktu nigdy nie są kojarzone z tą grupą.
     </td>
   </tr>
   <tr>
     <td>
-      Shown
+      Pokazywane
     </td>
     <td>
-      Shown
+      Niedostępne
     </td>
     <td>
-      [% terms.Bugs %] in this product can be placed in this group by anyone
-      with permission to edit the [% terms.bug %] even if they are not a member
-      of this group.
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Shown
-    </td>
-    <td>
-      Default
-    </td>
-    <td>
-      [% terms.Bugs %] in this product can be placed in this group by anyone
-      with permission to edit the [% terms.bug %] even if they are not a member
-      of this group. Non-members place [% terms.bugs %] in this group by default.
+      [% terms.Bledy %] dotyczące tego produktu mogą być ograniczane do tej grupy.
+      Użytkownicy będący członkami tej grupy, będą mogli umieszczać [% terms.bledy %] w
+      tej grupie.
     </td>
   </tr>
   <tr>
     <td>
-      Shown
+      Pokazywane
     </td>
     <td>
-      Mandatory
+      Pokazywane
     </td>
     <td>
-      [% terms.Bugs %] in this product are permitted to be restricted to this
-      group.  Users who are members of this group will be able to place [% terms.bugs %]
-       in this group.  Non-members will be forced to restrict [% terms.bugs %] to
-       this group when they initially enter [% terms.abug %] in this product.
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Default
-    </td>
-    <td>
-      NA
-    </td>
-    <td>
-      [% terms.Bugs %] in this product are permitted to be restricted to this
-      group and are placed in this group by default.  Users who are members of this
-      group will be able to place [% terms.bugs %] in this group.
+      [% terms.Bledy %] dotyczące tego produktu mogą być umieszczane w tej grupie przez 
+      każdego z uprawnieniami do edycji [% terms.bledu %], nawet jeśli nie jest członkiem
+      tej grupy.
     </td>
   </tr>
   <tr>
     <td>
-      Default
+      Pokazywane
     </td>
     <td>
-      Default
+      Domyślne
     </td>
     <td>
-      [% terms.Bugs %] in this product are permitted to be restricted to this
-      group and are placed in this group by default.  Users who are members of this group
-      will be able to place [% terms.bugs %] in this group.  Non-members will be
-      able to restrict [% terms.bugs %] to this group on entry and will do so by default
-    </td>
-  </tr>
-  <tr>
-    <td>
-      Default
-    </td>
-    <td>
-      Mandatory
-    </td>
-    <td>
-      [% terms.Bugs %] in this product are permitted to be restricted to this
-      group and are placed in this group by default.  Users who are members of this group
-      will be able to place [% terms.bugs %] in this group. Non-members will be forced
-      to place [% terms.bugs %] in this group on entry.
+      [% terms.Bledy %] dotyczące tego produktu mogą być umieszczane w tej grupie przez
+      każdego z uprawnieniami do edycji [% terms.bledu %], nawet jeśli nie jest członkiem
+      tej grupy. [% terms.Bledy %] nie-członków będą domyślnie umieszczane w tej grupie.
     </td>
   </tr>
   <tr>
     <td>
-      Mandatory
+      Pokazywane
     </td>
     <td>
-      Mandatory
+      Wymagane
     </td>
     <td>
-      [% terms.Bugs %] in this product are required to be restricted to this
-      group.  Users are not given any option.
+      [% terms.Bledy %] mogą być ograniczone jedynie do tej grupy.
+      Użytkownicy, którzy są członkami tej grupy będą mogli umieszczać [% terms.bledy %]
+      w tej grupie. Nie-członkowie będą zmuszeni do ograniczenia [% terms.bledow %] do
+      tej grupy podczas początkowego wprowadzania [% terms.bledu %] dotyczącego tego produktu.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Domyślne
+    </td>
+    <td>
+      Niedostępne
+    </td>
+    <td>
+      [% terms.Bledy %] dotyczące tego produktu mogą być ograniczone jedynie do tej
+      grupy i są domyślnie umieszczane w tej grupie. Użytkownicy, którzy są członkami tej 
+      grupy będą mogli umieszczać [% terms.bledy %] w tej grupie.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Domyślne
+    </td>
+    <td>
+      Domyślne
+    </td>
+    <td>
+      [% terms.Bledy %]  dotyczące tego produktu mogą być ograniczone jedynie do tej
+      grupy i są domyślnie umieszczane w tej grupie. Użytkownicy, którzy są członkami tej 
+      grupy będą mogli umieszczać [% terms.bledy %] w tej grupie. Nie-członkowie będą
+      mogli ograniczyć [% terms.bledy %] do tej grupy i będzie to domyślne działanie.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Domyślne
+    </td>
+    <td>
+      Wymagane
+    </td>
+    <td>
+      [% terms.Bledy %] w tym produkcie mogą być ograniczone do tej 
+      grupy i są umieszczane domyślnie w tej grupie. Użytkownicy, którzy są członkami tej grupy
+      będą mogli umieszczać w niej [% terms.bledy %]. Pozostali użytkownicy będą zmuszeni
+      do umieszczenia [% terms.bledow %] w tej grupie podczas wprowadzania.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Wymagane
+    </td>
+    <td>
+      Wymagane
+    </td>
+    <td>
+      [% terms.Bledy %] w tym produkcie powinny być ograniczone do tej 
+      grupy. Użytkownicy nie mają żadnego wyboru.
     </td>
   </tr>
 </table>
 <p>
-Please note that the above table delineates the only allowable combinations
-for the <b>MemberControl</b> and <b>OtherControl</b> field settings.
-Attempting to submit a combination not listed there (e.g. Mandatory/NA,
-Default/Shown, etc.) will produce an error message.
+Proszę zauważyć że powyższa tabela opisuje wszystkie dopuszczalne kombinacje
+ustawień <b>MemberControl</b> oraz <b>OtherControl</b>.
+Przy próbie ustawienia kombinacji nie występującej w tabeli (np. Wymagane/Pokazywane,
+Pokazywane/Niedostępne, etc.) zostanie wygenerowany odpowiedni komunikat o błędzie.
 </p>
 [% PROCESS global/footer.html.tmpl %]
 

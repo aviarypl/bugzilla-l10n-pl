@@ -22,33 +22,32 @@
 
 [% PROCESS global/variables.none.tmpl %]
 [% title = BLOCK %]
-  Confirm Group Control Change for product '[%- product.name FILTER html %]'
+  Potwierdzenie zmiany kontroli grupy dla produktu '[%- product.name FILTER html %]'
 [% END %]
 
 [% PROCESS global/header.html.tmpl title = title %]
 [% FOREACH group = mandatory_groups %]
 <P>
-group '[% group.name FILTER html %]' impacts [% group.count %] 
-[%+ terms.bugs %] for
-which the group is newly mandatory and will be added.
+Grupa '[% group.name FILTER html %]' wpływa na [% group.count %] 
+[%+ PROCESS ODMIEN c=group.count o1=terms.blad o2=terms.bledy o3=terms.bledow %] 
+dla których grupa jest wymagana i będzie dodana.
 [% END %]
 
 [% FOREACH group = na_groups %]
 <P>
-group '[% group.name FILTER html %]' impacts [% group.count %]&nbsp;
-[% terms.bugs %] for which the group is no longer applicable and will
-be removed.[% END %]
+Grupa '[% group.name FILTER html %]' wpływa na [% group.count %] 
+[%+ PROCESS ODMIEN c=group.count o1=terms.blad o2=terms.bledy o3=terms.bledow %], 
+dla których grupa ta jest odpowiednia i zostanie usunięta.
 <form action="editproducts.cgi" method="post" >
 
   [% PROCESS "global/hidden-fields.html.tmpl" exclude="^Bugzilla_(login|password)$" %]
 
   <br>
-     Click "Continue" to proceed with the change including the changes
-     indicated above.  If you do not want these changes, use "back" to
-     return to the previous page.
+     Aby dokonać zmian (łącznie ze zmianami wymienionymi powyżej), należy nacisnąć przycisk "Kontynuuj". 
+	 Aby nie dokonywać zmian, należy wrócić do poprzedniej strony.
   <p>
     <input type="hidden" name="confirmed" value="confirmed">
-    <input type="submit" id="update" value="Continue">
+    <input type="submit" id="update" value="Kontynuuj">
   </p>
 
 </form>
