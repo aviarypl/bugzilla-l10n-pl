@@ -43,7 +43,7 @@
   #                           created
   #%]
 
-[% title = BLOCK %]Confirm deletion of user [% otheruser.login FILTER html %][% END %]
+[% title = BLOCK %]Potwierdzenie usunięcia użytkownika [% otheruser.login FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -56,22 +56,22 @@
 %]
 
 [% responsibilityterms = {
-  'default_assignee'   => 'Default Assignee',
-  'default_qa_contact' => 'Default QA Contact'
+  'default_assignee'   => 'Domyślny właściciel',
+  'default_qa_contact' => 'Domyślny kontakt QA'
   }
 %]
 
 <table class="main">
   <tr>
-    <th>Login name:</th>
+    <th>Nazwa użytkownika:</th>
     <td>[% otheruser.login FILTER html %]</td>
   </tr>
   <tr>
-    <th>Real name:</th>
+    <th>Imię i nazwisko:</th>
     <td>[% otheruser.name FILTER html %]</td>
   </tr>
   <tr>
-    <th>Group set:</th>
+    <th>Grupy:</th>
     <td>
       [% IF groups.size %]
         <ul>
@@ -80,13 +80,13 @@
           [% END %]
         </ul>
       [% ELSE %]
-        None
+        Brak
       [% END %]
     </td>
   </tr>
   [% IF otheruser.product_responsibilities.size %]
     <tr>
-      <th>Product responsibilities:</th>
+      <th>Funkcje w produktach:</th>
       <td>
         <ul>
           [% FOREACH component = otheruser.product_responsibilities %]
@@ -95,10 +95,10 @@
               [% FOREACH responsibility = ['default_assignee', 'default_qa_contact'] %]
                 [% IF component.${responsibility}.id == otheruser.id %]
                   [% andstring %] [% responsibilityterms.$responsibility %]
-                  [% andstring = ' and ' %]
+                  [% andstring = ' i ' %]
                 [% END %]
               [% END %]
-              for
+              dla
               [% IF user.in_group("editcomponents", component.product_id) %]
                 <a href="editcomponents.cgi?action=edit&amp;product=
                          [% component.product.name FILTER url_quote %]&amp;component=
@@ -119,37 +119,34 @@
 
 [% IF otheruser.product_responsibilities.size %]
   <p>
-    You can't delete this user at this time because
-    [%+ otheruser.login FILTER html %] has got responsibilities for at least
-    one product.
+    Nie można usunąć teraz użytkownika
+    [%+ otheruser.login FILTER html %], ponieważ ma on przypisane funkcje
+    w conajmniej jednym produkcie.
   </p>
   <p>
     [% IF user.in_group("editcomponents", component.product_id) %]
-      Change this by clicking the product editing links above,
+      Funkcje te można zmienić korzystając z odnośników powyżej.
     [% ELSE %]
-      For now, you can
+      
     [% END %]
 [% ELSE %]
 
-  <h2>Confirmation</h2>
+  <h2>Potwierdzenie</h2>
 
   [% display_warning = 0 %]
 
   [% IF reporter || bugs_activity || flags.setter || longdescs || profiles_activity %]
     <div class="criticalmessages">
-      <p>The following deletions are <b>highly not recommended</b> and
-      will generate referential integrity inconsistencies!</p>
+      <p>Usunięcie wymienionych poniżej użytkowników jest <b>zdecydowanie nie polecane</b> i
+      może spowodować niespójność danych!</p>
 
       <ul>
         [% IF reporter %]
           <li>
-            [% otheruser.login FILTER html %]
+            [% terms.Bledow %] zgłoszonych przez [% otheruser.login FILTER html %]
             <a href="buglist.cgi?emailreporter1=1&amp;emailtype1=exact&amp;email1=
-               [%- otheruser.login FILTER url_quote %]">has reported
-            [% IF reporter == 1 %]
-              one [% terms.bug %]
-            [% ELSE %]
-              [%+ reporter %] [%+ terms.bugs %]
+               [%- otheruser.login FILTER url_quote %]">: 
+              [%+ reporter %]
             [% END %]</a>.
             If you delete the user account, the database records will be
             inconsistent, resulting in

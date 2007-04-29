@@ -53,7 +53,7 @@
   [% END %]
 [% END %]
 
-[% title = BLOCK %]Updating Product '[% product.name FILTER html %]' 
+[% title = BLOCK %]Aktualizacja produktu '[% product.name FILTER html %]' 
                    [% classification_text FILTER none %][% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -63,7 +63,7 @@
 
 [% IF product.name != old_product.name %]
   <p>
-  Updated product name from '[% old_product.name FILTER html %]' to 
+  Zaktualizowano nazwę produktu z '[% old_product.name FILTER html %]' na 
   <a href="editproducts.cgi?action=edit&amp;product=
   [%- product.name FILTER url_quote %]
   [%- classification_url_part FILTER none %]">[% product.name FILTER html %]</a>.
@@ -74,7 +74,7 @@
 
 [% IF product.description != old_product.description %]
   <p>
-    Updated description to:
+    Zaktualizowano opis na:
   </p>
   <p style="margin: 1em 3em 1em 3em">[% product.description FILTER html_light %]</p>
   [% updated = 1 %]
@@ -82,30 +82,30 @@
 
 [% IF product.disallow_new != old_product.disallow_new %]
   <p>
-  Product is now
+  Produkt jest 
   [% IF product.disallow_new %]
-    closed to
+    zamknięty
   [% ELSE %]
-    open for 
+    otwarty
   [% END %]
-  new [% terms.bugs %].
+  na wpisywanie nowych [% terms.bledow %].
   </p>
   [% updated = 1 %]
 [% END %]
 
 [% IF product.milestone_url != old_product.milestone_url %]
   <p>
-  Updated milestone URL 
+  Zaktualizowano adres URL wersji docelowej 
   [% IF old_product.milestone_url != '' %]
-    from<br> <a href="[%- old_product.milestone_url FILTER html %]">'
+    z<br> <a href="[%- old_product.milestone_url FILTER html %]">'
     [%- old_product.milestone_url FILTER html %]'</a>
   [% END %]
-  to
+  na
   [% IF product.milestone_url != '' %]
      <br><a href="[%- product.milestone_url FILTER html %]">'
      [%- product.milestone_url FILTER html %]'</a>.
   [% ELSE %]
-    be empty.
+    pusty.
   [% END %]
   </p>
   [% updated = 1 %]
@@ -113,7 +113,7 @@
 
 [% IF product.default_milestone != old_product.default_milestone %]
   <p>
-  Updated default milestone from '[% old_product.default_milestone FILTER html %]' to
+  Zaktualizowano domyślną wersję docelową produktu z '[% old_product.default_milestone FILTER html %]' na
   '[% product.default_milestone FILTER html %]'.
   </p>
   [% updated = 1 %]
@@ -121,8 +121,8 @@
   
 [% IF product.votes_per_user != old_product.votes_per_user %]
   <p>
-  Updated votes per user from
-  [%+ old_product.votes_per_user FILTER html %] to 
+  Zaktualizowano ilość głosów użytkownika z
+  [%+ old_product.votes_per_user FILTER html %] na 
   [%+ product.votes_per_user FILTER html %].
   </p>
   [% updated = 1 %]
@@ -130,8 +130,8 @@
 
 [% IF product.max_votes_per_bug != old_product.max_votes_per_bug %]
   <p>
-  Updated maximum votes per [% terms.bug %] from 
-  [%+ old_product.max_votes_per_bug FILTER html %] to 
+  Zaktualizowano maksymalną ilość głosów na [% terms.blad %] z 
+  [%+ old_product.max_votes_per_bug FILTER html %] na 
   [%+ product.max_votes_per_bug FILTER html %].
   </p>
   [% updated = 1 %]
@@ -139,15 +139,15 @@
 
 [% IF product.votes_to_confirm != old_product.votes_to_confirm %]
   <p>
-  Updated number of votes needed to confirm a [% terms.bug %] from
-  [%+ old_product.votes_to_confirm FILTER html %] to 
+  Zaktualizowano ilość głosów wymaganą do potwierdzenia [% terms.bledu %] z
+  [%+ old_product.votes_to_confirm FILTER html %] na 
   [%+ product.votes_to_confirm FILTER html %].
   </p>
   [% updated = 1 %]
 [% END %]
 
 [% UNLESS updated %]
-  <p>Nothing changed for product '[% product.name FILTER html %]'.</p>
+  <p>Nie dokonano żadnych zmian w produkcie '[% product.name FILTER html %]'.</p>
 [% END %]
 
 [%# Note that this display of changed votes and/or confirmed bugs is
@@ -158,34 +158,34 @@
 [% IF checkvotes %]
   <hr>
 
-  <p>Checking existing votes in this product for anybody who now
-  has too many votes for [% terms.abug %]...<br>
+  <p>Sprawdzanie głosów: wyszukiwanie użytkowników, którzy mają teraz 
+  zbyt dużo głosów na [% terms.blad %]...<br>
   [% IF toomanyvotes.size > 0 %]
     [% FOREACH detail = toomanyvotes %]
-      &rarr;removed votes for [% terms.bug %] <a href="show_bug.cgi?id=
+      &rarr;usunięto głosy na [% terms.blad %] <a href="show_bug.cgi?id=
      [%- detail.id FILTER url_quote %]">
-     [%- detail.id FILTER html %]</a> from [% detail.name FILTER html %]<br>
+     [%- detail.id FILTER html %]</a> od [% detail.name FILTER html %]<br>
     [% END %]
   [% ELSE %]
-    &rarr;there were none.
+    &rarr;nie znaleziono.
   [% END %]
   </p>
 
-  <p>Checking existing votes in this product for anybody
-  who now has too many total votes...<br>
+  <p>Wyszukiwanie użytkowników, którzy mają teraz zbyt dużo głosów w 
+  tym produkcie...<br>
   [% IF toomanytotalvotes.size > 0 %]
     [% FOREACH detail = toomanytotalvotes %]
-      &rarr;removed votes for [% terms.bug %] <a href="show_bug.cgi?id=
+      &rarr;usunięto głosy na [% terms.blad %] <a href="show_bug.cgi?id=
      [%- detail.id FILTER url_quote %]">
-     [%- detail.id FILTER html %]</a> from [% detail.name FILTER html %]<br>
+     [%- detail.id FILTER html %]</a> od [% detail.name FILTER html %]<br>
     [% END %]
   [% ELSE %]
-    &rarr;there were none.
+    &rarr;nie znaleziono.
   [% END %]
   </p>
 
-  <p>Checking unconfirmed [% terms.bugs %] in this product for any which now have
-  sufficient votes...<br>
+  <p>Wyszukiwanie niepotwierdzonych [% terms.bledow %] w tym produkcie, które
+  mogą być potwierdzone po zmianach ustawień głosowania...<br>
   [% IF confirmedbugs.size > 0 %]
     [% FOREACH id = confirmedbugs %]
 
@@ -199,7 +199,7 @@
       %]
     [% END %]
   [% ELSE %]
-    &rarr;there were none.
+    &rarr;nic nie znaleziono.
   [% END %]
   </p>
 
