@@ -22,20 +22,20 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Change Columns"
+  title = "Zmiana kolumn"
 %]
 
 <p>
-  Select the columns you wish to appear in your [% terms.bug %] lists. Note that
-  this feature requires cookies to work.
+  Proszę wybrać kolumny, które mają pojawiać się w listach [% terms.bledow %].
+  Funkcja ta wymaga ciasteczek do działania.
 </p>
 
 [% PROCESS "global/field-descs.none.tmpl" %]
-[% field_descs.short_short_desc     = "Summary (first 60 characters)" %]
-[% field_descs.short_desc           = "Full Summary" %]
-[% field_descs.assigned_to_realname = "Assignee Realname" %]
-[% field_descs.reporter_realname    = "Reporter Realname" %]
-[% field_descs.qa_contact_realname  = "QA Contact Realname" %]
+[% field_descs.short_short_desc     = "Podsumowanie (początkowe 60 znaków)" %]
+[% field_descs.short_desc           = "Pełne podsumowanie" %]
+[% field_descs.assigned_to_realname = "Dane przypisanej osoby" %]
+[% field_descs.reporter_realname    = "Dane zgłaszającego" %]
+[% field_descs.qa_contact_realname  = "Dane kontaktu QA" %]
 
 <form action="colchange.cgi">
   <input type="hidden" name="rememberedquery" value="[% buffer FILTER html %]">
@@ -52,19 +52,19 @@
     <input id="nosplitheader" type="radio" name="splitheader" value="0"
       [% "checked='checked'" IF NOT splitheader %]>
     <label for="nosplitheader">
-      Normal headers (prettier)
+      Normalne nagłówki (ładniejsze)
     </label>
     <br>
 
     <input id="splitheader" type="radio" name="splitheader" value="1"
       [% "checked='checked'" IF splitheader %]>
     <label for="splitheader">
-      Stagger headers (often makes list more compact)
+      Skondensowane nagłówki
     </label>
   </p>
 
   <p>
-    <input type="submit" id="change" value="Change Columns">
+    <input type="submit" id="change" value="Zmień kolumny">
   </p>
 </form>
 
@@ -72,7 +72,7 @@
   <input type="hidden" name="rememberedquery" value="[% buffer FILTER html %]">
   <input type="hidden" name="resetit" value="1">
   <input type="submit" id="reset" 
-         value="Reset to [% terms.Bugzilla %] default">
+         value="Przywróć domyślne">
 </form>
 
 [% PROCESS global/footer.html.tmpl %]

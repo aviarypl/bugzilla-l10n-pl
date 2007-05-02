@@ -30,16 +30,16 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-           title = "$terms.Bugzilla Quip System"
-           header = "Add your own clever headline"
+           title = "Sentencje $terms.Bugzilli"
+           header = "Dodawanie własnych mądrości"
  %]
 
 [% IF added_quip %]
   <p>
     <font color="red">
-      Your quip '<tt>[% added_quip FILTER html %]</tt>' has been added.
+      Sentencja '<tt>[% added_quip FILTER html %]</tt>' została dodana.
       [% IF Param("quip_list_entry_control") == "moderated" AND !user.groups.admin %]
-        It will be used as soon as it gets approved.
+        Zostanie ona wykorzystana po jej zatwierdzeniu.
       [% END %]
     </font>
   </p>
@@ -48,27 +48,28 @@
 [% IF deleted_quip %]
   <p>
     <font color="red">
-      The quip '<tt>[% deleted_quip FILTER html %]</tt>' has been deleted.
+      Sentencja '<tt>[% deleted_quip FILTER html %]</tt>' została usunięta.
     </font>
   </p>
 [% END %]
 
 [% IF approved or unapproved %]
-  <p>[% approved.size %] quips approved and [% unapproved.size %] quips unapproved</p>
+  <p>[% approved.size %] sentencji zatwierdzonych, [% unapproved.size %] niezatwierdzonych</p>
 [% END %]
 
 
 <p>
-  [% terms.Bugzilla %] will pick a random quip for the headline on each 
-  [% terms.bug %] list.
+  [% terms.Bugzilla %] wyświetla losowo wybraną sentencje, na każdej stronie z
+  listą [% terms.bladow %].
 </p>
 
 [% IF Param("quip_list_entry_control") != "closed" %]
   <p>
-    You can extend the quip list. Type in something clever or funny or boring
-    (but not obscene or offensive, please) and bonk on the button.
+   Zbiór sentencji może zostać rozszerzony. Można wipisać coś
+   ciekawego, zabawnego lub nudnego (lecz nie obscenicznego lub obraźliwego!)
+   i nacisnąć przycisk.
     [% IF Param("quip_list_entry_control") == "moderated" AND !user.groups.admin %]
-      Note that your quip has to be approved before it is used.
+      Sentencja musi zostać zatwierdźona, zanim zostanie użyta po raz pierwszy.
     [% END %]
   </p>
 
@@ -80,14 +81,14 @@
     </p>
   </form>
 [% ELSE %]
-  <p>No new entries may be submitted at this time.
+  <p>Nowe sentencje nie mogą być w tej chwili dodawane.
   </p>
 [% END %]
 
 [% IF show_quips %]
   [% IF !user.in_group('admin') %]
     <h2>
-      Existing quips:
+      Istniejące sentencje:
     </h2>
     <ul>
       [% FOREACH quipid = quipids %]
@@ -96,20 +97,21 @@
       [% END %]
     </ul>
   [% ELSE %]
-    <h2>Edit existing quips:</h2>
+    <h2>Edycja istniejących sentencji:</h2>
     <p>
-      <strong>Note:</strong> Only approved quips will be shown.
-      If the parameter 'quip_list_entry_control' is set to <q>open</q>, 
-      entered quips are automatically approved.
+      <strong>Uwaga:</strong> wyświetlane będą wyłącznie sentencje, które
+      zostały uprzednio zatwierdźone.
+      Jeśli parametr 'quip_list_entry_control' został ustawiony na <q>open</q>,
+      nowe sentencje będą akceptowane automatycznie.
     </p>
     <form name="editform" method="post" action="quips.cgi">
       <input type="hidden" name="action" value="approve">
       <table border="1">
         <thead><tr>
-          <th>Quip</th>
-          <th>Author</th>
-          <th>Action</th>
-          <th>Approved</th>
+          <th>Sentencja</th>
+          <th>Autor</th>
+          <th>Akcja</th>
+          <th>Zatwierdzona</th>
         </tr></thead><tbody>
         [% FOREACH quipid = quipids %]
           <tr>
@@ -117,11 +119,11 @@
             <td>
               [% userid = quips.$quipid.userid  %]
               [% users.$userid FILTER html      %]
-              [% "Unknown" IF NOT users.$userid %]
+              [% "Nieznany" IF NOT users.$userid %]
             </td>
             <td>
               <a href="quips.cgi?action=delete&amp;quipid=[% quipid FILTER uri%]">
-                Delete
+                Usuń
               </a>
             </td>
             <td>
@@ -143,23 +145,23 @@
           }
         }
         document.write(' <input type="button" name="uncheck_all" '
-                      +'value="Uncheck All" onclick="SetCheckboxes(false);">');
+                      +'value="Odznacz wszystkie" onclick="SetCheckboxes(false);">');
         document.write(' <input type="button" name="check_all" '
-                      +'value="Check All" onclick="SetCheckboxes(true);">');
+                      +'value="Zaznacz wszystkie" onclick="SetCheckboxes(true);">');
         //--></script>
 
-      <input type="submit" id="update" value="Update">
+      <input type="submit" id="update" value="Zapisz">
     </form>
     <br>
   [% END %]
 [% ELSE %]
   <p>
-    Those who like their wisdom in large doses can
-    <a href="quips.cgi?action=show">view
+    Ci którzy lubią mądrość w dużej ilości mogą
+    <a href="quips.cgi?action=show">obejrzeć
     [% IF user.in_group('admin') %]
-      and edit
+      lub edytować
     [% END %]
-    the whole quip list</a>.
+    całą listę</a>.
   </p>
 [% END %]
 
