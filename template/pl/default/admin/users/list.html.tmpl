@@ -23,7 +23,7 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Select user"
+  title = "Wybór użytkownika"
   style_urls = ['skins/standard/editusers.css']
 %]
 
@@ -35,14 +35,14 @@
 
 [% columns =
   [{name               => 'login_name'
-    heading            => 'Edit user...'
+    heading            => 'Edycja...'
     contentlink        => 'editusers.cgi?action=edit&amp;userid=%%userid%%' _
                           listselectionurlparams
    }
    {name               => 'realname'
-    heading            => 'Real name'
+    heading            => 'Imię i nazwisko'
    }
-   {heading            => 'User Account Log'
+   {heading            => 'Dziennik konta'
     content            => 'View'
     contentlink        => 'editusers.cgi?action=activity' _
                                   '&amp;userid=%%userid%%' _
@@ -52,7 +52,7 @@
 %]
 
 [% IF Param('allowuserdeletion') && editusers %]
-  [% columns.push({heading     => 'Action'
+  [% columns.push({heading     => 'Akcja'
                    content     => 'Delete'
                    contentlink => 'editusers.cgi?action=del' _
                                   '&amp;userid=%%userid%%' _
@@ -73,7 +73,7 @@
     [% overrides.realname.push({
         match_value      => "$thisuser.login_name"
         match_field      => 'login_name'
-        content          => "missing"
+        content          => "brak"
         override_content => 1
         class            => "$classes"
         override_class   => 1 })
@@ -97,7 +97,7 @@
   [% END %]
 [% END %]
 
-<p>[% users.size %] user[% "s" UNLESS users.size == 1 %] found.</p>
+<p>Znaleziono [% users.size %] [% PROCESS ODMIEN c=users.size o1="użytkownika" o1="użytkowników" o1="użytkowników" %].</p>
 
 [% PROCESS admin/table.html.tmpl
   columns = columns
@@ -106,12 +106,11 @@
 %]
 
 <p>
-  If you do not wish to modify a user account at this time, you can
-  <a href="editusers.cgi">find other users</a>
+  Przejście do 
+  <a href="editusers.cgi">wyszukiwania użytkowników</a>
   [% IF editusers %]
-    or
-    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">add
-    a new user</a>
+    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">dodawania
+    użytkownika</a>
   [% END %].
 </p>
 

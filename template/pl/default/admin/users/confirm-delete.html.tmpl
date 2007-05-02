@@ -137,7 +137,7 @@
 
   [% IF reporter || bugs_activity || flags.setter || longdescs || profiles_activity %]
     <div class="criticalmessages">
-      <p>Usunięcie wymienionych poniżej użytkowników jest <b>zdecydowanie nie polecane</b> i
+      <p>Usunięcie wymienionych poniżej użytkowników jest <b>zdecydowanie niezalecane</b> i
       może spowodować niespójność danych!</p>
 
       <ul>
@@ -148,85 +148,86 @@
                [%- otheruser.login FILTER url_quote %]">: 
               [%+ reporter %]
             [% END %]</a>.
-            If you delete the user account, the database records will be
-            inconsistent, resulting in
-            [% IF reporter == 1 %]
-              this [% terms.bug %]
-            [% ELSE %]
-              these [% terms.bugs %]
-            [% END %]
-            not appearing in [% terms.bug %] lists any more.
+			Usunięcie konta spowoduje niespójność w bazie danych,
+			co oznacza, że 
+			[% PROCESS ODMIEN c=reporter o1="$terms.blad"
+			o1="$terms.bledy" o1="$terms.bledow" %] 
+			nie pojawi się więcej w listach [% terms.bledow %]
           </li>
         [% END %]
         [% IF bugs_activity %]
           <li>
-            [% otheruser.login FILTER html %] has made
+            Użytkownik [% otheruser.login FILTER html %] dokonał 			
             [% IF bugs_activity == 1 %]
-              a change on [% terms.abug %]
+              zmiany w [% terms.bledzie %]
             [% ELSE %]
-              changes on [% terms.bugs %]
+              zmian w [% terms.bledach %]
             [% END %].
-            If you delete the user account, the [% terms.bugs %] activity table in
-            the database will be inconsistent, resulting in
+
+			Usunięcie konta spowoduje niespójność w bazie danych,
+			co oznacza, że
             [% IF bugs_activity == 1 %]
-              this change
+              ta zmiana
             [% ELSE %]
-              these changes
+              te zmiany
             [% END %]
-            not showing up in [% terms.bug %] activity logs any more.
+			nie będą wyświetlane w logach aktywności [% terms.bug %].
           </li>
         [% END %]
         [% IF flags.setter %]
           <li>
-            [% otheruser.login FILTER html %] has
+            Użytkownik [% otheruser.login FILTER html %]
             <a href="buglist.cgi?field0-0-0=setters.login_name&amp;type0-0-0=equals&amp;value0-0-0=
-               [%- otheruser.login FILTER url_quote %]">set
-            or requested
+               [%- otheruser.login FILTER url_quote %]">ustawił
+            lub zażądał ustawienia
             [% IF flags.setter == 1 %]
-              a flag
+              flagi
             [% ELSE %]
-              [%+ flags.setter %] flags
+              [%+ flags.setter %] flag
             [% END %]</a>.
-            If you delete the user account, the flags table in the database
-            will be inconsistent, resulting in
+			
+			
+			Usunięcie konta spowoduje niespójność w bazie danych,
+			co oznacza, że 
             [% IF flags.setter == 1 %]
-              this flag
+              ta flaga
             [% ELSE %]
-              these flags
+              te flagi
             [% END %]
-            not displaying correctly any more.
+			nię będą wyświetlane poprawnie.
           </li>
         [% END %]
         [% IF longdescs %]
           <li>
-            [% otheruser.login FILTER html %] has
+            Użytkownik [% otheruser.login FILTER html %] 
             <a href="buglist.cgi?emaillongdesc1=1&amp;emailtype1=exact&amp;email1=
-               [%- otheruser.login FILTER url_quote %]">commented
+               [%- otheruser.login FILTER url_quote %]">napisał komentarz
             [% IF longdescs == 1 %]
-              once on [% terms.abug %]
+              do [% terms.bledu %]
             [% ELSE %]
-              [%+ longdescs %] times on [% terms.bugs %]
+              do [% terms.bledu %] [%+ longdescs %] razy
             [% END %]</a>.
-            If you delete the user account, the comments table in the database
-            will be inconsistent, resulting in
+			
+			Usunięcie konta spowoduje niespójność tabeli komentarzy w bazie danych,
+			co oznacza, że 
             [% IF longdescs == 1 %]
-              this comment
+              ten komentarz
             [% ELSE %]
-              these comments
+			  te komentarze
             [% END %]
-            not being visible any more.
+			nie będą więcej widocznie.
           </li>
         [% END %]
         [% IF profiles_activity %]
           <li>
-            [% otheruser.login FILTER html %] has made
+            Użytkownik [% otheruser.login FILTER html %] dokonał
             [% IF bugs_activity == 1 %]
-              a change on a other user's profile
+              zmiany w profilu innego użytkownika
             [% ELSE %]
-              changes on other users' profiles
+              zmiany w profilach inneych użytkowników
             [% END %].
-            If you delete the user account, the user profiles activity table in
-            the database will be inconsistent.
+			
+			Usunięcie konta spowoduje niespójność tabeli profilów w bazie danych.
           </li>
         [% END %]
       </ul>
@@ -238,192 +239,173 @@
         namedqueries || profile_setting || series || votes || watch.watched ||
         watch.watcher || whine_events || whine_schedules %]
     <div class="warningmessages">
-      <p>The following deletions are <b>safe</b> and will not generate
-      referential integrity inconsistencies.</p>
+      <p>Poniższe usunięcia są <b>bezpieczne</b> i nie spowodują 
+      niespójności w bazie danych.</p>
 
       <ul>
         [% IF assignee_or_qa %]
           <li>
-            [% otheruser.login FILTER html %]
+            Użytkownik [% otheruser.login FILTER html %]
             <a href="buglist.cgi?emailassigned_to1=1&amp;emailqa_contact1=1&amp;emailtype1=exact&amp;email1=
-               [%- otheruser.login FILTER url_quote %]">is
-            the assignee or the QA contact of
+               [%- otheruser.login FILTER url_quote %]">jest domyślnym właścicielem
+            lub kontaktemw QA w 
             [% IF assignee_or_qa == 1 %]
-              one [% terms.bug %]
+              jednym [% terms.bledzie %]
             [% ELSE %]
-              [%+ assignee_or_qa %] [%+ terms.bugs %]
+              [%+ assignee_or_qa %] [%+ terms.bledach %]
             [% END %]</a>.
-            If you delete the user account, these roles will fall back to
-            the default assignee or default QA contact.
+			Usunięcie konta spowoduje, że role te zostaną przepisane na domyślnego
+			właściciela i/lub kontakt QA.
           </li>
         [% END %]
         [% IF cc %]
           <li>
-            [% otheruser.login FILTER html %]
+            Użytkownik [% otheruser.login FILTER html %]
             <a href="buglist.cgi?emailcc1=1&amp;emailtype1=exact&amp;email1=
-               [%- otheruser.login FILTER url_quote %]">is
-            on the CC list of
+               [%- otheruser.login FILTER url_quote %]">jest 
+            na liście CC w 
             [% IF cc == 1 %]
-              [%+ terms.abug %]
+              [%+ terms.bledzie %]
             [% ELSE %]
-              [%+ cc %] [%+ terms.bugs %]
+              [%+ cc %] [%+ terms.bledach %]
             [% END %]</a>.
-            If you delete the user account, it will be removed from these CC lists.
+			Usunięcie konta spowoduje usunięcie użytkownika z list CC.
           </li>
         [% END %]
         [% IF email_setting %]
           <li>
-            The user's e-mail settings will be deleted along with the user
-            account.
+		    Ustawienia e-mail użytkownika zostaną usunięte wraz z kontem użytkownika.
           </li>
         [% END %]
         [% IF flags.requestee %]
           <li>
-            [% otheruser.login FILTER html %] has been
+            Użytkownik [% otheruser.login FILTER html %] został 
             <a href="buglist.cgi?field0-0-0=requestees.login_name&amp;type0-0-0=equals&amp;value0-0-0=
-               [%- otheruser.login FILTER url_quote %]">asked
-            to set
+               [%- otheruser.login FILTER url_quote %]">poproszony 
+            o ustawienie
             [% IF flags.requestee == 1 %]
-              a flag
+              flagi 
             [% ELSE %]
-              [% flags.requestee %] flags
+              [% flags.requestee %] flag
             [% END %]</a>.
-            If you delete the user account,
+			Usunięcie konta spowoduje, że żądanie
             [% IF flags.requestee == 1 %]
-              this flag
+              tej flagi
             [% ELSE %]
-              these flags
+              tych flag
             [% END %]
-            will change to be unspecifically requested.
+            zostaną zmienione na bezosobowe.
           </li>
         [% END %]
         [% IF namedqueries %]
           <li>
-            [% otheruser.login FILTER html %] has
+            Użytkownik [% otheruser.login FILTER html %] posiada
             [% IF namedqueries == 1 %]
-              a [% 'shared' IF namedquery_group_map %] named search
+              zapisane zapytanie [% 'shared' IF namedquery_group_map %]. To zapytanie zostanie
             [% ELSE %]
-              [%+ namedqueries FILTER html %] named searches
+              zapisane zapytania [%+ namedqueries FILTER html %]. Te zapytania zostaną
             [% END %].
-            [% IF namedqueries == 1 %]
-              This named search
-            [% ELSE %]
-              These named searches
-            [% END %]
-            will be deleted along with the user account.
+            usunięte razem z kontem użytkownika.
             [% IF namedquery_group_map %]
               [% IF namedqueries > 1 %]
-                Of these,
+                Wśród zapytań
                 [% IF namedquery_group_map > 1 %]
-                  [%+ namedquery_group_map FILTER html %] are
+                  [%+ namedquery_group_map FILTER html %] są
                 [% ELSE %]
-                  one is
+                  jedno jest 
                 [% END %]
-                shared.
+                współdzielone.
               [% END %]
-              Other users will not be able to use
+			  Inni użytkownicy nie będę już mogli używać 
               [% IF namedquery_group_map > 1 %]
-                these shared named searches
+                tych zapisanych zapytań
               [% ELSE %]
-                this shared named search
+                tego zapisanego zapytania
               [% END %]
-              any more.
+              .
             [% END %]
           </li>
         [% END %]
         [% IF profile_setting %]
           <li>
-            The user's preference settings will be deleted along with the user
-            account.
+		    Ustawienia użytkownika zostaną usunięte razem z kontem użytkownika.
           </li>
         [% END %]
         [% IF series %]
           <li>
-            [% otheruser.login FILTER html %] has created
+            Użytkownik [% otheruser.login FILTER html %] utworzył 
             [% IF series == 1 %]
-              a series
+              serię
             [% ELSE %]
-              [%+ series %] series
+              [%+ series %] serii
             [% END %].
             [% IF series == 1 %]
-              This series
+              Ta seria zostanie usunięta
             [% ELSE %]
-              These series
+              Te serie zostaną usunięte
             [% END %]
-            will be deleted along with the user account.
+			 razem z kontem użytkownika.
           </li>
         [% END %]
         [% IF votes %]
           <li>
-            [% otheruser.login FILTER html %] has voted on
+            Użytkownik [% otheruser.login FILTER html %] głosował na
+			[%+ votes %] [% PROCESS ODMIEN c=votes o1="$terms.blad" o1="$terms.bledy" o1="$terms.bledow" %] 
+			
+			Usunięcie konta spowoduje, że If you delete the user account,
             [% IF votes == 1 %]
-              [%+ terms.abug %]
+              głos ten zostanie usunięty
             [% ELSE %]
-              [%+ votes %] [%+ terms.bugs %]
-            [% END %].
-            If you delete the user account,
-            [% IF votes == 1 %]
-              this vote
-            [% ELSE %]
-              these votes
+              te głosy zostaną usunięte
             [% END %]
-            will be deleted along with the user account.
+			razem z kontem użytkownika.
           </li>
         [% END %]
         [% IF watch.watched || watch.watcher %]
           <li>
-            [% otheruser.login FILTER html %]
+            Użytkownik [% otheruser.login FILTER html %]
             [% IF watch.watched %]
-              is being watched by
+              jest obserwowany przez
               [% IF watch.watched == 1 %]
-                a user
+                użytkownika 
               [% ELSE %]
-                [%+ watch.watched %] users
+                [%+ watch.watched %] użytkowników
               [% END %]
             [% END %]
             [% IF watch.watcher %]
-              [%+ 'and' IF watch.watched %]
-              watches
+              [%+ 'i' IF watch.watched %]
+              obserwuje 
               [% IF watch.watcher == 1 %]
-                a user
+                użytkownika
               [% ELSE %]
-                [%+ watch.watcher %] users
+                [%+ watch.watcher %] użytkowników
               [% END %]
             [% END %].
             [% IF watch.watched + watch.watcher == 1 %]
-              This watching
+              Ustawienia obserwowania
             [% ELSE %]
-              These watchings
+              Ustawienia obserwowania 
             [% END %]
-            will cease along with the deletion of the user account.
+			zostaną usunięte wraz z kontem użytkownika.
           </li>
         [% END %]
         [% IF whine_events || whine_schedules %]
           <li>
-            [% otheruser.login FILTER html %]
+            Użytkownik [% otheruser.login FILTER html %]
             [% IF whine_events %]
-              has scheduled
-              [% IF whine_events == 1 %]
-                a whine
-              [% ELSE %]
-                [%+ whine_events %] whines
-              [% END %]
+               [%+ whine_events %] [% PROCESS ODMIEN c=whine_events o1="przypomnienie" o1="przypomnienia" o1="przypomnień" %] 
             [% END %]
             [% IF whine_schedules %]
-              [%+ 'and' IF whine_events %]
-              is on the receiving end of
-              [% IF whine_schedules == 1 %]
-                a whine
-              [% ELSE %]
-                [%+ whine_schedules %] whines
-              [% END %]
+              [%+ 'i' IF whine_events %]
+              otrzymuje 
+			  [%+ whine_schedules %] [% PROCESS ODMIEN c=whine_events o1="przypomnienie" o1="przypomnienia" o1="przypomnień" %] 
             [% END %].
             [% IF whine_events + whine_schedules == 1 %]
-              This whine
+              Przypomnienie to zostanie usunięte
             [% ELSE %]
-              These whines
+              Przypomnienia te zostaną usunięte 
             [% END %]
-            will be deleted along with the user account.
+			wraz z kontem użytkownika.
           </li>
         [% END %]
       </ul>
@@ -433,15 +415,15 @@
 
   [% IF display_warning %]
     <p class="areyoureallyreallysure">
-      Please be aware of the consequences of this before continuing.
+      Przed dalszym potwierdzeniem, proszę zapoznać się z konsekwencjami usunięcia.
     </p>
   [% END %]
 
-  <p>Do you really want to delete this user account?</p>
+  <p>Czy na pewno usuną to konto użytkownika?</p>
 
   <form method="post" action="editusers.cgi">
     <p>
-      <input type="submit" id="delete" value="Yes, delete"/>
+      <input type="submit" id="delete" value="Tak, usuń"/>
       <input type="hidden" name="action" value="delete" />
       <input type="hidden" name="userid" value="[% otheruser.id %]" />
       <input type="hidden" name="token" value="[% token FILTER html %]">
@@ -449,19 +431,19 @@
     </p>
   </form>
 
-  <p>If you do not want to delete the user account at this time,
+  <p>Przejście do 
 [% END %]
-
+ 
   <a href="editusers.cgi?action=edit&amp;userid=[% otheruser.id %]
-           [% INCLUDE listselectionurlparams %]">edit the user</a>,
-  go
- <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">back
-  to the user list</a>,
+           [% INCLUDE listselectionurlparams %]">edycji użytkownika</a>,
+
+ <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">powrót
+  do listy użytkowników</a>,
   [% IF editusers %]
-    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">add
-    a new user</a>,
+    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">dodanie
+    nowego użytkownika</a>,
   [% END %]
-  or <a href="editusers.cgi">find other users</a>.
+  <a href="editusers.cgi">wyszukiwanie użytkowników</a>.
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

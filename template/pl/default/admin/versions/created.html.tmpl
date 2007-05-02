@@ -26,17 +26,17 @@
   #                  newly created version
   #%]
   
-[% title = BLOCK %]Adding new Version of Product
+[% title = BLOCK %]Dodawanie nowej wersji do produktu
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
-<p>The version '<a title="Edit version '[% version.name FILTER html %]' of product '
+<p>Wersja '<a title="Edit version '[% version.name FILTER html %]' produktu '
    [%- product.name FILTER html %]'"
    href="editversions.cgi?action=edit&amp;product=
    [%- product.name FILTER url_quote %]&amp;version=[% version.name FILTER url_quote %]">
-   [%- version.name FILTER html %]</a>' has been created.</p>
+   [%- version.name FILTER html %]</a>' została utworzona.</p>
 
 [% PROCESS admin/versions/footer.html.tmpl %]
 

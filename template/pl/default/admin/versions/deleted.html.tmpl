@@ -26,13 +26,13 @@
   #                    version the user deleted.
   #%]
   
-[% title = BLOCK %]Deleted Version '[% version.name FILTER html %]' of Product
+[% title = BLOCK %]Usuwanie wersji '[% version.name FILTER html %]' produktu 
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
-<p>Version '[% version.name FILTER html %]' deleted.</p>
+<p>Wersja '[% version.name FILTER html %]' została usunięta.</p>
 
 [% PROCESS admin/versions/footer.html.tmpl
   no_edit_version_link = 1
