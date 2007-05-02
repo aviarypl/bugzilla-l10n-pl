@@ -28,13 +28,13 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Changes Submitted"
+  title = "Zapisano zmiany"
 %]
 
 <dl>
-  <dt>Changes to
-    <a href="attachment.cgi?id=[% attachid %]&amp;action=edit">attachment [% attachid %]</a>
-    of [% "$terms.bug $bugid" FILTER bug_link(bugid) %] submitted
+  <dt>Zmiany w 
+    <a href="attachment.cgi?id=[% attachid %]&amp;action=edit">załączniku [% attachid %]</a>
+    do [% "$terms.bledu $bugid" FILTER bug_link(bugid) %] zostały zapisane
   </dt>
   <dd>
     [% PROCESS "bug/process/bugmail.html.tmpl" mailing_bugid = bugid %]

@@ -30,7 +30,7 @@
 
 
 [% PROCESS global/header.html.tmpl
-   title = "$terms.Bugzilla Strona główna"
+   title = "$terms.Bugzilla - Strona główna"
    header = "Strona główna" 
    header_addl_info = "version $constants.BUGZILLA_VERSION"
    style_urls = [ 'skins/standard/index.css' ]
@@ -63,7 +63,7 @@ function addSidebar() {
     [% IF release.data %]
       [% IF release.deprecated %]
         <p>[% terms.Bugzilla %] [%+ release.deprecated FILTER html %] nie jest już wspierana.
-        Radzimy zaktualizować wersję do najnowszej, w celu zachowania bezpieczeństwa systemu.</p>
+        W celu zachowania bezpieczeństwa systemu radzimy zaktualizować wersję do najnowszej.</p>
       [% END %]
 
       <p>Nowa wersja [% terms.Bugzilla %] ([% release.data.latest_ver FILTER html %])

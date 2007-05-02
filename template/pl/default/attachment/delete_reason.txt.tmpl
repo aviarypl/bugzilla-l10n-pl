@@ -20,14 +20,14 @@
   # date: the date when the request to delete the attachment was made.
   #%]
 
-The content of attachment [% attachid %] has been deleted by
-    [%+ user.identity %]
+Treść załącznika [% attachid %] została usunięta przez 
+    [%+ user.identity %].
 [% IF reason %]
-who provided the following reason:
+Podany powód:
 
 [%+ reason %]
 [% ELSE %]
-without providing any reason.
+Nie podano powodu usunięta.
 [% END %]
 
-The token used to delete this attachment was generated at [% date FILTER time %].
+Żeton użyty do usunięcia tego załącznika został wygenerowany [% date FILTER time %].
