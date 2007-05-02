@@ -28,12 +28,13 @@
 <html>
 
   [% IF product %]
-    [% title = "Most Frequently Reported $terms.Bugs for $product" %]
+    [% title = "Najczęściej zgłaszane $terms.bledy dla $product" %]
   [% ELSE %]
-    [% title = "Most Frequently Reported $terms.Bugs" %]
+    [% title = "Najczęściej zgłaszane $terms.bledy" %]
   [% END%]
 
   <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>[% title FILTER html %]</title>
   </head>
 

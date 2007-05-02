@@ -32,7 +32,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "$terms.Bugzilla Keyword Descriptions"
+  title = "Opisy słów kluczowych $terms.Bugzilli"
 %]
 
 [% FOREACH keyword = keywords %]
@@ -43,8 +43,8 @@
 
     <table border="1" cellpadding="4" cellspacing="0">
       <tr bgcolor="#6666FF">
-        <th align="left">Name</th>
-        <th align="left">Description</th>
+        <th align="left">Nazwa</th>
+        <th align="left">Opis</th>
         <th align="left">Open [% terms.Bugs %]</th>
         <th align="left">Total [% terms.Bugs %]</th>
       </tr>
@@ -81,7 +81,7 @@
 
 [% IF caneditkeywords %]
   <p>
-    <a href="editkeywords.cgi">Edit keywords</a>.
+    <a href="editkeywords.cgi">Edytuj słowa kluczowe</a>.
   </p>
 [% END %]
 

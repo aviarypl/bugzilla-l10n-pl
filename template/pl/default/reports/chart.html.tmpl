@@ -27,7 +27,7 @@
 %]
 
 [% PROCESS global/header.html.tmpl 
-  title = "Chart"
+  title = "Wykres"
   header_addl_info = time2str("%Y-%m-%d %H:%M:%S", time)
 %]
 
@@ -38,27 +38,27 @@
     [% width %]&amp;height=[% height -%]
   [% END %]
 
-  <img alt="Graphical report results" src="[% imageurl %]"
+  <img alt="Graficzne wyniki raportu" src="[% imageurl %]"
     width="[% width %]" height="[% height %]">
   <p>
     [% sizeurl = BLOCK %]chart.cgi?
       [% imagebase FILTER html %]&amp;action=wrap
     [% END %]
     <a href="[% sizeurl %]&amp;width=[% width %]&amp;height=
-             [% height + 100 %]">Taller</a><br>
+             [% height + 100 %]">Szerszy</a><br>
     <a href="[% sizeurl %]&amp;width=[% width - 100 %]&amp;height=
-             [% height %]">Thinner</a> * 
+             [% height %]">Niższy</a> * 
     <a href="[% sizeurl %]&amp;width=[% width + 100 %]&amp;height=
-             [% height %]">Fatter</a>&nbsp;&nbsp;&nbsp;&nbsp;<br>
+             [% height %]">Wyższy</a>&nbsp;&nbsp;&nbsp;&nbsp;<br>
     <a href="[% sizeurl %]&amp;width=[% width %]&amp;height=
-             [% height - 100 %]">Shorter</a><br>
+             [% height - 100 %]">Węższy</a><br>
   </p>
   
   <p>
     <a href="chart.cgi?
       [% imagebase FILTER html %]&amp;ctype=csv&amp;action=plot">CSV</a> |
-    <a href="chart.cgi?[% imagebase FILTER html %]&amp;action=assemble">Edit 
-    this chart</a>
+    <a href="chart.cgi?[% imagebase FILTER html %]&amp;action=assemble">Edytuj
+    ten wykres</a>
   </p>
  
 </div>

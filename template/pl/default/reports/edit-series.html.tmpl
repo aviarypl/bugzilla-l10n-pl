@@ -19,7 +19,7 @@
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #%]
 
-[% title = "Edit Series" %]
+[% title = "Edycja serii" %]
 [% subheader = BLOCK %]
   [% default.category FILTER html %] / 
   [%+ default.subcategory FILTER html %] /
@@ -31,7 +31,7 @@
 [% IF changes_saved %]
   <p>
     <font color="red">
-      Series updated.
+      Seria uaktualniona.
     </font>
   </p>
 [% END %]
@@ -39,7 +39,7 @@
 <form method="get" action="chart.cgi" name="chartform">
   
   [% PROCESS reports/series.html.tmpl 
-     button_name = "Change Data Set" %]
+     button_name = "Zmień zbiór danych" %]
   <input type="hidden" name="action" value="alter">
   
   [% IF default.series_id %]
@@ -48,17 +48,16 @@
 </form>
 
 <p>
-  <b>Creator</b>: 
+  <b>Twórca</b>: 
   [% IF creator.email %]
     <a href="mailto:[% creator.email FILTER html %]">
     [% creator.email FILTER html %]</a>
   [% ELSE %]
-    (automatically created by [% terms.Bugzilla %])
+    (automatycznie utworzona przez [% terms.Bugzille %])
   [% END %]
 </p>
 
-<p>Note: it is not yet possible to edit the search associated with this data
-set.
+<p>Uwaga: nie jest możliwa edycja wyszukiwania związanego z tym zbiorem danych.
 </p>
 
 <p>
@@ -68,7 +67,7 @@ set.
     [% default.category FILTER url_quote %]-
     [% default.subcategory FILTER url_quote %]-
     [% default.name FILTER url_quote %]&amp;remaction=runseries&amp;series_id=
-    [% default.series_id %]">Run series search</a>
+    [% default.series_id %]">Wyświetl wyniki wyszukiwania serii</a>
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
