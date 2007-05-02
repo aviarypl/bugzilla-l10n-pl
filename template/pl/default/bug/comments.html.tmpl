@@ -140,7 +140,7 @@
       [% IF user.in_group(Param('timetrackinggroup')) &&
             (comment.work_time > 0 || comment.work_time < 0) %]
          <br>
-         Przepracowanych godzien: 
+         Przepracowanych godzin: 
          [% PROCESS formattimeunit time_unit=comment.work_time %]
       [% END %]
 
