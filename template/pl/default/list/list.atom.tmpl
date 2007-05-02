@@ -27,7 +27,7 @@
 [% PROCESS global/variables.none.tmpl %]
 [% USE date %]
 
-[% DEFAULT title = "$terms.Bugzilla $terms.Bugs" %]
+[% DEFAULT title = "$terms.Bledy w $terms.Bugzilli" %]
 
 <?xml version="1.0"[% IF Param('utf8') %] encoding="UTF-8"[% END %]?>
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -60,7 +60,7 @@
       [% FILTER xml %]
       <table>
       <tr>
-        <th>Field</th><th>Value</th>
+        <th>Pole</th><th>Wartość</th>
       </tr><tr>
         <td>[% columns.opendate.title FILTER html %]</td>
         <td>[% bug.opendate FILTER html %]</td>

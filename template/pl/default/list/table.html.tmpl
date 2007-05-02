@@ -40,25 +40,25 @@
 
 [% abbrev = 
   {
-    "bug_severity"         => { maxlength => 3 , title => "Sev" } , 
+    "bug_severity"         => { maxlength => 4 , title => "Waga" } , 
     "priority"             => { maxlength => 3 , title => "Pri" } , 
-    "rep_platform"         => { maxlength => 3 , title => "Plt" } , 
+    "rep_platform"         => { maxlength => 4 , title => "Plat" } , 
     "bug_status"           => { maxlength => 4 } , 
     "assigned_to"          => { maxlength => 30 , ellipsis => "..." } , 
     "assigned_to_realname" => { maxlength => 20 , ellipsis => "..." } , 
     "reporter"             => { maxlength => 30 , ellipsis => "..." } , 
     "reporter_realname"    => { maxlength => 20 , ellipsis => "..." } , 
-    "qa_contact"           => { maxlength => 30 , ellipsis => "..." , title => "QAContact" } , 
-    "qa_contact_realname"  => { maxlength => 20 , ellipsis => "..." , title => "QAContact" } , 
+    "qa_contact"           => { maxlength => 30 , ellipsis => "..." , title => "KontaktQA" } , 
+    "qa_contact_realname"  => { maxlength => 20 , ellipsis => "..." , title => "KontaktQA" } , 
     "resolution"        => { maxlength => 4 } , 
     "short_desc"        => { wrap => 1 } ,
     "short_short_desc"  => { maxlength => 60 , ellipsis => "..." , wrap => 1 } ,
-    "status_whiteboard" => { title => "Whiteboard" , wrap => 1 } , 
-    "component"         => { maxlength => 8 , title => "Comp" } , 
+    "status_whiteboard" => { title => "Tablica" , wrap => 1 } , 
+    "component"         => { maxlength => 8 , title => "Komp" } , 
     "product"           => { maxlength => 8 } , 
-    "version"           => { maxlength => 5 , title => "Vers" } , 
+    "version"           => { maxlength => 5 , title => "Wer" } , 
     "op_sys"            => { maxlength => 4 } , 
-    "target_milestone"  => { title => "TargetM" } , 
+    "target_milestone"  => { title => "WerDoc" } , 
     "percentage_complete" => { format_value => "%d %%" } , 
   }
 %]
