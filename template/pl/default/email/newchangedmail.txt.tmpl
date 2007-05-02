@@ -43,35 +43,35 @@ X-Bugzilla-Changed-Fields: [% changedfields %]
 [%+ diffs %]
 
 -- 
-Configure bugmail: [% Param('urlbase') %]userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
+Konfiguracja powiadomień e-mail: [% Param('urlbase') %]userprefs.cgi?tab=email
+------- Wiadomość została wysłana ponieważ: -------
 [% FOREACH relationship = reasons %]
   [% SWITCH relationship %]
     [% CASE constants.REL_ASSIGNEE %]
-You are the assignee for the [% terms.bug %].
+Jesteś właścicielem [% terms.bledu %].
     [% CASE constants.REL_REPORTER %]
-You reported the [% terms.bug %].
+Zgłosiłeś [% terms.blad %].
     [% CASE constants.REL_QA %]
-You are the QA contact for the [% terms.bug %].
+Jesteś kontaktem QA dla [% terms.bledu %].
     [% CASE constants.REL_CC %]
-You are on the CC list for the [% terms.bug %].
+Jesteś na liście CC [% terms.bledu %].
     [% CASE constants.REL_VOTER %]
-You are a voter for the [% terms.bug %].
+Głosowałes na ten [% terms.blad %].
     [% CASE constants.REL_GLOBAL_WATCHER %]
-You are watching all [% terms.bug %] changes.
+Obserwujesz wszystkie zmiany [% terms.bledu %].
   [% END %]
 [% END %]
 [% FOREACH relationship = reasons_watch %]
   [% SWITCH relationship %]
     [% CASE constants.REL_ASSIGNEE %]
-You are watching the assignee of the [% terms.bug %].
+Obserwujesz właściciela [% terms.bledu %].
     [% CASE constants.REL_REPORTER %]
-You are watching the reporter.
+Obserwujesz zgłaszającego.
     [% CASE constants.REL_QA %]
-You are watching the QA contact of the [% terms.bug %].
+Obserwujesz kontakt QA [% terms.bledu %].
     [% CASE constants.REL_CC %]
-You are watching someone on the CC list of the [% terms.bug %].
+Obserwujesz kogoś z listy CC [% terms.bledu %].
     [% CASE constants.REL_VOTER %]
-You are watching a voter for the [% terms.bug %].
+Obserwujesz kogoś kto głosował na [% terms.blad %].
   [% END %]
 [% END %]
