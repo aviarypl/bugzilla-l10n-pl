@@ -28,7 +28,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Edit Version '[% version.name FILTER html %]' of product '
+[% title = BLOCK %]Edycja wersji '[% version.name FILTER html %]' produktu '
                    [%- product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -38,7 +38,7 @@
   <table border="0" cellpadding="4" cellspacing="0">
 
     <tr>
-      <th valign="top"><label for="version">Version:</label></th>
+      <th valign="top"><label for="version">Wersja:</label></th>
       <td><input id="version" size="64" maxlength="64" name="version" value="
       [%- version.name FILTER html %]"></td>
     </tr>
@@ -49,7 +49,7 @@
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="product" value="[% product.name FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type="submit" id="update" value="Update">
+  <input type="submit" id="update" value="Zapisz">
 </form>
 
 [% PROCESS admin/versions/footer.html.tmpl

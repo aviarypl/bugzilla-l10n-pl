@@ -24,8 +24,8 @@
   #               which the version is being created for
   #%]
   
-[% title = BLOCK %]Add Version to Product '[% product.name FILTER html %]'[% END %]
-[% subheader = BLOCK %]This page allows you to add a new version to product
+[% title = BLOCK %]Dodawanie wersji do produktu '[% product.name FILTER html %]'[% END %]
+[% subheader = BLOCK %]Ta strona pozwal dodać nową wersję do produktu 
                 '[% product.name FILTER html %]'.[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -35,12 +35,12 @@
 <form method="post" action="editversions.cgi">
   <table border="0" cellpadding="4" cellspacing="0">
     <tr>
-      <th align="right"><label for="version">Version:</label></th>
+      <th align="right"><label for="version">Wersja:</label></th>
       <td><input id="version" size="64" maxlength="64" name="version"
                  value=""></td>
     </tr>
   </table>
-  <input type="submit" id="create" value="Add">
+  <input type="submit" id="create" value="Dodaj">
   <input type="hidden" name="action" value="new">
   <input type="hidden" name='product' value="[% product.name FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">

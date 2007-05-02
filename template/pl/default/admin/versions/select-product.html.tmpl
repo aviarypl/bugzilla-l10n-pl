@@ -29,18 +29,18 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edit versions for which product?"
+  title = "Wybór produktu do edycji wersji"
 %]
 
 [% columns = [
      { 
        name => "name"
-       heading => "Edit versions of..."
+       heading => "Edytuj wersje..."
        contentlink => "editversions.cgi?product=%%name%%" 
      },
      { 
        name => "description"
-       heading => "Description" 
+       heading => "Opis" 
        allow_html_content => 1
      }
    ]
@@ -50,7 +50,7 @@
 
   [% columns.push({
       name => 'bug_count'
-      heading => "$terms.Bugs"
+      heading => "$terms.Bledy"
       align => "right"
       contentlink => "buglist.cgi?product=%%name%%"
     })
@@ -65,7 +65,7 @@
 
 [% IF !showbugcounts %]
   <p><a href="editversions.cgi?showbugcounts=1">
-      Redisplay table with [% terms.bug %] counts (slower)</a></p>
+      Wyświetl tabelę z liczbą [% terms.bledow %] (czasochłonne)</a></p>
 [% END %]
 
 [% PROCESS global/footer.html.tmpl %]

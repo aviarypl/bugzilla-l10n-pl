@@ -25,7 +25,7 @@
  
 
 [% PROCESS global/header.html.tmpl
-  title = "Search users"
+  title = "Wyszukiwanie użytkowników"
   style_urls = ['skins/standard/editusers.css']
   onload = "document.forms['f'].matchstr.focus()"
 %]
@@ -36,25 +36,25 @@
 
 <form name="f" method="get" action="editusers.cgi">
 <input type="hidden" name="action" value="list" />
-<p><label for="matchvalue">List users with</label>
+<p><label for="matchvalue">Pokaż użytkowników z:</label>
 <select id="matchvalue" name="matchvalue">
-  <option value="login_name">login name</option>
-  <option value="realname">real name</option>
-  <option value="userid">user id</option>
+  <option value="login_name">nazwą</option>
+  <option value="realname">imieniem i nazwiskiem</option>
+  <option value="userid">ID</option>
 </select>
-<label for="matchstr">matching</label>
+<label for="matchstr">pasującym do</label>
 <input size="32" name="matchstr" id="matchstr" />
 <select name="matchtype">
-  <option value="substr" selected="selected">case-insensitive substring</option>
-  <option value="regexp">case-insensitive regexp</option>
-  <option value="notregexp">not (case-insensitive regexp)</option>
-  <option value="exact">exact (find this user)</option>
+  <option value="substr" selected="selected">podciąg bez rozróżniania wielkości znaków</option>
+  <option value="regexp">wyr. regularne bez rozróżniania wielkości znaków</option>
+  <option value="notregexp">not (wyr. regularne bez rozróżniania wielkości znaków)</option>
+  <option value="exact">dokładnie (znajdź tego użytkownika)</option>
 </select>
 <input type="submit" id="search" value="Search" /></p>
 
 [% IF restrictablegroups.size %]
   <p><input type="checkbox" name="grouprestrict" value="1" id="grouprestrict" />
-  <label for="grouprestrict">Restrict to users belonging to group</label>
+  <label for="grouprestrict">Ogranicz do członków grupy</label>
   <select name="groupid"
           onchange="document.forms['f'].grouprestrict.checked=true">
     [% FOREACH group = restrictablegroups %]
@@ -66,11 +66,11 @@
 
 [% IF editusers %]
   <p>
-    You can also <a href="editusers.cgi?action=add">add a new user</a>
+    <a href="editusers.cgi?action=add">Dodawanie użytkownika</a>
     [%- IF listselectionvalues %],
-      or
-      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">show
-      the user list again</a>
+      
+      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">lista 
+      użytkowników</a>
     [%- END %].
   </p>
 [% END %]

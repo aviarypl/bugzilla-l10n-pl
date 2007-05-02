@@ -28,16 +28,16 @@
   # updated: boolean; defined if the 'name' field was updated
   #%]
   
-[% title = BLOCK %]Updating Version '[% version.name FILTER html %]' of Product
+[% title = BLOCK %]Aktualizacja wersji '[% version.name FILTER html %]' produktu 
                    '[% product.name FILTER html %]'[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
 [% IF updated %]
-  <p>Updated Version name to: '[% version.name FILTER html %]'.</p>
+  <p>Zmieniono nazwę wersji na: '[% version.name FILTER html %]'.</p>
 [% ELSE %]
-  <p>Nothing changed for version '[% version.name FILTER html %]'.</p>
+  <p>Nic nie zmieniono w wersji '[% version.name FILTER html %]'.</p>
 [% END %]
 
 [% PROCESS admin/versions/footer.html.tmpl %]
