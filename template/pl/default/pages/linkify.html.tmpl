@@ -21,12 +21,13 @@
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
-[% INCLUDE global/header.html.tmpl title = "Linkify Text" %]
+[% INCLUDE global/header.html.tmpl title = "Tworzenie odnośników w tekście" %]
 
 <p>
-  If you enter some text, this form will return it marked up like a
-  standard [% terms.Bugzilla %] comment. That is, valid [% terms.bug %] numbers,
-  URLs, email addresses and so on will be replaced with appropriate HTML links.
+  Tekst który będzie umieszczony w formularzu, zostanie przetworzony w taki sposób,
+  w jaki [% terms.Bugzilla %] standardowo przetwarza komentarze. Wszystkie
+  poprawne numery błędów, URL-e, adresy e-mail i tym podobne zostaną zamienione
+  na odpowiednie odnośniki w HTML-u.
 </p>
 
 <form action="page.cgi" method="post">
@@ -37,7 +38,7 @@
   %]
   <br>
   <input type="hidden" name="id" value="linked.html">
-  <input type="submit" id="linkify" value="Linkify">
+  <input type="submit" id="linkify" value="Dodaj odnośniki">
 </form>
 
 [% INCLUDE global/footer.html.tmpl %]
