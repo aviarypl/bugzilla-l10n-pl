@@ -27,47 +27,48 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Reporting and Charting Kitchen"
+  title = "Raporty i wykresy"
 %]
 
 <p>
-  [% terms.Bugzilla %] allows you to view and track the state of the [% terms.bug %] database in
-  all manner of exciting ways.
+  [% terms.Bugzilla %] pozwala na śledzenie stanu bazy [% terms.bledow %] na
+  wiele różnorodnych sposobów.
 </p>
 
-<h2>Current State</h2>
+<h2>Aktualny stan</h2>
 
 <ul>
   <li>
-    <strong><a href="query.cgi">Search</a></strong> -
-    list sets of [% terms.bugs %].
+    <strong><a href="query.cgi">Wyszukiwanie</a></strong> - 
+    szukanie [% terms.bledow %] spełniających dane kryteria.
   </li>
   <li>
     <strong>
-      <a href="query.cgi?format=report-table">Tabular reports</a>
+      <a href="query.cgi?format=report-table">Raporty tabelaryczne</a>
     </strong> -
-    tables of [% terms.bug %] counts in 1, 2 or 3 dimensions, as HTML or CSV.
+    tabele z liczbą [% terms.bledow %]. 1, 2 lub 3 wymiarowe, jako HTML lub CSV.
   </li>
   <li>
     <strong>
-      <a href="query.cgi?format=report-graph">Graphical reports</a>
+      <a href="query.cgi?format=report-graph">Raporty graficzne</a>
     </strong> -
-    line graphs, bar and pie charts.
+    wykresy liniowe, słupkowe i tortowe.
   </li>
 </ul>
 
-<h2>Change Over Time</h2>
+<h2>Zmiany w czasie</h2>
 
 <ul>
   <li>
-    <strong><a href="reports.cgi">Old Charts</a></strong> - 
-    plot the status and/or resolution of [% terms.bugs %] against
-    time, for each product in your database.
+    <strong><a href="reports.cgi">Stare typy wykresów</a></strong> - 
+    wyświetla status i/lub metodę rozwiązania [% terms.bledow %]
+    w czasie, dla każdego produktu z bazy danych.
   </li>
   [% IF user.in_group(Param("chartgroup")) %]
     <li>
-      <strong><a href="chart.cgi">New Charts</a></strong> - 
-      plot any arbitrary search against time. Far more powerful.
+      <strong><a href="chart.cgi">Nowe typy wykresy</a></strong> - 
+      wyświetla wykresy dla wyników dowolnego wyszukiwania w czasie.
+      Znacznie potężniejsze od swojego prekursora.
     </li>
   [% END %]
 </ul>

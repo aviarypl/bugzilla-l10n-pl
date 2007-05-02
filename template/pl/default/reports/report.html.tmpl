@@ -55,7 +55,7 @@
 [% switchbase     = switchbase FILTER html %]
 
 [% title = BLOCK %]
-  Report: 
+  Raport: 
   [% IF tbl_field %]
     [% tbl_field_disp FILTER html %]
   [% END %]
@@ -86,7 +86,7 @@
 
   [% FOREACH tbl = tbl_names %]    
     [% IF tbl == "-total-" %]
-      [% tbl_disp = "Total" %]
+      [% tbl_disp = "Łącznie" %]
     [% ELSE %]
       [% tbl_disp = tbl %]
     [% END %]
@@ -113,7 +113,7 @@
         [% END %]width=[% width %]&amp;height=[% height %]      
       [% END %]
       
-      <img alt="Graphical report results" src="[% imageurl %]"
+      <img alt="Wyniki raportu graficznego" src="[% imageurl %]"
         width="[% width %]" height="[% height %]">
     [% END %]
     <br>
@@ -122,10 +122,10 @@
   <table>
     <tr>
       <td>
-        [% formats = [ { name => "pie",   description => "Pie" },
-                       { name => "bar",   description => "Bar" },
-                       { name => "line",  description => "Line" },
-                       { name => "table", description => "Table" } ] %]
+        [% formats = [ { name => "pie",   description => "Tortowy" },
+                       { name => "bar",   description => "Słupkowy" },
+                       { name => "line",  description => "Liniowy" },
+                       { name => "table", description => "Tabela" } ] %]
 
         [% formaturl = "report.cgi?$switchbase&amp;width=$width" _ 
                        "&amp;height=$height&amp;action=wrap" %]
@@ -150,13 +150,13 @@
           [% format FILTER html %][% END %]
         <td align="center">
           <a href="[% sizeurl %]&amp;width=[% width %]&amp;height=
-                   [% height + 100 %]">Taller</a><br>
+                   [% height + 100 %]">Wyższy</a><br>
           <a href="[% sizeurl %]&amp;width=[% width - 100 %]&amp;height=
-                   [% height %]">Thinner</a> * 
+                   [% height %]">Węższy</a> * 
           <a href="[% sizeurl %]&amp;width=[% width + 100 %]&amp;height=
-                   [% height %]">Fatter</a>&nbsp;&nbsp;&nbsp;&nbsp;<br>
+                   [% height %]">Szerszy</a>&nbsp;&nbsp;&nbsp;&nbsp;<br>
           <a href="[% sizeurl %]&amp;width=[% width %]&amp;height=
-                   [% height - 100 %]">Shorter</a><br>
+                   [% height - 100 %]">Niższy</a><br>
         </td>
       [% END %]
     </tr>
@@ -164,12 +164,11 @@
 
   <p>
     [% IF format == "table" %]
-      <a href="query.cgi?[% switchbase %]&amp;format=report-table">Edit 
-      this report</a>
+      <a href="query.cgi?[% switchbase %]&amp;format=report-table">Edytuj ten raport</a>
     [% ELSE %]
       <a href="query.cgi?[% switchbase %]&amp;chart_format=
         [% format %]&amp;format=report-graph&amp;cumulate=[% cumulate %]">
-        Edit this report
+        Edytuj ten raport
       </a>
     [% END %]
   </p>

@@ -50,16 +50,16 @@
   <table border>
     <thead>
       <tr bgcolor="#CCCCCC">
-        [% FOREACH column = [ { name => "id", description => "$terms.Bug #" },
-                              { name => "count", description => "Dupe<br>Count" },
+      [% FOREACH column = [ { name => "id", description => "$terms.Blad #" },
+                            { name => "count", description => "Liczba<br>duplikatów" },
                               { name => "delta",
-                                description => "Change in last<br>$changedsince day(s)" },
-                              { name => "component", description => "Component" },
-                              { name => "bug_severity", description => "Severity" },
-                              { name => "op_sys", description => "Op Sys" },
+                        description => "Zmian w ostatnich<br>$changedsince dniach" },
+                            { name => "component", description => "Komponent" },
+                            { name => "bug_severity", description => "Waga" },
+                            { name => "op_sys", description => "OS" },
                               { name => "target_milestone",
-                                description => "Target<br>Milestone" },
-                              { name => "short_desc", description => "Summary" } ]
+                              description => "Docelowa<br>wersja" },
+                            { name => "short_desc", description => "Podsumowanie" } ]
          %]
 
           [%# Small hack to keep delta column out if we don't need it %]
@@ -142,5 +142,5 @@
     </tbody>
   </table>
 [% ELSE %]
-  <h3>No duplicate [% terms.bugs %] found.</h3>
+  <h3>Nie znaleziono duplikatów [% terms.bledow %].</h3>
 [% END %]

@@ -27,7 +27,7 @@
   #%]
 
 [% PROCESS global/header.html.tmpl 
-  title = "Create Chart"
+  title = "Tworzenie wykresu"
 %]
 
 [% PROCESS "reports/series-common.html.tmpl" 
@@ -57,7 +57,7 @@ function subcatSelected() {
 }
 </script>
   
-[% gttext = "Grand Total" %]
+[% gttext = "Podsumowanie" %]
 
 <form method="get" action="chart.cgi" name="chartform">  
   
@@ -65,7 +65,8 @@ function subcatSelected() {
     [% IF NOT category OR category.size == 0 %]
       <tr>
         <td>
-          <i>No data sets exist, or none are visible to you.</i>
+          <i>Nie istnieje żaden zbiór danych, lub nie posiadasz uprawnień do
+            korzystania z żadnego.</i>
         </td>
       </tr>
     [% ELSE %]
