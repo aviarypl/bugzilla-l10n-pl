@@ -22,17 +22,17 @@
 
 [% 
    title = "Ustawienia obowiązkowe"
-   desc = "Ustawienia, które są wymagane do poprawnego działania $terms.Bugzilli" 
+   desc = "Ustawienia, które są wymagane do poprawnego działania ${terms.Bugzilli}" 
 %]
 
 [% param_descs = {
   maintainer => "Adres e-mail osoby odpowiedzialnej za działanie tej instalacji " _
                 "${terms.Bugzilli}.",
 
-  urlbase => "Początkowa część adresu URL wszystkich adresów generowanych przez $terms.Bugzille ",
+  urlbase => "Początkowa część adresu URL wszystkich adresów generowanych przez ${terms.Bugzille} ",
 
   docs_urlbase => "Początkowa część adresu URL wszystkich adresów " _
-                  "prowadzących do dokumentacji $terms.Bugzilli. " _
+                  "prowadzących do dokumentacji ${terms.Bugzilli}. " _
                   "Może to być adres bezwzględny lub względem. adresu urlbase " _
                   "powyżej. " _
                   "Wartość pusta wyłącza odnośniki do dokumentacji.",
@@ -43,12 +43,12 @@
   ssl => "Określa kiedy będą wymuszane sesje HTTPS z adresem " _
          "<tt>sslbase</tt>.",
 
-  cookiedomain => "Nazwa domeny dla ciasteczek $terms.Bugzilli. Zwykle wartość pusta. " _
+  cookiedomain => "Nazwa domeny dla ciasteczek ${terms.Bugzilli}. Zwykle wartość pusta. " _
                   "Ustawienie '.foo.com' gdy witryna znajduje się pod adresem 'www.foo.com'" _
                   "pozwoli odczytać ciasteczka także witrynie spod adresu 'bar.foo.com'. " _
                   "Opcja może być przydatna gdy więcej nazw hostów wskazuje " _
                   "na ten sam serwer WWW i zachodzi potrzeba udostępnienia " _
-                  "ciasteczek $terms.Bugzilli witrynom o różnych adresach URL.",
+                  "ciasteczek ${terms.Bugzilli} witrynom o różnych adresach URL.",
 
   cookiepath => "Ścieżka względem głównego katalogu serwera WWW, do której ograniczone " _
                 "będą ciasteczka ${terms.Bugzilli}. Zwykle jest to część URI bazowego adresu URL. " _

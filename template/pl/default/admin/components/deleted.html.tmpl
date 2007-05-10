@@ -34,10 +34,10 @@
 
 <p>
 [% IF comp.bug_count %]
-  [% comp.bug_count %]
-  Usunięto 
-  [% PROCESS ODMIEN c=comp.bug_count o1="$terms.blad."
-     o2="$terms.bledy." o3="$terms.bledow." %]
+  
+  Usunięto [% comp.bug_count %] 
+  [% PROCESS ODMIEN c=comp.bug_count o1="$terms.blad"
+     o2="$terms.bledy" o3="$terms.bledow" %].
 
   </p><p>
   Wszystkie odwołania do usuniętych [% terms.bledow %] zostały usunięte.
