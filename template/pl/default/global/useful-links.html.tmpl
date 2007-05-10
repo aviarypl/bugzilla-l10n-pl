@@ -38,53 +38,54 @@
      && (user.groups.tweakparams || user.groups.editusers || user.can_bless
          || (Param('useclassification') && user.groups.editclassifications)
          || user.groups.editcomponents || user.groups.admin || user.groups.creategroups
+         || user.get_products_by_permission("editcomponents").size
          || user.groups.editkeywords || user.groups.bz_canusewhines) %]
 
-    [% sep = "" FILTER html %]
+    [% print_pipe = 0 %]
     <li id="links-edit">
       <div class="label">Edycja: </div>
       <ul class="links">
         [% IF user.groups.tweakparams %]
-          <li><span class="separator">[% sep %]</span><a href="editparams.cgi">Parametry</a></li>
-          [% sep = "| " %]
-          <li><span class="separator">[% sep %]</span><a href="editsettings.cgi">Preferencje użytkownika</a></li>
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editparams.cgi">Parametry</a></li>
+          [% print_pipe = 1 %]
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editsettings.cgi">Preferencje użytkownika</a></li>
         [% END %]
         [% IF user.groups.editcomponents %]
-          <li><span class="separator">[% sep %]</span><a href="sanitycheck.cgi">Sprawdzanie poprawności</a></li>
-          [% sep = "| " %]
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="sanitycheck.cgi">Sprawdzanie poprawności</a></li>
+          [% print_pipe = 1 %]
         [% END %]
         [% IF user.groups.editusers || user.can_bless %]
-          <li><span class="separator">[% sep %]</span><a href="editusers.cgi">Użytkownicy</a></li>
-          [% sep = "| " %]
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editusers.cgi">Użytkownicy</a></li>
+          [% print_pipe = 1 %]
         [% END %]
         [% IF Param('useclassification') && user.groups.editclassifications %]
-          <li><span class="separator">[% sep %]</span><a href="editclassifications.cgi">Klasyfikacje</a></li>
-          [% sep = "| " %]
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editclassifications.cgi">Klasyfikacje</a></li>
+          [% print_pipe = 1 %]
         [% END %]
         [% IF user.groups.editcomponents || user.get_products_by_permission("editcomponents").size %]
-          <li><span class="separator">[% sep %]</span><a href="editproducts.cgi">Produkty</a></li>
-          [% sep = "| " %]
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editproducts.cgi">Produkty</a></li>
+          [% print_pipe = 1 %]
         [% END %]
         [% IF user.groups.editcomponents %]
-          <li><span class="separator">[% sep %]</span><a href="editflagtypes.cgi">Flagi</a></li>
-          [% sep = "| " %]
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editflagtypes.cgi">Flagi</a></li>
+          [% print_pipe = 1 %]
         [% END %]
         [% IF user.groups.admin %]
-          <li><span class="separator">[% sep %]</span><a href="editfields.cgi">Pola dodatkowe</a></li>
-          [% sep = "| " %]
-          <li><span class="separator">[% sep %]</span><a href="editvalues.cgi">Wartości pól</a></li>
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editfields.cgi">Pola dodatkowe</a></li>
+          [% print_pipe = 1 %]
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editvalues.cgi">Wartości pól</a></li>
         [% END %]
         [% IF user.groups.creategroups %]
-          <li><span class="separator">[% sep %]</span><a href="editgroups.cgi">Grupy</a></li>
-          [% sep = "| " %]
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editgroups.cgi">Grupy</a></li>
+          [% print_pipe = 1 %]
         [% END %]
         [% IF user.groups.editkeywords %]
-          <li><span class="separator">[% sep %]</span><a href="editkeywords.cgi">Słowa kluczowe</a></li>
-          [% sep = "| " %]
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editkeywords.cgi">Słowa kluczowe</a></li>
+          [% print_pipe = 1 %]
         [% END %]
         [% IF user.groups.bz_canusewhines %]
-          <li><span class="separator">[% sep %]</span><a href="editwhines.cgi">Przypominanie</a></li>
-          [% sep = "| " %]
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editwhines.cgi">Przypominanie</a></li>
+          [% print_pipe = 1 %]
         [% END %]
       </ul>
     </li>
@@ -95,6 +96,7 @@
   [% IF user.showmybugslink OR user.queries.size 
         OR user.queries_subscribed.size 
   %]
+    [% print_pipe = 0 %]
     <li id="links-saved">
       <div class="label">
           Zapytania:

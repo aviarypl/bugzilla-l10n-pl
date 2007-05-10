@@ -116,7 +116,7 @@
     bez określenia wartości domyślnej lub wartości dla $set_nulls_to, ponieważ
     w kolumnie istnieją wartości NULL.
 
-  [% ELSIF error == "column_rename_conflict" %]
+  [% ELSIF error == "db_rename_conflict" %]
     Konflikt nazw: nie można zmienić nazwy [% old FILTER html %] na
     [% new FILTER html %] poniewaź [% new FILTER html %] już istnieje.
 
@@ -214,9 +214,6 @@
     jest dołączony do [% terms.bledu %] [%+ attach_bug_id FILTER html %], 
     lecz próbowano oznaczyć go jako zdezaktualizowany podczas dodawania nowego załącznika do
     [% terms.bledu %] [%+ my_bug_id FILTER html %].
-        
-  [% ELSIF error == "flag_nonexistent" %]
-    Flaga o identyfikatorze #[% id FILTER html %] nie istnieje.
 
   [% ELSIF error == "flags_not_available" %]
     [% title = "Edycja flag jest niemożliwa" %]
