@@ -43,7 +43,7 @@
     [% END %]
 
   [% ELSIF message_tag == "account_creation_cancelled" %]
-    [% title = "User Account Creation Cancelled" %]
+    [% title = "User Account Creation Canceled" %]
     Tworzenie konta użytkownika [% account FILTER html %] zostało
     anulowane.
 
@@ -320,6 +320,9 @@
 
   [% ELSIF message_tag == "install_table_drop" %]
     Usuwanie tabeli '[% name FILTER html %]'...
+
+  [% ELSIF message_tag == "install_table_rename" %]
+    Zmiana nazwy tabeli '[% old FILTER html %]' na '[% new FILTER html %]'...
 
   [% ELSIF message_tag == "install_urlbase_default" %]
     Teraz, po instalacji [% terms.Bugzilli %], należy otworzyć stronę

@@ -1272,6 +1272,10 @@
     [% title = "Wymagane podsumowanie" %]
     Proszę podać podsumowanie dla tego [% terms.bledu %].
 
+  [% ELSIF error == "resolution_not_allowed" %]
+    [% title = "Nie można ustawić rozwiązania" %]
+    Nie można ustawić rozwiązania dla otwartego [% terms.bledu %].
+
   [% ELSIF error == "saved_search_used_by_whines" %]
     [% title = "Zapamiętane zapytanie jest w użyciu" %]
     [% docslinks = {'whining.html' => 'O przypominaniu'} %]

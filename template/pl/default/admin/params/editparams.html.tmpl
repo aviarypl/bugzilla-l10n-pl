@@ -89,6 +89,14 @@
       [% IF curpanel == -1 %]
         [% PROCESS admin/params/index.html.tmpl panels = panels %]
       [% ELSE %]
+
+        <div class="contribute"><strong>Notka:</strong>
+          Program [%+ terms.Bugzilla %] jest rozwijany przez wolontariuszy. Najlepszą
+          metodą podziękowania projektowi jest <a href="http://www.bugzilla.org/contribute/">wsparcie go</a>!
+          Nie musisz być programistą, aby nam pomagać, jest mnóstwo różnych
+          rzeczy, których potrzebujemy.
+        </div>
+
         <p>
 		  Ta strona pozwala na edycję podstawowych parametrów systemu [% terms.Bugzilla %].
           Prosimy o ostrożność.<br>

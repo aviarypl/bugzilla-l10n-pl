@@ -84,6 +84,7 @@
       </td>
       <td align="left" valign="top">
           [% FOREACH query = field.value %]
+            <div class="user_match">
               <b>[% query.key FILTER html %]</b>
             [% IF query.value.users.size %]
                 [% IF query.value.users.size > 1 %]
@@ -121,7 +122,6 @@
                 [% ELSE %]
                   pasuje do
                   <b>[% query.value.users.0.identity FILTER html %]</b>
-                  <br>
                 [% END %]
             [% ELSE %]
                 [% IF (query.key.length < 3) && !(Param('emailsuffix'))
@@ -132,6 +132,7 @@
                   <font color="#FF0000">nie pasuje do żadnego użytkownika</font>
                 [% END %]
             [% END %]
+            </div>
         [% END %]
       </td>
     </tr>

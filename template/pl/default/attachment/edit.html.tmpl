@@ -82,8 +82,7 @@
 
       // Copy the contents of the diff into the textarea
       var editFrame = document.getElementById('editFrame');
-      editFrame.value = theContent;
-      editFrame.value += "\n\n";
+      editFrame.value = theContent + "\n\n";
 
       has_edited = 1;
     }
@@ -223,13 +222,13 @@
 
         [% IF attachment.isurl %]
             <input type="hidden" name="filename"
-                   value="[% attachment.filename FILTER html %]"><br>
+                   value="[% attachment.filename FILTER html %]">
             <input type="hidden" name="contenttypeentry"
                    value="[% attachment.contenttype FILTER html %]"><br>
         [% ELSE %]
           <b><label for="filename">Filename</label>:</b><br>
             <input type="text" size="20" id="filename" name="filename"
-                   value="[% attachment.filename FILTER html %]"><br>
+                   value="[% attachment.contenttype FILTER html %]">
           <b>Rozmiar:</b>
           [% IF attachment.datasize %]
             [%+ attachment.datasize FILTER unitconvert %]
