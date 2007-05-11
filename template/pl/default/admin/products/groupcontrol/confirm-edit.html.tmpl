@@ -29,15 +29,15 @@
 [% FOREACH group = mandatory_groups %]
 <P>
 Grupa '[% group.name FILTER html %]' wpływa na [% group.count %] 
-[%+ PROCESS ODMIEN c=group.count o1=terms.blad o2=terms.bledy o3=terms.bledow %] 
+[% PROCESS ODMIEN c=group.count o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %] 
 dla których grupa jest wymagana i będzie dodana.
 [% END %]
 
 [% FOREACH group = na_groups %]
 <P>
 Grupa '[% group.name FILTER html %]' wpływa na [% group.count %] 
-[%+ PROCESS ODMIEN c=group.count o1=terms.blad o2=terms.bledy o3=terms.bledow %], 
-dla których grupa ta jest odpowiednia i zostanie usunięta.
+[% PROCESS ODMIEN c=group.count o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %], 
+dla których grupa ta jest odpowiednia i zostanie usunięta.[% END %]
 <form action="editproducts.cgi" method="post" >
 
   [% PROCESS "global/hidden-fields.html.tmpl" exclude="^Bugzilla_(login|password)$" %]

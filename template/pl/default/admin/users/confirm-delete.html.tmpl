@@ -143,11 +143,10 @@
       <ul>
         [% IF reporter %]
           <li>
-            [% terms.Bledow %] zgłoszonych przez [% otheruser.login FILTER html %]
+            [% terms.Bledow %] zgłoszonych przez
             <a href="buglist.cgi?emailreporter1=1&amp;emailtype1=exact&amp;email1=
-               [%- otheruser.login FILTER url_quote %]">: 
-              [%+ reporter %]
-            [% END %]</a>.
+               [%- otheruser.login FILTER url_quote %]">[% otheruser.login FILTER html %]
+              </a>: [%+ reporter %].
 			Usunięcie konta spowoduje niespójność w bazie danych,
 			co oznacza, że 
 			[% PROCESS ODMIEN c=reporter o1="$terms.blad"
