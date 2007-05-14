@@ -1286,6 +1286,10 @@
     [% title = "Summary Needed" %]
     You must enter a summary for this [% terms.bug %].
 
+  [% ELSIF error == "resolution_not_allowed" %]
+    [% title = "Resolution Not Allowed" %]
+    You cannot set a resolution for open [% terms.bugs %].
+
   [% ELSIF error == "saved_search_used_by_whines" %]
     [% title = "Saved Search In Use" %]
     [% docslinks = {'whining.html' => 'About Whining'} %]
@@ -1380,7 +1384,7 @@
   [% ELSIF error == "token_inexistent" %]
     [% title = "Token Does Not Exist" %]
     The token you submitted does not exist, has expired, or has
-    been cancelled.
+    been canceled.
 
   [% ELSIF error == "too_soon_for_new_token" %]
     [% title = "Too Soon For New Token" %]

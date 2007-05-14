@@ -49,7 +49,7 @@ function URLFieldHandler() {
                                "list", "manual", "bigfile",
                                "contenttypeselection",
                                "contenttypeentry");
-    var i;
+    var i, thisfield;
     if (field_attachurl.value.match(/^\s*$/)) {
         for (i = 0; i < greyfields.length; i++) {
             thisfield = document.getElementById(greyfields[i]);
@@ -70,8 +70,8 @@ function URLFieldHandler() {
 function DataFieldHandler() {
     var field_data = document.getElementById("data");
     var greyfields = new Array("attachurl");
+    var i, thisfield;
     if (field_data.value.match(/^\s*$/)) {
-        var i;
         for (i = 0; i < greyfields.length; i++) {
             thisfield = document.getElementById(greyfields[i]);
             if (thisfield) {
@@ -93,14 +93,14 @@ function clearAttachmentFields() {
 
     document.getElementById('data').value = '';
     DataFieldHandler();
-    if (element = document.getElementById('bigfile'))
+    if ((element = document.getElementById('bigfile')))
         element.checked = '';
-    if (element = document.getElementById('attachurl')) {
+    if ((element = document.getElementById('attachurl'))) {
         element.value = '';
         URLFieldHandler();
     }
     document.getElementById('description').value = '';
     document.getElementById('ispatch').checked = '';
-    if (element = document.getElementById('isprivate'))
+    if ((element = document.getElementById('isprivate')))
         element.checked = '';
 }

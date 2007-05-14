@@ -1,8 +1,8 @@
-/cancel-token.txt.tmpl/1.11/Fri Oct 20 21:22:55 2006//
-/create.html.tmpl/1.10/Sat Aug 19 18:12:00 2006//
-/created.html.tmpl/1.7/Sat Aug 19 18:12:00 2006//
-/profile-activity.html.tmpl/1.2/Sun Jan  7 23:51:09 2007//
 D/auth////
 D/email////
 D/password////
 D/prefs////
+/cancel-token.txt.tmpl/1.11.2.1/Mon May 14 16:04:27 2007//TBUGZILLA-3_0
+/create.html.tmpl/1.10/Wed Feb 14 15:35:30 2007//TBUGZILLA-3_0
+/created.html.tmpl/1.7/Wed Feb 14 15:35:30 2007//TBUGZILLA-3_0
+/profile-activity.html.tmpl/1.2/Wed Feb 14 15:35:30 2007//TBUGZILLA-3_0
