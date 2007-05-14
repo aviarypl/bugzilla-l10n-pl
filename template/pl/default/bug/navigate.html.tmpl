@@ -23,9 +23,9 @@
 
 [% IF bug_list && bug_list.size > 0 %]
   [% this_bug_idx = lsearch(bug_list, bug.bug_id) %]
-  <b>[% terms.Bug %] Lista:</b>
+  <b>Lista [% terms.bledow %] :</b>
   [% IF this_bug_idx != -1 %]
-    ([% this_bug_idx + 1 %] of [% bug_list.size %])
+    ([% this_bug_idx + 1 %] z [% bug_list.size %])
   [% END %]
 
 [% IF this_bug_idx != -1 %]
@@ -49,7 +49,7 @@
         <i><font color="#777777">Następny</font></i>
       [% END %]
     [% ELSE %]
-      (Ten [% terms.blad %] nie znajduje się na Twojej liście błędów)
+      (Ten [% terms.blad %] nie znajduje się na liście błędów)
     [% END %]
   [% ELSE %]
     &nbsp;&nbsp;
