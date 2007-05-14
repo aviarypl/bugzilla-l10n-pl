@@ -418,7 +418,7 @@
     </p>
   [% END %]
 
-  <p>Czy na pewno usuną to konto użytkownika?</p>
+  <p>Czy na pewno usunąć to konto użytkownika?</p>
 
   <form method="post" action="editusers.cgi">
     <p>
@@ -430,19 +430,18 @@
     </p>
   </form>
 
-  <p>Przejście do 
-[% END %]
- 
-  <a href="editusers.cgi?action=edit&amp;userid=[% otheruser.id %]
-           [% INCLUDE listselectionurlparams %]">edycji użytkownika</a>,
-
- <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">powrót
-  do listy użytkowników</a>,
-  [% IF editusers %]
-    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">dodanie
-    nowego użytkownika</a>,
+  <p>
   [% END %]
-  <a href="editusers.cgi">wyszukiwanie użytkowników</a>.
+  <a href="editusers.cgi?action=edit&amp;userid=[% otheruser.id %]
+           [% INCLUDE listselectionurlparams %]">Edycja użytkownika</a> | 
+
+ <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Lista
+  użytkowników</a> | 
+  [% IF editusers %]
+    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">Nowy użytkownik
+    </a> | 
+  [% END %]
+  <a href="editusers.cgi">Wyszukiwanie użytkowników</a>.
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
