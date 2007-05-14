@@ -22,7 +22,7 @@ use Bugzilla::Constants;
 
 use constant REMOTE_FILE   => 'http://updates.bugzilla.org/bugzilla-update.xml';
 use constant LOCAL_FILE    => "/bugzilla-update.xml"; # Relative to datadir.
-use constant TIME_INTERVAL => 604800; # Default is one week, in seconds.
+use constant TIME_INTERVAL => 86400; # Default is one day, in seconds.
 use constant TIMEOUT       => 5; # Number of seconds before timeout.
 
 # Look for new releases and notify logged in administrators about them.
@@ -46,7 +46,9 @@ sub get_notifications {
             $can_alter = utime(undef, undef, $local_file);
         }
         if ($can_alter) {
-            _synchronize_data();
+            my $error = _synchronize_data();
+            # If an error is returned, leave now.
+            return $error if $error;
         }
         else {
             return {'error' => 'no_update', 'xml_file' => $local_file};
@@ -130,14 +132,22 @@ sub get_notifications {
 
 sub _synchronize_data {
     eval("require LWP::UserAgent");
-    return if $@;
+    return {'error' => 'missing_package', 'package' => 'LWP::UserAgent'} if $@;
 
     my $local_file = bz_locations()->{'datadir'} . LOCAL_FILE;
 
     my $ua = LWP::UserAgent->new();
     $ua->timeout(TIMEOUT);
     $ua->protocols_allowed(['http', 'https']);
-    $ua->env_proxy;
+    # If the URL of the proxy is given, use it, else get this information
+    # from the environment variable.
+    my $proxy_url = Bugzilla->params->{'proxy_url'};
+    if ($proxy_url) {
+        $ua->proxy(['http', 'https'], $proxy_url);
+    }
+    else {
+        $ua->env_proxy;
+    }
     $ua->mirror(REMOTE_FILE, $local_file);
 
     # $ua->mirror() forces the modification time of the local XML file
@@ -145,14 +155,26 @@ sub _synchronize_data {
     # So we have to update it manually to reflect that a newer version
     # of the file has effectively been requested. This will avoid
     # any new download for the next TIME_INTERVAL.
-    utime(undef, undef, $local_file);
+    if (-e $local_file) {
+        # Try to alter its last modification time.
+        my $can_alter = utime(undef, undef, $local_file);
+        # This error should never happen.
+        $can_alter || return {'error' => 'no_update', 'xml_file' => $local_file};
+    }
+    else {
+        # We have been unable to download the file.
+        return {'error' => 'cannot_download', 'xml_file' => $local_file};
+    }
+
+    # Everything went well.
+    return 0;
 }
 
 sub _compare_versions {
     my ($old_ver, $new_ver) = @_;
     while (scalar(@$old_ver) && scalar(@$new_ver)) {
-        my $old = shift(@$old_ver);
-        my $new = shift(@$new_ver);
+        my $old = shift(@$old_ver) || 0;
+        my $new = shift(@$new_ver) || 0;
         return $new <=> $old if ($new <=> $old);
     }
     return scalar(@$new_ver) <=> scalar(@$old_ver);

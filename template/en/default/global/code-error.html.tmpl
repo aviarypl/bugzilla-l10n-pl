@@ -118,7 +118,7 @@
     without specifying a default or something for $set_nulls_to, because
     there are NULL values currently in it.
 
-  [% ELSIF error == "column_rename_conflict" %]
+  [% ELSIF error == "db_rename_conflict" %]
     Name conflict: Cannot rename [% old FILTER html %] to
     [% new FILTER html %] because [% new FILTER html %] already exists.
 
@@ -218,9 +218,6 @@
     is attached to [% terms.bug %] [%+ attach_bug_id FILTER html %], 
     but you tried to flag it as obsolete while creating a new attachment to 
     [% terms.bug %] [%+ my_bug_id FILTER html %].
-        
-  [% ELSIF error == "flag_nonexistent" %]
-    There is no flag with ID #[% id FILTER html %].
 
   [% ELSIF error == "flags_not_available" %]
     [% title = "Flag Editing not Allowed" %]

@@ -35,6 +35,7 @@ package Bugzilla::Template;
 use strict;
 
 use Bugzilla::Constants;
+use Bugzilla::Install::Requirements;
 use Bugzilla::Util;
 use Bugzilla::User;
 use Bugzilla::Error;
@@ -57,7 +58,6 @@ use base qw(Template);
 # (which is how Perl implements constants) and ignoring the rest (which, if
 # Constants.pm exports only constants, as it should, will be nothing else).
 sub _load_constants {
-    use Bugzilla::Constants ();
     my %constants;
     foreach my $constant (@Bugzilla::Constants::EXPORT,
                           @Bugzilla::Constants::EXPORT_OK)
@@ -285,8 +285,8 @@ sub quoteUrls {
     my $urlbase_re = '(' . join('|',
         map { qr/$_/ } grep($_, Bugzilla->params->{'urlbase'}, 
                             Bugzilla->params->{'sslbase'})) . ')';
-    $text =~ s~\b(${urlbase_re}\Qshow_bug.cgi?id=\E([0-9]+))\b
-              ~($things[$count++] = get_bug_link($3, $1)) &&
+    $text =~ s~\b(${urlbase_re}\Qshow_bug.cgi?id=\E([0-9]+)(\#c([0-9]+))?)\b
+              ~($things[$count++] = get_bug_link($3, $1, $5)) &&
                ("\0\0" . ($count-1) . "\0\0")
               ~egox;
 
@@ -820,6 +820,16 @@ sub create {
                 Bugzilla::BugMail::Send($id, $mailrecipients);
             },
 
+            # These don't work as normal constants.
+            DB_MODULE        => \&Bugzilla::Constants::DB_MODULE,
+            REQUIRED_MODULES => 
+                \&Bugzilla::Install::Requirements::REQUIRED_MODULES,
+            OPTIONAL_MODULES => sub {
+                my @optional = @{OPTIONAL_MODULES()};
+                @optional    = sort {$a->{feature} cmp $b->{feature}} 
+                                    @optional;
+                return \@optional;
+            },
         },
 
    }) || die("Template creation failed: " . $class->error());

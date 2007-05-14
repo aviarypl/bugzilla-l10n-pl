@@ -72,7 +72,7 @@
         <para>
           By default, you have 3 days to confirm your registration. Past this
           timeframe, the token is invalidated and the registration is
-          automatically cancelled. You can also cancel this registration sooner
+          automatically canceled. You can also cancel this registration sooner
           by using the appropriate URL in the email you got.
         </para>
       </listitem>
@@ -328,8 +328,7 @@
           You can attach files (e.g. testcases or patches) to bugs. If there
           are any attachments, they are listed in this section.  Attachments are
           normally stored in the Bugzilla database, unless they are marked as
-          Big Files, which are stored directly on disk and (unlike attachments
-          kept in the database) may be deleted at some future time.
+          Big Files, which are stored directly on disk.
         </para>
       </listitem>
 
@@ -362,7 +361,7 @@
     <para>
       The life cycle, also known as work flow, of a bug is currently hardcoded
       into Bugzilla. <xref linkend="lifecycle-image"/> contains a graphical
-      repsentation of this life cycle. If you wish to customize this image for
+      representation of this life cycle. If you wish to customize this image for
       your site, the <ulink url="../images/bzLifecycle.xml">diagram file</ulink>
       is available in <ulink url="http://www.gnome.org/projects/dia">Dia's</ulink>
       native XML format.
@@ -459,7 +458,7 @@
           to whom each bug is assigned). When the operator is either 
           "equals" or "notequals", the value can be "%reporter%", 
           "%assignee%", "%qacontact%", or "%user%."  The user pronoun
-          referes to the user who is executing the query or, in the case
+          refers to the user who is executing the query or, in the case
           of whining reports, the user who will be the recipient
           of the report. The reporter, assignee, and qacontact
           pronouns refer to the corresponding fields in the bug.
@@ -735,7 +734,7 @@
             You now see a form where you can specify the component (part of
             the product which is affected by the bug you discovered; if you have
             no idea, just select <quote>General</quote> if such a component exists),
-            the version of the program you were using, the Operarting System and
+            the version of the program you were using, the Operating System and
             platform your program is running on and the severity of the bug (if the
             bug you found crashes the program, it's probably a major or a critical
             bug; if it's a typo somewhere, that's something pretty minor; if it's
@@ -849,12 +848,25 @@
 
     <para>
       If you have a really large attachment, something that does not need to
-      be recorded forever (as most attachments are), you can mark your
-      attachment as a <quote>Big File</quote>, assuming the administrator of the
-      installation has enabled this feature.  Big Files are stored directly on
-      disk instead of in the database, and can be deleted when it is no longer
-      needed.  The maximum size of a <quote>Big File</quote> is normally larger
-      than the maximum size of a regular attachment.
+      be recorded forever (as most attachments are), or something that is too
+      big for your database, you can mark your attachment as a
+      <quote>Big File</quote>, assuming the administrator of the installation
+      has enabled this feature.  Big Files are stored directly on disk instead
+      of in the database.  The maximum size of a <quote>Big File</quote> is
+      normally larger than the maximum size of a regular attachment. Independently
+      of the storage system used, an administrator can delete these attachments
+      at any time. Nevertheless, if these files are stored in the database, the
+      <quote>allow_attachment_deletion</quote> parameter (which is turned off
+      by default) must be enabled in order to delete them.
+    </para>
+
+    <para>
+      Also, if the administrator turned on the <quote>allow_attach_url</quote>
+      parameter, you can enter the URL pointing to the attachment instead of
+      uploading the attachment itself. For example, this is useful if you want to
+      point to an external application, a website or a very large file. Note that
+      there is no guarantee that the source file will always be available, nor
+      that its content will remain unchanged.
     </para>
 
     <section id="patchviewer">
@@ -1019,6 +1031,34 @@
         bugs in the tree (that don't have further dependencies).
       </para>
     </section>
+  </section>
+
+  <section id="timetracking">
+    <title>Time Tracking Information</title>
+
+    <para>
+      Users who belong to the group specified by the <quote>timetrackinggroup</quote>
+      parameter have access to time-related fields. Developers can see
+      deadlines and estimated times to fix bugs, and can provide time spent
+      on these bugs.
+    </para>
+
+    <para>
+      At any time, a summary of the time spent by developers on bugs is
+      accessible either from bug lists when clicking the <quote>Time Summary</quote>
+      button or from individual bugs when clicking the <quote>Summarize time</quote>
+      link in the time tracking table. The <filename>summarize_time.cgi</filename>
+      page lets you view this information either per developer or per bug,
+      and can be split on a month basis to have greater details on how time
+      is spent by developers.
+    </para>
+
+    <para>
+      As soon as a bug is marked as RESOLVED, the remaining time expected
+      to fix the bug is set to zero. This lets QA people set it again for
+      their own usage, and it will be set to zero again when the bug will
+      be marked as CLOSED.
+    </para>
   </section>
 
   <section id="userpreferences">
@@ -1436,6 +1476,8 @@
     
     <para>
       To unset a flag, click its drop-down menu and select the blank value.
+      Note that marking an attachment as obsolete automatically cancels all
+      pending requests for the attachment.
     </para>
     
     <para>
