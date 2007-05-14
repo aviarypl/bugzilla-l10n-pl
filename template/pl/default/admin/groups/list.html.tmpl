@@ -53,7 +53,7 @@
     heading            => 'Wyr. regularne'
    }
    {name               => 'is_active_bug_group'
-    heading            => "Użyh dla $terms.bledow"
+    heading            => "Użyj dla $terms.bledow"
     align              => 'center'
    }
    {name               => 'type'
@@ -136,11 +136,11 @@
   overrides = overrides
 %]
 
-<p><a href="editgroups.cgi?action=add">Add Group</a></p>
+<p><a href="editgroups.cgi?action=add">Nowa grupa</a></p>
 
 <p>
 <b>Nazwa</b> to nazwa, która używana jest z funkcją <!-- blah -->ugzilla->user->in_group()
-w każdym ze zmonyfikowanych przez użytkownika plikach cgi.
+w każdym ze zmodyfikowanych przez użytkownika plikach cgi.
 Może być ona także używana przez użytkowników wpisujących [% terms.bledy %] poprzez email
 w celu ograniczenia [% terms.bledu %] do określonego zbioru grup.
 Nazwa ta nie może zawierać spacji.
@@ -161,7 +161,7 @@ pasuje do tego wyrażenia regularnego. Np: '@mycompany\.com$'
 
 <p>
 
-Flaga <b>Używaj dla [% terms.bledow %]</b> określa czy grupa
+Flaga <b>Użyj dla [% terms.bledow %]</b> określa czy grupa
 może być używana dla [% terms.bledow %]. Jeśli zostanie ona odznaczona,
 nie będzie możliwe dodawanie nowych [% terms.bledow %] do tej grupy,
 jednakże [% terms.bledy %] będące już w grupie, pozostaną w niej.

@@ -46,7 +46,7 @@
 <p>
 [% UNLESS no_add_product_link || !user.in_group("editcomponents") %]
   <a title="Dodawanie produktu"
-     href="editproducts.cgi?action=add">Add</a> a product[% -%]
+     href="editproducts.cgi?action=add">Nowy</a> produkt[% -%]
 [%# Strictly speaking, we should not have to check for a
     classification if they are enabled, but I'm just being paranoid %]
   [% IF Param('useclassification') && classification %]

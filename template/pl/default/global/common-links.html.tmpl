@@ -24,17 +24,17 @@
 
 <ul class="links">
   <li><a href="./">Początek</a></li>
-  <li><span class="separator">| </span><a href="enter_bug.cgi">Nowy</a></li>
-  <li><span class="separator">| </span><a href="query.cgi">Szukaj</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">Nowy [% terms.blad %]</a></li>
+  <li><span class="separator">| </span><a href="query.cgi">Wyszukiwanie</a></li>
 
   <li class="form">
     <span class="separator">| </span>
     <form action="buglist.cgi" method="get"
         onsubmit="if (this.quicksearch.value == '')
-                  { alert('Proszę podać jedeno lub więcej haseł do wyszukiwania.');
+                  { alert('Proszę podać jedno lub więcej haseł do wyszukiwania.');
                     return false; } return true;">
     <input class="txt" type="text" name="quicksearch">
-    <input class="btn" type="submit" value="Find" id="[% btn_id FILTER html %]">
+    <input class="btn" type="submit" value="Szukaj" id="[% btn_id FILTER html %]">
     [%-# Work around FF bug: keep this on one line %]</form></li>
 
   <li><span class="separator">| </span><a href="report.cgi">Raporty</a></li>
@@ -54,7 +54,7 @@
   [% END %]
 
   [% IF user.login %]
-    <li><span class="separator">| </span><a href="userprefs.cgi">Preferencje</a></li>
+    <li><span class="separator">| </span><a href="userprefs.cgi">Ustawienia</a></li>
     <li>
       <span class="separator">| </span>
       [% IF user.authorizer.can_logout %]

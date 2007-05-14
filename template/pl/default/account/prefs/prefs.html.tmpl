@@ -38,20 +38,20 @@
 
 [% filtered_login = user.login FILTER html %]
 [% PROCESS global/header.html.tmpl
-   title = "User Preferences"
+   title = "Ustawienia użytkownika"
    subheader = filtered_login
    style_urls = ['skins/standard/admin.css']
  %]
 
-[% tabs = [{ name => "settings", label => "General Preferences",
+[% tabs = [{ name => "settings", label => "Ustawienia ogólne",
               link => "userprefs.cgi?tab=settings", saveable => "1" },
-            { name => "email", label => "Email Preferences", 
+            { name => "email", label => "Ustawienia poczty", 
               link => "userprefs.cgi?tab=email", saveable => "1" },
-            { name => "saved-searches", label => "Saved Searches", 
+            { name => "saved-searches", label => "Zapisane wyszukiwania", 
               link => "userprefs.cgi?tab=saved-searches", saveable => "1" },
-            { name => "account", label => "Name and Password",
+            { name => "account", label => "Użytkownik i hasło",
               link => "userprefs.cgi?tab=account", saveable => "1" },
-            { name => "permissions", label => "Permissions", 
+            { name => "permissions", label => "Uprawnienia", 
               link => "userprefs.cgi?tab=permissions", saveable => "0" } ] %]
 
 [% FOREACH tab IN tabs %]
@@ -97,7 +97,7 @@
         <tr>
           <td width="150">&nbsp;</td>
           <td>
-            <input type="submit" id="update" value="Submit Changes">
+            <input type="submit" id="update" value="Zapisz zmiany">
           </td>
         </tr>
       </table>

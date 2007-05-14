@@ -224,7 +224,7 @@
     [% title = "Wymagane parametry" %]
     [% docslinks = {'query.html' => "Wyszukiwanie $terms.bledow",
                     'list.html'  => "Listy $terms.bledow"} %]
-    Nie można wyszukiwać, lub zapamiętać wyszukiwania bez podanych kryteriów wyszukiwania.
+    Nie można wyszukiwać lub zapamiętać wyszukiwania bez podanych kryteriów wyszukiwania.
 
   [% ELSIF error == "bugs_not_changed" %]
     [% title = BLOCK %][% terms.Blad %] nie został zmieniony[% END %]
@@ -276,7 +276,7 @@
 
   [% ELSIF error == "classification_has_products" %]
      Niestety, w tej klasyfikacji nadal istnieją produkty. Należy przepisać
-     wszystkie produkty tej klasyfikacji do innej, zanim możliwe będzie
+     wszystkie produkty tej klasyfikacji do innej zanim możliwe będzie
      jej usunięcie.
 
   [% ELSIF error == "component_already_exists" %]
@@ -1013,7 +1013,7 @@
   [% ELSIF error == "no_bugs_in_list" %]
     [% title = "Usunąć zapisane wyszukiwanie?" %]
     Nastąpi usunięcie wszystkich [% terms.bledow %] z wyszukiwania '[% saved_search FILTER html %]'.
-    Spowoduje to całkowite usunięcie wyszukiwania. Proszę kliknąź
+    Spowoduje to całkowite usunięcie wyszukiwania. Proszę kliknąć
     <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
     [%- saved_search FILTER url_quote %]">ten odnośnik</a> jeśli wyszukiwanie ma 
     zostać usunięte.

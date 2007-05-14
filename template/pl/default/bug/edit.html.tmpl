@@ -38,7 +38,7 @@
        * createElement, but finding a container isn't trivial.
        */
       document.write('[<a href="#add_comment" onclick="replyToComment(' + 
-                     id + ');">reply<' + '/a>]');
+                     id + ');">odpowiedz<' + '/a>]');
   }
 
   /* Adds the reply text to the `comment' textarea */
@@ -57,7 +57,7 @@
           replytext += "> " + text[i] + "\n"; 
       }
 
-      replytext = "(In reply to comment #" + id + ")\n" + replytext + "\n";
+      replytext = "(odpowiedź na komentarz #" + id + ")\n" + replytext + "\n";
 
     [% IF Param("insidergroup") && user.in_group(Param("insidergroup")) %]
       if (document.getElementById('isprivate-'+id).checked) {
@@ -238,11 +238,8 @@
               <th>&nbsp;</th>
 
               <td colspan="2">
-                <a href="showdependencytree.cgi?id=[% bug.bug_id %]&amp;hide_resolved=1">Show
-                   dependency tree</a>
-
                 [% IF Param('webdotbase') %]
-                  - <a href="showdependencygraph.cgi?id=[% bug.bug_id %]">Wyświetl
+                  <a href="showdependencygraph.cgi?id=[% bug.bug_id %]">Wyświetl
                        graf zależności</a>
                 [% END %]
               </td>
@@ -254,7 +251,7 @@
       <td valign="top">
         [%# *** Reporter, owner and QA contact *** %]
         <fieldset>
-          <legend>Ludzie</legend>
+          <legend>Użytkownicy</legend>
           [% PROCESS section_people %]
         </fieldset>
 
@@ -303,25 +300,25 @@
     <table cellspacing="0" cellpadding="4" border="1">
       <tr>
         <th align="center" bgcolor="#cccccc">
-          <label for="estimated_time">Orgin. oszac.</label>
+          <label for="estimated_time">Org. szacunek</label>
         </th>
         <th align="center" bgcolor="#cccccc">
-          Obecne oszac.
+          Obecny szac.
         </th>
         <th align="center" bgcolor="#cccccc">
-          <label for="work_time">Godziny przeprac.</label>
+          <label for="work_time">Przepr. godziny</label>
         </th>
         <th align="center" bgcolor="#cccccc">
-          <label for="remaining_time">Pozos. godz.</label>
+          <label for="remaining_time">Pozost. godz.</label>
         </th>
         <th align="center" bgcolor="#cccccc">
-          Ukończone %
+          % ukończenia
         </th>
         <th align="center" bgcolor="#cccccc">
           Zysk
         </th>
         <th align="center" bgcolor="#cccccc">
-          <label for="deadline">Deadline</label>
+          <label for="deadline">Termin</label>
         </th>
       </tr>
       <tr>
@@ -363,8 +360,8 @@
       <tr>
         <td colspan="7" align="right">
           <a href="summarize_time.cgi?id=[% bug.bug_id %]&amp;do_depends=1">
-          Summarize time (including time for [% terms.bugs %]
-          blocking this [% terms.bug %])</a>
+          Sumowanie czasu (łącznie z czasem z [% terms.bledow %]
+          blokujących ten [% terms.blad %])</a>
         </td>
       </tr>
     </table>
@@ -387,7 +384,7 @@
     <tr>
       <td>
         [% IF user.id %]
-          <label for="comment" accesskey="c"><b>Additional <u>C</u>omments</b></label>:
+          <label for="comment" accesskey="c"><b>Dodatkowy <u>k</u>omentarz</b></label>:
           [% IF Param("insidergroup") && user.in_group(Param("insidergroup")) %]
             <input type="checkbox" name="commentprivacy" value="1"
                    id="newcommentprivacy"
@@ -719,7 +716,7 @@
     [% IF user.id %]
       <tr>
         <td align="right" valign="top">
-          <label for="newcc" accesskey="a"><b>Dod<u>a</u>j&nbsp;obserwatorów</b></label>:
+          <label for="newcc" accesskey="a"><b><u>N</u>owy&nbsp;obserwator</b></label>:
         </td>
         <td>
            [% INCLUDE global/userselect.html.tmpl

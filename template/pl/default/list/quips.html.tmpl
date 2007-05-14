@@ -59,14 +59,14 @@
 
 
 <p>
-  [% terms.Bugzilla %] wyświetla losowo wybraną sentencje, na każdej stronie z
-  listą [% terms.bladow %].
+  [% terms.Bugzilla %] wyświetla losowo wybraną sentencję na każdej stronie z
+  listą [% terms.bledow %].
 </p>
 
 [% IF Param("quip_list_entry_control") != "closed" %]
   <p>
-   Zbiór sentencji może zostać rozszerzony. Można wipisać coś
-   ciekawego, zabawnego lub nudnego (lecz nie obscenicznego lub obraźliwego!)
+   Zbiór sentencji może zostać rozszerzony. Można wpisać coś
+   ciekawego, zabawnego lub nudnego (lecz nie obscenicznego lub obraźliwego)
    i nacisnąć przycisk.
     [% IF Param("quip_list_entry_control") == "moderated" AND !user.groups.admin %]
       Sentencja musi zostać zatwierdźona, zanim zostanie użyta po raz pierwszy.
@@ -77,7 +77,7 @@
     <input type="hidden" name="action" value="add">
     <input size="80" name="quip">
     <p>
-      <input type="submit" id="add" value="Add This Quip">
+      <input type="submit" id="add" value="Dodaj sentencję">
     </p>
   </form>
 [% ELSE %]
@@ -88,7 +88,7 @@
 [% IF show_quips %]
   [% IF !user.in_group('admin') %]
     <h2>
-      Istniejące sentencje:
+      Istniejące sentencje
     </h2>
     <ul>
       [% FOREACH quipid = quipids %]
@@ -97,10 +97,10 @@
       [% END %]
     </ul>
   [% ELSE %]
-    <h2>Edycja istniejących sentencji:</h2>
+    <h2>Edycja istniejących sentencji</h2>
     <p>
       <strong>Uwaga:</strong> wyświetlane będą wyłącznie sentencje, które
-      zostały uprzednio zatwierdźone.
+      zostały uprzednio zatwierdzone.
       Jeśli parametr 'quip_list_entry_control' został ustawiony na <q>open</q>,
       nowe sentencje będą akceptowane automatycznie.
     </p>
