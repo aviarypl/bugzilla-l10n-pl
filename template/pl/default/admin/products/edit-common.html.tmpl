@@ -71,7 +71,7 @@
 [% END %]
     
 <tr>
-  <th align="right">Zamknięty dla nowych [% terms.bledow %]:</th>
+  <th align="right">Zamknięty dla [% terms.bledow %]:</th>
   <td><input type="checkbox" name="disallownew" value="1"
        [% IF product.disallownew == "1" %]
              checked="checked"[% END %]>
@@ -87,14 +87,14 @@
 </tr>
 [% END %]
 <tr [% IF !Param('usevotes') %]class="param_disabled" [% END %]>
-  <th align="right">Maksymalna ilość głosów na osobę:</th>
+  <th align="right">Max. ilość głosów na osobę:</th>
   <td><input size="5" maxlength="5" name="votesperuser" 
              value="[% product.votesperuser FILTER html %]">
   </td>
 </tr>
 <tr [% IF !Param('usevotes') %]class="param_disabled" [% END %]>
   <th align="right">
-    Maksymalna ilość głosów na pojedynczy [% terms.bug %], które może oddać jedna osoba:
+    Max. ilość głosów na [% terms.blad %]
   </th>
   <td><input size="5" maxlength="5" name="maxvotesperbug" 
              value="[% product.maxvotesperbug FILTER html %]">
@@ -105,7 +105,7 @@
     Próg potwierdzenia:
   </th>
   <td>
-    Proszę podać liczbę głosów na [% terms.blad %] w tym produkcie, która powoduje 
+    Liczba głosów na [% terms.blad %] w tym produkcie, która powoduje 
     automatyczną zmianę stanu [% terms.bledu %] z 
     <a href="page.cgi?id=fields.html#status">[% status_descs.UNCONFIRMED FILTER html %]</a>.
 	<br>

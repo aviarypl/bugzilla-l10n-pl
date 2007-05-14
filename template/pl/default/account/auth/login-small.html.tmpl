@@ -36,12 +36,12 @@
 <form name="login" action="[% script_name FILTER html %]" method="POST">
   <table id="login-small">
     <tr>
-      <th align="right"><label for="Bugzilla_login">Login:</label></th>
+      <th align="right"><label for="Bugzilla_login">Użytkownik:</label></th>
       <td><input size="20" id="Bugzilla_login" name="Bugzilla_login">
           [% Param('emailsuffix') FILTER html %]</td>
     </tr>
     <tr>
-      <th align="right"><label for="Bugzilla_password">Password:</label></th>
+      <th align="right"><label for="Bugzilla_password">Hasło:</label></th>
       <td>
         <input type="password" size="20" id="Bugzilla_password" name="Bugzilla_password">
       </td>
@@ -65,21 +65,21 @@
         <td>
           <input type="checkbox" id="Bugzilla_restrictlogin" name="Bugzilla_restrictlogin"
                  checked="checked">
-          <label for="Bugzilla_restrictlogin">Restrict this session to this IP address
-          (using this option improves security)</label>
+          <label for="Bugzilla_restrictlogin">Ogranicz tą sesję do bieżącego adresu IP
+          (użycie tej opcji poprawia bezpieczeństwo)</label>
         </td>
       </tr>
     [% END %]
 
     <tr>
-      <td><input type="submit" name="GoAheadAndLogIn" value="Login"
+      <td><input type="submit" name="GoAheadAndLogIn" value="Zaloguj"
                  id="log_in"></td>
 
       [%# For now, password change requests only apply to the DB
         # verification method #%]
 
       [% IF user.authorizer.can_change_password %]
-        <td>[ <a href="index.cgi?GoAheadAndLogIn=1#forgot">Forgot my Password</a> ]</td>
+        <td>[ <a href="index.cgi?GoAheadAndLogIn=1#forgot">Przypomnienie hasła</a> ]</td>
       [% END %]
     </tr>
   </table>

@@ -152,7 +152,7 @@
 
   [% ELSIF message_tag == "buglist_query_gone" %]
     [% title = "Usuwanie zapytania" %]
-    [% link  = "Wróć do strony zapytań." %]
+    [% link  = "Powrót do strony zapytań." %]
     Zapytanie <code>[% namedcmd FILTER html %]</code> zostało usunięte.
 
   [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
@@ -249,21 +249,21 @@
   [% ELSIF message_tag == "flag_type_created" %]
     [% title = "Tworzenie nowej flagi" %]
       Flaga o typie <em>[% name FILTER html %]</em> została utworzona,
-      <a href="editflagtypes.cgi">Wróć do panelu flag.</a>
+      <a href="editflagtypes.cgi">Powrót do panelu flag.</a>
     
   [% ELSIF message_tag == "flag_type_changes_saved" %]
     [% title = "Zmiana flagi" %]
     <p>
       Zmiany flagi typu <em>[% name FILTER html %]</em> 
       zostały zapisane.
-      <a href="editflagtypes.cgi">Wróć do panelu flag.</a>
+      <a href="editflagtypes.cgi">Powrót do panelu flag.</a>
     </p>
     
   [% ELSIF message_tag == "flag_type_deleted" %]
     [% title = "Usunięto typ flag" %]
     <p>
       Flaga typu <em>[% name FILTER html %]</em> została usunięta.
-      <a href="editflagtypes.cgi">Wróć do panelu flag.</a>
+      <a href="editflagtypes.cgi">Powrót do panelu flag.</a>
     </p>
     
   [% ELSIF message_tag == "flag_type_deactivated" %]
@@ -271,7 +271,7 @@
     <p>
       Flaga typu <em>[% flag_type.name FILTER html %]</em> 
       została zdeaktywowana.
-      <a href="editflagtypes.cgi">Wróć do panelu flag.</a>
+      <a href="editflagtypes.cgi">Powrót do panelu flag.</a>
     </p>
     
   [% ELSIF message_tag == "install_admin_get_email" %]
@@ -388,7 +388,7 @@
       została utworzona. Uwaga, dane pozwalające utworzyć wykres, zostaną
       zebrane dopiero za [%+ series.frequency * 2 %] dni.
       <br><br>
-      Wróć do poprzedniej strony lub 
+      Powrót do poprzedniej strony lub 
       <a href="query.cgi?format=create-series">utwórz inną serię</a>.
     
   [% ELSIF message_tag == "shutdown" %]

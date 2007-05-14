@@ -32,7 +32,7 @@
 [% PROCESS global/header.html.tmpl
    title = "$terms.Bugzilla - Strona główna"
    header = "Strona główna" 
-   header_addl_info = "version $constants.BUGZILLA_VERSION"
+   header_addl_info = "wersja $constants.BUGZILLA_VERSION"
    style_urls = [ 'skins/standard/index.css' ]
    onload = 'document.forms[\'f\'].quicksearch.focus();'
 %]
@@ -100,35 +100,35 @@ function addSidebar() {
 <div id="page-index">
   <div class="intro"></div>
 
-  <p>Witaj w [% terms.Bugzilli %]. Aby dowiedzieć się co nowego znalazło się w tej wersji 
-    [% terms.Bugzilli %], zobacz 
-    <a href="page.cgi?id=release-notes.html">notki do wydania</a>!
-    Możesz również przejżeć 
+  <p>Witamy w [% terms.Bugzilli %]. Aby dowiedzieć się co nowego znalazło się w tej wersji 
+    [% terms.Bugzilli %], zapraszamy do zapoznania się 
+    <a href="page.cgi?id=release-notes.html">informacjami o wydaniu</a>.
+    Można również przejrzeć 
     <a href="[% Param('docs_urlbase') FILTER html %]using.html">
     Podręcznik użytkownika [%- terms.Bugzilli %]</a>, aby dowiedzieć się czym jest 
     [%+ terms.Bugzilla %] i jak jej używać.</p>
 
   <p>Podstawowe czynności:</p>
   <ul>
-    <li id="query"><a href="query.cgi">Przeszukaj istniejące zgłoszenia [% terms.bug %]</a></li>
-    <li id="enter-bug"><a href="enter_bug.cgi">Stwórz nowy raport [% terms.bug %]</a></li>
+    <li id="query"><a href="query.cgi">Przeszukiwanie istniejących zgłoszeń [% terms.bledow %]</a></li>
+    <li id="enter-bug"><a href="enter_bug.cgi">Nowy raport o [% terms.bledzie %]</a></li>
     <li id="report"><a href="report.cgi">Raporty i wykresy podsumowujące</a></li>
 [% IF user.id %]
-    <li id="userprefs"><a href="userprefs.cgi">Zmień hasło lub ustawienia użytkownika</a></li>
+    <li id="userprefs"><a href="userprefs.cgi">Zmiana hasła lub ustawień użytkownika</a></li>
   [% IF user.authorizer.can_logout %]
-    <li id="logout"><a href="relogin.cgi">Wyloguj [% user.login FILTER html %]</a></li>
+    <li id="logout"><a href="relogin.cgi">Wylogowanie [% user.login FILTER html %]</a></li>
   [% END %]
 [% ELSIF user.authorizer.can_login %]
   </ul>
     [% PROCESS "account/auth/login-small.html.tmpl" %]
   <ul>
   [% IF Param('createemailregexp') && user.authorizer.user_can_create_account %]
-    <li id="account"><a href="createaccount.cgi">Stwórz nowe konto w [% terms.Bugzilli %]</a></li>
+    <li id="account"><a href="createaccount.cgi">Rejestracja nowego konta w [% terms.Bugzilli %]</a></li>
   [% END %]
 [% END %]
-    <li id="sidebar"><a href="javascript:addSidebar()">Dodaj do panelu bocznego</a> (wymaga przeglądarki Mozilli takiej jak Mozilla Firefox)</li>
+    <li id="sidebar"><a href="javascript:addSidebar()">Instalacja strony do panelu bocznego</a> (wymaga przeglądarki Mozilla - np. Mozilli Firefox)</li>
     <li id="quick_search_plugin">
-      <a href="javascript:window.external.AddSearchProvider('[% Param('urlbase') %]search_plugin.cgi')">Zainstaluj wtyczkę Szybkiego Wyszukiwania</a> (wymaga Firefoksa 2 lub Internet Explorera 7)
+      <a href="javascript:window.external.AddSearchProvider('[% Param('urlbase') %]search_plugin.cgi')">Instalacja wtyczki szybkiego wyszukiwania</a> (wymaga Mozilli Firefox 2 lub Internet Explorera 7)
     </li>
 
     [%# List items of links to more things users can do on this installation. %]
@@ -138,10 +138,10 @@ function addSidebar() {
 
   <form id="f" name="f" action="buglist.cgi" method="get"
         onsubmit="if (this.quicksearch.value == '')
-                  { alert('Proszę wprowadzić jeden lub więcej terminów do wyszukania.');
+                  { alert('Proszę wprowadzić jedno lub więcej haseł do wyszukania.');
                     return false; } return true;">
   <div>
-    <p>Numer [% terms.bledu %] lub terminy do wyszukania:</p>
+    <p>Numer [% terms.bledu %] lub tekst do wyszukania:</p>
     <input id="quicksearch" type="text" name="quicksearch">
     <input id="find" type="submit" value="Szukaj">
     <a href="page.cgi?id=quicksearch.html">[Pomoc]</a>

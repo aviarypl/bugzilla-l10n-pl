@@ -28,7 +28,7 @@
 
 <ul id="useful-links">
   <li id="links-actions">
-    <div class="label">Akcje:</div>
+    <div class="label">Akcje: </div>
       [% PROCESS "global/common-links.html.tmpl" btn_id = "find_bottom" %]
   </li>
 
@@ -48,10 +48,10 @@
         [% IF user.groups.tweakparams %]
           <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editparams.cgi">Parametry</a></li>
           [% print_pipe = 1 %]
-          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editsettings.cgi">Preferencje użytkownika</a></li>
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="editsettings.cgi">Opcje użytkowników</a></li>
         [% END %]
         [% IF user.groups.editcomponents %]
-          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="sanitycheck.cgi">Sprawdzanie poprawności</a></li>
+          <li>[% '<span class="separator">| </span>' IF print_pipe %]<a href="sanitycheck.cgi">Kontrola poprawności</a></li>
           [% print_pipe = 1 %]
         [% END %]
         [% IF user.groups.editusers || user.can_bless %]

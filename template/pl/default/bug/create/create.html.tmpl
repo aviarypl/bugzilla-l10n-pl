@@ -26,7 +26,7 @@
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
-[% title = BLOCK %]Dodaj [% terms.blad %]: [% product.name FILTER html %][% END %]
+[% title = BLOCK %]Dodawanie [% terms.bledu %]: [% product.name FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -351,13 +351,13 @@ function handleWantsAttachment(wants_attachment) {
 
 [% IF user.in_group(Param('timetrackinggroup')) %]
   <tr>
-    <td align="right"><strong>Szacunkowa liczba godzin:</strong></td>
+    <td align="right"><strong>Szac.nakład [h]:</strong></td>
     <td colspan="2">
       <input name="estimated_time" size="6" maxlength="6" value="0.0">
     </td>
   </tr>
   <tr>
-    <td align="right"><strong>Deadline:</strong></td>
+    <td align="right"><strong>Termin:</strong></td>
     <td colspan="2">
       <input name="deadline" size="10" maxlength="10" value="[% deadline FILTER html %]">
       <small>(RRRR-MM-DD)</small>
@@ -461,7 +461,7 @@ function handleWantsAttachment(wants_attachment) {
         //-->
       </script>
         <fieldset>
-          <legend>Add an attachment</legend>
+          <legend>Załącznik</legend>
           <table class="attachment_entry">
             [% PROCESS attachment/createformcontents.html.tmpl
                        flag_types = product.flag_types.attachment
@@ -549,7 +549,7 @@ function handleWantsAttachment(wants_attachment) {
                return false; } return true;">
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="submit" name="maketemplate" id="maketemplate"
-             value="Zapamiętaj wartości, jako wzorzec-zakładkę">
+             value="Zapamiętaj jako wzorzec">
     </td>
   </tr>
 
@@ -565,8 +565,8 @@ function handleWantsAttachment(wants_attachment) {
   [% ELSE %]
       System operacyjny oraz platforma zostały ustawione
   [% END %]
-      na podstawie danych Twojej przeglądarki. Jeśli wykryte wartości są
-      niepoprawne prosimy o informację na adres [%+ Param('maintainer') %].
+      na podstawie danych z identyfikatora przeglądarki. Jeśli wykryte wartości są
+      niepoprawne, prosimy o przesłanie informacji na adres [%+ Param('maintainer') %].
     </td>
   </tr>
 [% END %]
