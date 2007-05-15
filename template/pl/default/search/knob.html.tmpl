@@ -34,16 +34,16 @@
 
 [%# This is not necessary for English templates, but useful for localisers. %]
 [% ordersdesc = {
-   "Reuse same sort as last time" => "Reuse same sort as last time",
-   "Bug Number"   => "$terms.Bug Number",
-   "Importance"   => "Importance",
-   "Assignee"     => "Assignee",
-   "Last Changed" => "Last Changed" } %]
+   "Reuse same sort as last time" => "takie jak w poprzednim zapytaniu",
+   "Bug Number"   => "wg numeru $terms.bledu",
+   "Importance"   => "wg wagi",
+   "Assignee"     => "wg właściciela",
+   "Last Changed" => "wg daty modyfikacji" } %]
 
 <input type="hidden" name="cmdtype" value="doit">
 
 <p>
-  <label for="order">Sort results by</label>:
+  <label for="order">Sortowanie rezultatów</label>:
   <select name="order" id="order">
   [% FOREACH order = orders %]
     <option value="[% order FILTER html %]"
@@ -70,13 +70,13 @@
   <input type="checkbox" id="remasdefault"
          name="remtype" value="asdefault">
   <label for="remasdefault">
-    and remember these as my default search options
+    Zapisz powyższe ustawienia jako domyślne
   </label>
 </p>
         
 [% IF userdefaultquery %]
   <p>
     <a href="query.cgi?nukedefaultquery=1">
-      Set my default search back to the system default</a>.
+      Przywróć moje domyślne wyszukiwanie do domyślnego wyszukiwania systemowego</a>.
   </p>
 [% END %]

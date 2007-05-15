@@ -36,7 +36,7 @@ var queryform = "queryform"
 [% END %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Search for $terms.bugs"
+  title = "Wyszukiwanie $terms.bledow"
   onload = "doOnSelectProduct(0); initHelp();"
   javascript = js_data
   javascript_urls = [ "js/productform.js" ]
@@ -47,24 +47,24 @@ var queryform = "queryform"
 
 [% WRAPPER search/tabs.html.tmpl %]
 
-[% button_name = "Search" %]
+[% button_name = "Szukaj" %]
 
 [%# The decent help requires Javascript %]
 [% IF NOT cgi.param("help") %]
   [% IF cgi.user_agent("Mozilla/5") %]
     <script type="text/javascript"> <!--
-      document.write("<p><a href='query.cgi?help=1&amp;format=advanced'>Give me some help<\/a> (reloads page).<\/p>");
+      document.write("<p><a href='query.cgi?help=1&amp;format=advanced'>Pomoc<\/a> (odświeża stronę)<\/p>");
       // -->
     </script>
   [% END %]
 [% ELSE %]
   <p>
-      For help, mouse over the page elements.
+      Przesunięcie wskaźnika myszy nad element formularza wyświetla pomoc.
       <font color="red">
       [% IF cgi.user_agent("Mozilla/5") %]
-        Note that if the help popups are hidden by form element scroll bars,
-        this is a b<!-- word broken up to pass test 009 -->ug in your browser,
-        not in [% terms.Bugzilla %].
+        Uwaga: jeśli okienka pomocy są przykrywane przez paski przewijania,
+        to oznacza to błąd przeglądarki, a nie 
+        [% terms.Bugzilli %].
       [% END %]
     </font>
   </p>

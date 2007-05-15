@@ -157,7 +157,7 @@
 
   [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
     [% terms.Bledy %] na tej liście są posortowane według trafności,
-    z [% terms.bledami %] najbliższymi zapytaniu na górze.
+    z [% terms.bledami %] najbliższymi zapytaniu na początku listy.
     [% IF bugs.size == constants.FULLTEXT_BUGLIST_LIMIT %]
       Wyświetlanych jest wyłącznie pierwsze 
       [% constants.FULLTEXT_BUGLIST_LIMIT FILTER html %] [% terms.bledow %].

@@ -191,7 +191,7 @@
             [% IF Param('usestatuswhiteboard') %]
               <tr>
                 <td align="right">
-                  <label for="status_whiteboard" accesskey="w"><b><u>W</u>hiteboard</b></label>:
+                  <label for="status_whiteboard" accesskey="t"><b><u>T</u>ablica</b></label>:
                 </td>
                 [% PROCESS input inputname => "status_whiteboard" size => "60" colspan => 2 %]
               </tr>
@@ -201,7 +201,7 @@
               <tr>
                 <td align="right">
                   <label for="keywords" accesskey="k">
-                    <b><a href="describekeywords.cgi">Słowa <u>k</u>luczowe</a></b></label>:
+                    <b><a href="describekeywords.cgi">Sło<u>w</u>a kluczowe</a></b></label>:
                 </td>
                 [% PROCESS input inputname => "keywords" size => 60 colspan => 2
                                  value => bug.keywords.join(', ') %]
@@ -607,7 +607,7 @@
   <table cellspacing="1" cellpadding="1">
     <tr>
       <td align="right">
-        <label for="rep_platform" accesskey="h"><b>Sprzęt<u>(H)</u></b></label>:
+        <label for="rep_platform" accesskey="z"><b>Spr<u>z</u>ęt</b></label>:
       </td>
       [% PROCESS select selname => "rep_platform" %]
     </tr>
