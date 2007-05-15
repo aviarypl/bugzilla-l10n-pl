@@ -25,9 +25,9 @@
   #%]
 
 [% WRAPPER global/tabs.html.tmpl
-     tabs = [ { name => 'specific', label => "Find a Specific $terms.Bug",
+     tabs = [ { name => 'specific', label => "Wyszukiwanie $terms.bledow",
                 link => "query.cgi?format=specific" },
-              { name => 'advanced', label => "Advanced Search",
+              { name => 'advanced', label => "Wyszukiwanie zaawansowane",
                 link => "query.cgi?format=advanced" } ]
      current_tab_name = query_format || format || "advanced"
 %]

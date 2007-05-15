@@ -68,7 +68,7 @@
   [% END %]
 
   [% IF user.settings.display_quips.value == 'on' %]
-    [% DEFAULT quip = "$terms.Bugzilla może w tym miejscu wyświetlać losową sentencje, lecz do tej pory żadna nie została zdefiniowana." %]
+    [% DEFAULT quip = "$terms.Bugzilla może w tym miejscu wyświetlać losową sentencje, ale do tej pory żadna nie została zdefiniowana." %]
     <a href="quips.cgi"><i>[% quip FILTER html %]</i></a>
   [% END %]
 
@@ -146,7 +146,7 @@
             <input type="hidden" name="id" value="[% id FILTER html %]">
           [% END %]
           <input type="hidden" name="format" value="multiple">
-          <input type="submit" id="long_format" value="Format długi">
+          <input type="submit" id="long_format" value="Pełny format">
         </form>
         <form method="post" action="show_bug.cgi">
             <input type="hidden" name="ctype" value="xml">
@@ -172,7 +172,7 @@
         [% urlquerypart FILTER html %]&amp;ctype=csv">CSV</a> |
         <a href="buglist.cgi?
         [% urlquerypart FILTER html %]&amp;title=
-        [%- title FILTER html %]&amp;ctype=atom">Kanał atom</a> |
+        [%- title FILTER html %]&amp;ctype=atom">Kanał Atom</a> |
         <a href="buglist.cgi?
         [% urlquerypart FILTER html %]&amp;ctype=ics">iCalendar</a> |
         <a href="colchange.cgi?

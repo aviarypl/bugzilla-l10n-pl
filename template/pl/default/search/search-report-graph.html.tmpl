@@ -31,7 +31,7 @@ var queryform = "reportform"
 [% END %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Generate Graphical Report"
+  title = "Generacja raportu graficznego"
   onload = "doOnSelectProduct(0); chartTypeChanged()"
   javascript = js_data
   javascript_urls = [ "js/productform.js" ]
@@ -40,8 +40,8 @@ var queryform = "reportform"
 [% PROCESS "search/search-report-select.html.tmpl" %]
 
 <p>
-  Choose one or more fields as your axes, and then refine your set of 
-  [% terms.bugs %] using the rest of the form.
+  Proszę wybrać jedno lub więcej pól jako osie, a następnie
+  dopasować zestaw [% terms.bledow %] za pomocą pozostałej części formularza.
 </p>
 
 <script type="text/javascript"><!--
@@ -61,30 +61,30 @@ var queryform = "reportform"
 // -->
 </script>
 
-[% button_name = "Generate Report" %]
+[% button_name = "Generuj raport" %]
 
 <form method="get" action="report.cgi" name="reportform">
 
 <table align="center">
   <tr>
     <td valign="middle">
-      <b>Vertical Axis:</b><br>
-      <noscript><small>(not for pie charts)</small><br></noscript>
+      <b>Oś pionowa:</b><br>
+      <noscript><small>(oprócz wykresów kołowych)</small><br></noscript>
       [% PROCESS select name = 'y_axis_field' %]<br>
       <br>
-        <b>Plot Data Sets:</b><br>
+        <b>Rysowanie danych:</b><br>
         <input type="radio" name="cumulate" value="0"
         [% " checked" IF default.cumulate.0 != "1" %]>
-        Individually<br>
+        Osobno<br>
         <input type="radio" name="cumulate" value="1"
         [% " checked" IF default.cumulate.0 == "1" %]>
-        Summed
+        Sumowane
     </td>
     <td width="150" height="150">
       <table border="1" width="100%" height="100%">
         <tr>
           <td align="center" valign="middle">
-            <b>Multiple Images:</b><br>
+            <b>Wiele wykresów:</b><br>
             [% PROCESS select name = 'z_axis_field' %]
           </td>
         </tr>
@@ -93,9 +93,9 @@ var queryform = "reportform"
     <td rowspan="2">
       <b>Format:</b><br>
       [% chart_formats = [
-        { name => "line", description => "Line Graph" },
-        { name => "bar",  description => "Bar Chart" },
-        { name => "pie",  description => "Pie Chart" } ] %]
+        { name => "line", description => "Wykres liniowy" },
+        { name => "bar",  description => "Wykres słupkowy" },
+        { name => "pie",  description => "Wykres kołowy" } ] %]
       [% default.chart_format.0 = default.chart_format.0 || "bar" %]
 
       [% FOREACH chart_format = chart_formats %]
@@ -112,9 +112,9 @@ var queryform = "reportform"
     <td>
     </td>
     <td align="left">
-      <b>Horizontal Axis:</b>
+      <b>Oś pozioma:</b>
       [% PROCESS select name = 'x_axis_field' %]<br>
-      <label for="x_labels_vertical"><b>Vertical labels:</b></label>
+      <label for="x_labels_vertical"><b>Etykiety osi:</b></label>
       <input type="checkbox" name="x_labels_vertical" id="x_labels_vertical"
              value="1"
          [% " checked" IF default.x_labels_vertical.0 == "1" %]>

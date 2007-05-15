@@ -21,88 +21,79 @@
   
 [% help_html = [ 
 { id => "short_desc_type", 
-  html => "The type of summary search you would like" },   
+  html => "Metoda przeszukiwania podsumowania" },   
 { id => "short_desc", 
-  html => "The $terms.bug summary is a short sentence which succinctly  
-           describes <br> what the $terms.bug is about." },   
+  html => "Krótki tekst podsumowujący treść ${terms.bledu}." },   
 { id => "classification", 
-  html => "$terms.Bugs are categorised into Classifications, Products and Components. classifications is the<br>
-           top-level categorisation." },   
+  html => "$terms.Bledy kategoryzowane są za pomocą klasyfikacji, produktów i komponentów.<br>
+           Klasyfikacje, to kategoria najwyższego poziomu." },   
 { id => "product", 
   html => Param('useclassification') ?
-       "$terms.Bugs are categorised into Products and Components. Select a Classification to narrow down this list" :
-       "$terms.Bugs are categorised into Products and Components. Product is 
-           the<br>top-level categorisation." },   
+       "$terms.Bledy kategoryzowane są wg produktów i komponentów. Wybór klasyfikacji pozwala zawęzić tą listę" :
+       "$terms.Bledy kategoryzowane są wg produktów i komponentów. <br>Produkt jest kategorią najwyższego poziomu." },   
 { id => "component", 
-  html => "Components are second-level categories; each belongs to a<br> 
-           particular Product. Select a Product to narrow down this list." },   
+  html => "Komponenty to kategorie drugiego poziomu. Każdy z nich należy do<br> 
+           danego produktu. Wybór produktu pozwala zawęzić tą listę." },   
 { id => "version", 
-  html => "The version field defines the version of the software the 
-           $terms.bug<br>was found in." },   
+  html => "Pole to określa wersję oprogramowania, w którym znaleziono ${terms.blad}." },   
 { id => "target_milestone", 
-  html => "The target_milestone field is used to define when the engineer<br>
-           the $terms.bug is assigned to expects to fix it." },   
+  html => "Pole wersja docelowa używane jest do określenia czasu, do którego<br>
+           $terms.blad ten powinien zostać rozwiązany." },   
 { id => "long_desc", 
-  html => "$terms.Bugs have comments added to them by $terms.Bugzilla users.  
-           You can<br>search for some text in those comments." },   
+  html => "$terms.Bledy zawierają także komentarze dodane przez użytkowników ${terms.Bugzilli}.  
+           <br>Można przeszukiwać teksty tych komentarzy." },   
 { id => "long_desc_type", 
-  html => "The type of comment search you would like" },   
+  html => "Metoda przeszukiwanie komentarzy" },   
 { id => "bug_file_loc", 
-  html => "$terms.Bugs can have a URL associated with them - for example, a 
-           pointer<br>to a web site where the problem is seen." },   
+  html => "Z $terms.bledami mogą być skojarzone adresy URL - np. odnośnik 
+           do strony<br>na której występuje błąd." },   
 { id => "bug_file_loc_type", 
-  html => "The type of URL search you would like" },   
+  html => "Metoda przeszukiwania adresów URL" },   
 { id => "status_whiteboard", 
-  html => "Each $terms.bug has a free-form single line text entry box for 
-           adding<br>tags and status information." },   
+  html => "Każdy $terms.blad posiada pole tesktowe do wpisywania statusów i etykiet." },   
 { id => "status_whiteboard_type", 
-  html => "The type of whiteboard search you would like" },   
+  html => "Typ przeszukiwania tablicy" },   
 { id => "keywords", 
-  html => "You can add keywords from a defined list to $terms.bugs, in order 
-           to<br>tag and group them." },   
+  html => "Słowa kluczowe ze zdefiniowanej listy pozwalają przypisywać etykiety i grupować ${terms.bledy}." },   
 { id => "keywords_type", 
-  html => "The type of keyword search you would like" },   
+  html => "Typ przeszukiwania słów kluczowych" },   
 { id => "bug_status", 
-  html => "$terms.Abug may be in any of a number of states." },
+  html => "$terms.Blad może znajdować się we wielu stanach." },
 { id => "resolution", 
-  html => "If $terms.abug is in a resolved state, then one of these reasons
-           will<br>be given for its resolution." },   
+  html => "Jeśli $terms.blad jest rozwiązany, to jeden z poniższych powodów może
+           być<br>podany jako jego rozwiązanie." },   
 { id => "bug_severity", 
-  html => "How severe the $terms.bug is, or whether it's an enhancement." },   
+  html => "Określa wagę $terms.bledu lub czy jest to propozycja nowej funkcji." },   
 { id => "priority", 
-  html => "Engineers prioritise their $terms.bugs using this field." },   
+  html => "To pole służy do określenia priorytetu ${terms.bledu}." },   
 { id => "rep_platform", 
-  html => "The hardware platform the $terms.bug was observed on." },   
+  html => "Typ komputera, na którym zaobserwowano ${terms.blad}." },   
 { id => "op_sys", 
-  html => "The operating system the $terms.bug was observed on." },   
+  html => "System operacyjny, na którym zaobserwowano ${terms.blad}." },   
 { id => "email1", 
-  html => "Every $terms.bug has people associated with it in different 
-           roles.<br>Here, you can search on what people are in what role." },
+  html => "Z każdym $terms.bledem skojarzone są osoby w różnych rolach. 
+           <br>Tutaj można określić osoby przypisany do ${terms.bledu}." },
 { id => "email2", 
-  html => "Every $terms.bug has people associated with it in different 
-           roles.<br>Here, you can search on what people are in what role." },
+  html => "Z każdym $terms.bledem skojarzone są osoby w różnych rolach. 
+           <br>Tutaj można określić osoby przypisany do ${terms.bledu}." },
 { id => "bug_id", 
-  html => "You can limit your search to a specific set of $terms.bugs ." },   
+  html => "Tutaj można ograniczyć wyszukiwanie do określonego zbioru ${terms.bledow}." },   
 { id => "votes", 
-  html => "Some $terms.bugs can be voted for, and you can limit your search to 
-           $terms.bugs<br>with more than a certain number of votes." },   
+  html => "Na niektóre $terms.bledy można głosować. <br>To pole pozwala zawęzić wyszukiwanie 
+           do $terms.bledow z minimalną liczbą głosów." },   
 { id => "chfield", 
-  html => "You can search for specific types of change - this field define <br>
-           which field you are interested in changes for." },   
+  html => "Można wyszukiwać także wg określonych zmian ${terms.bledu}. To pole określa, <br>
+           które pola należy wziąć pod uwagę." },   
 { id => "chfieldfrom", 
-  html => "Specify the start and end dates either in YYYY-MM-DD format<br>
-           (optionally followed by HH:mm, in 24 hour clock), or in relative<br>
-           dates such as 1h, 2d, 3w, 4m, 5y, which respectively mean one hour,<br>
-           two days, three weeks, four months, or five years ago. 0d is last<br>
-           midnight, and 0h, 0w, 0m, 0y is the beginning of this hour, week,<br>
-           month, or year." },
+  html => "Proszę podać daty w formacie RRRR-MM-DD (opcjonalnie z godziną w formacie<br>
+           HH:mm 24h) lub względne daty jak np 1h, 2d, 3w, 4m, 5y, które oznaczają<br>
+           odpowiednio 1 godzinę, 2 dni 3 tygodnie, 4 miesiące lub 5 lat wstecz. 0d oznacza<br>
+           ostatną północ, a 0h, 0w, 0m, 0y to początek tej godziny, tygodnia, miesiąca lub roku." },
 { id => "chfieldto", 
-  html => "Specify the start and end dates either in YYYY-MM-DD format<br>
-           (optionally followed by HH:mm, in 24 hour clock), or in relative<br>
-           dates such as 1h, 2d, 3w, 4m, 5y, which respectively mean one hour,<br>
-           two days, three weeks, four months, or five years ago. 0d is last<br>
-           midnight, and 0h, 0w, 0m, 0y is the beginning of this hour, week,<br>
-           month, or year." },
+  html => "Proszę podać daty w formacie RRRR-MM-DD (opcjonalnie z godziną w formacie<br>
+           HH:mm 24h) lub względne daty jak np 1h, 2d, 3w, 4m, 5y, które oznaczają<br>
+           odpowiednio 1 godzinę, 2 dni 3 tygodnie, 4 miesiące lub 5 lat wstecz. 0d oznacza<br>
+           ostatną północ, a 0h, 0w, 0m, 0y to początek tej godziny, tygodnia, miesiąca lub roku." },
 { id => "chfieldvalue", 
-  html => "The value the field defined above changed to during that time." },   
+  html => "Wartość powyższego pola została zmieniona w określonym czasie." },   
 ] %]

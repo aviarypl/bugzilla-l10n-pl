@@ -22,21 +22,19 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl 
-  title = "Find a Specific " _ terms.Bug
+  title = "Wyszukiwanie " _ terms.bledow
 %]
 
 [% WRAPPER search/tabs.html.tmpl %]
 
 <p>
-Find a specific [% terms.bug %] by entering words that describe it.  
-[% terms.Bugzilla %] will search [% terms.bug %] descriptions and comments
-for those words and return a list of matching [% terms.bugs %] sorted
-by relevance.
+Proszę podać szukane słowa. Przeszukane zostaną opisy i komentarze do [% terms.bledow %], a następnie wyświetlona
+zostanie lista znalezionych [% terms.bledow %] posortowana według trafności dopasowania.
 </p>
 
 <p>
-For example, if the [% terms.bug %] you are looking for is a browser crash when you go to a secure web site with an embedded Flash animation, you might search
-for "crash secure SSL flash".
+Na przykład: jeśli szukany [% terms.blad %] objawia sią zamknięciem przeglądarki po otwarciu bezpiecznej strony
+z animacją Flash, możnaby wpisać "crash secure SSL flash".
 </p>
 
 <form name="queryform" method="get" action="buglist.cgi">
@@ -50,9 +48,9 @@ for "crash secure SSL flash".
     </td>
     <td>
       <select name="bug_status" id="bug_status">
-        [% statuses = [ { name = 'open', label = "Open" },
-                        { name = 'closed', label = "Closed" },
-                        { name = 'all', label = "All" } ] %]
+        [% statuses = [ { name = 'open', label = "Otwarty" },
+                        { name = 'closed', label = "Zamknięty" },
+                        { name = 'all', label = "Wszystkie" } ] %]
         [% FOREACH status = statuses %]
             <option value="__[% status.name %]__" 
                   [% " selected" IF default.bug_status.0 == "__${status.name}__" %]>
@@ -64,11 +62,11 @@ for "crash secure SSL flash".
   </tr>
   <tr>
     <td align="right" valign="baseline">
-      <b><label for="product">Product:</label></b>
+      <b><label for="product">Produkt:</label></b>
     </td>
     <td>
       <select name="product" id="product">
-        <option value="">All</option>
+        <option value="">Wszystkie</option>
         [% IF Param('useclassification') %]
           [% FOREACH c = classification %]
             <optgroup label="[% c.name FILTER html %]">
@@ -95,7 +93,7 @@ for "crash secure SSL flash".
   </tr>
   <tr>
     <td align="right" valign="baseline">
-      <b><label for="content">Words:</label></b>
+      <b><label for="content">Słowa:</label></b>
     </td>
     <td>
       <input name="content" size="40" id="content"
@@ -109,10 +107,10 @@ for "crash secure SSL flash".
   <tr>
     <td></td>
     <td>
-      <input type="submit" id="search" value="Search"
+      <input type="submit" id="search" value="Szukaj"
              onclick="if (this.form.content.value == '')
-                      {alert('The Words field cannot be empty. You have to ' +
-                             'enter at least one word in your search criteria.');
+                      {alert('Pole \'słowa\' nie może być puste. Proszę podać conajmniej ' +
+                             'jedno słowo w do pola tekstowego.');
                        return false;} return true;">
      </td>
   </tr>

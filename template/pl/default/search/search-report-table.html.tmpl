@@ -31,7 +31,7 @@ var queryform = "reportform"
 [% END %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Generate Tabular Report"
+  title = "Tworzenie raportu tabelarycznego"
   onload = "doOnSelectProduct(0)"
   javascript = js_data
   javascript_urls = [ "js/productform.js" ]
@@ -40,11 +40,11 @@ var queryform = "reportform"
 [% PROCESS "search/search-report-select.html.tmpl" %]
 
 <p>
-  Choose one or more fields as your axes, and then refine your set of 
-  [% terms.bugs %] using the rest of the form.
+  Proszę wybrać jedno lub więcej pól jako osie, a następnie                                                                                              
+  dopasować zestaw [% terms.bledow %] za pomocą pozostałej części formularza.    
 </p>
 
-[% button_name = "Generate Report" %]
+[% button_name = "Generuj raport" %]
 
 <form method="get" action="report.cgi" name="reportform">
 
@@ -53,21 +53,21 @@ var queryform = "reportform"
     <td>
     </td>
     <td align="center">
-      <b>Horizontal Axis:</b>
+      <b>Oś pozioma:</b>
       [% PROCESS select name = 'x_axis_field' %]
     </td>
   </tr>
 
   <tr>
     <td valign="middle" align="center">
-      <b>Vertical Axis:</b><br>
+      <b>Oś pionowa:</b><br>
       [% PROCESS select name = 'y_axis_field' %]
     </td>
     <td width="150" height="150">
       <table border="1" width="100%">
         <tr>
           <td align="center" valign="middle" height="150">
-            <b>Multiple Tables:</b><br>
+            <b>Wiele tabeli:</b><br>
             [% PROCESS select name = 'z_axis_field' %]
           </td>
         </tr>

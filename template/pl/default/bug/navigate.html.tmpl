@@ -52,10 +52,9 @@
       (Ten [% terms.blad %] nie znajduje się na liście błędów)
     [% END %]
   [% ELSE %]
-    &nbsp;&nbsp;
+    &nbsp;
   [% END %]
-
-  &nbsp;&nbsp;<a href="buglist.cgi?regetlastlist=1">Wyświetl listę wyników ostatniego wyszukiwania</a>
+  &nbsp;&nbsp;<a href="buglist.cgi?regetlastlist=1">Lista wyników ostatniego wyszukiwania</a>
 [% ELSE %]
   [%# Either !bug_list || bug_list.size <= 0 %]
   [%# With no list, don't show link to search results %]

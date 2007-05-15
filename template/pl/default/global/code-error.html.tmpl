@@ -103,8 +103,8 @@
   
   [% ELSIF error == "chart_lines_not_installed" %]
     [% admindocslinks = {'installation.html#install-perlmodules' => 'Do korzystania z wykresów niezbędna jest instalacja modułów Perl'} %]
-    Wykresy nie będą działać, póki nie zostanie zainstalowany modół Perl Chart::Lines.
-    Uruchom checksetup.pl, aby wyświetlić instrukcje instalacji.
+    Wykresy nie będą działać, póki nie zostanie zainstalowany moduł Perl Chart::Lines.
+    Proszę uruchomić skrypt checksetup.pl, aby wyświetlić instrukcje instalacji.
 
   [% ELSIF error == "column_not_null_without_default" %]
     Błąd podczas dodawania kolumny [% name FILTER html %]:
@@ -148,8 +148,8 @@
 
   [% ELSIF error == "gd_not_installed" %]
     [% admindocslinks = {'installation.html#install-perlmodules' => 'Installing Perl modules necessary for Charting'} %]
-    Wykresy nie będą wyświetlane do czasu zainstalowania Perlowego modułu GD.
-    Uruchom checksetup.pl aby otrzymać instrukcje postępowania.
+    Wykresy nie będą wyświetlane do czasu zainstalowania modułu Perl GD.
+    Proszę uruchomić skrypt checksetup.pl, aby otrzymać instrukcje postępowania.
 
   [% ELSIF error == "illegal_content_type_method" %]
     Formularz został uszkodzony podczas wysyłania. Pole <em>content
@@ -454,7 +454,7 @@
 
 <tt>
   <p>
-    Wystąpił błąd wewnętrzny [% terms.Bugzilli %]. Proszę zapisać tą stroną
+    Wystąpił błąd wewnętrzny [% terms.Bugzilli %]. Proszę zapisać tą stronę
     i wysłać ją do [% Param("maintainer") %] wraz z opisem czynności, które
     doprowadziły do wystąpienia tego błędu.
   </p>
