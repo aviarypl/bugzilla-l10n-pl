@@ -24,20 +24,20 @@
 [% expiration_ts = token_ts + (max_token_age * 86400) %]
 From: [% Param('mailfrom') %]
 To: [% emailaddress %]
-Subject: [% terms.Bugzilla %] Change Email Address Request
+Subject: [% terms.Bugzilla %] Żądanie zmiany adresu e-mail.
 X-Bugzilla-Type: admin
 
-[%+ terms.Bugzilla %] has received a request to change the email address
-for the account [% oldemailaddress %] to your address.
+[%+ terms.Bugzilla %] otrzymała żądanie zmiany adresu e-mail konta
+ [% oldemailaddress %] na ten adres e-mail.
 
-To confirm the change, visit the following link:
+Aby potwierdzić zmianę, należy otworzyć poniższy odnośnik:
 
 [%+ Param('urlbase') %]token.cgi?t=[% token FILTER url_quote %]&a=cfmem
 
-If you are not the person who made this request, or you wish to cancel
-this request, visit the following link:
+Jeśli odbiorca tej wiadomości nie wysłał tego żądania lub aby anulować żądanie,
+proszę otworzyć poniższy odnośnik:
 
 [%+ Param('urlbase') %]token.cgi?t=[% token FILTER url_quote %]&a=cxlem
 
-If you do nothing, the request will lapse after [%+ max_token_age %] days
-(on [%+ time2str("%B %o, %Y at %H:%M %Z", expiration_ts) %]).
+W przypadku braku reakcji żądanie wygaśnie po [%+ max_token_age %] dniach
+([%+ time2str("%B %o, %Y at %H:%M %Z", expiration_ts) %]).

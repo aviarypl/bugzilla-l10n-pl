@@ -29,7 +29,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-  Create a new [% terms.Bugzilla %] account
+  Nowe konto w [% terms.Bugzilli %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -37,20 +37,20 @@
            onload = "document.forms['account_creation_form'].login.focus();" %]
 
 <p>
-  To create a [% terms.Bugzilla %] account, all you need to do is to enter
-  a legitimate e-mail address. You will receive an email at this address
-  to confirm the creation of your account. <b>You will not be able to log
-  in until you receive the email.</b> If it doesn't arrive within a
-  reasonable amount of time, you can contact the maintainer of
-  this [% terms.Bugzilla %] installation
-  at <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
+  Aby utworzyć konto w [% terms.Bugzilli %] wymagane jest tylko podanie 
+  poprawnego adresu e-mail. Następnie na adres ten wysłana zostanie
+  wiadomość z prośbą o potwierdzenie. <b>Do czasu otrzymania wiadomości
+  zalogowanie się do systemu nie będzie możliwe.</b> W przypadku gdy wiadomość nie dojdzie
+  w rozsądnym czasie, należy skontaktować się z opiekunem tej instalacji
+  [% terms.Bugzilli %] pod adresem
+  <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
 </p>
 
 <form id="account_creation_form" method="get" action="createaccount.cgi">
   <table>
     <tr>
       <td align="right">
-        <b>E-mail address:</b>
+        <b>Adres e-mail:</b>
       </td>
       <td>
         <input size="35" id="login" name="login">
@@ -59,7 +59,7 @@
     </tr>
   </table>
   <br>
-  <input type="submit" id="send" value="Send">
+  <input type="submit" id="send" value="Wyślij">
 </form>
 
 [% PROCESS global/footer.html.tmpl %]

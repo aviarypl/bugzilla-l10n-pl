@@ -43,7 +43,7 @@
     heading            => 'Imię i nazwisko'
    }
    {heading            => 'Dziennik konta'
-    content            => 'View'
+    content            => 'Wyświetl'
     contentlink        => 'editusers.cgi?action=activity' _
                                   '&amp;userid=%%userid%%' _
                                   listselectionurlparams
@@ -97,7 +97,7 @@
   [% END %]
 [% END %]
 
-<p>Znaleziono [% users.size %] [% PROCESS ODMIEN c=users.size o1="użytkownika" o1="użytkowników" o1="użytkowników" %].</p>
+<p>Znaleziono [% users.size %] [% PROCESS ODMIEN c=users.size o1=" użytkownika" o1=" użytkowników" o1=" użytkowników" %].</p>
 
 [% PROCESS admin/table.html.tmpl
   columns = columns
