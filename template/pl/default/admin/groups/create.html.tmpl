@@ -47,19 +47,19 @@
   <input type="checkbox" name="insertnew" value="1"
     [% IF Param("makeproductgroups") %] checked[% END %]>
     Dodaj grupę dla wszystkich istniejących produktów.<p>
-  <input type="submit" id="create" value="Add">
+  <input type="submit" id="create" value="Dodaj">
   <input type="hidden" name="action" value="new">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
-<p><b>Nazwa</b> to nazwa, która używana jest z funkcją <!-- blah -->ugzilla->user->in_group()
+<p><b>Nazwa</b> to nazwa, która używana jest z funkcją <!-- blah -->bugzilla->user->in_group()
 w każdym ze zmodyfikowanych przez użytkownika plikach cgi.
-Może być ona także używana przez użytkowników wpisujących [% terms.bledy %] poprzez email
+Może być ona także używana przez użytkowników wpisujących [% terms.bledy %] poprzez ema
 w celu ograniczenia [% terms.bledu %] do określonego zbioru grup.
 Nazwa ta nie może zawierać spacji.</p>
 
 <p><b>Opis</b> jest tym co pojawi się w raportach [% terms.bledow %]
-dla członków grupy, gdzie mogą oni wybrać czy [% terms.blad %] będzie
+dla członków grupy gdzie mogą oni wybrać czy [% terms.blad %] będzie
 wyświetlany jedynie dla pozostałych osób z tej samej grupy.</p>
 
 <p>Flaga <b>Używaj dla [% terms.bledow %]</b> określa czy grupa

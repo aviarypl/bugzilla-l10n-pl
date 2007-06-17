@@ -57,7 +57,7 @@
           replytext += "> " + text[i] + "\n"; 
       }
 
-      replytext = "(odpowiedź na komentarz #" + id + ")\n" + replytext + "\n";
+      replytext = "(w odpowiedzi na komentarz #" + id + ")\n" + replytext + "\n";
 
     [% IF Param("insidergroup") && user.in_group(Param("insidergroup")) %]
       if (document.getElementById('isprivate-'+id).checked) {

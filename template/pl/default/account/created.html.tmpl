@@ -27,16 +27,16 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-  Request for new user account '[% login FILTER html %]' submitted
+  Przyjęto żądanie utworzenia konta '[% login FILTER html %]'
 [% END %]
 
 [% PROCESS global/header.html.tmpl title = title %]
 
 <p>
-  To confirm the creation of the user account <tt>[% login FILTER html %]</tt>,
-  use the URL given in the email you will receive. If you take no action in the
-  next [% constants.MAX_TOKEN_AGE FILTER html %] days, this request will
-  automatically be canceled.
+  Aby potwierdzić utworzenie konta <tt>[% login FILTER html %]</tt>,
+  należy skorzystać z adresu URL podanego w wysłanej wiadomości. 
+  W razie braku reakcji w ciągu [% constants.MAX_TOKEN_AGE FILTER html %] dni, 
+  żądanie to zostanie automatycznie anulowane.
 </p>
 
 [% PROCESS global/footer.html.tmpl %] 

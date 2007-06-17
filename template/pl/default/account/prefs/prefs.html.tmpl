@@ -68,12 +68,12 @@
 
 [% IF changes_saved %]
   <div id="message">
-    The changes to your [% current_tab.label FILTER lower %] have been saved.
+    Zmiany w kategorii "[% current_tab.label FILTER lower %]" zostały zapisane.
 
     [% IF email_changes_saved %]
       <p>
-        An email has been sent to both old and new email
-        addresses to confirm the change of email address.
+        Na stary i nowy adres wysłano wiadomości z prośbą
+	o potwierdzenie zmiany adresu e-mail.
       </p>
     [% END %]
   </div>
