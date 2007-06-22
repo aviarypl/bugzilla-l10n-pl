@@ -33,14 +33,14 @@
 %]
 
 <p>
-  Możesz utworzyć zakładkę do tego odnośnika:
+  Można utworzyć zakładkę do tego odnośnika:
   &ldquo;<a href="enter_bug.cgi?[% url FILTER html %]">
   [% IF short_desc %]
     [% short_desc FILTER html %]
   [% ELSE %]
     Szablon dodawania [% terms.bledu %]
   [% END %]</a>&rdquo;.
-  Ta zakładka otworzy stronę <em>Dodaj [% terms.blad %]</em> z polami wypełnionymi wartościami, które wpisałeś przed chwilą.
+  Ta zakładka otworzy stronę <em>Dodaj [% terms.blad %]</em> z polami wypełnionymi wartościami, które wpisano przed chwilą.
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
