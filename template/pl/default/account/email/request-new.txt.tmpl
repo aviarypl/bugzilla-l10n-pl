@@ -39,9 +39,9 @@ poniższy odnośnik:
 
 Jeśli odbiorca tej wiadomości nie wysłał tego żądania lub aby anulować żądanie,                                                                                  
 proszę otworzyć poniższy odnośnik:                                                                                                                               
-                                                                                                                                                                 
+
 [%+ Param('urlbase') %]token.cgi?t=[% token FILTER url_quote %]&a=cancel_new_account                                                                             
-                                                                                                                                                                 
+
 W przypadku braku reakcji żądanie wygaśnie po [%+ max_token_age %] dniach                                                                                        
 ([%+ time2str("%B %o, %Y at %H:%M %Z", expiration_ts) %]).    
 
