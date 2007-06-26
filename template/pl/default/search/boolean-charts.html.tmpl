@@ -21,32 +21,34 @@
   
 [% types = [
   { name => "noop", description => "---" },
-  { name => "equals", description => "is equal to" },
-  { name => "notequals", description => "is not equal to" },
-  { name => "anyexact", description => "is equal to any of the strings" },
-  { name => "substring", description => "contains the string" },
-  { name => "casesubstring", description => "contains the string (exact case)" },
-  { name => "notsubstring", description => "does not contain the string" },
-  { name => "anywordssubstr", description => "contains any of the strings" },
-  { name => "allwordssubstr", description => "contains all of the strings" },
-  { name => "nowordssubstr", description => "contains none of the strings" },
-  { name => "regexp", description => "contains regexp" },
-  { name => "notregexp", description => "does not contain regexp" },
-  { name => "lessthan", description => "is less than" },
-  { name => "greaterthan", description => "is greater than" },
-  { name => "anywords", description => "contains any of the words" },
-  { name => "allwords", description => "contains all of the words" },
-  { name => "nowords", description => "contains none of the words" },
-  { name => "changedbefore", description => "changed before" },
-  { name => "changedafter", description => "changed after" },
-  { name => "changedfrom", description => "changed from" },
-  { name => "changedto", description => "changed to" },
-  { name => "changedby", description => "changed by" },
-  { name => "matches", description => "matches" } ] %]
+  { name => "equals", description => "jest równe" },
+  { name => "notequals", description => "nie jest równe" },
+  { name => "anyexact", description => "jest równe któremukolwiek z ciągów" },
+  { name => "substring", description => "zawiera ciąg" },
+  { name => "casesubstring", description => "zawiera ciąg (z uwzgl. wielkości liter)" },
+  { name => "notsubstring", description => "nie zawiera ciągu" },
+  { name => "anywordssubstr", description => "zawiera którykolwiek z ciągów" },
+  { name => "allwordssubstr", description => "zawiera wszystkie ciągi" },
+  { name => "nowordssubstr", description => "nie zawiera żadnego z ciągów" },
+  { name => "regexp", description => "zawiera wyr. regularne" },
+  { name => "notregexp", description => "nie zawiera wyr. regularnego" },
+  { name => "lessthan", description => "jest mniejsze niż" },
+  { name => "greaterthan", description => "jest większe niż" },
+  { name => "anywords", description => "zawiera którekolwiek ze słów" },
+  { name => "allwords", description => "zawiera wszystkie słowa" },
+  { name => "nowords", description => "nie zawiera żadnego ze słów" },
+  { name => "changedbefore", description => "zmieniono przed" },
+  { name => "changedafter", description => "zmieniono po" },
+  { name => "changedfrom", description => "zmieniono od" },
+  { name => "changedto", description => "zmieniono do" },
+  { name => "changedby", description => "zmieniono przez" },
+  { name => "matches", description => "pasuje do" } ] 
+
+%]
 
   <p>
     <strong>
-      <a name="chart">Advanced Searching Using Boolean Charts</a>:
+      <a name="chart">Zaawansowane wyszukiwanie boolowskie</a>:
     </strong>
   </p>
 
@@ -63,7 +65,7 @@
              name="negate[% chartnum FILTER html %]" value="1"
             [% "checked" IF chart.negate %]>
         <label for="negate[% chartnum FILTER html %]">
-          Not (negate this whole chart)
+          NOT (negacja całego wyszukiwania)
         </label>
       </td>
     </tr>
@@ -93,14 +95,14 @@
       
       [% UNLESS loop.last %]
         <td align="center"> 
-          Or 
+          OR (alternatywa)
         </td>    
       </tr>
       <tr>
       [% ELSE %]
         <td>
           [% newor = colnum + 1 %]
-          <input type="submit" value="Or" [% jsmagic %]
+          <input type="submit" value="OR" [% jsmagic %]
                  name="cmd-add[% "${chartnum}-${rownum}-${newor}" %]"
                  id="cmd-add[% "${chartnum}-${rownum}-${newor}" %]">
         </td>
@@ -111,17 +113,17 @@
     
     [% UNLESS loop.last %]
     <tr>
-      <td>And</td>
+      <td>AND (koniunkcja)</td>
     </tr>    
     [% ELSE %]
     <tr>
       <td>
         [% newand = rownum + 1; newchart = chartnum + 1 %]
-        <input type="submit" value="And" [% jsmagic %]
+        <input type="submit" value="AND" [% jsmagic %]
                name="cmd-add[% "${chartnum}-${newand}-0" %]"
                id="cmd-add[% "${chartnum}-${newand}-0" %]">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="submit" value="Add another boolean chart" [% jsmagic %]
+        <input type="submit" value="Dodaj kolejny warunek" [% jsmagic %]
                name="cmd-add[% newchart %]-0-0"
                id="cmd-add[% newchart %]-0-0">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
