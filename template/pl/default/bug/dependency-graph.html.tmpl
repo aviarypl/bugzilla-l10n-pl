@@ -34,14 +34,14 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = "Dependency Graph"
+[% title = "Graf zależności"
    header = title
  %]
 
 [% IF NOT multiple_bugs AND NOT doall %]
   [% filtered_desc = short_desc FILTER html %]
-  [% title = "$title for $terms.bug $bug_id"
-     header = "$header for $terms.bug <a href=\"show_bug.cgi?id=$bug_id\">$bug_id</a>"
+  [% title = "$title dla $terms.bledu $bug_id"
+     header = "$header dla $terms.bledu <a href=\"show_bug.cgi?id=$bug_id\">$bug_id</a>"
      subheader = filtered_desc
    %]
 [% END %]
@@ -51,14 +51,14 @@
 [% image_map %]
 
 <p>
-  Green circles represent open [% terms.bugs %].
+  Zielone koła oznaczają otwarte [% terms.bledy %].
 </p>
 
 [% IF image_map %]
-  <img src="[% image_url %]" alt="Dependency graph" usemap="#imagemap">
+  <img src="[% image_url %]" alt="Graf zależności" usemap="#imagemap">
 [% ELSE %]
   <a href="[% map_url %]">
-    <img src="[% image_url %]" alt="Dependency graph" ismap="ismap">
+    <img src="[% image_url %]" alt="Graf zależności" ismap="ismap">
   </a>
 [% END %]
 
@@ -68,7 +68,7 @@
   <table>
     <tr>
       <td>
-        [% terms.Bug %] numbers:
+        Numery [% terms.bledow %]:
         <input name="id" value="[% bug_id %]">
       </td>
     </tr>
@@ -77,7 +77,7 @@
       <td>
         <input type="checkbox" name="doall"
         [% " checked" IF doall %]>
-        Show <b>every</b> [% terms.bug %] in the system with dependencies
+        Wyświetl <b>wszystkie</b> [% terms.bledy %] w systemie z ich zależnościami
       </td>
     </tr>
 
@@ -85,7 +85,7 @@
       <td colspan="3">
         <input type="checkbox" name="showsummary"
           [% " checked" IF showsummary %]>
-        Show the summaries of all displayed [% terms.bugs %]
+        Wyświetl podsumowania wszystkich wyświetlonych [% terms.bledow %]
       </td>
     </tr>
 
@@ -94,17 +94,17 @@
         <select name="rankdir">
           <option value="TB"
             [% " selected" IF rankdir == "TB" %]>
-            Orient top-to-bottom
+            Orientacja pionowa
           </option>
           <option value="LR"
             [% " selected" IF rankdir == "LR" %]>
-            Orient left-to-right
+            Orientacja pozioma
           </option>
         </select>
       </td>
     </tr>
   </table>
-  <input type="submit" id="change" value="Change Parameters">
+  <input type="submit" id="change" value="Zmień parametry">
 </form>
 
 [% PROCESS global/footer.html.tmpl %]
