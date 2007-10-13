@@ -84,7 +84,7 @@ document.write('<input type="button" value="Wyłącz wszystko" onclick="SetCheck
         value="1"
         [% " checked" IF 
                   mail.${constants.REL_ANY}.${constants.EVT_FLAG_REQUESTED} %]>
-      <label for="[% prefname %]">Wyślij e-mail gdy ktoś prosi mnie u ustawienie flagi</label>
+      <label for="[% prefname %]">Wyślij e-mail, gdy ktoś prosi mnie o ustawienie flagi</label>
       <br>
     </td>
   </tr>
@@ -96,7 +96,7 @@ document.write('<input type="button" value="Wyłącz wszystko" onclick="SetCheck
         value="1"
         [% " checked" IF 
                   mail.${constants.REL_ANY}.${constants.EVT_REQUESTED_FLAG} %]>
-      <label for="[% prefname %]">Wyślij e-mail gdy ktoś ustawił żądaną przeze mnie flagę</label>
+      <label for="[% prefname %]">Wyślij e-mail, gdy ktoś ustawił żądaną przeze mnie flagę</label>
       <br>
     </td>
   </tr>
@@ -277,7 +277,7 @@ Obecnie śledzeni są następujący użytkownicy:
     <input type="checkbox" id="remove_watched_users" name="remove_watched_users">
     <label for="remove_watched_users">Usuń zaznaczonych użytkowników z listy śledzonych</label>
 [% ELSE %]
-Obecnie nie są śledzeni żadni użykownicy.
+Obecnie nie są śledzeni żadni użytkownicy.
 [% END %]
 </p>
 
