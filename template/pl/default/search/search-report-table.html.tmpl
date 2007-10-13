@@ -40,8 +40,9 @@ var queryform = "reportform"
 [% PROCESS "search/search-report-select.html.tmpl" %]
 
 <p>
-  Proszę wybrać jedno lub więcej pól jako osie, a następnie                                                                                              
-  dopasować zestaw [% terms.bledow %] za pomocą pozostałej części formularza.    
+  Z list rozwijanych proszę wybrać kryteria do utworzenia nagłówków tabeli                                                                                                 
+  wzgl. osi wykresu, a następnie dopasować zestaw [% terms.bledow %]  za pomocą                                                                                            
+  pozostałej części formularza.      
 </p>
 
 [% button_name = "Generuj raport" %]
@@ -67,7 +68,7 @@ var queryform = "reportform"
       <table border="1" width="100%">
         <tr>
           <td align="center" valign="middle" height="150">
-            <b>Wiele tabeli:</b><br>
+            <b>Wiele tabel:</b><br>
             [% PROCESS select name = 'z_axis_field' %]
           </td>
         </tr>

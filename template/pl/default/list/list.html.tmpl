@@ -89,8 +89,8 @@
 [%############################################################################%]
 
 [% IF bugs.size > 9 %]
-  Znaleziono [% bugs.size %] [% PROCESS ODMIEN c=bugs.size o1=" $terms.blad"
-    o2=" $terms.bledy" o2=" $terms.bledow" %]
+  Znaleziono [% bugs.size %]&nbsp;[% PROCESS ODMIEN c=bugs.size o1=" $terms.blad"
+    o2=" $terms.bledy" o2="$terms.bledow" %]
 [% END %]
 
 [%############################################################################%]
@@ -117,7 +117,7 @@
 [% ELSIF bugs.size == 1 %]
   Znaleziono jeden [% terms.blad %].
 [% ELSE %]
-  Znaleziono [% bugs.size %] [% PROCESS ODMIEN c=bugs.size o1="$terms.blad"
+  Znaleziono [% bugs.size %]&nbsp;[% PROCESS ODMIEN c=bugs.size o1="$terms.blad"
     o2="$terms.bledy" o2="$terms.bledow" %]
 [% END %]
 
@@ -182,7 +182,7 @@
         [% IF bugs.size > 1 && caneditbugs && !dotweak %]
           <a href="buglist.cgi?[% urlquerypart FILTER html %]
             [%- "&order=$qorder" FILTER html IF order %]&amp;tweak=1"
-            >Zmień&nbsp;kilka&nbsp;[% terms.bledow %]&nbsp;na&nbsp;raz</a>
+            >Zmień&nbsp;wiele&nbsp;[% terms.bledow %]&nbsp;na&nbsp;raz</a>
           |
         [% END %]
 

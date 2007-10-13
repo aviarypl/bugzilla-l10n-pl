@@ -49,7 +49,7 @@
   "ABug" => "A Bug",
   "bugs" => "bugs",
   "Bugs" => "Bugs",
-  "zeroSearchResults" => "Zarro Boogs found",
+  "zeroSearchResults" => "Nie znaleziono żadnych błędów",
   "bit" => "bit",
   "bits" => "bity",
 
@@ -98,7 +98,7 @@
 [% BLOCK ODMIEN -%]
   [%- IF c == 1 -%]
     [%- o1 -%]
-  [%- ELSIF (c % 100 < 10 || c % 100 > 20) && c % 10 > 1 && c % 10 < 5 -%]
+  [%- ELSIF ((c % 100 < 10 || c % 100 > 20) && c % 10 > 1 && c % 10 < 5) -%]
     [%- o2 -%]
   [%- ELSE -%]
     [%- o3 -%]

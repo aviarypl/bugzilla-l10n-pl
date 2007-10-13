@@ -21,7 +21,7 @@
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
-[% INCLUDE global/header.html.tmpl title = "Voting" %]
+[% INCLUDE global/header.html.tmpl title = "Głosowanie" %]
 
 <p>[% terms.Bugzilla %] posiada opcję "głosowania". Dla każdego produktu użytkownik
 ma możliwość oddania określonej liczby głosów (niektóre produkty mogą nie pozwalać
@@ -29,8 +29,8 @@ na oddanie głosu, tym samym nie można głosować na [% terms.bledy %] danego p
 Głosując na [% terms.blad %] można określić, które, naszym zdaniem, [% terms.bledy %]
 powinny być rozwiązane w pierwszej kolejności.</p>
 
-<p>W zależności od tego jak administrator skonfigurował odpowiedni produkt, możliwe
-jest oddanie na [% terms.blad %] więcej niż jednego głosu. Należy jednak zauważyć
+<p>W zależności od tego, jak administrator skonfigurował odpowiedni produkt, możliwe
+jest oddanie na [% terms.blad %] więcej niż jednego głosu. Należy jednak zauważyć, 
 że łączna liczba głosów dla produktu nie może przekroczyć wartości określonej przez
 administratora. Można więc głosować na wiele [% terms.bledow %] oddając po
 niewielkiej liczbie głosów, lub zaledwie na kilka [% terms.bledow %], dużą
@@ -53,15 +53,15 @@ ilością głosów.</p>
   polem  "Dodatkowe Komentarze" (jeśli nie ma takiego przycisku, produkt do którego
   przypisano ten błąd, nie pozwala na oddawanie głosów).</li>
 
-  <li>Wpisz liczbę głosów którą chcesz oddać na [% terms.blad %]. Na tej stronie
-  można również zobaczyć głosy oddane na inne [% terms.bledy %] i jeśli potrzeba
+  <li>Wpisz liczbę głosów, którą chcesz oddać na [% terms.blad %]. Na tej stronie
+  można również zobaczyć głosy oddane na inne [% terms.bledy %] i, jeśli potrzeba,
   powtórnie rozdysponować swoje głosy.</li>
 </ul>
 
-<p>Zostaniesz poinformowany poprzez e-mail, o wszystkich zmianach dla [% terms.bledow %]
+<p>Zostaniesz poinformowany poprzez e-mail, o wszystkich zmianach dla [% terms.bledow %],
 na które zagłosowałeś.</p>
 
-<p>W każdej chwili możesz przejrzeć swoje głosy, klikając na odnośnik "<a href=
+<p>W każdej chwili można przejrzeć swoje głosy, klikając na odnośnik "<a href=
 "votes.cgi?action=show_user">Moje głosy</a>" znajdujący sie w stopce każdej strony.</p>
 
 [% INCLUDE global/footer.html.tmpl %]

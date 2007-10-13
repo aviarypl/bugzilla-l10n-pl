@@ -24,7 +24,7 @@
   #%]
 
 [% title = BLOCK %]
-  Components for [% product.name FILTER html %]
+  [% product.name FILTER html %] : komponenty
 [% END %]
 
 [% PROCESS global/header.html.tmpl title = title %]
@@ -41,10 +41,10 @@
 
 <table>
   <tr>
-    <th align="left">Component</th>
-    <th align="left">Default Assignee</th>
+    <th align="left">Komponent</th>
+    <th align="left">Domyślny właściciel</th>
     [% IF Param("useqacontact") %]
-      <th align="left">Default QA Contact</th>
+      <th align="left">Domyślny kontakt QA</th>
     [% END %]
   </tr>
 

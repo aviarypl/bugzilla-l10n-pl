@@ -109,7 +109,7 @@ function doOnSelectProduct(selectmode) {
 
 [% query_variants = [
   { value => "allwordssubstr", description => "zawiera wszystkie wyrazy/ciągi" },
-  { value => "anywordssubstr", description => "zawiera dowolny z wyrazów/ciągi" },
+  { value => "anywordssubstr", description => "zawiera dowolny z wyrazów/ciągów" },
   { value => "substring", description => "zawiera ciąg znaków" },
   { value => "casesubstring", description => "zawiera tekst (z uwzgl. wielkości liter)" },
   { value => "allwords", description => "zawiera wszystkie słowa" },
@@ -327,9 +327,9 @@ function doOnSelectProduct(selectmode) {
         <label for="deadlinefrom" accesskey="l"><u>T</u>ermin</label>:
       </th>
       <td>
-        from&nbsp;
+        od&nbsp;
         <input name="deadlinefrom" id="deadlinefrom" size="10" maxlength="10">&nbsp;
-        to&nbsp;
+        do&nbsp;
         <input name="deadlineto" size="10" maxlength="10">
       </td>
       <td>
@@ -558,7 +558,7 @@ function doOnSelectProduct(selectmode) {
   [% IF Param('usevotes') %]
     <tr>
       <td align="right">
-        <label for="votes">Minimalna ilość głosów</label>:
+        <label for="votes">Minimalna liczba głosów</label>:
       </td>
       <td>
         <input name="votes" id="votes" size="3"
@@ -607,7 +607,7 @@ function doOnSelectProduct(selectmode) {
     [% END %]
     </select>
   </dd>
-  <dt>oraz <label for="chfieldvalue">nowa wartość pola to</label>:</dt>
+  <dt><label for="chfieldvalue">Nowa wartość pola</label>:</dt>
   <dd>
     <input name="chfieldvalue" id="chfieldvalue"
            size="20" value="[% default.chfieldvalue.0 FILTER html %]">
