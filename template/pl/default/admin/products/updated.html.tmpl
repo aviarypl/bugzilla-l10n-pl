@@ -121,7 +121,7 @@
   
 [% IF product.votes_per_user != old_product.votes_per_user %]
   <p>
-  Zaktualizowano ilość głosów użytkownika z
+  Zaktualizowano liczbę głosów użytkownika z
   [%+ old_product.votes_per_user FILTER html %] na 
   [%+ product.votes_per_user FILTER html %].
   </p>
@@ -130,7 +130,7 @@
 
 [% IF product.max_votes_per_bug != old_product.max_votes_per_bug %]
   <p>
-  Zaktualizowano maksymalną ilość głosów na [% terms.blad %] z 
+  Zaktualizowano maksymalną liczbę głosów na [% terms.blad %] z 
   [%+ old_product.max_votes_per_bug FILTER html %] na 
   [%+ product.max_votes_per_bug FILTER html %].
   </p>
@@ -139,7 +139,7 @@
 
 [% IF product.votes_to_confirm != old_product.votes_to_confirm %]
   <p>
-  Zaktualizowano ilość głosów wymaganą do potwierdzenia [% terms.bledu %] z
+  Zaktualizowano liczbę głosów wymaganą do potwierdzenia [% terms.bledu %] z
   [%+ old_product.votes_to_confirm FILTER html %] na 
   [%+ product.votes_to_confirm FILTER html %].
   </p>

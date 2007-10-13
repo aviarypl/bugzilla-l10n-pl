@@ -87,14 +87,14 @@
 </tr>
 [% END %]
 <tr [% IF !Param('usevotes') %]class="param_disabled" [% END %]>
-  <th align="right">Max. ilość głosów na osobę:</th>
+  <th align="right">Max. liczba głosów na osobę:</th>
   <td><input size="5" maxlength="5" name="votesperuser" 
              value="[% product.votesperuser FILTER html %]">
   </td>
 </tr>
 <tr [% IF !Param('usevotes') %]class="param_disabled" [% END %]>
   <th align="right">
-    Max. ilość głosów na [% terms.blad %]
+    Max. liczba głosów na [% terms.blad %]
   </th>
   <td><input size="5" maxlength="5" name="maxvotesperbug" 
              value="[% product.maxvotesperbug FILTER html %]">
