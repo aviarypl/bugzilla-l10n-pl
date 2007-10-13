@@ -66,7 +66,7 @@ function addSidebar() {
         W celu zachowania bezpieczeństwa systemu radzimy zaktualizować wersję do najnowszej.</p>
       [% END %]
 
-      <p>Nowa wersja [% terms.Bugzilla %] ([% release.data.latest_ver FILTER html %])
+      <p>Nowa wersja [% terms.Bugzilli %] ([% release.data.latest_ver FILTER html %])
       jest dostępna pod adresem
       <a href="[% release.data.url FILTER html %]">[% release.data.url FILTER html %]</a>.<br>
       Data wydania: [% release.data.date FILTER html %]</p>
@@ -100,12 +100,12 @@ function addSidebar() {
 <div id="page-index">
   <div class="intro"></div>
 
-  <p>Witamy w [% terms.Bugzilli %]. <br>Aby dowiedzieć się co nowego znalazło się w tej wersji 
-    [% terms.Bugzilli %], zapraszamy do zapoznania się 
-    <a href="page.cgi?id=release-notes.html">informacjami o wydaniu</a>.<br>
+  <p>Witamy w [% terms.Bugzilli %]</p> <p>Zachęcamy do przeczytania 
+  <a href="page.cgi?id=release-notes.html">informacji o wydaniu</a>, w celu zapoznania się z
+  nowościami w tej wersji [% terms.Bugzilli %].<br>
     Można również przejrzeć 
     <a href="[% Param('docs_urlbase') FILTER html %]using.html">
-    Podręcznik użytkownika [%- terms.Bugzilli %]</a> (odnośnik w języku angielskim), aby dowiedzieć się czym jest 
+    Podręcznik użytkownika [%- terms.Bugzilli %]</a> (strona w języku angielskim), aby dowiedzieć się czym jest 
     [%+ terms.Bugzilla %] i jak jej używać.</p>
 
   <p>Podstawowe czynności:</p>

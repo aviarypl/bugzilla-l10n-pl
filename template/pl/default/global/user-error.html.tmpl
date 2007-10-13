@@ -293,7 +293,7 @@
 
   [% ELSIF error == "component_has_bugs" %]
     [% title = BLOCK %]Komponent nadal ma przypisane [% terms.bledy %][% END %]
-    Znaleziono [% nb FILTER html %] [%+ terms.bugledow %] dla tego komponentu.
+    Znaleziono [% nb FILTER html %] [%+ terms.bledow %] dla tego komponentu.
     Przed usunięciem komponentu należy przepisać te [% terms.bledy %] do innego komponentu.
 
   [% ELSIF error == "component_name_too_long" %]
@@ -1136,7 +1136,7 @@
     [% title = "Maksymalna liczba głosów musi być dodatnia" %]
     [% admindocslinks = {'voting.html' => 'Ustawienia funkcji głosowania'} %]
     Wartość '[% maxvotesperbug FILTER html %]' jest nieprawidłowa dla pola
-    <em>'Maksymalna ilość głosów na [% terms.blad %]'</em>, które powinno
+    <em>'Maksymalna liczba głosów na [% terms.blad %]'</em>, które powinno
     zawierać liczbę dodatnią.
 
   [% ELSIF error == "product_votes_per_user_must_be_nonnegative" %]

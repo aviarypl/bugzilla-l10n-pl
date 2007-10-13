@@ -239,8 +239,8 @@
 
               <td colspan="2">
                 [% IF Param('webdotbase') %]
-                  <a href="showdependencygraph.cgi?id=[% bug.bug_id %]">Wyświetl
-                       graf zależności</a>
+                  <a href="showdependencygraph.cgi?id=[% bug.bug_id %]">
+                       Graf zależności</a>
                 [% END %]
               </td>
             </tr>
@@ -300,13 +300,13 @@
     <table cellspacing="0" cellpadding="4" border="1">
       <tr>
         <th align="center" bgcolor="#cccccc">
-          <label for="estimated_time">Org. szacunek</label>
+          <label for="estimated_time">Oryg. szacunek</label>
         </th>
         <th align="center" bgcolor="#cccccc">
           Obecny szac.
         </th>
         <th align="center" bgcolor="#cccccc">
-          <label for="work_time">Przepr. godziny</label>
+          <label for="work_time">Przepr. godz.</label>
         </th>
         <th align="center" bgcolor="#cccccc">
           <label for="remaining_time">Pozost. godz.</label>
@@ -467,7 +467,7 @@
         [% IF NOT emitted_description %]
           [% emitted_description = 1 %]
           <br>
-          <b>Wyłącznie osoby należące do zaznaczonych grup mogą oglądać ten [% terms.blad %]:</b>
+          <b>[% terms.Blad %] ten będzie widoczny jedynie dla osób należących do zaznaczonych grup:
           <br>
           <font size="-1">
             (Odznaczenie wszystkich pól sprawi, że ten [% terms.blad %] stanie się publicznie dostępny.)
@@ -647,7 +647,7 @@
             [% IF bug.milestoneurl %]
               <a href="[% bug.milestoneurl FILTER html %]">
             [% END %]
-            Target Milestone[% "</a>" IF bug.milestoneurl %]
+            Wersja docelowa[% "</a>" IF bug.milestoneurl %]
           [%%]</b></label>:
         </td>
         [% PROCESS select selname = "target_milestone" %]

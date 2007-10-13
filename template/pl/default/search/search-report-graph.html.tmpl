@@ -31,7 +31,7 @@ var queryform = "reportform"
 [% END %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Generacja raportu graficznego"
+  title = "Generowanie raportu graficznego"
   onload = "doOnSelectProduct(0); chartTypeChanged()"
   javascript = js_data
   javascript_urls = [ "js/productform.js" ]
@@ -40,8 +40,9 @@ var queryform = "reportform"
 [% PROCESS "search/search-report-select.html.tmpl" %]
 
 <p>
-  Proszę wybrać jedno lub więcej pól jako osie, a następnie
-  dopasować zestaw [% terms.bledow %] za pomocą pozostałej części formularza.
+  Z list rozwijanych proszę wybrać kryteria do utworzenia nagłówków tabeli
+  wzgl. osi wykresu, a następnie dopasować zestaw [% terms.bledow %]  za pomocą
+  pozostałej części formularza.
 </p>
 
 <script type="text/javascript"><!--
