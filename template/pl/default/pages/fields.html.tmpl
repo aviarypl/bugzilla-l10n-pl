@@ -91,10 +91,10 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
         </dt>
         <dd>
           Ten [% terms.blad %] został już raz rozwiązany, lecz rozwiązanie okazało się
-          niepoprawne. Przykładowo [% terms.blad %] o statusie
-          <b>[% status_descs.WORKSFORME FILTER html %]</b> może zostać powtórnie
-          otworzony, kiedy zostanie podane więcej informacji, które umożliwią
-          powtórzenia [% terms.bledu %] przez zainteresowane osoby.
+          niepoprawne. Przykładowo, [% terms.blad %] o rozwiązaniu 
+          <b>[% get_resolution("WORKSFORME") FILTER html %]</b> może zostać powtórnie
+          otwarty w przypadku pojawienia się informacji umożliwiających powtórzenie zgłoszeń 
+          [% terms.bledu %] przez zainteresowane osoby. 
           [% terms.Bledy %] tego typu mogą zmienić status na
           <b>[% status_descs.ASSIGNED FILTER html %]</b> lub
           <b>[% status_descs.RESOLVED FILTER html %]</b>.
