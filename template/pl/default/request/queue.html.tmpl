@@ -27,20 +27,20 @@
 [% PROCESS "global/js-products.html.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title="Request Queue"
+  title="Kolejka żądań"
   style = "
     table.requests th { text-align: left; }
     table#filtering th { text-align: right; }
   "
-  onload="selectProduct(document.forms[0], 'product', 'component', 'Any');"
+  onload="selectProduct(document.forms[0], 'product', 'component', 'Dowolny');"
   javascript_urls=["productmenu.js"]
 %]
 
 <p>
-When you are logged in, only requests made by you or addressed to you
-are shown by default.  You can change the criteria using the form below.
-When you are logged out, all pending requests that are not restricted
-to some group are shown by default.
+Jeśli użytkownik jest zalogowany, domyślne wyświetlone są tylko żądania użytkownika
+lub adresowane do niego. Kryteria wyświetlania można zmienić w formularzu poniżej.
+Gdy użytkownik jest wylogowany, domyślnie wyświetlane są wszystkie oczekujące żądania,
+które nie są ograniczone do grupy.
 </p>
 
 <form action="request.cgi" method="get">
@@ -48,13 +48,13 @@ to some group are shown by default.
 
   <table id="filtering">
     <tr>
-      <th>Requester:</th>
+      <th>Żądający:</th>
       <td><input type="text" name="requester" value="[% cgi.param('requester') FILTER html %]" size="20" 
            title="Requester's email address"></td>
-      <th>Product:</th>
+      <th>Produkt:</th>
       <td>
-        <select name="product" onchange="selectProduct(this.form, 'product', 'component', 'Any');">
-          <option value="">Any</option>
+        <select name="product" onchange="selectProduct(this.form, 'product', 'component', 'Dowolny');">
+          <option value="">Dowolny</option>
           [% FOREACH prod = products %]
             <option value="[% prod.name FILTER html %]"
                     [% "selected" IF cgi.param('product') == prod.name %]>
@@ -62,7 +62,7 @@ to some group are shown by default.
           [% END %]
         </select>
       </td>
-      <th>Flag:</th>
+      <th>Flaga:</th>
       <td>
         [% PROCESS "global/select-menu.html.tmpl"
                     name="type"
@@ -76,20 +76,20 @@ to some group are shown by default.
       <td>
         [%# PROCESS "global/select-menu.html.tmpl"
                     name="status"
-                    options=["all", "?", "+-", "+", "-"]
+                    options=["Wszystkie", "?", "+-", "+", "-"]
                     default=cgi.param('status') %]
       </td>
       -->
 
     </tr>
     <tr>
-      <th>Requestee:</th>
+      <th>Adresat żądania:</th>
       <td><input type="text" name="requestee" value="[% cgi.param('requestee') FILTER html %]" size="20" 
-           title="Requestee's email address or &quot;-&quot; (hyphen) for requests with no requestee"></td>
-      <th>Component:</th>
+           title="Adres e-mail adresata żądania lub &quot;-&quot; (pauza) dla żądań bez adresata"></td>
+      <th>Komponent:</th>
       <td>
         <select name="component">
-          <option value="">Any</option>
+          <option value="">Dowolny</option>
           [% FOREACH prod = products %]
             [% FOREACH comp = prod.components %]
               <option value="[% comp.name FILTER html %]" [% "selected" IF cgi.param('component') == comp.name %]>
@@ -98,13 +98,13 @@ to some group are shown by default.
           [% END %]
         </select>
       </td>
-      <th>Group By:</th>
+      <th>Grupowanie:</th>
       <td>
         [% groups = {
-            "Requester" => 'requester' ,
-            "Requestee" => 'requestee',
-            "Flag" => 'type' ,
-            "Product/Component" => 'category'
+            "Żądający" => 'requester' ,
+            "Adr. żądania" => 'requestee',
+            "Flaga" => 'type' ,
+            "Produkt/Komponent" => 'category'
           } %]
         [% PROCESS "global/select-menu.html.tmpl" name="group" options=groups default=cgi.param('group') %]
       </td>
@@ -115,14 +115,14 @@ to some group are shown by default.
 </form>
 
 [% column_headers = {
-      "type"       => "Flag" ,
+      "type"       => "Flaga" ,
       "status"     => "Status" ,
-      "bug"        => "$terms.Bug" ,
-      "attachment" => "Attachment" ,
-      "requester"  => "Requester" ,
-      "requestee"  => "Requestee" ,
-      "created"    => "Created" ,
-      "category"   => "Product/Component"    } %]
+      "bug"        => "$terms.Blad" ,
+      "attachment" => "Załącznik" ,
+      "requester"  => "Żądający" ,
+      "requestee"  => "Adr. żądania" ,
+      "created"    => "Utworzono" ,
+      "category"   => "Produkt/Komponent"    } %]
 
 [% DEFAULT display_columns = ["requester", "requestee", "type", "bug", "attachment", "created"]
            group_field     = "Requestee"
@@ -135,7 +135,7 @@ to some group are shown by default.
 
 [% IF requests.size == 0 %]
   <p>
-    No requests.
+    Brak żądań.
   </p>
 [% ELSE %]
   [% FOREACH request = requests %]
@@ -188,7 +188,7 @@ to some group are shown by default.
     <a href="attachment.cgi?id=[% request.attach_id %]&amp;action=edit">
       [% request.attach_id %]: [%+ request.attach_summary FILTER html %]</a>
   [% ELSE %]
-    N/A
+    Brak
   [% END %]
 [% END %]
 

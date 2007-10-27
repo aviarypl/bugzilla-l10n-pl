@@ -29,15 +29,15 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-           title = "Show Votes"
-           subheader = "$terms.Bug <a href=\"show_bug.cgi?id=$bug_id\">$bug_id</a>"
+           title = "Głosy"
+           subheader = "$terms.Blad <a href=\"show_bug.cgi?id=$bug_id\">$bug_id</a>"
  %]
 
 [% total = 0 %]
 <table cellspacing="4">
   <tr>
-    <th>Who</th>
-    <th>Number of votes</th>
+    <th>Kto</th>
+    <th>Liczba głosów</th>
   </tr>
 
   [% FOREACH voter = users %]
@@ -55,6 +55,6 @@
   [% END %]
 </table>
 
-<p>Total votes: [% total %]</p>
+<p>Wszystkich głosów: [% total %]</p>
 
 [% PROCESS global/footer.html.tmpl %]

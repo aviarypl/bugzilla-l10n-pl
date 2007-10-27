@@ -90,7 +90,7 @@
 
 [% IF bugs.size > 9 %]
   Znaleziono [% bugs.size %]&nbsp;[% PROCESS ODMIEN c=bugs.size o1=" $terms.blad"
-    o2=" $terms.bledy" o2="$terms.bledow" %]
+    o2=" $terms.bledy" o3=" $terms.bledow" %]
 [% END %]
 
 [%############################################################################%]
@@ -118,7 +118,7 @@
   Znaleziono jeden [% terms.blad %].
 [% ELSE %]
   Znaleziono [% bugs.size %]&nbsp;[% PROCESS ODMIEN c=bugs.size o1="$terms.blad"
-    o2="$terms.bledy" o2="$terms.bledow" %]
+    o2="$terms.bledy" o3="$terms.bledow" %]
 [% END %]
 
 <br>
