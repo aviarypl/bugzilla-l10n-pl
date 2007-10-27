@@ -71,11 +71,11 @@ function subcatSelected() {
       </tr>
     [% ELSE %]
       <tr>
-        <th><label for="category">Category</label>:</th>
+        <th><label for="category">Kategoria</label>:</th>
         <th></th>
-        <th><label for="subcategory">Sub-category</label>:</th>
+        <th><label for="subcategory">Podkategoria</label>:</th>
         <th></th>
-        <th><label for="name" accesskey="N">Name</label>:</th>
+        <th><label for="name" accesskey="N">Nazwa</label>:</th>
         <th><br>
         </th>
       </tr>
@@ -88,7 +88,7 @@ function subcatSelected() {
                                    
         <td>
           <noscript>
-            <input type="submit" name="action-assemble" value="Update --&gt;"
+            <input type="submit" name="action-assemble" value="Uaktualnij --&gt;"
                    id="action-assemble">
           </noscript>
         </td>
@@ -99,7 +99,7 @@ function subcatSelected() {
                                    
         <td>
           <noscript>
-            <input type="submit" name="action-assemble" value="Update --&gt;"
+            <input type="submit" name="action-assemble" value="Uaktualnij --&gt;"
                    id="action-assemble">
           </noscript>
         </td>
@@ -119,7 +119,7 @@ function subcatSelected() {
         </td>
 
         <td align="center" valign="middle"> 
-          <input type="submit" name="action-add" value="Add To List"
+          <input type="submit" name="action-add" value="Dodaj do listy"
                  id="action-add"><br>
         </td>
       </tr>
@@ -134,15 +134,15 @@ function subcatSelected() {
     subcatSelected();
   </script>
 
-  <h3>List Of Data Sets To Plot</h3>
+  <h3>Zestawy danych dla wykresów</h3>
 
   [% IF chart.lines.size > 0 %]
     <table cellspacing="2" cellpadding="2">
       <tr>
-        <th style="width: 5em;">Select</th>
-        <th>Label</th>
+        <th style="width: 5em;">Wybór</th>
+        <th>Etykieta</th>
         <th></th>
-        <th>Data Set</th>
+        <th>Zestaw danych</th>
         <th></th>
       </tr>
       
@@ -228,41 +228,41 @@ function subcatSelected() {
 
       <tr>
         <td valign="bottom" style="text-align: center;">
-          <input type="submit" name="action-sum" value="Sum" 
+          <input type="submit" name="action-sum" value="Sumuj" 
                  style="width: 5em;" id="action-sum"><br>
-          <input type="submit" name="action-remove" value="Remove"
+          <input type="submit" name="action-remove" value="Usuń"
                  style="width: 5em;" id="action-remove">
         </td>
 
         <td style="text-align: right; vertical-align: bottom;">
-          <label for="cumulate"><b>Cumulate</b></label>:
+          <label for="cumulate"><b>Kumulacja</b></label>:
           <input type="checkbox" name="cumulate" id="cumulate" value="1"
           [% " checked" IF chart.cumulate %]>
         </td>
 
         <td></td>
         <td valign="bottom">
-          <label for="datefrom"><b>Date Range</b></label>:
+          <label for="datefrom"><b>Zakres dat</b></label>:
           <input type="text" size="12" name="datefrom" id="datefrom"
             value="[% time2str("%Y-%m-%d", chart.datefrom) IF chart.datefrom%]">
-          <label for="dateto"><b>to</b></label>
+          <label for="dateto"><b>do</b></label>
           <input type="text" size="12" name="dateto" id="dateto"
             value="[% time2str("%Y-%m-%d", chart.dateto) IF chart.dateto %]">
         </td>
 
         <td style="text-align: right" valign="bottom">
-          <input type="submit" name="action-wrap" value="Chart This List"
+          <input type="submit" name="action-wrap" value="Rysuj wykres"
                  id="action-wrap">
         </td>
       </tr>
     </table>
   [% ELSE %]
-  <p><i>None</i></p>
+  <p><i>Brak</i></p>
   [% END %]  
 </form>
 
 [% IF user.in_group('editbugs') %]
-  <h3><a href="query.cgi?format=create-series">Create New Data Set</a></h3>
+  <h3><a href="query.cgi?format=create-series">Nowy zestaw danych</a></h3>
 [% END %]                 
 
 [% PROCESS global/footer.html.tmpl %]
