@@ -25,7 +25,7 @@
 [% INCLUDE global/header.html.tmpl title = "Cykl życia $terms.bledu" %]
 
 <p>
-Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić cykl
+Pola <b>status</b> oraz <b>rozwiązanie</b> pozwalają śledzić cykl
 życia [% terms.bledu %].
 </p>
 
@@ -47,7 +47,7 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
     <td>Pole <b>status</b> określa ogólny stan [% terms.bledu %].
     Tylko niektóre przejścia pomiędzy różnymi wartościami tego pola są dozwolone.</td>
 
-    <td>Pole <b>rozwiązanie</b> określa co stało się z danym [% terms.bledem %].</td>
+    <td>Pole <b>rozwiązanie</b> określa, co stało się z danym [% terms.bledem %].</td>
   </tr>
 
   <tr valign="top">
@@ -120,10 +120,10 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
           <b>[% status_descs.RESOLVED FILTER html %]</b> (rozwiązany)
         </dt>
         <dd>
-          Rozwiązanie [% terms.bledu %] zostało znalezione i czeka ono na weryfikację
-          przez kontakt QA. Taki [% terms.blad %] może zostać powtórnie otworzony (zmieniając
-          status na <b>[% status_descs.REOPENED FILTER html %]</b>), zmienić status
-          na <b>[% status_descs.VERIFIED FILTER html %]</b>, albo zostać zamknięty
+          Rozwiązanie [% terms.bledu %] zostało znalezione i czeka na weryfikację
+          przez kontakt QA. Taki [% terms.blad %] może zostać powtórnie otwarty (ze zmianą
+          statusu na <b>[% status_descs.REOPENED FILTER html %]</b>), zweryfikowany 
+          (status <b>[% status_descs.VERIFIED FILTER html %]</b>), albo zostać zamknięty
           ze statusem <b>[% status_descs.CLOSED FILTER html %]</b>.
         </dd>
 
@@ -131,9 +131,9 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
           <b>[% status_descs.VERIFIED FILTER html %]</b> (zweryfikowany)
         </dt>
         <dd>
-          Kontakt QA zapoznał się z proponowanym rozwiązaniem [% terms.bledu %] i uznał
+          Kontakt QA zapoznał się z proponowanym rozwiązaniem [% terms.bledu %] i uznał,
           że jest ono wystarczające. [% terms.Blad %] pozostaje w tym stanie do czasu wydania
-          produktu do którego przynależał [% terms.blad %] (wówczas status zostanie zmieniony na
+          produktu, do którego przynależał (wówczas status zostanie zmieniony na
           <b>[% status_descs.CLOSED FILTER html %]</b>.
         </dd>
 
@@ -162,7 +162,7 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
           <b>[% get_resolution("INVALID") FILTER html %] (niepoprawny)</b>
         </dt>
         <dd>
-          Problem opisany w raporcie nie jest prawidłowym [% terms.bledem %]
+          Problem opisany w raporcie nie jest prawidłowym [% terms.bledem %].
         </dd>
 
         <dt>
@@ -178,7 +178,7 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
         </dt>
         <dd>
           Raport [% terms.bledu %] jest duplikatem istniejącego raportu. Oznaczenie 
-          [% terms.bledu %] jako duplikatu wymaga podanie numeru [% terms.bledu %] którego
+          [% terms.bledu %] jako duplikatu wymaga podania numeru [% terms.bledu %], którego
           duplikatem jest ten [% terms.blad %]. Informacja o duplikacie zostanie umieszczona
           jako komentarz do prawidłowego [% terms.bledu %].
         </dd>
@@ -187,8 +187,8 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> określają i pozwalają śledzić c
           <b>[% get_resolution("WORKSFORME") FILTER html %] (u mnie działa)</b>
         </dt>
         <dd>
-          Próby powtórzenia [% terms.bledu %] zakończyły się fiaskiem, a kod żródłowy nie
-          pozwala znaleźć powodu dla którego, zostało zaobserwowane dane zachowanie.
+          Próby powtórzenia [% terms.bledu %] zakończyły się fiaskiem a kod źródłowy nie
+          pozwala znaleźć powodu zaobserwowanego zachowania.
           Jeśli w późniejszym okresie pojawią się dodatkowe informacje, należy zmienić
           status [% terms.bledu %].
         </dd>
@@ -219,7 +219,7 @@ To pole określa dotkliwość [% terms.bledu %].
   <tr>
     <th>Krytyczny</th>
 
-    <td>Powoduje awarię programu, utratę danych lub duże gubienie pamięci</td>
+    <td>Powoduje awarię programu, utratę danych lub duże wycieki pamięci</td>
   </tr>
 
   <tr>
@@ -231,14 +231,14 @@ To pole określa dotkliwość [% terms.bledu %].
   <tr>
     <th>Drobny</th>
 
-    <td>Pomniejsze braki funkcjonalności lub inne [% terms.bledy %] dla których
+    <td>Pomniejsze braki w funkcjonalności lub inne [% terms.bledy %], dla których
     istnieją łatwe metody obejścia</td>
   </tr>
 
   <tr>
     <th>Trywialny</th>
 
-    <td>Kosmetyczne problemy, przykładowo literówka</td>
+    <td>Problemy kosmetyczne, przykładowo literówka</td>
   </tr>
 
   <tr>
@@ -248,7 +248,7 @@ To pole określa dotkliwość [% terms.bledu %].
 </table>
 
 <h2><a name="priority">Priorytet</a></h2>
-To pole pozwala opisać uszeregować kolejność z jaką [% terms.bledy %]
+To pole pozwala uszeregować kolejność, z jaką [% terms.bledy %]
 powinny być rozwiązywane. To pole jest wykorzystywane przez programistę
 do określenia priorytetów przypisanych sobie zadań. Zakres dostępnych priorytetów
 waha się od <b>P1</b> (najważniejszy) do
@@ -256,8 +256,8 @@ waha się od <b>P1</b> (najważniejszy) do
 
 
 <h2><a name="rep_platform">Platforma</a></h2>
-Pole określające platformę sprzętową na której dany [% terms.blad %] został
-zaobserwowany. W polu tym można umieścic:
+Pole określające platformę sprzętową, na której dany [% terms.blad %] został
+zaobserwowany. W polu tym można wybrać:
 
 <ul>
   <li>Wszystkie (występuje na wszystkich platformach)</li>
@@ -265,9 +265,11 @@ zaobserwowany. W polu tym można umieścic:
   <li>Macintosh</li>
 
   <li>PC</li>
+  
+  <li>i inne</li>
 </ul>
-<b>Uwaga:</b> Podczas wyszukiwania, wybranie opcji "Wszystkie" nie wyszukuje 
-[% terms.bledow %] przypisanych do określonego systemu. Wyszukiwane są jedynie 
+<b>Uwaga:</b> Podczas wyszukiwania, wybranie opcji "Wszystkie" spowoduje, że  
+[% terms.bledy %] przypisane do określonego systemu nie zostaną wyświetlone. Wyszukane będą jedynie 
 [% terms.bledy %], które zostały oznaczone jako występujące na wszystkich platformach,
 których pole "Platforma" jest ustawione na "Wszystkie".
 
@@ -290,16 +292,16 @@ Przykładowo Linux może być uruchomiony na PC, Macintoshu lub innych platforma
 <h2><a name="assigned_to">Przypisany do</a></h2>
 
 <p>
-Określa osobę odpowiedzialną za rozwiązanie danego [% terms.bledu %]. Za każdym razem
-gdy to pole zmienia zawartość status zmieniany jest na
+Określa osobę odpowiedzialną za rozwiązanie danego [% terms.bledu %]. Za każdym razem,
+gdy to pole zmienia zawartość, status zmieniany jest na
 <b>[% status_descs.NEW FILTER html %]</b>, aby ułatwić znalezienie nowych 
 [% terms.bledow %] na osobistej liście [% terms.bledow %].</p>
 
 <p>
-Domyślną wartością statusu podczas wyszukiwania jest [% status_descs.NEW FILTER html %],
+Domyślną wartością statusu podczas wyszukiwania jest [% status_descs.NEW FILTER html %], 
 [% status_descs.ASSIGNED FILTER html %] oraz [% status_descs.REOPENED FILTER html %].
-Jeśli szukasz [% terms.bledow %] które zostały rozwiązane lub zweryfikowane, pamiętaj
-o odpowiednim ustawieniu pola statusu.
+W razie wyszukiwania [% terms.bledow %], które zostały rozwiązane lub zweryfikowane, należy 
+pamiętać o odpowiednim ustawieniu pola statusu.
 </p>
 
 [% INCLUDE global/footer.html.tmpl %]
