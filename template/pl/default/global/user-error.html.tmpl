@@ -456,7 +456,7 @@
     Nie można usunąć wartości '[% value FILTER html %]' dla pola
     '[% field FILTER html%]', ponieważ nadal
     [% count FILTER html %] [% PROCESS ODMIEN c=count o1="$terms.blad"
-      o1="$terms.bledy" o1="$terms.bledow" %] używa tej wartości.
+      o2="$terms.bledy" o3="$terms.bledow" %] używa tej wartości.
 
   [% ELSIF error == "fieldvalue_undefined" %]
     [% title = "Niezdefiniowane wartości są niedopuszczalne" %]

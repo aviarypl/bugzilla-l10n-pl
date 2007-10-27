@@ -150,7 +150,7 @@
 			Usunięcie konta spowoduje niespójność w bazie danych,
 			co oznacza, że 
 			[% PROCESS ODMIEN c=reporter o1="$terms.blad"
-			o1="$terms.bledy" o1="$terms.bledow" %] 
+			o2="$terms.bledy" o3="$terms.bledow" %] 
 			nie pojawi się więcej w listach [% terms.bledow %]
           </li>
         [% END %]
@@ -349,7 +349,7 @@
         [% IF votes %]
           <li>
             Użytkownik [% otheruser.login FILTER html %] głosował na
-			[%+ votes %] [% PROCESS ODMIEN c=votes o1="$terms.blad" o1="$terms.bledy" o1="$terms.bledow" %] 
+			[%+ votes %] [% PROCESS ODMIEN c=votes o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %] 
 			
 			Usunięcie konta spowoduje, że If you delete the user account,
             [% IF votes == 1 %]
@@ -392,12 +392,12 @@
           <li>
             Użytkownik [% otheruser.login FILTER html %]
             [% IF whine_events %]
-               [%+ whine_events %] [% PROCESS ODMIEN c=whine_events o1="przypomnienie" o1="przypomnienia" o1="przypomnień" %] 
+               [%+ whine_events %] [% PROCESS ODMIEN c=whine_events o1="przypomnienie" o2="przypomnienia" o3="przypomnień" %] 
             [% END %]
             [% IF whine_schedules %]
               [%+ 'i' IF whine_events %]
               otrzymuje 
-			  [%+ whine_schedules %] [% PROCESS ODMIEN c=whine_events o1="przypomnienie" o1="przypomnienia" o1="przypomnień" %] 
+			  [%+ whine_schedules %] [% PROCESS ODMIEN c=whine_events o1="przypomnienie" o2="przypomnienia" o3="przypomnień" %] 
             [% END %].
             [% IF whine_events + whine_schedules == 1 %]
               Przypomnienie to zostanie usunięte
