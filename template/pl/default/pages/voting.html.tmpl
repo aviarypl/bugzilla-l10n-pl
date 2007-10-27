@@ -23,10 +23,10 @@
 [% PROCESS global/variables.none.tmpl %]
 [% INCLUDE global/header.html.tmpl title = "Głosowanie" %]
 
-<p>[% terms.Bugzilla %] posiada opcję "głosowania". Dla każdego produktu użytkownik
-ma możliwość oddania określonej liczby głosów (niektóre produkty mogą nie pozwalać
-na oddanie głosu, tym samym nie można głosować na [% terms.bledy %] danego produktu).
-Głosując na [% terms.blad %] można określić, które, naszym zdaniem, [% terms.bledy %]
+<p>[% terms.Bugzilla %] wyposażona jest w funkcję "głosowania". Dla każdego produktu użytkownik
+ma możliwość oddania określonej liczby głosów (w przypadku niektórych produktów nie ma 
+możliwości oddania głosu, tym samym nie można głosować na [% terms.bledy %] danego produktu).
+Głosując na [% terms.blad %] można określić, które - naszym zdaniem - [% terms.bledy %]
 powinny być rozwiązane w pierwszej kolejności.</p>
 
 <p>W zależności od tego, jak administrator skonfigurował odpowiedni produkt, możliwe
@@ -39,29 +39,29 @@ ilością głosów.</p>
 <p>Aby zobaczyć głosy:</p>
 
 <ul>
-  <li>Wejdź na stronę zapytań. Wybierz normalne wyszukiwanie. W pole
-  "Co najmniej ___ głosów" wpisz 1. Dzięki temu możesz zobaczyć [% terms.bledy %],
+  <li>Należy wejść na stronę wyszukiwania i wybrać wyszukiwanie normalne. W pole
+  "Co najmniej ___ głosów" należy wpisać 1. Dzięki temu można zobaczyć [% terms.bledy %],
   na które ktoś oddał głos.</li>
 </ul>
 
-<p>Aby zagłosować na [% terms.blad %]:</p>
+<p>Aby zagłosować na [% terms.blad %], należy:</p>
 
 <ul>
-  <li>Otwórz stronę odpowiedniego [% terms.bledu %].</li>
+  <li>Otworzyć stronę odpowiedniego [% terms.bledu %].</li>
 
-  <li>Kliknij na "Głosuj na ten [% terms.blad %]", który powinien znajdować się tuż nad
+  <li>Nacisnąć odnośnik na "Głosuj na ten [% terms.blad %]", który powinien znajdować się tuż nad
   polem  "Dodatkowe Komentarze" (jeśli nie ma takiego przycisku, produkt do którego
   przypisano ten błąd, nie pozwala na oddawanie głosów).</li>
 
-  <li>Wpisz liczbę głosów, którą chcesz oddać na [% terms.blad %]. Na tej stronie
-  można również zobaczyć głosy oddane na inne [% terms.bledy %] i, jeśli potrzeba,
+  <li>Wpisać liczbę głosów, która ma być oddana na [% terms.blad %]. Na tej stronie
+  można również zobaczyć głosy oddane na inne [% terms.bledy %] i - jeśli potrzeba -
   powtórnie rozdysponować swoje głosy.</li>
 </ul>
 
-<p>Zostaniesz poinformowany poprzez e-mail, o wszystkich zmianach dla [% terms.bledow %],
-na które zagłosowałeś.</p>
+<p>Użytkownik zostanie poinformowany poprzez e-mail, o wszystkich zmianach dla [% terms.bledow %],
+na które zagłosował.</p>
 
-<p>W każdej chwili można przejrzeć swoje głosy, klikając na odnośnik "<a href=
+<p>W każdej chwili można przejrzeć swoje głosy, korzystając z odnośnika "<a href=
 "votes.cgi?action=show_user">Moje głosy</a>" znajdujący sie w stopce każdej strony.</p>
 
 [% INCLUDE global/footer.html.tmpl %]
