@@ -22,8 +22,8 @@
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
-[% PROCESS global/header.html.tmpl title = "$terms.Bug Charts"
-                                   h1 = "Welcome to the $terms.Bugzilla Charting Kitchen" %]
+[% PROCESS global/header.html.tmpl title = "Wykresy $terms.bledow"
+                                   h1 = "Witamy w fabryce wykresów $terms.Bugzilli" %]
 
 <div align="center">
   [% IF url_image %]
@@ -33,7 +33,7 @@
     <form id="choose_product" method="get" action="reports.cgi">
       <table border="1" cellpadding="5" cellspacing="2">
         <tr>
-          <th>Product:</th>
+          <th>Produkt:</th>
           <td align="center">
             <select id="product" name="product">
               [% FOREACH product = products %]
@@ -43,7 +43,7 @@
           </td>
         </tr>
         <tr>
-          <th>Chart datasets:</th>
+          <th>Zestawy danych:</th>
           <td align="center">
             <select id="datasets" name="datasets" multiple="multiple" size="5">
               [%# We cannot use translated statuses and resolutions from field-descs.none.html
@@ -58,7 +58,7 @@
         </tr>
         <tr>
           <th colspan="2">
-            <input type="submit" id="submit" value="Continue">
+            <input type="submit" id="submit" value="Kontynuuj">
           </th>
         </tr>
       </table>
