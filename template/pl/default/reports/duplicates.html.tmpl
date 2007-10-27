@@ -37,10 +37,10 @@
 
 [% IF query_products.size %]
   [% title = BLOCK %]
-    Most Frequently Reported [% terms.Bugs %] for [% query_products.join(', ') FILTER html %]
+    Najczęściej zgłaszane [% terms.bledy %] dla [% query_products.join(', ') FILTER html %]
   [% END %]
 [% ELSE %]
-  [% title = "Most Frequently Reported $terms.Bugs" %]
+  [% title = "Najczęściej zgłaszane $terms.bledy" %]
 [% END%]
 
 [% PROCESS global/header.html.tmpl
@@ -49,9 +49,9 @@
 %]
 
 <p>
-  <a href="#explanation">What is this data?</a>
+  <a href="#explanation">Co to za dane?</a>
   <br>
-  <a href="#params">Change parameters</a>
+  <a href="#params">Zmiana parametrów</a>
 </p>
 
 [% PROCESS "reports/duplicates-table.html.tmpl" %]
@@ -60,7 +60,7 @@
 
 [% bug_ids_string = vis_bug_ids.join(',') %]
 
-<h3><a name="params">Change Parameters</a></h3>
+<h3><a name="params">Zmiana parametrów</a></h3>
 
 <form method="get" action="duplicates.cgi">
   <input type="hidden" name="sortby" value="[% sortby FILTER html %]">
@@ -68,22 +68,21 @@
   <input type="hidden" name="bug_id" value="[% bug_ids_string %]">
   <table>
     <tr>
-      <td>When sorting or restricting,
-          work with:</td>
+      <td>Podczas sortowania lub ograniczania pracuj z:</td>
       <td>
         <input type="radio" name="sortvisible" id="entirelist" value="0"
           [% "checked" IF NOT sortvisible %]>
         <label for="entirelist">
-          entire list
+          całą listą
         </label>
         <br>
         <input type="radio" name="sortvisible" id="visiblelist" value="1"
           [% "checked" IF sortvisible %]>
         <label for="visiblelist">
-          currently visible list
+          aktualnie widoczną listą
         </label>
       </td>
-      <td rowspan="4" valign="top">Restrict to products:</td>
+      <td rowspan="4" valign="top">Ogranicz do produktów:</td>
       <td rowspan="4" valign="top">
         <select name="product" size="5" multiple="multiple">
           [% FOREACH p = products %]
@@ -96,23 +95,23 @@
      </tr>
 
     <tr>
-      <td>Max rows:</td>
+      <td>Maksymalna liczba wierszy:</td>
       <td>
         <input size="4" name="maxrows" value="[% maxrows %]">
       </td>
     </tr>
 
     <tr>
-      <td>Change column is change in the last:</td>
+      <td>Kolumna Zmiany odnośi się do ostatnich:</td>
       <td>
-        <input size="4" name="changedsince" value="[% changedsince %]"> days
+        <input size="4" name="changedsince" value="[% changedsince %]"> dni
       </td>
     </tr>
 
     <tr>
       <td>
         <label for="openonly">
-          Open [% terms.bugs %] only:
+          Tylko otwarte [% terms.bledy %]:
         </label>
       </td>
       <td>
@@ -123,21 +122,21 @@
 
   </table>
 
-  <input type="submit" id="change" value="Change">
+  <input type="submit" id="change" value="Zmień">
 </form>
 
 <form method="post" action="buglist.cgi">
   <input type="hidden" name="bug_id" value="[% bug_ids_string %]">
   <input type="hidden" name="order" value="Reuse same sort as last time">
-  Or just give this to me as a <input type="submit" id="list" 
-                                value="[% terms.bug %] list">.
-  (Note: the order may not be the same.)
+  Wyświetl jako <input type="submit" id="list" 
+                                value="Listę [% terms.bledow %]">.
+  (Uwaga: kolejność może być zmieniona.)
 </form>
 
 <hr>
 
 <b>
-  <a name="explanation">What are "Most Frequently Reported [% terms.Bugs %]"?</a>
+  <a name="explanation">Czym są "Najczęściej zgłaszane [% terms.bledy %]"?</a>
 </b>
 
 <blockquote>
@@ -150,28 +149,28 @@
   oszczędzić czas osób odpowiedzialnych za QA.
 </blockquote>
 
-<b>How do I use this list?</b>
+<b>Jak korzystać z tej listy?</b>
 
 <ul>
-  <li>Review the most frequent [% terms.bugs %] list.</li>
-  <li>If your problem is listed:</li>
+  <li>Należy przejrzeć listę najcześciej zgłaszanych [% terms.bledow %].</li>
+  <li>Jeśli dany problem znajduje się na liście, należy:</li>
 
   <ul>
-    <li>Click on the [% terms.bug %] number to confirm that you have found the
-      same [% terms.bug %], and comment if you have additional information
-      or move on with your testing of the product.
+    <li>Otworzyć raport dotyczący [% terms.bledy %] (kliknąć na jego numer), potwierdzić
+      że napotkano ten sam  [% terms.blad %] i ewentualnie dodać komentarz z dodatkowymi
+      informacjami lub przejść do dalszego testowania produktu.
     </li>
   </ul>
 
-  <li>If your problem not listed:</li>
+  <li>Jeśli problem nie znajduje się na liście, należy:</li>
 
   <ul>
-    <li><a href="query.cgi">Try and locate a similar [% terms.bug %]</a>
-        that has already been filed.</li>
-    <li>If you find your [% terms.bug %] in [% terms.Bugzilla %],
-        feel free to comment with any new or additional data you may have.</li>
-    <li>If you cannot find your problem already documented in [% terms.Bugzilla %],
-        <a href="enter_bug.cgi">file a new [% terms.bug %]</a>.</li>
+    <li><a href="query.cgi">Spróbować znaleźć podobny [% terms.blad %]</a>,
+        który został już zgłoszony.</li>
+    <li>Jeśli [% terms.blad %] został znaleziony w [% terms.Bugzilli %], należy
+        dodać komentarz z dodatkowymi danymi lub informacjami.</li>
+    <li>Jeśli nie w bazie [% terms.Bugzilli %] nie istnieje podobny problem, 
+        należy <a href="enter_bug.cgi">zgłosić nowy [% terms.blad %]</a>.</li>
   </ul>
 </ul>
 
