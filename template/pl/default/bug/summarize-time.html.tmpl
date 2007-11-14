@@ -52,7 +52,7 @@
             <div align="right">
               <h4 style="padding-right: 2em; margin: 0;">
             [% IF part.0 or part.1 %]
-               [% part.0 OR "Up" FILTER html %] to [% part.1 OR "now" FILTER html %]
+               [% part.0 OR "Up" FILTER html %] do [% part.1 OR "now" FILTER html %]
             [% ELSE %]
                Pełne podsumowanie (bez podanego okresu)
             [% END %]
@@ -147,7 +147,7 @@
                               detailed=detailed %]
     [% END %]
 
-    [% additional = "${terms.bledow}: $global.bug_count.size  &amp; 
+    [% additional = "${terms.bledow}: $global.bug_count.size  i 
                      programistów: $global.owner_count.size" %]
     [% INCLUDE section_total additional=additional colspan=2 %]
     </table>
@@ -201,7 +201,7 @@
 
 
 [% BLOCK inactive_report %]
-    <h3>Inactive [% terms.bugs %]</h3>
+    <h3>[% terms.Bledy %] nieaktywne</h3>
     <table cellpadding="4" cellspacing="0" width="90%" class="zeroitems">
     [% cid = 0 %]
     [% FOREACH bug_id = null.keys.nsort %]
@@ -291,7 +291,7 @@
   &nbsp;
   <input type="checkbox" name="detailed" [% 'checked="checked"' IF
       detailed %] id="detailed">
-  <label for="detailed" accesskey="S"><u>S</u>zczególowe podsumowania</label>
+  <label for="detailed" accesskey="S"><u>S</u>zczegółowe podsumowanie</label>
   &nbsp;
   <input type="checkbox" name="inactive" [% 'checked="checked"' IF
       inactive %] id="inactive">
