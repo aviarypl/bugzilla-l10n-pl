@@ -467,7 +467,7 @@
         [% IF NOT emitted_description %]
           [% emitted_description = 1 %]
           <br>
-          <b>[% terms.Blad %] ten będzie widoczny jedynie dla osób należących do zaznaczonych grup:
+          <b>[% terms.Blad %] ten będzie widoczny jedynie dla osób należących do zaznaczonych grup:</b>
           <br>
           <font size="-1">
             (Odznaczenie wszystkich pól sprawi, że ten [% terms.blad %] stanie się publicznie dostępny.)
@@ -488,23 +488,22 @@
 
     [% IF NOT inallgroups %]
       <b>
-        Only members of a group can change the visibility of [% terms.abug %] for
-        that group
+        Tylko członkowie grupy mogą zmieniać widoczność [% terms.bledu %] dla tej grupy
       </b>
     <br>
     [% END %]
 
     [% IF inagroup %]
       <p>
-        <b>Users in the roles selected below can always view this [% terms.bug %]:</b>
+        <b>[% terms.Blad %] ten będzie zawsze widoczny dla użytkowników z wybranymi poniżej rolami:</b>
         <br>
         <small>
-          (The assignee
+          (Właściciel 
           [% IF (Param('useqacontact')) %]
-             and QA contact
+             oraz Kontakt QA
           [% END %]
-          can always see [% terms.abug %], and this section does not take effect unless
-          the [% terms.bug %] is restricted to at least one group.)
+          zawsze posiadają dostęp do [% terms.b;edu %], więc opcje te ich nie dotyczą dopóki
+          [% terms.blad %] nie jest ograniczony do conajmniej jednej grupy.)
         </small>
       </p>
 
