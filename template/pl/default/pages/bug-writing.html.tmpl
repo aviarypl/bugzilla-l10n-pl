@@ -30,37 +30,37 @@
 
 [% INCLUDE global/header.html.tmpl title = "Wytyczne zgłaszania $terms.bledow" %] 
 
-<h3>Contents</h3>
+<h3>Spis treści</h3>
 <ul>
 <li><a href="#why">Dlaczego to jest ważne</a></li>
-<li><a href="#useful">Co sprawia, że zgłoszenie [% terms.bledu %] jets przydatne?</a></li>
+<li><a href="#useful">Co sprawia, że zgłoszenie [% terms.bledu %] jest przydatne?</a></li>
 <li><a href="#before">Zanim zaczniesz...</a></li>
 <li><a href="#reporting">Zgłaszanie [% terms.bledu %]</a></li>
-<li><a href="#more">Więcej wiadomości o zgłaszaniu dobrych [% terms.bledow %]</a></li>
+<li><a href="#more">Dalsze wskazówki dotyczące tworzenia dobrych zgłoszeń [% terms.bledow %]</a></li>
 </ul>
 
 <h3><a name="why">Dlaczego to jest ważne</a></h3>
 
 <blockquote>
-  <p>Zwykle jakość raportu jednoznacznie odbija się na szansie rozwiązania 
+  <p>Zwykle jakość raportu jednoznacznie wpływa na możliwość rozwiązania 
   [% terms.bledu %] przez programistę.</p>
 
   <p>Ten dokument ma pomóc nowicjuszom i średnio-zaawansowanym
   użytkownikom [% terms.Bugzilli %] w tworzeniu wartościowych raportów o 
   [% terms.bledach %]. Nie wszystkie uwagi zawarte w tym dokumencie muszą
-  być adekwatne dla tego projektu.</p>
+  być adekwatne dla konkretnego projektu, w którym wykorzystywana jest [% terms.Bugzilla %].</p>
 </blockquote>
 
-<h3><a name="useful">Co sprawia, że zgłoszenie [% terms.bledu %] jets przydatne</a></h3>
+<h3><a name="useful">Co sprawia, że zgłoszenie [% terms.bledu %] jest przydatne</a></h3>
 
 <blockquote>
-  <p>Wartościowe raporty o [% terms.bledach %], to takie które pozwalają
+  <p>Wartościowe raporty o [% terms.bledach %] to takie, które pozwalają
   rozwiązać [% terms.blad %].
   Tego typu raporty zwykle mają dwie następujące własności:</p>
 
   <ul>
     <li><b>Powtarzalność.</b> Jeśli osoba odpowiedzialna za pracę nad
-    raportami [% terms.bledow %] nie jest w stanie samemu potwierdzić
+    raportami [% terms.bledow %] nie jest w stanie samodzielnie potwierdzić
     istnienia danego [% terms.bledu %], istnieje duża szansa że taki
     raport zostanie oznaczony jako "[% get_resolution("WORKSFORME") FILTER html %]"
     lub "[% get_resolution("INVALID") FILTER html %]" i osoba ta
@@ -71,9 +71,9 @@
 
     <li><b>Wyrazistość.</b> Im szybciej programista będzie w stanie określić
     zasięg występowania [% terms.bledu %], tym szybciej będzie w stanie
-    go rozwiązać (jeśli programista lub osoba testujące będzie zmuszony
-    odcyfrowywać [% terms.blad %], prawdopodobnie więcej czasu spędzi ona
-    na przeklinaniu zgłaszającego niż na rzeczywistym rozwiązywaniu problemu).
+    go rozwiązać (jeśli programista lub osoba testujące będą zmuszone
+    rozgryzać zawiłości [% terms.bledu %], prawdopodobnie więcej czasu spędzi ona
+    na przeklinaniu zgłaszającego, niż na rzeczywistym rozwiązywaniu problemu).
     <br>
     </li>
   </ul>
@@ -83,18 +83,18 @@
 <h3><a name="before">Zanim zaczniesz...</a></h3>
 
 <ol>
-  <li>Zanim zgłosisz [% terms.blad %], użyj 
+  <li>Przed zgłoszeniem [% terms.bledu %], proszę użyć 
   <a href="query.cgi?format=specific">strony wyszukiwania</a> [% terms.Bugzilli %],
 aby określić czy czasem [% terms.blad %] ten nie jest już znany.</li>
 
-  <li>Powtórz swój [% terms.blad %] na najnowszej wersji programu. 
-  Programiści sa najbardziej zainteresowani błędami w wersjach, nad
+  <li>Należy sprawdzić występowanie [% terms.bledu %] w najnowszej wersji programu. 
+  Programiści są najbardziej zainteresowani błędami w wersjach, nad
   którymi pracują. Zgłaszany [% terms.blad %] może być już dawno poprawiony.</li>
 </ol>
 
 <blockquote>
-Nie można znaleźć takiego [% terms.bledu %] w [% terms.Bugzilli %]? Można powtórzyć
-go na najnowszej wersji? No to zgłaszamy.
+Nie można znaleźć takiego [% terms.bledu %] w [% terms.Bugzilli %]? Występuje w
+ najnowszej wersji? No to zgłaszamy.
 </blockquote>
 
 <h3><a name="reporting">Zgłaszanie [% terms.bledu %]</a></h3>
@@ -103,7 +103,7 @@ go na najnowszej wersji? No to zgłaszamy.
  <li>Na głównej stronie [% terms.Bugzilli %] należy otworzyć odnośnik
  "<a href="enter_bug.cgi">Zgłoszenie nowego [% terms.bledu %]</a>".</li>
 
- <li>Następnie należy wybrać produkt, w którycm znaleziono [% terms.blad %].</li>
+ <li>Następnie należy wybrać produkt, w którym znaleziono [% terms.blad %].</li>
 
  <li>Potem należy zalogować się do [% terms.Bugzilli %]...</li>
 
@@ -124,23 +124,23 @@ go na najnowszej wersji? No to zgłaszamy.
 
     <p><b>Komponent: W którym komponencie istnieje ten [% terms.blad %]?</b><br>
     [% terms.Bugzilla %] wymaga wyboru komponentu podczas procesu zgłaszania 
-    [% terms.bledu %]. (Nie jesteś pewien który wybrać? Kliknij na odnośniku Komponent.
-    Spowoduje to wyświetlenie opisu dla każdego komponentu, co być może pomoże Ci
-    wybrać ten właściwy).</p>
+    [% terms.bledu %]. (Jeśli nie ma pewności, który komponent wybrać, proszę wybrać odnośnik Komponent.
+    Spowoduje to wyświetlenie opisu dla każdego komponentu, co może być pomocne w 
+    wyborze właściwego).</p>
 
-    <p><b>OS: Na jakim systemie operacyjnym znalazłeś [% terms.blad %]?</b>
+    <p><b>OS: Na jakim systemie operacyjnym występuje [% terms.blad %]?</b>
     (np. Linux, Windows 2000, Mac OS 9.)<br>
-    Jeśli wiesz że ten problem występuje na każdym systemie operacyjnym, wybierz 'Wszystkie'. 
-    W przeciwnym wypadku wybierz OS na którym udało Ci się zlokalizować [% terms.blad %],
-    lub 'Inny' jeśli Twojego systemu operacyjnego nie ma na liście.</p>
+    Jeśli wiadomo, że ten problem występuje na każdym systemie operacyjnym, proszę wybrać 'Wszystkie'. 
+    W przeciwnym wypadku należy wybrać system operacyjny, na którym udało się zlokalizować [% terms.blad %],
+    lub 'Inny' jeśli tego systemu operacyjnego nie ma na liście.</p>
   </blockquote>
 
   <p><b>Jak ważny jest ten [% terms.blad %]?</b></p>
 
   <blockquote>
     <p><b>Waga błędu: w jakim stopniu poważny jest dany [% terms.blad %]?</b><br>
-     Wartością domyślną pola jest 'normalny'. Jeśli nie jesteś pewny jaką wagę przypisać 
-     [% terms.bledowi %], kliknij na donośniku Waga błędu. Zostanie wyświetlona strona na
+     Wartością domyślną pola jest 'normalny'. Jeśli nie ma pewności, jaką wagę przypisać 
+     [% terms.bledowi %], należy otworzyć odnośnik Waga błędu. Zostanie wyświetlona strona, na
      której opisane są poszczególne wagi błędów.<br>
     </p>
   </blockquote>
@@ -151,32 +151,32 @@ go na najnowszej wersji? No to zgłaszamy.
     <p><b>Przypisany do: Która osoba jest odpowiedzialna za rozwiązanie 
     [% terms.bledu %]?</b><br>
     [% terms.Bugzilla %] automatycznie przypisze [% terms.blad %] osobie, która
-    została ustawiona jako domyślna dla danego komponentu. Jeśli chcesz przypisać 
-    [% terms.blad %] innej osobie, wpisz jej adres e-mail w tym polu (aby zobaczyć
-    kto jest osobą domyślnie przypisaną do danego komponentu, kliknij na odnośniku
+    została ustawiona jako domyślna dla danego komponentu. Jeśli chcemy przypisać 
+    [% terms.blad %] innej osobie, należy wpisać jej adres e-mail w tym polu (aby zobaczyć,
+    kto jest osobą domyślnie przypisaną do danego komponentu, należy otworzyć odnośnik 
     Komponent).</p>
 
     <p><b>Obserwatorzy: Kto jeszcze powinien otrzymywać wiadomości dotyczące zmian
     w tym [% terms.bledzie %]?</b><br>
-     Podaj listę osób która, twoim zdaniem, powinna otrzymywać powiadomienia o
-    wszystkich zmianach tego raportu [% terms.bledu %]. Możesz podać dowolną liczbę
-    adresów e-mail osób, oddzielonych spacją lub przecinkiem, które mają konto w 
-    [% terms.Bugzilli %].</p>
+     Tu należy podać listę osób które, naszym zdaniem powinne otrzymywać powiadomienia o
+    wszystkich zmianach tego raportu [% terms.bledu %]. Można podać dowolną liczbę
+    adresów e-mail osób, które mają konto w 
+    [% terms.Bugzilli %]. Adresy należy oddzielić spacją lub przecinkiem.</p>
   </blockquote>
 
   <p><b>Co jeszcze można powiedzieć o tym [% terms.bledzie %]?</b></p>
 
   <blockquote>
-    <p><b>Podsumowanie:</b> <b>W jaki sposób mógłbyś opisać [% terms.blad %] w
+    <p><b>Podsumowanie:</b> <b>W jaki sposób można opisać [% terms.blad %] w
     około 60 znakach?</b><br>
      Dobre podsumowanie powinno <b>szybko i jednoznacznie opisywać [% terms.blad %]</b>.
     W przeciwnym przypadku programista nie będzie w stanie jednoznacznie zidentyfikować
     Twojego [% terms.bledu %], co może sprawić, że zostanie on niezauważony podczas
     przeglądania 10 stronicowej listy [% terms.bledow %].<br>
-    10-page list.<br>
+    
     <br>
      Dobre podsumowanie to np: "<tt>Anulowanie kopiowania plików powoduje zamknięcie Nautilusa</tt>".
-     Niepoprawne podsumowania: "<tt>Porgram się zawiesza</tt>" lub "<tt>problem przy kopiowaniu</tt>".<br>
+     Niepoprawne podsumowania: "<tt>Program się zawiesza</tt>" lub "<tt>problem przy kopiowaniu</tt>".<br>
     <br>
      <b>Opis:</b><br>
      W tym polu proszę podać wyczerpujący opis problemu. Czytelnicy  raportu
@@ -214,7 +214,7 @@ go na najnowszej wersji? No to zgłaszamy.
 			</pre>
       </blockquote>
 
-      <p><b>Oczekiwany wynik:</b> Co powinieneś otrzymać, gdyby ten [% terms.blad %]
+      <p><b>Oczekiwany wynik:</b> Co powinno się otrzymać, gdyby ten [% terms.blad %]
       nie występował.</p>
 
       <blockquote>
@@ -233,8 +233,8 @@ go na najnowszej wersji? No to zgłaszamy.
 		</pre>
       </blockquote>
 
-      <p><b>Dodatkowe wersje i platformy:</b> Inne wersje i platformy które testowano
-      na występowanie tego [% terms.bledu %], oraz ich wyniki (jeśli taki test ma sens
+      <p><b>Dodatkowe wersje i platformy:</b> Inne wersje i platformy, które testowano
+      na występowanie tego [% terms.bledu %], oraz wyniki testów (jeśli taki test ma sens
       to również wyniki z innych programów).</p>
 
       <blockquote>
@@ -243,16 +243,16 @@ go na najnowszej wersji? No to zgłaszamy.
 		</pre>
       </blockquote>
 
-      <p><b>Dodatkowe informacje:</b> Dodatkowe informacje które mogą pomóc w
+      <p><b>Dodatkowe informacje:</b> Dodatkowe informacje, które mogą pomóc w
       poprawieniu błedu.
-      Przykładowo dla [% terms.bledow %] które powodują awarię programu:</p>
+      Przykładowo dla [% terms.bledow %] powodujących awarię programu:</p>
 
       <ul>
-        <li><b>Windows:</b> typ awarii i moduł w którym nastąpił błąd
+        <li><b>Windows:</b> typ awarii i moduł, w którym nastąpił błąd
         (np. access violation in apprunner.exe).</li>
 
         <li><b>Mac OS X:</b> dołącz log "Crash Reporter", który pojawia się po awarii.
-        Przydatnay jest tylko fragment poniżej wątku który spowodował awarię, zwykle nazywa iś on
+        Przydatny jest tylko fragment poniżej wątku, który spowodował awarię, zwykle nazywa iś on
         "Thread 0 Crashed". Proszę nie podawać całego pliku!</li>
 
       </ul>
@@ -261,40 +261,40 @@ go na najnowszej wersji? No to zgłaszamy.
 
   <p>Zakończone!<br>
   <br>
-   Po sprawdzeniu czy Twój wpis nie zawiera żadnych błędów przyciśnij
-  przycisk "Wyślij", a Twój raport o [% terms.bledzie %] zostanie dodany do
+   Po sprawdzeniu czy sporządzone zgłoszenie nie zawiera żadnych błędów, proszę nacisnąć 
+  przycisk "Wyślij", a raport o [% terms.bledzie %] zostanie dodany do
   bazy danych [% terms.Bugzilli %].<br>
   </p>
 </blockquote>
 <hr>
 
-<h3><a name="more">Więcej wiadomości o zgłaszaniu dobrych [% terms.bledow %]</a></h3>
+<h3><a name="more">Dalsze wskazówki dotyczące tworzenia dobrych zgłoszeń [% terms.bledow %]</a></h3>
 
 <blockquote>
   <p><b><a name="tips"></a> 1. Ogólne porady</b></p>
 
   <blockquote>
-    <p><b>Używaj formalnej struktury, dzięki temu twoje raporty będą łatwe do
+    <p><b>Proszę używać formalnej struktury, dzięki temu sporządzone raporty będą łatwe do
     przejrzenia.</b> Osoby czytające raporty o [% terms.bledach %] często potrzebują
-    dotrzeć do określonej części opisu [% terms.bledu %]. Jeśli instalacja 
-    [% terms.Bugzilli %] którą używasz zawiera narzędzie ułatwiające zgłaszanie 
-    [% terms.bledow %] - użyj go.</p>
+    dotrzeć do określonej części opisu [% terms.bledu %]. Jeśli używana instalacja 
+    [% terms.Bugzilli %] zawiera narzędzie ułatwiające zgłaszanie 
+    [% terms.bledow %] - proszę go użyć.</p>
 
-    <p><b>Przedkładaj wyrazistość nad elokwencje.</b> Nikt nie będzie śmiał się
-    z zabawnego tytułu Twojego reportu, gdy o 3 nad ranem będzie starał przypomnieć
-    sobie jak odnaleźć Twój [% terms.blad %].</p>
+    <p><b>Należy przedkładać wyrazistość nad elokwencje.</b> Nikt nie będzie śmiał się
+    z zabawnego tytułu zgłoszenia, gdy o 3 nad ranem będzie starał przypomnieć
+    sobie jak odnaleźć ten [% terms.blad %].</p>
 
     <p><b>Jeden [% terms.blad %] na jeden raport.</b> Zwykle zupełnie inne osoby
     naprawiają, weryfikują i ustalają priorytety dla [% terms.bledow %]. Jeśli w
-    jednym raporcie zawrzesz kilka [% terms.bledow %], prawdopodobnie odpowiednie
-    osoby nie dowiedzą się odpowiednio szybko o Twoim raporcie. Dodatkowo niektóre 
-    [% terms.bledy %] mogą być bardziej ważnie niż reszta i tym samym prawidłowe
+    jednym raporcie zostanie zawartych kilka [% terms.bledow %], prawdopodobnie odpowiednie
+    osoby nie dowiedzą się odpowiednio szybko o zgłoszonym raporcie. Dodatkowo, niektóre 
+    [% terms.bledy %] mogą być ważniejsze niż inne i tym samym prawidłowe
     ustalenie priorytetu dla raportu może być niemożliwe.</p>
 
     <p><b>Żaden [% terms.blad %] nie jest na tyle trywialny, aby go nie zgłosić.</b>
     Rzeczywiste występowanie niektórych [% terms.bledow %], np. używanie zwolnionej
     pamięci, można zauważyć tylko przeglądając kod źródłowy - objawy tego typu 
-    [% terms.bledu %] przez zwykłego użytkownika są widoczne jako awaria programu.
+    [% terms.bledu %] są postrzegane przez zwykłego użytkownika jako awaria programu.
     Niektóre klasy błędów ujawniają się w niezwykle trywialny sposób, więc zgłoszenia
     nawet dla takich przypadków, może pomóc w wyeliminowaniu rzeczywistych, nie tak 
     całkiem prostych [% terms.bledow %].<br>
@@ -304,50 +304,49 @@ go na najnowszej wersji? No to zgłaszamy.
   <p><b><a name="summary"></a>2. Jak i dlaczego pisać dobre podsumowania [% terms.bledow %]</b></p>
 
   <blockquote>
-    <p><b>Powinieneś zrobić dobre wrażenie na odbiorcach raportu o [% terms.bledzie %]</b>
+    <p><b>Trzeba zrobić dobre wrażenie na odbiorcach raportu o [% terms.bledzie %].</b>
     Podobnie jak gazetowy nagłówek pozwala czytelnikowi wybrać interesujące go artykuły
     spośród wielu innych, podsumowanie [% terms.bledu %] pozwala stwierdzić osobie
-    przeglądającej raporty, czy Twój raport wart jest tego by go wybrać spośród tuzinów
+    przeglądającej raporty, czy dany raport wart jest tego, by go wybrać spośród tuzinów
     lub setek innych</p>
 
-    <p>Ogólne podsumowanie jak <tt>problem z instalacją</tt> wymusza na każdej osobie
-    zainteresowanej błędami w instalatorze stratę czasu na przejrzenie całego raportu
-    żeby zobaczyć czy [% terms.blad %] ten, w rzeczywistości mieści się w obrębie
-    zainteresowań danej osoby.</p>
+    <p>Ogólne podsumowanie, jak np. <tt>problem z instalacją</tt>, wymusza na każdej osobie
+    zainteresowanej błędami w instalatorze stratę czasu na przejrzenie całego raportu,
+    żeby zobaczyć czy [% terms.blad %] ten, w rzeczywistości mieści się w zakresie
+    obowiązków/zainteresowań danej osoby.</p>
 
     <p><b>[% terms.Bledy %] są zwykle wyszukiwane po ich podsumowaniu.</b> Podobnie
-    jak wyszukujesz strony w Google przy użyciu intuicyjnych słów kluczowych, inni
-    próbują znaleźć Twój [% terms.blad %]. Opisowe podsumowanie [% terms.bledu %] są
-    łatwiejsze do znalezienia przy użyciu, intuicyjnych dla danego problemu, słów
-    kluczowych.</p>
+    jak wyszukuje się strony w Google przy użyciu intuicyjnych słów kluczowych, tak też
+    próbuj się znaleźć określone zgłoszenie [% terms.bledu %]. Opisowe podsumowanie [% terms.bledu %] są
+    łatwiejsze do znalezienia przy użyciu słów kluczowych, intuicyjnych dla danego problemu.</p>
 
-    <p>Przykładowo dla [% terms.bledu %] zatytułowanego "<tt>Przeciągnięcie
+    <p>Przykładowo, dla [% terms.bledu %] zatytułowanego "<tt>Przeciągnięcie
     ikony z widoku listy do okna gnome-terminala nie powoduje wstawienie ścieżki</tt>"
     wpisanie "lista", "terminal", lub "ścieżka" powinno być wystarczające. Dla
     "<tt>Przeciągnięcie ikony nie wkleja tekstu</tt>" nie.</p>
 
-    <p>Zapytaj siebie, "Czy ktoś zrozumie [% terms.blad %] po przeczytaniu samego
-    podsumowania?". Jeśli tak Twoje podsumowanie jest dobre.</p>
+    <p>Należy zapytać siebie: "Czy ktoś zrozumie [% terms.blad %] po przeczytaniu samego
+    podsumowania?". Jeśli tak, podsumowanie jest dobre.</p>
 
     <p><b>Przykłady złych wpisów:</b></p>
 
     <ol>
-      <li>"Nie mogę zainstalować" - Dlaczego nie możesz zainstalować? Co się dzieje gdy
-      próbujesz zainstalować?</li>
+      <li>"Nie mogę zainstalować" - Dlaczego nie można zainstalować? Co się dzieje gdy
+      podczas próby instalacji?</li>
 
-      <li>"Poważne problemy z wydajnością" - ...które występują gdy robisz?</li>
+      <li>"Poważne problemy z wydajnością" - ...które kiedy występują? W jakich okolicznościach?</li>
 
       <li>"Przycisk Wróć nie działa" - Zawsze?</li>
     </ol>
 
-    <p><b>I dobrych:</b></p>
+    <p><b>...i dobrych:</b></p>
 
     <ol>
       <li>"Nieudane uaktualnienie do 1.0 przy zainstalowanej Mozilli M18 package" -
       Opisuje problem i kontekst.</li>
 
-      <li>"Instalacja przy użyciu RPM 4 wywala się na Red Hat 6.2 (RPM 3)" - 
-      Wyjaśnia co się dzieje i w jakim przypadku.</li>
+      <li>"Instalacja przy użyciu RPM 4 nie udaje się na Red Hat 6.2 (RPM 3)" - 
+      Wyjaśnia co się dzieje, i w jakim przypadku.</li>
     </ol>
   </blockquote>
 </blockquote>
