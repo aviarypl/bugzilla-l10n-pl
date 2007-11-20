@@ -71,9 +71,9 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> pozwalają śledzić cykl
         <dd>
           Ten [% terms.blad %] został niedawno dodany do listy [% terms.bledow %],
           które powinny być rozwiązane. [% terms.Blad %] o tym statusie może zostać
-          zaakceptowany i zmienić status na <b>[% status_descs.ASSIGNED FILTER html %]</b>,
-          zostać przypisany do kogoś innego i pozostać <b>[% status_descs.NEW FILTER html %]</b>,
-          lub może zostać rozwiązany ze statusem <b>[% status_descs.RESOLVED FILTER html %]</b>.
+          zaakceptowany, ze zmianą statusu na <b>[% status_descs.ASSIGNED FILTER html %]</b>,
+          przypisany do kogoś innego z pozostawieniem statusu <b>[% status_descs.NEW FILTER html %]</b>,
+          albo rozwiązany ze statusem <b>[% status_descs.RESOLVED FILTER html %]</b>.
         </dd>
 
         <dt>
@@ -134,7 +134,7 @@ Pola <b>status</b> oraz <b>rozwiązanie</b> pozwalają śledzić cykl
           Kontakt QA zapoznał się z proponowanym rozwiązaniem [% terms.bledu %] i uznał,
           że jest ono wystarczające. [% terms.Blad %] pozostaje w tym stanie do czasu wydania
           produktu, do którego przynależał (wówczas status zostanie zmieniony na
-          <b>[% status_descs.CLOSED FILTER html %]</b>.
+          <b>[% status_descs.CLOSED FILTER html %]</b>).
         </dd>
 
         <dt>
@@ -249,7 +249,7 @@ To pole określa dotkliwość [% terms.bledu %].
 
 <h2><a name="priority">Priorytet</a></h2>
 To pole pozwala uszeregować kolejność, z jaką [% terms.bledy %]
-powinny być rozwiązywane. To pole jest wykorzystywane przez programistę
+powinny być rozwiązywane. Jest ono wykorzystywane przez programistę
 do określenia priorytetów przypisanych sobie zadań. Zakres dostępnych priorytetów
 waha się od <b>P1</b> (najważniejszy) do
 <b>P5</b> (najmniej ważny).
@@ -270,8 +270,8 @@ zaobserwowany. W polu tym można wybrać:
 </ul>
 <b>Uwaga:</b> Podczas wyszukiwania, wybranie opcji "Wszystkie" spowoduje, że  
 [% terms.bledy %] przypisane do określonego systemu nie zostaną wyświetlone. Wyszukane będą jedynie 
-[% terms.bledy %], które zostały oznaczone jako występujące na wszystkich platformach,
-których pole "Platforma" jest ustawione na "Wszystkie".
+[% terms.bledy %] oznaczone jako występujące na wszystkich platformach 
+(pole "Platforma" ustawione na "Wszystkie").
 
 <h2><a name="op_sys">OS</a></h2>
 System operacyjny, na którym dany [% terms.blad %] został zaobserwowany.
