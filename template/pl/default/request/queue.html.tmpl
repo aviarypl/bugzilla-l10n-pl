@@ -102,7 +102,7 @@ które nie są ograniczone do grupy.
       <td>
         [% groups = {
             "Żądający" => 'requester' ,
-            "Adr. żądania" => 'requestee',
+            "Adresat żądania" => 'requestee',
             "Flaga" => 'type' ,
             "Produkt/Komponent" => 'category'
           } %]
@@ -160,7 +160,7 @@ które nie są ograniczone do grupy.
 [% PROCESS global/footer.html.tmpl %]
 
 [% BLOCK start_new_table %]
-  <h3>[% column_headers.$group_field %]: [% (request.$group_field || "None") FILTER html %]</h3>
+  <h3>[% column_headers.$group_field %]: [% (request.$group_field || "Brak") FILTER html %]</h3>
   <table class="requests" cellspacing="0" cellpadding="4" border="1">
     <tr>
       [% FOREACH column = display_columns %]
