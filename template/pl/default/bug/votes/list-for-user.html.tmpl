@@ -41,7 +41,7 @@
 [% IF !header_done %]
   [% subheader = voting_user.login FILTER html %]
   [% IF canedit %]
-    [% title = "Zmiana głosów" %]
+    [% title = "Głosy" %]
     [% IF bug_id %]
       [%# We .select and .focus the input so it works for textbox and 
           checkbox %]
