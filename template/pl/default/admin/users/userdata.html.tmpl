@@ -22,7 +22,7 @@
   #%]
 
 <tr>
-  <th><label for="login">Nazwa użytkownika:</label></th>
+  <th><label for="login">Nazwa użytkownika (adres e-mail):</label></th>
   <td>
     [% IF editusers %]
       <input size="64" maxlength="255" name="login" 
@@ -64,11 +64,11 @@
     </td>
   </tr>
   <tr>
-    <th><label for="disable_mail">Powiadamianie e-mailem wyłączone:</label></th>
+    <th><label for="disable_mail">Powiadamianie e-mail wyłączone:</label></th>
     <td>
       <input type="checkbox" name="disable_mail" id="disable_mail" value="1" 
       [% IF otheruser.email_disabled %] checked="checked" [% END %] />
-      (Opcja dotyczy powiadamiania i przypominania, a nie wiadomości administaracyjnych)
+      (Opcja dotyczy powiadamiania i przypominania, a nie wiadomości administracyjnych)
     </td>
   </tr>
   <tr>

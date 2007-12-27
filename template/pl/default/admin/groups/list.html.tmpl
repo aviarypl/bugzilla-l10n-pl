@@ -53,7 +53,7 @@
     heading            => 'Wyr. regularne'
    }
    {name               => 'is_active_bug_group'
-    heading            => "Użyj dla $terms.bledow"
+    heading            => "Używana dla $terms.bledow"
     align              => 'center'
    }
    {name               => 'type'
@@ -88,31 +88,31 @@
      match_value => Param("chartgroup")
      match_field => 'name'
      override_content => 1
-     content => "(used as the 'chartgroup')"
+     content => "(używana jako 'chartgroup')"
    },
    {
      match_value => Param("insidergroup")
      match_field => 'name'
      override_content => 1
-     content => "(used as the 'insidergroup')"
+     content => "(używana jako 'insidergroup')"
    },
    {
      match_value => Param("timetrackinggroup")
      match_field => 'name'
      override_content => 1
-     content => "(used as the 'timetrackinggroup')"
+     content => "(używana jako 'timetrackinggroup')"
    },
    {
      match_value => Param("querysharegroup")
      match_field => 'name'
      override_content => 1
-     content => "(used as the 'querysharegroup')"
+     content => "(używana jako 'querysharegroup')"
    },
    {
      match_value => "1"
      match_field => 'isbuggroup'
      override_content => 1
-     content => "Delete"
+     content => "Usuń"
      override_contentlink => 1
      contentlink => del_contentlink
    }]
@@ -120,13 +120,13 @@
      match_value => "0"
      match_field => 'isbuggroup'
      override_content => 1
-     content => "system"
+     content => "systemowa"
    },
    {
      match_value => "1"
      match_field => 'isbuggroup'
      override_content => 1
-     content => "user"
+     content => "użytkownika"
    }]
 %] 
 
@@ -139,29 +139,29 @@
 <p><a href="editgroups.cgi?action=add">Nowa grupa</a></p>
 
 <p>
-<b>Nazwa</b> to nazwa, która używana jest z funkcją <!-- blah -->ugzilla->user->in_group()
-w każdym ze zmodyfikowanych przez użytkownika plikach cgi.
-Może być ona także używana przez użytkowników wpisujących [% terms.bledy %] poprzez email
-w celu ograniczenia [% terms.bledu %] do określonego zbioru grup.
-Nazwa ta nie może zawierać spacji.
+<b>Nazwa</b> to nazwa, która używana jest z funkcją <!-- blah -->ugzilla->user->in_group() 
+w każdym ze zmodyfikowanych przez użytkownika plikach cgi. 
+Może być ona także używana przez użytkowników wpisujących [% terms.bledy %] poprzez email 
+w celu ograniczenia [% terms.bledu %] do określonego zbioru grup. 
+Nazwa ta nie może zawierać spacji. 
 </p>
 
 <p>
-<b>Opis</b> jest tym co pojawi się w raportach [% terms.bledow %]
-dla członków grupy, gdzie mogą oni wybrać czy [% terms.blad %] będzie
+<b>Opis</b> jest tym co pojawi się w raportach [% terms.bledow %] 
+dla członków grupy, gdzie mogą oni wybrać czy [% terms.blad %] będzie 
 wyświetlany jedynie dla pozostałych osób z tej samej grupy.
 </p>
 
 <p>
 <b>Wyrażenie regularne użytkowników</b> (opcjonalne) 
 w przypadku wypełnienia automatycznie udzieli członkostwa
-w tej grupie każdemu, kogo adres e-mail
+w tej grupie każdemu, kogo adres e-mail 
 pasuje do tego wyrażenia regularnego. Np: '@mycompany\.com$'
 </p>
 
 <p>
 
-Flaga <b>Użyj dla [% terms.bledow %]</b> określa czy grupa
+Flaga <b>Używana dla [% terms.bledow %]</b> określa czy grupa
 może być używana dla [% terms.bledow %]. Jeśli zostanie ona odznaczona,
 nie będzie możliwe dodawanie nowych [% terms.bledow %] do tej grupy,
 jednakże [% terms.bledy %] będące już w grupie, pozostaną w niej.

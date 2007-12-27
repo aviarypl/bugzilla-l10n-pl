@@ -114,16 +114,16 @@
         [%- otheruser.login FILTER html %]'">Podgląd dziennika konta użytkownika</a>
 </p>
 </form>
-<p>
-  Użytkownik jest członkiem zaznaczonych i wyświetlonych na szaro grup.
-  Kolor szary określa pośrednie członkowstwo - poprzez inne grupy (zaznaczone w nawiasach [])
+<p> 
+  Użytkownik jest członkiem zaznaczonych i wyświetlonych na szaro grup. 
+  Kolor szary określa pośrednie członkostwo - poprzez inne grupy (zaznaczone w nawiasach []) 
   lub poprzez wyrażenie regularne (zaznaczone '*').
 </p>
 [% IF editusers %]
-  <p>
-    Nawiasy [] wokół bless checkbox oznaczają możliwość
-	przyznawania członkowstwa w tej grupie innym użytkownikom
-	w wyniku członkowstwa w innej grupie.
+  <p> 
+    Nawiasy kwadratowe [] wokół "bless checkbox" oznaczają możliwość 
+	przyznawania członkostwa w tej grupie innym użytkownikom 
+	w wyniku członkostwa w innej grupie.
   </p>
 [% END %]
 
@@ -140,12 +140,11 @@
 
 <p>
   [% IF editusers %]
-    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">Nowy użytkownik
-	</a> |
+    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">Nowy użytkownik</a> |
     [% IF listselectionvalues %]
     [% END %]
   [% END %]
-  [% IF listselectionvalues.matchtype != 'exact' %],
+  [% IF listselectionvalues.matchtype != 'exact' %]
     <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Lista 
     użytkowników</a> | 
   [% END %]
