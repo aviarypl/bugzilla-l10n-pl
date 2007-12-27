@@ -31,7 +31,7 @@
     .inactive { color: #787878; }
     .multiplicable { display: block; }
   "
-  onload="selectProduct(document.forms[0], 'product', 'component', '__Dowolny__');"
+  onload="selectProduct(document.forms[0], 'product', 'component', '__Any__');"
   javascript_urls=["productmenu.js"]
 %]
 
@@ -61,7 +61,7 @@
       <th><label for="product">Produkt:</label></th>
       <td>
         <select name="product" onchange="selectProduct(this.form, 'product', 'component', '__Any__');">
-          <option value="">__Dowolny__</option>
+          <option value="">__Any__</option>
           [% FOREACH prod = products %]
             <option value="[% prod.name FILTER html %]"
                     [% " selected" IF selected_product == prod.name %]>
@@ -72,7 +72,7 @@
       <th><label for="component">Komponent:</label></th>
       <td>
         <select name="component">
-          <option value="">__Dowolny__</option>
+          <option value="">__Any__</option>
           [% FOREACH comp = components %]
             <option value="[% comp FILTER html %]"
                     [% " selected" IF selected_component == comp %]>
@@ -98,7 +98,7 @@
 [% PROCESS display_flag_types types=attachment_types types_id='attachments' %]
 
 <p>
-  <a href="editflagtypes.cgi?action=enter&amp;target_type=attachment">Utwórz typ flagi dla załącznika</a>
+  <a href="editflagtypes.cgi?action=enter&amp;target_type=attachment">Utwórz typ flagi dla załączników</a>
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
