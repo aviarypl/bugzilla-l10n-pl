@@ -53,9 +53,9 @@
 
 <div align="center">
   [% IF Param('timezone') %]
-    <b>[% time2str("%a %b %e %Y %T %Z", currenttime, Param('timezone')) %]</b><br>
+    <b>[% time2str("%Y-%m-%d %T %Z", currenttime, Param('timezone')) %]</b><br>
   [% ELSE %]
-    <b>[% time2str("%a %b %e %Y %T", currenttime) %]</b><br>
+    <b>[% time2str("%Y-%m-%d %T", currenttime) %]</b><br>
   [% END %]
 
   [% IF debug %]
