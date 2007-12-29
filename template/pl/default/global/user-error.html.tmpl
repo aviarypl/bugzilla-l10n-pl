@@ -223,7 +223,7 @@
   [% ELSIF error == "buglist_parameters_required" %]
     [% title = "Wymagane parametry" %]
     [% docslinks = {'query.html' => "Wyszukiwanie $terms.bledow",
-                    'list.html'  => "Listy $terms.bledow"} %]
+                    'query.html#list'  => "Listy $terms.bledow"} %]
     Nie można wyszukiwać lub zapamiętać wyszukiwania bez podanych kryteriów wyszukiwania.
 
   [% ELSIF error == "bugs_not_changed" %]
@@ -955,7 +955,7 @@
   [% ELSIF error == "missing_query" %]
     [% title = "Brak zapytania" %]
     [% docslinks = {'query.html' => "Wyszukiwanie $terms.bledow",
-                    'list.html'  => "Listy $terms.bledow"} %]
+                    'query.html#list'  => "Listy $terms.bledow"} %]
     Wyszukiwanie <em>[% queryname FILTER html %]</em>
     [% IF sharer_id && sharer_id != user.id %]
       nie jest udostępnione dla użytkownika.
@@ -1008,19 +1008,19 @@
     [% title = BLOCK %]Nie wybrano żadnych [% terms.bledow %][% END %]
     Nie wybrano żadnych [% terms.bledow %] do
     [% IF action == "add" %] dodania do [% ELSE %] usunięcia z [% END %]
-    zapisanego wyszukiwania.
+    etykiety [% tag FILTER html %].
 
   [% ELSIF error == "no_bugs_in_list" %]
-    [% title = "Usunąć zapisane wyszukiwanie?" %]
-    Nastąpi usunięcie wszystkich [% terms.bledow %] z wyszukiwania '[% saved_search FILTER html %]'.
-    Spowoduje to całkowite usunięcie wyszukiwania. Proszę kliknąć
+    [% title = "Usunąć etykietę?" %]
+    Nastąpi usunięcie wszystkich [% terms.bledow %] z etykiety '[% tag FILTER html %]'.
+    Spowoduje to całkowite usunięcie wyszukiwania. Proszę otworzyć 
     <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
-    [%- saved_search FILTER url_quote %]">ten odnośnik</a> jeśli wyszukiwanie ma 
-    zostać usunięte.
+    [%- tag FILTER url_quote %]">ten odnośnik</a> jeśli etykieta ma 
+    zostać usunięta.
 
   [% ELSIF error == "no_bugs_to_remove" %]
-    [% title = "Nie wybrano zapisanego wyszukiwania" %]
-    Nie określono wyszukiwania, z którego miałyby być usunięte [% terms.bledy %].
+    [% title = "Nie wybrano etykiety" %]
+    Nie określono etykiety, z której miałyby być usunięte [% terms.bledy %].
 
   [% ELSIF error == "no_component_change_for_multiple_products" %]
     [% title = "Brak dostępu" %]
@@ -1248,12 +1248,27 @@
 
   [% ELSIF error == "query_name_missing" %]
     [% title = "Nie podano nazwy zapytania" %]
-    [% docslinks = {'list.html' => "O listach $terms.bledow"} %]
+    [% docslinks = {'query.html#list' => "O listach $terms.bledow"} %]
     Proszę podać nazwę dla wyszukiwania.
 
   [% ELSIF error == "query_name_too_long" %]
     [% title = "Zbyt długa nazwa zapytania" %]
     Nazwa zapytanie nie może być dłuższa niż 64 znaków.
+	
+	
+  [% ELSIF error == "quicksearch_unknown_field" %]
+    [% title = "Nieznane pole szybkiego wyszukiwania" %]
+    [% IF fields.unique.size == 1 %]
+      Pole <code>[% fields.first FILTER html %]</code> nie jest znane.
+    [% ELSE %]
+      Pola 
+      [% FOREACH field = fields.unique.sort %]
+         <code>[% field FILTER html %]</code>
+         [% ', ' UNLESS loop.last() %]
+      [% END %]
+      nie są znane.
+    [% END %]
+    Poprawne nazwy pól wypisane są <a href="page.cgi?id=quicksearchhack.html">w tym miejscu</a>.
 
   [% ELSIF error == "reassign_to_empty" %]
     [% title = "Nieprawidłowe przypisanie" %]
@@ -1458,7 +1473,7 @@
 
   [% ELSIF error == "zero_length_file" %]
     [% title = "Plik jest pusty" %]
-    Wysyłany załącznik jest pusty.
+    Wysyłany załącznik jest pusty, nie istnieje lub brak uprawnień do jego odczytu.
 
   [% ELSIF error == "illegal_user_id" %]
     [% title = "Niepoprawny ID użytkownika" %]

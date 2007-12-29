@@ -340,6 +340,10 @@ sub die_handler {
     # the user-error or code-error template ended. So we don't really die.
     return if $msg->isa('Template::Exception') && $msg->type eq 'return';
 
+    # If this is inside an eval, then we should just act like...we're
+    # in an eval (instead of printing the error and exiting).
+    die(@_) if $^S;
+
     # We can't depend on the MTA to send an error message, so we have
     # to generate one properly.
     if ($input_email) {
@@ -497,9 +501,9 @@ send an email back to you. If your request succeeds, Bugzilla will
 not send you anything.
 
 If any part of your request fails, all of it will fail. No partial
-changes will happen. The only exception is attachments--one attachment
-may succeed, and be inserted into the database, and a later attachment
-may fail.
+changes will happen.
+
+There is no attachment support yet.
 
 =head1 CAUTION
 
@@ -523,8 +527,5 @@ You cannot send an HTML mail along with attachments. If you do, Bugzilla
 will reject your email, saying that it doesn't contain any text. This
 is a bug in L<Email::MIME::Attachment::Stripper> that we can't work
 around.
-
-If you send multiple attachments in one email, they will all be attached,
-but Bugzilla may not send an email notice out for all of them.
 
 You cannot modify Flags through the email interface.

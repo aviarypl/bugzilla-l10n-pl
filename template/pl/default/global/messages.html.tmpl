@@ -134,12 +134,6 @@
     [% title = "Dodawanie pola do strony wyszukiwania..." %]
     [% link  = "Proszę kliknąć tutaj jeśli strona nie odświeża się automatycznie." %]
 
-  [% ELSIF message_tag == "buglist_load_named_query" %]
-    [% title = BLOCK %]
-      Trwa wczytywanie zapytania <code>[% namedcmd FILTER html %]</code>
-    [% END %]
-    [% link  = "Proszę kliknąć tutaj jeśli strona nie odświeża się automatycznie." %]
-
   [% ELSIF message_tag == "buglist_updated_named_query" %]
     Zapytanie <code>[% queryname FILTER html %]</code> zostało uaktualnione.
 

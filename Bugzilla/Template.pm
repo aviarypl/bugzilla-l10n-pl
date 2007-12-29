@@ -62,7 +62,7 @@ sub _load_constants {
     foreach my $constant (@Bugzilla::Constants::EXPORT,
                           @Bugzilla::Constants::EXPORT_OK)
     {
-        if (defined &{$Bugzilla::Constants::{$constant}}) {
+        if (defined Bugzilla::Constants->$constant) {
             # Constants can be lists, and we can't know whether we're
             # getting a scalar or a list in advance, since they come to us
             # as the return value of a function call, so we have to
@@ -749,7 +749,7 @@ sub create {
                              my ($output) = "";
 
                              $var =~ s/[\r\n]/ /g;
-                             $var =~ s/([;\\\"])/\\$1/g;
+                             $var =~ s/([;\\\",])/\\$1/g;
 
                              if ($par) {
                                  $output = sprintf("%s:%s", $par, $var);
