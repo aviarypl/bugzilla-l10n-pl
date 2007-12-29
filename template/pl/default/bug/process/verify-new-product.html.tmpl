@@ -17,6 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>  
   #%]
 
 [%# INTERFACE:
@@ -31,6 +32,9 @@
   #   if they want to add the bug to its new product's group
   # use_target_milestone: boolean; whether or not to use
   #   the target milestone field
+  # old_groups: a list of group objects which are not available
+  #   for the new product.
+
   #%]
 
 [%# The global Bugzilla->cgi object is used to obtain form variable values. %]
@@ -50,26 +54,26 @@
 <input type="hidden" name="confirm_product_change" value="1">
 [%# Verify the version, component, and target milestone fields. %]
 [% IF verify_fields %]
-  <h3>Zweryfikuj wersję, komponent[% ", wersję docelową" IF use_target_milestone %]</h3>
+  <h3>Weryfikacja wersji, komponentu[% ", wersji  docelowej" IF use_target_milestone %]</h3>
 
   <p>
   [% IF use_target_milestone %]
-    Przenosisz [% terms.blad %] ([% terms.bledy %]) do produktu 
-    <b>[% cgi.param("product") FILTER html %]</b>,
-    tym samym wersja, komponent, docelowa wersja [% terms.bledu %]              
-    przestają być prawidłowe. Proszę teraz uaktualnić te pola: 
+    Przenoszenie [% terms.bledu %] ([% terms.bledow %]) do produktu 
+    <b>[% cgi.param("product") FILTER html %]</b>.
+    Tym samym wersja, komponent i wersja docelowa [% terms.bledu %]              
+    przestają być prawidłowe. Proszę uaktualnić te pola: 
   [% ELSE %]
-    You are moving the [% terms.bug %](s) to the product 
+    Przenoszenie [% terms.bledu %] ([% terms.bledow %]) do produktu 
     <b>[% cgi.param("product") FILTER html %]</b>,
-    and the version and component fields are no longer correct.
-    Please set the correct version and component now:
+    Tym samym wersja i komponent [% terms.bledu %]              
+    przestają być prawidłowe. Proszę uaktualnić te pola: 
   [% END %]
   </p>
 
   <table>
     <tr>
       <td>
-        <b>Version:</b><br>
+        <b>Wersja:</b><br>
         [% PROCESS "global/select-menu.html.tmpl" 
                    name="version"
                    options=versions
@@ -77,7 +81,7 @@
                    size=10 %]
       </td>
       <td>
-        <b>Component:</b><br>
+        <b>Komponent:</b><br>
         [% PROCESS "global/select-menu.html.tmpl"
                    name="component"
                    options=components
@@ -86,7 +90,7 @@
       </td>
       [% IF use_target_milestone %]
         <td>
-          <b>Target Milestone:</b><br>
+          <b>Wersja docelowa:</b><br>
         [% PROCESS "global/select-menu.html.tmpl"
                    name="target_milestone"
                    options=milestones
@@ -99,22 +103,37 @@
 
 [% END %]
 
-[% IF verify_bug_group %]
-  <h3>Verify [% terms.Bug %] Group</h3>
+[% IF verify_bug_group || old_groups.size %]
+  <h3>Weryfikacja grupy [% terms.bledu %]</h3>
 
-  <p>
-    Do you want to add the [% terms.bug %] to its new product's default groups (if any)?
-  </p>
+  [% IF old_groups.size %]
+    <p>Następujące grupy nie są prawidłowe dla produktu <b>[% cgi.param("product") FILTER html %]</b>
+     lub brak uprawnień do ograniczenia dostępu do [% terms.bledow %] do tych grup:</p>
+    <ul>
+      [% FOREACH group = old_groups %]
+        <li>[% group.name FILTER html %]: [% group.description FILTER html %]</li>
+      [% END %]
+    </ul>
+    <p><b>Dostęp do tych [%+ terms.bledow %] te nie będzie już ograniczony do tych grup i [% terms.bledy %] te
+	mogą stać się publiczne jeśli nie są przypisane do innych grup.</b></p>
+  [% END %]
 
-  <p>
-    <input type="radio" name="addtonewgroup" value="no"><b>no</b><br>
-    <input type="radio" name="addtonewgroup" value="yes"><b>yes</b><br>
-    <input type="radio" name="addtonewgroup" value="yesifinold" checked="checked">
-      <b>yes, but only if the [% terms.bug %] was in any of its old product's default groups</b><br>
-  </p>
+  [% IF verify_bug_group %]
+    <p>
+      Ten nowy produkt posiada domyślne powiązane z nim grupy. Czy dodać ten 
+      [%+ terms.blad %] do nich?<br>
+      <input type="radio" id="add_no" name="addtonewgroup" value="no"><label for="add_no">nie</label><br>
+      <input type="radio" id="add_yes" name="addtonewgroup" value="yes"><label for="add_yes">tak</label><br>
+      <input type="radio" id="add_yesifinold" name="addtonewgroup" value="yesifinold" checked="checked">
+        <label for="add_yesifinold">tak, ale tylko gdy [% terms.blad %] był w którejś z grup domyślnych poprzedniego 
+        produktu</label>
+    </p>
+  [% END %]
 [% END %]
 
-<input type="submit" id="change_product" value="Commit">
+<p>
+  <input type="submit" id="change_product" value="Commit">
+</p>
 
 </form>
 <hr>
@@ -124,10 +143,9 @@
 
 [% IF cgi.param('id') AND cgi.param('id').match('^\d+$') %]
   [% id = cgi.param('id') %]
-  [% "Cancel and Return to $terms.bug $id" FILTER bug_link(id) FILTER none %]
+  [% "Przerwanie i powrót do $terms.bledu $id" FILTER bug_link(id) FILTER none %]
 [% ELSE %]
-  <a href="buglist.cgi?regetlastlist=1">Cancel and Return to the last search results</a>
+  <a href="buglist.cgi?regetlastlist=1">Przerwanie i powrót do wyników ostatniego wyszukiwania</a>
 [% END %]
 
 [% PROCESS global/footer.html.tmpl %]
-

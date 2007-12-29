@@ -40,7 +40,7 @@
 [% error_message = BLOCK %]
   [% IF    error == "action_unrecognized" %]
     [% docslinks = {'query.html' => "Trwa szukanie $terms.bledow",
-                    'list.html'  => "Listy $terms.bledow"} %]
+                    'query.html#list'  => "Listy $terms.bledow"} %]
     Nie można rozpoznać wartości (<em>[% action FILTER html %]</em>)
     zmiennej <em>action</em>.
   
@@ -129,7 +129,7 @@
       Oznacza to, że zmienna środowiskowa '[% Param("auth_env_email") FILTER html %]'
       jest pusta lub nie istnieje.
     [% ELSE %]
-      Należy ustawić wartość zmiennej środowiskowej "auth_env_email" na nazwę zmiennej
+      Należy ustawić wartość parametru "auth_env_email" na nazwę zmiennej
       środowiskowej, która zawiera adres e-mail użytkownika.
     [% END %]
 
@@ -423,12 +423,19 @@
     Błędne ustawienie dla post_bug_submit_action
 
   [% ELSE %]
+    [%# Try to find hooked error messages %]
+    [% error_message = Hook.process("errors") %]
+    [% IF NOT error_message %]
     [% title = "Błąd wewnętrzny" %]
-    Wystąpił błąd wewnętrzny, lecz nie można określić
-    co oznacza kod błędu: <code>[% error FILTER html %]</code>.
+		Wystąpił błąd wewnętrzny, lecz nie można określić
+		co oznacza kod błędu: <code>[% error FILTER html %]</code>.
 
-    Jeśli jesteś zwykłym użytkownikiem [% terms.Bugzilli %], proszę zapisać tą stronę
-    i wysłać ją do [% Param('maintainer') %].
+		Jeśli jesteś zwykłym użytkownikiem [% terms.Bugzilli %], proszę zapisać tą stronę
+		i wysłać ją do [% Param('maintainer') %].
+    [% ELSE %]
+      [% error_message FILTER none %]
+    [% END %]
+
   [% END %]
 [% END %]
 

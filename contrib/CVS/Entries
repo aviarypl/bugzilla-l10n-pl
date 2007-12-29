@@ -1,18 +1,17 @@
-D/bug-bugzilla////
+/README/1.10.14.1/Tue Sep  4 22:34:32 2007//TBUGZILLA-3_0_2
+/bugzilla_ldapsync.rb/1.2/Sat Apr 26 16:35:04 2003//TBUGZILLA-3_0_2
+/bz_webservice_demo.pl/1.7.2.3/Sun Jun 17 18:08:36 2007//TBUGZILLA-3_0_2
+/bzdbcopy.pl/1.3.2.1/Sun Sep  2 09:32:30 2007//TBUGZILLA-3_0_2
+/cvs-update.pl/1.1/Tue Nov 11 05:58:52 2003//TBUGZILLA-3_0_2
+/gnats2bz.pl/1.8/Sun Sep  3 20:37:01 2006//TBUGZILLA-3_0_2
+/jb2bz.py/1.5/Fri Aug 26 23:11:32 2005//TBUGZILLA-3_0_2
+/merge-users.pl/1.3.2.1/Wed Mar 28 12:58:49 2007//TBUGZILLA-3_0_2
+/mysqld-watcher.pl/1.5/Thu Mar 27 00:06:53 2003//TBUGZILLA-3_0_2
+/recode.pl/1.4/Fri Dec 29 23:16:22 2006//TBUGZILLA-3_0_2
+/sendbugmail.pl/1.7/Mon Jul  3 21:42:47 2006//TBUGZILLA-3_0_2
+/sendunsentbugmail.pl/1.9/Wed Jun 21 00:44:48 2006//TBUGZILLA-3_0_2
+/syncLDAP.pl/1.9/Fri Aug 25 22:10:39 2006//TBUGZILLA-3_0_2
+/yp_nomail.sh/1.1/Tue Sep 12 23:50:31 2000//TBUGZILLA-3_0_2
 D/bugzilla-submit////
 D/cmdline////
 D/gnatsparse////
-/README/1.10/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/bugzilla_ldapsync.rb/1.2/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/bz_webservice_demo.pl/1.7/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/bzdbcopy.pl/1.3/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/cvs-update.pl/1.1/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/gnats2bz.pl/1.8/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/jb2bz.py/1.5/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/merge-users.pl/1.3.2.1/Mon May 14 16:04:26 2007//TBUGZILLA-3_0
-/mysqld-watcher.pl/1.5/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/recode.pl/1.4/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/sendbugmail.pl/1.7/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/sendunsentbugmail.pl/1.9/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/syncLDAP.pl/1.9/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0
-/yp_nomail.sh/1.1/Wed Feb 14 15:34:48 2007//TBUGZILLA-3_0

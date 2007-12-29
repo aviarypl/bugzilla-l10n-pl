@@ -25,28 +25,32 @@
 
 [% bugidsummary = bug.bug_id _ ': ' _ bug.short_desc %]
 [% attidsummary = attachment.id _ ': ' _ attachment.description %]
-[% statuses = { '+' => "granted" , '-' => 'denied' , 'X' => "canceled" ,
-                '?' => "asked" } %]
+[% statuses = { '+' => "nadał" , '-' => 'odebrał' , 'X' => "anulował" ,
+                '?' => "zażądał" } %]
+[% statuses1 = { '+' => "nadana" , '-' => 'odebrana' , 'X' => "anulowana" ,
+                '?' => "zażądana" } %]
+				
+[% to_identity = "" %]
 [% IF flag.status == '?' %]
-  [% to_identity = flag.addressee.identity _ " for" %]
-  [% subject_status = "requested" %]
+  [% to_identity = " od użytkownika " _ flag.requestee.identity  %]
+  [% subject_status = "zażądana" %]
 [% ELSE %]
-  [% IF flag.addressee %]
-    [% to_identity = flag.addressee.identity _ "'s request for" %]
+  [% IF flag.requester %]
+    [% to_identity = "zażądaną przez" _ flag.requester.identity  %]
   [% END %]
-  [% subject_status = statuses.${flag.status} %]
+  [% subject_status = statuses1.${flag.status} %]
 [% END %]
 From: [% Param('mailfrom') %]
 To: [% to %]
-Subject: [% flag.type.name %] [%+ subject_status %]: [[% terms.Bug %] [%+ bug.bug_id %]] [% bug.short_desc %]
-X-Bugzilla-Type: request
+Subject: [%+ subject_status %] flaga [% flag.type.name %] : [[% terms.Bug %] [%+ bug.bug_id %]] [% bug.short_desc %]
 [%- IF attachment %] :
   [Attachment [% attachment.id %]] [% attachment.description %][% END %]
+X-Bugzilla-Type: request
 
 [%+ USE wrap -%]
 [%- FILTER bullet = wrap(80) -%]
 
-[% user.identity %] has [% statuses.${flag.status} %] [%+ to_identity %] [%+ flag.type.name %]:
+Użytkownik [% user.identity %] [% statuses.${flag.status} %] flagę [%+ flag.type.name %] [%+ to_identity %] :
 
 [% terms.Bug %] [%+ bugidsummary %]
 [% END %]

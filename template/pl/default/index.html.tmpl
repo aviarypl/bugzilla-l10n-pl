@@ -79,7 +79,11 @@ function addSidebar() {
       <a href="editparams.cgi?section=core#upgrade_notification">informowania o nowych wydaniach</a>.</p>
     [% ELSIF release.error == "cannot_download" %]
       <p>Lokalny plik XML '[% release.xml_file FILTER html %]' nie może zostać utworzony.
-      Proszę upewnić się, że serwer WWW może zapisywać do tego katalogu.</p>
+      Proszę upewnić się, że serwer WWW może zapisywać do tego katalogu i sieć jest dostępna.
+	  W przypadku korzystania z serwera proxy, należy poprawnie ustawić parametr 
+      <a href="editparams.cgi?section=core#proxy_url">proxy_url</a>.</p>
+
+	  </p>
     [% ELSIF release.error == "no_update" %]
       <p>Lokalny plik XML '[% release.xml_file FILTER html %]' nie może być zaktualizowany.
       Proszę sprawdzić czy serwer WWW może zapisywać do tego pliku.</p>
