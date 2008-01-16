@@ -191,13 +191,13 @@ function subcatSelected() {
             <td align="center">
               [% IF user.id == series.creator OR user.in_group("admin") %]
                <a href="chart.cgi?action=edit&amp;series_id=
-                       [% series.series_id %]">Edit</a> |
+                       [% series.series_id %]">Edytuj</a> |
               [% END %]
               <a href="buglist.cgi?cmdtype=dorem&amp;namedcmd=
                 [% series.category FILTER url_quote %]%20/%20
                 [% series.subcategory FILTER url_quote %]%20/%20
                 [% series.name FILTER url_quote -%]&amp;series_id=
-                [% series.series_id %]&amp;remaction=runseries">Run Search</a>
+                [% series.series_id %]&amp;remaction=runseries">Uruchom wyszukiwanie</a>
             </td>        
           </tr>
         [% END %]
