@@ -53,6 +53,7 @@ X-Bugzilla-Changed-Fields: [% changedfields %]
 -- 
 Konfiguracja powiadomień e-mail: [% Param('urlbase') %]userprefs.cgi?tab=email
 ------- Powód wysłania wiadomości -------
+
 [% FOREACH relationship = reasons %]
   [% SWITCH relationship %]
     [% CASE constants.REL_ASSIGNEE %]
