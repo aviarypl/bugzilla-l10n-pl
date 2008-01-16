@@ -42,12 +42,12 @@
   [% PROCESS bug/process/header.html.tmpl %]
 [% END %]
 
-<h1>Została wykryte kolizja z innym uaktualnieniem!</h1>
+<h1>Wykryto kolizję z innym uaktualnieniem</h1>
 
 <p>
   Ktoś inny dokonał zmian w
   [%+ "$terms.bledzie $bug_id" FILTER bug_link(bug_id) FILTER none %]
-  w tym samym czasie kiedy ty próbujesz.
+  w tym samym czasie.
   Te zmiany to:
 </p>
 
@@ -57,7 +57,7 @@
 
 [% IF comments.size > start_at %]
 <p>
-  Dodaj komentarz(e):
+  Dodane przez kogoś komentarz(e):
   <blockquote>
     [% PROCESS "bug/comments.html.tmpl" bug = { 'bug_id' => bug_id } %]
   </blockquote>
@@ -66,27 +66,27 @@
 
 [% IF cgi.param("comment") %]
 <p>
-  Twój komentarz:<br>
+  Dodawany komentarz:<br>
   <blockquote><pre>[% cgi.param("comment") FILTER wrap_comment FILTER html %]</pre></blockquote>
 </p>
 [% END %]
 
 <p>
-Masz następujące możliwości:
+Możliwości rozwiązania konfliktu:
 </p>
 
 <ul>
   <li>
     <form method="post" action="process_bug.cgi">
       [% PROCESS "global/hidden-fields.html.tmpl" exclude="^Bugzilla_(login|password)$" %]
-      <input type="submit" id="process" value="Wysłać swoje zmiany">
-        Spowoduje to, że powyższe zmiany zostaną nadpisane
-        [% ", za wyjątkiem dodanych komentarzy" IF comments.size > start_at %].
+      Nadpisanie powyższych zmian[% ", za wyjątkiem dodanych komentarzy" IF comments.size > start_at %]: 
+      <input type="submit" id="process" value="Wyślij moje zmiany">
+
     </form>
   </li>
   <li>
-    Anulować swoje zmiany 
-    [%+ "i wrócić do $terms.bledu $bug_id" FILTER bug_link(bug_id) FILTER none %]
+    Anulowanie własnych zmian i powrót do 
+    [%+ "$terms.bledu nr $bug_id" FILTER bug_link(bug_id) FILTER none %]
   </li>
 </ul>
 

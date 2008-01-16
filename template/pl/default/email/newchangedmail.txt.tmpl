@@ -20,9 +20,17 @@
   #%]
 
 [% PROCESS "global/variables.none.tmpl" %]
+
+[% diffspl = diffs | replace('changed', 'zmienił(a)') %]
+[% diffspl = diffspl | replace('What', '    ') %]
+[% diffspl = diffspl | replace('Removed ', 'Usunięto') %]
+[% diffspl = diffspl | replace('     \|Added', '|Dodano') %]
+[% diffspl = diffspl | replace('Comment', 'Komentarz') %]
+[% diffspl = diffspl | replace('from', 'od') %]
+
 From: [% Param('mailfrom') %]
 To: [% to %]
-Subject: [[% terms.Bug %] [%+ bugid %]] [% neworchanged %][%+ summary %]
+Subject: [[% terms.Bug %] [%+ bugid %]] [% IF neworchanged %]Nowy: [%END%][%+ summary %]
 X-Bugzilla-Reason: [% reasonsheader %]
 X-Bugzilla-Type: newchanged
 X-Bugzilla-Watch-Reason: [% reasonswatchheader %]
@@ -40,21 +48,21 @@ X-Bugzilla-Changed-Fields: [% changedfields %]
 
 [%+ Param('urlbase') %]show_bug.cgi?id=[% bugid %]
 
-[%+ diffs %]
+[%+ diffspl %]
 
 -- 
 Konfiguracja powiadomień e-mail: [% Param('urlbase') %]userprefs.cgi?tab=email
-------- Wiadomość została wysłana ponieważ: -------
+------- Powód wysłania wiadomości -------
 [% FOREACH relationship = reasons %]
   [% SWITCH relationship %]
     [% CASE constants.REL_ASSIGNEE %]
-Jesteś właścicielem [% terms.bledu %].
+[% terms.Blad %] jest przypisany do ciebie.
     [% CASE constants.REL_REPORTER %]
-Zgłosiłeś [% terms.blad %].
+Zgłosiłeś ten [% terms.blad %].
     [% CASE constants.REL_QA %]
 Jesteś kontaktem QA dla [% terms.bledu %].
     [% CASE constants.REL_CC %]
-Jesteś na liście CC [% terms.bledu %].
+Jesteś na liście obserwatorów [% terms.bledu %].
     [% CASE constants.REL_VOTER %]
 Głosowałes na ten [% terms.blad %].
     [% CASE constants.REL_GLOBAL_WATCHER %]
@@ -64,7 +72,7 @@ Obserwujesz wszystkie zmiany [% terms.bledu %].
 [% FOREACH relationship = reasons_watch %]
   [% SWITCH relationship %]
     [% CASE constants.REL_ASSIGNEE %]
-Obserwujesz właściciela [% terms.bledu %].
+Obserwujesz osobę, do której przypisany jest ten [% terms.blad %].
     [% CASE constants.REL_REPORTER %]
 Obserwujesz zgłaszającego.
     [% CASE constants.REL_QA %]
@@ -72,6 +80,6 @@ Obserwujesz kontakt QA [% terms.bledu %].
     [% CASE constants.REL_CC %]
 Obserwujesz kogoś z listy CC [% terms.bledu %].
     [% CASE constants.REL_VOTER %]
-Obserwujesz kogoś kto głosował na [% terms.blad %].
+Obserwujesz kogoś, kto głosował na [% terms.blad %].
   [% END %]
 [% END %]
