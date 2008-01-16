@@ -70,8 +70,8 @@
     [% terms.bledy %]</a> - <input type="checkbox" name="removebugs">Usuń
     wszystkie [% terms.bledy %] z tej grupy.</p>
 
-    <p><b>UWAGA:</b> zaznaczając tą opcję można ujawnić poufne [% terms.bledy %].
-    <B>Zdecydowanie</B> zalecane jest przejrzenie [% terms.bledow %] w tej grupie
+    <p><b>UWAGA:</b> zaznaczając tę opcję można ujawnić poufne [% terms.bledy %].
+    <B>Zdecydowanie</B> zalecane jest przejrzenie [% terms.bledow %] w tej grupie 
 	przed zaznaczeniem opcji.</p>
   [% END %]
 
@@ -94,10 +94,9 @@
 
   [% IF shared_queries %]
     <p>
-      <b>Napotkano [% shared_queries %]
+      <b>Napotkano [% shared_queries %] 
 	  [% PROCESS ODMIEN c=shared_queries o1="zapisane zapytanie" o2="zapisane zapytania" o3="zapisanych zapytań" %]
 	  współdzielonych z tą grupą.</b>
-      
 	  W przypadku usunięcia tej grupy zapisane zapytania staną się ponownie prywatne.
     </p>
   [% END %]
