@@ -7,7 +7,7 @@
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
 REL="HOME"
-TITLE="The Bugzilla Guide - 3.0.2  Release"
+TITLE="The Bugzilla Guide - 3.0.3  Release"
 HREF="index.html"><LINK
 REL="UP"
 TITLE="Administering Bugzilla"
@@ -37,7 +37,7 @@ CELLSPACING="0"
 ><TH
 COLSPAN="3"
 ALIGN="center"
->The Bugzilla Guide - 3.0.2  Release</TH
+>The Bugzilla Guide - 3.0.3  Release</TH
 ></TR
 ><TR
 ><TD
@@ -498,12 +498,26 @@ CLASS="filename"
 ></LI
 ><LI
 ><P
->&#13;            <EM
+> 
+            <EM
 >&#60;productname&#62;</EM
->: 
-            This allows an administrator to specify the products in which 
-            a user can see bugs. The user must still have the 
-            "editbugs" privilege to edit bugs in these products.</P
+>:
+            This allows an administrator to specify the products 
+            in which a user can see bugs. If you turn on the 
+            <SPAN
+CLASS="QUOTE"
+>"makeproductgroups"</SPAN
+> parameter in
+            the Group Security Panel in the Parameters page, 
+            then Bugzilla creates one group per product (at the time you create 
+            the product), and this group has exactly the same name as the 
+            product itself. Note that for products that already exist when
+            the parameter is turned on, the corresponding group will not be
+            created. The user must still have the <SPAN
+CLASS="QUOTE"
+>"editbugs"</SPAN
+> 
+            privilege to edit bugs in these products.</P
 ></LI
 ></UL
 ></DIV

@@ -74,7 +74,16 @@ name="Creating_a_New_Bug"
  This is a signature line, and will be removed automatically, It will not
  be included in the bug description.</pre>
 
-<p>The <code  class="code">@</code> labels can be any valid field name in Bugzilla that can be set on <code  class="code">enter_bug.cgi</code>. For the list of field names, see the <code  class="code">fielddefs</code> table in the database. The above example shows the minimum fields you <b>must</b> specify.</p>
+<p>The <code  class="code">@</code> labels can be any valid field name in Bugzilla that can be set on <code  class="code">enter_bug.cgi</code>. For the list of required field names, see <a href="./Bugzilla/WebService/Bug.html#Create" class="podlinkpod"
+>&#34;Create&#34; in Bugzilla::WebService::Bug</a>. Note, that there is some difference in the names of the required input fields between web and email interfaces, as listed below:</p>
+
+<ul>
+<li><code  class="code">platform</code> in web is <code  class="code">@rep_platform</code> in email</li>
+
+<li><code  class="code">severity</code> in web is <code  class="code">@bug_severity</code> in email</li>
+</ul>
+
+<p>For the list of all field names, see the <code  class="code">fielddefs</code> table in the database.</p>
 
 <p>The values for the fields can be split across multiple lines, but note that a newline will be parsed as a single space, for the value. So, for example:</p>
 

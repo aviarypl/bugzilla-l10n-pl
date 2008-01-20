@@ -50,14 +50,17 @@
        name => "product_count"
        align => "right"
        heading => "Liczba produktów"
-     },
-     { 
-       heading => "Akcja..."
-       content => "Dodaj produkt"
-       contentlink => add_contentlink
-     },
+     }
    ]
 %]
+
+[% IF user.in_group('editcomponents') %]
+  [% columns.push({
+       heading => "Akcja"
+       content => "Nowy produkt"
+       contentlink => add_contentlink })
+  %]
+[% END %]
 
 [% PROCESS admin/table.html.tmpl
      columns = columns

@@ -388,18 +388,16 @@
 			zostaną usunięte wraz z kontem użytkownika.
           </li>
         [% END %]
-        [% IF whine_events || whine_schedules %]
+        [% IF whine_events %]
           <li>
             Użytkownik [% otheruser.login FILTER html %]
-            [% IF whine_events %]
-               [%+ whine_events %] [% PROCESS ODMIEN c=whine_events o1="przypomnienie" o2="przypomnienia" o3="przypomnień" %] 
-            [% END %]
+               zaplanował [%+ whine_events %] [% PROCESS ODMIEN c=whine_events o1="przypomnienie" o2="przypomnienia" o3="przypomnień" %] 
             [% IF whine_schedules %]
               [%+ 'i' IF whine_events %]
               otrzymuje 
 			  [%+ whine_schedules %] [% PROCESS ODMIEN c=whine_events o1="przypomnienie" o2="przypomnienia" o3="przypomnień" %] 
             [% END %].
-            [% IF whine_events + whine_schedules == 1 %]
+            [% IF whine_events == 1 %]
               Przypomnienie to zostanie usunięte
             [% ELSE %]
               Przypomnienia te zostaną usunięte 
@@ -407,6 +405,15 @@
 			wraz z kontem użytkownika.
           </li>
         [% END %]
+        [% IF whine_schedules %]
+          <li>
+            Użytkownik [% otheruser.login FILTER html %] otrzymuje 
+			[% PROCESS ODMIEN c=whine_schedules o1="przypomnienie" o2="przypomnienia" o3="przypomnienia" %].
+            Odpowiednie harmonogramy przypomnień zostaną usunięte razem z kontem użytkownika, 
+            lecz same przypomnienia pozostaną niezmienione.
+          </li>
+        [% END %]
+
       </ul>
     </div>
     [% display_warning = 1 %]

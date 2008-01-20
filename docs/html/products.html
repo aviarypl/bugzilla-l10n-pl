@@ -7,7 +7,7 @@
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
 REL="HOME"
-TITLE="The Bugzilla Guide - 3.0.2  Release"
+TITLE="The Bugzilla Guide - 3.0.3  Release"
 HREF="index.html"><LINK
 REL="UP"
 TITLE="Administering Bugzilla"
@@ -37,7 +37,7 @@ CELLSPACING="0"
 ><TH
 COLSPAN="3"
 ALIGN="center"
->The Bugzilla Guide - 3.0.2  Release</TH
+>The Bugzilla Guide - 3.0.3  Release</TH
 ></TR
 ><TR
 ><TD
@@ -84,45 +84,225 @@ CLASS="glossterm"
 >&#13;    Products</I
 ></A
 >
-
     tend to represent real-world
     shipping products. E.g. if your company makes computer games, 
-    you should have one product per game, perhaps a "Common" product for 
-    units of technology used in multiple games, and maybe a few special
-     products (Website, Administration...)</P
+    you should have one product per game, perhaps a 
+    <SPAN
+CLASS="QUOTE"
+>"Common"</SPAN
+> product for units of technology used 
+    in multiple games, and maybe a few special products 
+    (Website, Administration...)
+    </P
 ><P
->Many of Bugzilla's settings are configurable on a per-product
-    basis. The number of "votes" available to users is set per-product, 
-    as is the number of votes
-    required to move a bug automatically from the UNCONFIRMED status to the
-    NEW status.</P
+>&#13;    Many of Bugzilla's settings are configurable on a per-product
+    basis. The number of <SPAN
+CLASS="QUOTE"
+>"votes"</SPAN
+> available to 
+    users is set per-product, as is the number of votes
+    required to move a bug automatically from the UNCONFIRMED 
+    status to the NEW status.
+    </P
 ><P
->To create a new product:</P
+>&#13;    To create a new product:
+    </P
 ><P
 ></P
 ><OL
 TYPE="1"
 ><LI
 ><P
->Select "products" from the footer</P
+> 
+        Select <SPAN
+CLASS="QUOTE"
+>"products"</SPAN
+> from the footer.
+        </P
 ></LI
 ><LI
 ><P
->Select the "Add" link in the bottom right</P
+>&#13;        Select the <SPAN
+CLASS="QUOTE"
+>"Add"</SPAN
+> link in the bottom right.
+        </P
 ></LI
 ><LI
 ><P
->Enter the name of the product and a description. The
-        Description field may contain HTML.</P
+>&#13;        Enter the name of the product and a description. The
+        Description field may contain HTML.
+        </P
+></LI
+></OL
+><DIV
+CLASS="section"
+><H2
+CLASS="section"
+><A
+NAME="AEN1313"
+>3.4.1. Assigning Group Controls to Products</A
+></H2
+><P
+> 
+      On the <SPAN
+CLASS="QUOTE"
+>"Product Edit"</SPAN
+> page, 
+      there is a link called 
+      <SPAN
+CLASS="QUOTE"
+>"Edit Group Access Controls"</SPAN
+>. 
+      The settings on this page control the relationship 
+      of the groups to the product being edited.
+      </P
+><P
+>&#13;      Groups may be applicable, default, and 
+      mandatory for each product. Groups can also control access 
+      to bugs for a given product, or be used to make bugs 
+      for a product totally read-only unless the group 
+      restrictions are met.
+      </P
+><P
+>&#13;      If any group has <EM
+>Entry</EM
+> selected, then the 
+      product will restrict bug entry to only those users 
+      who are members of all the groups with 
+      <EM
+>Entry</EM
+> selected.
+      </P
+><P
+>&#13;      If any group has <EM
+>Canedit</EM
+> selected, 
+      then the product will be read-only for any users 
+      who are not members of all of the groups with
+      <EM
+>Canedit</EM
+> selected. ONLY users who 
+      are members of all the <EM
+>Canedit</EM
+> groups 
+      will be able to edit. This is an 
+      additional restriction that further limits 
+      what can be edited by a user.
+      </P
+><P
+>&#13;      The following settings let you 
+      choose privileges on a <EM
+>per-product basis</EM
+>.
+      This is a convenient way to give privileges to 
+      some users for some products only, without having 
+      to give them global privileges which would affect 
+      all products.
+      </P
+><P
+>&#13;      Any group having <EM
+>editcomponents</EM
+> 
+      selected  allows users who are in this group to edit all 
+      aspects of this product, including components, milestones 
+      and versions.
+      </P
+><P
+>&#13;      Any group having <EM
+>canconfirm</EM
+> selected 
+      allows users who are in this group to confirm bugs 
+      in this product.
+      </P
+><P
+>&#13;      Any group having <EM
+>editbugs</EM
+> selected allows 
+      users who are in this group to edit all fields of 
+      bugs in this product.
+      </P
+><P
+>&#13;      The <EM
+>MemberControl</EM
+> and 
+      <EM
+>OtherControl</EM
+> fields indicate which 
+      bugs will be placed in this group according 
+      to the following definitions.
+      </P
+><P
+>&#13;      For each group, it is possible to specify if 
+      membership in that group is:
+      </P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>&#13;          Required for bug entry. 
+          </P
+></LI
+><LI
+><P
+>&#13;          Not applicable to this product(NA),
+          a possible restriction for a member of the 
+          group to place on a bug in this product(Shown),
+          a default restriction for a member of the 
+          group to place on a bug in this product(Default),
+          or a mandatory restriction to be placed on bugs 
+          in this product(Mandatory).
+          </P
+></LI
+><LI
+><P
+>&#13;          Not applicable by non-members to this product(NA),
+          a possible restriction for a non-member of the 
+          group to place on a bug in this product(Shown),
+          a default restriction for a non-member of the 
+          group to place on a bug in this product(Default),
+          or a mandatory restriction to be placed on bugs 
+          in this product when entered by a non-member(Mandatory).
+          </P
+></LI
+><LI
+><P
+>&#13;          Required in order to make <EM
+>any</EM
+> change
+          to bugs in this product <EM
+>including comments.</EM
+>
+          </P
 ></LI
 ></OL
 ><P
->Don't worry about the "Closed for bug entry", "Maximum Votes
-    per person", "Maximum votes a person can put on a single bug",
-    "Number of votes a bug in this Product needs to automatically get out
-    of the UNCONFIRMED state", and "Version" options yet. We'll cover
-    those in a few moments.
-    </P
+>These controls are often described in this order, so a 
+      product that requires a user to be a member of group "foo" 
+      to enter a bug and then requires that the bug stay restricted
+      to group "foo" at all times and that only members of group "foo"
+      can edit the bug even if they otherwise could see the bug would 
+      have its controls summarized by...</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><FONT
+COLOR="#000000"
+><PRE
+CLASS="programlisting"
+> 
+foo: ENTRY, MANDATORY/MANDATORY, CANEDIT
+      </PRE
+></FONT
+></TD
+></TR
+></TABLE
+></DIV
 ></DIV
 ><DIV
 CLASS="NAVFOOTER"

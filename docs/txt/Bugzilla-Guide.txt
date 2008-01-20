@@ -1,9 +1,9 @@
 
-The Bugzilla Guide - 3.0.2 Release
+The Bugzilla Guide - 3.0.3 Release
 
 The Bugzilla Team
 
-   2007-09-18
+   2008-01-08
 
    This is the documentation for Bugzilla, a bug-tracking system from
    mozilla.org. Bugzilla is an enterprise-class piece of software that tracks
@@ -138,7 +138,7 @@ Chapter 1. About This Guide
 
 1.1. Copyright Information
 
-   This document is copyright (c) 2000-2007 by the various Bugzilla
+   This document is copyright (c) 2000-2008 by the various Bugzilla
    contributors who wrote it.
 
      Permission is granted to copy, distribute and/or modify this document
@@ -175,7 +175,7 @@ Chapter 1. About This Guide
 
 1.3. New Versions
 
-   This is the 3.0.2 version of The Bugzilla Guide. It is so named to match the
+   This is the 3.0.3 version of The Bugzilla Guide. It is so named to match the
    current version of Bugzilla.
 
    The latest version of this guide can always be found at
@@ -475,7 +475,6 @@ Chapter 2. Installing Bugzilla
    16. Email::Reply (any) for Inbound Email
    17. mod_perl2 (1.999022) for mod_perl
    18. CGI (2.93) for mod_perl
-   19. Apache::DBI (0.96) for mod_perl2
      _________________________________________________________________
 
 2.1.5.1. DBD::mysql
@@ -600,8 +599,6 @@ Chapter 2. Installing Bugzilla
 
    Bugzilla also requires a more up-to-date version of the CGI perl module to
    be installed, version 3.11 as opposed to 2.93
-
-   Finally, Bugzilla also requires Apache::DBI (0.96) to be installed as well.
      _________________________________________________________________
 
 2.2. Configuration
@@ -634,7 +631,11 @@ Chapter 2. Installing Bugzilla
    "www-data" group. If you are going to run Bugzilla on a machine where you do
    not have root access (such as on a shared web hosting account), you will
    need to leave webservergroup empty, ignoring the warnings that checksetup.pl
-   will subsequently display every time it in run.
+   will subsequently display every time it is run.
+
+   Caution If you are using suexec, you should use your own primary group for
+   webservergroup rather than leaving it empty, and see the additional
+      directions in the suexec section Section 2.6.6.1.
 
    The other options in the localconfig file are documented by their
    accompanying comments. If you have a slightly non-standard MySQL setup, you
@@ -1248,7 +1249,9 @@ AddType application/rdf+xml .rdf
    Making Bugzilla work on Windows is more difficult than making it work on
    Unix. For that reason, we still recommend doing so on a Unix based system
    such as GNU/Linux. That said, if you do want to get Bugzilla running on
-   Windows, you will need to make the following adjustments.
+   Windows, you will need to make the following adjustments. A detailed
+   step-by-step installation guide for Windows is also available if you need
+   more help with your installation.
      _________________________________________________________________
 
 2.5.1.1. Win32 Perl
@@ -1298,7 +1301,9 @@ ppm repository add landfill http://www.landfill.bugzilla.org/ppm/
 
    Note If using Apache on windows, you can set the ScriptInterpreterSource
    directive in your Apache config to avoid having to modify the first line of
-      every script to contain your path to perl perl instead of /usr/bin/perl.
+   every script to contain your path to Perl instead of /usr/bin/perl. When
+   setting ScriptInterpreterSource, do not forget to specify the -T flag to
+      enable the taint mode. For example: C:\Perl\bin\perl.exe -T.
      _________________________________________________________________
 
 2.5.1.5. Sending Email
@@ -1368,21 +1373,19 @@ ppm repository add landfill http://www.landfill.bugzilla.org/ppm/
           correctly with Bugzilla.
      _________________________________________________________________
 
-2.5.3. Linux-Mandrake 8.0
+2.5.3. Linux Distributions
 
-   Linux-Mandrake 8.0 includes every required and optional library for
-   Bugzilla. The easiest way to install them is by using the urpmi utility. If
-   you follow these commands, you should have everything you need for Bugzilla,
-   and ./checksetup.pl should not complain about any missing libraries. You may
-   already have some of these installed.
-bash# urpmi perl-mysql
-bash# urpmi perl-chart
-bash# urpmi perl-gd
-bash# urpmi perl-MailTools              (1)
-bash# urpmi apache-modules
+   Many Linux distributions include Bugzilla and its dependencies in their
+   native package management systems. Installing Bugzilla with root access on
+   any Linux system should be as simple as finding the Bugzilla package in the
+   package management application and installing it using the normal command
+   syntax. Several distributions also perform the proper web server
+   configuration automatically on installation.
 
-   (1) 
-          for Bugzilla email integration
+   Please consult the documentation of your Linux distribution for instructions
+   on how to install packages, or for specific instructions on installing
+   Bugzilla with native package management tools. There is also a Bugzilla Wiki
+   Page for distro-specific installation notes.
      _________________________________________________________________
 
 2.6. UNIX (non-root) Installation Notes
@@ -1643,6 +1646,25 @@ perl -pi -e
    web server group. Of course, this may pose as a security risk. Having a
    properly jailed shell and/or limited access to shell accounts may lessen the
       security risk, but use at your own risk.
+     _________________________________________________________________
+
+2.6.6.1. suexec or shared hosting
+
+   If you are running on a system that uses suexec (most shared hosting
+   environments do this), you will need to set the webservergroup value in
+   localconfig to match your primary group, rather than the one the web server
+   runs under. You will need to run the following shell commands after running
+   ./checksetup.pl, every time you run it (or modify checksetup.pl to do them
+   for you via the system() command).
+        for i in docs graphs images js skins; do find $i -type d -exec chmod o+
+rx {} \; ; done
+        for i in jpg gif css js png html rdf xul; do find . -name \*.$i -exec c
+hmod o+r {} \; ; done
+        find . -name .htaccess -exec chmod o+r {} \;
+
+   Pay particular attention to the number of semicolons and dots. They are all
+   important. A future version of Bugzilla will hopefully be able to do this
+   for you out of the box.
      _________________________________________________________________
 
 Chapter 3. Administering Bugzilla
@@ -1931,8 +1953,13 @@ Chapter 3. Administering Bugzilla
      * tweakparams: This flag allows a user to change Bugzilla's Params (using
        editparams.cgi.)
      * <productname>: This allows an administrator to specify the products in
-       which a user can see bugs. The user must still have the "editbugs"
-       privilege to edit bugs in these products.
+       which a user can see bugs. If you turn on the "makeproductgroups"
+       parameter in the Group Security Panel in the Parameters page, then
+       Bugzilla creates one group per product (at the time you create the
+       product), and this group has exactly the same name as the product
+       itself. Note that for products that already exist when the parameter is
+       turned on, the corresponding group will not be created. The user must
+       still have the "editbugs" privilege to edit bugs in these products.
      _________________________________________________________________
 
 3.2.2.4. Deleting Users
@@ -2005,15 +2032,73 @@ Chapter 3. Administering Bugzilla
 
    To create a new product:
 
-    1. Select "products" from the footer
-    2. Select the "Add" link in the bottom right
+    1. Select "products" from the footer.
+    2. Select the "Add" link in the bottom right.
     3. Enter the name of the product and a description. The Description field
        may contain HTML.
+     _________________________________________________________________
 
-   Don't worry about the "Closed for bug entry", "Maximum Votes per person",
-   "Maximum votes a person can put on a single bug", "Number of votes a bug in
-   this Product needs to automatically get out of the UNCONFIRMED state", and
-   "Version" options yet. We'll cover those in a few moments.
+3.4.1. Assigning Group Controls to Products
+
+   On the "Product Edit" page, there is a link called "Edit Group Access
+   Controls". The settings on this page control the relationship of the groups
+   to the product being edited.
+
+   Groups may be applicable, default, and mandatory for each product. Groups
+   can also control access to bugs for a given product, or be used to make bugs
+   for a product totally read-only unless the group restrictions are met.
+
+   If any group has Entry selected, then the product will restrict bug entry to
+   only those users who are members of all the groups with Entry selected.
+
+   If any group has Canedit selected, then the product will be read-only for
+   any users who are not members of all of the groups with Canedit selected.
+   ONLY users who are members of all the Canedit groups will be able to edit.
+   This is an additional restriction that further limits what can be edited by
+   a user.
+
+   The following settings let you choose privileges on a per-product basis.
+   This is a convenient way to give privileges to some users for some products
+   only, without having to give them global privileges which would affect all
+   products.
+
+   Any group having editcomponents selected allows users who are in this group
+   to edit all aspects of this product, including components, milestones and
+   versions.
+
+   Any group having canconfirm selected allows users who are in this group to
+   confirm bugs in this product.
+
+   Any group having editbugs selected allows users who are in this group to
+   edit all fields of bugs in this product.
+
+   The MemberControl and OtherControl fields indicate which bugs will be placed
+   in this group according to the following definitions.
+
+   For each group, it is possible to specify if membership in that group is:
+
+    1. Required for bug entry.
+    2. Not applicable to this product(NA), a possible restriction for a member
+       of the group to place on a bug in this product(Shown), a default
+       restriction for a member of the group to place on a bug in this
+       product(Default), or a mandatory restriction to be placed on bugs in
+       this product(Mandatory).
+    3. Not applicable by non-members to this product(NA), a possible
+       restriction for a non-member of the group to place on a bug in this
+       product(Shown), a default restriction for a non-member of the group to
+       place on a bug in this product(Default), or a mandatory restriction to
+       be placed on bugs in this product when entered by a
+       non-member(Mandatory).
+    4. Required in order to make any change to bugs in this product including
+       comments.
+
+   These controls are often described in this order, so a product that requires
+   a user to be a member of group "foo" to enter a bug and then requires that
+   the bug stay restricted to group "foo" at all times and that only members of
+   group "foo" can edit the bug even if they otherwise could see the bug would
+   have its controls summarized by...
+
+foo: ENTRY, MANDATORY/MANDATORY, CANEDIT
      _________________________________________________________________
 
 3.5. Components
@@ -2038,9 +2123,10 @@ Chapter 3. Administering Bugzilla
     1. Select the "Edit components" link from the "Edit product" page
     2. Select the "Add" link in the bottom right.
     3. Fill out the "Component" field, a short "Description", the "Default
-       Assignee" and "Default QA Contact" (if enabled). The Component and
-       Description fields may contain HTML; the "Default Assignee" field must
-       be a login name already existing in the database.
+       Assignee", "Default CC List" and "Default QA Contact" (if enabled). The
+       "Component Description" field may contain a limited subset of HTML tags.
+       The "Default Assignee" field must be a login name already existing in
+       the Bugzilla database.
      _________________________________________________________________
 
 3.6. Versions
@@ -2579,36 +2665,7 @@ Chapter 3. Administering Bugzilla
 
 3.13.3. Assigning Group Controls to Products
 
-   On the product edit page, there is a page to edit the "Group Controls" for a
-   product. This allows you to configure how a group relates to the product.
-   Groups may be applicable, default, and mandatory as well as used to control
-   entry or used to make bugs in the product totally read-only unless the group
-   restrictions are met.
-
-   For each group, it is possible to specify if membership in that group is...
-
-    1. required for bug entry,
-    2. Not applicable to this product(NA), a possible restriction for a member
-       of the group to place on a bug in this product(Shown), a default
-       restriction for a member of the group to place on a bug in this
-       product(Default), or a mandatory restriction to be placed on bugs in
-       this product(Mandatory).
-    3. Not applicable by non-members to this product(NA), a possible
-       restriction for a non-member of the group to place on a bug in this
-       product(Shown), a default restriction for a non-member of the group to
-       place on a bug in this product(Default), or a mandatory restriction to
-       be placed on bugs in this product when entered by a
-       non-member(Mandatory).
-    4. required in order to make any change to bugs in this product including
-       comments.
-
-   These controls are often described in this order, so a product that requires
-   a user to be a member of group "foo" to enter a bug and then requires that
-   the bug stay restricted to group "foo" at all times and that only members of
-   group "foo" can edit the bug even if they otherwise could see the bug would
-   have its controls summarized by...
-
-foo: ENTRY, MANDATORY/MANDATORY, CANEDIT
+   For information on assigning group controls to products, see Section 3.4.
      _________________________________________________________________
 
 3.13.4. Common Applications of Group Controls
