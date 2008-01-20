@@ -1,9 +1,9 @@
-/config.js.tmpl/1.7/Mon Jul  3 08:53:26 2006//TBUGZILLA-3_0_2
-/config.rdf.tmpl/1.7/Mon Jul  3 08:53:26 2006//TBUGZILLA-3_0_2
-/filterexceptions.pl/1.95.2.1/Thu Aug 23 15:35:52 2007//TBUGZILLA-3_0_2
-/index.html.tmpl/1.33.2.4/Thu Aug  2 12:36:31 2007//TBUGZILLA-3_0_2
-/sidebar.xul.tmpl/1.22.2.1/Wed Jul 25 04:49:41 2007//TBUGZILLA-3_0_2
-/welcome-admin.html.tmpl/1.2/Thu Sep 14 14:57:02 2006//TBUGZILLA-3_0_2
+/config.js.tmpl/1.7.2.1/Fri Oct  5 22:56:11 2007//TBUGZILLA-3_0_3
+/config.rdf.tmpl/1.7.2.2/Sun Oct  7 23:21:07 2007//TBUGZILLA-3_0_3
+/filterexceptions.pl/1.95.2.1/Thu Aug 23 15:35:52 2007//TBUGZILLA-3_0_3
+/index.html.tmpl/1.33.2.4/Thu Aug  2 12:36:31 2007//TBUGZILLA-3_0_3
+/sidebar.xul.tmpl/1.22.2.1/Wed Jul 25 04:49:41 2007//TBUGZILLA-3_0_3
+/welcome-admin.html.tmpl/1.2/Thu Sep 14 14:57:02 2006//TBUGZILLA-3_0_3
 D/account////
 D/admin////
 D/attachment////

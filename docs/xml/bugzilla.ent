@@ -26,7 +26,6 @@
 <!ENTITY min-email-reply-ver "any">
 <!ENTITY min-mod_perl2-ver "1.999022">
 <!ENTITY min-cgi-ver "3.11">
-<!ENTITY min-apache-dbi-ver "0.96">
 <!ENTITY min-mp-cgi-ver "3.11">
 
  <!-- Database Versions --> 

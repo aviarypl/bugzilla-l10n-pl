@@ -109,10 +109,12 @@
 		problemy, aby móc kontynuować.</b></p>
   [% END %]
 
-  <p><input type="submit" id="delete" value="Tak, usuń">
+  <p>
+  <input type="submit" id="delete" value="Tak, usuń">
   <input type="hidden" name="action" value="delete">
   <input type="hidden" name="group" value="[% gid FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">
+  </p>
 </form>
 
 Powrót do <a href="editgroups.cgi">listy grup</a>.
