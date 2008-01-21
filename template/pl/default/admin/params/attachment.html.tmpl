@@ -25,20 +25,20 @@
 %]
 
 [% param_descs = {
-  allow_attachment_deletion => "Jeśli opcja ta jest włączona administratorzy będą mogli " _
+  allow_attachment_deletion => "Jeśli opcja ta jest włączona, administratorzy będą mogli " _
                                "usuwać zawartość załączników.",
 
   allow_attach_url => "W przypadku włączenia tej opcji możliwe będzie " _
-                      "podać adres URL podczas tworzenia załącznika " _
+                      "podanie adresu URL podczas tworzenia załącznika " _
                       "i traktowania tego adresu URL jako załącznik.",
 
-  maxpatchsize => "Maksymalny rozmiar łatek (w kilobajtach). System $terms.Bugzilla nie" _
+  maxpatchsize => "Maksymalny rozmiar łatek (w kilobajtach). System $terms.Bugzilla nie " _
                   "zaakceptuje łatek większych niż podana wartość. " _
                   "Aby włączyć akceptowanie łatek dowolnych rozmiarów (zależnie również od serwera WWW), " _
                   "należy ustawić wartość 0.",
 
-  maxattachmentsize => "Maksymalny rozmiar załączników nie będących łatkami (w kilobajtach). " _
-                       "System $terms.Bugzilla nie zaakceptuje łatek większych niż podana wartość. " _
+  maxattachmentsize => "Maksymalny rozmiar załączników niebędących łatkami (w kilobajtach). " _
+                       "System $terms.Bugzilla nie zaakceptuje załączników - łatek większych niż podana wartość. " _
 					   "Aby włączyć akceptowanie łatek dowolnych rozmiarów (zależnie również od serwera WWW), " _
 					   "należy ustawić wartość 0.",
 				  
@@ -47,6 +47,6 @@
                         "Wartość zero oznacza, że załączniki nie będą przechowywane w systemie plików " _
                         "serwera.",
 
-  convert_uncompressed_images => "W przypadku włączenia tej opcji w celu zaoszczędzenia miejsca załączniki typu image/bmp " _
+  convert_uncompressed_images => "W przypadku włączenia tej opcji w celu zaoszczędzenia miejsca, załączniki typu image/bmp " _
                                  "zostaną przekonwertowane do image/png i skompresowane przed zapisem do bazy danych." }
 %]
