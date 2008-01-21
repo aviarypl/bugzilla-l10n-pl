@@ -32,8 +32,8 @@
 
   auth_env_email => "Zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
                     "do przechowywania adresu e-mail użytkownika. Jest to pole wymagane do korzystania " _
-                    "z uwierzytelniania za pomocą środowiska. Proszę pozostawić pustą wartość " _
-                    "gdy ten system nie korzysta z takiej metody uwierzytelniania.",
+                    "z uwierzytelniania za pomocą środowiska. Proszę pozostawić pustą wartość, " _
+                    "gdy system ten nie korzysta z takiej metody uwierzytelniania.",
 
   auth_env_realname => "Zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
 						"do przechowywania imienia i nazwiska użytkownika. Wartość " _
@@ -51,7 +51,7 @@
                         </dd>
                         <dt>Env</dt>
                         <dd>
-						  Informacje dla uwierzytelnionych użytkownikach przekazywane są 
+						  Informacje o uwierzytelnionych użytkownikach przekazywane są 
 						  poprzez zmienne środowiskowe.
                         </dd>
                       </dl>",
@@ -70,12 +70,12 @@
                           <dd>
 						    Uwierzytelnianie LDAP za pomocą serwera LDAP. 
 							Więcej informacji można znaleźć w dokumentacji
-							${terms.Bugzilli}. Do korzystania z tej motody należy ustawić 
+							${terms.Bugzilli}. Do korzystania z tej metody należy ustawić 
 							dodatkowe parametry powyżej.
                           </dd>
                         </dl>",
 
-  rememberlogin => "Określa metodę zarządzania ciasteczkami z danymi sesji
+  rememberlogin => "Określenie metody zarządzania ciasteczkami z danymi sesji:
                     <ul>
                       <li>
                         on - ciasteczka sesji nigdy nie wygasają (wymagane jest tylko jedno logowanie
@@ -87,11 +87,11 @@
                       </li>
                       <li>
                         defaulton/defaultoff - domyślne działanie jak opisano wyżej, ale
-                        użytkownik może zdecydować czy jego sesja me być zapamiętana.
+                        użytkownik może zdecydować, czy jego sesja me być zapamiętana.
                       </li>
                     </ul>",
 
-  loginnetmask => "Ilość bitów maski sieci w przypadku gdy użytkownik wybrał opcję  " _
+  loginnetmask => "Ilość bitów maski sieci w przypadku, gdy użytkownik wybrał opcję  " _
                   "zezwolenia logowania z więcej niż jednego adresu IP. Wartość " _
                   "32 wyłącza tę opcję.<br> " _
                   "Uwaga: włączenie opcji może spowodować obniżenie poziomu bezpieczeństwa systemu.",
@@ -103,18 +103,18 @@
   emailregexp => "Określa wyrażenie regularne kontrolujące poprawny adres e-mail. Wartość " _
                  "domyślna określa wszystkie poprawne adresy e-mail. Często stosowana " _
                  "wartość to <tt>^[^@]+$</tt>, która oznacza " _
-                 "'lokalne nazwy użytkowników, bez znaku @.'",
+                 "'lokalne nazwy użytkowników, bez znaku @'.",
 
   emailregexpdesc => "Pole to służy do opisania słowami adresów e-mail dozwolonych przez  " _
                      "wartość parametru <tt>emailregexp</tt>.",
 
   emailsuffix => "Ciąg znaków dołączany do każdego adresu e-mail podczas wysyłania poczty. " _
-                 "Opcja przydatna w przypadku zmiany opcji <tt>emailregexp</tt> na zezwalającą. " _
+                 "Opcja przydatna w przypadku zmiany opcji <tt>emailregexp</tt> na zezwalającą " _
                  "tylko na lokalne nazwy użytkowników - wtedy poczta będzie dostarczana " _
 				 "pod adresy w formie nazwa_użytkownika@lokalna.nazwa.hosta.",
 
   createemailregexp => "Określa wyrażenie regularne kontrolujące adresy e-mail użytkowników, " _
-                       "którzy mogą zarejestrować się samodzielnie za pomocą opcji 'Nowe konto'. The " _
+                       "którzy mogą zarejestrować się samodzielnie za pomocą opcji 'Nowe konto'. " _
                        "Domyślna wartość (.*) zezwala na rejestrację z dowolnego konta e-mail. " _
                        "W przypadku pozostawienia pustej wartości możliwość samodzielnej rejestracji " _
                        "jest wyłączona, a wszystkie konta będą musiały być tworzone przez administratora." }
