@@ -33,7 +33,7 @@
 [% END %]
 
 [% param_descs = {
-  languages => "Lista kodów języków wg RFC 1766 rozdzielonych przecinkami. " _
+  languages => "Lista kodów języków wg RFC 1766, rozdzielonych przecinkami. " _
                "Określają one języki, w których będzie wyświetlany interfejs " _
                "${terms.Bugzilli}. Uwaga: przed dodaniem języka w tym miejscu " _
                "należy zainstalować odpowiedni pakiet językowy. Użyty zostanie język, " _
@@ -41,6 +41,6 @@
                "w nagłówku Accept-Language wysyłanym przez przeglądarkę użytkownika.<br> " _
                "Dostępne języki: $available_languages" ,
 
-  defaultlanguage => "Domyślny język intefejsu $terms.Bugzilli w przypadku braku " _
+  defaultlanguage => "Domyślny język interfejsu $terms.Bugzilli w przypadku braku " _
                      "odpowiedniej wartości w nagłówku Accept-Language użytkownika." }
 %]
