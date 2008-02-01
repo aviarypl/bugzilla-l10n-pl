@@ -41,7 +41,7 @@
   #                   be aware of the group being edited and its members.
   #%]
 
-[% title = BLOCK %]Change Group: [% name FILTER html %][% END %]
+[% title = BLOCK %]Edycja grupy: [% name FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -102,8 +102,8 @@
 
   <p>Użytkownicy stają się członkami tej grupy gdy:</p>
     <ul>
-      <li> są jawnie wpisani do grupy podczas w edycji użytkownika,
-      <li> ich adres e-mail pasuje do wyrażenia regularngo powyżej,
+      <li> zostali jawnie wpisani do grupy podczas edycji użytkownika,
+      <li> ich adres e-mail pasuje do wyrażenia regularnego powyżej,
       <li> są członkami jednej z dołączonych poniżej grup.
     </ul>
 
@@ -187,12 +187,12 @@
     <dt>Nadawanie:</dt>
     <dd>
 	Członkowie wybranych grup mogą nadawać członkostwo w grupie
-    "[% name FILTER html %]"
+    "[% name FILTER html %]".
     </dd>
     <dt>Dziedziczenie:</dt>
     <dd>
 	  Członkowie wybranych grup zostają automatycznie członkami 
-      grupy "[% name FILTER html %]"
+      grupy "[% name FILTER html %]".
     </dd>
   </dl>
   <table width="76%" border="0">
@@ -202,11 +202,11 @@
         2.16 i wcześniejszych:</h4>
 
         <ul>
-          <li>Usuń wszystkich jawnych członków tej grupy: 
+          <li>Usuwanie wszystkich jawnych członków tej grupy: 
             <input name="remove_explicit_members" type="submit" id="remove_explicit_members" value="Usuń członków">
           </li>
 
-          <li>Usuń wszystkich jawnych członków, których nazwy spełniają ww. 
+          <li>Usuwanie wszystkich jawnych członków, których nazwy spełniają ww. 
             wyrażenie regularne: 
             <input name="remove_explicit_members_regexp" type="submit" id="remove_explicit_members_regexp" value="Usuń członków wg wyr. regularnego"> 
           </li>
@@ -220,6 +220,6 @@
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
-<p>Powrót do <a href="editgroups.cgi">listy grup</a>.</p>
+<p><a href="editgroups.cgi">Lista grup</a></p>
 
 [% PROCESS global/footer.html.tmpl %] 
