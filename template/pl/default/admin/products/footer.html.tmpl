@@ -37,7 +37,7 @@
      [%- classification.name FILTER url_quote %]
   [% END %]
   [% classification_text = BLOCK %] 
-    of classification '[% classification.name FILTER html %]'
+    klasyfikacji '[% classification.name FILTER html %]'
   [% END %]
 [% END %]
 
@@ -53,8 +53,8 @@
     (<a title="Dodawanie produktu do klasyfikacji '
                [%- classification.name FILTER html %]'"
          href="editproducts.cgi?action=add
-               [%- classification_url_part %]">to
-     classification '[% classification.name FILTER html %]'</a>)
+               [%- classification_url_part %]">Nowy produkt w 
+     klasyfikacji '[% classification.name FILTER html %]'</a>)
   [% END %].
 [% END %]
 
@@ -71,17 +71,18 @@
 
 [%# Edit other products (in a classification if specified): %]
 [% UNLESS no_edit_other_products_link %]
-  Edytuj <a 
+  <a 
   href="editproducts.cgi?
-        [%- classification_url_part_start FILTER none %]">inne produkty
-          [% classification_text %]</a>.
+        [%- classification_url_part_start FILTER none %]">Edycja innych produktów
+          [% classification_text %]</a>
 
 [% END %]
 
 [% IF Param('useclassification') && classification %]
-  Edytuj klasyfikację <a href="editclassifications.cgi?action=edit
-    [%- classification_url_part %]">'
-    [%- classification.name FILTER html %]'</a>.
+  <br>
+  <a href="editclassifications.cgi?action=edit
+    [%- classification_url_part %]">Edycja klasyfikacji '
+    [%- classification.name FILTER html %]'</a>
 
 [% END %]
 

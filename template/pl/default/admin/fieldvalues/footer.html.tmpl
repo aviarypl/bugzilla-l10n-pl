@@ -38,7 +38,7 @@
 [% END %]
 
 [% IF value && !no_edit_link %]
-  Edytuj wartość <a 
+  Edycja wartości <a 
   title="Edycja wartości '[% value FILTER html %]' dla pola '
          [%- field FILTER html %]'"
   href="editvalues.cgi?action=edit&amp;field=
@@ -47,7 +47,7 @@
 [% END %]
 
 [% UNLESS no_edit_other_link %]
-  Edytuj inne wartości dla pola  <a 
+  Zmiana innych wartości dla pola  <a 
   href="editvalues.cgi?field=
         [%- field FILTER url_quote %]">'[% field FILTER html %]'</a>.
 
