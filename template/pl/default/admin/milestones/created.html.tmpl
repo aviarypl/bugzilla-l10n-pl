@@ -33,11 +33,11 @@
   title = title
 %]
 
-<p>Wersja docelowa '<a title="Edytuj wersję docelową '[% milestone.name FILTER html %]' 
+<p>Wersja docelowa '<a title="Edycja wersji docelowej '[% milestone.name FILTER html %]' 
    produktu '[% product.name FILTER html %]'"
    href="editmilestones.cgi?action=edit&amp;product=
    [%- product.name FILTER url_quote %]&amp;milestone=[% milestone.name FILTER url_quote %]">
-   [%- milestone.name FILTER html %]</a>' zostałą dodana.</p>
+   [%- milestone.name FILTER html %]</a>' została dodana.</p>
 
 [% PROCESS admin/milestones/footer.html.tmpl %]
 
