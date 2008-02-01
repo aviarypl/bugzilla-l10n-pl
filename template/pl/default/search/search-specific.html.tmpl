@@ -108,11 +108,11 @@ z animacją Flash, możnaby wpisać "crash secure SSL flash".
     <td></td>
     <td>
       [% IF Param('specific_search_allow_empty_words') %]
-        <input type="submit" id="search" value="Search">
+        <input type="submit" id="search" value="Szukaj">
       [% ELSE %]
         <input type="submit" id="search" value="Szukaj"
              onclick="if (this.form.content.value == '')
-                      {alert('Pole \'słowa\' nie może być puste. Proszę podać conajmniej ' +
+                      {alert('Pole \'słowa\' nie może być puste. Proszę podać co najmniej ' +
                              'jedno słowo w do pola tekstowego.');
                        return false;} return true;">
       [% END %]
