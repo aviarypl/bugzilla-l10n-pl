@@ -77,9 +77,8 @@
   title="Edycja użytkownika '[% otheruser.login FILTER html %]'">Edycja użytkownika</a> | 
   <a title="Wyszukiwanie użytkowników" href="editusers.cgi">Wyszukiwanie użytkowników</a>
   [% IF listselectionvalues.matchtype != 'exact' %]
-    | <a title="Powrót do listy użytkowników"
-       href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Powrót do
-    listy użytkowników</a>
+    | <a title="Lista użytkowników"
+       href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Lista użytkowników</a>
   [% END %]
 </p>
 

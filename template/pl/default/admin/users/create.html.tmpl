@@ -47,11 +47,11 @@
 </form>
 
 <p>
-  Można także <a href="editusers.cgi">wyszukać użytkownika</a>
-  [% IF listselectionvalues %],
-    lub
+  <a href="editusers.cgi">Wyszukiwanie użytkowników</a>
+  [% IF listselectionvalues %]
+     | 
     <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">
-    powrócić do listy użytkowników</a>
+    Lista użytkowników</a>
   [% END %].
 </p>
 
