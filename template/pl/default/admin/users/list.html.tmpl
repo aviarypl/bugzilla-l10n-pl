@@ -106,12 +106,11 @@
 %]
 
 <p>
-  Przejście do 
-  <a href="editusers.cgi">wyszukiwania użytkowników</a>
+  <a href="editusers.cgi">Wyszukiwane użytkowników</a>
   [% IF editusers %]
-    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">dodawania
-    użytkownika</a>
-  [% END %].
+    | <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">Nowy 
+    użytkownik</a>
+  [% END %]
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

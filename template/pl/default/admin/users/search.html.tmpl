@@ -66,12 +66,12 @@
 
 [% IF editusers %]
   <p>
-    <a href="editusers.cgi?action=add">Dodawanie użytkownika</a>
-    [%- IF listselectionvalues %],
+    <a href="editusers.cgi?action=add">Nowy użytkownik</a>
+    [%- IF listselectionvalues %] | 
       
-      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">lista 
+      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Lista 
       użytkowników</a>
-    [%- END %].
+    [%- END %]
   </p>
 [% END %]
 
