@@ -801,7 +801,7 @@
     [% ELSIF new %]
       i nie może być dołączony do nowego [% terms.bledu %].
     [% ELSE %]
-      dla conajmniej jednego zmienianego [% terms.bledu %].
+      dla co najmniej jednego zmienianego [% terms.bledu %].
     [% END %]
 
   [% ELSIF error == "invalid_username" %]
@@ -1436,7 +1436,7 @@
     [% IF Param('useqacontact') %]
       lub kontaktem QA
     [% END %]
-    dla conajmniej jednego komponentu.
+    dla co najmniej jednego komponentu.
     Z tego powodu nie jest możliwe usunięcie tego konta.
 
   [% ELSIF error == "user_login_required" %]
