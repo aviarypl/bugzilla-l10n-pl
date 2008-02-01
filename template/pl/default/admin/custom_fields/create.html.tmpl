@@ -21,7 +21,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-           title = "Dodawanie pola dowolnego"
+           title = "Dodawanie pola dodatkowego"
            onload = "document.getElementById('new_bugmail').disabled = true;" %]
 
 <script type="text/javascript">
@@ -35,19 +35,19 @@
 </script>
 
 <p>
-  Dodatkowe pola mogą znacznie skomplikować interfejs [% terms.Bugzilli %].
-  Wielu początkujących administratorów [% terms.Bugzilli %] dodaje zbyt wiele
-  pól, co z kolei powoduje, że użytkownicy narzekają na zbyt skomplikowany
-  interfejs. Proszę dokładnie przemyśleć każde dodawane pole. Prawdopodobnie 
-  [% terms.Bugzilla %] zawiera już poszukiwaną funkcję, która nie jest skonfigurowana
+  Dodatkowe pola mogą znacznie skomplikować interfejs [% terms.Bugzilli %]. 
+  Wielu początkujących administratorów [% terms.Bugzilli %] dodaje zbyt wiele 
+  pól, co z kolei powoduje, że użytkownicy narzekają na zbyt skomplikowany 
+  interfejs. Proszę dokładnie przemyśleć każde dodawane pole. Prawdopodobnie  
+  [% terms.Bugzilla %] zawiera już poszukiwaną funkcję, która nie jest skonfigurowana 
   albo włączona.
 </p>
 
 <ul>
-  <li>Pola dodatkowe muszą mieć nazwy rozpoczynające się od "cf_". Pozwala to odzróżnić 
+  <li>Pola dodatkowe muszą mieć nazwy rozpoczynające się od "cf_". Pozwala to odróżnić  
 	  je od standardowych pól. W przypadku niedodania przedrostka "cf_" zostanie on 
 	  dodany automatycznie.</li>
-  <li>Opisy to któtkie teksty objaśniające znaczenie pola. Zostaną one użyte w interfejsie 
+  <li>Opisy to krótkie teksty objaśniające znaczenie pola. Zostaną one użyte w interfejsie 
 	  jako etykiety pól dodatkowych.</li>
 </ul>
 
