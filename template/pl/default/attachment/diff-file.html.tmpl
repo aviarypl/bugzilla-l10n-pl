@@ -21,6 +21,11 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
+[% BLOCK odmlini %]
+  [% PROCESS ODMIEN c=linia o1="linia" o2="linie" o3="linii" %]
+[% END %]
+
+
 [%# This line is really long for a reason: to get rid of any possible textnodes
   # between the elements.  This is necessary because DOM parent-child-sibling
   # relations can change and screw up the javascript for restoring, collapsing
@@ -134,7 +139,4 @@ incremental_restore()
   [% END %]
 [% END %]
 
-[% BLOCK odmlini %]
-  [% PROCESS ODMIEN c=linia o1="linia" o2="linie" o3="linii" %]
-[% END %]
 </table>
