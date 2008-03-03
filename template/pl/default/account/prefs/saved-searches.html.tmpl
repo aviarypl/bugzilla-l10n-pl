@@ -68,13 +68,12 @@
         Usuwanie
       </th>
       <th>
-        Wyśw. w 
-	stopce
+        Wyświetlane w stopce
       </th>
       [% may_share = user.in_group(Param('querysharegroup')) && queryshare_groups.size %]
       [% IF may_share %]
         <th>
-          Udost. grupie
+          Udostępnione grupie
         </th>
       [% END %]
     </tr>
@@ -175,8 +174,7 @@
         Uruchomienie
       </th>
       <th>
-        Wyśw. w 
-        stopce
+        Wyświetlane w stopce
       </th>
     </tr>
     [% found_shared_query = 0 %]
