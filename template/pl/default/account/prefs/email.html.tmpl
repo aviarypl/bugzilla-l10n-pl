@@ -119,7 +119,7 @@ document.write('<input type="button" value="Wyłącz wszystko" onclick="SetCheck
 
 [% events = [
     { id = constants.EVT_ADDED_REMOVED,
-      description = "jestem przypisany do lub usunięty z roli " },
+      description = "przypisano mnie do lub usunięto z roli " },
     { id = constants.EVT_OPENED_CLOSED,
       description = "$terms.blad jest rozwiązany lub ponownie otwarty" },
     { id = constants.EVT_PROJ_MANAGEMENT,
@@ -144,7 +144,7 @@ document.write('<input type="button" value="Wyłącz wszystko" onclick="SetCheck
     { id = constants.EVT_UNCONFIRMED,
       description = "$terms.blad jest w stanie UNCONFIRMED" },
     { id = constants.EVT_CHANGED_BY_ME,
-      description = "sam dokonałem zmiany" },
+      description = "samodzielnie dokonałem/am zmiany" },
 ] %]
 
 [% relationships = [
