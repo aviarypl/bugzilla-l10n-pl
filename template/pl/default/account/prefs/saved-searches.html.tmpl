@@ -144,7 +144,7 @@
                      [% " disabled"
                         IF !bless_group_ids.grep("^$q.shared_with_group.id\$").0
                      %]>
-              <label for="force_[% q.id FILTER html %]">Dodaj do stopki</label>
+              <label for="force_[% q.id FILTER html %]">Wyświetlane w stopce</label>
             [% END %]
           </td>
         [% END %]
@@ -153,8 +153,8 @@
     [% END %]
   </table>
   [% IF user.can_bless %]
-  <p>Jeśli zaznaczona jest opcja "Dodaj do stopki", to po zapisaniu zmian, odnośnik do współdzielonego
-	 wyszukiwania umieszczony będzie w stopce strony dla każdego bezpośredniego członka grupy.</p>
+  <p>Jeśli zaznaczona jest opcja "Wyświetlane w stopce", to po zapisaniu zmian, odnośnik do współdzielonego 
+	 wyszukiwania umieszczony będzie w stopce strony każdego bezpośredniego członka grupy.</p> 
 [% END %]
 
 </blockquote>
