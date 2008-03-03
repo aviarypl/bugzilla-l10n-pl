@@ -149,9 +149,9 @@
               </a>: [%+ reporter %].
 			Usunięcie konta spowoduje niespójność w bazie danych,
 			co oznacza, że 
-			[% PROCESS ODMIEN c=reporter o1="$terms.blad"
-			o2="$terms.bledy" o3="$terms.bledow" %] 
-			nie pojawi się więcej w listach [% terms.bledow %]
+			[% PROCESS ODMIEN c=reporter o1="$terms.blad nie pojawi"
+			o2="$terms.bledy nie pojawią" o3="$terms.bledow nie pojawi" %] 
+			się więcej w listach [% terms.bledow %].
           </li>
         [% END %]
         [% IF bugs_activity %]
@@ -164,13 +164,13 @@
             [% END %].
 
 			Usunięcie konta spowoduje niespójność w bazie danych,
-			co oznacza, że
+			co oznacza, że 
             [% IF bugs_activity == 1 %]
-              ta zmiana
+              ta zmiana nie będzie wyświetlana 
             [% ELSE %]
-              te zmiany
+              te zmiany nie będą wyświetlane 
             [% END %]
-			nie będą wyświetlane w logach aktywności [% terms.bug %].
+			 w dziennikach aktywności [% terms.bledu %].
           </li>
         [% END %]
         [% IF flags.setter %]
@@ -210,11 +210,10 @@
 			Usunięcie konta spowoduje niespójność tabeli komentarzy w bazie danych,
 			co oznacza, że 
             [% IF longdescs == 1 %]
-              ten komentarz
+              ten komentarz nie będzie więcej widoczny.
             [% ELSE %]
-			  te komentarze
+			  te komentarze nie będą więcej widoczne.
             [% END %]
-			nie będą więcej widocznie.
           </li>
         [% END %]
         [% IF profiles_activity %]
@@ -246,12 +245,12 @@
           <li>
             Użytkownik [% otheruser.login FILTER html %]
             <a href="buglist.cgi?emailassigned_to1=1&amp;emailqa_contact1=1&amp;emailtype1=exact&amp;email1=
-               [%- otheruser.login FILTER url_quote %]">jest domyślnym właścicielem
-            lub kontaktemw QA w 
+               [%- otheruser.login FILTER url_quote %]">jest domyślnym właścicielem 
+            lub kontaktem QA w 
             [% IF assignee_or_qa == 1 %]
-              jednym [% terms.bledzie %]
+              jednym [% terms.bledzie %] 
             [% ELSE %]
-              [%+ assignee_or_qa %] [%+ terms.bledach %]
+              [%+ assignee_or_qa %] [%+ terms.bledach %] 
             [% END %]</a>.
 			Usunięcie konta spowoduje, że role te zostaną przepisane na domyślnego
 			właściciela i/lub kontakt QA.
@@ -303,7 +302,7 @@
               zapisane zapytanie [% 'shared' IF namedquery_group_map %]. To zapytanie zostanie
             [% ELSE %]
               zapisane zapytania [%+ namedqueries FILTER html %]. Te zapytania zostaną
-            [% END %].
+            [% END %]
             usunięte razem z kontem użytkownika.
             [% IF namedquery_group_map %]
               [% IF namedqueries > 1 %]
@@ -364,18 +363,18 @@
           <li>
             Użytkownik [% otheruser.login FILTER html %]
             [% IF watch.watched %]
-              jest obserwowany przez
+              jest obserwowany przez 
               [% IF watch.watched == 1 %]
-                użytkownika 
+                jednego użytkownika.
               [% ELSE %]
-                [%+ watch.watched %] użytkowników
+                [%+ watch.watched %] użytkowników.
               [% END %]
             [% END %]
             [% IF watch.watcher %]
               [%+ 'i' IF watch.watched %]
               obserwuje 
               [% IF watch.watcher == 1 %]
-                użytkownika
+                jednego użytkownika
               [% ELSE %]
                 [%+ watch.watcher %] użytkowników
               [% END %]
@@ -391,12 +390,12 @@
         [% IF whine_events %]
           <li>
             Użytkownik [% otheruser.login FILTER html %]
-               zaplanował [%+ whine_events %] [% PROCESS ODMIEN c=whine_events o1="przypomnienie" o2="przypomnienia" o3="przypomnień" %] 
+               zaplanował [%+ whine_events %] [% PROCESS ODMIEN c=whine_events o1=" przypomnienie" o2=" przypomnienia" o3=" przypomnień" %] 
             [% IF whine_schedules %]
               [%+ 'i' IF whine_events %]
               otrzymuje 
-			  [%+ whine_schedules %] [% PROCESS ODMIEN c=whine_events o1="przypomnienie" o2="przypomnienia" o3="przypomnień" %] 
-            [% END %].
+			  [%+ whine_schedules %] [% PROCESS ODMIEN c=whine_events o1=" przypomnienie." o2=" przypomnienia." o3=" przypomnień." %] 
+            [% END %]
             [% IF whine_events == 1 %]
               Przypomnienie to zostanie usunięte
             [% ELSE %]
