@@ -21,11 +21,6 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% BLOCK odmlini %]
-  [% PROCESS ODMIEN c=linia o1="linia" o2="linie" o3="linii" %]
-[% END %]
-
-
 [%# This line is really long for a reason: to get rid of any possible textnodes
   # between the elements.  This is necessary because DOM parent-child-sibling
   # relations can change and screw up the javascript for restoring, collapsing
@@ -39,13 +34,13 @@
   [% END %]
   [% IF file.plus_lines %]
     [% IF file.minus_lines %]
-      (-[% file.minus_lines %]&nbsp;/&nbsp;+[% file.plus_lines %]&nbsp;[% PROCESS odmlini linia=file.plus_lines %])
+      (-[% file.minus_lines %]&nbsp;/&nbsp;+[% file.plus_lines %]&nbsp;[% PROCESS ODMIEN c=file.plus_lines o1="linia" o2="linie" o3="linii" %])
     [% ELSE %]
-      (+[% file.plus_lines %]&nbsp;[% PROCESS odmlini linia=file.plus_lines %])
+      (+[% file.plus_lines %]&nbsp;[% PROCESS ODMIEN c=file.plus_lines o1="linia" o2="linie" o3="linii" %])
     [% END %]
   [% ELSE %]
     [% IF file.minus_lines %]
-      (-[% file.minus_lines %]&nbsp;[% PROCESS odmlini linia=file.minus_lines %])
+      (-[% file.minus_lines %]&nbsp;[% PROCESS ODMIEN c=file.plus_lines o1="linia" o2="linie" o3="linii" %])
     [% END %]
   [% END %]
 </td></tr></thead><tbody class="[% collapsed ? 'file_collapse' : 'file' %]">
