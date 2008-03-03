@@ -19,6 +19,8 @@
   # Contributor(s): John Keiser <jkeiser@netscape.com>
   #%]
 
+[% PROCESS global/variables.none.tmpl %]
+
 [%# This line is really long for a reason: to get rid of any possible textnodes
   # between the elements.  This is necessary because DOM parent-child-sibling
   # relations can change and screw up the javascript for restoring, collapsing
