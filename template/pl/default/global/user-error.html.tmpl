@@ -508,7 +508,7 @@
     lecz dostęp do tego [% terms.bledu %] został ograniczony wyłącznie do określonych grup.
     Osoba, którą poproszono nie należy do żadnej z tych grup.
     Proszę poprosić kogoś innego o ustawienie flagi lub umożliwić
-    dostęp do tego [% terms.bledu %] dla obserwatorów i dodać tą osobę do listy obserwatorów.
+    dostęp do tego [% terms.bledu %] dla obserwatorów i dodać tę osobę do listy obserwatorów.
 
   [% ELSIF error == "flag_requestee_unauthorized_attachment" %]
     [% title = "Prośba o flagę do osoby bez praw dostępu" %]
@@ -590,7 +590,7 @@
     [% END %]
     Grupa '[% name FILTER html %]' jest używana przez 
     [% param FILTER html %] '[% groups.join("', '") FILTER html %]'.
-    Aby usunąć tą grupę, należy zmienić 
+    Aby usunąć tę grupę, należy zmienić 
     [%+ param FILTER html %] aby [% attr FILTER html %] na inną grupę.
 
   [% ELSIF error == "group_not_specified" %]
