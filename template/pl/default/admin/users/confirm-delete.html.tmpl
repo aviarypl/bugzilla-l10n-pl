@@ -148,7 +148,7 @@
                [%- otheruser.login FILTER url_quote %]">[% otheruser.login FILTER html %]
               </a>: [%+ reporter %].
 			Usunięcie konta spowoduje niespójność w bazie danych,
-			co oznacza, że 
+			co oznacza, że [%+ reporter %] 
 			[% PROCESS ODMIEN c=reporter o1="$terms.blad nie pojawi"
 			o2="$terms.bledy nie pojawią" o3="$terms.bledow nie pojawi" %] 
 			się więcej w listach [% terms.bledow %].
@@ -374,11 +374,11 @@
               [%+ 'i' IF watch.watched %]
               obserwuje 
               [% IF watch.watcher == 1 %]
-                jednego użytkownika
+                jednego użytkownika.
               [% ELSE %]
-                [%+ watch.watcher %] użytkowników
+                [%+ watch.watcher %] użytkowników.
               [% END %]
-            [% END %].
+            [% END %]
             [% IF watch.watched + watch.watcher == 1 %]
               Ustawienia obserwowania
             [% ELSE %]
