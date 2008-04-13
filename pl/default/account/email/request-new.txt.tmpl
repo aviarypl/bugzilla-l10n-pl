@@ -24,34 +24,35 @@
 [% expiration_ts = token_ts + (constants.MAX_TOKEN_AGE * 86400) %]
 From: [% Param('mailfrom') %]
 To: [% email %]
-Subject: [% terms.Bugzilla %]: confirm account creation
+Subject: [% terms.Bugzilla %]: potwierdzenie utworzenia konta
 X-Bugzilla-Type: admin
 
-[%+ terms.Bugzilla %] has received a request to create a user account
-using your email address ([% email %]).
+[%+ terms.Bugzilla %] otrzymała żądanie utworzenie konta z użyciem tego
+adresu e-mail ([% email %]).
 
-To continue creating an account using this email address, visit the 
-following link by [%+ time2str("%B %o, %Y at %H:%M %Z", expiration_ts) %]:
+Aby kontynuować tworzrenie konta z tym adresem email, należy otworzyć
+poniższy odnośnik przed [%+ time2str("%B %o, %Y at %H:%M %Z", expiration_ts) %]:
 
 [%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=request_new_account
 
-If you did not receive this email before [%+ time2str("%B %o, %Y at %H:%M %Z", expiration_ts) %] or
-you wish to create an account using a different email address you can begin
-again by going to:
+Jeśli odbiorca tej wiadomości nie otrzymał tego emaila przed [%+ time2str("%B %o, %Y at %H:%M %Z", expiration_ts) %] lub użytkownik woli stworzyć konto z innym adresem email, można zacząć od początku odwiedzając:
 
 [%+ urlbase %]createaccount.cgi
 
 [% IF Param('createemailregexp') == '.*' && Param('emailsuffix') == '' %]
-PRIVACY NOTICE: [% terms.Bugzilla %] is an open [% terms.bug %] tracking system. Activity on most
-[%+ terms.bugs %], including email addresses, will be visible to the public. We recommend
-using a secondary account or free web email service (such as Gmail, Yahoo,
-Hotmail, or similar) to avoid receiving spam at your primary email address.
+OSTRZEŻENIE: [% terms.Bugzilla %] jest otwartym systemem śledzenia
+[% terms.bledow %]. Aktywność w większości [% terms.bledow %], włączając
+w to adresy email, będzie widoczna publicznie. <b>Zalecamy</b> korzystanie
+z alternatywnego konta lub darmowej usługi email (jak Gmail,
+Yahoo, Hotmail, lub inne) aby uniknąć otrzymywania spamu
+na adresie podstawowym.
 [% END %]
 
-If you do not wish to create an account, or if this request was made in
-error you can do nothing or visit the following link:
+Jeżeli użytkownik nie chce utworzyć konta, lub to zgłoszenie jest wynikiem
+błędu można nie robić nic lub odwiedzić poniższy adres:
 
 [%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=cancel_new_account
 
-If the above links do not work, or you have any other issues regarding
-your account, please contact administration at [% Param('maintainer') %].
+Jeżeli powyższy odnośnik nie działa, lub pojawią się jakiekolwiek inne
+problemy z tym kontem, proszę skontaktować się z administratorem:
+ [% Param('maintainer') %].

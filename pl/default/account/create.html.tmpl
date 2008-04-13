@@ -28,7 +28,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-  Create a new [% terms.Bugzilla %] account
+  Nowe konto w [% terms.Bugzilli %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -36,27 +36,28 @@
            onload = "document.forms['account_creation_form'].login.focus();" %]
 
 <p>
-  To create a [% terms.Bugzilla %] account, all you need to do is to enter
+  Do utworzenia konta w [% terms.Bugzilli %] wymagane jest tylko podanie 
 [% IF Param('emailsuffix') == '' %]
-  a legitimate email address.
+  poprawnego adresu e-mail.
 [% ELSE %]
-  an accountname which when combined with [% Param('emailsuffix') %]
-  corresponds to an address where you receive email.
+  nazwy konta, która powiązana z [% Param('emailsuffix') %]
+  odpowiada adresowi pod którym będzie odbierana poczta.
 [% END %]
-  You will receive an email at this address to confirm the creation of your
-  account. <b>You will not be able to log in until you receive the email.</b>
-  If it doesn't arrive within a reasonable amount of time, you may contact
-  the maintainer of this [% terms.Bugzilla %] installation
-  at <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
+  Następnie na adres ten wysłana zostanie wiadomość z prośbą o potwierdzenie.
+  <b>Do czasu otrzymania wiadomości zalogowanie się do systemu nie będzie możliwe.</b>
+  W przypadku, gdy wiadomość nie dojdzie w rozsądnym czasie, należy skontaktować się
+  z opiekunem tej instalacji [% terms.Bugzilli %] pod adresem
+  <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
 </p>
 
 [% IF Param('createemailregexp') == '.*' && Param('emailsuffix') == '' %]
 <p>
-  <b>PRIVACY NOTICE:</b> [% terms.Bugzilla %] is an open [% terms.bug %]
-  tracking system. Activity on most [% terms.bugs %], including email
-  addresses, will be visible to the public. We <b>recommend</b> using a
-  secondary account or free web email service (such as Gmail, Yahoo,
-  Hotmail, or similar) to avoid receiving spam at your primary email address.
+  <b>OSTRZEŻENIE:</b> [% terms.Bugzilla %] jest otwartym systemem śledzenia
+  [% terms.bledow %]. Aktywność w większości [% terms.bledow %], włączając
+  w to adresy email, będzie widoczna publicznie. <b>Zalecamy</b> korzystanie
+  z alternatywnego konta lub darmowej usługi email (jak Gmail,
+  Yahoo, Hotmail, lub inne) aby uniknąć otrzymywania spamu
+  na adresie podstawowym.
 </p>
 [% END %]
 
@@ -64,7 +65,7 @@
   <table>
     <tr>
       <td align="right">
-        <b>Email address:</b>
+        <b>Adres email:</b>
       </td>
       <td>
         <input size="35" id="login" name="login">
@@ -73,7 +74,7 @@
     </tr>
   </table>
   <br>
-  <input type="submit" id="send" value="Send">
+  <input type="submit" id="send" value="Wyślij">
 </form>
 
 [% PROCESS global/footer.html.tmpl %]

@@ -21,12 +21,12 @@
 [%# INTERFACE:
   # token: string. The token to be used in this address change.
   #%]
-  
+
 [% title = "Confirm Change Email" %]
 [% PROCESS global/header.html.tmpl %]
 
 <p>
-  To change your email address, please enter the old email address:
+  Aby zmienić adres e-mail, należy podać poprzedni adres:
 </p>
 
 <form method="post" action="token.cgi">
@@ -34,12 +34,12 @@
   <input type="hidden" name="a" value="chgem">
   <table>
     <tr>
-      <th align="right">Old Email Address:</th>
+      <th align="right">Poprzedni adres e-mail:</th>
       <td><input type="text" name="email" size="36"></td>
     </tr>
     <tr>
       <th align="right">&nbsp;</th>
-      <td><input type="submit" id="confirm" value="Submit"></td>
+      <td><input type="submit" id="confirm" value="Zatwierdź"></td>
     </tr>
   </table>
 </form>

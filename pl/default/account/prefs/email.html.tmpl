@@ -40,9 +40,9 @@
 [% usevotes = Param('usevotes') %]
 
 <p>
-  If you don't like getting a notification for "trivial"
-  changes to [% terms.bugs %], you can use the settings below to
-  filter some or all notifications.
+  Aby wyłączyć otrzymywanie wiadomości o "trywialnych"
+  zmianach w [% terms.bledach %], można skorzystać z poniższych
+  ustawień.
 </p>
 
 <script type="text/javascript">
@@ -61,8 +61,8 @@ function SetCheckboxes(setting) {
   }
 }
 
-document.write('<input type="button" value="Enable All Mail" onclick="SetCheckboxes(true); return false;">\n');
-document.write('<input type="button" value="Disable All Mail" onclick="SetCheckboxes(false); return false;">\n');
+document.write('<input type="button" value="Włącz wszystko" onclick="SetCheckboxes(true); return false;">\n');
+document.write('<input type="button" value="Wyłącz wszystko" onclick="SetCheckboxes(false); return false;">\n');
 // -->
 </script>
 
@@ -71,7 +71,7 @@ document.write('<input type="button" value="Disable All Mail" onclick="SetCheckb
 <table>
   <tr>
     <td colspan="2">
-      <b>Global options:</b>
+      <b>Opcje globalne:</b>
     </td>
   </tr>
 
@@ -83,7 +83,7 @@ document.write('<input type="button" value="Disable All Mail" onclick="SetCheckb
         value="1"
         [% " checked" IF 
                   mail.${constants.REL_ANY}.${constants.EVT_FLAG_REQUESTED} %]>
-      <label for="[% prefname %]">Email me when someone asks me to set a flag</label>
+      <label for="[% prefname %]">Wyślij e-mail, gdy ktoś prosi mnie o ustawienie flagi</label>
       <br>
     </td>
   </tr>
@@ -95,68 +95,68 @@ document.write('<input type="button" value="Disable All Mail" onclick="SetCheckb
         value="1"
         [% " checked" IF 
                   mail.${constants.REL_ANY}.${constants.EVT_REQUESTED_FLAG} %]>
-      <label for="[% prefname %]">Email me when someone sets a flag I asked for</label>
+      <label for="[% prefname %]">Wyślij e-mail, gdy ktoś ustawił żądaną przeze mnie flagę</label>
       <br>
     </td>
   </tr>
-[% IF user.is_global_watcher %]
+  [% IF user.is_global_watcher %]
   <tr>
     <td width="150"></td>
     <td>
-      You are watching all [% terms.bugs %]. To be removed from this role,
-      contact
+      Obserwowane są wszystkie [% terms.bledy %]. Aby usunąć tę rolę, należy 
+      skontaktować się z 
       <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
     </td>
   </tr>
-[% END %]
+  [% END %]
 </table>
 
 <hr>
-<b>Field/recipient specific options:</b>
+<b>Ustawienia szczegółowe pól i odbiorców:</b>
 <br>
 <br>
 
 [% events = [
     { id = constants.EVT_ADDED_REMOVED,
-      description = "I'm added to or removed from this capacity" },
+      description = "przypisano mnie do lub usunięto z roli " },
     { id = constants.EVT_OPENED_CLOSED,
-      description = "The $terms.bug is resolved or reopened" },
+      description = "$terms.blad jest rozwiązany lub ponownie otwarty" },
     { id = constants.EVT_PROJ_MANAGEMENT,
-      description = "The priority, status, severity, or milestone changes" },
+      description = "nastąpiła zmiana priorytetu, stanu, wagi lub wersji docelowej" },
     { id = constants.EVT_COMMENT,
-      description = "New comments are added" },
+      description = "dodano komentarz" },
     { id = constants.EVT_ATTACHMENT,
-      description = "New attachments are added" },
+      description = "dodano załącznik" },
     { id = constants.EVT_ATTACHMENT_DATA,
-      description = "Some attachment data changes" },
+      description = "zmieniono dane załącznika" },
     { id = constants.EVT_KEYWORD,
-      description = "The keywords field changes" },
+      description = "zmieniono pole słów kluczowych" },
     { id = constants.EVT_CC,
-      description = "The CC field changes" },
+      description = "zmieniono listę obserwatorów" },
     { id = constants.EVT_DEPEND_BLOCK,
-      description = "The dependency tree changes" },
+      description = "nastąpiła zmiana w zależnościach" },
     { id = constants.EVT_OTHER,
-      description = "Any field not mentioned above changes" },
+      description = "nastąpiła zmiana w którymś z innych pól" },
 ] %]
 
 [% neg_events = [
     { id = constants.EVT_UNCONFIRMED,
-      description = "The $terms.bug is in the UNCONFIRMED state" },
+      description = "$terms.blad jest w stanie UNCONFIRMED" },
     { id = constants.EVT_CHANGED_BY_ME,
-      description = "The change was made by me" },
+      description = "samodzielnie dokonałem/am zmiany" },
 ] %]
 
 [% relationships = [
     { id = constants.REL_ASSIGNEE,
-      description = "Assignee" },
+      description = "Właściciel" },
     { id = constants.REL_QA,
-      description = "QA Contact" },
+      description = "Kontakt QA" },
     { id = constants.REL_REPORTER,
-      description = "Reporter" },
+      description = "Zgłaszający" },
     { id = constants.REL_CC,
-      description = "CCed" },
+      description = "Obserwator" },
     { id = constants.REL_VOTER,
-      description = "Voter" },
+      description = "Głosujący" },
 ] %]
 
 <table class="bz_emailprefs" border="1">
@@ -164,10 +164,10 @@ document.write('<input type="button" value="Disable All Mail" onclick="SetCheckb
     <td colspan="[% (useqacontact AND usevotes) ? '5' : 
                      ((useqacontact OR usevotes) ? '4' : '3') %]" 
         align="center" width="50%">
-      <b>When my relationship to this [% terms.bug %] is:</b>
+      <b>Rola w [% terms.bledzie %]:</b>
     </td>
     <td rowspan="2" width="40%">
-      <b>I want to receive mail when:</b>
+      <b>Wysyłaj powiadomienie, gdy:</b>
     </td>
   </tr>
 
@@ -214,7 +214,7 @@ document.write('<input type="button" value="Disable All Mail" onclick="SetCheckb
       &nbsp;
     </td>
     <td width="40%">
-      <b>but not when (overrides above):</b>
+      <b>za wyjątkiem, gdy:</b>
     </td>
   </tr>
 
@@ -264,18 +264,18 @@ document.write('<input type="button" value="Disable All Mail" onclick="SetCheckb
 
 [% IF Param('supportwatchers') %]
 <hr>
-<b>User Watching</b>
+<b>Śledzenie użytkowników</b>
 
 <p>
-If you watch a user, it is as if you are standing in their shoes for the 
-purposes of getting email. Email is sent or not according to <u>your</u>
-preferences for <u>their</u> relationship to the [% terms.bug %] 
-(e.g. Assignee).
+Śledzenie użytkownika oznacza, że osoba śledząca otrzymuje kopie
+wiadomości wysyłanych do śledzonego użytkownika. Wiadomości wysyłane są jednak
+zgodnie z <u>własnymi</u> zasadami ustawionymi powyżej, ale dla ról w [% terms.bledach %] 
+<u>śledzonego</u> użytkownika (np. właściciel).
 </p>
 
 <p>
 [% IF watchedusers.size %]
-You are watching everyone in the following list:
+Obecnie śledzeni są następujący użytkownicy:
   </p>
   <p>
     <select id="watched_by_you" name="watched_by_you" multiple="multiple" size="5">
@@ -284,23 +284,24 @@ You are watching everyone in the following list:
         [% END %]
     </select> <br />
     <input type="checkbox" id="remove_watched_users" name="remove_watched_users">
-    <label for="remove_watched_users">Remove selected users from my watch list</label>
+    <label for="remove_watched_users">Usuń zaznaczonych użytkowników z listy śledzonych</label>
 [% ELSE %]
-You are currently not watching any users.
+Obecnie nie są śledzeni żadni użytkownicy.
 [% END %]
 </p>
 
-<p><a name="new_watched_by_you" id="new_watched_by_you">Add users to my watch list (comma separated list)</a>:
+<p><a name="new_watched_by_you" id="new_watched_by_you">Dodaj śledzonych  
+(adresy oddzielone przecinkami)</a>:
   <input size="60" name="new_watchedusers" value="">
 </p>            
 
-<p><a name="watching_you" id="watching_you">Users watching you</a>:<br>
+<p><a name="watching_you" id="watching_you">Użytkownicy śledzący to konto</a>:<br>
   [% IF watchers.size %]
     [% FOREACH watcher = watchers %]
       [% watcher FILTER html %] <br>
     [% END %]
   [% ELSE %]
-    <i>No one</i>
+    <i>Brak</i>
   [% END %]
 </p>
 

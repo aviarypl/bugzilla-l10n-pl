@@ -27,30 +27,30 @@
 <table>
   <tr>
     <td colspan="3">
-      Please enter your existing password to confirm account changes.
+      Proszę podać hasło, aby potwierdzić zmiany w ustawieniach konta.
     </td>
   </tr>
   <tr>
-    <th align="right">Password:</th>
+    <th align="right">Hasło:</th>
     <td>
       <input type="hidden" name="Bugzilla_login" 
              value="[% user.login FILTER html %]">
       <input type="password" name="Bugzilla_password">
     </td>
-  </tr>              
+  </tr>
   <tr>
     <td colspan="2"><hr></td>
   </tr>
   [% IF user.authorizer.can_change_password %]
     <tr>
-      <th align="right">New password:</th>
+      <th align="right">Nowe hasło:</th>
       <td>
         <input type="password" name="new_password1">
       </td>
-    </tr>              
+    </tr>
 
     <tr>
-      <th align="right">Confirm new password:</th>
+      <th align="right">Potwierdzenie nowego hasła:</th>
       <td>
         <input type="password" name="new_password2">
       </td>
@@ -58,7 +58,7 @@
   [% END %]
 
   <tr>
-    <th align="right">Your real name (optional, but encouraged):</th>
+    <th align="right">Imię i nazwisko (zalecane):</th>
     <td>
       <input size="35" name="realname" value="[% realname FILTER html %]">
     </td>
@@ -68,26 +68,26 @@
     [% IF login_change_date %]
       [% IF new_login_name %]
         <tr>
-          <th align="right">Pending email address:</th>
+          <th align="right">Nowy adres e-mail:</th>
           <td>[% new_login_name FILTER html %]</td>
         </tr>
         <tr>
-          <th align="right">Change request expires:</th>
+          <th align="right">Data wygaśnięcia żądania zmiany:</th>
           <td>[% login_change_date FILTER time %]</td>
         </tr>
       [% ELSE %]
         <tr>
-          <th align="right">Confirmed email address:</th>
+          <th align="right">Potwierdzony adres e-mail:</th>
           <td>[% user.login FILTER html %]</td>
         </tr>
         <tr>
-          <th align="right">Completion date:</th>
+          <th align="right">Data zakończenia:</th>
           <td>[% login_change_date FILTER time %]</td>
         </tr>
       [% END %]
     [% ELSE %]
       <tr>
-        <th align="right">New email address:</th>
+        <th align="right">Nowy adres e-mail:</th>
         <td>
           <input size="35" name="new_login_name">
         </td>

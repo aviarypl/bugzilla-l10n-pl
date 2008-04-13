@@ -20,7 +20,6 @@
 
 [%# INTERFACE:
   # queryshare_groups: list of groups the user may share queries with
-  #                    (id, name).
   # bless_group_ids: list of group ids the user may bless.
   #%]
 
@@ -40,39 +39,38 @@
   </script>
 [% END %]
 
-<p>Your saved searches are as follows:</p>
+<p>Zapisane wyszukiwania:</p>
 
 <blockquote>
   <table border="1" cellpadding="3">  
     <tr>
       <th>
-        Search
+        Zapytanie
       </th>
       <th>
-        Run
+        Uruchomienie
       </th>
       <th>
-        Edit
+        Edycja
       </th>
       <th>
-        Forget
+        Usuwanie
       </th>
       <th>
-        Show in
-        Footer
+        Wyświetlane w stopce
       </th>
       [% may_share = user.in_group(Param('querysharegroup')) && queryshare_groups.size %]
       [% IF may_share %]
         <th>
-          Share With a Group
+          Udostępnione grupie
         </th>
       [% END %]
     </tr>
     <tr>
-      <td>My [% terms.Bugs %]</td>
+      <td>Moje [% terms.bledy %]</td>
       <td>
         [% filtered_username = user.login FILTER url_quote %]
-        <a href="[% Param('mybugstemplate').replace('%userid%', filtered_username) %]">Run</a>
+        <a href="[% Param('mybugstemplate').replace('%userid%', filtered_username) %]">Uruchom</a>
       </td>
       <td>
         &nbsp;
@@ -96,18 +94,18 @@
       <tr>
         <td>[% q.name FILTER html %]</td>
         <td>
-          <a href="buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% q.name FILTER url_quote %]">Run</a>
+          <a href="buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% q.name FILTER url_quote %]">Uruchom</a>
         </td>
         <td>
           <a href="query.cgi?[% q.edit_link FILTER html %]&amp;known_name=
-                   [% q.name FILTER url_quote %]">Edit</a>
+                   [% q.name FILTER url_quote %]">Modyfikuj</a>
         </td>
         <td>
           [% IF q.used_in_whine %]
-            Remove from <a href="editwhines.cgi">whining</a> first
+            Najpierw usuń z <a href="editwhines.cgi">przypominania</a>
           [% ELSE %]
             <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
-                     [% q.name FILTER url_quote %]">Forget</a>
+                     [% q.name FILTER url_quote %]">Usuń</a>
           [% END %]
         </td>
         <td align="center">
@@ -120,8 +118,8 @@
         [% IF may_share %]
           <td>
             <select name="share_[% q.id FILTER html %]"
-              [% IF user.can_bless %] onchange="update_checkbox(this);"[% END %]>
-              <option value="">Don't share</option>
+            [% IF user.can_bless %] onchange="update_checkbox(this);"[% END %]>
+              <option value="">&lt;brak&gt;</option>
               [% FOREACH group = queryshare_groups %]
                 <option value="[% group.id %]"
                         [% ' selected="selected"' 
@@ -135,47 +133,47 @@
                      [% " disabled"
                         IF !bless_group_ids.grep("^$q.shared_with_group.id\$").0
                      %]>
-              <label for="force_[% q.id FILTER html %]">Add to footer</label>
+              <label for="force_[% q.id FILTER html %]">Wyświetlane w stopce</label>
             [% END %]
             [% IF q.shared_with_users %]
-              (shared with [% q.shared_with_users FILTER html %]
-              [%+ q.shared_with_users > 1 ? "users" : "user" %])
+              (współdzielone z [% q.shared_with_users FILTER html %]
+              [%+ q.shared_with_users > 1 ? "użytkownikami" : "użytkownikiem" %])
             [% END %]
           </td>
         [% END %]
+        </td>
       </tr>
     [% END %]
   </table>
-[% IF user.can_bless %]
-  <p>Note that for every search that has the "Add to footer" selected, a
-     link to the shared search is added to the footer of every user that is
-     a direct member of the group at the time you click Submit Changes.</p>
+  [% IF user.can_bless %]
+  <p>Jeśli zaznaczona jest opcja "Wyświetlane w stopce", to po zapisaniu zmian odnośnik do współdzielonego 
+	 wyszukiwania umieszczony będzie w stopce strony każdego bezpośredniego członka grupy.</p> 
 [% END %]
+
 </blockquote>
 
-<p>You may use these searches saved and shared by others:</p>
+<p>Wyszukiwania zapisane i udostępnione przez innych użytkowników:</p>
 
 <blockquote>
   <table border="1" cellpadding="3">  
     <tr>
       <th>
-        Search
+        Zapytanie
       </th>
       <th>
-        Shared By
+	Autor
       </th>
       <th>
-        Shared To
+        Współdzielone z
       </th>
       <th>
-        Run
+        Uruchomienie
       </th>
       <th>
         Edit
       </th>
       <th>
-        Show in
-        Footer
+        Wyświetlane w stopce
       </th>
     </tr>
     [% found_shared_query = 0 %]
@@ -188,11 +186,11 @@
         <td>
           <a href="buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=
                    [% q.name FILTER url_quote %]&amp;sharer_id=
-                   [% q.user.id FILTER url_quote %]">Run</a>
+                   [% q.user.id FILTER url_quote %]">Uruchom</a>
         </td>
         <td>
           <a href="query.cgi?[% q.edit_link FILTER html %]&amp;known_name=
-                   [% q.name FILTER url_quote %]">Edit</a>
+                   [% q.name FILTER url_quote %]">Edycja</a>
         </td>
         <td align="center">
           <input type="checkbox" 
@@ -206,7 +204,7 @@
     [% IF !found_shared_query %]
       <tr>
         <td colspan="6" style="text-align: center">
-          &lt;None&gt;
+          &lt;Brak&gt;
         </td>
       </tr>
     [% END %]

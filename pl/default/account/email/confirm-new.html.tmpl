@@ -19,16 +19,16 @@
   # date: creation date of the token.
   #%]
 
-[% title = BLOCK %]Create a new user account for '[% email FILTER html %]'[% END %]
+[% title = BLOCK %]Tworzenie nowego konta dla '[% email FILTER html %]'[% END %]
 [% PROCESS "global/header.html.tmpl"
            title = title
            onload = "document.forms['confirm_account_form'].realname.focus();" %]
 
 [% expiration_ts = date + (constants.MAX_TOKEN_AGE * 86400) %]
 <div>
-  To create your account, you must enter a password in the form below.
-  Your email address and Real Name (if provided) will be shown with
-  changes you make.
+  Aby utworzyć konto, należy wprowadzić hasło do formularza poniżej.
+  Podany adres email oraz imię i nazwisko (jeśli zostaną podane) będą
+  wyświetlane z podanymi zmianami.
 </div>
 
 <form id="confirm_account_form" method="post" action="token.cgi">
@@ -36,42 +36,42 @@
   <input type="hidden" name="a" value="confirm_new_account">
   <table>
     <tr>
-      <th align="right">Email Address:</th>
+      <th align="right">Adres e-mail:</th>
       <td>[% email FILTER html %]</td>
     </tr>
     <tr>
-      <th align="right"><small><i>(OPTIONAL)</i></small> <label for="realname">Real Name</label>:</th>
+      <th align="right"><small><i>(OPCJONALNE)</i></small><label for="realname">Imię i nazwisko</label>:</th>
       <td><input type="text" id="realname" name="realname" value=""></td>
     </tr>
     <tr>
-      <th align="right"><label for="passwd1">Type your password</label>:</th>
+      <th align="right"><label for="passwd1">Hasło</label>:</th>
       <td><input type="password" id="passwd1" name="passwd1" value=""></td>
     </tr>
     <tr>
-      <th align="right"><label for="passwd2">Confirm your password</label>:</th>
+      <th align="right"><label for="passwd2">Potwierdzenie hasła</label>:</th>
       <td><input type="password" id="passwd2" name="passwd2" value=""></td>
     </tr>
     <tr>
       <th align="right">&nbsp;</th>
-      <td><input type="submit" id="confirm" value="Send"></td>
+      <td><input type="submit" id="confirm" value="Wyślij"></td>
     </tr>
   </table>
 </form>
 
 <p>
-  This account will not be created if this form is not completed by
-  <u>[%+ time2str("%B %o, %Y at %H:%M %Z", expiration_ts) %]</u>.
+  Konto nie zostanie utworzone, jeśli ten formularz nie zostanie wypełniony
+  przed <u>[%+ time2str("%B %o, %Y at %H:%M %Z", expiration_ts) %]</u>.
 </p>
 
 <p>
-  If you do not wish to create an account with this email click the
-  cancel account button below and your details will be forgotten.
+  Jeśli nie chcesz utworzyć konta z podanym adresem email, naciśnij
+  klawisz anuluj a powyższe dane zostaną usunięte z pamięci.
 </p>
 
 <form id="cancel_account_form" method="post" action="token.cgi">
   <input type="hidden" name="t" value="[% token FILTER html %]">
   <input type="hidden" name="a" value="cancel_new_account">
-  <input type="submit" id="confirm" value="Cancel Account">
+  <input type="submit" id="confirm" value="Anuluj konto">
 </form>
 
 [% PROCESS global/footer.html.tmpl %]

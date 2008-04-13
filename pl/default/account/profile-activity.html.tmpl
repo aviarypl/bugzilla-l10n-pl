@@ -35,7 +35,7 @@
   #%]
 
 [% title = BLOCK %]
-  Account History for '[% otheruser.login FILTER html %]'
+  Historia konta dla '[% otheruser.login FILTER html %]'
 [% END %]
 
 
@@ -49,19 +49,19 @@
 
 [% columns =
   [{name               => 'who'
-    heading            => 'Who'
+    heading            => 'Kto'
    }
    {name               => 'activity_when'
-    heading            => 'When'
+    heading            => 'Kiedy'
    }
    {name               => 'what'
-    heading            => 'What'
+    heading            => 'Co'
    }
    {name               => 'removed'
-    heading            => 'Removed'
+    heading            => 'Usunięto'
    }
    {name               => 'added'
-    heading            => 'Added'
+    heading            => 'Dodano'
    }
   ]
 %]
@@ -73,12 +73,11 @@
 
 <p><a href="editusers.cgi?action=edit&amp;userid=
   [%- otheruser.id FILTER url_quote %]"
-  title="Edit user '[% otheruser.login FILTER html %]'">Edit this user</a> or
-  <a title="Search For Users" href="editusers.cgi">find other accounts</a>
+  title="Edycja użytkownika '[% otheruser.login FILTER html %]'">Edycja użytkownika</a> | 
+  <a title="Wyszukiwanie użytkowników" href="editusers.cgi">Wyszukiwanie użytkowników</a>
   [% IF listselectionvalues.matchtype != 'exact' %]
-    or go <a title="Return to the user list"
-       href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">back
-    to the user list</a>
+    | <a title="Lista użytkowników"
+       href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Lista użytkowników</a>
   [% END %]
 </p>
 

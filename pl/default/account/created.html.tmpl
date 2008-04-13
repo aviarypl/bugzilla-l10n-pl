@@ -26,15 +26,15 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-  Request for new user account '[% login FILTER html %]' submitted
+  Przyjęto żądanie utworzenia konta '[% login FILTER html %]'
 [% END %]
 
 [% PROCESS global/header.html.tmpl title = title %]
 
 <p>
-  A confirmation email has been sent containing a link to continue
-  creating an account. The link will expire if an account is not
-  created within [% constants.MAX_TOKEN_AGE FILTER html %] days.
+  Na podany adres został wysłany email zawierający odnośnik potrzebny
+  do kontynuacji procesu tworzenia nowego konta. Odnośnik wygaśnie jeśli
+  nie zostanie otworzony w ciągu [% constants.MAX_TOKEN_AGE FILTER html %] days.
 </p>
 
 [% PROCESS global/footer.html.tmpl %] 

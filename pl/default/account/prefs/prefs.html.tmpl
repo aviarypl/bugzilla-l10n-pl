@@ -37,22 +37,22 @@
 
 [% filtered_login = user.login FILTER html %]
 [% PROCESS global/header.html.tmpl
-   title = "User Preferences"
+   title = "Ustawienia użytkownika"
    subheader = filtered_login
    style_urls = ['skins/standard/admin.css']
    javascript_urls = ['js/util.js']
    doc_section = "userpreferences.html"
  %]
 
-[% tabs = [{ name => "settings", label => "General Preferences",
+[% tabs = [{ name => "settings", label => "Ustawienia ogólne",
               link => "userprefs.cgi?tab=settings", saveable => "1" },
-            { name => "email", label => "Email Preferences", 
+            { name => "email", label => "Ustawienia poczty", 
               link => "userprefs.cgi?tab=email", saveable => "1" },
-            { name => "saved-searches", label => "Saved Searches", 
+            { name => "saved-searches", label => "Zapisane wyszukiwania", 
               link => "userprefs.cgi?tab=saved-searches", saveable => "1" },
-            { name => "account", label => "Name and Password",
+            { name => "account", label => "Użytkownik i hasło",
               link => "userprefs.cgi?tab=account", saveable => "1" },
-            { name => "permissions", label => "Permissions", 
+            { name => "permissions", label => "Uprawnienia", 
               link => "userprefs.cgi?tab=permissions", saveable => "0" } ] %]
 
 [% FOREACH tab IN tabs %]
@@ -69,12 +69,12 @@
 
 [% IF changes_saved %]
   <div id="message">
-    The changes to your [% current_tab.label FILTER lower %] have been saved.
+    Zmiany w kategorii "[% current_tab.label FILTER lower %]" zostały zapisane.
 
     [% IF email_changes_saved %]
       <p>
-        An email has been sent to both old and new email
-        addresses to confirm the change of email address.
+        Na stary i nowy adres wysłano wiadomości z prośbą
+	o potwierdzenie zmiany adresu e-mail.
       </p>
     [% END %]
   </div>
@@ -98,7 +98,7 @@
         <tr>
           <td width="150">&nbsp;</td>
           <td>
-            <input type="submit" id="update" value="Submit Changes">
+            <input type="submit" id="update" value="Zapisz zmiany">
           </td>
         </tr>
       </table>
