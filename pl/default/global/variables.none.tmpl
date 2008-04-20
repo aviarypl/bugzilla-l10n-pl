@@ -28,14 +28,48 @@
   #%]
 
 [% terms = {
-  "bug" => "bug",
-  "Bug" => "Bug",
-  "abug" => "a bug",
-  "Abug" => "A bug",
-  "ABug" => "A Bug",
-  "bugs" => "bugs",
-  "Bugs" => "Bugs",
-  "zeroSearchResults" => "Zarro Boogs found",
+  "bug" => "błąd",
+  "Bug" => "Błąd",
+  "abug" => "błąd",
+  "Abug" => "Błąd",
+  "ABug" => "Błąd",
+  "bugs" => "błędy",
+  "Bugs" => "Błędy",
+  "zeroSearchResults" => "Nie znaleziono żadnych błędów",
+  "bit" => "bit",
+  "bits" => "bity",
+  "blad" => "błąd",
+  "Blad" => "Błąd",
+  "bledu" => "błędu",
+  "Bledu" => "Błędu",
+  "bledy" => "błędy",
+  "Bledy" => "Błędy",
+  "bledow" => "błędów",
+  "Bledow" => "Błędów",
+  "bledowi" => "błędowi",
+  "Bledowi" => "Błędowi",
+  "Bledem" => "Błędem",
+  "bledem" => "błędem",
+  "bledach" => "błędach",
+  "Bledach" => "Błędach",
+  "bledami" => "błędami",
+  "Bledami" => "Błędami",
+  "bledzie" => "błędzie",
+  "Bledzie" => "Błędzie",
+  "bledom" => "błędom",
+  "Bledom" => "Błędom",
   "Bugzilla" => "Bugzilla"
+  "Bugzilli" => "Bugzilli"
+  "Bugzille" => "Bugzillę"
   }
 %]
+
+[% BLOCK ODMIEN -%]
+  [%- IF c == 1 -%]
+    [%- o1 -%]
+  [%- ELSIF ((c % 100 < 10 || c % 100 > 20) && c % 10 > 1 && c % 10 < 5) -%]
+    [%- o2 -%]
+  [%- ELSE -%]
+    [%- o3 -%]
+  [%- END -%]
+[%- END %]
