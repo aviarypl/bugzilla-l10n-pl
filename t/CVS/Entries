@@ -1,13 +1,13 @@
-/001compile.t/1.17/Tue Mar 18 17:30:02 2008//
-/002goodperl.t/1.15/Wed Sep  8 22:46:34 2004//
-/003safesys.t/1.6/Sun Dec  5 14:13:27 2004//
-/004template.t/1.40/Wed Mar  5 17:19:48 2008//
-/005no_tabs.t/1.13/Fri Aug  5 23:47:27 2005//
-/006spellcheck.t/1.6/Wed Jul 25 14:47:20 2007//
-/007util.t/1.9/Sun Oct  7 22:56:37 2007//
-/008filter.t/1.27/Sun Jan 27 19:21:13 2008//
-/009bugwords.t/1.7/Wed Jul 25 14:51:00 2007//
-/010dependencies.t/1.1/Tue Sep  5 17:02:45 2006//
-/011pod.t/1.1/Tue Jul 26 14:23:50 2005//
-/012throwables.t/1.5/Wed Oct  4 20:20:59 2006//
-D
+D/Support////
+/001compile.t/1.17/Sun Apr 20 11:11:58 2008//
+/002goodperl.t/1.15/Sun Apr 20 11:11:58 2008//
+/003safesys.t/1.6/Sun Apr 20 11:11:58 2008//
+/004template.t/1.40/Sun Apr 20 11:11:58 2008//
+/005no_tabs.t/1.13/Sun Apr 20 11:11:58 2008//
+/006spellcheck.t/1.6/Sun Apr 20 11:11:58 2008//
+/007util.t/1.9/Sun Apr 20 11:11:58 2008//
+/008filter.t/1.27/Sun Apr 20 11:11:58 2008//
+/009bugwords.t/1.7/Sun Apr 20 11:11:58 2008//
+/010dependencies.t/1.1/Sun Apr 20 11:11:58 2008//
+/011pod.t/1.1/Sun Apr 20 11:11:58 2008//
+/012throwables.t/1.5/Sun Apr 20 11:11:58 2008//

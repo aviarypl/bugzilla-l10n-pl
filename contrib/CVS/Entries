@@ -1,15 +1,17 @@
-/README/1.12/Tue Oct 16 10:13:54 2007//
-/bugzilla_ldapsync.rb/1.2/Sat Apr 26 16:35:04 2003//
-/bz_webservice_demo.pl/1.13/Fri Jan 18 21:30:30 2008//
-/bzdbcopy.pl/1.6/Thu Dec 13 03:14:35 2007//
-/cvs-update.pl/1.1/Tue Nov 11 05:58:52 2003//
-/gnats2bz.pl/1.8/Sun Sep  3 20:37:01 2006//
-/jb2bz.py/1.5/Fri Aug 26 23:11:32 2005//
-/merge-users.pl/1.8/Tue Mar 11 15:50:04 2008//
-/mysqld-watcher.pl/1.5/Thu Mar 27 00:06:53 2003//
-/recode.pl/1.5/Fri Oct 19 06:46:17 2007//
-/sendbugmail.pl/1.8/Fri Oct 19 06:46:17 2007//
-/sendunsentbugmail.pl/1.10/Fri Oct 19 06:46:17 2007//
-/syncLDAP.pl/1.12/Wed Jan 23 13:59:08 2008//
-/yp_nomail.sh/1.1/Tue Sep 12 23:50:31 2000//
-D
+D/bugzilla-submit////
+D/cmdline////
+D/gnatsparse////
+/README/1.12/Sun Apr 20 11:11:51 2008//
+/bugzilla_ldapsync.rb/1.2/Sun Apr 20 11:11:51 2008//
+/bz_webservice_demo.pl/1.13/Sun Apr 20 11:11:51 2008//
+/bzdbcopy.pl/1.6/Sun Apr 20 11:11:51 2008//
+/cvs-update.pl/1.1/Sun Apr 20 11:11:51 2008//
+/gnats2bz.pl/1.8/Sun Apr 20 11:11:51 2008//
+/jb2bz.py/1.5/Sun Apr 20 11:11:51 2008//
+/merge-users.pl/1.8/Sun Apr 20 11:11:51 2008//
+/mysqld-watcher.pl/1.5/Sun Apr 20 11:11:51 2008//
+/recode.pl/1.5/Sun Apr 20 11:11:51 2008//
+/sendbugmail.pl/1.8/Sun Apr 20 11:11:51 2008//
+/sendunsentbugmail.pl/1.10/Sun Apr 20 11:11:51 2008//
+/syncLDAP.pl/1.12/Sun Apr 20 11:11:51 2008//
+/yp_nomail.sh/1.1/Sun Apr 20 11:11:51 2008//
