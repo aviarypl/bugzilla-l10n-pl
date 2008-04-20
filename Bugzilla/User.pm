@@ -562,21 +562,16 @@ sub can_see_user {
 sub can_edit_product {
     my ($self, $prod_id) = @_;
     my $dbh = Bugzilla->dbh;
-    my $sth = $self->{sthCanEditProductId};
-    my $userid = $self->{id};
-    my $query = q{SELECT group_id FROM group_control_map 
-                   WHERE product_id =? 
-                     AND canedit != 0 };
-    if (%{$self->groups}) {
-        my $groups = join(',', values(%{$self->groups}));
-        $query .= qq{AND group_id NOT IN($groups)};
-    }
-    unless ($sth) { $sth = $dbh->prepare($query); }
-    $sth->execute($prod_id);
-    $self->{sthCanEditProductId} = $sth;
-    my $result = $sth->fetchrow_array();
-    
-    return (!defined($result));
+
+    my $has_external_groups =
+      $dbh->selectrow_array('SELECT 1
+                               FROM group_control_map
+                              WHERE product_id = ?
+                                AND canedit != 0
+                                AND group_id NOT IN(' . $self->groups_as_string . ')',
+                             undef, $prod_id);
+
+    return !$has_external_groups;
 }
 
 sub can_see_bug {
@@ -771,7 +766,7 @@ sub check_can_admin_product {
 
     ($self->in_group('editcomponents', $product->id)
        && $self->can_see_product($product->name))
-         || ThrowUserError('product_access_denied', {product => $product->name});
+         || ThrowUserError('product_admin_denied', {product => $product->name});
 
     # Return the validated product object.
     return $product;
@@ -1142,16 +1137,26 @@ sub match_field {
                 # The field is a requestee field; in order for its name 
                 # to show up correctly on the confirmation page, we need 
                 # to find out the name of its flag type.
-                if ($field_name =~ /^requestee-(\d+)$/) {
-                    require Bugzilla::Flag;
-                    my $flag = new Bugzilla::Flag($1);
-                    $expanded_fields->{$field_name}->{'flag_type'} = 
-                      $flag->type;
-                }
-                elsif ($field_name =~ /^requestee_type-(\d+)$/) {
-                    require Bugzilla::FlagType;
-                    $expanded_fields->{$field_name}->{'flag_type'} = 
-                      new Bugzilla::FlagType($1);
+                if ($field_name =~ /^requestee(_type)?-(\d+)$/) {
+                    my $flag_type;
+                    if ($1) {
+                        require Bugzilla::FlagType;
+                        $flag_type = new Bugzilla::FlagType($2);
+                    }
+                    else {
+                        require Bugzilla::Flag;
+                        my $flag = new Bugzilla::Flag($2);
+                        $flag_type = $flag->type if $flag;
+                    }
+                    if ($flag_type) {
+                        $expanded_fields->{$field_name}->{'flag_type'} = $flag_type;
+                    }
+                    else {
+                        # No need to look for a valid requestee if the flag(type)
+                        # has been deleted (may occur in race conditions).
+                        delete $expanded_fields->{$field_name};
+                        $cgi->delete($field_name);
+                    }
                 }
             }
         }
@@ -1365,8 +1370,8 @@ sub wants_bug_mail {
         
         if ($fieldName eq "CC") {
             my $login = $self->login;
-            my $inold = ($old =~ /^(.*,)?\Q$login\E(,.*)?$/);
-            my $innew = ($new =~ /^(.*,)?\Q$login\E(,.*)?$/);
+            my $inold = ($old =~ /^(.*,\s*)?\Q$login\E(,.*)?$/);
+            my $innew = ($new =~ /^(.*,\s*)?\Q$login\E(,.*)?$/);
             if ($inold != $innew)
             {
                 $events{+EVT_ADDED_REMOVED} = 1;
@@ -1484,6 +1489,16 @@ sub is_insider {
             ($insider_group && $self->in_group($insider_group)) ? 1 : 0;
     }
     return $self->{'is_insider'};
+}
+
+sub is_global_watcher {
+    my $self = shift;
+
+    if (!defined $self->{'is_global_watcher'}) {
+        my @watchers = split(/[,\s]+/, Bugzilla->params->{'globalwatchers'});
+        $self->{'is_global_watcher'} = scalar(grep { $_ eq $self->login } @watchers) ? 1 : 0;
+    }
+    return  $self->{'is_global_watcher'};
 }
 
 sub get_userlist {
@@ -2027,6 +2042,11 @@ moving is enabled.
 
 Returns true if the user can access private comments and attachments,
 i.e. if the 'insidergroup' parameter is set and the user belongs to this group.
+
+=item C<is_global_watcher>
+
+Returns true if the user is a global watcher,
+i.e. if the 'globalwatchers' parameter contains the user.
 
 =back
 

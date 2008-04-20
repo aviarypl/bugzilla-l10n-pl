@@ -537,7 +537,7 @@ sub _check_bug_status {
 
 sub _check_cc {
     my ($invocant, $component, $ccs) = @_;
-    return [] unless $ccs;
+    return [map {$_->id} @{$component->initial_cc}] unless $ccs;
 
     my %cc_ids;
     foreach my $person (@$ccs) {
@@ -1391,7 +1391,7 @@ sub editable_bug_fields {
     # Obsolete custom fields are not editable.
     my @obsolete_fields = Bugzilla->get_fields({obsolete => 1, custom => 1});
     @obsolete_fields = map { $_->name } @obsolete_fields;
-    foreach my $remove ("bug_id", "creation_ts", "delta_ts", "lastdiffed", @obsolete_fields) {
+    foreach my $remove ("bug_id", "reporter", "creation_ts", "delta_ts", "lastdiffed", @obsolete_fields) {
         my $location = lsearch(\@fields, $remove);
         splice(@fields, $location, 1);
     }

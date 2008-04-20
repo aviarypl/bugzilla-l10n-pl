@@ -321,7 +321,7 @@ sub sql_group_by {
     my ($self, $needed_columns, $optional_columns) = @_;
 
     my $expression = "GROUP BY $needed_columns";
-    $expression .= ", " . $optional_columns if defined($optional_columns);
+    $expression .= ", " . $optional_columns if $optional_columns;
     
     return $expression;
 }
@@ -898,7 +898,6 @@ sub db_new {
                   } if (!defined($attributes));
 
     # connect using our known info to the specified db
-    # Apache::DBI will cache this when using mod_perl
     my $self = DBI->connect($dsn, $user, $pass, $attributes)
         or die "\nCan't connect to the database.\nError: $DBI::errstr\n"
         . "  Is your database installed and up and running?\n  Do you have"

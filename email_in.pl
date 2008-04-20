@@ -36,6 +36,7 @@ use Email::MIME;
 use Email::MIME::Attachment::Stripper;
 use Getopt::Long qw(:config bundling);
 use Pod::Usage;
+use Encode qw(encode decode);
 
 use Bugzilla;
 use Bugzilla::Bug qw(ValidateBugID);
@@ -295,9 +296,17 @@ sub get_text_alternative {
     my $body;
     foreach my $part (@parts) {
         my $ct = $part->content_type || 'text/plain';
+        my $charset = 'iso-8859-1';
+        if ($ct =~ /charset=([^;]+)/) {
+            $charset= $1;
+        }
         debug_print("Part Content-Type: $ct", 2);
+        debug_print("Part Character Encoding: $charset", 2);
         if (!$ct || $ct =~ /^text\/plain/i) {
             $body = $part->body;
+            if (Bugzilla->params->{'utf8'}) {
+                $body = encode('UTF-8', decode($charset, $body));
+            }
             last;
         }
     }
@@ -339,6 +348,10 @@ sub die_handler {
     # But of course, we really don't want to actually *die* just because
     # the user-error or code-error template ended. So we don't really die.
     return if $msg->isa('Template::Exception') && $msg->type eq 'return';
+
+    # If this is inside an eval, then we should just act like...we're
+    # in an eval (instead of printing the error and exiting).
+    die(@_) if $^S;
 
     # We can't depend on the MTA to send an error message, so we have
     # to generate one properly.
@@ -429,9 +442,24 @@ The script expects to read an email with the following format:
  be included in the bug description.
 
 The C<@> labels can be any valid field name in Bugzilla that can be
-set on C<enter_bug.cgi>. For the list of field names, see the
-C<fielddefs> table in the database. The above example shows the
-minimum fields you B<must> specify.
+set on C<enter_bug.cgi>. For the list of required field names, see 
+L<Bugzilla::WebService::Bug/Create>. Note, that there is some difference
+in the names of the required input fields between web and email interfaces, 
+as listed below:
+
+=over
+
+=item *
+
+C<platform> in web is C<@rep_platform> in email
+
+=item *
+
+C<severity> in web is C<@bug_severity> in email
+
+=back
+
+For the list of all field names, see the C<fielddefs> table in the database. 
 
 The values for the fields can be split across multiple lines, but
 note that a newline will be parsed as a single space, for the value.
@@ -497,9 +525,9 @@ send an email back to you. If your request succeeds, Bugzilla will
 not send you anything.
 
 If any part of your request fails, all of it will fail. No partial
-changes will happen. The only exception is attachments--one attachment
-may succeed, and be inserted into the database, and a later attachment
-may fail.
+changes will happen.
+
+There is no attachment support yet.
 
 =head1 CAUTION
 
@@ -523,8 +551,5 @@ You cannot send an HTML mail along with attachments. If you do, Bugzilla
 will reject your email, saying that it doesn't contain any text. This
 is a bug in L<Email::MIME::Attachment::Stripper> that we can't work
 around.
-
-If you send multiple attachments in one email, they will all be attached,
-but Bugzilla may not send an email notice out for all of them.
 
 You cannot modify Flags through the email interface.

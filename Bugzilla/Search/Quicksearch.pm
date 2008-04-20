@@ -163,6 +163,7 @@ sub quicksearch {
             $#words < Bugzilla->params->{'quicksearch_comment_cutoff'};
         my @openStates = BUG_STATE_OPEN;
         my @closedStates;
+        my @unknownFields;
         my (%states, %resolutions);
 
         foreach (@$legal_statuses) {
@@ -266,15 +267,18 @@ sub quicksearch {
                 foreach my $or_operand (split(/\|/, $qsword)) {
                     if ($or_operand =~ /^votes:([0-9]+)$/) {
                         # votes:xx ("at least xx votes")
-                        addChart('votes', 'greaterthan', $1, $negate);
+                        addChart('votes', 'greaterthan', $1 - 1, $negate);
                     }
                     elsif ($or_operand =~ /^([^:]+):([^:]+)$/) {
                         # generic field1,field2,field3:value1,value2 notation
                         my @fields = split(/,/, $1);
                         my @values = split(/,/, $2);
                         foreach my $field (@fields) {
-                            # Be tolerant about unknown fields
-                            next unless defined(MAPPINGS->{$field});
+                            # Skip and record any unknown fields
+                            if (!defined(MAPPINGS->{$field})) {
+                                push(@unknownFields, $field);
+                                next;
+                            }
                             $field = MAPPINGS->{$field};
                             foreach (@values) {
                                 addChart($field, 'substring', $_, $negate);
@@ -376,8 +380,13 @@ sub quicksearch {
             $or = 0;
         } # foreach (@words)
 
-        # We've been very tolerant about invalid queries, so all that's left
-        # may be an empty query.
+        # Inform user about any unknown fields
+        if (scalar(@unknownFields)) {
+            ThrowUserError("quicksearch_unknown_field",
+                           { fields => \@unknownFields });
+        }
+
+        # Make sure we have some query terms left
         scalar($cgi->param())>0 || ThrowUserError("buglist_parameters_required");
     }
 
