@@ -37,7 +37,7 @@
              value="[% user.login FILTER html %]">
       <input type="password" name="Bugzilla_password">
     </td>
-  </tr>
+  </tr>              
   <tr>
     <td colspan="2"><hr></td>
   </tr>
@@ -47,7 +47,7 @@
       <td>
         <input type="password" name="new_password1">
       </td>
-    </tr>
+    </tr>              
 
     <tr>
       <th align="right">Potwierdzenie nowego hasła:</th>
@@ -94,5 +94,7 @@
       </tr>
     [% END %]
   [% END %]
-  
+
+  [% Hook.process('field') %]
+
 </table>

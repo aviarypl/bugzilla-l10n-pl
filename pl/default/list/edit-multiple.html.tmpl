@@ -25,6 +25,7 @@
 
 [% dontchange = "--do_not_change--" %]
 <input type="hidden" name="dontchange" value="[% dontchange FILTER html %]">
+<input type="hidden" name="token" value="[% token FILTER html %]">
 
 <script type="text/javascript">
   var numelements = document.forms.changeform.elements.length;
@@ -173,7 +174,6 @@
            id => "assigned_to"
            name => "assigned_to"
            value => dontchange
-           do_not_change => dontchange
            size => 32
       %]
       <input type="checkbox" id="set_default_assignee" name="set_default_assignee" value="1">
@@ -189,7 +189,6 @@
              id => "qa_contact"
              name => "qa_contact"
              value => dontchange
-             do_not_change => dontchange
              size => 32
         %]
         <input type="checkbox" id="set_default_qa_contact" name="set_default_qa_contact" value="1">
@@ -220,8 +219,7 @@
         </label>
       </th>
       <td colspan="3">
-        <input id="keywords" name="keywords" size="32" 
-               onfocus = "this.chooser.open();">
+        <input id="keywords" name="keywords" size="32">
         <select name="keywordaction">
           <option value="add">Add these keywords</option>
           <option value="delete">Delete these keywords</option>
@@ -253,13 +251,9 @@
     </tr>
   [% END %]
 
-</table>
+  [% Hook.process("after_custom_fields") %]
 
-[% IF use_keywords %]
-  [% PROCESS "bug/keyword-chooser.html.tmpl"
-    sel_keywords = keywords.split(', ')
-  %]
-[% END %]
+</table>
 
 <b><label for="comment">Additional Comments:</label></b><br>
 [% INCLUDE global/textarea.html.tmpl

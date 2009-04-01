@@ -20,6 +20,7 @@
   #                 Toms Baugis <toms@myrealbox.com>
   #                 Olav Vitters <olav@bkor.dhs.org>
   #                 Max Kanat-Alexander <mkanat@bugzilla.org>
+  #                 Elliotte Martin <emartin@everythingsolved.com>
   #%]
 
 [% PROCESS "global/field-descs.none.tmpl" %]
@@ -36,12 +37,12 @@
   [% ids = [] %]
   [% FOREACH bug = bugs %]
     [% PROCESS bug_display %]
-    [% ids.push(bug.bug_id) %]
+    [% ids.push(bug.bug_id) UNLESS bug.error %]
   [% END %]
   [% IF ids.size > 1 %]
     <div class="bz_query_buttons">
       <form method="post" action="buglist.cgi">
-        <input type="hidden" name="bug_id" value="[% ids.join(",") FILTER none %]">
+        <input type="hidden" name="bug_id" value="[% ids.join(",") FILTER html %]">
         <input type="submit" id="short_format" value="Short Format">
       </form>
     </div>
@@ -63,7 +64,7 @@
 [% BLOCK bug_display %]
   <h1>
     [% terms.Bug %] 
-    <a href="show_bug.cgi?id=[% bug.bug_id %]">[% bug.bug_id %]</a>
+    <a href="show_bug.cgi?id=[% bug.bug_id FILTER html %]">[% bug.bug_id FILTER html %]</a>
     [% IF Param("usebugaliases") AND bug.alias AND NOT bug.error %]
       (<a href="show_bug.cgi?id=[% bug.alias FILTER url_quote %]">
         [% bug.alias FILTER html %]</a>)
@@ -279,6 +280,9 @@
       </tr>
     [% END %]
   [% END %]
+  
+  [% Hook.process("last_row", "bug/show-multiple.html.tmpl") %]
+   
   </table>
 
 

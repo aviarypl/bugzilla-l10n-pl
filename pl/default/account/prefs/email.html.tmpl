@@ -99,7 +99,7 @@ document.write('<input type="button" value="Wyłącz wszystko" onclick="SetCheck
       <br>
     </td>
   </tr>
-  [% IF user.is_global_watcher %]
+[% IF user.is_global_watcher %]
   <tr>
     <td width="150"></td>
     <td>
@@ -108,7 +108,7 @@ document.write('<input type="button" value="Wyłącz wszystko" onclick="SetCheck
       <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
     </td>
   </tr>
-  [% END %]
+[% END %]
 </table>
 
 <hr>
@@ -167,7 +167,7 @@ document.write('<input type="button" value="Wyłącz wszystko" onclick="SetCheck
       <b>Rola w [% terms.bledzie %]:</b>
     </td>
     <td rowspan="2" width="40%">
-      <b>Wysyłaj powiadomienie, gdy:</b>
+      <b>Wysyłanie powiadomienia, gdy:</b>
     </td>
   </tr>
 
@@ -290,7 +290,7 @@ Obecnie nie są śledzeni żadni użytkownicy.
 [% END %]
 </p>
 
-<p><a name="new_watched_by_you" id="new_watched_by_you">Dodaj śledzonych  
+<p><a name="new_watched_by_you" id="new_watched_by_you">Dodanie śledzonych  
 (adresy oddzielone przecinkami)</a>:
   <input size="60" name="new_watchedusers" value="">
 </p>            

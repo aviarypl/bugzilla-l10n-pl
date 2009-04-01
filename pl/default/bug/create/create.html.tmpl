@@ -32,7 +32,7 @@
   title = title
   style_urls = [ 'skins/standard/create_attachment.css',
                  'skins/standard/yui/calendar.css' ]
-  javascript_urls = [ "js/attachment.js", "js/util.js", "js/keyword-chooser.js",
+  javascript_urls = [ "js/attachment.js", "js/util.js",
                       "js/yui/yahoo-dom-event.js", "js/yui/calendar.js",
                       "js/field.js" ]
 %]
@@ -197,12 +197,24 @@ function handleWantsAttachment(wants_attachment) {
       Component</a>:
     </th>
     <td>
-      <select name="component" onchange="set_assign_to();" size="5">
+      <select name="component" onchange="set_assign_to();" size="7">
+        [%# Build the lists of assignees and QA contacts if "usemenuforusers" is enabled. %]
+        [% IF Param("usemenuforusers") %]
+          [% assignees_list = user.get_userlist.clone %]
+          [% qa_contacts_list = user.get_userlist.clone %]
+        [% END %]
+
         [%- FOREACH c = product.components %]
           <option value="[% c.name FILTER html %]"
             [% " selected=\"selected\"" IF c.name == default.component_ %]>
             [% c.name FILTER html -%]
           </option>
+          [% IF Param("usemenuforusers") %]
+            [% INCLUDE build_userlist default_user = c.default_assignee,
+                                      userlist = assignees_list %]
+            [% INCLUDE build_userlist default_user = c.default_qa_contact,
+                                      userlist = qa_contacts_list %]
+          [% END %]
         [%- END %]
       </select>
     </td>
@@ -283,7 +295,7 @@ function handleWantsAttachment(wants_attachment) {
         [% ELSE %]
           operating system and platform. Please check them
         [% END %]
-        and, if we got it wrong, email [% Param('maintainer') %].
+        and make any corrections if necessary.
       </td>
     </tr>
   </tbody>
@@ -340,8 +352,9 @@ function handleWantsAttachment(wants_attachment) {
          name => "assigned_to"
          value => assigned_to
          disabled => assigned_to_disabled
-         size => 32
+         size => 30
          emptyok => 1
+         custom_userlist => assignees_list
        %]
       <noscript>(Leave blank to assign to component's default assignee)</noscript>
     </td>
@@ -355,8 +368,9 @@ function handleWantsAttachment(wants_attachment) {
          name => "qa_contact"
          value => qa_contact
          disabled => qa_contact_disabled
-         size => 32
+         size => 30
          emptyok => 1
+         custom_userlist => qa_contacts_list
        %]
         <noscript>(Leave blank to assign to default qa contact)</noscript>
       </td>
@@ -370,7 +384,7 @@ function handleWantsAttachment(wants_attachment) {
          name => "cc"
          value => cc
          disabled => cc_disabled
-         size => 45
+         size => 30
          multiple => 5
        %]
     </td>
@@ -424,7 +438,7 @@ function handleWantsAttachment(wants_attachment) {
   <tr>
     <th>URL:</th>
     <td colspan="2">
-      <input name="bug_file_loc" size="60"
+      <input name="bug_file_loc" size="40"
              value="[% bug_file_loc FILTER html %]">
     </td>
   </tr>
@@ -435,7 +449,7 @@ function handleWantsAttachment(wants_attachment) {
 
   [% FOREACH field = Bugzilla.active_custom_fields %]
     [% NEXT UNLESS field.enter_bug %]
-    [% SET value = ${field.name} IF ${field.name}.defined %]
+    [% SET value = ${field.name}.defined ? ${field.name} : "" %]
     <tr>
       [% PROCESS bug/field.html.tmpl editable=1 value_span=3 %]
     </tr>
@@ -443,11 +457,10 @@ function handleWantsAttachment(wants_attachment) {
 
   <tr>
     <th>Summary:</th>
-    <td colspan="2">
-      <input name="short_desc" size="60" value="[% short_desc FILTER html %]"
+    <td colspan="3">
+      <input name="short_desc" size="70" value="[% short_desc FILTER html %]"
              maxlength="255" spellcheck="true">
     </td>
-    <td>&nbsp;</td>
   </tr>
 
   <tr>
@@ -531,7 +544,8 @@ function handleWantsAttachment(wants_attachment) {
       <tr>
         <th><a href="describekeywords.cgi">Keywords</a>:</th>
         <td colspan="3">
-          <input id="keywords" name="keywords" size="60" value="[% keywords FILTER html %]" onfocus="this.chooser.open();"> (optional)
+          <input id="keywords" name="keywords" size="40"
+                 value="[% keywords FILTER html %]"> (optional)
         </td>
       </tr>
     [% END %]
@@ -600,12 +614,6 @@ function handleWantsAttachment(wants_attachment) {
   <input type="hidden" name="form_name" value="enter_bug">
 </form>
 
-[% IF use_keywords %]
-  [% PROCESS "bug/keyword-chooser.html.tmpl"
-    sel_keywords = keywords.split(', ')
-  %]
-[% END %]
-
 [%# Links or content with more information about the bug being created. %]
 [% Hook.process("end") %]
 
@@ -635,4 +643,22 @@ function handleWantsAttachment(wants_attachment) {
     [% END %]
     </select>
   </td>
+[% END %]
+
+[% BLOCK build_userlist %]
+  [% user_found = 0 %]
+  [% default_login = default_user.login %]
+  [% RETURN UNLESS default_login %]
+
+  [% FOREACH user = userlist %]
+    [% IF user.login == default_login %]
+      [% user_found = 1 %]
+      [% LAST %]
+    [% END %]
+  [% END %]
+
+  [% userlist.push({login    => default_login,
+                    identity => default_user.identity,
+                    visible  => 1})
+     UNLESS user_found %]
 [% END %]

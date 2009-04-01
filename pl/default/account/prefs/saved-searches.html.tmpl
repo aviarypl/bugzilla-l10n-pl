@@ -20,6 +20,7 @@
 
 [%# INTERFACE:
   # queryshare_groups: list of groups the user may share queries with
+  #                    (id, name).
   # bless_group_ids: list of group ids the user may bless.
   #%]
 
@@ -105,7 +106,8 @@
             Najpierw usuń z <a href="editwhines.cgi">przypominania</a>
           [% ELSE %]
             <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
-                     [% q.name FILTER url_quote %]">Usuń</a>
+                     [% q.name FILTER url_quote %]&amp;token=
+                     [% issue_hash_token([q.id, q.name]) FILTER url_quote %]">Usuń</a>
           [% END %]
         </td>
         <td align="center">
@@ -136,12 +138,11 @@
               <label for="force_[% q.id FILTER html %]">Wyświetlane w stopce</label>
             [% END %]
             [% IF q.shared_with_users %]
-              (współdzielone z [% q.shared_with_users FILTER html %]
-              [%+ q.shared_with_users > 1 ? "użytkownikami" : "użytkownikiem" %])
+              (udostępnione [% q.shared_with_users FILTER html %]
+              [%+ q.shared_with_users > 1 ? "użytkownikom" : "użytkownikowi" %])
             [% END %]
           </td>
         [% END %]
-        </td>
       </tr>
     [% END %]
   </table>
@@ -149,7 +150,6 @@
   <p>Jeśli zaznaczona jest opcja "Wyświetlane w stopce", to po zapisaniu zmian odnośnik do współdzielonego 
 	 wyszukiwania umieszczony będzie w stopce strony każdego bezpośredniego członka grupy.</p> 
 [% END %]
-
 </blockquote>
 
 <p>Wyszukiwania zapisane i udostępnione przez innych użytkowników:</p>
@@ -164,13 +164,13 @@
 	Autor
       </th>
       <th>
-        Współdzielone z
+        Adresat
       </th>
       <th>
         Uruchomienie
       </th>
       <th>
-        Edit
+        Modyfikuj
       </th>
       <th>
         Wyświetlane w stopce
@@ -190,7 +190,7 @@
         </td>
         <td>
           <a href="query.cgi?[% q.edit_link FILTER html %]&amp;known_name=
-                   [% q.name FILTER url_quote %]">Edycja</a>
+                   [% q.name FILTER url_quote %]">Edit</a>
         </td>
         <td align="center">
           <input type="checkbox" 

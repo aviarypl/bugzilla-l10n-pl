@@ -62,8 +62,7 @@
   '"value${chartnum}-${rownum}-${colnum}"', 
   '"type${chartnum}-${rownum}-${colnum}"', 
   'field.name', 
-  'field.description', 
-  'type.name', 
+  'type.name',
   'type.description', 
   '"${chartnum}-${rownum}-${newor}"', 
   '"${chartnum}-${newand}-0"', 
@@ -313,7 +312,6 @@
   '" colspan=\"$colspan\"" IF colspan',
   '" size=\"$size\"" IF size',
   '" maxlength=\"$maxlength\"" IF maxlength',
-  '" onfocus=\"$onfocus\"" IF onfocus',
   'flag.status',
   '" spellcheck=\"$spellcheck\"" IF spellcheck',
 ],
@@ -326,7 +324,6 @@
 ],
 
 'bug/show-multiple.html.tmpl' => [
-  'bug.bug_id', 
   'attachment.id', 
   'flag.status',
 ],
@@ -383,7 +380,6 @@
 ],
 
 'bug/create/create-guided.html.tmpl' => [
-  'matches.0', 
   'tablecolour',
   'sel',
   'productstring', 
@@ -521,12 +517,15 @@
 ],
 
 'admin/users/confirm-delete.html.tmpl' => [
+  'attachments',
   'reporter',
   'assignee_or_qa',
   'cc',
+  'component_cc',
   'flags.requestee',
   'flags.setter',
   'longdescs',
+  'quips',
   'votes',
   'series',
   'watch.watched',

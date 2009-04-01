@@ -45,6 +45,15 @@
   [% ELSIF san_tag == "bug_check_creation_date_repair_text" %]
     Repair missing creation date for these [% terms.bugs %]
 
+  [% ELSIF san_tag == "bug_check_bugs_fulltext" %]
+    Checking for [% terms.bugs %] with no entry for full text searching.
+
+  [% ELSIF san_tag == "bug_check_bugs_fulltext_error_text" %]
+    [% terms.Bugs %] with no entry for full text searching
+
+  [% ELSIF san_tag == "bug_check_bugs_fulltext_repair_text" %]
+    Repair missing full text search entries for these [% terms.bugs %]
+
   [% ELSIF san_tag == "bug_check_res_dupl" %]
     Checking resolution/duplicates
 
@@ -101,6 +110,12 @@
     OK, now fixing missing [% terms.bug %] creation dates.
 
   [% ELSIF san_tag == "bug_creation_date_fixed" %]
+    [% bug_count FILTER html %] [%+ terms.bugs %] have been fixed.
+
+  [% ELSIF san_tag == "bugs_fulltext_start" %]
+    OK, now fixing [% terms.bug %] entries for full text searching.
+
+  [% ELSIF san_tag == "bugs_fulltext_fixed" %]
     [% bug_count FILTER html %] [%+ terms.bugs %] have been fixed.
 
   [% ELSIF san_tag == "bug_reference_deletion_start" %]
@@ -273,6 +288,25 @@
   [% ELSIF san_tag == "vote_count_alert" %]
     Bad vote sum for [% terms.bug %] [%+ id FILTER html %].
 
+  [% ELSIF san_tag == "whines_obsolete_target_deletion_start" %]
+    OK, now removing non-existent users/groups from whines.
+
+  [% ELSIF san_tag == "whines_obsolete_target_deletion_end" %]
+    Non-existent users/groups have been removed from whines.
+
+  [% ELSIF san_tag == "whines_obsolete_target_start" %]
+    Checking for whines with non-existent users/groups.
+
+  [% ELSIF san_tag == "whines_obsolete_target_alert" %]
+    [% FOREACH schedule = schedules %]
+      Non-existent [% (type == constants.MAILTO_USER) ? "user" : "group" FILTER html %]
+      [%+ schedule.1 FILTER html %] for whine schedule [% schedule.0 FILTER html %]<br>
+    [% END %]
+
+  [% ELSIF san_tag == "whines_obsolete_target_fix" %]
+    <a href="sanitycheck.cgi?remove_old_whine_targets=1">Click here to
+    remove old users/groups</a>
+
   [% END %]
 [% END %]
 
@@ -288,7 +322,7 @@
     <a href="show_bug.cgi?id=[% bug_id FILTER url_quote %]">[% bug_id FILTER html %]</a>
     [% ", " IF !loop.last %]
   [% END %]
-  (<a href="buglist.cgi?bug_id=[% badbugs.join(",") FILTER url_quote %]">as buglist</a>).
+  (<a href="buglist.cgi?bug_id=[% badbugs.join(",") FILTER url_quote %]">as [% terms.bug %] list</a>).
 [% END %]
 
 [% BLOCK bug_link %]

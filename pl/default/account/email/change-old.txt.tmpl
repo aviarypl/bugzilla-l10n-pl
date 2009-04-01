@@ -34,17 +34,13 @@ X-MSMail-Priority: High
 X-Priority: 1
 X-Bugzilla-Type: admin
 
-[%+ terms.Bugzilla %] otrzymała żądanie zmiany adresu e-mail konta
-na adres [%+ newemailaddress %].
+System [%+ terms.Bugzilla %] otrzymał żądanie zmiany adresu e-mail konta                                                                                               
+na adres [%+ newemailaddress %]. .                                                                                                                      
 
-Aby potwierdzić zmianę, należy otworzyć poniższy odnośnik:
+Aby potwierdzić zmianę, należy otworzyć poniższy odnośnik:                                                                                                       
 
-[%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=cfmem
+[%+ Param('urlbase') %]token.cgi?t=[% token FILTER url_quote %]&a=cfmem                                                                                          
 
-Jeśli odbiorca tej wiadomości nie wysłał tego żądania lub aby anulować żądanie, 
-proszę otworzyć poniższy odnośnik:
-
-[%+ Param('urlbase') %]token.cgi?t=[% token FILTER url_quote %]&a=cxlem
-
-W przypadku braku reakcji żądanie wygaśnie po [%+ max_token_age %] dniach
+W razie nie podjęcia żadnego działania i otrzymania potwierdzenia spod adresu [%+ newemailaddress %]
+zmiana zostanie zatwierdzona po [%+ max_token_age %] dniach.
 ([%+ time2str("%o %B %Y %H:%M %Z", expiration_ts) %]).

@@ -181,7 +181,7 @@
         <td>
           <select id="flag_type-[% type.id %]" name="flag_type-[% type.id %]" 
                   title="[% type.description FILTER html %]"
-                  [% " disabled=\"disabled\"" UNLESS user.can_request_flag(type) %]
+                  [% " disabled=\"disabled\"" UNLESS (type.is_requestable && user.can_request_flag(type)) || user.can_set_flag(type) %]
                   onchange="toggleRequesteeField(this);"
                   class="flag_select">
             <option value="X"></option>
@@ -204,6 +204,7 @@
                              id       => "requestee_type-$type.id"
                              multiple => type.is_multiplicable * 3
                              emptyok  => !type.is_multiplicable
+                             value    => ""
                              custom_userlist => type.grant_list
                   %]
                 [% ELSE %]
@@ -235,7 +236,7 @@
       <td>
         <select id="flag_type-[% type.id %]" name="flag_type-[% type.id %]" 
                 title="[% type.description FILTER html %]"
-                [% " disabled=\"disabled\"" UNLESS user.can_request_flag(type) %]
+                [% " disabled=\"disabled\"" UNLESS (type.is_requestable && user.can_request_flag(type)) || user.can_set_flag(type) %]
                 onchange="toggleRequesteeField(this);"
                 class="flag_select">
           <option value="X"></option>
@@ -258,6 +259,7 @@
                            id       => "requestee_type-$type.id"
                            multiple => type.is_multiplicable * 3
                            emptyok  => !type.is_multiplicable
+                           value    => ""
                            custom_userlist => type.grant_list
                 %]
               [% ELSE %]

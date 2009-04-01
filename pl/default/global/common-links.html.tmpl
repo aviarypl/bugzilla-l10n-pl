@@ -39,7 +39,7 @@
   <li><span class="separator">| </span><a href="report.cgi">Reports</a></li>
 
   <li>
-    [% IF Bugzilla.has_flags %]
+    [% IF Param('shutdownhtml') || Bugzilla.has_flags %]
       <span class="separator">| </span>
       [% IF user.id %]
         <a href="request.cgi?requester=[% user.login FILTER url_quote %]&amp;requestee=
@@ -117,9 +117,9 @@
     [% END %]
   [% END %]
 </ul>
-
+[% Hook.process("link-row") %]
 [% BLOCK link_to_documentation %]
-    [% IF doc_section %]
+    [% IF doc_section && Param('docs_urlbase') %]
       <li>
         <span class="separator">| </span>
         <a href="[% docs_urlbase _ doc_section FILTER html %]" target="_blank">Help</a>

@@ -36,7 +36,7 @@
 
 [% PROCESS global/header.html.tmpl
   title = "$terms.Bug $id Submitted"
-  javascript_urls = [ "js/util.js", "js/keyword-chooser.js", "js/field.js",
+  javascript_urls = [ "js/util.js", "js/field.js",
                         "js/yui/yahoo-dom-event.js", "js/yui/calendar.js" ]
   style_urls = [ "skins/standard/yui/calendar.css", "skins/standard/show_bug.css" ]
   
@@ -62,7 +62,7 @@
 
 <hr>
 
-[% PROCESS bug/navigate.html.tmpl %]
+[% PROCESS bug/navigate.html.tmpl bottom_navigator => 1 %]
 
 <br>
 

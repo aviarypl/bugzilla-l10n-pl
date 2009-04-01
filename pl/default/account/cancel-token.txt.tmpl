@@ -84,7 +84,7 @@ W razie podejrzeń proszę przesłać tę wiadomość na adres
     Podjęto próbę użycia żetonu do zmiany hasła.
 
   [% ELSIF cancelaction == 'wrong_token_for_cancelling_email_change' %]
-    Podjęto próbę użycia żetoni do zmiany adresu e-mail.
+    Podjęto próbę użycia żetonu do zmiany adresu e-mail.
 
   [% ELSIF cancelaction == 'wrong_token_for_confirming_email_change' %]
     Podjęto próbę użycia żetonu do potwierdzenia zmiany adresu e-mail.
@@ -95,7 +95,7 @@ W razie podejrzeń proszę przesłać tę wiadomość na adres
   [% ELSE %]
     [%# Give sensible error if the cancel-token function is used incorrectly.
       #%]
-    Funkcja żetonów [% terms.Bugzilli %] nie jest używana poprawnie. Przekazano
+    Funkcja żetonów anulowania [% terms.Bugzilli %] nie jest używana poprawnie. Przekazano
     ciąg znaków '[% cancelaction %]'. Poprawny sposób użycia to przekazanie znacznika
     i zdefiniowanie go w pliku cancel-token.txt.tmpl.
 
