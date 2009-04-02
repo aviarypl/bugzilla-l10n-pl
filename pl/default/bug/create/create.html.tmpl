@@ -26,7 +26,7 @@
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
-[% title = BLOCK %]Enter [% terms.Bug %]: [% product.name FILTER html %][% END %]
+[% title = BLOCK %]Dodawanie [% terms.bledu %]: [% product.name FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -183,10 +183,10 @@ function handleWantsAttachment(wants_attachment) {
   </tr>
 
   <tr>
-    <th>Product:</th>
+    <th>Produkt:</th>
     <td width="10%">[% product.name FILTER html %]</td>
 
-    <th>Reporter:</th>
+    <th>Zgłaszający:</th>
     <td width="100%">[% user.login FILTER html %]</td>
   </tr>
 
@@ -194,7 +194,7 @@ function handleWantsAttachment(wants_attachment) {
   <tr>
     <th>
       <a href="describecomponents.cgi?product=[% product.name FILTER url_quote %]">
-      Component</a>:
+      Komponent</a>:
     </th>
     <td>
       <select name="component" onchange="set_assign_to();" size="7">
@@ -226,8 +226,8 @@ function handleWantsAttachment(wants_attachment) {
         <tr>
           <td>
             <fieldset>
-              <legend>Component Description</legend>
-              <div id="comp_desc" class="comment">Select a component to read its description.</div>
+              <legend>Opis komponentu</legend>
+              <div id="comp_desc" class="comment">Proszę zaznaczyć komponent, a wyświetlony zostanie jego opis.</div>
             </fieldset>
           </td>
         </tr>
@@ -236,7 +236,7 @@ function handleWantsAttachment(wants_attachment) {
   </tr>
 
   <tr>
-    <th rowspan="3">Version:</th>
+    <th rowspan="3">Wersja:</th>
     <td rowspan="3">
       <select name="version" size="5">
         [%- FOREACH v = version %]
@@ -247,12 +247,12 @@ function handleWantsAttachment(wants_attachment) {
       </select>
     </td>
 
-    [% sel = { description => 'Severity', name => 'bug_severity' } %]
+    [% sel = { description => 'Waga $terms.bledu', name => 'bug_severity' } %]
     [% INCLUDE select %]
   </tr>
 
   <tr>
-    [% sel = { description => 'Platform', name => 'rep_platform' } %]
+    [% sel = { description => 'Platforma', name => 'rep_platform' } %]
     [% INCLUDE select %]
   </tr>
 
@@ -265,14 +265,14 @@ function handleWantsAttachment(wants_attachment) {
 <tbody class="expert_fields">
   <tr>
     [% IF Param('usetargetmilestone') && Param('letsubmitterchoosemilestone') %]
-      [% sel = { description => 'Target Milestone', name => 'target_milestone' } %]
+      [% sel = { description => 'Wersja docelowa', name => 'target_milestone' } %]
       [% INCLUDE select %]
     [% ELSE %]
       <td colspan="2">&nbsp;</td>
     [% END %]
 
     [% IF Param('letsubmitterchoosepriority') %]
-      [% sel = { description => 'Priority', name => 'priority' } %]
+      [% sel = { description => 'Priorytet', name => 'priority' } %]
       [% INCLUDE select %]
     [% ELSE %]
       <td colspan="2">
@@ -287,15 +287,14 @@ function handleWantsAttachment(wants_attachment) {
     <tr>
       <th>&nbsp;</th>
       <td colspan="3" class="comment">
-        We've made a guess at your
         [% IF Param('defaultplatform') %]
-          operating system. Please check it
+          System operacyjny został wykryty 
         [% ELSIF Param('defaultopsys') %]
-          platform. Please check it
+          Platforma została wykryta 
         [% ELSE %]
-          operating system and platform. Please check them
+          Sustem operacyjny i platforma zostały wykryte
         [% END %]
-        and make any corrections if necessary.
+        automatycznie. Proszę poprawić wartości w razie potrzeby.
       </td>
     </tr>
   </tbody>
@@ -310,10 +309,10 @@ function handleWantsAttachment(wants_attachment) {
 [% IF bug_status.size <= 1 %]
   <input type="hidden" name="bug_status" 
          value="[% default.bug_status FILTER html %]">
-    <th>Initial State:</th>
+    <th>Stan początkowy:</th>
     <td>[% get_status(default.bug_status) FILTER html %]</td>
 [% ELSE %]
-    [% sel = { description => 'Initial State', name => 'bug_status' } %]
+    [% sel = { description => 'Stan początkowy', name => 'bug_status' } %]
     [% INCLUDE select %]
 [% END %]
 
@@ -346,7 +345,7 @@ function handleWantsAttachment(wants_attachment) {
   </tr>
 
   <tr>
-    <th><a href="page.cgi?id=fields.html#assigned_to">Assign To</a>:</th>
+    <th><a href="page.cgi?id=fields.html#assigned_to">Przypisany do</a>:</th>
     <td colspan="2">
       [% INCLUDE global/userselect.html.tmpl
          name => "assigned_to"
@@ -356,13 +355,13 @@ function handleWantsAttachment(wants_attachment) {
          emptyok => 1
          custom_userlist => assignees_list
        %]
-      <noscript>(Leave blank to assign to component's default assignee)</noscript>
+      <noscript>(Puste pole oznacza przypisanie do właściciela komponentu)</noscript>
     </td>
   </tr>
   
 [% IF Param("useqacontact") %]
     <tr>
-      <th>QA Contact:</th>
+      <th>Kontakt QA:</th>
       <td colspan="2">
       [% INCLUDE global/userselect.html.tmpl
          name => "qa_contact"
@@ -372,13 +371,13 @@ function handleWantsAttachment(wants_attachment) {
          emptyok => 1
          custom_userlist => qa_contacts_list
        %]
-        <noscript>(Leave blank to assign to default qa contact)</noscript>
+        <noscript>(Puste pole oznacza przypisanie do domyślnego kontaktu QA</noscript>
       </td>
     </tr>
 [% END %]
 
   <tr>
-    <th>CC:</th>
+    <th>Obserwatorzy:</th>
     <td colspan="2">
       [% INCLUDE global/userselect.html.tmpl
          name => "cc"
@@ -391,7 +390,7 @@ function handleWantsAttachment(wants_attachment) {
   </tr>
 
   <tr>
-    <th>Default CC:</th>
+    <th>Domyślni obserwatorzy:</th>
     <td colspan="2">
       <div id="initial_cc">
           <!-- This has to happen after everything above renders,
@@ -408,16 +407,16 @@ function handleWantsAttachment(wants_attachment) {
 
 [% IF user.in_group(Param('timetrackinggroup')) %]
   <tr>
-    <th>Estimated Hours:</th>
+    <th>Szacowany nakład pracy [h]:</th>
     <td colspan="2">
       <input name="estimated_time" size="6" maxlength="6" value="0.0">
     </td>
   </tr>
   <tr>
-    <th>Deadline:</th>
+    <th>Termin:</th>
     <td colspan="2">
       <input name="deadline" size="10" maxlength="10" value="[% deadline FILTER html %]">
-      <small>(YYYY-MM-DD)</small>
+      <small>(RRRR-MM-DD)</small>
     </td>
   </tr>
 
@@ -436,7 +435,7 @@ function handleWantsAttachment(wants_attachment) {
 [% END %]
 
   <tr>
-    <th>URL:</th>
+    <th>Adres URL:</th>
     <td colspan="2">
       <input name="bug_file_loc" size="40"
              value="[% bug_file_loc FILTER html %]">
@@ -456,7 +455,7 @@ function handleWantsAttachment(wants_attachment) {
   [% END %]
 
   <tr>
-    <th>Summary:</th>
+    <th>Podsumowanie:</th>
     <td colspan="3">
       <input name="short_desc" size="70" value="[% short_desc FILTER html %]"
              maxlength="255" spellcheck="true">
@@ -464,11 +463,11 @@ function handleWantsAttachment(wants_attachment) {
   </tr>
 
   <tr>
-    <th>Description:</th>
+    <th>Opis:</th>
     <td colspan="3">
       [% defaultcontent = BLOCK %]
         [% IF cloned_bug_id %]
-+++ This [% terms.bug %] was initially created as a clone of [% terms.Bug %] #[% cloned_bug_id %] +++
++++ Ten [% terms.blad %] został utworzony poprzez sklonowanie [% terms.bledu %] #[% cloned_bug_id %] +++
 
 
         [% END %]
@@ -496,7 +495,7 @@ function handleWantsAttachment(wants_attachment) {
         <input type="checkbox" id="commentprivacy" name="commentprivacy"
           [% " checked=\"checked\"" IF commentprivacy %]>
         <label for="commentprivacy">
-          Initial Description is Private
+          Początkowy opis jest prywatny
         </label>
       </td>
     </tr>
@@ -505,25 +504,25 @@ function handleWantsAttachment(wants_attachment) {
 
 <tbody class="expert_fields">
   <tr>
-    <th>Attachment:</th>
+    <th>Załącznik:</th>
     <td colspan="3">
       <script type="text/javascript">
         <!--
         document.write( '<div id="attachment_false">'
-                      +   '<input type="button" value="Add an attachment" '
+                      +   '<input type="button" value="Dodaj załącznik" '
                       +          'onClick="handleWantsAttachment(true)"> '
-                      +   '<em style="display: none">This button has no '
-                      +   'functionality for you because your browser does '
-                      +   'not support CSS or does not use it.<\/em>'
+                      +   '<em style="display: none">Ten przycisk nie '
+                      +   'działa, ponieważ przeglądarka użytkownika nie '
+                      +   'obsługuje lub nie używa styli CSS.<\/em>'
                       + '<\/div>'
                       + '<div id="attachment_true" style="display: none">'
                       +   '<input type="button" '
-                      +          'value="Don\'t add an attachment " '
+                      +          'value="Nie dodawaj załącznika " '
                       +          'onClick="handleWantsAttachment(false)">');
         //-->
       </script>
         <fieldset>
-          <legend>Add an attachment</legend>
+          <legend>Załącznik</legend>
           <table class="attachment_entry">
             [% PROCESS attachment/createformcontents.html.tmpl
                        flag_types = product.flag_types.attachment
@@ -542,7 +541,7 @@ function handleWantsAttachment(wants_attachment) {
   [% IF user.in_group('editbugs', product.id) %]
     [% IF use_keywords %]
       <tr>
-        <th><a href="describekeywords.cgi">Keywords</a>:</th>
+        <th><a href="describekeywords.cgi">Słowa kluczowe</a>:</th>
         <td colspan="3">
           <input id="keywords" name="keywords" size="40"
                  value="[% keywords FILTER html %]"> (optional)
@@ -551,13 +550,13 @@ function handleWantsAttachment(wants_attachment) {
     [% END %]
 
     <tr>
-      <th>Depends on:</th>
+      <th>Zależy od:</th>
       <td colspan="3">
         <input name="dependson" accesskey="d" value="[% dependson FILTER html %]">
       </td>
     </tr>
     <tr>
-      <th>Blocks:</th>
+      <th>Blokuje:</th>
       <td colspan="3">
         <input name="blocked" accesskey="b" value="[% blocked FILTER html %]">
       </td>
@@ -572,11 +571,12 @@ function handleWantsAttachment(wants_attachment) {
     <td colspan="3">
       <br>
         <strong>
-          Only users in all of the selected groups can view this [% terms.bug %]:
+          Wyłącznie osoby należące do zaznaczonych grup będą miały dostęp
+          do tego [% terms.bledu %]:
         </strong>
       <br>
       <font size="-1">
-        (Leave all boxes unchecked to make this a public [% terms.bug %].)
+        (Pozostawienie wszystkich opcji niezaznaczonych spowoduje, że [% terms.blad %] będzie dostępny dla wszystkich.)
       </font>
       <br>
       <br>
@@ -599,13 +599,13 @@ function handleWantsAttachment(wants_attachment) {
   <tr>
     <th>&nbsp;</th>
     <td colspan="3">
-      <input type="submit" id="commit" value="Commit"
+      <input type="submit" id="commit" value="Wyślij"
              onclick="if (this.form.short_desc.value == '')
-             { alert('Please enter a summary sentence for this [% terms.bug %].');
+             { alert('Proszę wpisać podsumowanie dla tego [% terms.bledu %].');
                return false; } return true;">
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="submit" name="maketemplate" id="maketemplate"
-             value="Remember values as bookmarkable template"
+             value="Zapamiętaj jako wzorzec"
              class="expert_fields">
     </td>
   </tr>

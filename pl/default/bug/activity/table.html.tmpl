@@ -40,22 +40,23 @@
 
 [% IF incomplete_data %]
   <p>
-    There used to be an issue in <a href="http://www.bugzilla.org/">Bugzilla</a>
-    which caused activity data to be lost if there were a large number of cc's
-    or dependencies.  That has been fixed, but some data was already lost in
-    your activity table that could not be regenerated.  The changes that the
-    script could not reliably determine are prefixed by '?'.
+    W <a href="http://www.bugzilla.org/">[% terms.Bugzilli %]</a> istniał błąd, który
+    powodował utratę danych na temat zmian, w przypadku, gdy [% terms.blad %] zawierał
+    dużą liczbę zależności lub obserwatorów.
+    Ten błąd został już naprawiony, jednakże część historii tego [% terms.bledu %] nie
+    była możliwa do odzyskania. Przed zmianami które nie mogły zostać odtworzone, zostanie
+    wstawiony symbol '?'.
   </p>
 [% END %]
 
 [% IF operations.size > 0 %]
   <table border cellpadding="4">
     <tr>
-      <th>Who</th>
-      <th>When</th>
-      <th>What</th>
-      <th>Removed</th>
-      <th>Added</th>
+      <th>Kto</th>
+      <th>Kiedy</th>
+      <th>Co</th>
+      <th>Usunięto</th>
+      <th>Dodano</th>
     </tr>
 
     [% FOREACH operation = operations %]
@@ -71,7 +72,7 @@
             <td>
               [% IF change.attachid %]
                 <a href="attachment.cgi?id=[% change.attachid %]">
-                Attachment #[% change.attachid %]</a>
+                Załącznik #[% change.attachid %]</a>
               [% END %]
               [%+ change.field %]
             </td>

@@ -25,9 +25,9 @@
 
 [% filtered_desc = blocked_tree.$bugid.short_desc FILTER html %]
 [% PROCESS global/header.html.tmpl
-   title           = "Dependency tree for $terms.Bug $bugid"
-   header          = "Dependency tree for 
-                      <a href=\"show_bug.cgi?id=$bugid\">$terms.Bug $bugid</a>"
+   title           = "Drzewo zależności dla $terms.bledu $bugid"
+   header          = "Drzewo zależności dla  
+                      <a href=\"show_bug.cgi?id=$bugid\">$terms.bledu $bugid</a>"
    javascript_urls = ["js/expanding-tree.js"]
    style_urls      = ["skins/standard/dependency-tree.css"]
    subheader      = filtered_desc
@@ -58,33 +58,44 @@
   [% global.seen = {} %]
   [%# Display the tree of bugs that this bug depends on. %]
   <h3>
-    <a href="show_bug.cgi?id=[% bugid %]">[% terms.Bug %] [%+ bugid %]</a> 
+    <a href="show_bug.cgi?id=[% bugid %]">[% terms.Blad %] [%+ bugid %]</a> 
     [% IF type == 1 %]
         [% tree_name = "dependson_tree" %]
         [% IF ids.size %]
-            depends on 
+            zależy od 
+        	[%+ (ids.size == 1) ? "jednego" : ids.size %]
+        	[%+ IF hide_resolved %]
+        		[%+ (ids.size == 1) ? " otwartego $terms.bledu" : " otwartych $terms.bledow" %]:
+			[% ELSE %]
+				[%+ (ids.size == 1) ? terms.bledu : terms.bledow %]:
+			[% END %]
         [% ELSE %]
-            does not depend on any [% terms.bugs %].
+            nie zależy od żadnego [% terms.bledu %].
         [% END %]
+
+
     [% ELSIF type == 2 %]
         [% tree_name = "blocked_tree" %]
         [% IF ids.size %] 
-            blocks 
+            blokuje
+        	[%+ (ids.size == 1) ? "jeden" : ids.size %]
+        	[%+ IF hide_resolved %]
+				[% PROCESS ODMIEN c=ids.size o1="otwarty $terms.blad" o2="otwarte $terms.bledy"	o3="otwartych $terms.bledow" %]:
+			[% ELSE %]
+				[% PROCESS ODMIEN c=ids.size o1=terms.blad o2=terms.bledy o3=terms.bledow %]:
+			[% END %]
+ 
         [% ELSE %]
-            does not block any [% terms.bugs %].
+            nie blokuje żadnych [% terms.bledow %].
         [% END %]
     [% END %]
-    [% IF ids.size %]
-        [%+ (ids.size == 1) ? "one" : ids.size %]
-        [%+ IF hide_resolved %]open[% END %]
-        [%+ (ids.size == 1) ? terms.bug : terms.bugs %]:
-    [% END %] 
+
   </h3>
   [% IF ids.size %]
-    ([% IF maxdepth -%]Up to [% maxdepth %] level[% "s" IF maxdepth > 1 %] deep | [% END -%]
-    <a href="buglist.cgi?bug_id=[% ids.join(",") %]">view as [% terms.bug %] list</a>
+    ([% IF maxdepth -%]do [% maxdepth %]. poziomu [% "" IF maxdepth > 1 %] | [% END -%]
+    <a href="buglist.cgi?bug_id=[% ids.join(",") %]">pokaż jako listę [% terms.bledow %] </a>
     [% IF user.groups.editbugs && ids.size > 1 %]
-      | <a href="buglist.cgi?bug_id=[% ids.join(",") %]&amp;tweak=1">change several</a>
+      | <a href="buglist.cgi?bug_id=[% ids.join(",") %]&amp;tweak=1">zmień wiele na raz</a>
     [% END %])
     <ul class="tree">
       [% INCLUDE display_tree tree=$tree_name %]
@@ -110,7 +121,7 @@
       [%- INCLUDE buglink bug=bug bugid=bugid %]
     </span>
     [% IF global.seen.$bugid %]
-      <b><a title="Already displayed above; click to locate"
+      <b><a title="Już wyświetlony powyżej; kliknięcie lokalizuje"
             onclick="duplicated('[% bugid FILTER html %]')"
             href="#b[% bugid %]">(*)</a></b>
     [% ELSIF tree.dependencies.$bugid.size %]
@@ -131,7 +142,7 @@
   [% END %]
   <a name="b[% bugid %]" 
      class="b [%+ extra_class FILTER none %]"
-     title="Click to expand or contract this portion of the tree. Hold down the Ctrl key while clicking to expand or contract all subtrees."
+     title="Kliknięcie rozwija lub zwija tę część drzewa. Wciśnięcie klawisza Ctrl rozwija/zwija wszystko."
      [% extra_args FILTER none %]>&nbsp;&nbsp;</a>
 [% END %]
 
@@ -147,15 +158,15 @@
     <a href="showdependencytree.cgi?id=[% bugid FILTER url_quote %]"
        class="tree_link">
       <img src="skins/standard/dependency-tree/tree.png"
-           title="See dependency tree for [% terms.bug %] [%+ bugid FILTER html %]">
+           title="Wyświetla drzewo zależności [% terms.bledu %] [%+ bugid FILTER html %]">
     </a>
   [% END %]
 [% END %]
 
 [% BLOCK buginfo %]
   [% get_status(bug.bug_status) FILTER html -%] [%+ get_resolution(bug.resolution) FILTER html %];
-  [%-%] assigned to [% bug.assigned_to.login FILTER html %]
-  [%-%][% "; Target: " _ bug.target_milestone IF bug.target_milestone %]
+  [%-%] przypisany do [% bug.assigned_to.login FILTER html %]
+  [%-%][% "; Wer.docelowa: " _ bug.target_milestone IF bug.target_milestone %]
 [% END %]
 
 [%###########################################################################%]
@@ -176,12 +187,12 @@
      [% END %]
      <input type="hidden" name="hide_resolved" value="[% hide_resolved ? 0 : 1 %]">
      <input type="submit" id="toggle_visibility"
-            value="[% IF hide_resolved %]Show[% ELSE %]Hide[% END %] Resolved">
+            value="[% IF hide_resolved %]Pokaż[% ELSE %]Ukryj[% END %] rozwiązane">
    </form>
    </td>
 
    <td>
-     Max Depth:
+     Maks. poziom:
    </td>
 
    <td>
@@ -228,7 +239,7 @@
      <input name="id" type="hidden" value="[% bugid %]">
      <input name="hide_resolved" type="hidden" value="[% hide_resolved %]">
      <noscript>
-       <input type="submit" id="change_depth" value="Change"
+       <input type="submit" id="change_depth" value="Zmień"
               [% "disabled" IF realdepth < 2 %]>
      </noscript>
    </form>
@@ -256,7 +267,7 @@
      <input name="id" type="hidden" value="[% bugid %]">
      <input name="hide_resolved" type="hidden" value="[% hide_resolved %]">
      <input type="submit" id="remove_limit"
-       value="&nbsp;Unlimited&nbsp;"
+       value="&nbsp;Bez ograniczenia&nbsp;"
        [% "disabled" IF maxdepth == 0 || maxdepth == realdepth %]>
    </form>
    </td>

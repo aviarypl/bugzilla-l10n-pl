@@ -43,7 +43,7 @@
 [% IF !header_done %]
   [% subheader = voting_user.login FILTER html %]
   [% IF canedit %]
-    [% title = "Change Votes" %]
+    [% title = "Głosy" %]
     [% IF bug_id %]
       [%# We .select and .focus the input so it works for textbox and 
           checkbox %]
@@ -52,7 +52,7 @@
                   ".focus()" %]
     [% END %]
   [% ELSE %]
-    [% title = "Show Votes" %]
+    [% title = "Głosy" %]
   [% END %]
   [% PROCESS global/header.html.tmpl
              style_urls = [ "skins/standard/voting.css" ] 
@@ -64,7 +64,7 @@
 [% IF votes_recorded %]
   <p>
     <font color="red">
-      The changes to your votes have been saved.
+      Zmiany głosowania zostały zapisane.
     </font>
   </p>
 [% ELSE %]
@@ -77,9 +77,9 @@
     <table cellspacing="4">
       <tr>
         <td></td>
-        <th>Votes</th>
-        <th>[% terms.Bug %] #</th>
-        <th>Summary</th>
+        <th>Głosy</th>
+        <th>[% terms.Blad %] #</th>
+        <th>Podsumowanie</th>
       </tr>
 
       [% onevoteproduct = 0 %]
@@ -93,15 +93,14 @@
         <tr>
           <th>[% product.name FILTER html %]</th>
           <td colspan="2" ><a href="buglist.cgi?bug_id=
-              [%- product.bug_ids.join(",") FILTER url_quote %]">([% terms.bug %] list)</a>
+              [%- product.bug_ids.join(",") FILTER url_quote %]">(lista [% terms.bledow %])</a>
           </td>
           <td>
             [% IF product.maxperbug < product.maxvotes AND
                   product.maxperbug > 1 %]
               <font size="-1">
-                (Note: only [% product.maxperbug %] vote
-                [% "s" IF product.maxperbug != 1 %] allowed per [% terms.bug %] in
-                this product.)
+                (Uwaga: dozwolone jest tylko [% product.maxperbug %] gł. na [% terms.blad %] w
+                tym produkcie.)
               </font>
             [% END %]
           </td>
@@ -110,7 +109,7 @@
         [% FOREACH bug = product.bugs %]
           <tr [% IF bug.id == bug_id && canedit %] 
             class="bz_bug_being_voted_on" [% END %]>
-            <td>[% IF bug.id == bug_id && canedit %]Enter New Vote here &rarr;
+            <td>[% IF bug.id == bug_id && canedit %]Proszę podać tutaj nowy głos &rarr;
               [%- END %]</td>
             <td align="right"><a name="vote_[% bug.id %]">
               [% IF canedit %]
@@ -130,16 +129,15 @@
             </td>
             <td>
               [% bug.summary FILTER html %]
-              (<a href="votes.cgi?action=show_bug&amp;bug_id=[% bug.id %]">Show Votes</a>)
+              (<a href="votes.cgi?action=show_bug&amp;bug_id=[% bug.id %]">Głosy</a>)
             </td>
           </tr>
         [% END %]
 
         <tr>
           <td></td>
-          <td colspan="3">[% product.total %] vote
-            [% "s" IF product.total != 1 %] used out of [% product.maxvotes %]
-            allowed.
+          <td colspan="3">Zużyto [% product.total %] [% PROCESS ODMIEN c=product.total o1=" głos" o2=" głosy" o3=" głosów" %]
+            z [% product.maxvotes %] dozwolonych.
             <br>
             <br>
           </td>
@@ -148,38 +146,38 @@
     </table>
 
     [% IF canedit %]
-      <input type="submit" value="Change My Votes" id="change"> or 
-      <a href="buglist.cgi?bug_id=[% all_bug_ids.join(",") FILTER url_quote %]">view all
-        as [% terms.bug %] list</a>
+      <input type="submit" value="Zmień moje głosy" id="change"> lub 
+      <a href="buglist.cgi?bug_id=[% all_bug_ids.join(",") FILTER url_quote %]">wyświetl wszystkie
+        jako listę [% terms.bledow %]</a>
       <br>
       <br>
-      To change your votes,
+      Aby zmienić swoje głosy, należy 
       [% IF multivoteproduct %]
-        type in new numbers (using zero to mean no votes)
-        [% " or " IF onevoteproduct %]
+        wpisać nowe wartości (zero oznacza brak głosu)
+        [% " lub " IF onevoteproduct %]
       [% END %]
       [% IF onevoteproduct %]
-        change the checkbox
+        zaznaczyć pole
       [% END %]
-      and then click <b>Change My Votes</b>.
+      i nacisnąć przycisk <b>Zmień moje głosy</b>.
     [% ELSE %]
-       <a href="buglist.cgi?bug_id=[% all_bug_ids.join(",") FILTER url_quote %]">View all
-         as [% terms.bug %] list</a>
+       <a href="buglist.cgi?bug_id=[% all_bug_ids.join(",") FILTER url_quote %]">wyświetl wszystkie
+        jako listę [% terms.bledow %]</a>
     [% END %]
   </form>
 [% ELSE %]
   <p>
     [% IF canedit %]
-    You are
+    Użytkownik
     [% ELSE %]
-    This user is
+    Ten użytkownik
     [% END %]
-    currently not voting on any [% terms.bugs %].
+    nie głosuje aktualnie na żaden [% terms.blad %].
   </p>
 [% END %]
 
 <p>
-  <a href="page.cgi?id=voting.html">Help with voting</a>.
+  <a href="page.cgi?id=voting.html">Pomoc dotycząca głosów</a>.
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

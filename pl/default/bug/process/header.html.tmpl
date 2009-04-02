@@ -29,16 +29,16 @@
 [% IF    title_tag == "bug_processed" %]
   [% title = BLOCK %]
     [% IF Bugzilla.cgi.param('id') %]
-      [% terms.Bug %] [%+ id FILTER html %]
+      Zmieniono [% terms.blad %] nr [%+ id FILTER html %]
     [% ELSE %]
-      [% terms.Bugs %]
+      Zmieniono [% terms.bledy %]
     [% END %]
     processed
   [% END %]
 [% ELSIF title_tag == "mid_air" %]
-  [% title = "Mid-air collision!" %]
+  [% title = "Kolizja w locie z innym uaktualnieniem!" %]
 [% ELSIF title_tag == "change_votes" %]
-  [% title = "Change Votes" %]
+  [% title = "Zmiana głosów" %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl

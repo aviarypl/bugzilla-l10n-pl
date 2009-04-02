@@ -41,13 +41,13 @@
   [% PROCESS bug/process/header.html.tmpl %]
 [% END %]
 
-<h1>Mid-air collision detected!</h1>
+<h1>Wykryto kolizję z innym uaktualnieniem</h1>
 
 <p>
-  Someone else has made changes to
-  [%+ "$terms.bug $bug.id" FILTER bug_link(bug.id) FILTER none %]
-  at the same time you were trying to.
-  The changes made were:
+  Ktoś inny dokonał zmian w
+  [%+ "$terms.bledzie $bug.id" FILTER bug_link(bug.id) FILTER none %]
+  w tym samym czasie.
+  Te zmiany to:
 </p>
 
 <p>
@@ -56,7 +56,7 @@
 
 [% IF comments.size > start_at %]
 <p>
-  Added the comment(s):
+  Dodane komentarz(e):
   <blockquote>
     [% PROCESS "bug/comments.html.tmpl" %]
   </blockquote>
@@ -65,7 +65,7 @@
 
 [% IF cgi.param("comment") %]
 <p>
-  Your comment was:<br>
+  Komentarz użytkownika:<br>
   <blockquote><pre class="bz_comment_text">
     [% cgi.param("comment") FILTER wrap_comment FILTER html %]
   </pre></blockquote>
@@ -73,7 +73,7 @@
 [% END %]
 
 <p>
-You have the following choices:
+Możliwości rozwiązania konfliktu:
 </p>
 
 <ul>
@@ -83,14 +83,14 @@ You have the following choices:
              value="[% bug.delta_ts FILTER html %]">
       [% PROCESS "global/hidden-fields.html.tmpl" 
           exclude="^Bugzilla_login|Bugzilla_password|delta_ts$" %]
-      <input type="submit" id="process" value="Submit my changes anyway">
-        This will cause all of the above changes to be overwritten
-        [% ", except for the added comment(s)" IF comments.size > start_at %].
+      <input type="submit" id="process" value="Wyślij moje zmiany mimo to">
+        Spowoduje to nadpisanie wszystkich powyższych zmian
+        [% " za wyjątkiem dodanych komentarzy" IF comments.size > start_at %].
     </form>
   </li>
   <li>
-    Throw away my changes, and
-    [%+ "revisit $terms.bug $bug.id" FILTER bug_link(bug.id) FILTER none %]
+    Anulowanie moich zmian i powrót do 
+    [%+ "$terms.bledu nr $bug.id" FILTER bug_link(bug.id) FILTER none %]
   </li>
 </ul>
 

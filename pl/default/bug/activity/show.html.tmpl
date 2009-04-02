@@ -30,19 +30,19 @@
 
 [% filtered_desc = bug.short_desc FILTER html %]
 [% PROCESS global/header.html.tmpl
-  title = "Changes made to $terms.bug $bug.bug_id"
-  header = "Activity log for $terms.bug $bug.bug_id: $filtered_desc"
+  title = "Zmiany w zgłoszeniu $terms.bledu $bug.bug_id"
+  header = "Dziennik akywności dla $terms.bledu $bug.bug_id: $filtered_desc"
  %]
 
 <p>
-  [% "Back to $terms.bug $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %]
+  [% "Powrót do $terms.bledu $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %]
 </p>
 
 [% PROCESS bug/activity/table.html.tmpl %]
 
 [% IF operations.size > 0 %]
   <p>
-    [% "Back to $terms.bug $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %]
+    [% "Powrót do $terms.bledu $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %]
   </p>
 [% END %]
 

@@ -24,7 +24,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Already filed attachment"
+  title = "Załącznik już został dodany"
 %]
 
 [% USE Bugzilla %]
@@ -33,16 +33,16 @@
   <tr>
     <td bgcolor="#ff0000">
       <font size="+2">
-        You already used the form to file
-        <a href="[% urlbase FILTER html %]attachment.cgi?id=[% attachid FILTER url_quote %]&action=edit">attachment [% attachid FILTER url_quote %]</a>.
+        Formularz został już wykorzystany do wysłania 
+        <a href="[% urlbase FILTER html %]attachment.cgi?id=[% attachid FILTER url_quote %]&action=edit">załącznika [% attachid FILTER url_quote %]</a>.
       </font>
     </td>
   </tr>
 </table>
 
 <p>
-  You can either <a href="[% urlbase FILTER html %]attachment.cgi?bugid=[% bugid FILTER url_quote %]&action=enter">
-  create a new attachment</a> or [% "go back to $terms.bug $bugid" FILTER bug_link(bugid) FILTER none %].
+  Można <a href="[% urlbase FILTER html %]attachment.cgi?bugid=[% bugid FILTER url_quote %]&action=enter">
+  dodać nowy załącznik</a> lub [% "wrócić do strony $terms.bledu $bugid" FILTER bug_link(bugid) FILTER none %].
 <p>
 
 [% PROCESS global/footer.html.tmpl %]

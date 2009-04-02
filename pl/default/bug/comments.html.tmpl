@@ -70,13 +70,13 @@
 
   function collapse_comment(link, comment) {
     link.innerHTML = "(+)";
-    link.title = "Expand the comment.";
+    link.title = "Rozwija komentarz.";
     comment.className = "collapsed";
   }
 
   function expand_comment(link, comment) {
     link.innerHTML = "(-)";
-    link.title = "Collapse the comment";
+    link.title = "Zwija komentarz";
     comment.className = "";
   }
 
@@ -86,7 +86,7 @@
   function addCollapseLink(count) {
     document.write(' <a href="#" id="comment_link_' + count +
                    '" onclick="toggle_comment_display(this, ' +  count +
-                   '); return false;" title="Collapse the comment.">(-)</a> ');
+                   '); return false;" title="Zwija komentarz.">(-)</a> ');
   }
   //-->
   </script>
@@ -121,8 +121,8 @@
 [% END %]
 
 [% IF mode == "edit" %]
-  <a href="#" onclick="toggle_all_comments('collapse'); return false;">Collapse All Comments</a> -
-  <a href="#" onclick="toggle_all_comments('expand'); return false;">Expand All Comments</a>
+  <a href="#" onclick="toggle_all_comments('collapse'); return false;">Zwiń wszystkie komentarze</a> -
+  <a href="#" onclick="toggle_all_comments('expand'); return false;">Rozwiń wszystkie komentarze</a>
   <hr>
 [% END %]
 
@@ -151,11 +151,11 @@
       [% IF count == description %]
         [% class_name = "bz_first_comment_head" %]
         [% comment_label = "" %]
-        [% comment_link = "Description" %]
+        [% comment_link = "Opis" %]
         [% decoration = "" %]
       [% ELSE %]
         [% class_name = "bz_comment_head" %]
-        [% comment_label = "Comment" %]
+        [% comment_label = "Komentarz" %]
         [% comment_link = "#" _ count %]
         [% decoration = '<span class="comment_rule">-------</span>' %]
       [% END %]
@@ -165,7 +165,7 @@
         [% decoration FILTER none %]
         <i>[% comment_label FILTER html %]
         <a name="c[% count %]" href="show_bug.cgi?id=[% bug.bug_id %]#c[% count %]">
-          [% comment_link FILTER html %]</a> From
+          [% comment_link FILTER html %]</a> 
         <span class="vcard">
           <a class="fn email" href="mailto:[% comment.author.email FILTER html %]">
             [% (comment.author.name || comment.author.login) FILTER html %]</a>
@@ -203,7 +203,7 @@
       [% IF user.in_group(Param('timetrackinggroup')) &&
             (comment.work_time > 0 || comment.work_time < 0) %]
          <br>
-         Additional hours worked: 
+         Dodatkowych przepracowanych godzin: 
          [% PROCESS formattimeunit time_unit=comment.work_time %]
       [% END %]
 

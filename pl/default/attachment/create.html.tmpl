@@ -21,12 +21,13 @@
   #                 Marc Schumann <wurblzap@gmail.com>
   #%]
 
+[% PROCESS global/variables.none.tmpl %]
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [%# Define strings that will serve as the title and header of this page %]
-[% title = BLOCK %]Create New Attachment for [% terms.Bug %] #[% bug.bug_id %][% END %]
-[% header = BLOCK %]Create New Attachment for
-  [%+ "$terms.Bug $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %][% END %]
+[% title = BLOCK %]Tworzenie załącznika do [% terms.bledu %] #[% bug.bug_id %][% END %]
+[% header = BLOCK %]Tworzenie nowego załącznika do 
+  [%+ "$terms.bledu $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %][% END %]
 [% subheader = BLOCK %][% bug.short_desc FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -49,9 +50,9 @@
 
     [%# Additional fields for attachments on existing bugs: %]
     <tr>
-      <th>Obsoletes:</th>
+      <th>Dezaktualizuje:</th>
       <td>
-        <em>(optional) Check each existing attachment made obsolete by your new attachment.</em><br>
+        <em>(opcjonalne) proszę zaznaczyć istniejące załączniki, które stają się nieaktualne po dodaniu nowego załącznika.</em><br>
         [% IF attachments.size %]
           [% FOREACH attachment = attachments %]
             [% IF ((attachment.isprivate == 0) || (Param("insidergroup")
@@ -62,26 +63,26 @@
             [% END %]
           [% END %]
         [% ELSE %]
-            [no attachments can be made obsolete]
+            [brak załączników do dezaktualizacji]
         [% END %]
       </td>
     </tr>
 
     [% IF (user.id != bug.assigned_to.id) AND user.in_group("editbugs", bug.product_id) %]
       <tr>
-        <th>Reassignment:</th>
+        <th>Przepisanie:</th>
         <td>
-          <em>If you want to assign this [% terms.bug %] to yourself,
-              check the box below.</em><br>
+          <em>aby przepisać ten [% terms.blad %] na siebie,
+              należy zaznaczyć poniższą opcję.</em><br>
           <input type="checkbox" id="takebug" name="takebug" value="1">
-          <label for="takebug">take [% terms.bug %]</label>
+          <label for="takebug">przepisz [% terms.blad %] na mnie</label>
           [% bug_statuses = [] %]
           [% FOREACH bug_status = bug.status.can_change_to %]
             [% NEXT IF bug_status.name == "UNCONFIRMED" && !bug.product_obj.votes_to_confirm %]
             [% bug_statuses.push(bug_status) IF bug_status.is_open %]
           [% END %]
           [% IF bug_statuses.size %]
-            <label for="takebug">and set the [% terms.bug %] status to</label>
+            <label for="takebug">i ustaw stan [% terms.bledu %] na</label>
             <select id="bug_status" name="bug_status">
               <option value="[% bug.status.name FILTER html %]">[% get_status(bug.status.name) FILTER html %] (current)</option>
               [% FOREACH bug_status = bug_statuses %]
@@ -94,9 +95,9 @@
       </tr>
     [% END %]
     <tr>
-      <th><label for="comment">Comment:</label></th>
+      <th><label for="comment">Komentarz:</label></th>
       <td>
-        <em>(optional) Add a comment about this attachment to the [% terms.bug %].</em><br>
+        <em>(opcjonalne) proszę podać komentarz do [% terms.bledu %], dotyczący tego załącznika.</em><br>
         [% INCLUDE global/textarea.html.tmpl
           name    = 'comment'
           id      = 'comment'
@@ -109,18 +110,18 @@
     </tr>
     [% IF (Param("insidergroup") && user.in_group(Param("insidergroup"))) %]
       <tr>
-        <th>Privacy:</th>
+        <th>Prywatność:</th>
         <td>
-          <em>If the attachment is private, check the box below.</em><br>
+          <em>jeśli załącznik powinien być traktowany jako prywatny, proszę zaznaczyć poniższe pole.</em><br>
           <input type="checkbox" name="isprivate" id="isprivate"
           value="1" onClick="updateCommentPrivacy(this)">
-        <label for="isprivate">Private</label>
+        <label for="isprivate">Prywatny</label>
         </td>
       </tr>
     [% END %]
     <tr>
       <th>&nbsp;</th>
-      <td><input type="submit" id="create" value="Submit"></td>
+      <td><input type="submit" id="create" value="Dodaj załącznik"></td>
     </tr>
   </table>
 

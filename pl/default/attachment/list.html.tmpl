@@ -27,13 +27,13 @@
     var originalHeight = table.offsetHeight; // Store current height for scrolling
 
     var toggle;
-    if (link.innerHTML == "Show Obsolete") {
+    if (link.innerHTML == "Pokaż zdezaktualizowane") {
       toggle = ""; // This should be 'table-row', but IE 6 doesn't understand it.
-      link.innerHTML = "Hide Obsolete";
+      link.innerHTML = "Ukryj zdezaktualizowane";
     }
     else {
       toggle = "none";
-      link.innerHTML = "Show Obsolete";
+      link.innerHTML = "Pokaż zdezaktualizowane";
     }
 
     for (var i = 0; i < rows.length; i++) {
@@ -71,7 +71,7 @@
         <td valign="top">
           [% IF attachment.datasize %]
             <a name="a[% count %]" href="attachment.cgi?id=[% attachment.id %]"
-               title="View the content of the attachment">
+               title="Wyświetla treść załącznika">
           [% END %]
           <b>[% attachment.description FILTER html FILTER obsolete(attachment.isobsolete) %]</b>
           [% "</a>" IF attachment.datasize %]
@@ -80,23 +80,23 @@
             [% IF attachment.datasize %]
               ([% attachment.datasize FILTER unitconvert %],
               [% IF attachment.ispatch %]
-                patch)
+                łatka)
               [% ELSIF attachment.isurl %]
                 url)
               [% ELSE %]
                 [%+ attachment.contenttype FILTER html %])
               [% END %]
             [% ELSE %]
-              (<em>deleted</em>)
+              (<em>usunięty</em>)
             [% END %]
 
             <br>
             <a href="#attach_[% attachment.id %]"
-               title="Go to the comment associated with the attachment">
+               title="Przechodzi do komentarza związanego z załącznikiem">
               [%- attachment.attached FILTER time %]</a>,
 
             <a href="mailto:[% attachment.attacher.email FILTER html %]"
-               title="Write an email to the creator of the attachment">
+               title="Otwiera okno pisania wiadomości do twórcy załącznika">
               [% attachment.attacher.name || attachment.attacher.login FILTER html %]
             </a>
           </span>
@@ -105,7 +105,7 @@
         [% IF show_attachment_flags %]
           <td class="bz_attach_flags" valign="top">
             [% IF attachment.flags.size == 0 %]
-              <i>no flags</i>
+              <i>brak flag</i>
             [% ELSE %]
               [% FOREACH flag = attachment.flags %]
                 [% flag.setter.nick FILTER html %]:
@@ -119,9 +119,9 @@
         [% END %]
 
         <td valign="top">
-          <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">Details</a>
+          <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">Szczegóły</a>
           [% IF attachment.ispatch && patchviewerinstalled %]
-            | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=diff">Diff</a>
+            | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=diff">Różnice</a>
           [% END %]
           [% Hook.process("action") %]
         </td>
@@ -134,15 +134,15 @@
       [% IF attachments.size %]
         <span class="bz_attach_view_hide">
           [% IF obsolete_attachments %]
-            <a href="#a0" onClick="return toggle_display(this);">Hide Obsolete</a> ([% obsolete_attachments %])
+            <a href="#a0" onClick="return toggle_display(this);">Ukryj zdezaktualizowane</a> ([% obsolete_attachments %]) |
           [% END %]
           [% IF Param("allow_attachment_display") %]
-            <a href="attachment.cgi?bugid=[% bugid %]&amp;action=viewall">View All</a>
+            <a href="attachment.cgi?bugid=[% bugid %]&amp;action=viewall">Pokaż wszystkie</a>
           [% END %]
         </span>
       [% END %]
-      <a href="attachment.cgi?bugid=[% bugid %]&amp;action=enter">Add an attachment</a>
-      (proposed patch, testcase, etc.)
+      <a href="attachment.cgi?bugid=[% bugid %]&amp;action=enter">Nowy załącznik</a>
+      (łatka, dane testowe itp.)
     </td>
   </tr>
 </table>

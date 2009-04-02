@@ -21,14 +21,14 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-   title = "Search by $terms.bug number"
+   title = "Szukanie $terms.bledow wg numeru"
  %]
 
 <form method="get" action="show_bug.cgi">
   <p>
-    You may find a single [% terms.bug %] by entering its [% terms.bug %] id here:
+    Można odszukać [% terms.blad %] wprowadzając numer [% terms.bledu %] w to pole:
     <input name="id" size="6">
-    <input type="submit" id="show" value="Show Me This [% terms.Bug %]">
+    <input type="submit" id="show" value="Wyświetl [% terms.blad %]">
   </p>
 </form>
 

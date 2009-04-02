@@ -28,26 +28,26 @@
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
-[% PROCESS global/header.html.tmpl title="Duplicate Warning" %]
+[% PROCESS global/header.html.tmpl title="Ostrzeżenie przed duplikatem" %]
 [% orig_bug = "$terms.bug $original_bug_id"
      FILTER bug_link(original_bug_id) %]
 
 <p>
-  When marking [% terms.abug %] as a duplicate, the reporter of the duplicate
-  is normally added to the CC list of the original. The permissions
-  on [% orig_bug FILTER none %] (the original) are currently set
-  such that the reporter would not normally be able to see it.
+  Po oznaczeniu [% terms.bledu %] jako duplikat zgłaszający duplikat 
+  jest dodawany do listy obserwatorów oryginalnego  [% terms.bledu %]. Uprawnienia
+  [% orig_bug FILTER none %] (oryginał) są takie, że 
+  zgłaszający nie będzie miał do niego dostępu.
 </p>
 
 <p>
-  <b>Adding the reporter to the CC list of [% orig_bug FILTER none %]
+  <b>Dodanie zgłaszającego do listy obserwatorów [% orig_bug FILTER none %]
   [% IF cclist_accessible %]
-    will immediately
+    natychmiast umożliwi 
   [% ELSE %]
-    might, in the future,
+    może w przyszłości umożliwić
   [% END %]
-  allow him/her access to view this [% terms.bug %].</b>
-  Do you wish to do this?
+  dostęp do tego [% terms.bledu %].</b>
+  Czy kontynuować?
 </p>
 
 <form method="post" action="process_bug.cgi">
@@ -56,18 +56,18 @@
 
 <p>
   <input type="radio" name="confirm_add_duplicate" value="1">
-    Yes, add the reporter to CC list on [% orig_bug FILTER none %]
+    Tak, dodaj zgłaszającego do listy obserwatrów w [% orig_bug FILTER none %]
 </p>
 <p>
   <input type="radio" name="confirm_add_duplicate" value="0" checked="checked">
-    No, do not add the reporter to CC list on [% orig_bug FILTER none %]
+    Nie, nie dodawaj zgłaszającego do lity obserwatorów w [% orig_bug FILTER none %]
 </p>
 <p>
-  [% "Throw away my changes, and revisit $terms.bug $duplicate_bug_id"
+  [% "Odrzuć moje zmiany i otwórz stronę $terms.bledu $duplicate_bug_id ponownie"
      FILTER bug_link(duplicate_bug_id) FILTER none %]
 </p>
 <p>
-  <input type="submit" id="process" value="Submit">
+  <input type="submit" id="process" value="Wyślij">
 </p>
 
 </form>

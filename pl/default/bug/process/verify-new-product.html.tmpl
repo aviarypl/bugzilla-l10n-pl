@@ -34,7 +34,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = 'Verify New Product Details...' %]
+  title = 'Weryfikacja danych o nowym produkcie...' %]
 
 <form action="process_bug.cgi" method="post">
 
@@ -49,8 +49,8 @@
 <input type="hidden" name="confirm_product_change" value="1">
     
 [%# Verify the version, component, and target milestone fields. %]
-<h3>Verify Version, Component
-  [%- ", Target Milestone" 
+<h3>Weryfikacja wersji, komponentu
+  [%- ", wersji docelowej" 
       IF Param("usetargetmilestone")
          && bug.check_can_change_field('target_milestone', 0, 1) %]</h3>
 
@@ -58,22 +58,22 @@
 [% IF Param("usetargetmilestone") 
    && bug.check_can_change_field('target_milestone', 0, 1) 
 %]
-  You are moving the [% terms.bug %](s) to the product 
-  <b>[% product.name FILTER html %]</b>,
-  and the version, component, and/or target milestone fields are no longer
-  correct.  Please set the correct version, component, and target milestone now:
+  Podjęto przenoszenie [% terms.bledu %] do produktu  
+  <b>[% product.name FILTER html %]</b>.
+  Wersja, komponent i/lub wersja docelowa nie sa poprawne.
+  Prosze ustawic teraz poprawną wersję, komponent i wersję docelową:
 [% ELSE %]
-  You are moving the [% terms.bug %](s) to the product 
-  <b>[% product.name FILTER html %]</b>,
-  and the version and component fields are no longer correct.
-  Please set the correct version and component now:
+  Podjęto przenoszenie [% terms.bledu %] do produktu 
+  <b>[% product.name FILTER html %]</b>.
+  Wersja i komponent nie sa poprawne.
+  Prosze ustawic teraz poprawną wersję i komponent:
 [% END %]
 </p>
 
 <table>
   <tr>
     <td>
-      <b>Version:</b><br>
+      <b>Wersja:</b><br>
       [% IF versions.size == 1 %]
         [% SET default_version = versions.0 %]
       [% ELSE %]
@@ -86,7 +86,7 @@
                  size=10 %]
     </td>
     <td>
-      <b>Component:</b><br>
+      <b>Komponent:</b><br>
       [% IF components.size == 1 %]
         [% SET default_component = components.0 %]
       [% ELSE %]
@@ -102,7 +102,7 @@
           && bug.check_can_change_field('target_milestone', 0, 1) 
     %]
       <td>
-        <b>Target Milestone:</b><br>
+        <b>Wersja docelowa:</b><br>
       [% PROCESS "global/select-menu.html.tmpl"
                  name="target_milestone"
                  options=milestones
@@ -114,13 +114,13 @@
 </table>
 
 [% IF verify_bug_groups %]
-  <h3>Verify [% terms.Bug %] Group</h3>
+  <h3>Weryfikacje grupy [% terms.bledu %]</h3>
   
   [% IF old_groups.size %]
-    <p>These groups are not legal for the '[% product.name FILTER html %]'
-    product or you are not allowed to restrict [% terms.bugs %] to these groups.
-    [%+ terms.Bugs %] will no longer be restricted to these groups and may become
-    public if no other group applies:<br>
+    <p>Poniższe grupy nie są dozwolone dla produktu '[% product.name FILTER html %]'
+    lub użytkownik nie jest uprawniony do ograniczania dostępu do [% terms.bledow %] dla tych grup.
+    Dostęp do tych [%+ terms.bledow %] te nie będzie już ograniczony do tych grup i [% terms.bledy %] te
+	mogą stać się publiczne jeśli nie są przypisane do innych grup:<br>
     [% FOREACH group = old_groups %]
       <input type="checkbox" id="bit-[% group.id FILTER html %]"
              name="bit-[% group.id FILTER html %]" disabled="disabled" value="1">
@@ -149,8 +149,8 @@
   [% END %]
 
   [% IF optional_groups.size %]
-    <p>These groups are optional. You can decide to restrict [% terms.bugs %] to
-    one or more of the following groups:<br>
+    <p>Poniższe grupy sa ocjonalne. Można ograniczyć dostęp do [% terms.bledow %] do
+     jednej lub więcej następujących grup:<br>
     [% FOREACH group = optional_groups %]
       <input type="hidden" name="defined_bit-[% group.group.id FILTER html %]"
              value="1">
@@ -170,8 +170,8 @@
   [% END %]
 
   [% IF mandatory_groups.size %]
-    <p>These groups are mandatory and [% terms.bugs %] will be automatically
-    restricted to these groups:<br>
+    <p>Poniższe grupy sa obowiązkowe i dostęp do [% terms.bledow %] zostanie automatycznie 
+    ograniczony do tych grup:<br>
     [% FOREACH group = mandatory_groups %]
       <input type="checkbox" id="bit-[% group.group.id FILTER html %]" checked="checked"
              name="bit-[% group.group.id FILTER html %]" value="1" disabled="disabled">
@@ -184,7 +184,7 @@
   [% END %]
 [% END %]
 
-<input type="submit" id="change_product" value="Commit">
+<input type="submit" id="change_product" value="Wyślij">
 
 </form>
 <hr>
@@ -194,9 +194,9 @@
 
 [% IF cgi.param('id') AND cgi.param('id').match('^\d+$') %]
   [% id = cgi.param('id') %]
-  Cancel and Return to [% "$terms.bug $id" FILTER bug_link(id) FILTER none %]
+  [% "Przerwanie i powrót do $terms.bledu $id" FILTER bug_link(id) FILTER none %]
 [% ELSE %]
-  Cancel and Return to <a href="buglist.cgi?regetlastlist=1">the last search results</a>
+  <a href="buglist.cgi?regetlastlist=1">Przerwanie i powrót do wyników ostatniego wyszukiwania</a>
 [% END %]
 
 [% PROCESS global/footer.html.tmpl %]

@@ -36,17 +36,17 @@
 
 [% DEFAULT type="bug" %]
 
-[% Link = BLOCK %][% "$terms.Bug $id" FILTER bug_link(id) %][% END %]
-[% link = BLOCK %][% "$terms.bug $id" FILTER bug_link(id) %][% END %]
+[% Link = BLOCK %][% "$terms.Blad $id" FILTER bug_link(id) %][% END %]
+[% link = BLOCK %][% "$terms.blad $id" FILTER bug_link(id) %][% END %]
 
 [%
   title = {
-    'bug' => "Changes submitted for $link" ,
-    'dupe' => "Duplicate notation added to $link" ,
-    'dep' => "Checking for dependency changes on $link" ,
-    'votes' => "$Link confirmed by number of votes" ,
-    'created' => "$Link has been added to the database" ,
-    'move' => "$Link has been moved to another database" ,
+    'bug' => "Zmiany dla $link zostały zapisane" ,
+    'dupe' => "$Link został oznaczony jako duplikat" ,
+    'dep' => "Sprawdzanie zmian zależności dla $link" ,
+    'votes' => "$Link został potwierdzony przez liczbę głosów" ,
+    'created' => "$Link został dodany do bazy $term.bledow" ,
+    'move' => "$Link został przeniesiony do innej bazy danych" ,
   }
 %]
 

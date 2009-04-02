@@ -23,11 +23,11 @@
 
 [%# Define strings that will serve as the title and header of this page %]
 [% title = BLOCK %]
-  Attachment [% attachment.id %] Details for [% terms.Bug %] [%+ attachment.bug_id %]
+  Szczegóły załącznika [% attachment.id %] do [% terms.bledu %] [%+ attachment.bug_id %]
 [% END %]
 [% header = BLOCK %]
-  Attachment [% attachment.id %] Details for
-  [%+ "$terms.Bug ${attachment.bug_id}" FILTER bug_link(attachment.bug_id) FILTER none %]
+  Szczegóły załącznika [% attachment.id %] do 
+  [%+ "$terms.bledu ${attachment.bug_id}" FILTER bug_link(attachment.bug_id) FILTER none %]
 [% END %]
 [% subheader = BLOCK %][% bugsummary FILTER html %][% END %]
 
@@ -180,7 +180,7 @@
     <tr>
       <td width="25%">
         <small>
-        <b><label for="description">Description</label>:</b><br>
+        <b><label for="description">Opis</label>:</b><br>
           [% INCLUDE global/textarea.html.tmpl
             id             = 'description'
             name           = 'description'
@@ -196,32 +196,32 @@
             <input type="hidden" name="contenttypeentry"
                    value="[% attachment.contenttype FILTER html %]">
         [% ELSE %]
-          <b><label for="filename">Filename</label>:</b><br>
+          <b><label for="filename">Nazwa pliku</label>:</b><br>
             <input type="text" size="20" id="filename" name="filename"
                    value="[% attachment.filename FILTER html %]"><br>
-          <b>Size:</b>
+          <b>Rozmiar:</b>
           [% IF attachment.datasize %]
             [%+ attachment.datasize FILTER unitconvert %]
           [% ELSE %]
             <em>deleted</em>
           [% END %]<br>
 
-          <b><label for="contenttypeentry">MIME Type</label>:</b><br>
+          <b><label for="contenttypeentry">Typ MIME</label>:</b><br>
             <input type="text" size="20"
                    id="contenttypeentry" name="contenttypeentry"
                    value="[% attachment.contenttype FILTER html %]"><br>
 
           <input type="checkbox" id="ispatch" name="ispatch" value="1"
                  [%+ 'checked="checked"' IF attachment.ispatch %]>
-          <label for="ispatch">patch</label>
+          <label for="ispatch">łatka</label>
         [% END %]
           <input type="checkbox" id="isobsolete" name="isobsolete" value="1"
                  [%+ 'checked="checked"' IF attachment.isobsolete %]>
-          <label for="isobsolete">obsolete</label>
+          <label for="isobsolete">zdezaktualizowany</label>
           [% IF (Param("insidergroup") && user.in_group(Param("insidergroup"))) %]
             <input type="checkbox" id="isprivate" name="isprivate" value="1"
                    [% " checked" IF attachment.isprivate %]>
-            <label for="isprivate">private</label><br>
+            <label for="isprivate">prywatny</label><br>
           [% END %]
           <br>
         </small>
@@ -232,8 +232,8 @@
         [% END %]
 
         <div id="smallCommentFrame">
-          <b><small><label for="comment">Comment</label> (on the
-          [%+ terms.bug %]):</small></b><br>
+          <b><small><label for="comment">Komentarz</label> (w
+          [%+ terms.bledzie %]):</small></b><br>
             [% INCLUDE global/textarea.html.tmpl
               id      = 'comment'
               name    = 'comment'
@@ -243,21 +243,21 @@
             %]<br>
         </div>
 
-        <input type="submit" value="Submit" id="update"><br><br>
-        <strong>Actions:</strong>
-        <a href="attachment.cgi?id=[% attachment.id %]">View</a>
+        <input type="submit" value="Zapisz" id="update"><br><br>
+        <strong>Działania: </strong>
+        <a href="attachment.cgi?id=[% attachment.id %]">Wyświetl</a>
         [% IF attachment.ispatch && patchviewerinstalled %]
-         | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=diff">Diff</a>
+         | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=diff">Różnice</a>
         [% END %]
         [% IF Param("allow_attachment_deletion")
               && user.groups.admin
               && attachment.datasize > 0 %]
-          | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=delete">Delete</a>
+          | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=delete">Usuń</a>
         [% END %]
       </td>
 
       [% IF !attachment.datasize %]
-        <td width="75%"><b>The content of this attachment has been deleted.</b></td>
+        <td width="75%"><b>Treść tego załącznika została usunięta.</b></td>
       [% ELSIF attachment.isurl %]
         <td width="75%">
           <a href="[% attachment.data FILTER html %]">
@@ -273,12 +273,11 @@
       [% ELSIF !Param("allow_attachment_display") %]
         <td id="view_disabled" width="50%">
           <p><b>
-            The attachment is not viewable in your browser due to security
-            restrictions enabled by [% terms.Bugzilla %].
+            Z powodu zabezpieczeń  [% terms.Bugzilli %] ten załącznik nie może być wyświetlony w przeglądarce.
           </b></p>
           <p><b>
-            In order to view the attachment, you first have to
-            <a href="attachment.cgi?id=[% attachment.id %]">download it</a>.
+            W celu otwarcia załącznika, należy najpierw 
+            <a href="attachment.cgi?id=[% attachment.id %]">go pobrać</a>.
           </b></p>
         </td>
       [% ELSIF attachment.is_viewable %]
@@ -294,8 +293,8 @@
                                attachment.data.replace('(.*\n|.+)', '>$1') : undef
           %]
           <iframe id="viewFrame" src="attachment.cgi?id=[% attachment.id %]" style="height: 400px; width: 100%;">
-            <b>You cannot view the attachment while viewing its details because your browser does not support IFRAMEs.
-            <a href="attachment.cgi?id=[% attachment.id %]">View the attachment on a separate page</a>.</b>
+            <b>Załącznik nie może być wyświetlny, ponieważ przeglądarka nie obsługuje elementu IFRAME.
+            <a href="attachment.cgi?id=[% attachment.id %]">Podgląd załącznika na osobnej stronie</a>.</b>
           </iframe>
           <script type="text/javascript">
             <!--
@@ -303,13 +302,13 @@
 [% IF patchviewerinstalled %]
               document.write('<iframe id="viewDiffFrame" style="height: 400px; width: 100%; display: none;"><\/iframe>');
 [% END %]
-              document.write('<button type="button" id="editButton" onclick="editAsComment();">Edit Attachment As Comment<\/button>');
-              document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment();" style="display: none;">Undo Edit As Comment<\/button>');
-              document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment();" style="display: none;">Redo Edit As Comment<\/button>');
+              document.write('<button type="button" id="editButton" onclick="editAsComment();">Edytuj załącznik jako komentarz<\/button>');
+              document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment();" style="display: none;">Cofnij edycję jako komentarz<\/button>');
+              document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment();" style="display: none;">Ponów edycję jako komentarz<\/button>');
 [% IF patchviewerinstalled %]
-              document.write('<button type="button" id="viewDiffButton" onclick="viewDiff();">View Attachment As Diff<\/button>');
+              document.write('<button type="button" id="viewDiffButton" onclick="viewDiff();">Wyświetl załącznik jako różnicę<\/button>');
 [% END %]
-              document.write('<button type="button" id="viewRawButton" onclick="viewRaw();" style="display: none;">View Attachment As Raw<\/button>');
+              document.write('<button type="button" id="viewRawButton" onclick="viewRaw();" style="display: none;">Wyświetl surowy załącznik<\/button>');
             }
             //-->
           </script>
@@ -317,12 +316,11 @@
       [% ELSE %]
         <td id="noview" width="50%">
           <p><b>
-            Attachment is not viewable in your browser because its MIME type 
-            ([% attachment.contenttype FILTER html %]) is not one that your browser is 
-            able to display.
+		    Nie można wyświetlić załącznika, ponieważ przeglądarka nie obsługuje
+			jego typu MIME ([% attachment.contenttype FILTER html %]).
           </b></p>
           <p><b>
-            <a href="attachment.cgi?id=[% attachment.id %]">Download the attachment</a>.
+            <a href="attachment.cgi?id=[% attachment.id %]">Pobranie załącznika</a>.
           </b></p>
         </td>
       [% END %]
@@ -331,7 +329,7 @@
 
   </table>
 
-  Attachments on this [% terms.Bug %]:
+  Załączniki do tego [% terms.bledu %]:
   [% FOREACH a = attachments %]
     [% IF a == attachment.id %]
       [%+ a %]
