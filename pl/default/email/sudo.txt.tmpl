@@ -23,21 +23,20 @@
 Content-Type: text/plain
 From: [% Param('mailfrom') %]
 To: [% user.email %]
-Subject: [[% terms.Bugzilla %]] Your account [% user.login -%]
- is being impersonated
+Subject: [[% terms.Bugzilla %]] Konto użytkownika [% user.login -%] zostało użyte do zmiany tożsamości
 X-Bugzilla-Type: admin
 
-    [%+ sudoer.identity %] has used the 'sudo' feature to access 
-[%+ terms.Bugzilla %] using your account.
+    Użytkownik [%+ sudoer.identity %] użył funkcji 'sudo' do pracy w 
+[%+ terms.Bugzilli %] za pomocą Twojego konta.
 
 [% IF reason %]
-    [%+ sudoer.identity %] provided the following reason for doing this:
+    Użytkownik [%+ sudoer.identity %] podał następujący powód:
 
 [% reason FILTER wrap_comment %]
 [% ELSE %]
-    [%+ sudoer.identity %] did not provide a reason for doing this.
+    Użytkownik [%+ sudoer.identity %] nie podał powodu użycia funkcji 'sudo'.
 [% END %]
 
-    If you feel that this action was inappropriate, please contact 
-[%+ Param("maintainer") %].  For more information on this feature, 
-visit <[% urlbase %]page.cgi?id=sudo.html>.
+    W przypadku wątpliwości proszę skontaktować się z administratorem 
+[%+ Param("maintainer") %].  Więcej informacji o funkcji 'sudo'
+można znaleźć pod adresem <[% urlbase %]page.cgi?id=sudo.html>.

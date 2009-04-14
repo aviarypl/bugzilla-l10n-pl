@@ -21,16 +21,16 @@
 [% PROCESS "global/variables.none.tmpl" %]
 From: [% Param('mailfrom') %]
 To: [% addressee %]
-Subject: [[% terms.Bugzilla %]] Sanity Check Results
+Subject: [[% terms.Bugzilla %]] Rezultaty kontroli instalacji
 X-Bugzilla-Type: sanitycheck
 
 [%+ urlbase %]sanitycheck.cgi
 
-Below can you read the sanity check results.
+Poniżej można znaleźć rezultaty kontroli instalacji.
 [% IF error_found %]
-Some errors have been found.
+Znaleziono błędy.
 [% ELSE %]
-No errors have been found.
+Nie znaleziono żadnych błędów.
 [% END %]
 
 [% output FILTER txt %]

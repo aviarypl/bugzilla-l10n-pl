@@ -39,8 +39,8 @@
     [% bodyclasses.push("bz_group_$group.name") %]
   [% END %]
   [% PROCESS global/header.html.tmpl
-    title = "$terms.Bug $bug.bug_id &ndash; $filtered_desc"
-    header = "$terms.Bug&nbsp;$bug.bug_id"
+    title = "$terms.Blad nr $bug.bug_id &ndash; $filtered_desc"
+    header = "$terms.Blad&nbsp;$bug.bug_id"
     subheader = filtered_desc
     header_addl_info = "Last modified: $filtered_timestamp"
     bodyclasses = bodyclasses
@@ -54,7 +54,7 @@
 [% IF nextbug %]
   <hr>
   <p>
-    The next [% terms.bug %] in your list is [% terms.bug %]
+    Następny [% terms.blad %] na liście to [% terms.blad %]
     <a href="show_bug.cgi?id=[% bug.bug_id %]">[% bug.bug_id %]</a>:
   </p>
   <hr>

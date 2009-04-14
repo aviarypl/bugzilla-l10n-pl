@@ -75,28 +75,28 @@
       [% IF bug.resolution %]
         [%+ get_resolution(bug.resolution) FILTER html %]
         [% IF bug.dup_id %]
-          <span id="duplicate_display">of 
+          <span id="duplicate_display">z 
           [% "${terms.bug} ${bug.dup_id}" FILTER bug_link(bug.dup_id) FILTER none %]</span>
         [% END %]
       [% END %]
   [% END %]
   [% IF bug.user.canedit || bug.user.isreporter %]  
     [% IF show_resolution %]
-      <noscript><br>resolved&nbsp;as&nbsp;</noscript>
+      <noscript><br>rozwiązany&nbsp;jako&nbsp;</noscript>
       <span id="resolution_settings">[% PROCESS select_resolution %]</span>
     [% END %]
-    <noscript><br> duplicate</noscript>
+    <noscript><br> duplikat</noscript>
     
-    <span id="duplicate_settings">of 
+    <span id="duplicate_settings"> 
       <span id="dup_id_container" class="bz_default_hidden">
-        [% "${terms.bug} ${bug.dup_id}" FILTER bug_link(bug.dup_id) FILTER none %]
-        (<a href="#" id="dup_id_edit_action">edit</a>)
+        [% "${terms.bledu} ${bug.dup_id}" FILTER bug_link(bug.dup_id) FILTER none %]
+        (<a href="#" id="dup_id_edit_action">edycja</a>)
       </span
       ><input id="dup_id" name="dup_id" size="6"
               value="[% bug.dup_id FILTER html %]">
     </span>
     <div id="dup_id_discoverable" class="bz_default_hidden">
-      <a href="#" id="dup_id_discoverable_action">Mark as Duplicate</a>
+      <a href="#" id="dup_id_discoverable_action">Oznacz jako duplikat</a>
     </div>
   [% END %]
 </div>

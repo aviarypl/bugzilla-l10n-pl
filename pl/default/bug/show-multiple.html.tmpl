@@ -26,7 +26,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Full Text $terms.Bug Listing"
+  title = "Pełna treść listy $terms.bledow"
   h1 = ""
   style_urls = ["skins/standard/show_multiple.css",
                 "skins/standard/buglist.css"]
@@ -43,13 +43,13 @@
     <div class="bz_query_buttons">
       <form method="post" action="buglist.cgi">
         <input type="hidden" name="bug_id" value="[% ids.join(",") FILTER html %]">
-        <input type="submit" id="short_format" value="Short Format">
+        <input type="submit" id="short_format" value="Krótki format">
       </form>
     </div>
   [% END %]
 [% ELSE %]
   <p>
-    You'd have more luck if you gave me some [% terms.bug %] numbers.
+    Lepsze wyniki można uzyskać, podając jakieś numery [% terms.bledow %].
   </p>
 [% END %]
 
@@ -63,7 +63,7 @@
 
 [% BLOCK bug_display %]
   <h1>
-    [% terms.Bug %] 
+    [% terms.Blad %] nr  
     <a href="show_bug.cgi?id=[% bug.bug_id FILTER html %]">[% bug.bug_id FILTER html %]</a>
     [% IF Param("usebugaliases") AND bug.alias AND NOT bug.error %]
       (<a href="show_bug.cgi?id=[% bug.alias FILTER url_quote %]">
@@ -197,7 +197,7 @@
 
     [% IF user.in_group(Param("timetrackinggroup")) %]
       <tr>
-        <th>Time tracking:</th>
+        <th>Czas pracy:</th>
         <td colspan="3">
           <table class="timetracking">
             <tr>
@@ -206,7 +206,7 @@
               <th>[% field_descs.work_time FILTER html %]</th>
               <th>[% field_descs.remaining_time FILTER html %]</th>
               <th>[% field_descs.percentage_complete FILTER html %]</th>
-              <th>Gain</th>
+              <th>Zysk</th>
             </tr>
             <tr>
               <td>

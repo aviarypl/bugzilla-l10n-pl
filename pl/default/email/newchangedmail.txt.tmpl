@@ -19,9 +19,17 @@
   #%]
 
 [% PROCESS "global/variables.none.tmpl" %]
+
+[% diffspl = diffs | replace('changed', 'zmienił(a)') %]
+[% diffspl = diffspl | replace('What', '    ') %]
+[% diffspl = diffspl | replace('Removed ', 'Usunięto') %]
+[% diffspl = diffspl | replace('     \|Added', '|Dodano') %]
+[% diffspl = diffspl | replace('Comment', 'Komentarz') %]
+[% diffspl = diffspl | replace('from', 'od') %]
+
 From: [% Param('mailfrom') %]
 To: [% to %]
-Subject: [[% terms.Bug %] [%+ bugid %]] [% 'New: ' IF isnew %][%+ summary %]
+Subject: [[% terms.Bug %] [%+ bugid %]] [% 'Nowy: ' IF isnew %][%+ summary %]
 X-Bugzilla-Reason: [% reasonsheader %]
 X-Bugzilla-Type: newchanged
 X-Bugzilla-Watch-Reason: [% reasonswatchheader %]
@@ -42,38 +50,38 @@ X-Bugzilla-Changed-Fields: [% changedfields %]
 
 [%+ urlbase %]show_bug.cgi?id=[% bugid %]
 
-[%+ diffs %]
+[%+ diffspl %]
 
 -- 
-Configure [% terms.bug %]mail: [% urlbase %]userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
+Konfiguracja powiadomień e-mail: [% urlbase %]userprefs.cgi?tab=email
+------- Powód wysłania wiadomości -------
 [% FOREACH relationship = reasons %]
   [% SWITCH relationship %]
     [% CASE constants.REL_ASSIGNEE %]
-You are the assignee for the [% terms.bug %].
+[% terms.Blad %] jest przypisany do ciebie.
     [% CASE constants.REL_REPORTER %]
-You reported the [% terms.bug %].
+Zgłosiłeś ten [% terms.blad %].
     [% CASE constants.REL_QA %]
-You are the QA contact for the [% terms.bug %].
+Jesteś kontaktem QA dla [% terms.bledu %].
     [% CASE constants.REL_CC %]
-You are on the CC list for the [% terms.bug %].
+Jesteś na liście obserwatorów [% terms.bledu %].
     [% CASE constants.REL_VOTER %]
-You are a voter for the [% terms.bug %].
+Głosowałeś na ten [% terms.blad %].
     [% CASE constants.REL_GLOBAL_WATCHER %]
-You are watching all [% terms.bug %] changes.
+Obserwujesz wszystkie zmiany tego [% terms.bledu %].
   [% END %]
 [% END %]
 [% FOREACH relationship = reasons_watch %]
   [% SWITCH relationship %]
     [% CASE constants.REL_ASSIGNEE %]
-You are watching the assignee of the [% terms.bug %].
+Obserwujesz osobę, do której przypisany jest ten [% terms.blad %].
     [% CASE constants.REL_REPORTER %]
-You are watching the reporter.
+Obserwujesz zgłaszającego.
     [% CASE constants.REL_QA %]
-You are watching the QA contact of the [% terms.bug %].
+Obserwujesz kontakt QA tego [% terms.bledu %].
     [% CASE constants.REL_CC %]
-You are watching someone on the CC list of the [% terms.bug %].
+Obserwujesz kogoś z listy obserwatorów tego [% terms.bledu %].
     [% CASE constants.REL_VOTER %]
-You are watching a voter for the [% terms.bug %].
+Obserwujesz kogoś, kto głosował na ten [% terms.blad %].
   [% END %]
 [% END %]

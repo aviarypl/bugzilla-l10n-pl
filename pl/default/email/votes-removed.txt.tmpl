@@ -22,31 +22,32 @@
 
 From: [% Param('mailfrom') %]
 To: [% to %]
-Subject: [% terms.Bug %] [%+ bugid %] Some or all of your votes have been removed.
+Subject: [% terms.Blad %] nr [%+ bugid %] Usunięto część głosów.
 X-Bugzilla-Type: voteremoved
 
-Some or all of your votes have been removed from [% terms.bug %] [%+ bugid %].
+Usunięto część lub wszystkie Twoje głosy z [% terms.bledu %] [%+ bugid %].
 
-You had [% votesold FILTER html %] [%+ IF votesold == 1 %]vote[% ELSE %]votes[% END
-%] on this [% terms.bug %], but [% votesremoved FILTER html %] have been removed.
+Usunięto [% votesold FILTER html %] [%+ IF votesold == 1 %]głos[% ELSE %]głosy[% END
+%] na ten [% terms.blad %], lecz zostały one usunięte.
 
 [% IF votesnew %]
-You still have [% votesnew FILTER html %] [%+ IF votesnew == 1 %]vote[% ELSE %]votes[% END %] on this [% terms.bug %].
+[% PROCESS ODMIEN c=votesnew o1="Pozostał 1 głos" o2="Pozostało $votesnew głosy" o3="Pozostało $votesnew głosów" %]
+ na ten [% terms.blad %].
 [% ELSE %]
-You have no more votes remaining on this [% terms.bug %].
+Nie masz więcej głosów na ten [% terms.blad %].
 [% END %]
 
 Reason:
 [% IF reason == "votes_bug_moved" %]
-  This [% terms.bug %] has been moved to a different product.
+  Ten [% terms.blad %] został przeniesiony do innego produktu.
 
 [% ELSIF reason == "votes_too_many_per_bug" %]
-  The rules for voting on this product has changed;
-  you had too many votes for a single [% terms.bug %].
+  Reguły głosowania w tym produkcie zostały zmienione.
+  Miałeś zbyt wiele głosów na pojedynczy [% terms.blad %].
 
 [% ELSIF reason == "votes_too_many_per_user" %]
-  The rules for voting on this product has changed; you had
-  too many total votes, so all votes have been removed.
+  Reguły głosowania w tym produkcie zostały zmienione.
+  Miałeś zbyt wiele głosów. Nadmiar został usunięty.
 [% END %]
 
 
