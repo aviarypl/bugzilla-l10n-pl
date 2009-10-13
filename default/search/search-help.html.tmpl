@@ -1,0 +1,97 @@
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #%]
+  
+[% help_html = [ 
+{ id => "short_desc_type", 
+  html => "Metoda przeszukiwania podsumowania" },   
+{ id => "short_desc", 
+  html => "Krótki tekst podsumowujący treść ${terms.bledu}." },   
+{ id => "classification", 
+  html => "$terms.Bledy kategoryzowane są za pomocą klasyfikacji, produktów i komponentów.<br>
+           Klasyfikacje to kategoria najwyższego poziomu." },   
+{ id => "product", 
+  html => Param('useclassification') ?
+       "$terms.Bledy kategoryzowane są wg produktów i komponentów. Wybór klasyfikacji pozwala zawęzić tę listę" :
+       "$terms.Bledy kategoryzowane są wg produktów i komponentów. <br>Produkt jest kategorią najwyższego poziomu." }, 
+{ id => "component", 
+  html => "Komponenty to kategorie drugiego poziomu. Każdy z nich należy do<br> 
+           danego produktu. Wybór produktu pozwala zawęzić tę listę." }, 
+{ id => "version", 
+  html => "Pole to określa wersję oprogramowania, w którym znaleziono ${terms.blad}." },   
+{ id => "target_milestone", 
+  html => "Pole Wersja docelowa używane jest do określenia czasu, do którego<br>
+           $terms.blad ten powinien zostać rozwiązany." },   
+{ id => "long_desc", 
+  html => "$terms.Bledy zawierają także komentarze dodane przez użytkowników ${terms.Bugzilli}.  
+           <br>Można przeszukiwać teksty tych komentarzy." },   
+{ id => "long_desc_type", 
+  html => "Metoda przeszukiwania komentarzy" },   
+{ id => "bug_file_loc", 
+  html => "Z $terms.bledami mogą być skojarzone adresy URL - np. odnośnik 
+           do strony,<br>na której występuje błąd." },   
+{ id => "bug_file_loc_type", 
+  html => "Metoda przeszukiwania adresów URL" },   
+{ id => "status_whiteboard", 
+  html => "Każda strona zgłoszenia $terms.bledu posiada pola tesktowe do wpisywania statusów i etykiet." },   
+{ id => "status_whiteboard_type", 
+  html => "Metoda przeszukiwania tablicy" },   
+{ id => "keywords", 
+  html => "Słowa kluczowe ze zdefiniowanej listy pozwalają przypisywać etykiety i grupować ${terms.bledy}." },   
+{ id => "keywords_type", 
+  html => "Metoda przeszukiwania słów kluczowych" },   
+{ id => "bug_status", 
+  html => "Można wybrać do wyszukiwania kilka określeń statusu $terms.bledu" },
+{ id => "resolution", 
+  html =>  "Sposób rozwiązania zgłoszenia $terms.bledu; można wybrać kilka pozycji (Ctrl)." },   
+{ id => "bug_severity", 
+  html => "Określenie wagi $terms.bledu, ew. czy jest to propozycja nowej funkcji, sformułowania itp." },   
+{ id => "priority", 
+  html => "To pole służy do określenia priorytetu ${terms.bledu}." },   
+{ id => "rep_platform", 
+  html => "Typ komputera, na którym zaobserwowano ${terms.blad}." },  
+{ id => "op_sys", 
+  html => "System operacyjny, na którym zaobserwowano ${terms.blad}." }, 
+{ id => "email1", 
+  html => "Z każdym $terms.bledem skojarzone są osoby pełniące różne funkcje. 
+           <br>Tutaj można określić osoby przypisane do danego zgłoszenia ${terms.bledu}." },
+{ id => "email2", 
+  html => "Z każdym $terms.bledem skojarzone są osoby pełniące różne funkcje. 
+           <br>Tutaj można określić osoby przypisane do danego zgłoszenia ${terms.bledu}." },
+{ id => "bug_id", 
+  html => "Zawężenie kryteriów wyszukiwania do zgłoszeń ${terms.bledow} o określonych numerach." },   
+{ id => "votes", 
+  html => "Na niektóre $terms.bledy można głosować. <br>To pole pozwala zawęzić wyszukiwanie 
+           do $terms.bledow z podaną minimalną liczbą głosów." },   
+{ id => "chfield", 
+  html => "Można wyszukiwać także wg określonych zmian ${terms.bledu}. To pole określa, <br>
+           które pola należy wziąć pod uwagę." },   
+{ id => "chfieldfrom", 
+  html => "Proszę podać daty w formacie RRRR-MM-DD (opcjonalnie z godziną w formacie<br>
+           HH:mm 24h) albo względne daty, jak np 1h, 2d, 3w, 4m, 5y, które oznaczają<br>
+           odpowiednio 1 godzinę, 2 dni, 3 tygodnie, 4 miesiące i 5 lat wstecz. 0d oznacza<br>
+           ostatnią północ, a 0h, 0w, 0m, 0y - początek tej godziny, tygodnia, miesiąca lub roku." },
+{ id => "chfieldto", 
+  html => "Proszę podać daty w formacie RRRR-MM-DD (opcjonalnie z godziną w formacie<br>
+           HH:mm 24h) albo względne daty, jak np 1h, 2d, 3w, 4m, 5y, które oznaczają<br>
+           odpowiednio 1 godzinę, 2 dni, 3 tygodnie, 4 miesiące i 5 lat wstecz. 0d oznacza<br>
+           ostatnią północ, a 0h, 0w, 0m, 0y - początek tej godziny, tygodnia, miesiąca lub roku." },
+{ id => "chfieldvalue", 
+  html => "Wartość powyższego pola, która została zmieniona w podanym wyżej czasie." },   
+] %]

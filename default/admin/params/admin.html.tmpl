@@ -1,0 +1,41 @@
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #%]
+[%
+   title = "Zasady administracyjne"
+   desc = "Ustawienia zasad dla kont"
+%]
+
+[% param_descs = {
+  allowbugdeletion => "Ze stron edycji produktów i komponentów można usuwać wszystkie " _
+                      "powiązane $terms.bledy podczas usuwania produktu lub komponentu. " _
+                      "W celu zwiększenia bezpieczeństwa należy wcześniej włączyć tę " _
+                      "opcję, aby usuwanie to było możliwe.",
+
+  allowemailchange => "Użytkownicy mogą zmieniać w ustawieniach swój adres e-mail. " _
+                      "Zmiana adresu potwierdzana jest poprzez oba adresy, więc " _
+                      "włączenie tej opcji nie pozwoli używać nieprawidłowych adresów.",
+
+  allowuserdeletion => "Strony edycji użytkowników pozwalają administratorowi usuwać konta " _
+                       "użytkowników. W przypadku spowodowania przez usunięcie niespójności " _
+                       "danych, wyświetlone będzie ostrzeżenie. Ze względów bezpieczeństwa " _
+                       "danych należy najpierw włączyć tę opcję, aby było możliwe usuwanie " _
+                       "użytkowników, które powoduje niespójność danych.", }
+%]

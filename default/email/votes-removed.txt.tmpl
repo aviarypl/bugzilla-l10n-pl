@@ -1,0 +1,55 @@
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Emmanuel Seyman <eseyman@linagora.com>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+From: [% Param('mailfrom') %]
+To: [% to %]
+Subject: [% terms.Bug %] [%+ bugid %] Usunięto część głosów.
+X-Bugzilla-Type: voteremoved
+
+Usunięto część lub wszystkie Twoje głosy z [% terms.bledu %] [%+ bugid %].
+
+Oddałeś [% votesold FILTER html %] [%+ IF votesold == 1 %] głos [% ELSE %] głosów
+na [% terms.blad %], ale [% votesremoved FILTER html %] zostały usunięte.
+
+[% IF votesnew %]
+Masz jeszcze [% votesnew FILTER html %] [%+ IF votesnew == 1 %]głos[% ELSE %]głosy[% END %] na [% terms.bug %].
+
+[% ELSE %]
+Nie możesz już zagłosować na [% terms.blad %].
+[% END %]
+
+Powód:
+[% IF reason == "votes_bug_moved" %]
+  [% terms.bug %] został przeniesiony do innego produktu.
+
+[% ELSIF reason == "votes_too_many_per_bug" %]
+  Zasady głosowania dotyczącego tego produktu uległy zmianie;
+  Oddałeś za dużo głosów na pojedynczy [% terms.blad %].
+  
+[% ELSIF reason == "votes_too_many_per_user" %]
+  Zasady głosowania dotyczące tego produktu uległy zmianie;
+  Zbyt wiele oddanych głosów, więc wszystkie głosy zostały usunięte.
+[% END %]
+
+
+[% urlbase %]show_bug.cgi?id=[% bugid %]
+

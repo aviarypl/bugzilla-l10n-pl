@@ -1,0 +1,128 @@
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #                 Marc Schumann <wurblzap@gmail.com>
+  #%]
+[%
+   title = "Uwierzytelnianie użytkowników"
+   desc = "Ustawienia zasad uwierzytelniania użytkowników"
+%]
+
+[% param_descs = {
+  auth_env_id => "Zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
+                 "do przechowywania niepowtarzalnego identyfikatora każdego użytkownika. Wartość " _
+                 "pusta oznacza, że system nie korzysta ze zmiennej i/lub takiej " _
+                 "metody uwierzytelniania.",
+
+  auth_env_email => "Zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
+                    "do przechowywania adresu e-mail użytkownika. Jest to pole wymagane do korzystania " _
+                    "z uwierzytelniania za pomocą środowiska. Proszę pozostawić pustą wartość, " _
+                    "gdy system ten nie korzysta z takiej metody uwierzytelniania.",
+
+  auth_env_realname => "Zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
+						"do przechowywania imienia i nazwiska użytkownika. Wartość " _
+						"pusta oznacza, że system nie korzysta ze zmiennej i/lub takiej " _
+						"metody uwierzytelniania.",
+
+  user_info_class => "Mechanizmy używane do pobierania informacji logowania użytkownika.
+                      Można wybrać więcej niż jedną opcję. W przypadku niepowodzenia pobrania
+					  danych za pomocą jednej metody, podejmowana jest próba za pomocą
+					  kolejnej. Dostępne typy:
+                      <dl>
+                        <dt>CGI</dt>
+                        <dd>
+                          Pytanie o nazwę użytkownika i hasło za pomocą formularzy i CGI.
+                        </dd>
+                        <dt>Env</dt>
+                        <dd>
+						  Informacje o uwierzytelnionych użytkownikach przekazywane są 
+						  poprzez zmienne środowiskowe.
+                        </dd>
+                      </dl>",
+
+  user_verify_class => "Mechanizmy używane do uwierzytelniania użytkownika na podstawie informacji
+                        zebranych przez user_info_class.
+					    Można wybrać więcej niż jedną opcję. W przypadku nieznalezienia użytkownika
+					    za pomocą jednej metody, podejmowana jest próba za pomocą
+					    kolejnej. Dostępne typy:
+                        <dl>
+                          <dt>DB</dt>
+                          <dd>
+                            Wbudowane uwierzytelnianie ${terms.Bugzilli}. Najczęściej używana opcja.
+                          </dd>
+                          <dt>RADIUS</dt>
+                          <dd>
+                            Uwierzytelnianie za pomocą serwera RADIUS jest w fazie
+                            eksperymentalnej. Więcej informacji można znaleźć w dokumentacji
+                            ${terms.Bugzilli}. Użycie tej metody wymaga ustawienia
+                            <a href=\"?section=radius\">dodatkowych parametrów</a>.
+                          </dd>
+                          <dt>LDAP</dt>
+                          <dd>
+						    Uwierzytelnianie LDAP za pomocą serwera LDAP. 
+							Więcej informacji można znaleźć w dokumentacji
+							${terms.Bugzilli}. Do korzystania z tej metody należy ustawić 
+							<a href=\"?section=ldap\">dodatkowe parametry</a>.
+                          </dd>
+                        </dl>",
+
+  rememberlogin => "Określenie metody zarządzania ciasteczkami z danymi sesji:
+                    <ul>
+                      <li>
+                        on - ciasteczka sesji nigdy nie wygasają (wymagane jest tylko jedno logowanie
+						użytkownika za pomocą danej przeglądarki).
+                      </li>
+                      <li>
+                        off - ciasteczka wygasają wraz z zamknięciem sesji (użytkownik
+                        musi zalogować się w każdej sesji przeglądarki).
+                      </li>
+                      <li>
+                        defaulton/defaultoff - domyślne działanie jak opisano wyżej, ale
+                        użytkownik może zdecydować, czy jego sesja ma być zapamiętana.
+                      </li>
+                    </ul>",
+
+  loginnetmask => "Ilość bitów maski sieci w przypadku, gdy użytkownik wybrał opcję  " _
+                  "zezwolenia logowania z więcej niż jednego adresu IP. Wartość " _
+                  "32 wyłącza tę opcję.<br> " _
+                  "Uwaga: włączenie opcji może spowodować obniżenie poziomu bezpieczeństwa systemu.",
+
+  requirelogin => "Włączenie tej opcji spowoduje, że dostęp poza stronę główną " _
+                  "będzie wymagał logowania. Dostęp do danych będą mieli tylko " _
+                  "zalogowani użytkownicy.",
+
+  emailregexp => "Określa wyrażenie regularne kontrolujące poprawny adres e-mail. Wartość " _
+                 "domyślna określa wszystkie poprawne adresy e-mail. Często stosowana " _
+                 "wartość to <tt>^[^@]+$</tt>, która oznacza " _
+                 "'lokalne nazwy użytkowników, bez znaku @'.",
+
+  emailregexpdesc => "Pole to służy do opisania słowami adresów e-mail dozwolonych przez  " _
+                     "wartość parametru <tt>emailregexp</tt>.",
+
+  emailsuffix => "Ciąg znaków dołączany do każdego adresu e-mail podczas wysyłania poczty. " _
+                 "Opcja przydatna w przypadku zmiany opcji <tt>emailregexp</tt> na zezwalającą " _
+                 "tylko na lokalne nazwy użytkowników - wtedy poczta będzie dostarczana " _
+				 "pod adresy w formie nazwa_użytkownika@lokalna.nazwa.hosta.",
+
+  createemailregexp => "Określa wyrażenie regularne kontrolujące adresy e-mail użytkowników, " _
+                       "którzy mogą zarejestrować się samodzielnie za pomocą opcji 'Nowe konto'. " _
+                       "Domyślna wartość (.*) zezwala na rejestrację z dowolnego konta e-mail. " _
+                       "W przypadku pozostawienia pustej wartości możliwość samodzielnej rejestracji " _
+                       "jest wyłączona, a wszystkie konta będą musiały być tworzone przez administratora." }
+%]

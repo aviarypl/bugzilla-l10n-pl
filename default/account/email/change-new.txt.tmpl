@@ -1,0 +1,41 @@
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s):     John Vandenberg <zeroj@null.net>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+From: [% Param('mailfrom') %]
+To: [% emailaddress %]
+Subject: [% terms.Bugzilla %] Żądanie zmiany adresu e-mail.
+X-Bugzilla-Type: admin
+
+[%+ terms.Bugzilla %] otrzymała żądanie zmiany adresu e-mail konta
+ [% oldemailaddress %] na ten adres e-mail.
+
+Aby potwierdzić zmianę, należy otworzyć poniższy odnośnik:
+
+[%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=cfmem
+
+Jeśli odbiorca tej wiadomości nie wysyłał tego żądania lub aby anulować żądanie,
+proszę otworzyć poniższy odnośnik:
+
+[%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=cxlem
+
+W przypadku braku reakcji  żądanie wygaśnie [% constants.MAX_TOKEN_AGE %] dniach
+([% expiration_ts FILTER time("%B %e, %Y at %H:%M %Z") %]).

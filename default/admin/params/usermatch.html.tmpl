@@ -1,0 +1,45 @@
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #%]
+[%
+   title = "Dopasowywanie nazw użytkowników"
+   desc = "Ustawienia zasad dopasowywania nazw użytkowników"
+%]
+
+[% param_descs = {
+  usemenuforusers => "Włączenie opcji spowoduje, że $terms.Bugzilla wyświetlać będzie " _
+                     "listę użytkowników (zamiast pola tekstowego), kiedy będzie potrzeba " _
+                     "wybrania użytkownika. Opcji tej nie należy włączać w instalacjach " _
+                     "z dużą liczbą użytkowników.",
+
+  usermatchmode => "Zezwala na użycie dopasowań podczas podawania/wyszukiwania nazw użytkowników przy " _
+                   "zgłaszaniu i edycji ${terms.bledow}.<p> " _
+                   "Wartość 'off' wyłącza dopasowywanie,<br> " _
+                   "'wildcard' zezwala tylko na znaki zastępujące,<br> " _
+                   "a 'search' zezwala na znaki zastępujące i proste dopasowania podanych fragmentów nazw.",
+
+  maxusermatches => "Ograniczenie liczby wyszukiwanych nazw użytkowników.<br> " _
+                    "Wartość '1' oznacza, że żadne nazwy użytkowników nie będą wyświetlane w razie " _
+                    "niejasności w dopasowaniu podanej nazwy. Wartość przydatna dla celów zachowania poufności.<br> " _
+                    "Wartość '0' oznacza brak ograniczenia.",
+
+  confirmuniqueusermatch => "Określa, czy wyświetlać ekran potwierdzenia gdy tylko jeden użytkownik " _
+                            "pasuje do wyszukiwanego ciągu." }
+%]
