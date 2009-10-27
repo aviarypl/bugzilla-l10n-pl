@@ -52,7 +52,7 @@ function addSidebar() {
     sidebarname="[% terms.Bugzilla %] "+sidebarname;
   window.sidebar.addPanel (sidebarname, "[% urlbase FILTER html %]sidebar.cgi", "");
 }
-var quicksearch_message = "Wpisz # [% terms.bledu %], lub wyrażenie którego szukasz.";
+var quicksearch_message = "Numer [% terms.bledu %] lub szukane wyrażenie";
 
 function checkQuicksearch( form ) {
   if (form.quicksearch.value == '' || form.quicksearch.value == quicksearch_message ) { 
