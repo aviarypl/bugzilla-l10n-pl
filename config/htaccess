@@ -1,0 +1,39 @@
+<FilesMatch ^(.*\.pm|.*\.pl|.*localconfig.*)$>
+#<FilesMatch ^(.*\.pm|.*\.pl|.*localconfig.*|.*\.cgi)$>
+  deny from all
+</FilesMatch>
+
+<FilesMatch "^[Rr]obots.txt$">
+  allow from all
+</FilesMatch>
+
+order allow,deny
+# myself, test
+#deny from 83.6.31.28
+
+# msnbots
+deny from 65.55.*.*
+
+#google 
+deny from 66.249.67.*
+
+#wp
+deny from 212.77.100.47
+
+allow from all
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} !^/[Rr]obots\.txt$
+RewriteCond %{HTTP_USER_AGENT} ^msnbot [OR]
+RewriteCond %{HTTP_USER_AGENT} [Gg]ooglebot [OR]
+RewriteCond %{HTTP_USER_AGENT} ^ask\ jeeves [OR]
+RewriteCond %{HTTP_USER_AGENT} ^askjeeves [OR]
+RewriteCond %{HTTP_USER_AGENT} ^slurp@inktomi [OR]
+RewriteCond %{HTTP_USER_AGENT} ^wisenutbot [OR]
+RewriteCond %{HTTP_USER_AGENT} ^alexa [OR] 
+RewriteCond %{HTTP_USER_AGENT} ^NetSprint [OR]
+RewriteCond %{REMOTE_HOST} ^msnbot
+#RewriteCond %{REMOTE_ADDR} ^83\.6\.31\.28
+#RewriteRule ^.* - [F,L] 
+RewriteRule .* bot-response.html [L]
+
