@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #                 David D. Kilzer <ddkilzer@kilzer.net>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -33,29 +36,28 @@
   #                  it was affected by an old Bugzilla bug.)
   #%]
 
-[% PROCESS global/variables.none.tmpl %]
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS bug/time.html.tmpl %]
 
 [% IF incomplete_data %]
   <p>
-    There used to be an issue in <a href="http://www.bugzilla.org/">Bugzilla</a>
-    which caused activity data to be lost if there were a large number of cc's
-    or dependencies.  That has been fixed, but some data was already lost in
-    your activity table that could not be regenerated.  The changes that the
-    script could not reliably determine are prefixed by '?'.
+    W <a href="http://www.bugzilla.org/">[% terms.Bugzilli %]</a> istniał błąd, który powodował utratę danych
+    na temat zmian w przypadku, gdy [% terms.blad %] miał dużą liczbę zależności lub obserwatorów.
+    Ten błąd został już naprawiony jednakże część historii tego [% terms.bledu %] nie
+    była możliwa do odzyskania. Zmiany, które nie mogły zostać odtworzone zostały
+    oznaczone prefiksem „?”.
   </p>
 [% END %]
 
 [% IF operations.size > 0 %]
   <table border cellpadding="4">
     <tr>
-      <th>Who</th>
-      <th>When</th>
-      <th>What</th>
-      <th>Removed</th>
-      <th>Added</th>
+      <th>Kto</th>
+      <th>Kiedy</th>
+      <th>Co</th>
+      <th>Usunięto</th>
+      <th>Dodano</th>
     </tr>
 
     [% FOREACH operation = operations %]
@@ -71,9 +73,9 @@
             <td>
               [% IF change.attachid %]
                 <a href="attachment.cgi?id=[% change.attachid %]">
-                Attachment #[% change.attachid %]</a>
+                Załącznik #[% change.attachid %]</a>
               [% END %]
-              [%+ change.field %]
+              [%+ field_descs.${change.fieldname} FILTER html %]
             </td>
             <td>
               [% IF change.removed.defined %]
@@ -81,15 +83,11 @@
                       change.fieldname == 'remaining_time' ||
                       change.fieldname == 'work_time' %]
                   [% PROCESS formattimeunit time_unit=change.removed %]
-                [% ELSIF change.fieldname == 'bug_status' %]
-                  [% get_status(change.removed) FILTER html %]
-                [% ELSIF change.fieldname == 'resolution' %]
-                  [% get_resolution(change.removed) FILTER html %]
                 [% ELSIF change.fieldname == 'blocked' ||
                          change.fieldname == 'dependson' %]
                   [% change.removed FILTER bug_list_link FILTER none %]
                 [% ELSE %]
-                  [% change.removed FILTER email FILTER html %]
+                  [% display_value(change.fieldname, change.removed) FILTER email FILTER html %]
                 [% END %]
               [% ELSE %]
                 &nbsp;
@@ -101,15 +99,11 @@
                       change.fieldname == 'remaining_time' ||
                       change.fieldname == 'work_time' %]
                   [% PROCESS formattimeunit time_unit=change.added %]
-                [% ELSIF change.fieldname == 'bug_status' %]
-                  [% get_status(change.added) FILTER html %]
-                [% ELSIF change.fieldname == 'resolution' %]
-                  [% get_resolution(change.added) FILTER html %]
                 [% ELSIF change.fieldname == 'blocked' ||
                          change.fieldname == 'dependson' %]
                   [% change.added FILTER bug_list_link FILTER none %]
                 [% ELSE %]
-                  [% change.added FILTER email FILTER html %]
+                  [% display_value(change.fieldname, change.added) FILTER email FILTER html %]
                 [% END %]
               [% ELSE %]
                 &nbsp;
@@ -119,4 +113,8 @@
       </tr>
     [% END %]
   </table>
+[% ELSE %]
+  <p>
+    W tym [% terms.bledzie %] nie zrobiono jeszcze żadnych zmian.
+  </p>
 [% END %]

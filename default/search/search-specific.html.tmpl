@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -7,7 +8,7 @@
   # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
   # implied. See the License for the specific language governing
   # rights and limitations under the License.
-  # cccc
+  #
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # The Initial Developer of the Original Code is Netscape Communications
@@ -16,24 +17,26 @@
   # Rights Reserved.
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
-  #%]
+  # Translated by Zespół Aviary.pl <team@aviary.pl>  #%]
 
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl 
-  title = "Find a Specific " _ terms.Bug
+  title = "Proste wyszukiwanie "
 %]
 
 [% WRAPPER search/tabs.html.tmpl %]
 
 <p>
-Proszę podać szukane słowa. Przeszukane zostaną opisy i komentarze do [% terms.bledow %], a następnie wyświetlona
-zostanie lista znalezionych [% terms.bledow %], posortowana według trafności dopasowania.
+Znajdź konkretny [% terms.blad %] podając słowa, które go określają.
+Zostaną przeszukane opisy i komentarze do [% terms.bledow %], a następnie zostanie
+wyświetlona lista znalezionych [% terms.bledow %] posortowana według
+trafności dopasowania.
 </p>
 
 <p>
-Na przykład: jeśli szukany [% terms.blad %] objawia sią zamknięciem przeglądarki po otwarciu bezpiecznej strony
-z animacją Flash, możnaby wpisać "crash secure SSL flash".
+Na przykład, jeśli szukany [% terms.blad %] objawia się zamknięciem przeglądarki po otwarciu bezpiecznej strony
+z osadzoną animacją Flash, można wpisać „awaria bezpieczny SSL flash”.
 </p>
 
 <form name="queryform" method="get" action="buglist.cgi">
@@ -112,8 +115,8 @@ z animacją Flash, możnaby wpisać "crash secure SSL flash".
       [% ELSE %]
         <input type="submit" id="search" value="Szukaj"
              onclick="if (this.form.content.value == '')
-                      {alert('Pole \'słowa\' nie może być puste. Proszę podać co najmniej ' +
-                             'jedno słowo w do pola tekstowego.');
+                      {alert('Pole „słowa” nie może być puste. Podaj co najmniej ' +
+                             'jedno słowo w swoich kryteriach wyszukiwania.');
                        return false;} return true;">
       [% END %]
     </td>

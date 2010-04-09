@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,15 +18,17 @@
   #
   # Contributor(s): Stefan Seifert <nine@detonation.org>
   #                 Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
-[% INCLUDE global/header.html.tmpl title = "Linkify Text" %]
+[% INCLUDE global/header.html.tmpl title = "Tworzenie odnośników w tekście" %]
 
 <p>
-  If you enter some text, this form will return it marked up like a
-  standard [% terms.Bugzilla %] comment. That is, valid [% terms.bug %] numbers,
-  URLs, email addresses and so on will be replaced with appropriate HTML links.
+  Tekst, który będzie umieszczony w formularzu zostanie przetworzony w taki sposób,
+  w jaki [% terms.Bugzilla %] standardowo przetwarza komentarze. Wszystkie
+  poprawne numery [% terms.bledow %], adresy URL, adresy e-mail itp. zostaną zamienione
+  na odpowiednie odnośniki języka HTML.
 </p>
 
 <form action="page.cgi" method="post">
@@ -36,7 +39,7 @@
   %]
   <br>
   <input type="hidden" name="id" value="linked.html">
-  <input type="submit" id="linkify" value="Linkify">
+  <input type="submit" id="linkify" value="Dodaj odnośniki">
 </form>
 
 [% INCLUDE global/footer.html.tmpl %]

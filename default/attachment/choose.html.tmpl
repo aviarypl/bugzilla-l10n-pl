@@ -1,4 +1,5 @@
-﻿[%# The contents of this file are subject to the Mozilla Public
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
   # the License at http://www.mozilla.org/MPL/
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
@@ -29,14 +32,14 @@
   <p>Dostęp do załącznika przez podanie jego ID:</p>
   <p>ID załącznika: <input name="id" size="6">
   <button name="action" value="edit" id="edit">Szczegóły</button>
-  <button name="action" value="view" id="view">Pokaż</button>
+  <button name="action" value="view" id="view">Wyświetl</button>
   </p>
 </form>
 
 <form method="get" action="show_bug.cgi">
-  <p>Dostęp do załącznika z listy jego [% terms.bledu %]:</p>
+  <p>Dostęp do załącznika z listy załączników skojarzonych z [% terms.bledem %]:</p>
   <p>ID [% terms.bledu %]: <input name="id" size="6">
-  <input type="submit" name="action" value="Pokaż" id="action">
+  <input type="submit" name="action" value="Wyświetl" id="action">
   </p>
 </form>
 

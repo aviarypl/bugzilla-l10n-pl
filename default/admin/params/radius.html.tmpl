@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -15,40 +16,42 @@
   # All rights reserved.
   #
   # Contributor(s): Marc Schumann <wurblzap@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
    title = "RADIUS"
-   desc = "Configure this first before choosing RADIUS as an authentication method"
+   desc = "Przed wybraniem metody uwierzytelniania RADIUS, należy najpierw skonfigurować poniższe parametry."
 %]
 
 [% param_descs = {
-  RADIUS_server => "The name (and optionally port) of your RADIUS server " _
-                   "(e.g. <code>radius.company.com</code>, or " _
+  RADIUS_server => "Nazwa i opcjonalnie port serwera RADIUS " _
+                   "(np. <code>radius.company.com</code> lub " _
                    "<code>radius.company.com:portnum</code>).<br>" _
-                   "Required only if " _
-                   "<a href=\"?section=auth#user_verify_class\">the " _
-                   "<code>user_verify_class</code> parameter</a> contains " _
+                   "Wymagane tylko jeśli parametr " _
+                   "<a href=\"?section=auth#user_verify_class\">" _
+                   "<code>user_verify_class</code></a> zawiera " _
                    "<code>RADIUS</code>.",
 
-  RADIUS_secret => "Your RADIUS server's secret.<br>" _
-                   "Required only if " _
-                   "<a href=\"?section=auth#user_verify_class\">the " _
-                   "<code>user_verify_class</code> parameter</a> contains " _
+  RADIUS_secret => "Hasło serwera RADIUS.<br>" _
+                   "Wymagane tylko jeśli parametr " _
+                   "<a href=\"?section=auth#user_verify_class\"> " _
+                   "<code>user_verify_class</code></a> zawiera " _
                    "<code>RADIUS</code>.",
 
-  RADIUS_NAS_IP => "The NAS-IP-Address attribute to be used when exchanging " _
-                   "data with your RADIUS server. " _
-                   "If unspecified, <code>127.0.0.1</code> will be used.<br>" _
-                   "Useful only if " _
-                   "<a href=\"?section=auth#user_verify_class\">the " _
-                   "<code>user_verify_class</code> parameter</a> " _
-                   "contains <code>RADIUS</code>.",
+  RADIUS_NAS_IP => "Atrybut NAS-IP-Address używany podczas wymiany " _
+                   "danych z serwerem RADIUS. " _
+                   "Jeśli nie określono, zostanie użyty adres <code>127.0.0.1</code>.<br>" _
+                   "Przydatny tylko jeśli parametr " _
+                   "<a href=\"?section=auth#user_verify_class\"> " _
+                   "<code>user_verify_class</code></a> " _
+                   "zawiera <code>RADIUS</code>.",
 
-  RADIUS_email_suffix => "Suffix to append to a RADIUS user name to form an " _
-                         "e-mail address.<br>" _
-                         "Useful only if " _
-                         "<a href=\"?section=auth#user_verify_class\">the " _
-                         "<code>user_verify_class</code> parameter</a> " _
-                         "contains <code>RADIUS</code>.",
+  RADIUS_email_suffix => "Sufiks dołączany do nazwy użytkownika serwera RADIUS do sformowania " _
+                         "adresu e-mail.<br>" _
+                         "Przydatny tylko jeśli parametr " _
+                         "<a href=\"?section=auth#user_verify_class\"> " _
+                         "<code>user_verify_class</code></a> " _
+                         "zawiera <code>RADIUS</code>.",
   }
 %]

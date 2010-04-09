@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -18,6 +19,9 @@
   # Contributor(s): Myk Melez <myk@mozilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #                 Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  # Added, changed lines 39, 135  for Polish localization
   #%]
 
 [%# INTERFACE:
@@ -32,9 +36,10 @@
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
+[% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title = 'Verify New Product Details...' %]
+  title = 'Weryfikacja danych o nowym produkcie…' %]
 
 <form action="process_bug.cgi" method="post">
 
@@ -42,6 +47,7 @@
 [% IF verify_bug_groups %]
   [% exclude_items.push('bit-\d+') %]
 [% END %]
+[% Hook.process('exclude') %]
 
 [% PROCESS "global/hidden-fields.html.tmpl"
      exclude = '^' _ exclude_items.join('|') _ '$' %]
@@ -49,8 +55,8 @@
 <input type="hidden" name="confirm_product_change" value="1">
     
 [%# Verify the version, component, and target milestone fields. %]
-<h3>Verify Version, Component
-  [%- ", Target Milestone" 
+<h3>Weryfikacja wersji, komponentu
+  [%- ", wersji docelowej" 
       IF Param("usetargetmilestone")
          && bug.check_can_change_field('target_milestone', 0, 1) %]</h3>
 
@@ -58,15 +64,15 @@
 [% IF Param("usetargetmilestone") 
    && bug.check_can_change_field('target_milestone', 0, 1) 
 %]
-  You are moving the [% terms.bug %](s) to the product 
-  <b>[% product.name FILTER html %]</b>,
-  and the version, component, and/or target milestone fields are no longer
-  correct.  Please set the correct version, component, and target milestone now:
+  Przenosisz [% terms.bledy %] do produktu 
+  <b>[% product.name FILTER html %]</b>
+  tym samym pola wersji, komponentu i wersji docelowej nie mają
+  już prawidłowych danych. Uaktualnij te pola teraz: 
 [% ELSE %]
-  You are moving the [% terms.bug %](s) to the product 
-  <b>[% product.name FILTER html %]</b>,
-  and the version and component fields are no longer correct.
-  Please set the correct version and component now:
+  Przenosisz [% terms.bledy %] do produktu 
+  <b>[% product.name FILTER html %]</b>
+  tym samym pola wersji i komponentu nie mają
+  już prawidłowych danych. Uaktualnij te pola teraz: 
 [% END %]
 </p>
 
@@ -102,7 +108,7 @@
           && bug.check_can_change_field('target_milestone', 0, 1) 
     %]
       <td>
-        <b>Kamienie Milowe:</b><br>
+        <b>Wersja docelowa:</b><br>
       [% PROCESS "global/select-menu.html.tmpl"
                  name="target_milestone"
                  options=milestones
@@ -110,22 +116,23 @@
                  size=10 %]
       </td>
     [% END %]
+    [% Hook.process('field') %]
   </tr>
 </table>
 
 [% IF verify_bug_groups %]
-  <h3>Verify [% terms.Bug %] Group</h3>
+  <h3>Weryfikacja grupy [% terms.bledu %]</h3>
   
   [% IF old_groups.size %]
-    <p>Te grupy są nieprawidłowe dla produktu '[% product.name FILTER html %]'
-	lub nie wolno ograniczać [% terms.bledow %] do tych grup. 
-	[%+ terms.bledy %] nie będą ograniczone to tych grup i mogą 
-	uzyskać status publicznych jeśli nie zostaną nigdzie przypisane:
+    <p>Następujące grupy nie są prawidłowe dla produktu <b>[% product.name FILTER html %]</b>
+    lub nie masz uprawnień do ograniczenia [% terms.bledow %] do tych grup.</p>
+    Dostęp do tych [%+ terms.bledow %] nie będzie już ograniczony i mogą stać się
+    ogólnodostępne, jeśli nie będą przypisane do innej grupy:<br>
     [% FOREACH group = old_groups %]
       <input type="checkbox" id="bit-[% group.id FILTER html %]"
              name="bit-[% group.id FILTER html %]" disabled="disabled" value="1">
       <label for="bit-[% group.id FILTER html %]">
-        [% group.name FILTER html %]: [% group.description FILTER html %]
+        [% group.name FILTER html %]: [% display_value("bit_description", group.description) FILTER html %]
       </label>
       <br>
     [% END %]
@@ -149,8 +156,8 @@
   [% END %]
 
   [% IF optional_groups.size %]
-    <p>These groups are optional. You can decide to restrict [% terms.bugs %] to
-    one or more of the following groups:<br>
+    <p>Te grupy są opcjonalne. Możesz ograniczyć dostęp do [% terms.bledow %] do
+    jednej lub kilku następujących grup:<br>
     [% FOREACH group = optional_groups %]
       <input type="hidden" name="defined_bit-[% group.group.id FILTER html %]"
              value="1">
@@ -170,8 +177,8 @@
   [% END %]
 
   [% IF mandatory_groups.size %]
-    <p>These groups are mandatory and [% terms.bugs %] will be automatically
-    restricted to these groups:<br>
+    <p>Te grupy są obligatoryjne i dostęp do [% terms.bledow %] zostanie automatycznie
+    ograniczony do tych grup:<br>
     [% FOREACH group = mandatory_groups %]
       <input type="checkbox" id="bit-[% group.group.id FILTER html %]" checked="checked"
              name="bit-[% group.group.id FILTER html %]" value="1" disabled="disabled">
@@ -184,7 +191,7 @@
   [% END %]
 [% END %]
 
-<input type="submit" id="change_product" value="Commit">
+<input type="submit" id="change_product" value="Wyślij">
 
 </form>
 <hr>
@@ -194,9 +201,9 @@
 
 [% IF cgi.param('id') AND cgi.param('id').match('^\d+$') %]
   [% id = cgi.param('id') %]
-  Cancel and Return to [% "$terms.bug $id" FILTER bug_link(id) FILTER none %]
+  Anuluj i wróć do [% "$terms.bledu $id" FILTER bug_link(id) FILTER none %]
 [% ELSE %]
-  Cancel and Return to <a href="buglist.cgi?regetlastlist=1">the last search results</a>
+  Anuluj i wróć do <a href="buglist.cgi?regetlastlist=1">wyników ostatniego wyszukiwania</a>
 [% END %]
 
 [% PROCESS global/footer.html.tmpl %]

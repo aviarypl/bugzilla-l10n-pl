@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -32,15 +35,15 @@
 [% cgi = Bugzilla.cgi %]
 
 [% PROCESS global/variables.none.tmpl %]
-[% PROCESS global/header.html.tmpl title = "Mid-air collision!" %]
+[% PROCESS global/header.html.tmpl title = "Kolizja w trakcie wysyłania!" %]
 
-<h1>Mid-air collision detected!</h1>
+<h1>W trakcie wysyłania nastąpiła kolizja z innymi zmianami!</h1>
 
 <p>
-  Someone else has made changes to
-  <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">attachment [% attachment.id %]</a>
-  of [% "$terms.bug $attachment.bug_id" FILTER bug_link(attachment.bug_id) FILTER none %]
-  at the same time you were trying to. The changes made were:
+  Ktoś w tym samym czasie, co Ty dokonał zmian w
+  <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">załączniku [% attachment.id %]</a>
+  do [% "$terms.bledu $attachment.bug_id" FILTER bug_link(attachment.bug_id) FILTER none %].
+  Te zmiany to:
 </p>
 
 <p>
@@ -49,7 +52,7 @@
 
 [% IF cgi.param("comment") %]
 <p>
-  Your comment was:<br>
+  Twoje zmiany:<br>
   <blockquote><pre class="bz_comment_text">
     [% cgi.param("comment") FILTER wrap_comment FILTER html %]
   </pre></blockquote>
@@ -57,21 +60,21 @@
 [% END %]
 
 <p>
-You have the following choices:
+Masz do wyboru następujące działania:
 </p>
 
 <ul>
   <li>
     <form method="post" action="attachment.cgi">
       [% PROCESS "global/hidden-fields.html.tmpl" exclude="^Bugzilla_(login|password)$" %]
-      <input type="submit" id="process" value="Submit my changes anyway">
-        This will cause all of the above changes to be overwritten.
+      <input type="submit" id="process" value="Wyślij moje zmiany">
+        To działanie spowoduje nadpisanie powyższych zmian.
     </form>
   </li>
   <li>
-    Throw away my changes, and
-    <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">revisit
-    attachment [% attachment.id %]</a>
+    Odrzuć moje zmiany i
+    <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">przejdź do
+    załącznika [% attachment.id %]</a>
   </li>
 </ul>
 

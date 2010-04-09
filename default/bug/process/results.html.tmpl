@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -36,17 +39,17 @@
 
 [% DEFAULT type="bug" %]
 
-[% Link = BLOCK %][% "$terms.Bug $id" FILTER bug_link(id) %][% END %]
-[% link = BLOCK %][% "$terms.bug $id" FILTER bug_link(id) %][% END %]
+[% Link = BLOCK %][% "$terms.Blad $id" FILTER bug_link(id) %][% END %]
+[% link = BLOCK %][% "$terms.blad $id" FILTER bug_link(id) %][% END %]
 
 [%
   title = {
-    'bug' => "Changes submitted for $link" ,
-    'dupe' => "Duplicate notation added to $link" ,
-    'dep' => "Checking for dependency changes on $link" ,
-    'votes' => "$Link confirmed by number of votes" ,
-    'created' => "$Link has been added to the database" ,
-    'move' => "$Link has been moved to another database" ,
+    'bug' => "Zmiany dla $link zostały zapisane" ,
+    'dupe' => "Adnotacja o duplikacie została dodana do $link" ,
+    'dep' => "Sprawdzanie zmian zależności dla $link" ,
+    'votes' => "$Link został potwierdzony przez liczbę głosów" ,
+    'created' => "$Link został dodany do bazy $terms.bledow" ,
+    'move' => "$Link został przeniesiony do innej bazy danych" ,
   }
 %]
 

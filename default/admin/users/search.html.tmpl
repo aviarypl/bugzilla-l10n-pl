@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -12,6 +13,8 @@
   #
   # Contributor(s): Marc Schumann <wurblzap@gmail.com>
   #                 David Lawrence <dkl@redhat.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -36,25 +39,25 @@
 
 <form name="f" method="get" action="editusers.cgi">
 <input type="hidden" name="action" value="list" />
-<p><label for="matchvalue">Pokaż użytkowników z:</label>
+<p><label for="matchvalue">Wyświetl użytkowników z:</label>
 <select id="matchvalue" name="matchvalue">
-  <option value="login_name">nazwą</option>
+  <option value="login_name">nazwą użytkownika</option>
   <option value="realname">imieniem i nazwiskiem</option>
   <option value="userid">ID</option>
 </select>
 <label for="matchstr">pasującym do</label>
 <input size="32" name="matchstr" id="matchstr" />
 <select name="matchtype">
-  <option value="substr" selected="selected">podciąg bez rozróżniania wielkości znaków</option>
-  <option value="regexp">wyr. regularne bez rozróżniania wielkości znaków</option>
-  <option value="notregexp">not (wyr. regularne bez rozróżniania wielkości znaków)</option>
+  <option value="substr" selected="selected">ciągu znaków bez rozróżniania wielkości znaków</option>
+  <option value="regexp">regexp bez rozróżniania wielkości znaków</option>
+  <option value="notregexp">regexp z rozróżnianiem wielkości znaków</option>
   <option value="exact">dokładnie (znajdź tego użytkownika)</option>
 </select>
 <input type="submit" id="search" value="Szukaj" /></p>
 
 [% IF restrictablegroups.size %]
   <p><input type="checkbox" name="grouprestrict" value="1" id="grouprestrict" />
-  <label for="grouprestrict">Ogranicz do członków grupy</label>
+  <label for="grouprestrict">Zawęź do członków grupy</label>
   <select name="groupid"
           onchange="document.forms['f'].grouprestrict.checked=true">
     [% FOREACH group = restrictablegroups %]
@@ -66,10 +69,11 @@
 
 [% IF editusers %]
   <p>
-    <a href="editusers.cgi?action=add">Nowy użytkownik</a>
-    [%- IF listselectionvalues %],
-      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Lista
-      Użytkowników</a>
+    Możesz także <a href="editusers.cgi?action=add">dodać nowego użytkownika</a>
+    [%- IF listselectionvalues %]
+      lub
+      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">wyświetlić
+      ponownie listę użytkowników</a>
     [%- END %].
   </p>
 [% END %]

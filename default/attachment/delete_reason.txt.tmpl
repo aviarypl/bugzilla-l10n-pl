@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,8 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -19,14 +22,14 @@
   # date: the date when the request to delete the attachment was made.
   #%]
 
-The content of attachment [% attachment.id %] has been deleted by
+Zawartość załącznika [% attachment.id %] usunął użytkownik
     [%+ user.identity %]
 [% IF reason %]
-who provided the following reason:
+podając następujący powód:
 
 [%+ reason %]
 [% ELSE %]
-without providing any reason.
+bez podania powodu.
 [% END %]
 
-The token used to delete this attachment was generated at [% date FILTER time %].
+Token użyty do usunięcia tego załącznika został wygenerowany [% date FILTER time %].

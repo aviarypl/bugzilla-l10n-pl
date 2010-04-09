@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,7 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -30,25 +32,25 @@
 <p>
 
 [% UNLESS no_add_link %]
-  <a title="Dodawanie wartości do pola '[% field.description FILTER html %]'."
+  <a title="Dodawanie wartości do pola „[% field.description FILTER html %]”."
      href="editvalues.cgi?action=add&amp;field=
           [%- field.name FILTER url_quote %]">Dodaj</a> wartość.
 [% END %]
 
 [% IF value.defined && !no_edit_link %]
   Edycja wartości <a 
-  title="Edit value '[% value.name FILTER html %]' dla pola '
-         [%- field.name FILTER html %]'"
+  title="Edycja wartości „[% value.name FILTER html %]” dla pola
+         „[%- field.name FILTER html %]”"
   href="editvalues.cgi?action=edit&amp;field=
         [%- field.name FILTER url_quote %]&amp;value=
         [%- value.name FILTER url_quote %]">
-        '[% value.name FILTER html %]'</a>.
+        „[% value.name FILTER html %]”'</a>.
 [% END %]
 
 [% UNLESS no_edit_other_link %]
   Zmiana innych wartości dla pola <a 
   href="editvalues.cgi?field=
-        [%- field.name FILTER url_quote %]">'[% field.description FILTER html %]'</a>.
+        [%- field.name FILTER url_quote %]">„[% field.description FILTER html %]”</a>.
 
 [% END %]
 

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -41,13 +44,12 @@
   [% PROCESS bug/process/header.html.tmpl %]
 [% END %]
 
-<h1>Mid-air collision detected!</h1>
+<h1>W trakcie wysyłania nastąpiła kolizja z innymi zmianami!</h1>
 
 <p>
-  Someone else has made changes to
-  [%+ "$terms.bug $bug.id" FILTER bug_link(bug.id) FILTER none %]
-  at the same time you were trying to.
-  The changes made were:
+  Ktoś w tym samym czasie co Ty dokonał zmian w
+  [%+ "$terms.bledzie $bug.id" FILTER bug_link(bug) FILTER none %]
+  Te zmiany to:
 </p>
 
 <p>
@@ -56,7 +58,7 @@
 
 [% IF comments.size > start_at %]
 <p>
-  Added the comment(s):
+  Dodano komentarze:
   <blockquote>
     [% PROCESS "bug/comments.html.tmpl" %]
   </blockquote>
@@ -65,7 +67,7 @@
 
 [% IF cgi.param("comment") %]
 <p>
-  Your comment was:<br>
+  Twój komentarz:<br>
   <blockquote><pre class="bz_comment_text">
     [% cgi.param("comment") FILTER wrap_comment FILTER html %]
   </pre></blockquote>
@@ -73,7 +75,7 @@
 [% END %]
 
 <p>
-You have the following choices:
+Masz do wyboru następujące działania:
 </p>
 
 <ul>
@@ -83,9 +85,9 @@ You have the following choices:
              value="[% bug.delta_ts FILTER html %]">
       [% PROCESS "global/hidden-fields.html.tmpl" 
           exclude="^Bugzilla_login|Bugzilla_password|delta_ts$" %]
-      <input type="submit" id="process" value="Submit my changes anyway">
-        This will cause all of the above changes to be overwritten
-        [% ", except for the added comment(s)" IF comments.size > start_at %].
+      <input type="submit" id="process" value="Wyślij moje zmiany">
+        To działanie spowoduje zastąpienie powyższych zmian
+        [% ", z wyjątkiem dodanych komentarzy" IF comments.size > start_at %].
     </form>
   </li>
   [% IF cgi.param("comment") %]
@@ -95,13 +97,14 @@ You have the following choices:
         <input type="hidden" name="delta_ts" value="[% bug.delta_ts FILTER html %]">
         <input type="hidden" name="comment" value="[% cgi.param("comment") FILTER html %]">
         <input type="hidden" name="commentprivacy" value="[% cgi.param("commentprivacy") FILTER html %]">
-        <input type="submit" id="process_comment" value="Submit only my new comment">
+        <input type="hidden" name="token" value="[% cgi.param("token") FILTER html %]">
+        <input type="submit" id="process_comment" value="Wyślij tylko mój komentarz">
       </form>
     </li>
   [% END %]
   <li>
-    Throw away my changes, and
-    [%+ "revisit $terms.bug $bug.id" FILTER bug_link(bug.id) FILTER none %]
+    Odrzuć moje zmiany i 
+    [%+ "przejdź do $terms.bledu $bug.id" FILTER bug_link(bug) FILTER none %]
   </li>
 </ul>
 

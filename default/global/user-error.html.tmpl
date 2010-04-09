@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,9 @@
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #  #                 Max Kanat-Alexander <mkanat@bugzilla.org>
+
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -32,1628 +36,1639 @@
   # in this file; if you do not wish to change it, use the "none" filter.
   #
   # Extension- or custom-specific error handling  can be easily added 
-  # via hooks: just place your <extension>-errors.html.tmpl into 
-  # template/en/extension/hook/global/user-error.html.tmpl/errors/
-  # Note: be aware of uniqueness of error string parameter value, since 
-  # nobody can guarantee the hook files processing order in the future
+  # via hooks: just place additional code into
+  # template/en/hook/global/user-error-errors.html.tmpl
+  # Note: be aware of uniqueness of error string parameter value, since
+  # nobody can guarantee the hook files processing order in the future.
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
-[% DEFAULT title = "Error" %]
+[% DEFAULT title = "Błąd" %]
 
 [% error_message = BLOCK %]
   [% IF    error == "account_creation_disabled" %]
-    [% title = "Account Creation Disabled" %]
-    User account creation has been disabled.
+    [% title = "Tworzenie kont jest wyłączone" %]
+    Tworzenie kont zostało wyłączone lub ograniczone.
     <hr>
-    New accounts must be created by an administrator. The
-    maintainer is [% Param("maintainer") %].
+    Nowe konta może tworzyć tylko administrator. Opiekunem
+    jest [% Param("maintainer") %].
 
   [% ELSIF error == "account_creation_restricted" %]
-    [% title = "Account Creation Restricted" %]
-    User account creation has been restricted.
+    [% title = "Tworzenie kont jest ograniczone" %]
+    Tworzenie kont zostało ograniczone.
     <hr>
-    Contact your administrator or the maintainer
-    ([% Param("maintainer") %]) for information about
-    creating an account.
+    Skontaktuj sie ze swoim administratorem lub opiekunem
+    ([% Param("maintainer") %]), by uzyskać informacje
+    na temat utworzenia konta.
 
   [% ELSIF error == "account_disabled" %]
-    [% title = "Account Disabled" %]
+    [% title = "Konto zostało zablokowane" %]
     [% disabled_reason FILTER none %]
     <hr>
-    If you believe your account should be restored, please
-    send email to [% Param("maintainer") %] explaining why.
+    Jeśli konto powinno zostać przywrócone, proszę
+    wysłać wiadomość z wyjaśnieniami do [% Param("maintainer") %].
 
   [% ELSIF error == "account_exists" %]
     [% title = "Konto już istnieje" %]
-    W systemie isntje już konto o
+    Już istnieje konto 
     [% IF email %]
-      podanym adresie e-mail: [% email FILTER html %].
+      o identyfikatorze [% email FILTER html %].
     [% ELSE %]
-      o tej nazwie.
+      z tym identyfikatorem.
     [% END %]
 
+  [% ELSIF error == "account_locked" %]
+    [% title = "Konto zablokowane" %]
+    Twój adres IP ([% ip_addr FILTER html %]) został zablokowany dla
+    konta do [% unlock_at FILTER time %], ponieważ została
+    przekroczona maksymalna dozwolona liczba prób logowania.
+
   [% ELSIF error == "alias_has_comma_or_space" %]
-    [% title = "Invalid Characters In Alias" %]
-    The alias you entered, <em>[% alias FILTER html %]</em>,
-    contains one or more commas or spaces.  Aliases cannot contain
-    commas or spaces because those characters are used to separate
-    aliases from each other in lists.  Please choose an alias
-    that does not contain commas and spaces.
+    [% title = "Nieprawidłowe znaki w aliasie" %]
+    Alias, który podano <em>[% alias FILTER html %]</em>
+    zawiera przecinki lub spacje. Aliasy nie mogą zawierać tych
+    znaków, ponieważ są one używane jako separatory aliasów na liście.
+    Proszę wybrać inną nazwę bez przecinków i spacji.
 
   [% ELSIF error == "alias_in_use" %]
-    [% title = "Alias In Use" %]
-    [% terms.Bug %] [%+ bug_id FILTER bug_link(bug_id) FILTER none %]
-    has already taken the alias <em>[% alias FILTER html %]</em>.
-    Please choose another one.
+    [% title = "Alias jest już używany" %]
+    [% terms.Blad %] [%+ bug_id FILTER bug_link(bug_id) FILTER none %]
+    używa już nazwy <em>[% alias FILTER html %]</em> jako aliasu.
+    Proszę wybrać inną nazwę.
 
   [% ELSIF error == "alias_is_numeric" %]
-    [% title = "Alias Is Numeric" %]
-    You tried to give this [% terms.bug %] the alias <em>[% alias FILTER html %]</em>,
-    but aliases cannot be merely numbers, since they could
-    then be confused with [% terms.bug %] IDs.  Please choose an
-    alias containing at least one letter.
+    [% title = "Alias jest liczbą" %]
+    Próbowano nadać alias <em>[% alias FILTER html %]</em> dla [% terms.bledu %],
+    lecz alias nie może być złożony z samych cyfr, ponieważ 
+    może mylić się z ID [% terms.bledu %]. Proszę wybrać inny alias
+    zawierający przynajmniej jedną literę.
 
   [% ELSIF error == "alias_too_long" %]
-    [% title = "Alias Too Long" %]
-    [% terms.Bug %] aliases cannot be longer than 20 characters.
-    Please choose a shorter alias.
+    [% title = "Alias zbyt długi" %]
+    Alias [% terms.bledu %] nie może być dłuższy niż 20 znaków.
+    Proszę wybrać krótszą nazwę.
 
   [% ELSIF error == "auth_cant_create_account" %]
-    [% title = "Can't create accounts" %]
-    This site is using an authentication scheme which does not permit
-    account creation. Please contact an administrator to get a new account
-    created.
+    [% title = "Nie można utworzyć konta" %]
+    Ta witryna korzysta z metod weryfikacji użytkownika, które
+    nie pozwalają na tworzenie nowych kont. W celu utworzenia konta,
+    proszę skontaktować się z administratorem.
 
   [% ELSIF error == "auth_failure" %]
-    [% title = "Authorization Required" %]
-    [% admindocslinks = {'groups.html' => 'Group Security'} %]
-    Sorry,
+    [% title = "Wymagana autoryzacja" %]
+    [% admindocslinks = {'groups.html' => 'Zabezpieczenia grup'} %]
+    Niestety,
     [% IF group %]
-      you aren't a member of the '[% group FILTER html %]' group,
+      nie jesteś członkiem grupy „[% group FILTER html %]”,
     [% END %]
 
     [% IF reason %]
-      [% IF group %] and [% END %]
+      [% IF group %] i [% END %]
       [% IF reason == "cant_bless" %]
-        you don't have permissions to add or remove people from a group,
+        nie masz uprawnień do modyfikowania składu grup,
       [% ELSIF reason == "not_visible" %]
-        there are visibility restrictions on certain user groups,
+        są ustawione ograniczenia widzialności niektórych grup użytkowników,
       [% END %]
     [% END %]
 
-    [% IF group || reason %] and so [% END %] you are not authorized to
+    [% IF group || reason %] dlatego [% END %] nie masz uprawnień do
     [% IF action == "access" %]
-      access
+      przeglądania
     [% ELSIF action == "add" %]
-      add new
+      dodawania
     [% ELSIF action == "begin" %]
-      begin
+      rozpoczynania
     [% ELSIF action == "modify" %]
-      modify
+      modyfikacji
     [% ELSIF action == "delete" %]
-      delete
+      usuwania
     [% ELSIF action == "edit" %]
-      add, modify or delete
+      dodawania, modyfikacji lub usuwania
     [% ELSIF action == "move" %]
-      move
+      przenoszenia
     [% ELSIF action == "run" %]
-      run
+      uruchamiania
     [% ELSIF action == "schedule" %]
-      schedule
+      tworzenia harmonogramu
     [% ELSIF action == "use" %]
-      use
+      używania
     [% ELSIF action == "approve" %]
-      approve
+      akceptowania
     [% END %]
 
     [% IF object == "administrative_pages" %]
-      administrative pages
+      stron administracyjnych
     [% ELSIF object == "attachment" %]
-      this attachment
+      [% IF attach_id %]
+        załącznik #[% attach_id FILTER html %]
+      [% ELSE %]
+        ten załącznik
+      [% END %]
     [% ELSIF object == "bugs" %]
-      [%+ terms.bugs %]
+      [%+ terms.bledow %]
     [% ELSIF object == "charts" %]
-      the "New Charts" feature
+      funkcji „Nowe wykresy”
     [% ELSIF object == "classifications" %]
-      classifications
+      kategorii
     [% ELSIF object == "components" %]
-      components
+      komponentów
     [% ELSIF object == "custom_fields" %]
-      custom fields
+      dodatkowych pól
     [% ELSIF object == "field_values" %]
-      field values
+      wartości pól
     [% ELSIF object == "flagtypes" %]
-      flag types
+      typów flag
     [% ELSIF object == "group_access" %]
-      group access
+      dostępu grup
     [% ELSIF object == "groups" %]
-      groups
+      grup
     [% ELSIF object == "keywords" %]
-      keywords
+      słów kluczowych
     [% ELSIF object == "milestones" %]
-      milestones
+      wersji docelowych
     [% ELSIF object == "multiple_bugs" %]
-      multiple [% terms.bugs %] at once
+      kilku [% terms.bledow %] jednocześnie
     [% ELSIF object == "parameters" %]
-      parameters
+      parametrów
     [% ELSIF object == "products" %]
-      products
+      produktów
     [% ELSIF object == "quips" %]
-      quips
+      sentencji
     [% ELSIF object == "reports" %]
-      whine reports
+      przypominania
     [% ELSIF object == "sanity_check" %]
-      a sanity check
+      kontroli spójności
     [% ELSIF object == "settings" %]
-      settings
+      ustawień
     [% ELSIF object == "sudo_session" %]
-      a sudo session
+      sesji sudo
     [% ELSIF object == "timetracking_summaries" %]
-      time-tracking summary reports
+      raportów śledzenia czasu
     [% ELSIF object == "user" %]  
-      the user [% IF userid %] with ID '[% userid FILTER html %]'
-      [% ELSE %]you specified [% END %]
+      użytkownik [% IF userid %] z ID „[% userid FILTER html %]”
+      [% ELSE %]określony przez Ciebie [% END %]
     [% ELSIF object == "users" %]
-      users
+      użytkowników
     [% ELSIF object == "versions" %]
-      versions
+      wersji
     [% ELSIF object == "workflow" %]
-      the workflow
+      wykazu zmian
     [% END %].
 
     [% Hook.process("auth_failure") %]
 
   [% ELSIF error == "attachment_deletion_disabled" %]
-    [% title = "Attachment Deletion Disabled" %]
-    Attachment deletion is disabled on this installation.
+    [% title = "Usuwanie załączników jest wyłączone" %]
+    Funkcja usuwania załączników jest wyłączona w tej instalacji.
+
+  [% ELSIF error == "attachment_illegal_url" %]
+    [% title = "Nieprawidłowy adres URL załącznika" %]
+    <em>[% url FILTER html %]</em> nie jest prawidłowym adresem URL dla załączników.
+    It must start either with http://, https:// or ftp://.
 
   [% ELSIF error == "attachment_removed" %]
-    [% title = "Attachment Removed" %]
-    The attachment you are attempting to access has been removed.
+    [% title = "Usunięty załącznik" %]
+    Żądany załącznik został usunięty.
 
   [% ELSIF error == "bug_access_denied" %]
-    [% title = "Access Denied" %]
+    [% title = "Brak dostępu" %]
     [% admindocslinks = {'groups.html' => 'Group Security'} %]
-    You are not authorized to access [% terms.bug %] #[% bug_id FILTER html %].
+    Nie masz uprawnień dostępu do [% terms.bledu %] #[% bug_id FILTER html %].
 
   [% ELSIF error == "bug_access_query" %]
-    [% title = "Access Denied" %]
-    [% docslinks = {'myaccount.html' => 'Creating an account'} %]
-    You are not authorized to access [% terms.bug %] #[% bug_id FILTER html %].
-    To see this [% terms.bug %], you must
-    first <a href="show_bug.cgi?id=
-                   [% bug_id FILTER url_quote %]&amp;GoAheadAndLogIn=1">log
-    in to an account</a> with the appropriate permissions.
+    [% title = "Brak dostępu" %]
+    [% docslinks = {'myaccount.html' => 'Tworzenie konta'} %]
+    Nie masz uprawnień dostępu do [% terms.bledu %] #[% bug_id FILTER html %].
+    Aby zobaczyć ten [% terms.blad %], musisz 
+    najpierw <a href="show_bug.cgi?id=
+                   [% bug_id FILTER url_quote %]&amp;GoAheadAndLogIn=1">zalogować się
+    na konto</a> z odpowiednimi uprawnieniami.
 
   [% ELSIF error == "bug_url_invalid" %]
-    [% title = "Invalid $terms.Bug URL" %]
-    <code>[% url FILTER html %]</code> is not a valid URL to [% terms.abug %].
+    [% title = "Nieprawidłowy adres URL $terms.bledu" %]
+    <code>[% url FILTER html %]</code> nie jest prawidłowym adresem URL dla [% terms.bledu %].
     [% IF reason == 'http' %]
-      URLs must start with "http" or "https".
+      Adresy URL muszą zaczynać się od „http” lub „https”.
     [% ELSIF reason == 'show_bug' %]
-      [%+ terms.Bug %] URLs should point to <code>show_bug.cgi</code>
-      in a [% terms.Bugzilla %] installation.
+      Adres URL [%+ terms.bledu %] powinien wskazywać na plik <code>show_bug.cgi</code>
+      znajdujący sie w instalacji [% terms.Bugzilli %].
     [% ELSIF reason == 'id' %]
-      There is no valid [% terms.bug %] id in that URL.
+      Pod tym adresem URL nie ma ważnego [% terms.bledu %].
     [% END %]
 
   [% ELSIF error == "bug_url_too_long" %]
-    [% title = "Invalid $terms.Bug URL" %]
-    [% terms.Bug %] URLs can not be longer than 
-    [%+ constants.MAX_BUG_URL_LENGTH FILTER none %] characters long.
-    <code>[% url FILTER html %]</code> is too long.
+    [% title = "Nieprawidłowy adres URL $terms.bledu" %]
+    Adres URL [% terms.bledu %] nie może być dłuższy niż 
+    [%+ constants.MAX_BUG_URL_LENGTH FILTER none %] znaków.
+    <code>[% url FILTER html %]</code> jest za długi.
 
   [% ELSIF error == "buglist_parameters_required" %]
-    [% title = "Parameters Required" %]
-    [% docslinks = {'query.html' => "Searching for $terms.bugs",
-                    'query.html#list' => "$terms.Bug lists"} %]
-    You may not search, or create saved searches, without any search terms.
+    [% title = "Wymagane parametry" %]
+    [% docslinks = {'query.html' => "Wyszukiwanie $terms.bledow",
+                    'query.html#list'  => "Listy $terms.bledow"} %]
+    Nie można wyszukiwać lub zapamiętać wyszukiwania bez podanych kryteriów wyszukiwania.
 
   [% ELSIF error == "chart_too_large" %]
-    [% title = "Chart Too Large" %]
-    Sorry, but 2000 x 2000 is the maximum size for a chart.
+    [% title = "Wykres zbyt duży" %]
+    Wykres nie może być większy niż 2000 x 2000.
 
   [% ELSIF error == "comment_id_invalid" %]
-    [% id FILTER html %] is not a valid comment id.
+    [% id FILTER html %] nie jest prawidłowym ID komentarza.
 
   [% ELSIF error == "comment_invalid_isprivate" %]
-    You tried to modify the privacy of comment id [% id FILTER html %],
-    but that is not a valid comment on this [% terms.bug %].
+    Próbowano zmienić prywatny komentarz o ID [% id FILTER html %],
+    ale nie jest to prawidłowy komentarz tego [% terms.bledu %].
 
   [% ELSIF error == "comment_is_private" %]
-    Comment id [% id FILTER html %] is private.
+    Komentarz o ID [% id FILTER html %] jest prywatny.
 
   [% ELSIF error == "comment_required" %]
-    [% title = "Comment Required" %]
-    You have to specify a
+    [% title = "Wymagany komentarz" %]
+    Należy podać
     [% IF old && new %]
-      <b>comment</b> when changing the status of [% terms.abug %] from
-      [%+ old.name FILTER html %] to [% new.name FILTER html %].
+      <b>komentarz</b>, gdy jest zmieniany status [% terms.bledu %] z
+      [%+ old.name FILTER html %] na [% new.name FILTER html %].
     [% ELSIF new %]
-      description for this [% terms.bug %].
+      dotyczący tej zmiany.
     [% ELSE %]
-      <b>comment</b> on this change.
+      <b>komentarz</b> dotyczący tej zmiany.
     [% END %]
 
   [% ELSIF error == "comment_too_long" %]
-    [% title = "Comment Too Long" %]
-    Comments cannot be longer than 65,535 characters.
+    [% title = "Zbyt długi komentarz" %]
+    Komentarz nie może być dłuższy niż 65,535 znaków.
 
   [% ELSIF error == "auth_classification_not_enabled" %]
-    [% title = "Classification Not Enabled" %]
-    Sorry, classification is not enabled.
+    [% title = "Kategorie nie zostały włączone" %]
+    Niestety kategorie nie zostały włączone.
 
   [% ELSIF error == "classification_name_too_long" %]
-    [% title = "Classification Name Too Long" %]
-    The name of a classification is limited to [% constants.MAX_CLASSIFICATION_SIZE FILTER html %]
-    characters. '[% name FILTER html %]' is too long ([% name.length %] characters).
+    [% title = "Za długa nazwa kategorii" %]
+    Nazwa kategorii nie może być dłuższa niż [% constants.MAX_CLASSIFICATION_SIZE FILTER html %]
+    znaków. „[% name FILTER html %]” zawiera za dużo znaków ([% name.length %]).
 
 [% ELSIF error == "classification_not_specified" %]
-    [% title = "You Must Supply A Classification Name" %]
-    You must enter a classification name.
+    [% title = "Podaj nazwę kategorii" %]
+    Należy podać nazwę kategorii.
 
   [% ELSIF error == "classification_already_exists" %]
-    [% title = "Classification Already Exists" %]
-    A classification with the name '[% name FILTER html %]' already exists.
+    [% title = "Kategoria już istnieje" %]
+    Kategoria o nazwie „[% name FILTER html %]” już istnieje.
 
   [% ELSIF error == "classification_invalid_sortkey" %]
-    [% title = "Invalid Sortkey for Classification" %]
-    The sortkey '[% sortkey FILTER html %]' is invalid. It must be an
-    integer between 0 and [% constants.MAX_SMALLINT FILTER html %].
+    [% title = "Nieprawidłowy klucz sortowania kategorii" %]
+    Klucz sortowania <em>[% sortkey FILTER html %]</em> jest niepoprawny.
+    Musi być liczbą całkowitą pomiędzy 0 i [% constants.MAX_SMALLINT FILTER html %].
 
   [% ELSIF error == "classification_not_deletable" %]
-    [% title = "Default Classification Can Not Be Deleted" %]
-    You can not delete the default classification
+    [% title = "Nie można usunąć domyślnej kategorii" %]
+    Nie można usunąć domyślnej kategorii.
 
   [% ELSIF error == "classification_has_products" %]
-     Sorry, there are products for this classification. You
-     must reassign those products to another classification before you
-     can delete this one.
+     Niestety w tej kategorii nadal istnieją produkty. Przed
+     usunięciem kategorii, należy przepisać te produkty do
+     innej kategorii.
 
   [% ELSIF error == "component_already_exists" %]
-    [% title = "Component Already Exists" %]
-    The <em>[% product.name FILTER html %]</em> product already has
-    a component named <em>[% name FILTER html %]</em>.
+    [% title = "Komponent już istnieje" %]
+    Produkt <em>[% product.name FILTER html %]</em> zawiera już
+    komponent o nazwie <em>[% name FILTER html %]</em>.
 
   [% ELSIF error == "component_blank_description" %]
-    [% title = "Blank Component Description Not Allowed" %]
-    You must enter a non-blank description for this component.
+    [% title = "Pusty opis komponentu jest niedopuszczalny" %]
+    Należy podać opis dla tego komponentu.
 
   [% ELSIF error == "component_blank_name" %]
-    [% title = "Blank Component Name Not Allowed" %]
-    You must enter a name for this new component.
+    [% title = "Pusta nazwa komponentu jest niedopuszczalna" %]
+    Należy podać nazwę dla tego nowego komponentu.
 
   [% ELSIF error == "component_has_bugs" %]
-    [% title = BLOCK %]Component has [% terms.Bugs %][% END %]
-    There are [% nb FILTER html %] [%+ terms.bugs %] entered for this component!
-    You must reassign those [% terms.bugs %] to another component before you
-    can delete this one.
+    [% title = BLOCK %]Komponent ma przypisane [% terms.bledy %][% END %]
+    Jest otwartych [% nb FILTER html %] [%+ terms.bledow %] dla tego komponentu!
+    Przed usunięciem komponentu, należy przepisać te [% terms.bledy %] do
+    innego komponentu.
 
   [% ELSIF error == "component_name_too_long" %]
-    [% title = "Component Name Is Too Long" %]
-    The name of a component is limited to [% constants.MAX_COMPONENT_SIZE FILTER html %]
-    characters. '[% name FILTER html %]' is too long ([% name.length %] characters).
+    [% title = "Nazwa komponentu jest zbyt długa" %]
+    Nazwa komponentu nie może być dłuższa niż [% constants.MAX_COMPONENT_SIZE FILTER html %]
+    znaków. „[% name FILTER html %]” zawiera więcej niż ([% name.size %] znaków).
 
   [% ELSIF error == "component_need_initialowner" %]
-    [% title = "Component Requires Default Assignee" %]
-    A default assignee is required for this component.
+    [% title = "Komponent musi mieć domyślnego beneficjenta" %]
+    Ten komponent musi mieć domyślnego beneficjenta.
 
   [% ELSIF error == "customfield_nonexistent" %]
-    [% title = "Unknown Custom Field" %]
-    There is no custom field with the name '[% name FILTER html %]'.
+    [% title = "Nieznane pole dodatkowe" %]
+    Pole dodatkowe o nazwie „[% name FILTER html %]” nie istnieje.
 
   [% ELSIF error == "customfield_not_obsolete" %]
-    [% title = "Custom Field Not Obsolete" %]
-    The custom field '[% name FILTER html %]' is not obsolete.
-    Please obsolete a custom field before attempting to delete it.
+    [% title = "Pole dodatkowe nie jest zdezaktualizowane" %]
+    Pole dodatkowe „[% name FILTER html %]” nie jest zdezaktualizowane.
+    Przed usunięciem, należy je zdezaktualizować.
 
   [% ELSIF error == "customfield_has_activity" %]
-    [% title = "Custom Field Has Activity" %]
-    The custom field '[% name FILTER html %]' cannot be deleted because
-    it has recorded activity.
+    [% title = "Pole dodatkowe jest aktywne" %]
+    Nie można usunąć pola dodatkowego „[% name FILTER html %]”, ponieważ
+    zanotowano w nim aktywność.
 
   [% ELSIF error == "customfield_has_contents" %]
-    [% title = "Custom Field Has Contents" %]
-    The custom field '[% name FILTER html %]' cannot be deleted because
-    at least one [% terms.bug %] has a non empty value for this field.
+    [% title = "Pole dodatkowe ma zawartośc" %]
+    Nie można usunąć pola dodatkowego „[% name FILTER html %]”, ponieważ
+    co najmniej jeden [% terms.blad %] ma w nim zapisaną wartość.
 
   [% ELSIF error == "dependency_loop_multi" %]
-    [% title = "Dependency Loop Detected" %]
-    The following [% terms.bug %](s) would appear on both the "depends on"
-    and "blocks" parts of the dependency tree if these changes
-    are committed:
+    [% title = "Pętla w zależnościach" %]
+    Następujące [% terms.blad %]/[% terms.bledy %] znajdą się 
+    w polach „blokuje” i „zależy od” drzewa zależności, jeśli zmiany
+    te zostaną zatwierdzone:
     [% FOREACH dep = deps %]
       [%+ dep FILTER bug_link(dep) FILTER none %]
     [% END %].
-    This would create a circular dependency, which is not allowed.
+    Doprowadzi to do niedozwolonej pętli w zależnościach.
 
   [% ELSIF error == "dependency_loop_single" %]
-    [% title = "Dependency Loop Detected" %]
-    You can't make [% terms.abug %] block itself or depend on itself.
+    [% title = "Pętla w zależnościach" %]
+    Nie można ustawić [% terms.bledu %] blokującego samego siebie lub zależnego od siebie.
 
   [% ELSIF error == "dupe_id_required" %]
-    [% title = "Duplicate $terms.Bug Id Required" %]
-    You must specify [% terms.abug %] id to mark this [% terms.bug %]
-    as a duplicate of.
+    [% title = "Wymagany ID duplikatu $terms.bledu" %]
+    Należy określić ID [% terms.bledu %], by oznaczyć ten [% terms.blad %]
+    jako jego duplikat.
 
   [% ELSIF error == "dupe_not_allowed" %]
-    [% title = "Cannot mark $terms.bugs as duplicates" %]
-    You cannot mark [% terms.bugs %] as duplicates when
-    changing several [% terms.bugs %] at once.
+    [% title = "Nie można oznaczyć $terms.bledow jako duplikatów" %]
+    Nie można oznaczyć [% terms.bledow %] jako duplikatów podczas
+    zmiany wielu [% terms.bledow %] jednocześnie.
 
   [% ELSIF error == "dupe_loop_detected" %]
-    [% title = "Loop detected among duplicates" %]
-    You cannot mark [% terms.bug %] [%+ bug_id FILTER html %] as
-    a duplicate of
+    [% title = "Wykryto pętle w grafie duplikatów" %]
+    Nie można oznaczyć [% terms.bledu %] [%+ bug_id FILTER html %] jako
+    duplikatu
     [% IF dupe_of == bug_id %]
-      itself
+      samego siebie
     [% ELSE %]
-      [%+ terms.bug %] [%+ dupe_of FILTER html %], because it
-      would create a duplicate loop
+      [%+ terms.bledu %] [%+ dupe_of FILTER html %], ponieważ
+      spowoduje to utworzenie pętli
     [% END %].
 
   [% ELSIF error == "email_change_in_progress" %]
-    [% title = "Email Change Already In Progress" %]
-    Email change already in progress; please check your email.
+    [% title = "Zmiana adresu w toku" %]
+    Zmiana adresu e-mail w toku. Proszę sprawdzić swoją pocztę.
 
   [% ELSIF error == "email_confirmation_failed" %]
-    [% title = "Email Address Confirmation Failed" %]
-    Email address confirmation failed.
+    [% title = "Nieudane potwierdzenie adresu e-mail" %]
+    Nie udało się potwierdzić adresu e-mail.
 
   [% ELSIF error == "email_no_text_plain" %]
-    Your message did not contain any text.[% terms.Bugzilla %] does not
-    accept HTML-only email, or HTML email with attachments.
+    Wiadomość nie zawierała żadnego tekstu. System [% terms.Bugzilla %] nie
+    obsługuje poczty w formacie HTML i poczty HTML z załącznikami.
 
   [% ELSIF error == "empty_group_description" %]
-    [% title = "The group description can not be empty" %]
-    You must enter a description for the group.
+    [% title = "Opis grupy nie może być pusty" %]
+    Należy podać opis grupy.
 
   [% ELSIF error == "empty_group_name" %]
-    [% title = "The group name can not be empty" %]
-    You must enter a name for the group.
+    [% title = "Nazwa grupy nie może być pusta" %]
+    Należy podać nazwę dla grupy.
   
   [% ELSIF error == "entry_access_denied" %]
-    [% title = "Permission Denied" %]
+    [% title = "Brak dostępu" %]
     [% admindocslinks = {'groups.html' => 'Group Security'} %]
-    Sorry, either the product <em>[% product FILTER html %]</em>
-    does not exist or you aren't authorized to
-    enter [% terms.abug %] into it.
+    Niestety produkt <em>[% product FILTER html %]</em> nie istnieje
+    lub nie masz uprawnień dostępu do [% terms.bledow %] w tym
+    produkcie.
+
+  [% ELSIF error == "extension_create_no_name" %]
+    Musisz określić nazwę rozszerzenia jako argument do tego skryptu.
+
+  [% ELSIF error == "extension_first_letter_caps" %]
+    Nazwa rozszerzenia musi zaczynać się dużą literą.
+    (Podano '[% name FILTER html %]'.)
 
   [% ELSIF error == "field_already_exists" %]
-    [% title = "Field Already Exists" %]
-    The field '[% field.name FILTER html %]'     
-    ([% field.description FILTER html %]) already exists. Please
-    choose another name.
+    [% title = "Pole już istnieje" %]
+    Pole „[% field.name FILTER html %]”     
+    ([% field.description FILTER html %]) już istnieje. Proszę
+    wybrać inną nazwę.
 
   [% ELSIF error == "field_cant_control_self" %]
-    [% title = "Field Can't Control Itself" %]
-    The [% field.description FILTER html %] field can't be set to control 
-    itself.
+    [% title = "Pole nie może kontrolować samego siebie" %]
+    Pole [% field.description FILTER html %] nie może być ustawione do kontrolowania
+    samego siebie.
 
   [% ELSIF error == "field_control_must_be_select" %]
-    [% title = "Invalid Field Type Selected" %]
-    Only drop-down and multi-select fields can be used to control
-    the visibility/values of other fields. [% field.description FILTER html %]
-    is not the right type of field.
+    [% title = "Wybrano nieprawidłowy typ pola" %]
+    Tylko listy rozwijane i pola wielokrotnego wyboru mogą być używane do kontrolowania
+    widoczności/wartości innych pól. Pole [% field.description FILTER html %]
+    nie jest prawidłowym typem pola.
 
   [% ELSIF error == "field_invalid_name" %]
-    [% title = "Invalid Field Name" %]
-    '[% name FILTER html %]' is not a valid name for a field.
-    A name may contain only letters, numbers, and the underscore character.
+    [% title = "Nieprawidłowa nazwa pola" %]
+    Nazwa „[% name FILTER html %]” nie jest poprawną nazwą pola.
+    Dozwolone są tylko znaki alfanumeryczne i znak podkreślenia.
 
   [% ELSIF error == "field_invalid_sortkey" %]
-    [% title = "Invalid Sortkey for Field" %]
-    The sortkey [% sortkey FILTER html %] that you have provided for
-    this field is not a valid positive integer.
+    [% title = "Nieprawidłowy klucz sortowania dla pola" %]
+    Klucz sortowania [% sortkey FILTER html %] dla tego pola nie jest poprawną
+    dodatnią liczbą całkowitą.
 
   [% ELSIF error == "field_missing_description" %]
-    [% title = "Missing Description for Field" %]
-    You must enter a description for this field.
+    [% title = "Brak opisu pola" %]
+    Należy podać opis dla tego pola.
 
   [% ELSIF error == "field_missing_name" %]
-    [% title = "Missing Name for Field" %]
-    You must enter a name for this field.
+    [% title = "Brak nazwy pola" %]
+    Należy podać nazwę dla tego pola.
 
   [% ELSIF error == "field_value_control_select_only" %]
-    [% title = "Invalid Value Control Field" %]
-    Only Drop-Down or Multi-Select fields can have a field that
-    controls their values.
+    [% title = "ieprawidłowa wartość kontrolna pola" %]
+    Tylko listy rozwijane i pola wielokrotnego wyboru mogą być polami, które
+    kontrolują ich wartości.
 
   [% ELSIF error == "fieldname_invalid" %]
-    [% title = "Specified Field Does Not Exist" %]
-    The field '[% field.name FILTER html %]' does not exist or 
-    cannot be edited with this interface.
+    [% title = "Podane pole nie istnieje" %]
+    Pole „[% field.name  FILTER html %]” nie istnieje lub nie może być edytowane przy
+    użyciu tego interfejsu.
 
   [% ELSIF error == "fieldvalue_already_exists" %]
-    [% title = "Field Value Already Exists" %]
-    The value '[% value.name FILTER html %]' already exists for the
-    [%+ field.description FILTER html %] field.
+    [% title = "Podana wartość już istnieje" %]
+    Wartość „[% value.name FILTER html %]” została już zdefiniowana dla pola 
+    [%+ field.description FILTER html %].
 
   [% ELSIF error == "fieldvalue_is_controller" %]
-    [% title = "Value Controls Other Fields" %]
-    You cannot delete the [% value.field.description FILTER html %]
-    '[% value.name FILTER html %]' because
+    [% title = "Wartość kontrolująca inne pola" %]
+    Nie można usunąć wartości [% value.field.description FILTER html %]
+    „[% value.name FILTER html %]” ponieważ
     [% IF fields.size %]
-      it controls the visibility of the following fields:
+      kontroluje widoczność następujących pól:
       [%+ fields.join(', ') FILTER html %].
     [% END %]
-    [% ' and ' IF fields.size AND vals.size %]
+    [% ' oraz ' IF fields.size AND vals.size %]
     [% IF vals.size %]
-      it controls the visibility of the following field values:
+      kontroluje widoczność następujących wartości pól:
       <ul>
         [% FOREACH field_name = vals.keys %]
           [% FOREACH val = vals.${field_name} %]
             <li>[% val.field.name FILTER html %]:
-              '[% val.name FILTER html %]'</li>
+              „[% val.name FILTER html %]”</li>
           [% END %]
         [% END %]
       </ul>
     [% END %]
 
   [% ELSIF error == "fieldvalue_is_default" %]
-    [% title = "Specified Field Value Is Default" %]
-    '[% value.name FILTER html %]' is the default value for
-    the '[% field.description FILTER html %]' field and cannot be deleted.
+    [% title = "Podana wartość pola jest domyślna" %]
+    Wartość „[% value.name FILTER html %]” jest domyślna dla pola
+    „[% field.description FILTER html %]” i nie może być usunięta.
     [% IF user.in_group('tweakparams') %]
-      You have to <a href="editparams.cgi?section=bugfields#
-      [%- param_name FILTER url_quote %]">change</a> the default value first.
+      Przed usunięciem, należy <a href="editparams.cgi?section=bugfields#
+      [%- param_name FILTER url_quote %]">zmienić</a> wartość domyślną.
     [% END %]
 
   [% ELSIF error == "fieldvalue_name_too_long" %]
-    [% title = "Field Value Is Too Long" %]
-    The value of a field is limited to 
-    [%+ constants.FIELD_VALUE_MAX_SIZE FILTER none %] characters. 
-    '[% value FILTER html %]' is too long ([% value.length %] characters).
+    [% title = "Zbyt długa wartość pola" %]
+    Wartość pola nie może być dłuższa niż
+    [%+ constants.FIELD_VALUE_MAX_SIZE FILTER none %] znaków. 
+    „[% value FILTER html %]” zawiera za dużo znaków ([% value.length %]).
 
   [% ELSIF error == "fieldvalue_not_editable" %]
-    [% title = "Field Value Not Editable" %]
-    The value '[% old_value.name FILTER html %]' cannot be renamed because
-    it plays some special role for the '[% field.description FILTER html %]'
-    field.
+    [% title = "Nie można modyfikować wartości pola" %]
+    Nazwa wartości „[% old_value.name FILTER html %]” nie może być zmieniona,
+    ponieważ odgrywa specjalną rolę w polu „[% field.description FILTER html %]”.
 
   [% ELSIF error == "fieldvalue_not_deletable" %]
-    [% title = "Field Value Not Deletable" %]
-    The value '[% value.name FILTER html %]' cannot be removed because
-    it plays some special role for the '[% field.description FILTER html %]' 
-    field.
+    [% title = "Nie można usunąć wartości pola" %]
+    Nazwa wartości „[% value.name FILTER html %]” nie może być usunięta,
+    ponieważ odgrywa specjalną rolę w polu „[% field.description FILTER html %]”.
 
   [% ELSIF error == "fieldvalue_reserved_word" %]
-    [% title = "Reserved Word Not Allowed" %]
-    You cannot use the value '[% value FILTER html %]' for the
-    '[% field.description FILTER html %]' field. This value is used internally.
-    Please choose another one.
+    [% title = "Niedozwolone zastrzeżone słowa" %]
+    Nie można użyć wartości „[% value FILTER html %]” dla
+    pola „[% field.description FILTER html %]”. Ta wartość jest używana wewnętrznie.
+    Proszę wybrać inną.
 
   [% ELSIF error == "fieldvalue_sortkey_invalid" %]
-    [% title = "Invalid Field Value Sortkey" %]
-    The sortkey '[% sortkey FILTER html %]' for the 
-    [%+ field.description FILTER html %] field is not a valid 
-    (positive) number.
+    [% title = "Nieprawidłowy klucz sortowanie pola" %]
+    Klucz sortowania „[% sortkey FILTER html %]” dla
+    pola [%+ field.description FILTER html %] nie jest poprawną
+    (dodatnią) liczbą.
 
   [% ELSIF error == "fieldvalue_still_has_bugs" %]
-    [% title = "You Cannot Delete This Field Value" %]
-    You cannot delete the value '[% value.name FILTER html %]' from the 
-    [% field.description FILTER html %] field, because there are still
-    [%+ value.bug_count FILTER html %] [%+ terms.bugs %] using it.
+    [% title = "Nie można usunąć tej wartości pola" %]
+    Nie można usunąć wartości „[% value.name FILTER html %]” dla pola
+    [% field.description FILTER html %], ponieważ nadal
+    [%+ value.bug_count FILTER html %] [%+ terms.bledy %] ją używają.
 
   [% ELSIF error == "fieldvalue_undefined" %]
-    [% title = "Undefined Value Not Allowed" %]
-    You must specify a value.
+    [% title = "Niezdefiniowane wartości są niedopuszczalne" %]
+    Należy podać wartość.
 
   [% ELSIF error == "file_not_specified" %]
-    [% title = "No File Specified" %]
-    You did not specify a file to attach.
+    [% title = "Nie określono pliku" %]
+    Nie określono pliku do załączenia.
 
   [% ELSIF error == "file_too_large" %]
-    [% title = "File Too Large" %]
-    The file you are trying to attach is [% filesize FILTER html %] 
-    kilobytes (KB) in size. Non-patch attachments cannot be more than
-    [%+ Param('maxattachmentsize') %] KB. <br>
-    We recommend that you store your attachment elsewhere
+    [% title = "Plik jest zbyt duży" %]
+    Plik załącznika ma [% filesize FILTER html %] kilobajtów (KB).
+    Załączniki, które nie są łatkami, nie mogą być większe
+    niż [%+ Param('maxattachmentsize') %] KB. <br>
+    Zaleca się umieszczenie załącznika na zewnętrznym serwerze
     [% IF Param("allow_attach_url") %]
-      and then specify the URL to this file on the attachment
-      creation page in the <b>AttachURL</b> field.
+      i następnie podanie adresu URL do tego pliku na stronie
+      tworzenia załączników w polu <b>Dołącz URL</b>.
     [% ELSE %]
-      and then insert the URL to it in a comment, or in the URL field
-      for this [% terms.bug %].
+      i następnie podania adresu URL w komentarzu lub polu URL
+      tego [% terms.bledu %].
     [% END %]
-    <br>Alternately, if your attachment is an image, you could convert
-    it to a compressible format like JPG or PNG and try again.
-
-  [% ELSIF error == "flag_not_multiplicable" %]
-    [% docslinks = {'flags-overview.html' => 'An overview on Flags',
-                    'flags.html' => 'Using Flags'} %]
-    You can't ask more than one person at a time for
-    <em>[% type.name FILTER html %]</em>.
+    <br>Jeśli załącznik jest obrazkiem, należy skonwertować go do formatu
+    JPG lub PNG i spróbować ponownie.
 
   [% ELSIF error == "flag_requestee_needs_privs" %]
-    [% title = "Flag Requestee Needs Privileges" %]
-    [% requestee.identity FILTER html %] does not have permission to set the
-    <em>[% flagtype.name FILTER html %]</em> flag. Please select a user who is
-    a member of the <em>[% flagtype.grant_group.name FILTER html %]</em> group.
+    [% title = "Brak uprawnień" %]
+    Użytkownik [% requestee.identity FILTER html %] nie ma uprawnień do ustawiania flagi
+    <em>[% flagtype.name FILTER html %]</em>. Proszę wybrać użytkownika, który jest 
+    członkiem grupy <em>[% flagtype.grant_group.name FILTER html %]</em>.
 
   [% ELSIF error == "flag_requestee_unauthorized" %]
-    [% title = "Flag Requestee Not Authorized" %]
-    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administering Flags',
-                         'groups.html' => 'Group Security'} %]
-    [% docslinks = {'flags-overview.html' => 'An overview on Flags',
-                    'flags.html' => 'Using Flags'} %]
+    [% title = "Prośba o ustawienie flagi do osoby bez uprawnień" %]
+    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami',
+                         'groups.html' => 'Zabezpieczenia grup'} %]
+    [% docslinks = {'flags-overview.html' => 'Wprowadzenie do flag',
+                    'flags.html' => 'Korzystanie z flag'} %]
 
-    You asked [% requestee.identity FILTER html %]
-    for <code>[% flag_type.name FILTER html %]</code> on [% terms.bug %] 
+    Poproszono [% requestee.identity FILTER html %]
+    o ustawienie flagi <code>[% flag_type.name FILTER html %]</code> w [% terms.bledzie %] 
     [%+ bug_id FILTER html -%]
-    [% IF attach_id && attach_id > 0 %], attachment [% attach_id FILTER html %][% END %],
-    but that [% terms.bug %] has been restricted to users in certain groups, 
-    and the user you asked isn't in all the groups to which 
-    the [% terms.bug %] has been restricted.
-    Please choose someone else to ask, or make the [% terms.bug %] accessible
-    to users on its CC: list and add that user to the list.
+    [% IF attach_id && attach_id > 0 %], załączniku [% attach_id FILTER html %][% END %],
+    lecz dostęp do tego [% terms.bledu %] został ograniczony wyłącznie do określonych grup.
+    Osoba, którą poproszono nie należy do żadnej z tych grup.
+    Proszę poprosić kogoś innego o ustawienie flagi lub umożliwić
+    dostęp do tego [% terms.bledu %] dla obserwatorów i dodać tę osobę do listy obserwatorów.
 
   [% ELSIF error == "flag_requestee_unauthorized_attachment" %]
-    [% title = "Flag Requestee Not Authorized" %]
-    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administering Flags',
-                         'groups.html' => 'Group Security'} %]
-    [% docslinks = {'flags-overview.html' => 'An overview on Flags',
-                    'flags.html' => 'Using Flags'} %]
+    [% title = "Prośba o flagę do osoby bez praw dostępu" %]
+    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami',
+                         'groups.html' => 'Zabezpieczenia grup'} %]
+    [% docslinks = {'flags-overview.html' => 'Wprowadzenie do flag',
+                    'flags.html' => 'Korzystanie z flag'} %]
 
-    You asked [% requestee.identity FILTER html %]
-    for <code>[% flag_type.name FILTER html %]</code> on 
-    [%+ terms.bug %] [%+ bug_id FILTER html %],
-    attachment [% attach_id FILTER html %], but that attachment
-    is restricted to users in the [% Param("insidergroup") FILTER html %] group,
-    and the user you asked isn't in that group.  Please choose someone else
-    to ask, or ask an administrator to add the user to the group.
+    Poproszono [% requestee.identity FILTER html %]
+    o ustawienie flagi <code>[% flag_type.name FILTER html %]</code> w 
+    [%+ terms.bledzie %] [%+ bug_id FILTER html %],
+    załączniku [% attach_id FILTER html %], lecz dostęp do tego załącznika mają wyłącznie
+    osoby należące do grupy [% Param("insidergroup") FILTER html %]. Osoba, którą poproszono
+    nie należy do niej. Proszę poprosić kogoś innego o ustawienie flagi lub poprosić administratora
+    o dodanie tej osoby do grupy.
 
   [% ELSIF error == "flag_type_cc_list_invalid" %]
-    [% title = "Flag Type CC List Invalid" %]
-    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administering Flags'} %]
-    The CC list [% cc_list FILTER html %] must be less than 200 characters long.
+    [% title = "Nieprawidłowa lista obserwatorów flagi" %]
+    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami'} %]
+    Lista obserwatorów [% cc_list FILTER html %] musi mieć mniej niż 200 znaków.
 
   [% ELSIF error == "flag_type_component_without_product" %]
-    [% title = "Product Missing" %]
-    A component was selected without a product being selected.
+    [% title = "Brak produktu" %]
+    Wybrano komponent bez wybrania produktu.
 
   [% ELSIF error == "flag_type_description_invalid" %]
-    [% title = "Flag Type Description Invalid" %]
-    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administering Flags'} %]
-    The description must be less than 32K.
+    [% title = "Nieprawidłowy opis flagi" %]
+    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami'} %]
+    Opis nie może zawierać więcej niż 32 tys. znaków.
 
   [% ELSIF error == "flag_type_name_invalid" %]
     [% title = "Nieprawidłowa nazwa flagi" %]
-    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administering Flags'} %]
-    Nazwa <em>[% name FILTER html %]</em> musi mieć od 1 do 50 znaków długości i nie
-    może zawierać zanków spacji lub przecinka.
+    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami'} %]
+    Długość nazwy <em>[% name FILTER html %]</em> musi zawierać się pomiędzy
+    1 - 50 znakami i nie może zawierać żadnej spacji lub przecinka.
+
+  [% ELSIF error == "flag_type_not_multiplicable" %]
+    [% docslinks = {'flags-overview.html' => 'Ogólne informacje o flagach',
+                    'flags.html' => 'Używanie flag'} %]
+    Nie można mieć kilku flag <em>[% type.name FILTER html %]</em>
+    dla tego [% IF attachment %] załącznika [% ELSE %] [%+ terms.bledu %] [% END %].
 
   [% ELSIF error == "flag_update_denied" %]
-    [% title = "Flag Modification Denied" %]
-    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administering Flags',
-                         'groups.html' => 'Group Security'} %]
-    [% docslinks = {'flags-overview.html' => 'An overview on Flags',
-                    'flags.html' => 'Using Flags'} %]
-    You tried to [% IF status == "+" %] grant [% ELSIF status == "-" %] deny
-    [% ELSIF status == "X" %] clear [% ELSE %] request [% END %]
+    [% title = "Modyfikacja flagi zabroniona" %]
+    [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami',
+                         'groups.html' => 'Zabezpieczenia grup'} %]
+    [% docslinks = {'flags-overview.html' => 'Wprowadzenie do flag',
+                    'flags.html' => 'Używanie flag'} %]
+    Próbowano [% IF status == "+" %] ustawić [% ELSIF status == "-" %] usunąć
+    [% ELSIF status == "X" %] wyczyścić [% ELSE %] prosić [% END %]
     <code>[% name FILTER html %]
           [% IF status == "X" %][% old_status FILTER html %][% END %]</code>.
 
-    Only a user with the required permissions may make this change.
+    Wyłącznie użytkownicy o odpowiednich uprawnieniach mogą dokonać tej zmiany.
 
   [% ELSIF error == "format_not_found" %]
-    [% title = "Format Not Found" %]
-    The requested format <em>[% format FILTER html %]</em> does not exist with
-    a content type of <em>[% ctype FILTER html %]</em>.
+    [% title = "Nie znaleziono formatu" %]
+    Wybrany format <em>[% format FILTER html %]</em> nie istnieje
+    z zawartością typu <em>[% ctype FILTER html %]</em>.
     
   [% ELSIF error == "flag_type_sortkey_invalid" %]
-    [% title = "Flag Type Sort Key Invalid" %]
-    The sort key must be an integer between 0 and 32767 inclusive.
-    It cannot be <em>[% sortkey FILTER html %]</em>.
+    [% title = "Nieprawidłowy klucz sortowania flagi" %]
+    Klucz sortowania musi być liczbą z przedziału 0-32767.
+    Nie może być <em>[% sortkey FILTER html %]</em>.
 
   [% ELSIF error == "freetext_too_long" %]
-    [% title = "Text Too Long" %]
-    The text you entered is too long ([% text.length FILTER html %] characters,
-    above the maximum length allowed of [% constants.MAX_FREETEXT_LENGTH FILTER none %]
-    characters):
+    [% title = "Za długi tekst" %]
+    Wprowadzony tekst zawiera ([% text.length FILTER html %] znaków.
+    Dopuszczalna liczba to [% constants.MAX_FREETEXT_LENGTH FILTER none %]
+    znaków):
     <p><em>[% text FILTER html %]</em></p>
 
   [% ELSIF error == "group_cannot_delete" %]
-    [% title = "Cannot Delete Group" %]
-    The <em>[% name FILTER html %]</em> group cannot be deleted because
-    there are
-    <a href="editgroups.cgi?action=del&amp;group=[% gid FILTER url_quote %]">records</a>
-    in the database which refer to it. All references to this group must
-    be removed before you can remove it.
+    [% title = "Nie można usunąć grupy" %]
+    Grupa <em>[% group.name FILTER html %]</em> nie może być usunięta, ponieważ 
+    w bazie danych znajdują się 
+    <a href="editgroups.cgi?action=del&amp;group=
+             [%- group.id FILTER url_quote %]">rekordy</a>
+    odnoszące się do tej grupy. Przed usunięciem grupy, należy usunąć
+    wszystkie odniesienia do niej.
 
   [% ELSIF error == "group_change_denied" %]
-    [% title = "Cannot Add/Remove That Group" %]
-    You tried to add or remove group id [% group_id FILTER html %]
-    from [% terms.bug %] [%+ bug.id FILTER html %], but you do not
-    have permissions to do so.
+    [% title = "Nie można dodać/usunąć tej grupy" %]
+    Próbujesz dodać lub usunąć grupę o ID [% group_id FILTER html %]
+    z [% terms.bledu %] [%+ bug.id FILTER html %], ale nie masz
+    uprawnień do wykonania tej operacji.
 
   [% ELSIF error == "group_exists" %]
-    [% title = "The group already exists" %]
-    The group [% name FILTER html %] already exists.
+    [% title = "Grupa już istnieje" %]
+    Grupa o nazwie [% name FILTER html %] już istnieje.
 
   [% ELSIF error == "group_has_special_role" %]
-    [% title = "Group not deletable" %]
+    [% title = "Grupa jest nieusuwalna" %]
     [% IF groups.size == 1 %]
-      [% attr = "it" %]
-      [% param = "parameter" %]
+      [% attr = "wskazywał" %]
+      [% param = "parametr" %]
     [% ELSE %]
-      [% attr = "them" %]
-      [% param = "parameters" %]
+      [% attr = "wskazywały" %]
+      [% param = "parametry" %]
     [% END %]
-    The group '[% name FILTER html %]' is used by the
-    '[% groups.join("' and '") FILTER html %]' [% param FILTER html %].
-    In order to delete this group, you first have to change the
-    [%+ param FILTER html %] to make [% attr FILTER html %] point to another group.
+    Grupa „[% name FILTER html %]” jest używana przez 
+    „[% groups.join("' i '") FILTER html %]” [% param FILTER html %].
+    Aby usunąć tę grupę, należy najpierw zmienić 
+    [%+ param FILTER html %], aby [% attr FILTER html %] wskazywał na inną grupę.
 
 
   [% ELSIF error == "group_invalid_removal" %]
-    You tried to remove [% terms.bug %] [%+ bug.id FILTER html %]
-    from group id [% group_id FILTER html %], but [% terms.bugs %] in the 
-    '[% product FILTER html %]' product can not be removed from that
-    group.
+    Próbujesz usunąć [% terms.blad %] [%+ bug.id FILTER html %]
+    z grupy o ID [% group_id FILTER html %], ale [% terms.bledy %] w 
+    produkcie „[% product FILTER html %]” nie mogą być usuwane z tej
+    grupy.
     
   [% ELSIF error == "group_invalid_restriction" %]
-    You tried to restrict [% terms.bug %] [%+ bug.id FILTER html %] to
-    to group id [% group_id FILTER html %], but [% terms.bugs %] in the
-    '[% product FILTER html %]' product can not be restricted to
-    that group.
+    Próbujesz ograniczyć [% terms.blad %] [%+ bug.id FILTER html %] do
+    grupy o ID [% group_id FILTER html %], ale [% terms.bugs %] w
+    produkcie „[% product FILTER html %]” nie można ograniczać do
+    tej grupy.
 
   [% ELSIF error == "group_not_specified" %]
-    [% title = "Group not specified" %]
-    No group was specified.
+    [% title = "Nie podano grupy" %]
+    Nie podano żadnej grupy.
 
   [% ELSIF error == "system_group_not_deletable" %]
-    [% title = "System Groups not deletable" %]
-    <em>[% name FILTER html %]</em> is a system group.
-    This group cannot be deleted.
+    [% title = "Grupy systemowe nie mogą zostać usunięte" %]
+    Grupa <em>[% name FILTER html %]</em> jest grupą systemową.
+    Ta grupa nie może zostać usunięta.
 
   [% ELSIF error == "group_unknown" %]
-    [% title = "Unknown Group" %]
-    The group [% name FILTER html %] does not exist. Please specify
-    a valid group name. Create it first if necessary!
+    [% title = "Nieznana grupa" %]
+    Grupa [% name FILTER html %] nie istnieje. Proszę podać prawidłową
+    nazwę grupy.
 
   [% ELSIF error == "illegal_at_least_x_votes" %]
-    [% title = "Your Search Makes No Sense" %]
-    The <em>At least ___ votes</em> field must be a simple number. 
-    You entered <tt>[% value FILTER html %]</tt>, which isn't.
+    [% title = "Zapytanie nie ma sensu" %]
+    Pole <em>Co najmniej ___ głosów</em> musi być liczbą naturalną. 
+    Podano nieprawidłową wartość <tt>[% value FILTER html %]</tt>.
     
   [% ELSIF error == "illegal_attachment_edit" %]
-    [% title = "Unauthorized Action" %]
-    You are not authorized to edit attachment [% attach_id FILTER html %].
+    [% title = "Brak dostępu" %]
+    Nie masz uprawnień do edycji załącznika [% attach_id FILTER html %].
 
   [% ELSIF error == "illegal_attachment_edit_bug" %]
-    [% title = "Unauthorized Action" %]
-    You are not authorized to edit attachments on [% terms.bug %] 
+    [% title = "Brak dostępu" %]
+    Nie masz uprawnień do edycji załączników dla [% terms.bledu %] 
     [%+ bug_id FILTER html %].
          
   [% ELSIF error == "illegal_attachment_is_patch" %]
-    [% title = "Your Search Makes No Sense" %]
-    The only legal values for the <em>Attachment is patch</em> field are
-    0 and 1.
+    [% title = "Zapytanie nie ma sensu" %]
+    Jedynymi prawidłowymi wartościami dla pola <em>Załącznik jest łatką</em>
+    jest 0 lub 1.
 
   [% ELSIF error == "illegal_bug_status_transition" %]
-    [% title = "Illegal $terms.Bug Status Change" %]
+    [% title = "Nieprawidłowa zmiana statusu $terms.bledu" %]
     [% IF old.defined %]
-      You are not allowed to change the [% terms.bug %] status from
-      [%+ old.name FILTER html %] to [% new.name FILTER html %].
+      Nie masz uprawnień do zmiany statusu [% terms.bledu %] z
+      [%+ old.name FILTER html %] na [% new.name FILTER html %].
     [% ELSE %]
-      You are not allowed to file new [% terms.bugs %] with the
-      [%+ new.name FILTER html %] status. 
+      Nie masz uprawnień do zgłaszania nowego [% terms.bledu %] ze
+      statusem [%+ new.name FILTER html %]. 
     [% END %]
 
   [% ELSIF error == "illegal_change" %]
-    [% title = "Not allowed" %]
-    You tried to change the
-    <strong>[% field_descs.$field FILTER html %]</strong> field 
-    [% IF oldvalue.defined %]
-      from <em>[% oldvalue.join(', ') FILTER html %]</em>
+    [% title = "Brak dostępu" %]
+    Próbowano zmienić pole
+    <strong>[% field_descs.$field FILTER html %]</strong> 
+    [% IF oldvalue %]
+    z  <em>[% oldvalue.join(', ') FILTER html %]</em>
     [% END %]
-    [% IF newvalue.defined %]
-      to <em>[% newvalue.join(', ') FILTER html %]</em>
+    [% IF newvalue %]
+      na <em>[% newvalue.join(', ') FILTER html %]</em>,
     [% END %]
-    , but only
+    lecz tylko
     [% IF privs < 3 %]
-      the assignee
-      [% IF privs < 2 %] or reporter [% END %]
-      of the [% terms.bug %], or
+      beneficjent
+    [% IF privs < 2 %], zgłaszający [% END %]
+      [% terms.blad %] lub
     [% END %]
-    a user with the required permissions may change that field.
+    użytkownik o odpowiednich uprawnieniach może zmieniać to pole.
 
   [% ELSIF error == "illegal_change_deps" %]
-    [% title = "Not allowed" %]
-    You tried to change the 
-    <strong>[% field_descs.$field FILTER html %]</strong> field 
-    but only a user allowed to edit 
-    both related [% terms.bugs %] may change that field.
+    [% title = "Brak dostępu" %]
+    Podjęto próbę zmiany pola 
+    <strong>[% field_descs.$field FILTER html %]</strong>, lecz
+    tylko użytkownik uprawniony do edycji obu powiązanych
+    [% terms.bledow %] może zmienić to pole.
 
   [% ELSIF error == "illegal_changed_in_last_x_days" %]
-    [% title = "Your Search Makes No Sense" %]
-    The <em>Changed in last ___ days</em> field must be a simple number. 
-    You entered <tt>[% value FILTER html %]</tt>, which isn't.
+    [% title = "Zapytanie nie ma sensu" %]
+    Wartość pola <em>Zmieniono w ciągu ___ dni</em> musi być liczbą naturalną. 
+    Podano nieprawidłową wartość <tt>[% value FILTER html %]</tt>.
     
   [% ELSIF error == "illegal_date" %]
-    [% title = "Illegal Date" %]
-    '<tt>[% date FILTER html %]</tt>' is not a legal date.
+    [% title = "Nieprawidłowa data" %]
+    „<tt>[% date FILTER html %]</tt>” nie jest poprawną datą.
     [% IF format %]
-      Please use the format '<tt>[% format FILTER html %]</tt>'.
+      Proszę użyć formatu „<tt>[% format FILTER html %]</tt>”.
     [% END %]
     
   [% ELSIF error == "illegal_email_address" %]
-    [% title = "Invalid Email Address" %]
-    The e-mail address you entered (<b>[% addr FILTER html %]</b>) 
-    didn't pass our syntax checking for a legal email address.
+    [% title = "Nieprawidłowy adres e-mail" %]
+    Podany adres e-mail (<b>[% addr FILTER html %]</b>)
+    nie spełnia warunków poprawności adresu e-mail.
     [% IF default %]
-      A legal address must contain exactly one '@',
-      and at least one '.' after the @.
+      Poprawny adres musi zawierać dokładnie jeden znak „@”
+      oraz co najmniej jedną kropkę po znaku @.
     [% ELSE %]
       [%+ Param('emailregexpdesc') %]
     [% END %]
-    It must also not contain any of these special characters:
-    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt>, or any whitespace.
+    Adres nie może również zawierać żadnego z tych znaków:
+    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt> oraz białych spacji.
     
   [% ELSIF error == "illegal_frequency" %]
-    [% title = "Too Frequent" %]
-    Unless you are an administrator, you may not create series which are 
-    run more often than once every [% minimum FILTER html %] days.
+    [% title = "Za często generowane serie" %]
+    Tylko administrator ma prawo tworzenia serii generowanej częściej
+    niż co [% minimum FILTER html %] dni.
     
   [% ELSIF error == "illegal_group_control_combination" %]
-    [% title = "Your Group Control Combination Is Illegal" %]
-    [% admindocslinks = {'groups.html' => 'Assigning Group Controls to Products'} %]
-    Your group control combination for group &quot;
-    [% groupname FILTER html %]&quot; is illegal.
+    [% title = "Nieprawidłowa kombinacja grupy kontroli" %]
+    [% admindocslinks = {'groups.html' => 'Przypisywanie grupy kontroli do produktów'} %]
+    Kombinacja grupy kontroli dla grupy 
+    „[% groupname FILTER html %]” jest nieprawidłowa.
 
   [% ELSIF error == "illegal_is_obsolete" %]
-    [% title = "Your Search Makes No Sense" %]
-    The only legal values for the <em>Attachment is obsolete</em> field are
-    0 and 1.
+    [% title = "Zapytanie nie ma sensu" %]
+    Jedynymi prawidłowymi wartościami dla pola <em>Załącznik jest nieaktualny</em>
+    jest 0 lub 1.
 
   [% ELSIF error == "illegal_query_name" %]
-    [% title = "Illegal Search Name" %]
-    The name of your search cannot contain any of the following characters: 
+    [% title = "Nieprawidłowa nazwa zapytania" %]
+    Nazwa zapytania nie może zawierać żadnego z następujących znaków: 
     &lt;, &gt;, &amp;.
 
   [% ELSIF error == "illegal_series_creation" %]
-    [% admindocslinks = {'groups.html' => 'Group security'} %]
-    [% docslinks = {'reporting.html' => 'Reporting'} %]
-    You are not authorized to create series.
+    [% admindocslinks = {'groups.html' => 'Zabezpieczenia grup'} %]
+    [% docslinks = {'reporting.html' => 'Raporty'} %]
+    Nie masz uprawnień do tworzenia serii.
         
   [% ELSIF error == "illegal_series_edit" %]
-    [% admindocslinks = {'groups.html' => 'Group security'} %]
-    [% docslinks = {'reporting.html' => 'Reporting'} %]
-    You are not authorized to edit this series. To do this, you must either
-    be its creator, or an administrator.
+    [% admindocslinks = {'groups.html' => 'Zabezpieczenia grup'} %]
+    [% docslinks = {'reporting.html' => 'Raporty'} %]
+    Nie masz uprawnień do edycji serii. Czynność ta zarezerwowana jest dla twórcy serii
+    lub administratora.
 
   [% ELSIF error == "illegal_time" %]
-    [% title = "Illegal Time" %]
-    '<tt>[% time FILTER html %]</tt>' is not a legal time.
+    [% title = "Nieprawidłowy format czasu" %]
+  „'<tt>[% time FILTER html %]</tt>” nie jest prawidłowym formatem czasu.
     [% IF format %]
-      Please use the format '<tt>[% format FILTER html %]</tt>'.
+      Proszę użyć formatu „<tt>[% format FILTER html %]</tt>”.
     [% END %]
 
   [% ELSIF error == "illegal_regexp" %]
-    [% title = "Illegal Regular Expression" %]
-    The regular expression you provided [% value FILTER html %] is not valid.
-    The error was: [% dberror FILTER html %].
+    [% title = "Nieprawidłowe wyrażenie regularne" %]
+    Dostarczone wyrażenie regularne [% value FILTER html %] jest nieprawidłowe.
+    Błąd: [% dberror FILTER html %].
         
   [% ELSIF error == "insufficient_data_points" %]
-    [% docslinks = {'reporting.html' => 'Reporting'} %]
-    We don't have enough data points to make a graph (yet).
+    [% docslinks = {'reporting.html' => 'Tworzenie raportów'} %]
+    Nie ma jeszcze wystarczającej liczby danych do utworzenia wykresu.
         
   [% ELSIF error == "invalid_attach_id" %]
-    [% title = "Invalid Attachment ID" %]
-    The attachment id [% attach_id FILTER html %] is invalid.
+    [% title = "Nieprawidłowy identyfikator załącznika" %]
+    Identyfikator załącznika [% attach_id FILTER html %] jest nieprawidłowy.
 
   [% ELSIF error == "bug_id_does_not_exist" %]
-    [% title = BLOCK %]Invalid [% terms.Bug %] ID[% END %]
-    [% terms.Bug %] #[% bug_id FILTER html %] does not exist.
+    [% title = BLOCK %]Nieprawidłowy identyfikator [% terms.bledu %][% END %]
+    [% terms.Blad %] #[% bug_id FILTER html %] nie istnieje.
     
   [% ELSIF error == "improper_bug_id_field_value" %]
     [% title = BLOCK %]
-      [% IF bug_id %]Invalid [% ELSE %]Missing [% END %] [% terms.Bug %] ID
+      [% IF bug_id %]Nieprawidłowy [% ELSE %]Brakuje [% END %] ID [% terms.bledu %]
     [% END %]
     [% IF bug_id %]
-      '[% bug_id FILTER html %]' is not a valid [% terms.bug %] number
+      „[% bug_id FILTER html %]” nie jest poprawnym numerem [% terms.bledu %]
       [% IF Param("usebugaliases") %]
-        nor an alias to [% terms.abug %]
+        ani aliasem [% terms.bledu %]
       [% END %].
     [% ELSE %]
       [% IF field %]
-        The '[% field_descs.$field FILTER html %]' field
-        cannot be empty.
+        Pole „[% field_descs.$field FILTER html %]” nie może
+	być puste.
       [% END %]
-      You must enter a valid [% terms.bug %] number!
+      Należy podać prawidłowy numer [% terms.bledu %]!
     [% END %]
 
   [% ELSIF error == "invalid_changedsince" %]
-    [% title = "Invalid 'Changed Since'" %]
-    The 'changed since' value, '[% changedsince FILTER html %]', must be an
-    integer >= 0.
+    [% title = "Nieprawidłowa wartość dla „Zmieniono w trakcie ___ dni”" %]
+    Wartość pola „Zmieniono w trakcie ___ dni” „[% changedsince FILTER html %]”
+    musi być >= 0.
 
   [% ELSIF error == "invalid_content_type" %]
-    [% title = "Invalid Content-Type" %]
-    The content type <em>[% contenttype FILTER html %]</em> is invalid.
-    Valid types must be of the form <em>foo/bar</em> where <em>foo</em>
-    is either <em>application, audio, image, message, model, multipart,
-    text,</em> or <em>video</em>.
+    [% title = "Nieprawidłowa wartość typu zawartości" %]
+    Typ zawartości <em>[% contenttype FILTER html %]</em> jest nieprawidłowy.
+    Prawidłowe typy mają postać <em>foo/bar</em>, gdzie <em>foo</em>
+    jest jednym z <em>[% constants.LEGAL_CONTENT_TYPES.join(', ') FILTER html %]</em>.
     
   [% ELSIF error == "invalid_context" %]
-    [% title = "Invalid Context" %]
-    The context [% context FILTER html %] is invalid (must be a number,
-    "file" or "patch").
+    [% title = "Nieprawidłowy kontekst" %]
+    Kontekst [% context FILTER html %] jest nieprawidłowy. Musi być liczbą lub napisem
+    „file” lub „patch”.
 
   [% ELSIF error == "invalid_datasets" %]
-    [% title = "Invalid Datasets" %]
-    Invalid datasets <em>[% datasets FILTER html %]</em>. Only digits,
-    letters and colons are allowed.
+    [% title = "Nieprawidłowe zestawy danych" %]
+    Nieprawidłowe zestawy danych <em>[% datasets FILTER html %]</em>. Dozwolone są tylko
+    cyfry, litery i dwukropki.
 
   [% ELSIF error == "invalid_format" %]
-    [% title = "Invalid Format" %]
-    The format "[% format FILTER html %]" is invalid (must be one of
+    [% title = "Nieprawidłowy format" %]
+    Format "[% format FILTER html %]" jest nieprawidłowy. Musi być jednym z
     [% FOREACH my_format = formats %]
       "[% my_format FILTER html %]"
     [% END %]
-    ).
+    .
 
   [% ELSIF error == "invalid_group_ID" %]
-    [% title = "Invalid group ID" %]
-    The group you specified doesn't exist.
+    [% title = "Nieprawidłowy identyfikator grupy" %]
+    Podana grupa nie istnieje.
 
   [% ELSIF error == "invalid_group_name" %]
-    [% title = "Invalid group name" %]
-    The group you specified, [% name FILTER html %], is not valid here.
+    [% title = "Nieprawidłowa nazwa grupy" %]
+    Podana grupa „[% name FILTER html %]” nie jest prawidłowa.
 
   [% ELSIF error == "invalid_maxrows" %]
-    [% title = "Invalid Max Rows" %]
-    The maximum number of rows, '[% maxrows FILTER html %]', must be
-    a positive integer.
+    [% title = "Nieprawidłowa wartość „Maksymalna liczba wierszy”" %]
+    Maksymalna liczba wierszy „[% maxrows FILTER html %]” musi być dodatnią
+    liczbą całkowitą.
 
   [% ELSIF error == "invalid_parameter" %]
-    [% title = "Invalid Parameter" %]
-    The new value for [% name FILTER html %] is invalid: [% err FILTER html %].
+    [% title = "Niepoprawny parametr" %]
+    Nowa wartość dla [% name FILTER html %] jest niepoprawna: [% err FILTER html %].
 
   [% ELSIF error == "invalid_product_name" %]
-    [% title = "Invalid Product Name" %]
-    The product name '[% product FILTER html %]' is invalid or does not exist.
+    [% title = "Nieprawidłowa nazwa produktu" %]
+    Nazwa produktu „[% product FILTER html %]” jest nieprawidłowa lub nie istnieje.
 
   [% ELSIF error == "invalid_regexp" %]
-    [% title = "Invalid regular expression" %]
-    The regular expression you entered is invalid.
+    [% title = "Nieprawidłowe wyrażenie regularne" %]
+    Podane wyrażenie regularne nie jest prawidłowe.
 
   [% ELSIF error == "invalid_user_group" %]
-    [% title = "Invalid User Group" %]
-    [% IF users.size > 1 %] Users [% ELSE %] User [% END %]
-    '[% users.join(', ') FILTER html %]'
-    [% IF users.size > 1 %] are [% ELSE %] is [% END %]
-    not able to edit the
+    [% title = "Nieprawidłowa grupa użytkowników" %]
+    [% IF users.size > 1 %] Użytkownicy [% ELSE %] Użytkownik [% END %]
+    „[% users.join(', ') FILTER html %]”
+    [% IF users.size > 1 %] nie mogą [% ELSE %] nie może [% END %]
+    modyfikować 
     [% IF product %]
-      '[% product FILTER html %]'
+      produktu „[% product FILTER html %]”
     [% END %]
     [%+ field_descs.product FILTER html %]
     [% IF bug_id %]
-      for [% terms.bug %] '[% bug_id FILTER html %]'.
+      dla [% terms.bledu %] „[% bug_id FILTER html %]”.
     [% ELSIF new %]
-      and may not be included on a new [% terms.bug %].
+      i nie może być dołączony do nowego [% terms.bledu %].
     [% ELSE %]
-      for at least one [% terms.bug %] being changed.
+      dla co najmniej jednego zmienianego [% terms.bledu %].
     [% END %]
 
   [% ELSIF error == "invalid_username" %]
-    [% title = "Invalid Username" %]
-    The name <tt>[% name FILTER html %]</tt> is not a valid username.  
-    Either you misspelled it, or the person has not
-    registered for a [% terms.Bugzilla %] account.
+    [% title = "Nieprawidłowa nazwa użytkownika" %]
+    Nazwa <tt>[% name FILTER html %]</tt> nie jest prawidłową nazwą użytkownika.  
+    Wpisano nazwę z błędem lub w [% terms.Bugzilli %]
+    nie istnieje konto tej osoby.
 
   [% ELSIF error == "invalid_username_or_password" %]
-    [% title = "Invalid Username Or Password" %]
-    The username or password you entered is not valid.
+    [% title = "Nieprawidłowa nazwa użytkownika lub hasło" %]
+    Podana nazwa użytkownika lub hasło są nieprawidłowe.
+    [%# People get two login attempts before being warned about
+      # being locked out.
+      #%]
+    [% IF remaining <=  2 %]
+      Jeśli nie wprowadzono poprawnego hasła po 
+      [%+ remaining FILTER html %] próbach konto
+      zostanie zablokowane przez
+      [%+ constants.LOGIN_LOCKOUT_INTERVAL FILTER html %] minut.
+    [% END %]
+
+  [% ELSIF error == "json_rpc_post_only" %]
+    Z powodów bezpieczeństwa z metodą POST HTTP możesz używać tylko
+    JSON-RPC.
 
   [% ELSIF error == "keyword_already_exists" %]
-    [% title = "Keyword Already Exists" %]
-    A keyword with the name [% name FILTER html %] already exists.
+    [% title = "Słowo kluczowe już istnieje" %]
+    Słowo kluczowe [% name FILTER html %] już istnieje.
 
   [% ELSIF error == "keyword_blank_description" %]
-    [% title = "Blank Keyword Description Not Allowed" %]
-    You must enter a non-blank description for the keyword.
+    [% title = "Puste pole opisu słowa kluczowego" %]
+    Opis dla słowa kluczowego nie może być pusty.
      
   [% ELSIF error == "keyword_blank_name" %]
-    [% title = "Blank Keyword Name Not Allowed" %]
-    You must enter a non-blank name for the keyword.
+    [% title = "Pusta nazwa słowa kluczowego" %]
+    Nazwa słowa kluczowego nie może być pusta.
      
   [% ELSIF error == "keyword_invalid_name" %]
-    [% title = "Invalid Keyword Name" %]
-    You may not use commas or whitespace in a keyword name.
+    [% title = "Nieprawidłowa nazwa słowa kluczowego" %]
+    Nazwa słowa kluczowego nie może zawierać przecinków i spacji.
      
   [% ELSIF error == "local_file_too_large" %]
-    [% title = "Local File Too Large" %]
-    Local file uploads must not exceed 
-    [% Param('maxlocalattachment') %] MB in size.
+    [% title = "Za duży plik lokalny" %]
+    Rozmiar pliku lokalnego nie może przekroczyć
+    [% Param('maxlocalattachment') %] MB.
 
   [% ELSIF error == "login_needed_for_password_change" %]
-    [% title = "Login Name Required" %]
-    You must enter a login name when requesting to change your password.
+    [% title = "Wymagana nazwa konta" %]
+    Aby zmienić hasło, należy podać nazwę konta.
 
   [% ELSIF error == "login_required_for_pronoun" %]
-    [% title = "Login Name Required" %]
-    You can't use %user% without being logged in, because %user% refers
-    to your login name, which we don't know.
+    [% title = "Wymagana nazwa użytkownika" %]
+    Nie można użyć %user% nie będąc zalogowanym, ponieważ zmienna %user% odnosi się
+    do nieznanej w tym momencie nazwy użytkownika.
+
+  [% ELSIF error == "migrate_config_created" %]
+    Plik <kbd>[% file FILTER html %]</kbd> zawiera konfigurację
+    zmiennych, które muszą być okreslone przed kontynuacją migracji.
+
+  [% ELSIF error == "migrate_from_invalid" %]
+    „[% from FILTER html %]” nie jest prawidłowym typem trackera [% terms.bledu %]
+    do migracji. Zobacz zawartość katalogu <kbd>B[% %]ugzilla/Migracja/</kbd>,
+    sprawdzić prawidłowe trackery [% terms.bledu %].
 
   [% ELSIF error == "milestone_already_exists" %]
-    [% title = "Milestone Already Exists" %]
-    [% admindocslinks = {'products.html' => 'Administering products',
-                         'milestones.html' => 'About Milestones'} %]
-    The milestone '[% name FILTER html %]' already exists for product '
-    [%- product FILTER html %]'.
+    [% title = "Wersja docelowa już istnieje" %]
+    [% admindocslinks = {'products.html' => 'Administracja produktami',
+                         'milestones.html' => 'O wersjach docelowych'} %]
+    Wersja docelowa „[% name FILTER html %]” została już zdefiniowana dla produktu 
+    [%- product FILTER html %]”.
 
   [% ELSIF error == "milestone_blank_name" %]
-    [% title = "Blank Milestone Name Not Allowed" %]
-    You must enter a name for this milestone.
+    [% title = "Pusta nazwa dla wersji docelowej jest niedozwolona" %]
+    Należy podać nazwę dla wersji docelowej.
 
   [% ELSIF error == "milestone_is_default" %]
-    [% title = "Default milestone not deletable" %]
-    [% admindocslinks = {'products.html' => 'Administering products',
-                         'milestones.html' => 'About Milestones'} %]
-    Sorry, but [% milestone.name FILTER html %] is the default milestone
-    for the '[% milestone.product.name FILTER html %]' product, and so
-    it cannot be deleted.
+    [% title = "Nie można usunąć domyślnej wersji docelowej" %]
+    [% admindocslinks = {'products.html' => 'Administracja produktami',
+                         'milestones.html' => 'O wersjach docelowych'} %]
+    Wersja [% milestone.name FILTER html %] jest domyślną wersją docelową dla
+    produktu „[% milestone.product.name FILTER html %]”, więc nie może
+    być usunięta.
 
   [% ELSIF error == "milestone_name_too_long" %]
-    [% title = "Milestone Name Is Too Long" %]
-    The name of a milestone is limited to [% constants.MAX_MILESTONE_SIZE FILTER html %]
-    characters. '[% name FILTER html %]' is too long ([% name.length %] characters).
+    [% title = "Nazwa wersji docelowej jest zbyt długa" %]
+    Nazwa wersji docelowej jest ograniczona do [% constants.MAX_MILESTONE_SIZE FILTER html %]
+    znaków. „[% name FILTER html %]” zawiera za dużo znaków ([% name.length %]).
 
   [% ELSIF error == "milestone_required" %]
-    [% title = "Milestone Required" %]
-    You must select a target milestone for [% terms.bug %]
-    [%+ bug.id FILTER html %]
-    if you are going to accept it.  Part of accepting 
-    [%+ terms.abug %] is giving an estimate of when it will be fixed.
+    [% title = "Wersja docelowa jest wymagana" %]
+    Jeśli zamierzasz zaakceptować [% terms.blad %] [%+ bug.id FILTER html %], 
+    należy określić dla niego wersję docelową. Częścią procesu akceptacji 
+    jest określenie przypuszczalnego czasu jego rozwiązania.
 
   [% ELSIF error == "milestone_sortkey_invalid" %]
-    [% title = "Invalid Milestone Sortkey" %]
-    The sortkey '[% sortkey FILTER html %]' is not in the range
-    [%+ constants.MIN_SMALLINT FILTER html %] &le; sortkey &le;
+    [% title = "Nieprawidłowy klucz sortowania wersji docelowej" %]
+    Klucz sortowania „[% sortkey FILTER html %]” nie mieści się w przedziale
+    [%+ constants.MIN_SMALLINT FILTER html %] &le; klucz sortowania &le;
     [%+ constants.MAX_SMALLINT FILTER html %].
 
   [% ELSIF error == "misarranged_dates" %]
-    [% title = "Misarranged Dates" %]
-    Your start date ([% datefrom FILTER html %]) is after 
-    your end date ([% dateto FILTER html %]).
+    [% title = "Nieprawidłowe daty" %]
+    Data początkowa ([% datefrom FILTER html %]) jest późniejsza
+    niż końcowa ([% dateto FILTER html %]).
     
   [% ELSIF error == "missing_attachment_description" %]
-    [% title = "Missing Attachment Description" %]
-    You must enter a description for the attachment.
+    [% title = "Brakujący opis załącznika" %]
+    Należy podać opis załącznika.
     
   [% ELSIF error == "missing_category" %]
-    [% title = "Missing Category" %]
-    You did not specify a category for this series.
+    [% title = "Brakująca kategoria" %]
+    Nie podano kategorii dla tej serii.
 
   [% ELSIF error == "missing_component" %]
-    [% title = "Missing Component" %]
-    [% admindocslinks = {'products.html'   => 'Administering products',
-                         'components.html' => 'Creating a component'} %]
-    Sorry, the product <em>[% product.name FILTER html %]</em>
-    has to have at least one component in order for you to
-    enter [% terms.abug %] into it.<br>
+    [% title = "Brakujący komponent" %]
+    [% admindocslinks = {'products.html'   => 'Administracja produktami',
+                         'components.html' => 'Tworzenie komponentów'} %]
+    Produkt <em>[% product.name FILTER html %]</em>
+    musi mieć zdefiniowany przynajmniej jeden komponent, aby możliwe było
+    zgłaszanie [% terms.bledow %] dla niego.<br>
     [% IF user.in_group("editcomponents", product.id) %]
-      <a href="editcomponents.cgi?action=add&amp;product=[% product.name FILTER url_quote %]">Create
-      a new component</a>.
+      <a href="editcomponents.cgi?action=add&amp;product=[% product.name FILTER url_quote %]">Utwórz
+      nowy komponent</a>.
     [% ELSE %]
-      Please contact [% Param("maintainer") %] and ask them
-      to add a component to this product.
+      Proszę skontaktować się z [% Param("maintainer") %] i poprosić o dodanie
+      komponentu do tego produktu.
     [% END %]
 
   [% ELSIF error == "missing_content_type" %]
-    [% title = "Missing Content-Type" %]
-     You asked [% terms.Bugzilla %] to auto-detect the content type, but
-     your browser did not specify a content type when uploading the file, 
-     so you must enter a content type manually.
+    [% title = "Brakujące określenie typu zawartości" %]
+     Poproszono [% terms.Bugzille %] o automatyczne wykrycie typu zawartości załącznika,
+     ale Twoja przeglądarka podczas przysyłania pliku nie określiła typu zawartości.
+     Musisz podać typ zawartości ręcznie.
                 
   [% ELSIF error == "missing_content_type_method" %]
-    [% title = "Missing Content-Type Determination Method" %]
-    You must choose a method for determining the content type,
-    either <em>auto-detect</em>, <em>select from list</em>, or <em>enter 
-    manually</em>.
+    [% title = "Brak metody pozwalającej określić typ zawartości" %]
+    Wybierz metodę, która pozwoli określić typ załącznika.
+    Można wybrać spośród: <em>wykryj automatycznie</em>, <em>wybierz z listy</em> lub
+    <em>wprowadź ręcznie</em>.
         
   [% ELSIF error == "missing_cookie" %]
-    [% title = "Missing Cookie" %]
-    Sorry, I seem to have lost the cookie that recorded
-    the results of your last search. I'm afraid you will have to start
-    again from the <a href="query.cgi">search page</a>.
+    [% title = "Brak ciasteczka" %]
+    Przepraszamy, ale wydaje się, że straciliśmy ciasteczko, w którym zapisano wyniki
+    ostatniego wyszukiwania. Obawiamy się, że trzeba będzie zacząć
+    <a href="query.cgi">wyszukiwanie</a> od początku.
           
   [% ELSIF error == "missing_datasets" %]
-    [% title = "No Datasets Selected" %]
-    [% docslinks = {'reporting.html' => 'Reporting'} %]
-    You must specify one or more datasets to plot.
+    [% title = "Nie wybrano zbioru danych" %]
+    [% docslinks = {'reporting.html' => 'Raporty'} %]
+    Proszę wybrać jeden lub więcej zbiorów danych do narysowania wykresu.
     
   [% ELSIF error == "missing_frequency" %]
-    [% title = "Missing Frequency" %]
-    [% docslinks = {'reporting.html' => 'Reporting'} %]
-    You did not specify a valid frequency for this series.
+    [% title = "Brakująca częstotliwość" %]
+    [% docslinks = {'reporting.html' => 'Raporty'} %]
+    Nie podano prawidłowej częstotliwości dla tej serii.
                 
   [% ELSIF error == "missing_name" %]
-    [% title = "Missing Name" %]
-    [% docslinks = {'reporting.html' => 'Reporting'} %]
-    You did not specify a name for this series.
+    [% title = "Brak nazwy" %]
+    [% docslinks = {'reporting.html' => 'Raporty'} %]
+    Nie podano nazwy dla tej serii.
                 
   [% ELSIF error == "missing_query" %]
-    [% title = "Missing Search" %]
-    [% docslinks = {'query.html' => "Searching for $terms.bugs",
-                    'query.html#list' => "$terms.Bug lists"} %]
-    The search named <em>[% queryname FILTER html %]</em>
+    [% title = "Brak zapytania" %]
+    [% docslinks = {'query.html' => "Wyszukiwanie $terms.bledow",
+                    'query.html#list'  => "Listy $terms.bledow"} %]
+    Wyszukiwanie o nazwie <em>[% queryname FILTER html %]</em>
     [% IF sharer_id && sharer_id != user.id %]
-      has not been made visible to you.
+      nie jest dla Ciebie udostępnione.
     [% ELSE %]
-      does not exist.
+      nie istnieje.
     [% END %]
 
   [% ELSIF error == "missing_resolution" %]
-    [% title = "Resolution Required" %]
-    A valid resolution is required to mark [% terms.bugs %] as
+    [% title = "Rozwiązanie wymagane" %]
+    Prawidłowe rozwiązanie jest wymagane, by oznaczyć [% terms.blad %] jako
     [%+ status FILTER upper FILTER html %].
 
   [% ELSIF error == "move_bugs_disabled" %]
-    [% title = BLOCK %][% terms.Bug %] Moving Disabled[% END %]
-    Sorry, [% terms.bug %] moving has been disabled. If you need
-    to move [% terms.abug %], please contact [% Param("maintainer") %].
+    [% title = BLOCK %]Przenoszenie [% terms.bledow %] jest wyłączone[% END %]
+    Przenoszenie [% terms.bledow %] zostało wyłączone. Jeśli potrzebujesz
+    przenieść [% terms.blad %], skontaktuj się z administratorem [% Param("maintainer") %].
 
   [% ELSIF error == "missing_subcategory" %]
-    [% title = "Missing Subcategory" %]
-    You did not specify a subcategory for this series.
+    [% title = "Brak subkategorii" %]
+    Nie podano subkategorii dla tej serii.
                 
   [% ELSIF error == "missing_version" %]
-    [% title = "Missing Version" %]
-    [% admindocslinks = {'versions.html' => 'Defining versions'} %]
-    Sorry, the product <em>[% product.name FILTER html %]</em>
-    has to have at least one version in order for you to
-    enter [% terms.abug %] into it.<br>
+    [% title = "Braku wersji" %]
+    [% admindocslinks = {'versions.html' => 'Definiowanie wersji'} %]
+    Produkt <em>[% product.name FILTER html %]</em>
+    musi mieć zdefiniowaną przynajmniej jedną wersję, by możliwe było
+    zgłaszanie [% terms.bledow %] dla niego.<p>
     [% IF user.in_group("editcomponents", product.id) %]
-      <a href="editversions.cgi?action=add&amp;product=[% product.name FILTER url_quote %]">Create
-      a new version</a>.
+      <a href="editversions.cgi?action=add&amp;product=[% product.name FILTER url_quote %]">Utwórz
+      nową wersję</a>.
     [% ELSE %]
-      Please contact [% Param("maintainer") %] and ask them
-      to add a version to this product.
+      Proszę skontaktować się z [% Param("maintainer") %] i poprosić o dodanie
+      wersji dla tego produktu.
     [% END %]
 
   [% ELSIF error == "need_quip" %]
-    [% title = "Quip Required" %]
-    [% docslinks = {'quips.html' => 'About quips'} %]
-    Please enter a quip in the text field.
+    [% title = "Wymagana sentencja" %]
+    [% docslinks = {'quips.html' => 'O sentencjach'} %]
+    Proszę podać sentencję w polu tekstowym.
 
   [% ELSIF error == "new_password_missing" %]
-    [% title = "New Password Missing" %]
-    You must enter a new password.
+    [% title = "Brakuje nowego hasła" %]
+    Należy podać nowe hasło.
 
   [% ELSIF error == "no_axes_defined" %]
-    [% title = "No Axes Defined" %]
-    [% docslinks = {'reporting.html' => 'Reporting'} %]
-    You didn't define any axes to plot.
+    [% title = "Niezdefiniowane osie" %]
+    [% docslinks = {'reporting.html' => 'Raporty'} %]
+    Nie zdefiniowano żadnych osi dla wykresu.
 
   [% ELSIF error == "no_bugs_chosen" %]
-    [% title = BLOCK %]No [% terms.Bugs %] Selected[% END %]
-    You apparently didn't choose any [% terms.bugs %]
+    [% title = BLOCK %]Nie wybrano żadnych [% terms.bledow %][% END %]
+    Nie wybrano żadnych [% terms.bledow %]
     [% IF action == "modify" %]
-      to modify.
+      do modyfikacji.
     [% ELSIF action == "view" %]
-      to view.
+      do przeglądania.
     [% END %]
 
   [% ELSIF error == "no_bug_ids" %]
-    [% title = BLOCK %]No [% terms.Bugs %] Selected[% END %]
-    You didn't choose any [% terms.bugs %] to
-    [% IF action == "add" %] add to [% ELSE %] remove from [% END %]
-    the [% tag FILTER html %] tag.
+    [% title = BLOCK %]Nie wybrano [% terms.bledow %][% END %]
+    Nie wybrano żadnych [% terms.bledow %] do
+    [% IF action == "add" %] dodania do [% ELSE %] usunięcia z [% END %]
+    etykiety [% tag FILTER html %].
 
   [% ELSIF error == "no_bugs_in_list" %]
-    [% title = "Delete Tag?" %]
-    This will remove all [% terms.bugs %] from the
-    <em>[% name FILTER html %]</em> tag. This will delete the tag completely. Click
-    <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
+    [% title = "Usunąć etykietę?" %]
+    Nastąpi usunięcie wszystkich [% terms.bledow %] z etykiety
+    <em>[% name FILTER html %]</em>. Spowoduje to całkowite usunięcie etykiety.
+    Kliknij <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
     [%- name FILTER url_quote %]&amp;token=
-    [%- issue_hash_token([query_id, name]) FILTER url_quote %]">here</a>
-    if you really want to delete it.
+    [%- issue_hash_token([query_id, name]) FILTER url_quote %]">ten odnośnik</a>
+    jeśli etykieta ma zostać usunięta.
 
   [% ELSIF error == "no_bugs_to_remove" %]
-    [% title = "No Tag Selected" %]
-    You didn't select a tag from which to remove [% terms.bugs %].
-
-  [% ELSIF error == "no_dupe_stats" %]
-    [% title = "Cannot Find Duplicate Statistics" %]
-    [% admindocslinks = {'extraconfig.html' => 'Setting up the collecstats.pl job'} %]
-    There are no duplicate statistics for today ([% today FILTER html %]) 
-    or yesterday.
-
-  [% ELSIF error == "no_dupe_stats_error_today" %]
-    [% title = "Error Reading Today's Dupes File" %]
-    [% admindocslinks = {'extraconfig.html' => 'Setting up the collecstats.pl job'} %]
-    An error occurred opening today's dupes file: [% error_msg FILTER html %].
-
-  [% ELSIF error == "no_dupe_stats_error_whenever" %]
-    [% title = "Error Reading Previous Dupes File" %]
-    [% admindocslinks = {'extraconfig.html' => 'Setting up the collecstats.pl job'} %]
-    An error occurred opening [% changedsince FILTER html %] days ago
-    ([% whenever FILTER html %])'s dupes file:
-    [% error_msg FILTER html %].
-
-  [% ELSIF error == "no_dupe_stats_error_yesterday" %]
-    [% title = "Error Reading Yesterday's Dupes File" %]
-    [% admindocslinks = {'extraconfig.html' => 'Setting up the collecstats.pl job'} %]
-    There are no duplicate statistics for today ([% today FILTER html %]), 
-    and an error
-    occurred opening yesterday's dupes file: [% error_msg FILTER html %].
+    [% title = "Nie wybrano etykiety" %]
+    Nie wybrano etykiety, z której miałyby być usunięte [% terms.bledy %].
 
   [% ELSIF error == "no_initial_bug_status" %]
-    [% title = "No Initial $terms.Bug Status" %]
-    No [% terms.bug %] status is available on [% terms.bug %] creation.
-    Please report the problem to [% Param("maintainer") %].
+    [% title = "Brak początkowego statusu $terms.bledu" %]
+    Nie podano statusu [% terms.bledu %] podczas tworzenia zgłoszenia.
+    Proszę zgłosić problem do [% Param("maintainer") %].
 
   [% ELSIF error == "no_new_quips" %]
-    [% title = "No New Quips" %]
-    [% admindocslinks = {'quips.html' => 'Controlling quip usage'} %]
-    This site does not permit the addition of new quips.
+    [% title = "Nie można tworzyć nowych sentencji" %] 
+    [% admindocslinks = {'quips.html' => 'Ustawienia sentencji'} %]
+    Ta instalacja nie pozwala na dodawanie nowych sentencji.
 
   [% ELSIF error == "no_page_specified" %]
-    [% title = "No Page Specified" %]
-    You did not specify the id of a page to display.
+    [% title = "Nie podano ID strony" %]
+    Nie podano identyfikatora strony do wyświetlenia.
 
   [% ELSIF error == "no_products" %]
-    [% title = "No Products" %]
-    [% admindocslinks = {'products.html'   => 'Setting up a product',
-                         'components.html' => 'Adding components to products',
-                         'groups.html'     => 'Groups security'} %]
-    Either no products have been defined to enter [% terms.bugs %] against or you have not
-    been given access to any.
+    [% title = "Brak produktów" %]
+    [% admindocslinks = {'products.html'   => 'Ustawienia produktu',
+                         'components.html' => 'Dodawanie komponentów',
+                         'groups.html'     => 'Zabezpieczenia grup'} %]
+    Nie utworzono żadnego produktu, dla którego można utworzyć [% terms.blad %]
+    lub nie masz uprawnień dostępu do któregokolwiek produktu.
 
   [% ELSIF error == "no_valid_action" %]
-    [% title = "No valid action specified" %]
-    Cannot edit [% field_descs.$field FILTER html %]: no valid action was specified.
+    [% title = "Nie podano prawidłowej czynności" %]
+    Nie można edytować [% field_descs.$field FILTER html %] – nie podano prawidłowej czynności.
 
   [% ELSIF error == "number_not_numeric" %]
-    [% title = "Numeric Value Required" %]
-    The value '[% num FILTER html %]' in the 
-    <em>[% field_descs.$field FILTER html %]</em> field 
-    is not a numeric value.
+    [% title = "Wymagana wartość liczbowa" %]
+    Wartość „[% num FILTER html %]” dla pola 
+    <em>[% field_descs.$field FILTER html %]</em> nie 
+    jest liczbą.
 
   [% ELSIF error == "number_too_large" %]
-    [% title = "Number Too Large" %]
-    The value '[% num FILTER html %]' in the 
-    <em>[% field_descs.$field FILTER html %]</em> field 
-    is more than the maximum allowable value of '[% max_num FILTER html %]'.
+    [% title = "Zbyt duża liczba" %]
+    Wartość „[% num FILTER html %]” dla pola 
+    <em>[% field_descs.$field FILTER html %]</em> jest większa
+    niż maksymalna dopuszczalna wartość „[% max_num FILTER html %]”.
 
   [% ELSIF error == "number_too_small" %]
-    [% title = "Number Too Small" %]
-    The value '[% num FILTER html %]' 
-    in the <em>[% field_descs.$field FILTER html %]</em> field 
-    is less than the minimum allowable value of '[% min_num FILTER html %]'.
+    [% title = "Zbyt mała liczba" %]
+    Wartość „[% num FILTER html %]” dla pola 
+    <em>[% field_descs.$field FILTER html %]</em> jest mniejsza
+    niż minimalna dopuszczalna wartość „[% min_num FILTER html %]”.
 
   [% ELSIF error == "object_not_specified" %]
     [% type = BLOCK %][% INCLUDE object_name class = class %][% END %]
-    [% title = BLOCK %][% type FILTER ucfirst FILTER html %] Not 
-    Specified[% END %]
-    You must select/enter a [% type FILTER html %].
+    [% title = BLOCK %]Nie określono [% type FILTER ucfirst FILTER html %] 
+    [% END %]
+    Należy wybrać/podać [% type FILTER html %].
 
   [% ELSIF error == "object_does_not_exist" %]
     [% type = BLOCK %][% INCLUDE object_name class = class %][% END %]
-    [% title = BLOCK %]Invalid [% type FILTER ucfirst FILTER html %][% END %]
-    There is no [% type FILTER html %] 
+    [% title = BLOCK %]Nieprawidłowy [% type FILTER ucfirst FILTER html %][% END %]
+    Brak [% type FILTER html %] 
     [% IF id.defined %]
-      with the id '[% id FILTER html %]'
+      z ID „[% id FILTER html %]”
     [% ELSE %]
-      named '[% name FILTER html %]'
+      o nazwie „[% name FILTER html %]”
     [% END %]
     [% IF product.defined %]
-      in the '[% product.name FILTER html %]' product
+      w produkcie „[% product.name FILTER html %]”
     [% END %].
     [% IF class == "Bugzilla::User" %]
-      Either you mis-typed the name or that user has not yet registered
-      for a [% terms.Bugzilla %] account.
+      Popełniono błąd w nazwie lub użytkownik nie ma jeszcze zarejestrowanego
+      konta w [% terms.Bugzilli %].
     [% END %]
 
   [% ELSIF error == "old_password_incorrect" %]
-    [% title = "Incorrect Old Password" %]
-    You did not enter your old password correctly.
+    [% title = "Niepoprawne poprzednie hasło" %]
+    Nie podano prawidłowego poprzedniego hasła.
 
   [% ELSIF error == "old_password_required" %]
-    [% title = "Old Password Required" %]
-    You must enter your old password to change your email address.
+    [% title = "Wymagane podanie poprzedniego hasła" %]
+    Aby zmienić adres e-mail, należy podać poprzednie hasło.
 
   [% ELSIF error == "password_change_requests_not_allowed" %]
-    [% title = "Password Change Requests Not Allowed" %]
-    The system is not configured to allow password change requests.
+    [% title = "Zmiana hasła jest nie dozwolona" %]
+    Konfiguracja systemu nie zezwala na zmianę hasła.
 
   [% ELSIF error == "passwords_dont_match" %]
-    [% title = "Passwords Don't Match" %]
-    The two passwords you entered did not match.
-
-  [% ELSIF error == "password_too_long" %]
-    [% title = "Password Too Long" %]
-    The password must be no more than
-    [%+ constants.USER_PASSWORD_MAX_LENGTH FILTER html %] characters long.
+    [% title = "Niezgodne hasła" %]
+    Podane hasła nie są identyczne.
 
   [% ELSIF error == "password_too_short" %]
-    [% title = "Password Too Short" %]
-    The password must be at least
-    [%+ constants.USER_PASSWORD_MIN_LENGTH FILTER html %] characters long.
+    [% title = "Zbyt krótkie hasło" %]
+    Hasło nie może mieć mniej niż
+    [%+ constants.USER_PASSWORD_MIN_LENGTH FILTER html %] znaków.
 
   [% ELSIF error == "patch_too_large" %]
-    [% title = "File Too Large" %]
-    The file you are trying to attach is [% filesize FILTER html %] 
-    kilobytes (KB) in size.
-    Patches cannot be more than [% Param('maxattachmentsize') %] KB in size.
-    Try splitting your patch into several pieces.
+    [% title = "Zbyt duży plik" %]
+    Załączany plik ma rozmiar [% filesize FILTER html %] 
+    kilobajtów (KB).
+    Łatki nie mogą być większe niż [% Param('maxattachmentsize') %] KB.
+    Proszę podzielić łatkę na kilka części.
 
   [% ELSIF error == "product_access_denied" %]
-    Either the product '[% product FILTER html %]' does not exist or
-    you don't have access to it.
+    Produkt 
+    [%+ IF id.defined %]
+      z ID [% id FILTER html %]
+    [% ELSE %]
+      „[% name FILTER html %]”
+    [% END %]
+    nie istnieje lub nie masz uprawnień dostępu do niego.
 
   [% ELSIF error == "product_doesnt_exist" %]
-    [% title = "Specified Product Does Not Exist" %]
-    The product '[% product FILTER html %]' does not exist.
+    [% title = "Podany produkt nie istnieje" %]
+    Produkt „[% product FILTER html %]” nie istnieje.
 
   [% ELSIF error == "product_illegal_group" %]
-    [% title = "Illegal Group" %]
-    [% group.name FILTER html %] is not an active [% terms.bug %] group
-    and so you cannot edit group controls for it.
+    [% title = "Niepoprawna grupa" %]
+    Grupa [% group.name FILTER html %] nie jest aktywną grupą dla [% terms.bledu %]
+    i nie możesz edytować elementów kontrolnych dla niej.
 
   [% ELSIF error == "product_illegal_votes" %]
-    [% title = "Votes Must Be Non-negative" %]
-    [% admindocslinks = {'voting.html' => 'Setting up the voting feature'} %]
-    '[% votes FILTER html %]' is an invalid value for the
+    [% title = "Głosy muszą mieć wartość dodatnią" %]
+    [% admindocslinks = {'voting.html' => 'Ustawianie funkcji głosowania'} %]
+    Wartość „[% votes FILTER html %]” jest nieprawidłową wartością dla pola
     <em>
     [% IF field == "votesperuser" %]
-      Votes Per User
+      Głosów na użytkownika,
     [% ELSIF field == "maxvotesperbug" %]
-      Maximum Votes Per [% terms.Bug %]
+      Maksymalna liczba głosów na [% terms.blad %],
     [% ELSIF field == "votestoconfirm" %]
-      Votes To Confirm
+      Wymagana liczba głosów do potwierdzenia,
     [% END %]
-    </em> field, which should contain a non-negative number.
+    </em> które powinno zawierać dodatnie wartości liczbowe.
 
   [% ELSIF error == "product_name_already_in_use" %]
-    [% title = "Product name already in use" %]
-    [% admindocslinks = {'products.html' => 'Administering products'} %]
-    The product name '[% product FILTER html %]' already exists.
+    [% title = "Nazwa produktu już istnieje" %]
+    [% admindocslinks = {'products.html' => 'Administracja produktami'} %]
+    Nazwa „[% product FILTER html %]” jest już używana przez inny produkt.
   
   [% ELSIF error == "product_name_diff_in_case" %]
-    [% title = "Product name differs only in case" %]
-    [% admindocslinks = {'products.html' => 'Administering products'} %]
-    The product name '[% product FILTER html %]' differs from existing 
-    product '[% existing_product FILTER html %]' only in case.
+    [% title = "Nazwa produktu różni się tylko wielkością liter" %]
+    [% admindocslinks = {'products.html' => 'Administracja produktami'} %]
+    Nazwa produktu „[% product FILTER html %]” różni się od istniejącego produktu
+    „[% existing_product FILTER html %]” tylko wielkością liter.
 
   [% ELSIF error == "product_name_too_long" %]
-    [% title = "Product name too long" %]
-    The name of a product is limited to [% constants.MAX_PRODUCT_SIZE FILTER html %]
-    characters. '[% name FILTER html %]' is too long ([% name.length %] characters).
+    [% title = "Nazwa produktu jest za długa" %]
+    Nazwa produktu może zawierać maksymalnie [% constants.MAX_PRODUCT_SIZE FILTER html %]
+    znaków. „[% name FILTER html %]” zawiera za dużo znaków ([% name.length %]).
 
   [% ELSIF error == "product_must_define_defaultmilestone" %]
-    [% title = "Must define new default milestone" %]
-    [% admindocslinks = {'products.html' => 'Administering products',
-                         'milestones.html' => 'About Milestones'} %]
-    You must <a href="editmilestones.cgi?action=add&amp;product=[% product FILTER url_quote %]">
-    create the milestone '[% milestone FILTER html %]'</a> before
-    it can be made the default milestone for product '[% product FILTER html %]'.
+    [% title = "Wymagane zdefiniowanie nowej wersji docelowej" %]
+    [% admindocslinks = {'products.html' => 'Administracja produktami',
+                         'milestones.html' => 'O wersjach docelowych'} %]
+    Należy <a href="editmilestones.cgi?action=add&amp;product=[% product FILTER url_quote %]">
+    utworzyć wersję docelową „[% milestone FILTER html %]”</a> zanim będzie
+    można ją uczynić domyślną wersją docelową dla produktu „[% product FILTER html %]”.
 
   [% ELSIF error == "product_admin_denied" %]
-    [% title = "Product Access Denied" %]
-    You are not allowed to edit properties of product '[% product FILTER html %]'.
+    [% title = "Brak dostępu do produktu" %]
+    Nie masz uprawnień do edycji właściwości produktu „[% product FILTER html %]”.
 
   [% ELSIF error == "product_blank_name" %]
-    [% title = "Blank Product Name Not Allowed" %]
-    [% admindocslinks = {'products.html' => 'Administering products'} %]
-    You must enter a name for the product.
+    [% title = "Niedozwolona pusta nazwa produktu" %]
+    [% admindocslinks = {'products.html' => 'Administracja produktami'} %]
+    Należy podać nazwę produktu.
   
   [% ELSIF error == "product_disabled" %]
-    [% title = BLOCK %]Product closed for [% terms.Bug %] Entry[% END %]
-    [% admindocslinks = {'products.html' => 'Administering products'} %]
-    Sorry, entering [% terms.abug %] into the
-    product <em>[% product.name FILTER html %]</em> has been disabled.
+    [% title = BLOCK %]Produkt zamknięty dla zgłaszania [% terms.bledow %][% END %]
+    [% admindocslinks = {'products.html' => 'Administracja produktami'} %]
+    Zgłaszanie nowych [% terms.bledow %] dla
+    produktu <em>[% product.name FILTER html %]</em> zostało wyłączone.
 
   [% ELSIF error == "product_edit_denied" %]
-    [% title = "Product Edit Access Denied" %]
-    [% admindocslinks = {'products.html' => 'Administering products',
-                         'groups.html'   => 'Group security'} %]
-    You are not permitted to edit [% terms.bugs %] in product 
+    [% title = "Brak dostępu do edycji produktu" %]
+    [% admindocslinks = {'products.html' => 'Administracja produktami',
+                         'groups.html'   => 'Zabezpieczenia grup'} %]
+    Nie masz uprawnień do edycji [% terms.bledu %] dla produktu
     [%+ product FILTER html %].
 
   [% ELSIF error == "product_has_bugs" %]
-    [% title = BLOCK %]Product has [% terms.Bugs %][% END %]
-    [% admindocslinks = {'products.html' => 'Administering products'} %]
-    There are [% nb FILTER html %] [%+ terms.bugs %] entered for this product!
-    You must move those [% terms.bugs %] to another product before you
-    can delete this one.
+    [% title = BLOCK %]Produkt nadal ma przypisane [% terms.bledy %][% END %]
+    [% admindocslinks = {'products.html' => 'Administracja produktami'} %]
+    Nadal [% nb FILTER html %] [%+ terms.bledow %] jest przypisanych do tego
+    produktu. Aby usunięcie produktu było możliwe, należy przypisać te
+    [% terms.bledy %] do innego produktu.
 
   [% ELSIF error == "product_must_have_description" %]
-    [% title = "Product needs Description" %]
-    [% admindocslinks = {'products.html' => 'Administering products'} %]
-    You must enter a description for this product.
+    [% title = "Wymagany opis produktu" %]
+    [% admindocslinks = {'products.html' => 'Administracja produktami'} %]
+    Należy podać opis dla tego produktu.
 
   [% ELSIF error == "product_must_have_version" %]
-    [% title = "Product needs Version" %]
-    [% admindocslinks = {'products.html' => 'Administering products',
-                         'versions.html' => 'Administering versions'} %]
-    You must enter a valid version to create a new product.
+    [% title = "Wymagana wersja produktu" %]
+    [% admindocslinks = {'products.html' => 'Administracja produktami',
+                         'versions.html' => 'Administracja wersjami'} %]
+    Aby utworzyć nowy produkt, należy podać jego wersję.
 
   [% ELSIF error == "product_not_specified" %]
-    [% title = "No Product Specified" %]
-    [% admindocslinks = {'products.html'   => 'Administering products',
-                         'components.html' => 'Administering components',
-                         'milestones.html' => 'Administering milestones',
-                         'versions.html'   => 'Administering versions'} %]
-    No product specified when trying to edit components, milestones, versions
-    or product.
+    [% title = "Nie podano produktu" %]
+    [% admindocslinks = {'products.html'   => 'Administracja produktami',
+                         'components.html' => 'Administracja komponentami',
+                         'milestones.html' => 'Administracja wersjami docelowymi',
+                         'versions.html'   => 'Administracja wersjami'} %]
+    Nie określono produktu przy próbie edycji komponentu, wersji docelowej,
+    wersji lub produktu.
 
   [% ELSIF error == "query_name_exists" %]
-    [% title = "Search Name Already In Use" %]
-    The name <em>[% name FILTER html %]</em> is already used by another
-    saved search. You first have to
+    [% title = "Nazwa wyszukiwania jest już używana" %]
+    Nazwa <em>[% name FILTER html %]</em> jest już użyta dla innego zapisanego
+    wyszukiwania. Aby użyć tej nazwy, najpierw 
     <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
     [%- name FILTER url_quote %]&amp;token=
-    [% issue_hash_token([query_id, name]) FILTER url_quote %]">delete</a>
-    it if you really want to use this name.
+    [% issue_hash_token([query_id, name]) FILTER url_quote %]">usuń</a>
+    tą.
 
   [% ELSIF error == "query_name_missing" %]
-    [% title = "No Search Name Specified" %]
-    [% docslinks = {'query.html#list' => "$terms.Bug lists"} %]
-    You must enter a name for your search.
+    [% title = "Nie podano nazwy zapytania" %]
+    [% docslinks = {'query.html#list' => "Listy $terms.bledow"} %]
+    Należy podać nazwę dla wyszukiwania.
 
   [% ELSIF error == "query_name_too_long" %]
-    [% title = "Query Name Too Long" %]
-    The name of the query must be less than [% constants.MAX_LEN_QUERY_NAME FILTER html %]
-    characters long.
+    [% title = "Zbyt długa nazwa zapytania" %]
+    Nazwa zapytanie nie może być dłuższa niż [% constants.MAX_LEN_QUERY_NAME FILTER html %]
+    znaki.	
 
   [% ELSIF error == "quicksearch_unknown_field" %]
-    [% title = "Unknown QuickSearch Field" %]
-    [% IF fields.unique.size == 1 %]
-      Field <code>[% fields.first FILTER html %]</code> is not a known field.
-    [% ELSE %]
-      Fields
-      [% FOREACH field = fields.unique.sort %]
-         <code>[% field FILTER html %]</code>
-         [% ', ' UNLESS loop.last() %]
-      [% END %]
-      are not known fields.
+    [% title = "Nieznane pole szybkiego wyszukiwania" %]
+    Jest problem z Twoim wyszukiwaniem:
+    [% FOREACH field = unknown %]
+      <p> <code>[% field FILTER html %]</code> nie jest poprawną nazwą pola.
     [% END %]
-    The legal field names are <a href="page.cgi?id=quicksearchhack.html">listed here</a>.
+    [% FOREACH field = ambiguous.keys %]
+      <p><code>[% field FILTER html %]</code> pasuje do więcej niż jednego pola:
+        [%+ ambiguous.${field}.join(', ') FILTER html %]</p>
+    [% END %]
+
+    [% IF unknown.size %]
+      <p>Poprawne nazwy pól są
+        <a href="page.cgi?id=quicksearch.html#fields">podane tutaj</a>.</p>
+    [% END %]
 
   [% ELSIF error == "reassign_to_empty" %]
-    [% title = "Illegal Reassignment" %]
-    To reassign [% terms.abug %], you must provide an address for
-    the new assignee.
+    [% title = "Nieprawidłowe przypisanie" %]
+    Aby przepisać [% terms.blad %], należy podać adres nowego
+    beneficjenta.
 
   [% ELSIF error == "require_component" %]
-    [% title = "Component Needed" %]
-    To file this [% terms.bug %], you must first choose a component.
-    If necessary, just guess.
+    [% title = "Wymagany komponent" %]
+    Aby zgłosić ten [% terms.blad %], należy najpierw wybrać komponent.
+    W ostateczności można zgadywać.
 
   [% ELSIF error == "require_new_password" %]
-    [% title = "New Password Needed" %]
-    You cannot change your password without choosing a new one.
+    [% title = "Wymagane nowe hasło" %]
+    Nie można zmienić hasła bez podania nowego hasła.
 
   [% ELSIF error == "require_summary" %]
-    [% title = "Summary Needed" %]
-    You must enter a summary for this [% terms.bug %].
+    [% title = "Wymagany krótki opis" %]
+    Należy podać krótki opis tego [% terms.bledu %].
 
   [% ELSIF error == "resolution_cant_clear" %]
-    [% terms.Bug %] [%+ bug_id FILTER bug_link(bug_id) FILTER none %] is 
-    closed, so you cannot clear its resolution.
+    [% terms.Blad %] [%+ bug_id FILTER bug_link(bug_id) FILTER none %] nie jest 
+    zamknięty, więc nie można sklarować jego rozwiązania.
 
   [% ELSIF error == "resolution_not_allowed" %]
-    [% title = "Resolution Not Allowed" %]
-    You cannot set a resolution for open [% terms.bugs %].
+    [% title = "Nie można ustawić rozwiązania" %]
+    Nie można ustawić rozwiązania dla otwartego [% terms.bledu %].
 
   [% ELSIF error == "saved_search_used_by_whines" %]
-    [% title = "Saved Search In Use" %]
-    [% docslinks = {'whining.html' => 'About Whining'} %]
-    The saved search <em>[% search_name FILTER html %]</em> is being used 
-    by <a href="editwhines.cgi">Whining events</a> with the following subjects:
+    [% title = "Zapamiętane zapytanie jest używane" %]
+    [% docslinks = {'whining.html' => 'O przypominaniu'} %]
+    Zapamiętane wyszukiwanie <em>[% search_name FILTER html %]</em> jest używane
+    przez następujące <a href="editwhines.cgi">raporty przypominania</a>:
     [%+ subjects FILTER html %]
 
   [% ELSIF error == "search_content_without_matches" %]
-    [% title = "Illegal Search" %]
-    The "content" field can only be used with "matches" search 
-    and the "matches" search can only be used with the "content"
-    field.
+    [% title = "Nieprawidłowe zapytanie" %]
+    Pole „zawartość” może być używane wyłącznie z zapytaniem „pasuje”,
+    a zapytanie „pasuje” tylko z polem „zawartość”.
 
   [% ELSIF error == "series_already_exists" %]
-    [% title = "Series Already Exists" %]
-    [% docslinks = {'reporting.html' => 'Reporting'} %]
-      A series named <em>[% series.category FILTER html %] /
+    [% title = "Seria już istnieje" %]
+    [% docslinks = {'reporting.html' => 'Raporty'} %]
+      Seria o nazwie <em>[% series.category FILTER html %] /
       [%+ series.subcategory FILTER html %] / 
       [%+ series.name FILTER html %]</em>
-      already exists.
+      już istnieje.
     
   [% ELSIF error == "sidebar_supports_mozilla_only" %]
-    Sorry - sidebar.cgi currently only supports Mozilla based web browsers.
-    <a href="http://www.mozilla.org">Upgrade today</a>. :-)
+    Skrypt - sidebar.cgi obsługuje obecnie wyłącznie przeglądarki oparte na Mozilli.
+    <a href="http://www.mozilla.org">Zachęcamy do darmowego pobrania</a>.
 
   [% ELSIF error == "still_unresolved_bugs" %]
     [% IF dependency_count == 1 %]
-      [% terms.Bug %]# <a href="show_bug.cgi?id=[% dependencies.0.bug_id FILTER none %]">[% dependencies.0.bug_id FILTER none %]</a>
-      still has [% dependencies.0.dependencies FILTER html %] unresolved
-      [% IF dependencies.0.dependencies == 1 %]
-        dependency
-      [% ELSE %]
-        dependencies
-      [% END %]. Show
-      <a href="showdependencytree.cgi?id=[% dependencies.0.bug_id FILTER none %]&amp;hide_resolved=1">Dependency
-      Tree</a>.
+      [% terms.Blad %]# <a href="show_bug.cgi?id=[% dependencies.0.bug_id FILTER none %]">[% dependencies.0.bug_id FILTER none %]</a>
+      nadal ma [% dependencies.0.dependencies FILTER html %] 
+      [% PROCESS ODMIEN c=dependencies.0.dependencies o1="nierozwiązaną zależność"
+        o2="nierozwiązane zależności" o3="nierozwiązanych zależności" %].
+      Wyświetl
+      <a href="showdependencytree.cgi?id=[% dependencies.0.bug_id FILTER none %]&amp;hide_resolved=1">Drzewo
+      zależności</a>.
     [% ELSE %]
-      There are [% dependency_count FILTER none %] open [% terms.bugs %] which
-      have unresolved dependencies.
+      Znaleziono [% dependency_count FILTER none %] otwartych [% terms.bledow %], które
+      mają nierozwiązane zależności.
       <br>
       [% FOREACH bug = dependencies %]
-        [% terms.Bug %]# <a href="show_bug.cgi?id=[% bug.bug_id FILTER none %]">[% bug.bug_id FILTER none %]</a>
-        has [% bug.dependencies FILTER html %] open
-        [% IF bug.dependencies == 1 %]
-          dependency.
-        [% ELSE %]
-          dependencies.
-        [% END %]
-        (<a href="showdependencytree.cgi?id=[% bug.bug_id FILTER none %]&amp;hide_resolved=1">Dependency
-        Tree</a>)<br>
+        [% terms.Blad %]# <a href="show_bug.cgi?id=[% bug.bug_id FILTER none %]">[% bug.bug_id FILTER none %]</a>
+        ma [% bug.dependencies FILTER html %]
+        [% PROCESS ODMIEN c=dependencies.0.dependencies o1="nierozwiązaną zależność"
+             o2="nierozwiązane zależności" o3="nierozwiązanych zależności" %].
+        (<a href="showdependencytree.cgi?id=[% bug.bug_id FILTER none %]&amp;hide_resolved=1">Drzewo
+        zależności</a>)<br>
       [% END %]
     [% END %]
 
   [% ELSIF error == "sudo_in_progress" %]
-    [% title = "Session In Progress" %]
-    A sudo session (impersonating [% target FILTER html %]) is in progress.  
-    End that session (using the link in the footer) before starting a new one.
+    [% title = "Sesja sudo jest aktywna" %]
+    Trwa sesja sudo (z tożsamością [% target FILTER html %]).  
+    Przed rozpoczęciem nowej sesji, należy zakończyć (odnośnik w stopce) trwającą sesję.
 
   [% ELSIF error == "sudo_password_required" %]
-    [% title = "Password Required" %]
-    Your [% terms.Bugzilla %] password is required to begin a sudo 
-    session. Please <a href="relogin.cgi?action=prepare-sudo&target_login=
+    [% title = "Wymagane hasło" %]
+    Aby rozpocząć sesję sudo wymagane jest podanie hasła do [% terms.Bugzilli %].
+    Proszę <a href="relogin.cgi?action=prepare-sudo&target_login=
     [%- target_login FILTER html %]&reason=
-    [%- reason FILTER html %]">go back</a> and enter your password.
+    [%- reason FILTER html %]">się cofnąć</a> i podać hasło.
     
   [% ELSIF error == "sudo_preparation_required" %]
-    [% title = "Preparation Required" %]
-    You may not start a sudo session directly.  Please
+    [% title = "Wymagane przygotowanie" %]
+    Nie można bezpośrednio rozpocząć sesji sudo. Proszę 
     <a href="relogin.cgi?action=prepare-sudo&target_login=
     [%- target_login FILTER html %]&reason=
-    [%- reason FILTER html %]">start your session normally</a>.
+    [%- reason FILTER html %]">rozpocząć sesję w normalny sposób</a>.
 
   [% ELSIF error == "sudo_protected" %]
-    [% title = "User Protected" %]
-    The user [% login FILTER html %] may not be impersonated by sudoers.
+    [% title = "Chroniony użytkownik" %]
+    Podczas sesji sudo nie można użyć tożsamości użytkownika [% login FILTER html %].
 
   [% ELSIF error == "too_many_votes_for_bug" %]
-    [% title = "Illegal Vote" %]
-    [% admindocslinks = {'voting.html' => 'Setting up the voting feature'} %]
-    You may only use at most [% max FILTER html %] votes for a single
-    [%+ terms.bug %] in the
-    <tt>[% product FILTER html %]</tt> product, but you are trying to
-    use [% votes FILTER html %].
+    [% title = "Nieprawidłowe głosowanie" %]
+    [% admindocslinks = {'voting.html' => 'Ustawienia funkcji głosowania'} %]
+    Można oddać najwyżej [% max FILTER html %] głosów na pojedynczy
+    [%+ terms.blad %] w produkcie
+    <tt>[% product FILTER html %]</tt>, a próbowano oddać
+    [% votes FILTER html %] głosów.
 
   [% ELSIF error == "too_many_votes_for_product" %]
-    [% title = "Illegal Vote" %]
-    [% admindocslinks = {'voting.html' => 'Setting up the voting feature'} %]
-    You tried to use [% votes FILTER html %] votes in the
-    <tt>[% product FILTER html %]</tt> product, which exceeds the maximum of
-    [%+ max FILTER html %] votes for this product.
+    [% title = "Nieprawidłowe głosowanie" %]
+    [% admindocslinks = {'voting.html' => 'Ustawienia funkcji głosowania'} %]
+    Próbowano oddać [% votes FILTER html %] głosów w produkcie
+    <tt>[% product FILTER html %]</tt>. Dopuszczalna liczba głosów dla tego produktu to:
+    [%+ max FILTER html %].
 
   [% ELSIF error == "token_does_not_exist" %]
-    [% title = "Token Does Not Exist" %]
-    The token you submitted does not exist, has expired, or has
-    been canceled.
+    [% title = "Nieistniejący token" %]
+    Wysłany token nie istnieje, jest przeterminowany lub
+    został anulowany.
 
   [% ELSIF error == "too_soon_for_new_token" %]
-    [% title = "Too Soon For New Token" %]
-    You have requested
+    [% title = "Zbyt krótki okres czasu pomiędzy prośbami o nowy token" %]
+    Poproszono o token dla nowego
     [% IF type == "password" %]
-      a password
+      hasła
     [% ELSIF type == "account" %]
-      an account
+      konta
     [% END %]
-    token too recently to request another. Please wait a while and try again.
+    w zbyt krótkim odstępie czasu. Proszę poczekać chwilę i spróbować ponownie.
 
   [% ELSIF error == "unknown_keyword" %]
-    [% title = "Unknown Keyword" %]
-    <code>[% keyword FILTER html %]</code> is not a known keyword.
-    The legal keyword names are <a href="describekeywords.cgi">listed here</a>.
+    [% title = "Nieznane słowo kluczowe" %]
+    <code>[% keyword FILTER html %]</code> nie jest istniejącym słowem kluczowym.
+    Wszystkie istniejące słowa kluczowe są dostępne na <a href="describekeywords.cgi">tej liście</a>.
 
   [% ELSIF error == "unknown_tab" %]
-    [% title = "Unknown Tab" %]
-    <code>[% current_tab_name FILTER html %]</code> is not a legal tab name.
+    [% title = "Nieznana etykieta" %]
+    <code>[% current_tab_name FILTER html %]</code> nie jest nazwą istniejącej etykiety.
 
   [% ELSIF error == "version_already_exists" %]
-    [% title = "Version Already Exists" %]
-    [% admindocslinks = {'versions.html' => 'Administering versions'} %]
-    The version '[% name FILTER html %]' already exists for product '
-    [%- product FILTER html %]'.
+    [% title = "Wersja już istnieje" %]
+    [% admindocslinks = {'versions.html' => 'Administracja wersji'} %]
+    Wersja „[% name FILTER html %]” już istnieje dla produktu
+    „[%- product FILTER html %]”.
 
   [% ELSIF error == "version_blank_name" %]
-    [% title = "Blank Version Name Not Allowed" %]
-    You must enter a name for this version.
+    [% title = "Pusta nazwa wersji" %]
+    Należy podać nazwę dla tej wersji.
 
   [% ELSIF error == "version_has_bugs" %]
-    [% title = BLOCK %]Version has [% terms.Bugs %][% END %]
-    There are [% nb FILTER html %] [%+ terms.bugs %] associated with this
-    version! You must reassign those [% terms.bugs %] to another version
-    before you can delete this one.
-
-  [% ELSIF error == "version_not_specified" %]
-    [% title = "No Version Specified" %]
-    No version specified when trying to edit versions.
+    [% title = BLOCK %]Wersja nadal ma przypisane [% terms.bledy %][% END %]
+    Nadal [% nb FILTER html %] [%+ terms.bledow %] jest przypisanych do tej
+    wersji. Należy przypisać te [% terms.bledy %] do innej wersji, aby
+    możliwe było usunięcie tej wersji.
 
   [% ELSIF error == "users_deletion_disabled" %]
-    [% title = "Deletion not activated" %]
-    [% admindocslinks = {'useradmin.html' => 'User administration'} %]
-    Sorry, the deletion of user accounts is not allowed.
+    [% title = "Usuwanie nie zostało uaktywnione" %]
+    [% admindocslinks = {'useradmin.html' => 'Administracja użytkownikami'} %]
+    Usuwanie kont użytkowników nie jest dozwolone.
 
   [% ELSIF error == "user_has_responsibility" %]
-    [% title = "Can't Delete User Account" %]
-    [% admindocslinks = {'useradmin.html' => 'User administration'} %]
-    The user you want to delete is set up as the default [% terms.bug %]
-    assignee
+    [% title = "Nie można usunąć konta użytkownika" %]
+    [% admindocslinks = {'useradmin.html' => 'Administracja użytkownikami'} %]
+    Usuwany użytkownik jest domyślnym beneficjentem [% terms.bledow %]
     [% IF Param('useqacontact') %]
-      or QA contact
+      lub specjalistą QA
     [% END %]
-    for at least one component.
-    For this reason, you cannot delete the account at this time.
+    dla co najmniej jednego komponentu.
+    Z tego powodu nie jest możliwe usunięcie tego konta.
 
   [% ELSIF error == "user_access_by_id_denied" %]
-    [% title = "User Access By Id Denied" %]
-    Logged-out users cannot use the "ids" argument to this function
-    to access any user information.
+    [% title = "Dostęp użytkowników przez ID jest zabroniony" %]
+    Wylogowani użytkownicy nie mogą używać argumentu „ids”, by uzyskać
+    dostęp do informacji o użytkowniku.
 
   [% ELSIF error == "user_access_by_match_denied" %]
     [% title = "User-Matching Denied" %]
-    Logged-out users cannot use the "match" argument to this function
-    to access any user information.
+    Wylogowani użytkownicy nie mogą używać argumentu „match”, by uzyskać
+    dostęp do informacji o użytkowniku.
 
   [% ELSIF error == "user_login_required" %]
-    [% title = "Login Name Required" %]
-    [% admindocslinks = {'useradmin.html' => 'User administration'} %]
-    You must enter a login name for the new user.
+    [% title = "Wymagana nazwa użytkownika" %]
+    [% admindocslinks = {'useradmin.html' => 'Administracja użytkownikami'} %]
+    Należy podać nazwę (login) nowego użytkownika.
 
   [% ELSIF error == "user_match_failed" %]
-    [% title = "Match Failed" %]
-    <tt>[% name FILTER html %]</tt> does not exist or you are not allowed 
-    to see that user.
+    [% title = "Nic nie znaleziono" %]
+    Użytkownik <tt>[% name FILTER html %]</tt> nie istnieje lub nie masz uprawnień 
+    do jego wyświetlenia.
+
+  [% ELSIF error == "user_match_too_many" %]
+    [% title = "No Conclusive Match" %]
+    [% terms.Bugzilla %] może wykonać rozstrzygającego dopasowania
+    dla jednej lub więcej nazw i adresów e-mail podanych dla pól
+    [% fields.join(', ') FILTER html %].
 
   [% ELSIF error == "user_not_insider" %]
-    [% title = "User Not In Insidergroup" %]
-    Sorry, but you are not allowed to (un)mark comments or attachments
-    as private.
+    [% title = "Użytkownik nie jest w grupie poufnej" %]
+    Niestety nie masz uprawnień do zaznaczania/odznaczania komentarzy lub załączników
+    jako prywatne.
 
   [% ELSIF error == "votes_must_be_nonnegative" %]
-    [% title = "Votes Must Be Non-negative" %]
-    [% admindocslinks = {'voting.html' => 'Setting up the voting feature'} %]
-    Only use non-negative numbers for your [% terms.bug %] votes.
+    [% title = "Głosy nie mogą być liczbą ujemną" %]
+    [% admindocslinks = {'voting.html' => 'Ustawienia funkcji głosowania'} %]
+    Do głosowania na [% terms.bledy %] można używać tylko liczb dodatnich.
 
   [% ELSIF error == "wrong_token_for_cancelling_email_change" %]
-    [% title = "Wrong Token" %]
-    That token cannot be used to cancel an email address change.
+    [% title = "Nieprawidłowy token" %]
+    Ten token nie może być użyty do anulowania zmiany adresu e-mail.
 
   [% ELSIF error == "wrong_token_for_changing_passwd" %]
-    [% title = "Wrong Token" %]
-    That token cannot be used to change your password.
+    [% title = "Nieprawidłowy token" %]
+    Ten token nie może być użyty do zmiany hasła.
 
   [% ELSIF error == "wrong_token_for_confirming_email_change" %]
-    [% title = "Wrong Token" %]
-    That token cannot be used to change your email address.
+    [% title = "Nieprawidłowy token" %]
+    Ten token nie może być użyty do zmiany adresu e-mail.
 
   [% ELSIF error == "wrong_token_for_creating_account" %]
-    [% title = "Wrong Token" %]
-    That token cannot be used to create a user account.
+    [% title = "Niepoprawny token" %]
+    Ten token nie może być użyty do utworzenia konta.
 
   [% ELSIF error == "xmlrpc_invalid_value" %]
-    "[% value FILTER html %]" is not a valid value for a
-    &lt;[% type FILTER html %]&gt; field. (See the XML-RPC specification
-    for details.)
+    Wartość „[% value FILTER html %]” nie jest prawidłową wartością dla pola
+    &lt;[% type FILTER html %]&gt;. Więcej szczegółów uzyskasz w
+    specyfikacji XML-RPC.
 
   [% ELSIF error == "zero_length_file" %]
-    [% title = "File Is Empty" %]
-    The file you are trying to attach is empty, does not exist, or you don't
-    have permission to read it.
+    [% title = "Plik jest pusty" %]
+    Wysyłany plik załącznika jest pusty, nie istnieje lub nie masz uprawnień
+    do jego odczytu.
 
   [% ELSIF error == "illegal_user_id" %]
-    [% title = "Illegal User ID" %]
-    User ID '[% userid FILTER html %]' is not valid integer.
+    [% title = "Niepoprawny ID użytkownika" %]
+    Identyfikator „[% userid FILTER html %]” nie jest poprawną liczbą całkowitą.
 
   [% ELSE %]
 
@@ -1661,10 +1676,10 @@
     [% error_message = Hook.process("errors") %]
 
     [% IF not error_message %]
-      [% title = "Error string not found" %]
-      The user error string <code>[% error FILTER html %]</code> was not found.
-      Please send email to [% Param("maintainer") %] describing the steps taken
-      to obtain this message.
+      [% title = "Opis błędu nie został znaleziony" %]
+      Opis błędu użytkownika <code>[% error FILTER html %]</code> nie został
+      znaleziony. Proszę wysłać wiadomość do [% Param("maintainer") %] opisującą
+      kroki, które doprowadziły do wyświetlenia tej wiadomości.
     [% ELSE %]
       [% error_message FILTER none %]
     [% END %]
@@ -1700,7 +1715,7 @@
 </table>
 
 <p>
-  Please press <b>Back</b> and try again.
+  Proszę wrócić do poprzedniej strony i spróbować jeszcze raz.
 </p>
 
 [%# If a saved search fails, people want the ability to edit or delete it. 
@@ -1713,35 +1728,47 @@
                AND error != "saved_search_used_by_whines"
                AND !sharer_id %]
   <p>  
-    Alternatively, you can    
+    Ewentualnie można
     <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
-                  [% namedcmd FILTER url_quote %]">forget</a>
+                  [% namedcmd FILTER url_quote %]">usunąć</a>
                   
     [% FOREACH q = Bugzilla.user.queries %]
       [% IF q.name == namedcmd %]
-        or <a href="query.cgi?[% q.url FILTER html %]">edit</a>
+        lub <a href="query.cgi?[% q.url FILTER html %]">dokonać edycji</a>
       [% END %]
     [% END %]
     
-    the saved search '[% namedcmd FILTER html %]'.
+    zapisanego wyszukiwania „[% namedcmd FILTER html %]”.
   </p>
 [% END %]            
 
 [% PROCESS global/footer.html.tmpl %]
 
 [% BLOCK object_name %]
-  [% IF class == "Bugzilla::User" %]
-    user
+  [% IF class == "Bugzilla::Attachment" %]
+    załącznik
+  [% ELSIF class == "Bugzilla::User" %]
+    użytkownik
   [% ELSIF class == "Bugzilla::Component" %]
-    component
+    komponent
   [% ELSIF class == "Bugzilla::Version" %]
-    version
+    wersja
   [% ELSIF class == "Bugzilla::Milestone" %]
-    milestone
+    wersja docelowa
   [% ELSIF class == "Bugzilla::Status" %]
     status
+  [% ELSIF class == "Bugzilla::Flag" %]
+    flaga
+  [% ELSIF class == "Bugzilla::FlagType" %]
+    typ flagi
   [% ELSIF class == "Bugzilla::Field" %]
-    field
+    pole
+  [% ELSIF class == "Bugzilla::Group" %]
+    grupa
+  [% ELSIF class == "Bugzilla::Product" %]
+    produkt
+  [% ELSIF class == "Bugzilla::Search::Saved" %]
+    zapisane wyszukiwanie
   [% ELSIF ( matches = class.match('^Bugzilla::Field::Choice::(.+)') ) %]
     [% SET field_name = matches.0 %]
     [% field_descs.$field_name FILTER html %]

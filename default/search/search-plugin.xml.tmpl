@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -12,12 +13,13 @@
   #
   # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
   #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [% PROCESS global/variables.none.tmpl %]
 <?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
 <ShortName>[% terms.Bugzilla %]</ShortName>
-<Description>[% terms.Bugzilla %] - szybkie wyszukiwanie</Description>
+<Description>[% terms.Bugzilla %] - Szybkie wyszukiwanie</Description>
 <InputEncoding>UTF-8</InputEncoding>
 [% IF favicon %]
   <Image width="16" height="16">data:image/x-icon;base64,[% favicon FILTER base64 %]</Image>

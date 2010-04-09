@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -18,6 +19,8 @@
   # Contributor(s): Terry Weissman <terry@mozilla.org>
   #                 Vlad Dascalu <jocuri@softhome.net>
   #                 Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -27,18 +30,18 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edit keyword"
+  title = "Edycja słowa kluczowego"
 %]
 
 <form method="post" action="editkeywords.cgi">
   <table border="0" cellpadding="4" cellspacing="0">
     <tr>
-      <th align="right">Name:</th>
+      <th align="right">Nazwa:</th>
       <td><input size="64" maxlength="64" name="name" 
                  value="[% keyword.name FILTER html %]"></td>
     </tr>
     <tr>
-      <th align="right">Description:</th>
+      <th align="right">Opis:</th>
       <td>
         [% INCLUDE global/textarea.html.tmpl
           name           = 'description'
@@ -50,24 +53,24 @@
       </td>
     </tr>
     <tr>
-      <th align="right">[% terms.Bugs %]:</th>
+      <th align="right">[% terms.Bledy %]:</th>
       <td>
         [% IF keyword.bug_count > 0 %]
           <a href="buglist.cgi?keywords=[% keyword.name FILTER url_quote %]">
             [% keyword.bug_count FILTER html %]</a>
         [% ELSE %]
-          none
+          brak
         [% END %]
       </td>
     </tr>
   </table>
 
-  <input type="submit" id="update" value="Save Changes">
+  <input type="submit" id="update" value="Zapisz zmiany">
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="id" value="[% keyword.id FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
-<p><a href="editkeywords.cgi">Edit other keywords</a>.</p>
+<p><a href="editkeywords.cgi">Edytuj inne słowa kluczowe</a></p>
 
 [% PROCESS global/footer.html.tmpl %]

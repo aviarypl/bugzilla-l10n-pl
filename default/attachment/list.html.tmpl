@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 <script type="text/javascript">
@@ -33,10 +36,10 @@ function toggle_display(link) {
     }
 
     if (YAHOO.util.Dom.hasClass(rows[0], 'bz_default_hidden')) {
-        link.innerHTML = "Show Obsolete";
+        link.innerHTML = "Wyświetl zdezaktualizowane";
     }
     else {
-        link.innerHTML = "Hide Obsolete";
+      link.innerHTML = "Ukryj zdezaktualizowane";
     }
 
     var newHeight = table.offsetHeight;
@@ -65,13 +68,17 @@ function toggle_display(link) {
       [% IF attachment.isobsolete %]
         [% obsolete_attachments = obsolete_attachments + 1 %]
       [% END %]
-      <tr class="[% "bz_private" IF attachment.isprivate %]
+      <tr class="[% "bz_contenttype_" _ attachment.contenttype
+                     FILTER css_class_quote UNLESS attachment.isurl %]
+                 [% " bz_patch" IF attachment.ispatch %]
+                 [% " bz_url" IF attachment.isurl %]
+                 [% " bz_private" IF attachment.isprivate %]
                  [% " bz_tr_obsolete bz_default_hidden" 
                      IF attachment.isobsolete %]">
         <td valign="top">
           [% IF attachment.datasize %]
             <a name="a[% count %]" href="attachment.cgi?id=[% attachment.id %]"
-               title="View the content of the attachment">
+               title="Wyświetl zawartość załącznika">
           [% END %]
           <b>[% attachment.description FILTER html FILTER obsolete(attachment.isobsolete) %]</b>
           [% "</a>" IF attachment.datasize %]
@@ -80,19 +87,19 @@ function toggle_display(link) {
             [% IF attachment.datasize %]
               ([% attachment.datasize FILTER unitconvert %],
               [% IF attachment.ispatch %]
-                patch)
+                łatka)
               [% ELSIF attachment.isurl %]
                 url)
               [% ELSE %]
                 [%+ attachment.contenttype FILTER html %])
               [% END %]
             [% ELSE %]
-              (<em>deleted</em>)
+              (<em>usunięty</em>)
             [% END %]
 
             <br>
             <a href="#attach_[% attachment.id %]"
-               title="Go to the comment associated with the attachment">
+               title="Przejdź do komentarza powiązanego z załącznikiem">
               [%- attachment.attached FILTER time %]</a>,
 
             [% INCLUDE global/user.html.tmpl who = attachment.attacher %]
@@ -102,7 +109,7 @@ function toggle_display(link) {
         [% IF show_attachment_flags %]
           <td class="bz_attach_flags" valign="top">
             [% IF attachment.flags.size == 0 %]
-              <i>no flags</i>
+              <i>brak flag</i>
             [% ELSE %]
               [% FOREACH flag = attachment.flags %]
                 [% flag.setter.nick FILTER html %]:
@@ -116,9 +123,9 @@ function toggle_display(link) {
         [% END %]
 
         <td valign="top">
-          <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">Details</a>
-          [% IF attachment.ispatch && patchviewerinstalled %]
-            | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=diff">Diff</a>
+          <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">Szczegóły</a>
+          [% IF attachment.ispatch && feature_enabled('patch_viewer') %]
+            | <a href="attachment.cgi?id=[% attachment.id %]&amp;action=diff">Różnice</a>
           [% END %]
           [% Hook.process("action") %]
         </td>
@@ -131,16 +138,16 @@ function toggle_display(link) {
       [% IF attachments.size %]
         <span class="bz_attach_view_hide">
           [% IF obsolete_attachments %]
-            <a href="#a0" onclick="return toggle_display(this);">Show
-              Obsolete</a> ([% obsolete_attachments %])
+            <a href="#a0" onclick="return toggle_display(this);">Wyświetl
+              zdezaktualizowane</a> ([% obsolete_attachments %])
           [% END %]
           [% IF Param("allow_attachment_display") %]
-            <a href="attachment.cgi?bugid=[% bugid %]&amp;action=viewall">View All</a>
+          <a href="attachment.cgi?bugid=[% bugid %]&amp;action=viewall">Wyświetl wszystkie</a>
           [% END %]
         </span>
       [% END %]
-      <a href="attachment.cgi?bugid=[% bugid %]&amp;action=enter">Dodaj załącznik</a>
-      (proposed patch, testcase, etc.)
+      <a href="attachment.cgi?bugid=[% bugid %]&amp;action=enter">Nowy załącznik</a>
+      (łatka, sprawdzian itp.)
     </td>
   </tr>
 </table>

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
    title = "Kopia bazy danych"
@@ -27,23 +30,23 @@
   shadowdbhost => "Host dodatkowej bazy danych.",
 
   shadowdbport => "Port dodatkowej bazy danych. Wartość ignorowana, jeśli " _
-                  "opcja <tt>shadowdbhost</tt> jest pusta. Uwaga: jeśli hostem bazy jest " _
-                  "lokalny komputer, to MySQL zignoruje ten parametr. Należy w takim " _
-                  "przypadku określić gniazdo poniżej.",
+                  "parametr <tt>shadowdbhost</tt> jest pusty. Uwaga: Jeśli hostem bazy jest " _
+                  "lokalny komputer, MySQL zignoruje ten parametr. W takim przypadku " _
+                  "należy poniżej określić gniazdo.",
 
   shadowdbsock => "Gniazdo połączenia do dodatkowej bazy danych, jeśli znajduje się ona " _
-                  "na lokalnym komputerze. Opcja ta jest wymagana, ponieważ MySQL " _
+                  "na lokalnym komputerze. Parametr ten jest wymagany, ponieważ baza MySQL " _
                   "ignoruje podany port i łączy się z lokalnym serwerem za pomocą domyślnej " _
                   "ścieżki do gniazda (na komputerach z systemami UNIX). " _
                   "Pozostawienie pustej wartości w przypadku posiadania bazy na lokalnym komputerze " _
-                  "(localhost) spowoduje, że opcja <tt>shadowdbport</tt> " _
-                  "zostanie zignorowana.",
+                  "(localhost) spowoduje, że parametr <tt>shadowdbport</tt> " _
+                  "zostanie zignorowany.",
 
-  shadowdb => "Wartość niepusta określa nazwę dodatkowej bazy danych, której " _
-              "$terms.Bugzilla będzie używać jako kopii bazy do odczytu. " _
-              "Długie, blokujące połączenia i zapytania będą wykonywane na tej bazie, " _
-              "a inni użytkownicy nie będą doświadczać opóźnień. Baza ta znajduje się na " _
-              "komputerze określonym w opcji <tt>shadowdbhost</tt>. " _
+  shadowdb => "Nazwa dodatkowej bazy danych, której $terms.Bugzilla będzie " _
+              "używać jako kopii bazy do odczytu. Długie, blokujące połączenia " _
+              "i zapytania będą wykonywane na tej bazie, a inni użytkownicy " _
+              "nie będą doświadczać opóźnień. Baza ta znajduje się na komputerze " _
+              "określonym dla parametru <tt>shadowdbhost</tt>. " _
               "$terms.Bugzilla sama z siebie nie replikuje bazy. W przypadku korzystania z tej " _
-              "opcji należy samodzielnie zapewnić replikację bazy danych." }
+              "funkcji, należy samodzielnie zapewnić replikację bazy danych." }
 %]

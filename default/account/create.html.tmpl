@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE
@@ -28,7 +30,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-  Tworzenie nowego konta
+  Tworzenie nowego konta w [% terms.Bugzilli %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -36,26 +38,27 @@
            onload = "document.forms['account_creation_form'].login.focus();" %]
 
 <p>
-  Do utworzenia konta w [% terms.Bugzilli %] wymagane jest
+  Aby utworzyć konto w [% terms.Bugzilli %] wystarczy podać
 [% IF Param('emailsuffix') == '' %]
-  tylko podanie poprawnego adresu e-mail.
+  ważny adres e-mail.
 [% ELSE %]
-  podanie nazwy konta z domeny [% Param('emailsuffix') %].
+  Nazwa konta, gdy jest powiązana z [% Param('emailsuffix') %],
+  odpowiada adresowi, na który będziesz otrzymywać wiadomości.
 [% END %]
-  Następnie na adres ten wysłana zostanie wiadomość z prośbą o potwierdzenie. 
-  <b>Do czasu otrzymania wiadomości zalogowanie się do systemu nie będzie 
-  możliwe.</b> W przypadku, gdy wiadomość nie dojdzie w rozsądnym czasie, 
-  należy skontaktować się z opiekunem tej instalacji [% terms.Bugzilli %] pod 
-  adresem <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
+  Na ten adres otrzymasz wiadomość z danymi do potwierdzenia utworzenia Twojego
+  konta. <b>Aby móc się zalogować, musisz najpierw potwierdzić utworzenia konta.</b>
+  Jeśli nie otrzymasz wiadomości w rozsądnym czasie, możesz skontaktować się z
+  opiekunem tej instalacji [% terms.Bugzilli %] pod adresem
+  <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
 </p>
 
 [% IF Param('createemailregexp') == '.*' && Param('emailsuffix') == '' %]
 <p>
-  <b>PRYWATNOŚĆ:</b> [% terms.Bugzilla %] jest otwartym systemem śledzenia [% terms.bledow %].
-  Jeśli chcesz brać aktywnie udział w zgłaszaniu błędów to Twój adres e-mail będzie dostępny
-  dla wszystkich użytkowników tej instalacji. W celu uniknięcia SPAMU na Twoje główne konto 
-  e-mail <b>zaleca</b> się  korzystanie z odrębnego adresu e-mail.<br>
-  Darmowe konto e-mail można założyć w takich serwisach jak GMail, Yahoo czy Hotmail.
+  <b>Informacja:</b> [% terms.Bugzilla %] jest otwartym systemem śledzenia [% terms.bledow %].
+  Wszelkie treści publikowane w związku z [% terms.bledami %], włącznie z adresami e-mail,
+  będą ogólnie dostępne. By zapobiec otrzymywaniu niechcianych wiadomości, <b>zalecamy</b> użycie
+  drugorzędnego konta lub konta utworzonego w jednym z serwisów sieciowych takich, jak:
+  Gmail, Yahoo, Hotmail lub podobne serwisy.
 </p>
 [% END %]
 

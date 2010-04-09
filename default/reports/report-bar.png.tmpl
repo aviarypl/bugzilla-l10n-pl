@@ -1,8 +1,9 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
   # the License at http://www.mozilla.org/MPL/
-  # ó
+  #
   # Software distributed under the License is distributed on an "AS
   # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
   # implied. See the License for the specific language governing
@@ -16,38 +17,23 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% y_label = "$terms.Bugs" %]
+[% y_label = "$terms.Bledy" %]
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% col_field_disp = field_descs.$col_field || col_field %]
 
-[% IF col_field == 'bug_status' %]
-  [% FOR i IN [ 0 .. data.0.0.max ] %]
-    [% data.0.0.$i = get_status(data.0.0.$i) %]
-  [% END %]
+[% FOR i IN [ 0 .. data.0.0.max ] %]
+  [% data.0.0.$i = display_value(col_field, data.0.0.$i) %]
 [% END %]
 
-[% IF col_field == 'resolution' %]
-  [% FOR i IN [ 0 .. data.0.0.max ] %]
-    [% data.0.0.$i = get_resolution(data.0.0.$i) %]
-  [% END %]
-[% END %]
-
-[% IF row_field == 'bug_status' %]
-  [% FOR i IN [ 0 .. row_names.max ] %]
-    [% row_names.$i = get_status(row_names.$i) %]
-  [% END %]
-[% END %]
-
-[% IF row_field == 'resolution' %]
-  [% FOR i IN [ 0 .. row_names.max ] %]
-    [% row_names.$i = get_resolution(row_names.$i) %]
-  [% END %]
+[% FOR i IN [ 0 .. row_names.max ] %]
+  [% row_names.$i = display_value(row_field, row_names.$i) %]
 [% END %]
 
 [% FILTER null;

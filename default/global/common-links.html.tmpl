@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,24 +18,30 @@
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #                 Svetlana Harisova <light@rathedg.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% DEFAULT qs_suffix = "" %]
 [% USE Bugzilla %]
+
 <ul class="links">
-  <li><a href="./">Strona główna</a></li>
-  <li><span class="separator">| </span><a href="enter_bug.cgi">Nowy [% terms.blad %]</a></li>
+  <li><a href="./">Główna</a></li>
+  <li><span class="separator">| </span><a href="enter_bug.cgi">Nowy</a></li>
+  <li><span class="separator">| </span><a href="describecomponents.cgi">Przeglądaj</a></li>
   <li><span class="separator">| </span><a href="query.cgi">Wyszukiwanie</a></li>
 
   <li class="form">
     <span class="separator">| </span>
     <form action="buglist.cgi" method="get"
         onsubmit="if (this.quicksearch.value == '')
-                  { alert('Proszę podać jedno lub więcej haseł do wyszukiwania.');
+                  { alert('Podaj jedną lub kilka fraz do wyszukania.');
                     return false; } return true;">
     <input class="txt" type="text" id="quicksearch[% qs_suffix FILTER html %]" name="quicksearch">
-    <input class="btn" type="submit" value="Szukaj" id="find[% qs_suffix FILTER html %]">
-    [%-# Work around FF bug: keep this on one line %]</form></li>
+    <input class="btn" type="submit" value="Szukaj"
+           id="find[% qs_suffix FILTER html %]">
+    [%-# Work around FF bug: keep this on one line %]</form>
+  <a href="page.cgi?id=quicksearch.html" title="Szybkie wyszukiwanie – pomoc">[?]</a></li>
 
   <li><span class="separator">| </span><a href="report.cgi">Raporty</a></li>
 
@@ -43,16 +50,12 @@
       <span class="separator">| </span>
       [% IF user.id %]
         <a href="request.cgi?requester=[% user.login FILTER url_quote %]&amp;requestee=
-                 [% user.login FILTER url_quote %]&amp;do_union=1&amp;group=type&amp;action=queue">Moje żądania</a>
+                 [% user.login FILTER url_quote %]&amp;do_union=1&amp;group=type&amp;action=queue">Moje prośby</a>
       [% ELSE %]
-        <a href="request.cgi">Żądania</a>
+        <a href="request.cgi">Prośby</a>
       [% END %]
     [% END %]
   [%-# Work around FF bug: keep this on one line %]</li>
-
-  [% IF user.id && Param('usevotes') %]
-    <li><span class="separator">| </span><a href="votes.cgi?action=show_user">Moje głosy</a></li>
-  [% END %]
 
   [% IF user.login %]
     <li><span class="separator">| </span><a href="userprefs.cgi">Ustawienia</a></li>
@@ -71,10 +74,10 @@
       [% IF user.authorizer.can_logout %]
         <a href="index.cgi?logout=1">Wyloguj</a>
       [% ELSE %]
-        Zalogowano&nbsp;in&nbsp;jako
+        Zalogowano&nbsp;jako 
       [% END %]
       [% IF sudoer %]
-        [%+ sudoer.login FILTER html %] (<b>używana tożsamość
+        [%+ sudoer.login FILTER html %] (<b>używana tożsamość: 
         [%+ user.login FILTER html %]</b>
         <a href="relogin.cgi?action=end-sudo">zakończ sesję</a>)
       [% ELSE %]

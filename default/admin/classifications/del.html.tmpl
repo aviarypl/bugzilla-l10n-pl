@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,19 +17,20 @@
   # Rights Reserved.
   #
   # Contributor(s): Albert Ting <alt@sonic.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Usuwanie klasyfikacji"
+  title = "Usuwanie kategorii"
 %]
 
 <table border=1 cellpadding=4 cellspacing=0>
 <tr bgcolor="#6666ff">
-  <th valign="top" align="left">Part</th>
-  <th valign="top" align="left">Value</th>
+  <th valign="top" align="left">Część</th>
+  <th valign="top" align="left">Wartość</th>
 
 </tr><tr>
-  <td valign="top">Klasyfikacja:</td>
+  <td valign="top">Kategoria:</td>
   <td valign="top">[% classification.name FILTER html %]</td>
 
 </tr><tr>
@@ -48,17 +50,16 @@
 </tr>
 </table>
 
-<h2>Confirmation</h2>
+<h2>Potwierdzenie</h2>
 
-<p>Czy na pewno usunąć tę klasyfikację?</p>
+<p>Czy na pewno chcesz usunąć tę kategorię?<p>
 <form method=post action="editclassifications.cgi">
-  <input type=submit value="Tak, usuń">
+  <input type=submit value="Tak">
   <input type=hidden name="action" value="delete">
   <input type=hidden name="classification" value="[% classification.name FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
-<p>Back to the <a href="./">Strona główna</a>
-| <a href="editclassifications.cgi">Lista klasyfikacji</a></p>
+[% PROCESS admin/classifications/footer.html.tmpl %] 
 
 [% PROCESS global/footer.html.tmpl %] 

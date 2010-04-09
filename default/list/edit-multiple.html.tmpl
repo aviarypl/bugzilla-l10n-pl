@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -19,21 +20,27 @@
   #                 Max Kanat-Alexander <mkanat@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #                 Guy Pyrzak <guy.pyrzak@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  # Added, changed lines 28, 345 for Polish localization
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
+[% PROCESS "global/field-descs.none.tmpl" %]
 
-[% dontchange = "--nie_zmieniaj--" %]
+[% dontchange = "–nie zmieniaj–" %]
 <input type="hidden" name="dontchange" value="[% dontchange FILTER html %]">
 <input type="hidden" name="token" value="[% token FILTER html %]">
 
 <script type="text/javascript">
-  var numelements = document.forms.changeform.elements.length;
   function SetCheckboxes(value) {
-      var item;
-      for (var i=0 ; i<numelements ; i++) {
-          item = document.forms.changeform.elements[i];
-          item.checked = value;
+      var elements = document.forms.changeform.getElementsByTagName('input'),
+          numelements = elements.length,
+          item, i;
+      for (i = 0; i < numelements; i++) {
+          item = elements[i];
+          if (item.type === 'checkbox' && item.name.match(/^id_/)) {
+            item.checked = value;
+          }
       }
   }
   document.write(' <input type="button" name="uncheck_all" value="Odznacz wszystkie" onclick="SetCheckboxes(false);">');
@@ -43,10 +50,10 @@
 <hr>
 
 <p style="font-size:smaller">
- Aby zmienić wiele [% terms.bledow %] należy:</p>
+ Aby zmienić wiele [% terms.bledow%], należy:</p>
 <ol style="font-size:smaller">
-  <li>Zaznaczyć powyżej [% terms.bledy %] które mają być zmienione.</li>
-  <li>Dokonać zmian w polach formularza poniżej. Jeśli zmiany wymagają wyjaśnień, to
+  <li>Zaznaczyć powyżej [% terms.bledy %], które mają być zmienione.</li>
+  <li>Dokonać zmian w polach poniższego formularza. Jeśli zmiany wymagają wyjaśnień,
    można je wpisać do pola komentarza.</li>
   <li>Nacisnąć przycisk <em>Zapisz</em>.</li>
 </ol>
@@ -136,7 +143,7 @@
     <th><label for="bug_status">Status:</label></th>
     <td colspan="3">[% PROCESS status_section %]</td>
   </tr>
-  [% IF user.in_group(Param("timetrackinggroup")) %]
+  [% IF user.is_timetracker %]
     <tr>
       <th><label for="estimated_time">Szacunkowa liczba godzin:</label></th>
       <td>
@@ -145,7 +152,7 @@
                value="[% dontchange FILTER html %]"
                size="6">
       </td>
-      <th><label for="deadline">Termin (YYYY-MM-DD):</label></th>
+      <th><label for="deadline">Termin (RRRR-MM-DD):</label></th>
       <td>
         <input id="deadline"
                name="deadline"
@@ -167,7 +174,7 @@
   [% END %]
 
   <tr>
-    <th><label for="assigned_to">Przypisany do:</label></th>
+    <th><label for="assigned_to">Beneficjent:</label></th>
     <td colspan="3">
       [% INCLUDE global/userselect.html.tmpl
            id => "assigned_to"
@@ -176,13 +183,13 @@
            size => 32
       %]
       <input type="checkbox" id="set_default_assignee" name="set_default_assignee" value="1">
-      <label for="set_default_assignee">Reset Assignee to default</label>
+      <label for="set_default_assignee">Przywróć domyślnego beneficjenta</label>
     </td>
   </tr>
 
   [% IF Param("useqacontact") %]
     <tr>
-      <th><label for="qa_contact">Kontakt QA:</label></th>
+      <th><label for="qa_contact">Specjalista QA:</label></th>
       <td colspan="3">
         [% INCLUDE global/userselect.html.tmpl
              id => "qa_contact"
@@ -191,7 +198,7 @@
              size => 32
         %]
         <input type="checkbox" id="set_default_qa_contact" name="set_default_qa_contact" value="1">
-        <label for="set_default_qa_contact">Reset QA Contact to default</label>
+        <label for="set_default_qa_contact">Przywróć domyślnego specjalistę QA</label>
       </td>
     </tr>
   [% END %]
@@ -232,14 +239,14 @@
   <tr>
     <th>
       <label for="dependson">
-          Depends On:
+          Zależy od:
       </label>
     </th>
     <td colspan="3">
       <input id="dependson" name="dependson" size="32">
       <select name="dependson_action">
-          <option value="add">Add these IDs</option>
-          <option value="remove">Delete these IDs</option>
+          <option value="add">Dodaj ID</option>
+          <option value="remove">Usuń ID</option>
       </select>
     </td>
   </tr>
@@ -247,14 +254,14 @@
   <tr>
     <th>
       <label for="blocked">
-          Blocks:
+          Blokuje:
       </label>
     </th>
     <td colspan="3">
       <input id="blocked" name="blocked" size="32">
       <select name="blocked_action">
-          <option value="add">Add these IDs</option>
-          <option value="remove">Delete these IDs</option>
+          <option value="add">Dodaj ID</option>
+          <option value="remove">Usuń ID</option>
       </select>
     </td>
   </tr>
@@ -284,12 +291,15 @@
 
 </table>
 
-<b><label for="comment">Dodatkowy komentarz:</label></b>
+<b><label for="comment">Dodatkowe komentarze:</label></b>
 [% IF user.is_insider %]
   <input type="checkbox" name="commentprivacy" value="1"
          id="newcommentprivacy"
          onClick="updateCommentTagControl(this, form)"/>
-  <label for="newcommentprivacy">Private</label>
+   <label for="newcommentprivacy">
+     Prywatny komentarz (widoczny tylko dla członków grupy
+     <strong>[% Param('insidergroup') FILTER html %]</strong>)
+   </label>
 [% END %]
 <br>
 [% INCLUDE global/textarea.html.tmpl
@@ -300,13 +310,15 @@
   cols    = constants.COMMENT_COLS
 %]<br>
 
+[% Hook.process('before_groups') %]
+
 [% IF groups.size > 0 %]
 
   <b>Grupy:</b><br>
   <table border="1">
     <tr>
       <th>Nie<br>zmieniaj<br>ograniczeń<br>tej grupy</th>
-      <th>Usuń<br>[% terms.bledy %]<br>fz tej<br>grupy</th>
+      <th>Usuń<br>[% terms.bledy %]<br>z tej<br>grupy</th>
       <th>Dodaj<br>[% terms.bledy %]<br>do tej<br>grupy</th>
       <th>Nazwa grupy:</th>
     </tr>
@@ -330,7 +342,7 @@
 
       <td>
         [% SET inactive = !group.is_active %]
-        [% group.description FILTER html_light FILTER inactive(inactive) %]
+        [% display_value("bit_description", group.description) FILTER html_light FILTER inactive(inactive) %]
       </td>
 
     </tr>
@@ -339,7 +351,8 @@
   </table>
 
   [% IF foundinactive %]
-    <p style="font-size:smaller">(Uwaga: [% terms.bledy %] zamiast zostać dodane do [% FILTER inactive %]nieaktywnej grupy[% END %], mogą zostać usunięte.)</p>
+    <p style="font-size:smaller">(Uwaga: Można nie dodawać [% terms.bledow %] do [% FILTER inactive %]nieaktywnych
+    grup[% END %] tylko je usunąć.)</p>
   [% END %]
 
 [% END %]
@@ -360,7 +373,7 @@
     </option>
     [% FOREACH menuitem = menuitems %]
       [% IF property %][% menuitem = menuitem.$property %][% END %]
-      <option value="[% menuitem FILTER html %]">[% menuitem FILTER html %]</option>
+      <option value="[% menuitem FILTER html %]">[% display_value(menuname, menuitem) FILTER html %]</option>
     [% END %]
   </select>
 [% END %]
@@ -379,7 +392,7 @@
   
     [% FOREACH bug_status = new_bug_statuses %]
       <option value="[% bug_status.name FILTER html %]">
-        [% get_status(bug_status.name) FILTER html %]
+        [% display_value("bug_status", bug_status.name) FILTER html %]
       </option>
       [% IF !bug_status.is_open %]
         [% filtered_status =  bug_status.name FILTER js %]
@@ -400,7 +413,7 @@
     [% FOREACH r = resolutions %]
       [% NEXT IF !r %]
       [% NEXT IF r == "DUPLICATE" || r == "MOVED" %]
-      <option value="[% r FILTER html %]">[% get_resolution(r) FILTER html %]</option>
+      <option value="[% r FILTER html %]">[% display_value("resolution", r) FILTER html %]</option>
     [% END %]
   </select>
   </span>

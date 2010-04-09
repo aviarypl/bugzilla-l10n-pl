@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,11 +17,12 @@
   # Rights Reserved.
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Confirm Deletion of Flag Type '[% flag_type.name FILTER html %]'[% END %]
+[% title = BLOCK %]Potwierdzenie usunięcia typu flagi „[% flag_type.name FILTER html %]”[% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -29,32 +31,32 @@
 
 <p>
   [% IF flag_type.flag_count %]
-    There are [% flag_type.flag_count %] flags of type [% flag_type.name FILTER html %].
-    If you delete this type, those flags will also be deleted.
+    Występuje [% flag_type.flag_count %] [% PROCESS ODMIEN c=flag_type.flag_count o1="flaga" o2="flagi" o3="flag" %] typu [% flag_type.name FILTER html %].
+    W przypadku usunięcia tego typu, ww. flagi zostaną także usunięte.
   [% END %]
 
-  Note that instead of deleting the type you can
+ Zamiast usuwania typu można dokonać jego 
    <a href="editflagtypes.cgi?action=deactivate&amp;id=[% flag_type.id %]&amp;token=
-           [%- token FILTER html %]">deactivate it</a>,
-   in which case the type [% IF flag_type.flag_count %] and its flags [% END %] will remain
-   in the database but will not appear in the [% terms.Bugzilla %] UI.
+           [%- token FILTER html %]">dezaktywacji</a>, która sprawi, że 
+   typ [% IF flag_type.flag_count %] i jego flagi [% END %] pozostaną w
+   bazie danych, ale nie będą wyświetlane w interfejsie użytkownika.
 </p>
 
 <table>
    <tr>
       <td colspan="2">
-         Do you really want to delete this type?
+         Czy na pewno chcesz usunąć ten typ?
       </td>
    </tr>
    <tr>
       <td>
          <a href="editflagtypes.cgi?action=delete&amp;id=[% flag_type.id %]&amp;token=
-                 [%- token FILTER html %]">Yes, delete
+                 [%- token FILTER html %]">Tak
          </a>
       </td>
       <td align="right">
          <a href="editflagtypes.cgi">
-            No, don't delete
+            Nie, nie usuwaj
          </a>
       </td>
    </tr>

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -28,17 +29,14 @@
   #%]
 
 [% terms = {
-  "bug" => "bug",
-  "Bug" => "Bug",
-  "abug" => "a bug",
-  "Abug" => "A bug",
-  "aBug" => "a Bug",
-  "ABug" => "A Bug",
-  "bugs" => "bugs",
-  "Bugs" => "Bugs",
-
+  "bug" => "błąd",
+  "Bug" => "Błąd",
+  "abug" => "błąd",
+  "Abug" => "Błąd",
+  "ABug" => "Błąd",
+  "bugs" => "błędy",
+  "Bugs" => "Błędy",
   "produktu" => "produktu",
-
   "bit" => "bit",
   "bits" => "bity",
   "blad" => "błąd",
@@ -52,7 +50,7 @@
   "bledowi" => "błędowi",
   "Bledowi" => "Błędowi",
   "Bledem" => "Błędem",
-  "bledem" => "błędem",
+  "bledem" => "błędem",  
   "bledach" => "błędach",
   "Bledach" => "Błędach",
   "bledami" => "błędami",
@@ -63,32 +61,30 @@
   "Bledom" => "Błędom",
   "Bugzilla" => "Bugzilla",
   "Bugzilli" => "Bugzilli",
-  "Bugzille" => "Bugzillę"
+  "Bugzille" => "Bugzillę",
   "zgloszenie" => "zgłoszenie",
-  
-  "zeroSearchResults" => "Nie znalaziono żadnych błędów",
-  "Bugzilla" => "Bugzilla"
+  "zeroSearchResults" => "Nie znaleziono żadnych błędów"
   }
-  
-    selectTransTable = {
+
+  selectTransTable = {
     op_sys => {
-      All => 'Wszystkie',
-      other => 'Inny'
+      All => "Wszystkie",
+      other => "Inny"
     },
     rep_platform => {
-      All => 'Wszystkie',
-      Other => 'Inna'
+      All => "Wszystkie",
+      Other => "Inna"
     },
     bug_severity => {
-      blocker => 'blokujący',
-      critical => 'krytyczny',
-      major => 'ważny',
-      normal => 'normalny',
-      minor => 'drobny',
-      trivial => 'trywialny',
-      enhancement => 'propozycja'
+      blocker => "blokujący",
+      critical => "krytyczny",
+      major => "poważny",
+      normal => "normalny",
+      minor => "drobny",
+      trivial => "błahy",
+      enhancement => "propozycja"
     }
-  } 
+  }  
 %]
 
 [% BLOCK ODMIEN -%]

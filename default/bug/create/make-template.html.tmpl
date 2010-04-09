@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #                 Marc Schumann <wurblzap@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -27,20 +30,20 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Bookmarks are your friend"
-  header = "Template constructed"
+  title = "Zakładki to Twoi przyjaciele"
+  header = "Szablon został utworzony"
 %]
 
 <p>
-  You can bookmark this link:
-  &ldquo;<a href="enter_bug.cgi?[% url FILTER html %]">
+  Możesz dodać zakładkę do tego odnośnika:
+  „<a href="enter_bug.cgi?[% url FILTER html %]">
   [% IF short_desc %]
     [% short_desc FILTER html %]
   [% ELSE %]
-    [% terms.Bug %] entry template
-  [% END %]</a>&rdquo;.
-  This bookmark will bring up the <em>Enter [% terms.Bug %]</em> page with the
-  fields initialized as you've requested.
+    Szablon dodawania [% terms.bledu %]
+  [% END %]</a>”.
+  Ta zakładka spowoduje otworzenie strony <em>Zgłoś [% terms.blad %]</em> z polami
+  wypełnionymi wartościami wprowadzonymi przed chwilą.
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

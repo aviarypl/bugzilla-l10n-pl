@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,8 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Marc Schumann <wurblzap@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -71,15 +74,16 @@
   </tr>
   [% END %]
   <tr>
-    <th><label for="disable_mail">Powiadamianie e-mail wyłączone:</label></th>
+    <th><label for="disable_mail">Poczta [% terms.bledow %] wyłączona:</label></th>
     <td>
       <input type="checkbox" name="disable_mail" id="disable_mail" value="1" 
       [% IF otheruser.email_disabled %] checked="checked" [% END %] />
-      (Opcja dotyczy powiadamiania i przypominania, a nie wiadomości administracyjnych)
+      (Funkcja ta dotyczy powiadomień związanych z błędami i przypominaniem, a nie resetowania hasła czy innych
+      nie związanych z [% terms.bledami %] e-maili)
     </td>
   </tr>
   <tr>
-    <th><label for="disabledtext">Disable text:</label></th>
+    <th><label for="disabledtext">Tekst wyłączający konto:</label></th>
     <td>
       [% INCLUDE global/textarea.html.tmpl
          name           = 'disabledtext'
@@ -90,8 +94,8 @@
          cols           = 60
          defaultcontent = otheruser.disabledtext
        %]<br>
-      (Wpisanie tekstu w powyższe pole powoduje wyłączenie konta. Zawartośc pola 
-      będzie wyświetlana jako powód wyłączenia.)
+      (Wprowadzenie tekstu w powyższe pole spowoduje wyłączenie konta, a tekst ten będzie
+      wyświetlany jako powód wyłączenia)
     </td>
   </tr>
 [% END %]

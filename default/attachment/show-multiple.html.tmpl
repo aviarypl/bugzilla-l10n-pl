@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,21 +17,24 @@
   # Rights Reserved.
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
 [% filtered_summary = bugsummary FILTER html %]
-[% header = BLOCK %]View All Attachments for
-  [%+ "$terms.Bug $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %][% END %]
+[% header = BLOCK %]Wszystkie załączniki do 
+  [%+ "$terms.bledu $bug.bug.id" FILTER bug_link(bug) FILTER none %][% END %]
 
 [% title = BLOCK %]
-  View All Attachments for [% terms.Bug %] [%+ bug.bug_id FILTER html %]
+  Wszystkie załączniki do [% terms.bledu %] [%+ bug.bug_id FILTER html %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
   header = header
   subheader = filtered_summary
+  style_urls = ['skins/standard/create_attachment.css']
 %]
 
 <br>
@@ -41,7 +45,7 @@
   <table class="attachment_info" cellspacing="0" cellpadding="4" border="1" width="75%">
     <tr>
       <td valign="top" bgcolor="#cccccc" colspan="6">
-        <big><b>Attachment #[% a.id %]</b></big>
+        <big><b>Załącznik #[% a.id %]</b></big>
       </td>
     </tr>
     <tr>
@@ -51,7 +55,7 @@
 
       <td valign="top">
         [% IF a.ispatch %]
-          <i>patch</i>
+          <i>łatka</i>
         [% ELSE %]
           [% a.contenttype FILTER html %]
         [% END %]
@@ -62,7 +66,7 @@
 
       <td valign="top">
         [% IF a.flags.size == 0 %]
-          <i>no flags</i>
+          <i>brak flag</i>
         [% ELSE %]
           [% FOREACH flag = a.flags %]
             [% flag.setter.nick FILTER html %]:
@@ -76,20 +80,20 @@
       </td>
 
       <td valign="top">
-        <a href="attachment.cgi?id=[% a.id %]&amp;action=edit">Details</a>
+        <a href="attachment.cgi?id=[% a.id %]&amp;action=edit">Szczegóły</a>
       </td>
     </tr>
   </table>
 
   [% IF a.is_viewable %]
     <iframe src="attachment.cgi?id=[% a.id %]" width="75%" height="350">
-      <b>You cannot view the attachment on this page because your browser does not support IFRAMEs.
-      <a href="attachment.cgi?id=[% a.id %]">View the attachment on a separate page</a>.</b>
+      <b>Nie można wyświetlić załącznika, ponieważ Twoja przeglądarka nie obsługuje ramek.
+      <a href="attachment.cgi?id=[% a.id %]">Zobacz załącznik na osobnej stronie</a>.</b>
     </iframe>
   [% ELSE %]
     <p><b>
-      Attachment cannot be viewed because its MIME type is not text/*, image/*, or application/vnd.mozilla.*.
-      <a href="attachment.cgi?id=[% a.id %]">Download the attachment instead</a>.
+      Nie można wyświetlić załącznika, ponieważ jego typ MIME to nie text/*, image/* lub application/vnd.mozilla.*.
+      <a href="attachment.cgi?id=[% a.id %]">Pobierz załącznik</a>.
     </b></p>
   [% END %]
   </div>

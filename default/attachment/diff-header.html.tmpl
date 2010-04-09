@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): John Keiser <jkeiser@netscape.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# Define strings that will serve as the title and header of this page %]
@@ -24,9 +27,9 @@
 
 [% title = BLOCK %]
   [% IF attachid %]
-Attachment #[% attachid %] for [% terms.bug %] #[% bugid %]
+Załącznik #[% attachid %] do [% terms.bledu %] #[% bugid %]
   [% ELSE %]
-Interdiff of #[% oldid %] and #[% newid %] for [% terms.bug %] #[% bugid %]
+Różnica pomiędzy #[% oldid %] oraz #[% newid %] do [% terms.bledu %] #[% bugid %]
   [% END %]
 [% END %]
 
@@ -39,14 +42,14 @@ Interdiff of #[% oldid %] and #[% newid %] for [% terms.bug %] #[% bugid %]
 [% IF headers %]
   [% header = BLOCK %]
     [% IF attachid %]
-      Attachment #[% attachid %]: [% description FILTER html %]
+      Załącznik #[% attachid %]: [% description FILTER html %]
     [% ELSE %]
-      Diff Between 
+      Różnica pomiędzy 
        #[% oldid %]: <a href="[% PROCESS diffurl id=oldid %]">[% old_desc FILTER html %]</a>
-      and 
+      a 
        #[% newid %]: <a href="[% PROCESS diffurl id=newid %]">[% new_desc FILTER html %]</a>
     [% END %]
-    for <a href="show_bug.cgi?id=[% bugid %]">[% terms.bug %] #[% bugid %]</a>
+    do <a href="show_bug.cgi?id=[% bugid %]">[% terms.bledu %] #[% bugid %]</a>
   [% END %]
   [% subheader = BLOCK %]
     [% bugsummary FILTER html %]
@@ -67,13 +70,14 @@ Interdiff of #[% oldid %] and #[% newid %] for [% terms.bug %] #[% bugid %]
 [% IF attachid %]
   [%# HEADER %]
   [% IF headers %]
-    <a href="[% PROCESS viewurl id=attachid %]">View</a>
-    | <a href="[% PROCESS editurl id=attachid %]">Details</a>
-    | <a href="[% PROCESS diffurl id=attachid %]&amp;context=[% context FILTER url_quote %]&amp;collapsed=[% collapsed FILTER url_quote %]&amp;headers=[% headers FILTER url_quote %]&amp;format=raw">Raw&nbsp;Unified</a>
+    <a href="[% PROCESS viewurl id=attachid %]">Wyświetl</a>
+    | <a href="[% PROCESS editurl id=attachid %]">Szczegóły</a>
+    | <a href="[% PROCESS diffurl id=attachid %]&amp;context=[% context FILTER url_quote %]&amp;collapsed=[% collapsed FILTER url_quote %]&amp;headers=[% headers FILTER url_quote %]&amp;format=raw">Raw&nbsp;zunifikowany</a>
+    | Wróć do [% "$terms.bug $bugid" FILTER bug_link(bugid) FILTER none %]
   [% END %]
   [% IF other_patches.size > 0 %]
     [% IF headers %] |[%END%]
-    Differences between
+    Różnice pomiędzy
     <form style="display: inline" action="attachment.cgi">
       <select name="oldid">
       [% FOREACH patch = other_patches %]
@@ -82,7 +86,7 @@ Interdiff of #[% oldid %] and #[% newid %] for [% terms.bug %] #[% bugid %]
         >[% patch.desc FILTER html %]</option>
       [% END %]
       </select>
-      and this patch
+      oraz tą łatką
       <input type="submit" id="diff" value="Diff">
       <input type="hidden" name="action" value="interdiff">
       <input type="hidden" name="newid" value="[% attachid %]">
@@ -92,33 +96,34 @@ Interdiff of #[% oldid %] and #[% newid %] for [% terms.bug %] #[% bugid %]
   <br>
 [% ELSE %]
   [% IF headers %]
-    <a href="attachment.cgi?oldid=[% oldid %]&amp;newid=[% newid %]&amp;action=interdiff&amp;format=raw">Raw Unified</a>
+    <a href="attachment.cgi?oldid=[% oldid %]&amp;newid=[% newid %]&amp;action=interdiff&amp;format=raw">Raw zunifikowany</a>
+    | Wróć do [% "$terms.bug $bugid" FILTER bug_link(bugid) FILTER none %]
     |
   [% END %]
 [% END %]
   
 [%# Collapse / Expand %]
 <a href="#"
-   onmouseover="lastStatus = window.status; window.status='Collapse All'; return true"
+   onmouseover="lastStatus = window.status; window.status='Zwiń wszystkie'; return true"
    onmouseout="window.status = lastStatus; return true"
-   onclick="return collapse_all()">Collapse All</a> | 
+   onclick="return collapse_all()">Zwiń wszystkie</a> | 
 <a href="#"
-   onmouseover="lastStatus = window.status; window.status='Expand All'; return true"
+   onmouseover="lastStatus = window.status; window.status='Rozwiń wszystkie'; return true"
    onmouseout="window.status = lastStatus; return true"
-   onclick="return expand_all()">Expand All</a>
+   onclick="return expand_all()">Rozwiń wszystkie</a>
 
 [% IF do_context %]
   [%# only happens for normal viewing, not interdiff %]
-  | <span style='font-weight: bold'>Context:</span>
+  | <span style='font-weight: bold'>Kontekst:</span>
   [% IF context == "patch" %]
-    (<strong>Patch</strong> / 
+    (<strong>Łatka</strong> / 
   [% ELSE %]
-    (<a href="[% PROCESS diffurl id=attachid %]&amp;headers=[% headers FILTER url_quote %]">Patch</a> / 
+    (<a href="[% PROCESS diffurl id=attachid %]&amp;headers=[% headers FILTER url_quote %]">Łatka</a> / 
   [% END %]
   [% IF context == "file" %]
-    <strong>File</strong> /
+    <strong>Plik</strong> /
   [% ELSE %]
-    <a href="[% PROCESS diffurl id=attachid %]&amp;headers=[% headers FILTER url_quote %]&amp;context=file">File</a> / 
+    <a href="[% PROCESS diffurl id=attachid %]&amp;headers=[% headers FILTER url_quote %]&amp;context=file">Plik</a> / 
   [% END %]
 
   [% IF context == "patch" || context == "file" %]
@@ -129,15 +134,16 @@ Interdiff of #[% oldid %] and #[% newid %] for [% terms.bug %] #[% bugid %]
 [% END %]
 
 [% IF warning %]
-<h2 class="warning">Warning: 
+<h2 class="warning">Ostrzeżenie: 
   [% IF warning == "interdiff1" %]
-  this difference between two patches may show things in the wrong places due
-  to a limitation in [% terms.Bugzilla %] when comparing patches with different
-  sets of files.
+  Z powodu niedoskonałości [% terms.Bugzilli %] wyświetlany diagram różnic pomiędzy dwiema
+  łatkami stworzonymi dla różnych zestawów plików może pokazywać niektóre dane w 
+  niewłaściwych miejscach.
   [% END %]
   [% IF warning == "interdiff2" %]
-  this difference between two patches may be inaccurate due to a limitation in
-  [%+ terms.Bugzilla %] when comparing patches made against different revisions.
+  Z powodu niedoskonałości [%+ terms.Bugzilli %] wyświetlany diagram różnic pomiędzy dwiema
+  łatkami może być wyświetlany niepoprawnie w przypadku porównywania łatek stworzonych
+  dla różnych wersji plików.
   [% END %]
 </h2>
 [% ELSE %]

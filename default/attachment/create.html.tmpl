@@ -1,4 +1,5 @@
-﻿[%# The contents of this file are subject to the Mozilla Public
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
   # the License at http://www.mozilla.org/MPL/
@@ -19,14 +20,16 @@
   #                 Joel Peshkin <bugreport@peshkin.net>
   #                 Erik Stambaugh <erik@dasbistro.com>
   #                 Marc Schumann <wurblzap@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [%# Define strings that will serve as the title and header of this page %]
 [% title = BLOCK %]Tworzenie załącznika do [% terms.bledu %] #[% bug.bug_id %][% END %]
-[% header = BLOCK %]Tworzenie nowego załącznika do
-  [%+ "$terms.Bug $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %][% END %]
+[% header = BLOCK %]Tworzenie nowego załącznika do 
+  [%+ "$terms.bledu $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %][% END %]
 [% subheader = BLOCK %][% bug.short_desc FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -38,7 +41,9 @@
   doc_section = "attachments.html"
 %]
 
-<form name="entryform" method="post" action="attachment.cgi" enctype="multipart/form-data">
+<form name="entryform" method="post" action="attachment.cgi"
+      enctype="multipart/form-data"
+      onsubmit="return validateAttachmentForm(this)">
   <input type="hidden" name="bugid" value="[% bug.bug_id %]">
   <input type="hidden" name="action" value="insert">
   <input type="hidden" name="token" value="[% token FILTER html %]">
@@ -48,46 +53,44 @@
 
     [%# Additional fields for attachments on existing bugs: %]
     <tr>
-      <th>Dezaktualizuje:</th>
+      <th>Dezaktualizacja:</th>
       <td>
-        <em>(opcjonalnie) proszę zaznaczyć isnejące załączniki, które 
-		stają się nieaktualne po dodaniu nowego załącznika.</em><br>
+        <em>Zaznacz załączniki, które zostaną zdezaktualizowane po dodaniu nowego załącznika. (opcjonalne)</em><br>
         [% IF attachments.size %]
           [% FOREACH attachment = attachments %]
-            [% IF ((attachment.isprivate == 0) || (Param("insidergroup")
-              && user.in_group(Param("insidergroup")))) %]
+            [% IF ((attachment.isprivate == 0) || user.is_insider) %]
               <input type="checkbox" id="[% attachment.id %]"
                    name="obsolete" value="[% attachment.id %]">
               <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">[% attachment.id %]: [% attachment.description FILTER html %]</a><br>
             [% END %]
           [% END %]
         [% ELSE %]
-            [brak załączników do dezaktualizacji]
+            [brak załączników do zdezaktualizowania]
         [% END %]
       </td>
     </tr>
 
     [% IF (user.id != bug.assigned_to.id) AND user.in_group("editbugs", bug.product_id) %]
       <tr>
-        <th>Przypisanie:</th>
+        <th>Przepisanie:</th>
         <td>
-          <em>aby przepisać ten [% terms.blad %] na siebie
-		  należy zaznaczyć poniższą opcję.</em><br>
+          <em>Aby przepisać ten [% terms.blad %] na siebie,
+              zaznacz poniższe pole wyboru.</em><br>
           <input type="checkbox" id="takebug" name="takebug" value="1">
           <label for="takebug">przepisz [% terms.blad %] na mnie</label>
           [% bug_statuses = [] %]
           [% FOREACH bug_status = bug.status.can_change_to %]
-            [% NEXT IF bug_status.name == "UNCONFIRMED" && !bug.product_obj.votes_to_confirm %]
+            [% NEXT IF bug_status.name == "UNCONFIRMED" 
+                       && !bug.product_obj.allows_unconfirmed %]
             [% bug_statuses.push(bug_status) IF bug_status.is_open %]
           [% END %]
           [% IF bug_statuses.size %]
-[%#Nietłumaczone#%]
-            <label for="takebug">and set the [% terms.bug %] status to</label>
+            <label for="takebug">i ustaw status [% terms.bledu %] na</label>
             <select id="bug_status" name="bug_status">
-              <option value="[% bug.status.name FILTER html %]">[% get_status(bug.status.name) FILTER html %] (current)</option>
+              <option value="[% bug.status.name FILTER html %]">[% display_value("bug_status", bug.status.name) FILTER html %] (current)</option>
               [% FOREACH bug_status = bug_statuses %]
                 [% NEXT IF bug_status.id == bug.status.id %]
-                <option value="[% bug_status.name FILTER html %]">[% get_status(bug_status.name) FILTER html %]</option>
+                <option value="[% bug_status.name FILTER html %]">[% display_value("bug_status", bug_status.name) FILTER html %]</option>
               [% END %]
             </select>
           [% END %]
@@ -97,8 +100,7 @@
     <tr>
       <th><label for="comment">Komentarz:</label></th>
       <td>
-        <em>(opcjonalnie) proszę podać komentarz do [% terms.bledu %],
-		dotyczący tego załącznika.</em><br>
+        <em>Dodaj komentarz dotyczący tego załącznika. (opcjonalne)</em><br>
         [% INCLUDE global/textarea.html.tmpl
           name    = 'comment'
           id      = 'comment'
@@ -109,15 +111,16 @@
         %]
       </td>
     </tr>
-    [% IF (Param("insidergroup") && user.in_group(Param("insidergroup"))) %]
+    [% IF user.is_insider %]
       <tr>
         <th>Prywatność:</th>
         <td>
-          <em>jeśli załącznik powinien być traktowany jako prywatny, proszę 
-		  zaznaczyć poniższe pole.</em><br>
           <input type="checkbox" name="isprivate" id="isprivate"
           value="1" onClick="updateCommentPrivacy(this)">
-        <label for="isprivate">Prywatny</label>
+          <label for="isprivate">
+            Oznacz załącznik i komentarz jako prywatny. Będzie widoczny tylko dla członków grupy
+            <strong>[% Param('insidergroup') FILTER html %]</strong>
+          </label>
         </td>
       </tr>
     [% END %]
@@ -128,5 +131,7 @@
   </table>
 
 </form>
+
+[% Hook.process('end') %]
 
 [% PROCESS global/footer.html.tmpl %]

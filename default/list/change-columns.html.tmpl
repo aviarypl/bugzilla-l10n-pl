@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,7 @@
   #
   # Contributor(s): Dave Lawrence <dkl@redhat.com>
   #                 Pascal Held <paheld@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
@@ -28,22 +30,22 @@
 %]
 
 <p>
-  Proszę wybrać kolumny, które mają pojawiać się w listach [% terms.bledow %].
-  Funkcja ta wymaga ciasteczek do działania.
+  Wybierz kolumny, które mają być wyświetlane w listach [% terms.bledow %].
+  Funkcja ta do działania wymaga ciasteczek.
 </p>
 
 [% PROCESS "global/field-descs.none.tmpl" %]
-[% field_descs.short_short_desc     = "Podsumowanie (początkowe 60 znaków)" %]
+[% field_descs.short_short_desc     = "Krótki opis (pierwsze 60 znaków)" %]
 [% field_descs.short_desc           = "Pełne podsumowanie" %]
 [% field_descs.assigned_to_realname = "Dane przypisanej osoby" %]
 [% field_descs.reporter_realname    = "Dane zgłaszającego" %]
-[% field_descs.qa_contact_realname  = "Dane kontaktu QA" %]
+[% field_descs.qa_contact_realname  = "Dane specjalisty QA" %]
 
 <form name="changecolumns" action="colchange.cgi" onsubmit="change_submit();">
   <input type="hidden" name="rememberedquery" value="[% buffer FILTER html %]">
     <table>
       <tr>
-        <th><div id="avail_header" class="bz_default_hidden">Lista kolumn</div></th>
+        <th><div id="avail_header" class="bz_default_hidden">Dostępne kolumny</div></th>
         <th></th>
         <th>Wybrane kolumny</th>
         <th></th>
@@ -100,7 +102,7 @@
     <input id="splitheader" type="radio" name="splitheader" value="1"
       [%+ "checked='checked'" IF splitheader %]>
     <label for="splitheader">
-      Skondensowane nagłówki (often makes list more compact)
+      Skondensowane nagłówki (często czyni listę bardziej kompaktową)
     </label>
   </p>
 
@@ -110,7 +112,8 @@
              value="[% saved_search.id FILTER html%]" >
       <input type="checkbox" id="save_columns_for_search" checked="checked" 
              name="save_columns_for_search" value="1">
-      <label for="save_columns_for_search">Zachowaj listę wybranych kolumn tylko dla filtru '[% saved_search.name FILTER html %]'</label>
+      <label for="save_columns_for_search">Zapisz tę listę kolumn tylko
+        do wyszukiwania „[% saved_search.name FILTER html %]”</label>
     </p>
   [% END %]
 

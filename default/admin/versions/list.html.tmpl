@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -26,8 +29,8 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Wybór wersji produktu 
-                   '[% product.name FILTER html %]'[% END %]
+[% title = BLOCK %]Edycja wersji produktu 
+                   „[% product.name FILTER html %]”[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
@@ -43,7 +46,7 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Wersja"
+       heading => "Wybierz wersję"
        contentlink => edit_contentlink
      }
    ]
@@ -62,7 +65,7 @@
 [% END %]
 
 [% columns.push({
-       heading => "Akcja"
+       heading => "Czynność"
        content => "Usuń"
        contentlink => delete_contentlink
      })
@@ -76,7 +79,7 @@
 [% IF ! showbugcounts %]
 
   <p><a href="editversions.cgi?product=[% product.name FILTER url_quote %]&amp;showbugcounts=1">
-      Wyświetl tabelę z liczbą [% terms.bledow %] (czasochłonne)</a></p>
+      Wyświetl kolumnę z liczbą [% terms.bledow %] (wolne)</a></p>
 
 [% END %]
 

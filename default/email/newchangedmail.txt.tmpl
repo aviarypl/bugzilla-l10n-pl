@@ -1,8 +1,9 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
   # the License at http://www.mozilla.org/MPL/
-  # 
+  #
   # Software distributed under the License is distributed on an "AS
   # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
   # implied. See the License for the specific language governing
@@ -16,12 +17,41 @@
   # Rights Reserved.
   #
   # Contributor(s): André Batosti <batosti@async.com.br>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS "global/variables.none.tmpl" %]
+[% diffspl = diffs | replace('changed', 'zmienił') %]
+[% diffspl = diffspl | replace('What', '    ') %]
+[% diffspl = diffspl | replace('Removed ', 'Usunięto') %]
+[% diffspl = diffspl | replace('     \|Added', '     |Dodano') %]
+[% diffspl = diffspl | replace('Comment', 'Komentarz') %]
+[% diffspl = diffspl | replace('from', 'od') %]
+[% diffspl = diffspl | replace('Old Value', 'Usunięto ') %]
+[% diffspl = diffspl | replace('New Value', 'Dodano') %]
+[% diffspl = diffspl | replace('Bug', 'Błąd') %]
+[% diffspl = diffspl | replace('depends on bug', 'zależy od błędu') %]
+[% diffspl = diffspl | replace('which', 'który') %]
+[% diffspl = diffspl | replace('state', 'stan') %]
+[% diffspl = diffspl | replace('Summary', 'Krótki opis') %]
+[% diffspl = diffspl | replace('Classification', 'Kategoria') %]
+[% diffspl = diffspl | replace('Product', 'Produkt') %]
+[% diffspl = diffspl | replace('Version', 'Wersja') %]
+[% diffspl = diffspl | replace('Platform', 'Platforma') %]
+[% diffspl = diffspl | replace('OS/Version', 'OS') %]
+[% diffspl = diffspl | replace('Severity', 'Ważność') %]
+[% diffspl = diffspl | replace('Priority', 'Priorytet') %]
+[% diffspl = diffspl | replace('Component', 'Komponent') %]
+[% diffspl = diffspl | replace('AssignedTo', 'Przypisany do') %]
+[% diffspl = diffspl | replace('ReportedBy', 'Zgłoszony przez') %]
+[% diffspl = diffspl | replace('Group', 'Grupa') %]
+[% diffspl = diffspl | replace('Blocks', 'Blokuje') %]
+[% diffspl = diffspl | replace('Depends on', 'Zależy od') %]
+[% diffspl = diffspl | replace('Attachment', 'Załącznik') %]
 From: [% Param('mailfrom') %]
-To: [% to %]
-Subject: [[% terms.Bug %] [%+ bugid %]] [% 'New: ' IF isnew %][%+ summary %]
+To: [% to_user.email %]
+Subject: [[% terms.Blad %] [%+ bugid %]] [% 'Nowy: ' IF isnew %][%+ summary %]
 X-Bugzilla-Reason: [% reasonsheader %]
 X-Bugzilla-Type: [% isnew ? 'new' : 'changed' %]
 X-Bugzilla-Watch-Reason: [% reasonswatchheader %]
@@ -41,48 +71,45 @@ X-Bugzilla-Changed-Fields: [% changedfields %]
 [%+ threadingmarker %]
 
 [%+ urlbase %]show_bug.cgi?id=[% bugid %]
-[%- IF diffs %]
-
-[%+ diffs %]
-[% END -%]
+[%+ diffspl %]
 [% FOREACH comment = new_comments %]
 
 [%- IF comment.count %]
---- Comment #[% comment.count %] from [% comment.author.identity %] [%+ comment.time FILTER time %] ---
+--- Komentarz #[% comment.count %] od [% comment.author.identity %] [%+ comment.time FILTER time(undef, to_user.timezone) %] ---
 [% END %]
-[%+ PROCESS bug/format_comment.txt.tmpl comment = comment %]
+[%+ comment.body_full({ is_bugmail => 1, wrap => 1 }) %]
 [% END %]
 
 -- [%# Protect the trailing space of the signature marker %]
-Configure [% terms.bug %]mail: [% urlbase %]userprefs.cgi?tab=email
-------- You are receiving this mail because: -------
+Konfiguracja powiadomień e-mail: [% urlbase %]userprefs.cgi?tab=email
+------- Otrzymujesz tę wiadomość ponieważ: -------
 [% FOREACH relationship = reasons %]
   [% SWITCH relationship %]
     [% CASE constants.REL_ASSIGNEE %]
-You are the assignee for the [% terms.bug %].
+[% terms.Blad %] jest przypisany do Ciebie.
     [% CASE constants.REL_REPORTER %]
-You reported the [% terms.bug %].
+Zgłosiłeś/zgłosiłaś ten [% terms.blad %].
     [% CASE constants.REL_QA %]
-You are the QA contact for the [% terms.bug %].
+Pełnisz rolę specjalisty QA dla tego [% terms.bledu %].
     [% CASE constants.REL_CC %]
-You are on the CC list for the [% terms.bug %].
+Jesteś na liście obserwatorów tego [% terms.bledu %].
     [% CASE constants.REL_VOTER %]
-You are a voter for the [% terms.bug %].
+Głosowałeś/głosowałaś na ten [% terms.blad %].
     [% CASE constants.REL_GLOBAL_WATCHER %]
-You are watching all [% terms.bug %] changes.
+Obserwujesz wszystkie zmiany tego [% terms.bledu %].
   [% END %]
 [% END %]
 [% FOREACH relationship = reasons_watch %]
   [% SWITCH relationship %]
     [% CASE constants.REL_ASSIGNEE %]
-You are watching the assignee of the [% terms.bug %].
+Obserwujesz osobę, do której przypisany jest ten [% terms.blad %].
     [% CASE constants.REL_REPORTER %]
-You are watching the reporter.
+Obserwujesz zgłaszającego.
     [% CASE constants.REL_QA %]
-You are watching the QA contact of the [% terms.bug %].
+Obserwujesz specjalistę QA tego [% terms.bledu %].
     [% CASE constants.REL_CC %]
-You are watching someone on the CC list of the [% terms.bug %].
+Obserwujesz kogoś z listy obserwatorów tego [% terms.bledu %].
     [% CASE constants.REL_VOTER %]
-You are watching a voter for the [% terms.bug %].
+Obserwujesz kogoś, kto głosował na ten [% terms.blad %].
   [% END %]
 [% END %]

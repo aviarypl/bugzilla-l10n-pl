@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,7 @@
   #
   # Contributor(s):     John Vandenberg <zeroj@null.net>
   #                     Tobias Burnus <burnus@net-b.de>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
@@ -26,30 +28,30 @@ To: [% emailaddress %]
 Subject: [% PROCESS subject %]
 X-Bugzilla-Type: admin
 
-Żądanie zostało anulowane z adresu [% remoteaddress %].
+Prośba została anulowana z adresu [% remoteaddress %].
 
-Jeśli żądanie to nie zostało wysłane z tego konta, to może
-to być pomyłka lub próba włamania na konto [% terms.Bugzilla %].
+Jeśli ta prośba nie pochodzi od Ciebie, to może być pomyłką
+lub próbą włamania na Twoje konto w [% terms.Bugzilli %].
 
-W razie podejrzeń proszę przesłać tę wiadomość na adres
-[% Param('maintainer') %].
+Przejrzyj wiadomość znajdującą się poniżej i w razie podejrzeń
+prześlij ją na adres [% Param('maintainer') %].
 
-            Żeton: [% token %]
-       Typ żetonu: [% tokentype %]
+            Token: [% token %]
+       Typ tokenu: [% tokentype %]
        Użytkownik: [% emailaddress %]
- Data wystawienia: [% issuedate FILTER time("%Y-%m-%d %H:%M:%S %Z", timezone) %]
-   Data zdarzenia: [% eventdata %]
- Powód anulowania: [% PROCESS cancelactionmessage %]
+       Data wystawienia: [% issuedate FILTER time("%d.%m.%Y %H:%M:%S %Z", timezone) %]
+       Data zdarzenia: [% eventdata %]
+       Powód anulowania: [% PROCESS cancelactionmessage %]
 
 [% BLOCK subject %]
   [% IF tokentype == 'new_account' %]
-    Tworzenie konta zostało anulowane
+    Prośba o utworzenie konta została anulowana
   [% ELSIF tokentype == 'password' %]
-    Żądanie zmiany hasła zostało anulowane
+    Prośba o zmianę hasła została anulowana
   [% ELSIF tokentype == 'emailnew' OR tokentype == 'emailold' %]
-    Żądanie zmiany adresu e-mail zostało anulowane
+    Prośba o zmianę adresu e-mail została anulowana
   [% ELSE %]
-    Żeton [% tokentype %] anulowany
+    Token [% tokentype %] został anulowany
   [% END %]
 [% END %]
 
@@ -58,47 +60,48 @@ W razie podejrzeń proszę przesłać tę wiadomość na adres
     Konto [% email %] już istnieje.
 
   [% ELSIF cancelaction == 'email_change_canceled' %]
-    Żądanie zmiany adresu e-mail z [% old_email %] na
-     [% new_email %] zostało anulowane.
+    Prośba o zmianę adresu e-mail z [% old_email %] na
+    [% new_email %] została anulowana.
 
   [% ELSIF cancelaction == 'email_change_canceled_reinstated' %]
-    Żądanie zmiany adresu e-mail dla konta na 
-    [% new_email %] zostało anulowane. Przywócone zostały
+    Prośba o zmianę adresu e-mail dla Twojego konta na 
+    [% new_email %] została anulowana. Zostały przywrócone
     dotychczasowe ustawienia.
 
   [% ELSIF cancelaction == 'emailold_change_canceled' %]
-    Żądanie zmiany adresu e-mail dla konta na
-    [% new_email %] zostało anulowane.
+    Prośba o zmianę adresu e-mail dla Twojego konta na
+    [% new_email %] została anulowana.
 
   [% ELSIF cancelaction == 'password_change_canceled' %]
-    Zażądano anulowania.
+    Poproszono o anulowanie.
 
   [% ELSIF cancelaction == 'account_creation_canceled' %]
     Tworzenie konta użytkownika [% emailaddress %]
     zostało anulowane.
 
   [% ELSIF cancelaction == 'user_logged_in' %]
-    Nastąpiło poprawne logowanie.
+    Logowanie wykonano poprawnie.
 
   [% ELSIF cancelaction == 'wrong_token_for_changing_passwd' %]
-    Podjęto próbę użycia żetonu do zmiany hasła.
+    Podjęto próbę użycia tokena do zmiany hasła.
 
   [% ELSIF cancelaction == 'wrong_token_for_cancelling_email_change' %]
-    Podjęto próbę użycia żetonu do zmiany adresu e-mail.
+    Podjęto próbę użycia tokena do anulowania zmiany adresu e-mail.
 
   [% ELSIF cancelaction == 'wrong_token_for_confirming_email_change' %]
-    Podjęto próbę użycia żetonu do potwierdzenia zmiany adresu e-mail.
+    Podjęto próbę użycia tokena do potwierdzenia zmiany adresu e-mail.
 
   [% ELSIF cancelaction == 'wrong_token_for_creating_account' %]
-    Podjęto próbę użycia żetonu do utworzenia konta.
+    Podjęto próbę użycia tokena do utworzenia konta użytkownika.
 
   [% ELSE %]
     [%# Give sensible error if the cancel-token function is used incorrectly.
       #%]
-    Funkcja żetonów [% terms.Bugzilli %] nie jest używana poprawnie. Przekazano
-    ciąg znaków '[% cancelaction %]'. Poprawny sposób użycia to przekazanie
-    znacznika i zdefiniowanie go w pliku cancel-token.txt.tmpl.
+    Używasz funkcję anulowania za pomocą tokena w nieprawidłowy sposób.
+    Popełniono błąd w ciągu znaków '[% cancelaction %]'. Poprawny sposób użycia, to zamienić
+    na znacznik i zdefiniować go w pliku cancel-token.txt.tmpl.
 
-    Zwykli użytkownicy [% terms.Bugzilli %] proszeni są przekazanie tej wiadomośc do [% Param('maintainer') %].
+    Zwykli użytkownicy [% terms.Bugzilli %] proszeni są o przekazanie tej wiadomości
+    do [% Param('maintainer') %].
   [% END %]
 [% END %]

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,8 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Marc Schumann <wurblzap@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -35,14 +38,14 @@
 
 [% columns =
   [{name               => 'login_name'
-    heading            => 'Nazwa użytkownika'
+    heading            => 'Edytuj użytkownika'
     contentlink        => 'editusers.cgi?action=edit&amp;userid=%%userid%%' _
                           listselectionurlparams
    }
    {name               => 'realname'
     heading            => 'Imię i nazwisko'
    }
-   {heading            => 'Dziennik konta'
+   {heading            => 'Historia konta'
     content            => 'Wyświetl'
     contentlink        => 'editusers.cgi?action=activity' _
                                   '&amp;userid=%%userid%%' _
@@ -52,7 +55,7 @@
 %]
 
 [% IF Param('allowuserdeletion') && editusers %]
-  [% columns.push({heading     => 'Akcja'
+  [% columns.push({heading     => 'Czynność'
                    content     => 'Usuń'
                    contentlink => 'editusers.cgi?action=del' _
                                   '&amp;userid=%%userid%%' _
@@ -71,7 +74,7 @@
     [%# We cannot pass one class now and one class later. %]
     [% SET classes = (thisuser.disabledtext ? "bz_inactive missing" : "missing") %]
     [% overrides.realname.login_name.${thisuser.login_name} = {
-           content          => "brak"
+        content          => "brak"
            override_content => 1
            class            => "$classes"
            override_class   => 1
@@ -94,7 +97,7 @@
   [% END %]
 [% END %]
 
-<p>Znaleziono [% users.size %]&nbsp;[% PROCESS ODMIEN c=users.size o1=" użytkownika" o2=" użytkowników" o3=" użytkowników" %].</p>
+<p>Znaleziono [% users.size %] &nbsp; [% PROCESS ODMIEN c=users.size o1=" użytkownika" o2=" użytkowników" o3=" użytkowników" %].</p>
 
 [% PROCESS admin/table.html.tmpl
   columns = columns
@@ -103,11 +106,12 @@
 %]
 
 <p>
-  Jeżeli nie chcesz modyfikować żadnego ze znalezionych użytkowników, możesz 
-  <a href="editusers.cgi">ponownie wyszukać użytkownika</a>
+  Jeśli nie chcesz modyfikować konta użytkownika teraz, możesz
+  <a href="editusers.cgi">poszukać innych użytkowników</a>
   [% IF editusers %]
-    lub <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">dodać 
-    nowego</a>
+    lub
+    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">dodać 
+    nowego użytkownika</a>
   [% END %].
 </p>
 

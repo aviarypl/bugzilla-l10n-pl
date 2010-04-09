@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -21,12 +22,15 @@
   #                 Olav Vitters <olav@bkor.dhs.org>
   #                 Max Kanat-Alexander <mkanat@bugzilla.org>
   #                 Elliotte Martin <emartin@everythingsolved.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  # Added „display_value("priority",” in line 155 for proper display priority in Polish language
   #%]
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Full Text $terms.Bug Listing"
+  title = "Pełny format listy $terms.bledow"
   h1 = ""
   style_urls = ["skins/standard/show_multiple.css",
                 "skins/standard/buglist.css"]
@@ -43,13 +47,13 @@
     <div class="bz_query_buttons">
       <form method="post" action="buglist.cgi">
         <input type="hidden" name="bug_id" value="[% ids.join(",") FILTER html %]">
-        <input type="submit" id="short_format" value="Short Format">
+        <input type="submit" id="short_format" value="Krótki format">
       </form>
     </div>
   [% END %]
 [% ELSE %]
   <p>
-    You'd have more luck if you gave me some [% terms.bug %] numbers.
+    Lepsze wyniki można uzyskać podając numery [% terms.bledow %].
   </p>
 [% END %]
 
@@ -63,7 +67,7 @@
 
 [% BLOCK bug_display %]
   <h1>
-    [% terms.Bug %] 
+    [% terms.Blad %] nr 
     <a href="show_bug.cgi?id=[% bug.bug_id FILTER html %]">[% bug.bug_id FILTER html %]</a>
     [% IF Param("usebugaliases") AND bug.alias AND NOT bug.error %]
       (<a href="show_bug.cgi?id=[% bug.alias FILTER url_quote %]">
@@ -76,12 +80,12 @@
     <tr>
       <td class="error">
         [% IF bug.error == "InvalidBugId" %]
-          '[%+ bug.bug_id FILTER html %]' is not a valid [% terms.bug %] number
-          [%- IF Param("usebugaliases") %] nor a known [% terms.bug %] alias[% END %].
+          Numer „[%+ bug.bug_id FILTER html %]” nie jest prawidłowym numerem [% terms.bledu %]
+          [%- IF Param("usebugaliases") %], ani znanym aliasem [% terms.bledu %][% END %].
         [% ELSIF bug.error == "NotPermitted" %]
-          You are not allowed to view this [% terms.bug %].
+          Nie masz uprawnień do oglądania tego [% terms.bledu %].
         [% ELSIF bug.error == "NotFound" %]
-          This [% terms.bug %] cannot be found.
+          Nie można znaleźć tego [% terms.bledu %].
         [% ELSE %]
           [%+ bug.error FILTER html %]
         [% END %]
@@ -129,8 +133,8 @@
     <tr>
       <th>[% field_descs.bug_status  FILTER html %]:</th>
       <td>
-        [% get_status(bug.bug_status) FILTER html %]
-        [%+ get_resolution(bug.resolution) FILTER html %]
+        [% display_value("bug_status", bug.bug_status) FILTER html %]
+        [%+ display_value("resolution", bug.resolution) FILTER html %]
       </td>
 
       [% PROCESS rightcell %]
@@ -139,7 +143,7 @@
     <tr>
       <th>[% field_descs.bug_severity FILTER html %]:</th>
       <td class="bz_[% bug.bug_severity FILTER css_class_quote -%]">
-        [% bug.bug_severity FILTER html %]
+        [% display_value("bug_severity", bug.bug_severity) FILTER html %]
       </td>
 
       [% PROCESS rightcell %]
@@ -148,7 +152,7 @@
     <tr>
       <th>[% field_descs.priority FILTER html %]:</th>
       <td class="bz_[% bug.priority FILTER css_class_quote -%]">
-        [% bug.priority FILTER html %]
+        [% display_value("priority", bug.priority) FILTER html %]
       </td>
 
       [% PROCESS rightcell %]
@@ -195,9 +199,9 @@
       [% PROCESS dependencies name = "blocked"  %]
     [% END %]
 
-    [% IF user.in_group(Param("timetrackinggroup")) %]
+    [% IF user.is_timetracker %]
       <tr>
-        <th>Time tracking:</th>
+        <th>Czas pracy:</th>
         <td colspan="3">
           <table class="timetracking">
             <tr>
@@ -206,7 +210,7 @@
               <th>[% field_descs.work_time FILTER html %]</th>
               <th>[% field_descs.remaining_time FILTER html %]</th>
               <th>[% field_descs.percentage_complete FILTER html %]</th>
-              <th>Gain</th>
+              <th>Zysk</th>
             </tr>
             <tr>
               <td>
@@ -238,13 +242,13 @@
 
     [% IF bug.attachments.size %]
       <tr>
-        <th>Attachments:</th>
+        <th>Załączniki:</th>
         <td colspan="3">
           [% IF bug.show_attachment_flags %]
             <table>
               <tr>
-                <th>Description</th>
-                <th>Flags</th>
+                <th>Opis</th>
+                <th>Flagi</th>
               </tr>
               [% FOREACH attachment = bug.attachments %]
                 <tr>
@@ -255,7 +259,7 @@
                   </td>
                   <td>
                     [% IF attachment.flags.size == 0 %]
-                      <i>none</i>
+                      <i>brak</i>
                     [% ELSE %]
                       [% FOREACH flag = attachment.flags %]
                         [% flag.setter.nick FILTER html %]:
@@ -289,7 +293,7 @@
   <br>
 
   [% PROCESS bug/comments.html.tmpl
-     comments = bug.longdescs %]
+     comments = bug.comments %]
 
 [% END %]
 
@@ -301,7 +305,7 @@
 [% BLOCK row %]
   <tr>
     <th>[% field_descs.${cell} FILTER html %]:</th>
-    <td[% " colspan=3" IF fullrow %]>[% bug.${cell} FILTER html %]</td>
+    <td[% " colspan=3" IF fullrow %]>[% display_value(cell, bug.${cell}) FILTER html %]</td>
     [% PROCESS rightcell IF !fullrow %]
   </tr>
   [% fullrow = 0 %]
@@ -314,7 +318,7 @@
 
 [% BLOCK dependencies %]
   <tr>
-    <th>[% terms.Bug %] [%+ field_descs.${name} FILTER html %]:</th>
+    <th>[% terms.Blad %] [%+ field_descs.${name} FILTER html %]:</th>
     <td>
       [% FOREACH depbug = bug.${name} %]
         [% depbug FILTER bug_link(depbug) FILTER none %][% ", " IF not loop.last() %]
@@ -343,7 +347,7 @@
       <th class="rightcell">[% field_descs.${name} FILTER html %]:</th>
       <td>[% bug.${name}.identity FILTER email FILTER html %]</td>
     [% ELSIF name == "flags" %]
-        <th class="rightcell">Flags:</th>
+        <th class="rightcell">Flagi:</th>
         <td>
           [% FOREACH type = bug.flag_types %]
             [% FOREACH flag = type.flags %]
@@ -357,7 +361,7 @@
         </td>
     [% ELSIF name != "" %]
       <th class="rightcell">[% field_descs.${name} FILTER html %]:</th>
-      <td>[% bug.${name} FILTER html %]</td>
+      <td>[% display_value(name, bug.${name}) FILTER html %]</td>
     [% ELSE %]
       <td>&nbsp;</td>
       <td>&nbsp;</td>

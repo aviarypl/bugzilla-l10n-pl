@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -25,20 +26,24 @@
   # target:   the script that displays this template.
   # cloned_bug_id: ID of the bug being cloned.
   # format:   the desired format to display the target.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
 
 [% IF target == "enter_bug.cgi" %]
-  [% title = "Zgłoszenie $terms.bledu" %]
-  [% subheader = BLOCK %]Proszę wybrać produkt, dla którego będzie zgłaszany  [% terms.blad %]. [% END %]
+  [% title = "Zgłaszanie $terms.bledu" %]
+  [% h2 = BLOCK %]Wybierz produkt, dla którego będzie zgłaszany [% terms.blad %]: [% END %]
 [% ELSIF target == "describecomponents.cgi" %]
-  [% title = "Opisy komponentów $terms.Bugzilli" %]
-  [% subheader = "Proszę wybrać produkt, którego komponenty będą opisane." %]
+  [% title = "Przeglądanie" %]
+  [% h2 = "Wybierz produkt, którego komponenty chcesz obejrzeć:" %]
 [% END %]
 
 [% DEFAULT title = "Wybór produktu" %]
 [% PROCESS global/header.html.tmpl %]
+
+<h2>[% h2 FILTER html %]</h2>
 
 <table>
 

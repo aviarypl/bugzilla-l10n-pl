@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -15,6 +16,7 @@
   # Copyright (C) 1998 Netscape Communications Corporation. All
   # Rights Reserved.
   #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #%]
 
@@ -46,24 +48,25 @@
   <table border="1" cellpadding="3">  
     <tr>
       <th>
-        Zapytanie
+        Wyszukiwanie
       </th>
       <th>
-        Uruchomienie
+        Uruchamianie
       </th>
       <th>
-        Edycja
+        Modyfikowanie
       </th>
       <th>
         Usuwanie
       </th>
       <th>
-        Wyświetlane w stopce
+        Wyświetlanie
+        w stopce
       </th>
       [% may_share = user.in_group(Param('querysharegroup')) && queryshare_groups.size %]
       [% IF may_share %]
         <th>
-          Udostępnione grupie
+          Udostępnianie grupie
         </th>
       [% END %]
     </tr>
@@ -122,7 +125,7 @@
           <td>
             <select name="share_[% q.id FILTER html %]"
               [% IF user.can_bless %] onchange="update_checkbox(this);"[% END %]>
-              <option value="">&lt;brak&gt;</option>
+              <option value="">Nie udostępniaj</option>
               [% FOREACH group = queryshare_groups %]
                 <option value="[% group.id %]"
                         [% ' selected="selected"' 
@@ -136,11 +139,11 @@
                      [% " disabled"
                         IF !bless_group_ids.grep("^$q.shared_with_group.id\$").0
                      %]>
-              <label for="force_[% q.id FILTER html %]">Wyświetlane w stopce</label>
+              <label for="force_[% q.id FILTER html %]">Wyświetlaj w stopce</label>
             [% END %]
             [% IF q.shared_with_users %]
-              (shared with [% q.shared_with_users FILTER html %]
-              [%+ q.shared_with_users > 1 ? "users" : "user" %])
+              (udostępnione [% q.shared_with_users FILTER html %]
+              [%+ q.shared_with_users > 1 ? "użytkownikom" : "użytkownikowi" %])
             [% END %]
           </td>
         [% END %]
@@ -148,19 +151,19 @@
     [% END %]
   </table>
 [% IF user.can_bless %]
-  <p>Jeśli zaznaczona jest opcja "Wyświetlane w stopce", to po zapisaniu zmian odnośnik do 
-  współdzielonego wyszukiwania umieszczony będzie w stopce strony każdego bezpośredniego
-  członka grupy.</p>
+  <p>Dla każdego wyszukiwania, które ma zaznaczoną funkcję wyświetlania w stopce z chwilą
+     naciśnięcia przycisku „Zapisz zmiany”, do stopki strony każdego użytkownika będącego
+     członkiem grupy jest dodawany odnośnik.</p> 
 [% END %]
 </blockquote>
 
-<p>Wyszukiwania zapisane i udostępnione przez innych użytkowników:</p>
+[% IF user.queries_available.size %]
+<p>Możesz użyć wyszukiwania zapisane i udostępnione przez innych:</p>
 
-<blockquote>
   <table border="1" cellpadding="3">  
     <tr>
       <th>
-        Zapytanie
+        Wyszukiwanie
       </th>
       <th>
         Udostępnione przez
@@ -169,18 +172,17 @@
         Udostępnione dla
       </th>
       <th>
-        Uruchomienie
+        Uruchamianie
       </th>
       <th>
-        Edycja
+        Modyfikowanie
       </th>
       <th>
-        Wyświetlane w stopce
+        Wyświetlanie
+        w stopce
       </th>
     </tr>
-    [% found_shared_query = 0 %]
     [% FOREACH q = user.queries_available %]
-      [% found_shared_query = 1 %]
       <tr>
         <td>[% q.name FILTER html %]</td>
         <td>[% q.user.identity FILTER html %]</td>
@@ -203,12 +205,7 @@
         </td>
       </tr>
     [% END %]
-    [% IF !found_shared_query %]
-      <tr>
-        <td colspan="6" style="text-align: center">
-          &lt;Brak&gt;
-        </td>
-      </tr>
-    [% END %]
   </table>
-</blockquote>
+[% ELSE %]
+  <p>Nie ma wyszukiwań udostępnianych Ci przez innych użytkowników.</p>
+[% END %]

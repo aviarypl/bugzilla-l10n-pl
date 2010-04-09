@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,21 +17,23 @@
   # Rights Reserved.
   #
   # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS "global/variables.none.tmpl" %]
 From: [% Param('mailfrom') %]
 To: [% addressee %]
-Subject: [[% terms.Bugzilla %]] Wyniki sprawdzania sensowności danych (sanity check).
+Subject: [[% terms.Bugzilla %]] Wyniki sprawdzenia instalacji
 X-Bugzilla-Type: sanitycheck
 
 [%+ urlbase %]sanitycheck.cgi
 
-Poniżej znajdują się wyniki sprawdzanie sensowności danych (sanity check).
+Poniżej możesz zapoznać się z wynikami sprawdzenia instalacji.
 [% IF error_found %]
-Zostały znalezione błędy.
+Znaleziono kilka błędów.
 [% ELSE %]
-Brak błędów.
+Nie znaleziono błędów.
 [% END %]
 
 [% output %]

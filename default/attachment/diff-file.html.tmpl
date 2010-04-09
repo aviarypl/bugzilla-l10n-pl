@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): John Keiser <jkeiser@netscape.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# This line is really long for a reason: to get rid of any possible textnodes
@@ -34,13 +37,13 @@
   [% END %]
   [% IF file.plus_lines %]
     [% IF file.minus_lines %]
-      (-[% file.minus_lines %]&nbsp;/&nbsp;+[% file.plus_lines %]&nbsp;lines)
+      (-[% file.minus_lines %]&nbsp;/&nbsp;+[% file.plus_lines %]&nbsp;linie)
     [% ELSE %]
-      (+[% file.plus_lines %]&nbsp;lines)
+      (+[% file.plus_lines %]&nbsp;[% PROCESS ODMIEN c=file.plus_lines o1="linia" o2="linie" o3="linii" %])
     [% END %]
   [% ELSE %]
     [% IF file.minus_lines %]
-      (-[% file.minus_lines %]&nbsp;lines)
+      (-[% file.minus_lines %]&nbsp;[% PROCESS ODMIEN c=file.plus_lines o1="linia" o2="linie" o3="linii" %])
     [% END %]
   [% END %]
 </td></tr></thead><tbody class="[% collapsed ? 'file_collapse' : 'file' %]">
@@ -55,22 +58,22 @@ incremental_restore()
     <table cellpadding="0" cellspacing="0">
     <tr><th width="95%" align="left">
   [% IF file.is_add %]
-    Added
+    Dodano
   [% ELSIF file.is_remove %]
     [% IF bonsai_prefix %]
-      <a href="[% bonsai_prefix %]">Removed</a>
+      <a href="[% bonsai_prefix %]">Usunięto</a>
     [% ELSE %]
-      Removed
+      Usunięto
     [% END %]
   [% ELSE %]
     [% IF bonsai_prefix %]
       <a href="[% bonsai_prefix %]#[% section.old_start %]">
     [% END %]
     [% IF section.old_lines > 1 %]
-      &nbsp;Lines&nbsp;[% section.old_start %]-[% section.old_start + 
+      &nbsp;Linie&nbsp;[% section.old_start %]-[% section.old_start + 
                                              section.old_lines - 1 %]
     [% ELSE %]
-      Line&nbsp;[% section.old_start %]
+      Linia&nbsp;[% section.old_start %]
     [% END %]
     [% IF bonsai_prefix %]
       </a>
@@ -78,7 +81,7 @@ incremental_restore()
     &nbsp;&nbsp;[% section.func_info FILTER html IF section.func_info %]
   [% END %] 
     </th><th>
-  <a name="[% file.filename FILTER html %]_sec[% section_num %]" href="#[% file.filename FILTER html %]_sec[% section_num %]">Link&nbsp;Here</a>&nbsp;
+<a name="[% file.filename FILTER html %]_sec[% section_num %]" href="#[% file.filename FILTER html %]_sec[% section_num %]">Odnośnik&nbsp;do&nbsp;tego&nbsp;miejsca</a>&nbsp;
     </th></tr></table>
   </th></tr>
   [% current_line_old = section.old_start %]

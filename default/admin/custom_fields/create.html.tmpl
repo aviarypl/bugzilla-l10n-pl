@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,7 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -24,7 +26,7 @@
 [% END %]
 
 [% PROCESS global/header.html.tmpl
-           title = "Dodawanie pola dodatkowego"
+           title = "Dodawanie dodatkowego pola"
            onload = "document.getElementById('new_bugmail').disabled = true;"
            javascript_urls = [ 'js/util.js' ]
            doc_section = "custom-fields.html#add-custom-fields"
@@ -34,17 +36,17 @@
   Dodatkowe pola mogą znacznie skomplikować interfejs [% terms.Bugzilli %]. 
   Wielu początkujących administratorów [% terms.Bugzilli %] dodaje zbyt wiele 
   pól, co z kolei powoduje, że użytkownicy narzekają na zbyt skomplikowany 
-  interfejs. Proszę dokładnie przemyśleć każde dodawane pole. Prawdopodobnie  
+  interfejs. Proszę dokładnie przemyśleć każde dodawane pole. Prawdopodobnie
   [% terms.Bugzilla %] zawiera już poszukiwaną funkcję, która nie jest skonfigurowana 
   albo włączona.
 </p>
 
 <ul>
-  <li>Pola dodatkowe muszą mieć nazwy rozpoczynające się od "cf_". Pozwala to odróżnić  
-	  je od pól standardowych. W przypadku niedodania przedrostka "cf_" zostanie on 
-	  dodany automatycznie.</li>
+  <li>Pola dodatkowe muszą mieć nazwy rozpoczynające się od "cf_". Pozwala to odróżnić
+      je od pól standardowych. W przypadku pominięcia przedrostka „cf_”, zostanie on 
+      dodany automatycznie.</li>
   <li>Opisy to krótkie teksty objaśniające znaczenie pola. Zostaną one użyte w interfejsie 
-	  jako etykiety pól dodatkowych.</li>
+      jako etykiety pól dodatkowych.</li>
 </ul>
 
 <form id="add_field" action="editfields.cgi" method="GET">
@@ -56,7 +58,7 @@
       </td>
 
       <th align="right">
-        <label for="enter_bug">Może być ustawione w trakcie tworzenia [% terms.bledu %]:</label>
+        <label for="enter_bug">Może być ustawione<br>w trakcie tworzenia [% terms.bledu %]:</label>
       </th>
       <td>
         <input type="checkbox" id="enter_bug" name="enter_bug" value="1"
@@ -68,7 +70,7 @@
       <td><input type="text" id="desc" name="desc" value="" size="40"></td>
 
       <th align="right">
-        <label for="new_bugmail">Wyświetlane w powiadomieniach o nowych [% terms.bledach %]:</label>
+        <label for="new_bugmail">Wyświetlane w powiadomieniach<br>o nowych [% terms.bledach %]:</label>
       </th>
       <td><input type="checkbox" id="new_bugmail" name="new_bugmail" value="1"></td>
     </tr>
@@ -93,7 +95,7 @@
       </td>
 
       <th align="right">
-        <label for="visibility_field_id">Pole dodatkowe dostępne, kiedy pole:</label>
+        <label for="visibility_field_id">Pole wyświetlane tylko, gdy:</label>
       </th>
       <td>
         <select name="visibility_field_id" id="visibility_field_id"
@@ -106,7 +108,7 @@
             </option>
           [% END %]
         </select>
-        <label for="visibility_value_id"><strong>ma wartość:</strong></label>
+        <label for="visibility_value_id"><strong>jest określone dla:</strong></label>
         <select name="visibility_value_id" id="visibility_value_id">
           <option value=""></option>
         </select>
@@ -117,8 +119,8 @@
       <td colspan="2">&nbsp;</td>
       <th>
         <label for="value_field_id">
-          Pole kontrolujące wartości<br>
-          dodatkowego pola:
+          Pole nadzorujące wartości<br>
+          wyświetlane w tym polu:
         </label>
       </th>
 
@@ -143,7 +145,7 @@
 </form>
 
 <p>
-  <a href="editfields.cgi">Powrót do listy istniejących pól dodatkowych</a>
+  <a href="editfields.cgi">Wróć do listy istniejących pól dodatkowych</a>
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

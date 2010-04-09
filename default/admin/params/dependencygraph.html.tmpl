@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,33 +18,36 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
    title = "Grafy zależności"
-   desc = "Dodatkowe ustawnienia dla rysowania grafów zależności"
+   desc = "Dodatkowe ustawienia dla rysowania grafów zależności"
 %]
 
 [% param_descs = {
-  webdotbase => "Możliwe jest wyświetlanie grafów zależności ${terms.bledow}. Tę opcję można ustawić na:
+  webdotbase => "Możliwe jest wyświetlanie grafów zależności ${terms.bledow}.
+                 Ten parametr można określić jako:
                  <ul>
                    <li>
-                     Pełną ścieżka do narzędzia 'dot' (część pakietu 
+                     pełna ścieżka do narzędzia <code>dot</code> (część pakietu 
                      <a href=\"http://www.graphviz.org\">GraphViz</a>), co włączy lokalne
-                     generowanie grafów.
+                     generowanie grafów,
                    </li>
                    <li>
-                     Przedrostek adresu URL wskazujący na instalację pakietu 
+                     przedrostek adresu URL wskazujący na instalację pakietu 
                      <a href=\"http://www.research.att.com/~north/cgi-bin/webdot.cgi\">webdot
-                     </a>, co włączy zdalną generację grafów.
+                     </a>, co włączy zdalną generację grafów,
                    </li>
                    <li>
-				     Wartość pustą, która oznacza wyłączenie rysowania grafów.
+                     pusta wartość, która oznacza wyłączenie rysowania grafów.
                    </li>
                  </ul>
-				 Domyślną wartością jest publicznie dostępny serwer webdot. W razie zmiany
-				 tej opcji należy upewnić się, że serwer webdot może odczytywać pliki
-				 z katalogu webdot na tym serwerze. W przypadku serwera Apache należy
-				 zmodyfikować plik .htaccess, dla innych serwerów prawdopodobnie wykonać
-				 trzeba inne czynności. W razie utraty pliku .htaccess należy ponownie
-				 uruchomić skrypt checksetup.pl."}
+                 Domyślną wartością jest publicznie dostępny serwer webdot. W razie zmiany
+                 tego parametru, należy upewnić się, że serwer webdot może odczytywać pliki
+                 z katalogu webdot na tym serwerze. W przypadku serwera Apache, należy
+                 zmodyfikować plik <code>.htaccess</code>. Dla innych serwerów prawdopodobnie trzeba
+                 wykonać inne czynności. W razie utraty pliku <code>.htaccess</code>, należy ponownie
+                 uruchomić skrypt <code>checksetup.pl</code>."}
 %]

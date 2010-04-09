@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  # Added lines 36, 47, 84 for Polish localization
   #%]
 
 [%# INTERFACE:
@@ -30,17 +33,18 @@
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
+[% PROCESS "global/field-descs.none.tmpl" %]
 
 <table align="center">
   <tr>
     <td>
       [% IF has_bits.size %]
-        Ustawione bity uprawnień:
+        Na swoim koncie masz ustawione następujące uprawnienia:
         <table align="center">
           [% FOREACH bit_description = has_bits %]
             <tr>
               <td>[% bit_description.name FILTER html %]</td>
-              <td>[% bit_description.desc FILTER html_light %]</td>
+              <td>[% display_value("bit_description", bit_description.desc) FILTER html_light %]</td>
             </tr>
           [% END %]
         </table>
@@ -50,8 +54,8 @@
           [% IF products && products.size %]
             <br>
             <p>
-              Lokalne uprawnienia '[% privs FILTER html %]' privileges
-              dla poniższych produktów:
+              Masz także lokalne uprawnienia „[% privs FILTER html %]”
+              dla następujących produktów:
             </p>
             <p>
               [% FOREACH product = products %]
@@ -62,22 +66,22 @@
         [% END %]
 
       [% ELSE %]
-        Brak bitów uprawnień dla tego konta.
+        Nie ma ustawionych uprawnień dla tego konta.
       [% END %]
 
       [% IF user.in_group('editusers') %]
         <br>
-        Uprawnienie editusers: użytkownik może zmieniać wszystkie uprawnienia
-        innych użytkowników.
+        Masz uprawnienia do edycji uprawnień innych użytkowników. Możesz nadawać
+        lub odbierać uprawnienia wszystkim użytkownikom.
       [% ELSIF set_bits.size %]
         <br>
-        Użytkownik może zmieniać następujące bity dla
-        <a href="editusers.cgi">innych użytkowników</a>:
+        Możesz <a href="editusers.cgi">innym użytkownikom</a>
+        nadawać/odbierać następujące uprawnienia:
           <table align="center">
           [% FOREACH bit_description = set_bits %]
             <tr>
               <td>[% bit_description.name FILTER html %]</td>
-              <td>[% bit_description.desc FILTER html_light %]</td>
+              <td>[% display_value("bit_description", bit_description.desc) FILTER html_light %]</td>
             </tr>
           [% END %]
           </table>
@@ -85,8 +89,8 @@
 
       [% IF user.in_group('bz_sudoers') %]
         <br>
-        Użytkownik jest członkiem grupy <b>bz_sudoers</b>, co oznacza że 
-        może <a href="relogin.cgi?action=prepare-sudo">przejąć tożsamość innego użytkownika</a>.
+        Jesteś członkiem grupy <b>bz_sudoers</b>, co oznacza że 
+        możesz <a href="relogin.cgi?action=prepare-sudo">przejąć tożsamość innego użytkownika</a>.
       [% END %]
     </td>
   </tr>

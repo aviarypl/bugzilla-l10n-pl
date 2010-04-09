@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,7 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -21,8 +23,8 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-  Edycja wartości '[% value.name FILTER html %]' pola 
-  '[% field.description FILTER html %]' ([% field.name FILTER html %])
+  Edycja wartości „[% value.name FILTER html %]” pola 
+  „[% field.description FILTER html %]” ([% field.name FILTER html %])
 [% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -54,15 +56,15 @@
     </tr>
     [% IF field.name == "bug_status" %]
       <tr>
-        <th align="right"><label for="is_open">Rodzaj statusu:</label></th>
+        <th align="right"><label for="is_open">Typ statusu:</label></th>
         <td>[% IF value.is_open %]Otwarty[% ELSE %]Zamknięty[% END %]</td>
       </tr>
     [% END %]
     [% IF field.value_field %]
       <tr>
         <th align="right">
-          <label for="visibility_value_id">Dostępne tylko kiedy pole
-           [%+ field.value_field.description FILTER html %] ma wartość:
+          <label for="visibility_value_id">Wyświetlany jest tylko, gdy 
+           [%+ field.value_field.description FILTER html %] jest ustawiony na:
           </label>
         </th>
         <td>
@@ -77,17 +79,28 @@
               </option>
             [% END %]
           </select>
-          <small>(Zostaw puste, jeżeli wartość dla pola jest zawsze dostępna.)</small>
+          <small>(Pozostaw nieustawione, jeśli chcesz, by wartość ta była zawsze wyświetlana.)</small>
         </td>
       </tr>
     [% END %]
+    <tr>
+      <th align="right"><label for="is_active">Włączono dla [% terms.bledow %]:</label></th>
+      <td><input id="is_active" name="is_active" type="checkbox" value="1" 
+           [%+ 'checked="checked"' IF value.is_active %]
+           [%+ 'disabled="disabled"' IF value.is_default OR value.is_static %]>
+           [% IF value.is_default %]
+             Ta wartość jest wybrana jako domyślna w parametrach dla tego pola. Nie może zostać wyłączona.
+           [% ELSIF value.is_static %]
+             Ta wartość jest nieusuwalna i nie może zostać wyłączona.
+           [% END %]
+           </td>
+    </tr>
   </table>
-
   <input type="hidden" name="value" value="[% value.name FILTER html %]">
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="field" value="[% field.name FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type="submit" id="update" value="Aktualizuj">
+  <input type="submit" id="update" value="Zapisz zmiany">
 </form>
 
 [% PROCESS admin/fieldvalues/footer.html.tmpl

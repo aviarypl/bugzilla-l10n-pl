@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -19,115 +20,172 @@
   #                 Joel Peshkin <bugreport@peshkin.net>
   #                 Jacob Steenhagen <jake@bugzilla.org>
   #                 Vlad Dascalu <jocuri@softhome.net>
+  #                 Max Kanat-Alexander <mkanat@bugzilla.org>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  # Added, changed lines 36, 51 for Polish localization
   #%]
 
 [%# INTERFACE:
-  # gid: number. The group ID.
-  # name: string. The name of the group.
-  # description: string. The description of the group.
-  # hasusers: boolean int. True if the group includes users in it.
-  # hasbugs: boolean int. True if the group includes bugs in it.
-  # hasproduct: boolean int. True if the group is binded to a product.
-  # hasflags: boolean int. True if the group is used by a flag type.
-  # shared_queries: int. Number of saved searches being shared with this group.
-  # buglist: string. The list of bugs included in this group.
+  # group: A Bugzilla::Group object representing the group that is
+  #        about to be deleted.
+  # shared_queries: int; The number of queries being shared with this
+  #                 group.
   #%]
 
 
+[% PROCESS "global/field-descs.none.tmpl" %]
 [% PROCESS global/header.html.tmpl
-  title = "Delete group"
+  title = "Usuwanie grupy"
   doc_section = "groups.html"
 %]
 
 <table border="1">
   <tr>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Description</th>
+    <th>ID</th>
+    <th>Nazwa</th>
+    <th>Opis</th>
   </tr>
   <tr>
-    <td>[% gid FILTER html %]</td>
-    <td>[% name FILTER html %]</td>
-    <td>[% description FILTER html_light %]</td>
+    <td>[% group.id FILTER html %]</td>
+    <td>[% group.name FILTER html %]</td>
+    <td>[% display_value("bit_description", group.description) FILTER html_light %]</td>
   </tr>
 </table>
 
 <form method="post" action="editgroups.cgi">
-  [% IF hasusers %]
-    <p><b>One or more users belong to this group. You cannot delete
-    this group while there are users in it.</b>
+  [% IF group.members_non_inherited.size %]
+    <p><b>Użytkownicy należący do tej grupy: [% group.members_non_inherited.size FILTER html %].
+      Nie można usunąć grupy dopóki są w niej
+      użytkownicy.</b>
 
-    <br><a href="editusers.cgi?action=list&groupid=[% gid FILTER html %]&grouprestrict=1">Show
-    me which users</a> - <input type="checkbox" name="removeusers">Remove
-    all users from this group for me.</p>
+    <br><a href="editusers.cgi?action=list&amp;groupid=
+                 [%- group.id FILTER url_quote %]&amp;grouprestrict=1">Wyświetl
+    użytkowników</a> - <label><input type="checkbox" name="removeusers">Usuń
+    wszystkich użytkowników z tej grupy.</label></p>
   [% END %]
 
-  [% IF hasbugs %]
-    <p><b>One or more [% terms.bug %] reports are visible only to this group.
-    You cannot delete this group while any [% terms.bugs %] are using it.</b>
-
-    <br><a href="buglist.cgi?bug_id=[% buglist FILTER html %]">Show me
-    which [% terms.bugs %]</a> - <input type="checkbox" name="removebugs">Remove
-    all [% terms.bugs %] from this group restriction for me.</p>
-
-    <p><b>NOTE:</b> It's quite possible to make confidential [% terms.bugs %]
-    public by checking this box.  It is <B>strongly</B> suggested
-    that you review the [% terms.bugs %] in this group before checking
-    the box.</p>
+  [% IF group.granted_by_direct(constants.GROUP_MEMBERSHIP).size %]
+    <p><b>Użytkownicy tej grupy dziedziczą członkostwo w następujących grupach:</b></p>
+    <ul>
+      [% FOREACH grantor = group.granted_by_direct(constants.GROUP_MEMBERSHIP) %]
+        <li>[% grantor.name FILTER html %]</li>
+      [% END %]
+    </ul>
   [% END %]
 
-  [% IF hasproduct %]
-    <p><b>This group is tied to the <U>[% name FILTER html %]</U> product.
-    You cannot delete this group while it is tied to a product.</b>
+  [% IF group.bugs.size %]
+    <p><b>[% group.bugs.size FILTER html %] zgłoszeń [%+ terms.bledow %] jest
+     widocznych tylko dla tej grupy. Nie można usunąć grupy dopóki jakiekolwiek
+     [%+ terms.bledy %] używają tej grupy.</b>
 
-    <br><input type="checkbox" name="unbind">Delete this group anyway,
-    and make the product <U>[% name FILTER html %]</U> publicly visible.</p>
+    <br><a href="buglist.cgi?field0-0-0=bug_group&amp;type0-0-0=equals&amp;value0-0-0=
+                 [%- group.name FILTER url_quote %]">Wyświetl,
+    które [% terms.bledy %]</a> – 
+    <label><input type="checkbox" name="removebugs">Usuń
+    wszystkie [% terms.bledy %] z tej grupy.</label></p>
+
+    <p><b>UWAGA:</b> Zaznaczając tę funkcję można spowodować ujawnienie poufnych
+    [% terms.bledow %]. <b>Zdecydowanie</b> zaleca się przejrzenie
+    [% terms.bledow %] w tej grupie przed zaznaczeniem
+    funkcji.</p>
+  [% END %]
+
+  [% IF group.products.size %]
+    <p><b>Ta grupa powiązana jest z następującymi produktami:</b></p>
+    [% SET any_hidden = 0 %]
+    <ul>
+      [% FOREACH data = group.products %]
+
+        [% SET active = [] %]
+        [% FOREACH control = data.controls.keys.sort %]
+          [% NEXT IF !data.controls.$control %]
+          [% IF control == 'othercontrol' OR control == 'membercontrol' %]
+            [% SWITCH data.controls.$control %]
+              [% CASE constants.CONTROLMAPMANDATORY %]
+                [% SET type = "Mandatory" %]
+              [% CASE constants.CONTROLMAPSHOWN %]
+                [% SET type = "Shown" %]
+              [% CASE constants.CONTROLMAPDEFAULT %]
+                [% SET type = "Default" %]
+            [% END %]
+            [% active.push("$control: $type") %]
+          [% ELSE %]
+            [% active.push(control) %]
+          [% END %]
+        [% END %]
+
+        [% SET hidden = 0 %]
+        [% IF data.controls.othercontrol == constants.CONTROLMAPMANDATORY
+              AND data.controls.membercontrol == constants.CONTROLMAPMANDATORY
+              AND data.controls.entry 
+        %]
+          [% SET hidden = 1 %]
+        [% END %]
+
+        <li><a href="editproducts.cgi?action=editgroupcontrols&amp;product=
+                    [%- data.product.name FILTER url_quote %]">
+          [%- data.product.name FILTER html %]</a>
+          ([% active.join(', ') FILTER html %])
+          [% IF hidden %]
+            <strong>OSTRZEŻENIE: Ten produkt jest obecnie ukryty.
+            Usunięcie tej grupy spowoduje upublicznienie tego produktu.
+            </strong>
+          [% END %]</li>
+      [% END %]
+    </ul>
+
+    <p><label><input type="checkbox" name="unbind">Usuń grupę mimo wszystko
+      i usuń te kontrolki.</label></p>
   [% END %]
   
-  [% IF hasflags %]
-    <p><b>This group restricts who can make changes to flags of certain types.
-    You cannot delete this group while there are flag types using it.</b>
+  [% IF group.flag_types.size %]
+    <p><b>Ta grupa określa kto może zmieniać flagi pewnych typów.
+    Nie można usunąć grupy dopóki istnieją typy flag z niej korzystające.</b>
 
-    <br><a href="editflagtypes.cgi?action=list&group=[% gid FILTER html %]">Show
-    me which types</a> - <input type="checkbox" name="removeflags">Remove all
-    flag types from this group for me.</p>
+    <br><a href="editflagtypes.cgi?action=list&amp;group=
+                 [%- group.id FILTER url_quote %]">Wyświetl
+    typy flag</a> – 
+    <label><input type="checkbox" name="removeflags">Usuń wszystkie
+    typy flag z tej grupy.</label></p>
   [% END %]
 
   [% IF shared_queries %]
     <p>
-      <b>There
+      <b>
       [% IF shared_queries > 1 %]
-        are [% shared_queries %] saved searches
+        Istnieją [% shared_queries %] zapisane wyszukiwania
       [% ELSE %]
-        is a saved search
+        Istnieje zapisane wyszukiwanie
       [% END %]
-      being shared with this group.</b>
-      If you delete this group,
+      współdzielone z tą grupą.</b>
+      Jeśli grupa zostanie usunięta,
       [% IF shared_queries > 1 %]
-        these saved searches
+        zapisane wyszukiwania
       [% ELSE %]
-        this saved search
+        zapisane wyszukiwanie
       [% END %]
-      will fall back to being private again.
+      stanie/staną się na powrót prywatnymi.
     </p>
   [% END %]
 
-  <h2>Confirmation</h2>
+  <h2>Potwierdzenie</h2>
 
-  <p>Do you really want to delete this group?</p>
-  [% IF (hasusers || hasbugs || hasproduct || hasflags) %]
-    <p><b>You must check all of the above boxes or correct the
-          indicated problems first before you can proceed.</b></p>
+  <p>Czy na pewno chcesz usunąć tę grupę?</p>
+  [% IF group.users.size || group.bugs.size || group.products.size 
+        || group.flags.size
+  %]
+    <p><b>By móc kontynuować, należy zaznaczyć wszystkie powyższe opcje
+          lub wyjaśnić wskazane problemy.</b></p>
   [% END %]
 
   <p>
-    <input type="submit" id="delete" value="Yes, delete">
+    <input type="submit" id="delete" value="Tak">
     <input type="hidden" name="action" value="delete">
-    <input type="hidden" name="group" value="[% gid FILTER html %]">
+    <input type="hidden" name="group" value="[% group.id FILTER html %]">
     <input type="hidden" name="token" value="[% token FILTER html %]">
   </p>
 </form>
 
-Go back to the <a href="editgroups.cgi">group list</a>.
+Wróć do <a href="editgroups.cgi">listy grup</a>
 
 [% PROCESS global/footer.html.tmpl %] 

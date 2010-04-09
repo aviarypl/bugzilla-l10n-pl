@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,7 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -20,7 +22,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% title = BLOCK %]
-  Edycja pola dodatkowego '[% field.name FILTER html %]' ([% field.description FILTER html %])
+  Edycja pola dodatkowego „[% field.name FILTER html %]” ([% field.description FILTER html %])
 [% END %]
 
 [% javascript = BLOCK %]
@@ -35,7 +37,7 @@
 %]
 
 <p>
-  Opisy to któtkie teksty objaśniające znaczenie pola. Zostaną one uźyte w interfejsie
+  Opisy to krótkie teksty objaśniające pola. Zostaną one użyte w interfejsie
   jako etykiety pól dodatkowych.
 </p>
 
@@ -78,7 +80,7 @@
                value="[% field.sortkey FILTER html %]">
       </td>
       <th align="right">
-        <label for="visibility_field_id">Pole dodatkowe dostępne, kiedy pole:</label>
+        <label for="visibility_field_id">Pola wyświetlane tylko, gdy:</label>
       </th>
       <td>
         <select name="visibility_field_id" id="visibility_field_id"
@@ -94,7 +96,7 @@
             </option>
           [% END %]
         </select>
-        <label for="visibility_value_id"><strong>ma wartość:</strong></label>
+        <label for="visibility_value_id"><strong>jest określone dla:</strong></label>
         <select name="visibility_value_id" id="visibility_value_id">
           [% FOREACH value = field.visibility_field.legal_values %]
             <option value="[% value.id FILTER html %]"
@@ -116,8 +118,8 @@
 
         <th>
           <label for="value_field_id">
-            Pole kontrolujące wartości<br>
-            dodatkowego pola:
+            Pole nadzorujące wartości<br>
+            wyświetlane w tym polu:
           </label>
         </th>
 
@@ -147,9 +149,10 @@
 
 [% IF field.obsolete %]
 <p>
-  <a href="editfields.cgi?action=del&amp;name=[% field.name FILTER html %]">Usuń to pole.</a><br>
-  Ta operacja jest możliwa, kiedy pole nie zostało użyte w żadnym
-  z [% terms.bledow %].<br>
+  <a href="editfields.cgi?action=del&amp;name=[% field.name FILTER html %]">Usuń
+    to pole z bazy danych.</a><br>
+  Ta czynność zostanie wykonana prawidłowo, jeśli pole dodatkowe nigdy nie było używane
+  w [% terms.bledach %].<br>
 </p>
 [% END %]
 

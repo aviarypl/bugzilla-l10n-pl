@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,7 @@
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
@@ -24,7 +26,7 @@
 [% PROCESS "global/js-products.html.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title = 'Administer Flag Types'
+  title = 'Administracja typami flag'
   style = "
     table#flag_types_bugs tr th,
     table#flag_types_attachments tr th { text-align: left; }
@@ -37,32 +39,32 @@
 %]
 
 <p>
-  Flags are markers that identify whether [% terms.abug %] or attachment has been granted
-  or denied some status.  Flags appear in the UI as a name and a status symbol
-  ("+" for granted, "-" for denied, and "?" for statuses requested by users).
+  Flagi są znacznikami określającymi, jaki status ma [% terms.blad %] lub załącznik. 
+  Flagi pojawiają się w interfejsie jako nazwy i symbol ich statusu
+  („+” dla zatwierdzonych, „-” dla odrzuconych i „?”" dla próśb użytkowników).
 </p>
 
 <p>
-  For example, you might define a "review" status for users to request review
-  for their patches.  When a patch writer requests review, the string "review?"
-  will appear in the attachment.  When a patch reviewer reviews the patch,
-  either the string "review+" or the string "review-" will appear in the patch,
-  depending on whether the patch passed or failed review.
+  Można na przykład zdefiniować status „recenzja”, aby użytkownicy mogli poprosić
+  o sprawdzenie ich łatek. Gdy autor łatki poprosi o jej sprawdzenie, obok 
+  załącznika pojawi się napis „recenzja?”. Gdy łatka zostanie sprawdzona,
+  w zależności od tego, czy kontrola powiodła się czy nie, obok łatki pojawi się
+  napis „recenzja+” lub „recenzja-”.
 </p>
 
 <p>
-  You can restrict the list of flag types to those available for a given product
-  and component. If a product is selected with no component, only flag types
-  which are available to at least one component of the product are shown.
+  Można ograniczyć listę typów flag dostępnych dla danego produktu lub komponentu. 
+  Jeśli wybrany jest produkt bez komponentów wyświetlane są tylko typy flag, które dostępne 
+  są dla co najmniej jednego komponentu wybranego produktu.
 </p>
 
 <form id="flagtype_form" name="flagtype_form" action="editflagtypes.cgi" method="get">
   <table>
     <tr>
-      <th><label for="product">Product:</label></th>
+      <th><label for="product">Produkt:</label></th>
       <td>
         <select name="product" onchange="selectProduct(this, this.form.component, null, null, '__Any__');">
-          <option value="">__Any__</option>
+          <option value="">Dowolny</option>
           [% FOREACH prod = products %]
             <option value="[% prod.name FILTER html %]"
                     [% " selected" IF selected_product == prod.name %]>
@@ -70,10 +72,10 @@
           [% END %]
         </select>
       </td>
-      <th><label for="component">Component:</label></th>
+      <th><label for="component">Komponent:</label></th>
       <td>
         <select name="component">
-          <option value="">__Any__</option>
+          <option value="">Dowolny</option>
           [% FOREACH comp = components %]
             <option value="[% comp FILTER html %]"
                     [% " selected" IF selected_component == comp %]>
@@ -84,27 +86,27 @@
       <td>
         <input type="checkbox" id="show_flag_counts" name="show_flag_counts" value="1"
                [%+ 'checked="checked"' IF show_flag_counts %]>
-        <label for="show_flag_counts">Show flag counts</label>
+        <label for="show_flag_counts">Wyświetlaj liczbę flag</label>
       </td>
-      <td><input type="submit" id="submit" value="Filter"></td>
+      <td><input type="submit" id="submit" value="Filtruj"></td>
     </tr>
   </table>
 </form>
 
-<h3>Flag Types for [% terms.Bugs %]</h3>
+<h3>Typy flag dla [% terms.bledow %]</h3>
 
 [% PROCESS display_flag_types types=bug_types types_id='bugs' %]
 
 <p>
-  <a href="editflagtypes.cgi?action=enter&amp;target_type=bug">Create Flag Type for [% terms.Bugs %]</a>
+  <a href="editflagtypes.cgi?action=enter&amp;target_type=bug">Utwórz typ flagi dla [% terms.bledow %]</a>
 </p>
 
-<h3>Flag Types for Attachments</h3>
+<h3>Typy flagi dla załączników</h3>
 
 [% PROCESS display_flag_types types=attachment_types types_id='attachments' %]
 
 <p>
-  <a href="editflagtypes.cgi?action=enter&amp;target_type=attachment">Create Flag Type For Attachments</a>
+  <a href="editflagtypes.cgi?action=enter&amp;target_type=attachment">Utwórz typ flagi dla załączników</a>
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
@@ -114,35 +116,35 @@
   <table id="flag_types_[% types_id FILTER html %]" cellspacing="0" cellpadding="4" border="1">
 
     <tr>
-      <th>Edit name ...</th>
-      <th>Description</th>
-      <th>Sortkey</th>
-      <th>Properties</th>
-      <th>Grant group</th>
-      <th>Request group</th>
+      <th>Edytuj nazwę</th>
+      <th>Opis</th>
+      <th>Klucz sortowania</th>
+      <th>Właściwości</th>
+      <th>Grupa nadań</th>
+      <th>Grupa żądań</th>
       [% IF show_flag_counts %]
-        <th>Flags</th>
+        <th>Flagi</th>
         [%# Note to translators: translate the strings in quotes only. %]
-        [% state_desc = {granted = 'granted' denied = 'denied' pending = 'pending'} %]
+        [% state_desc = {granted = 'zatwierdzono' denied = 'odrzucono' pending = 'oczekuje'} %]
       [% END %]
-      <th>Actions</th>
+      <th>Czynności</th>
     </tr>
 
     [% FOREACH type = types %]
 
-      <tr class="[% IF type.is_active %]active[% ELSE %]inactive[% END %]">
+      <tr class="[% IF type.is_active %]aktywna[% ELSE %]nieaktywna[% END %]">
         <td><a href="editflagtypes.cgi?action=edit&amp;id=[% type.id %]">[% type.name FILTER html FILTER no_break %]</a></td>
         <td>[% type.description FILTER html %]</td>
         <td align="right">[% type.sortkey FILTER html %]</td>
         <td>
           [% IF type.is_requestable %]
-            <span class="requestable">requestable</span>
+            <span class="requestable">żądalna</span>
           [% END %]
           [% IF type.is_requestable && type.is_requesteeble %]
-            <span class="requesteeble">(specifically)</span>
+            <span class="requesteeble">(szczególna)</span>
           [% END %]
           [% IF type.is_multiplicable %]
-            <span class="multiplicable">multiplicable</span>
+            <span class="multiplicable">wielokrotna</span>
           [% END %]
         </td>
         <td>[% IF type.grant_group %][% type.grant_group.name FILTER html %][% END %]</td>
@@ -163,8 +165,8 @@
           </td>
         [% END %]
         <td>
-          <a href="editflagtypes.cgi?action=copy&amp;id=[% type.id %]">Copy</a>
-          | <a href="editflagtypes.cgi?action=confirmdelete&amp;id=[% type.id %]">Delete</a>
+          <a href="editflagtypes.cgi?action=copy&amp;id=[% type.id %]">Kopiuj</a>
+          | <a href="editflagtypes.cgi?action=confirmdelete&amp;id=[% type.id %]">Usuń</a>
         </td>
       </tr>
 

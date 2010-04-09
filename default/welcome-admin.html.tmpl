@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,7 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -23,64 +25,64 @@
 
 [% PROCESS global/header.html.tmpl
    title = title
-   header_addl_info = "version $constants.BUGZILLA_VERSION"
+   header_addl_info = "wersja $constants.BUGZILLA_VERSION"
    style_urls = [ 'skins/standard/index.css' ]
 %]
 
 <div id="welcome-admin">
-  <p>Witamy, [% user.identity FILTER html %].</p>
+  <p>Witaj [% user.identity FILTER html %].</p>
 
-  <p>Niniejsza strona jest wyświetlona ponieważ pewne podstawowe parametry nie zostały jeszcze
-  ustawione. Celem tej strony jest poinformowanie o ostatnich krokach wymaganych do poprawnego
-  skonfigurowania systemu.</p>
+  <p>Widzisz tę stronę, ponieważ pewne podstawowe parametry nie zostały jeszcze ustawione.
+  Na tej stronie uzyskasz informacje o końcowych czynnościach wymaganych do poprawnego
+  skonfigurowania tej instalacji.</p>
 
-  <p>Dla administratora dostępnych jest kilka odnośników u dołu tej strony.
-  Odnośniki te będą zawsze widoczne na wszystkich stronach. Spośród nich należy
-  odwiedzić co najmniej stronę <a href="editparams.cgi">Parametry</a>, gdzie można
-  ustawić najważniejsze parametry dla tej instalacji.
-  Na tej stronie można m.in. ustawić:</p>
+  <p>Jako administrator masz dostęp do wszystkich stron administracyjnych osiągalnych za
+  pomocą odnośnika <a href="admin.cgi">Administracja</a> widocznego na dole tej strony.
+  Odnośnik ten jest widoczny na wszystkich stronach. Używając go, odwiedź przynajmniej
+  stronę <a href="editparams.cgi">Parametry</a> z poziomu, której można określić wszystkie
+  najważniejsze parametry tej instalacji. Na tej stronie można między innymi określić:</p>
 
   <ul>
-    <li><a href="editparams.cgi?section=core#maintainer">opiekuna</a> - osobę
-    odpowiedzialną za tę instalację, z którą będzie można się skontaktować
-    jeśli będzie działo się coś niepożądanego,</li>
+    <li><a href="editparams.cgi?section=core#maintainer">maintainer</a> – osoba odpowiedzialna
+    za wszystko dobre i złe, co będzie się działo z tą instalacją,</li>
 
     <li><a href="editparams.cgi?section=core#urlbase">urlbase</a> - podstawowy adres URL
-    wskazujący na tę instalację i który będzie używany w wiadomościach e-mail wysyłanych
+    wskazujący na tę instalację, który będzie również używany w wiadomościach e-mail wysyłanych
     do użytkowników. Do czasu ustawienia tego parametru niniejsza strona będzie
     wyświetlana jako startowa,</li>
 
-    <li><a href="editparams.cgi?section=core#cookiepath">ścieżkę ciasteczek</a>, która jest
-	ważna dla przeglądarek do poprawnego zarządzania ciasteczkami,</li>
+    <li><a href="editparams.cgi?section=core#cookiepath">cookiepath</a> – ważny parametr
+    wykorzystywany przez przeglądarki do poprawnego zarządzania ciasteczkami,</li>
 
-    <li><a href="editparams.cgi?section=core#utf8">utf8</a>, która pozwala kodować wszystkie
-	teksty za pomocą kodowania UTF-8 (zaleca się pozostawić tę opcję włączoną).</li>
+    <li><a href="editparams.cgi?section=core#utf8">utf8</a> – parametr umożliwiający kodowanie wszystkich
+    tekstów za pomocą standardu UTF-8. Zaleca się pozostawić ten parametr
+    włączony.</li>
   </ul>
 
-  <p>Ważne są także następujące opcje:</p>
+  <p>Ważne są także następujące parametry:</p>
 
   <ul>
-    <li><a href="editparams.cgi?section=auth#requirelogin">requirelogin</a> - jeśli włączona
-	użytkownicy będą musieli się zarejestrować, aby cokolwiek zobaczyć i dokonać jakichkolwiek
-	zmian. Opcja przydatna w przypadku potrzeby zachowania poufności danych.</li>
+    <li><a href="editparams.cgi?section=auth#requirelogin">requirelogin</a> - jeśli jest włączony,
+    zabezpiecza instalację przed użytkownikami nieposiadającymi konta. Innymi słowy,
+    użytkownicy, by cokolwiek zobaczyć i dokonać jakichkolwiek zmian będą musieli się zarejestrować i zalogować.
+    Funkcja przydatna w razie potrzeby zachowania poufności danych.</li>
 
     <li><a href="editparams.cgi?section=auth#createemailregexp">createemailregexp</a>
-    określa którzy użytkownicy mają prawo założyć konto w tej instalacji.
-	Jeśli ustawiona na ".*" (domyślnie), to każdy posiadacz adresu e-mail może się
-	zarejestrować. Jeśli opcję ustawi się np. na "@mycompany.com$" to tylko uzytkownicy mający
-	adres w domenie @mycompany.com będą mogli utworzyć konto. W przypadku pozostawienia pustej
-	wartości konta będą mogły być zakładane tylko przez administratora. Dla nie otwartych
-	instalacji należy koniecznie ustawić wartość inną od domyślnej dla tej opcji.</li>
+    – parametr ten określa, którzy użytkownicy mają prawo założyć konto w tej instalacji.
+    Jeśli jest ustawiony na „.*” (wartość domyślna), każdy może utworzyć swoje konto. Jeśli
+    jest ustawiony na „@mycompany.com”, tylko użytkownicy mający adres w domenie
+    @mycompany.com będą mogli utworzyć konto. W przypadku pozostawienia pustej wartości,
+    konta będą mogły być zakładane tylko przez administratora. Jeśli instalacja ma być
+    instalacją prywatną, należy dla tego parametru ustawić wartość inną od domyślnej.</li>
 
     <li><a href="editparams.cgi?section=mta#mail_delivery_method">mail_delivery_method</a>
-    określa metodę dostarczania poczty do użytkowników. Np. sendmail lub SMTP. Opcję te należy
-	ustawić, aby system mógł poprawnie wysyłać wiadomości e-mail.</li>
+    – parametr ten określa metodę używaną do wysyłania poczty np. sendmail lub SMTP. Musi być
+    ustawiony poprawnie, by system mógł wysyłać wiadomości e-mail.</li>
   </ul>
 
   <p>
-    Po ustawieniu tych parametrów zalecamy przynajmniej pobieżne zapoznanie się z innymi
-    parametrami [% terms.Bugzilli %] tak, aby mieć pojęcie co jeszcze można i należy
-    skonfigurować.
+    Po ustawieniu tych parametrów zalecamy przejrzenie innych parametrów [% terms.Bugzilli %],
+    aby je poznać i mieć pojęcie, co jeszcze można i należy skonfigurować.
   </p>
 </div>
 

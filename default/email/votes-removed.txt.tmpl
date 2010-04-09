@@ -1,3 +1,4 @@
+[%# 3.4.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,39 +17,41 @@
   # Rights Reserved.
   #
   # Contributor(s): Emmanuel Seyman <eseyman@linagora.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
 
 From: [% Param('mailfrom') %]
 To: [% to %]
-Subject: [% terms.Bug %] [%+ bugid %] Usunięto część głosów.
+Subject: [% terms.Bug %] [%+ bugid %] Usunięto część lub wszystkie Twoje głosy.
 X-Bugzilla-Type: voteremoved
 
 Usunięto część lub wszystkie Twoje głosy z [% terms.bledu %] [%+ bugid %].
 
-Oddałeś [% votesold FILTER html %] [%+ IF votesold == 1 %] głos [% ELSE %] głosów
-na [% terms.blad %], ale [% votesremoved FILTER html %] zostały usunięte.
+Oddałeś/oddałaś [% votesold FILTER html %] [%+ IF votesold == 1 %]głos[% ELSE %]głosy[% END
+%] na ten [% terms.blad %], ale [% votesremoved FILTER html %] zostały usunięte.
 
 [% IF votesnew %]
-Masz jeszcze [% votesnew FILTER html %] [%+ IF votesnew == 1 %]głos[% ELSE %]głosy[% END %] na [% terms.bug %].
-
+[% PROCESS ODMIEN c=votesnew o1="Pozostał 1 głos" o2="Pozostały $votesnew głosy" o3="Pozostało $votesnew głosów" %] na ten [% terms.blad %].
 [% ELSE %]
-Nie możesz już zagłosować na [% terms.blad %].
+Nie masz więcej głosów, by głosować na ten [% terms.blab %].
 [% END %]
 
 Powód:
 [% IF reason == "votes_bug_moved" %]
-  [% terms.bug %] został przeniesiony do innego produktu.
+  Ten [% terms.blad %] został przeniesiony do innego produktu.
 
 [% ELSIF reason == "votes_too_many_per_bug" %]
-  Zasady głosowania dotyczącego tego produktu uległy zmianie;
-  Oddałeś za dużo głosów na pojedynczy [% terms.blad %].
-  
+  Zasady głosowania na ten produkt zostały zmienione.
+  Oddałeś/oddałaś za dużo głosów na jeden [% terms.blad%].
+
 [% ELSIF reason == "votes_too_many_per_user" %]
-  Zasady głosowania dotyczące tego produktu uległy zmianie;
-  Zbyt wiele oddanych głosów, więc wszystkie głosy zostały usunięte.
+  Zasady głosowania na ten produkt zostały zmienione. Oddałeś/oddałaś
+  za dużo głosów, więc wszystkie zostały usunięte.
 [% END %]
+
 
 
 [% urlbase %]show_bug.cgi?id=[% bugid %]

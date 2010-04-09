@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,10 +18,16 @@
   #
   # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
   #                 Marc Schumann <wurblzap@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  # Lines 30, 125-126, and 136 added/changed for Polish localization
   #%]
+
 [%# INTERFACE:
   # panel: hash representing the current panel.
   #%]
+
+[% PROCESS "global/field-descs.none.tmpl" %]
 
 [% sortlist_separator = '---' %]
 
@@ -42,10 +49,10 @@
       [% ELSIF param.type == "b" %]
         <input type="radio" name="[% param.name FILTER html %]" id="[% param.name FILTER html %]-on"
                value=1 [% "checked=\"checked\"" IF Param(param.name) %]>
-        <label for="[% param.name FILTER html %]-on">Włączone</label>
+        <label for="[% param.name FILTER html %]-on">Włączony</label>
         <input type="radio" name="[% param.name FILTER html %]" id="[% param.name FILTER html %]-off"
                value=0 [% "checked=\"checked\"" IF !Param(param.name) %]>
-        <label for="[% param.name FILTER html %]-off">Wyłączone</label>
+        <label for="[% param.name FILTER html %]-off">Wyłączony</label>
       [% ELSIF param.type == "m" %]
         [% boxSize = 5 %]
         [% boxSize = param.choices.size IF param.choices.size < 5 %]
@@ -55,7 +62,7 @@
           [% FOREACH item = param.choices %]
             <option value="[% item FILTER html %]"
                     [% " selected=\"selected\"" IF lsearch(Param(param.name), item) != -1 %]>
-              [% item FILTER html %]
+              [% get_choice(item) FILTER html %]
             </option>
           [% END %]
         </select>
@@ -84,14 +91,14 @@
             '              size="[% boxSize FILTER html %]"' +
             '              name="select_[% param.name FILTER html %]">' +
                      [% FOREACH item = plist %]
-            '          <option value="[% item FILTER html %]">[% item FILTER html %]<\/option>' +
+            '          <option value="[% item FILTER html %]">[% get_choice(item) FILTER html %]<\/option>' +
                      [% END %]
             '        <option class="sortlist_separator"' +
             '                disabled="disabled"' +
-            '                value="[% sortlist_separator %]">active&uarr;&nbsp;&darr;inactive<\/option>' +
+            '                value="[% sortlist_separator %]">aktywne&uarr;&nbsp;&darr;nieaktywne<\/option>' +
                      [% FOREACH item = param.choices %]
                        [% IF lsearch(plist, item) == -1 %]
-            '            <option value="[% item FILTER html %]">[% item FILTER html %]<\/option>' +
+            '            <option value="[% item FILTER html %]">[% get_choice(item) FILTER html %]<\/option>' +
                        [% END %]
                      [% END %]
             '      <\/select>' +
@@ -115,7 +122,19 @@
           [% FOREACH item = param.choices %]
             <option value="[% item FILTER html %]"
                     [% " selected=\"selected\"" IF item == Param(param.name) %]>
-              [% item FILTER html %]
+              [% IF param.name == "defaultseverity" %]
+                [% display_value("bug_severity", item) FILTER html %]
+              [% ELSIF param.name == "defaultpriority" %]
+                [% display_value("priority", item) FILTER html %]
+              [% ELSIF param.name == "defaultplatform" %]
+                [% display_value("rep_platform", item) FILTER html %]
+              [% ELSIF param.name == "defaultopsys" %]
+                [% display_value("op_sys", item) FILTER html %]
+              [% ELSIF param.name == "duplicate_or_move_bug_status" %]
+                [% display_value("bug_status", item) FILTER html %]
+              [% ELSE %]
+                [% get_choice(item) FILTER html %]
+              [% END %]
             </option>
           [% END %]
         </select>
@@ -125,11 +144,13 @@
         </font>
       [% END %]  
       </p>
-      <p>
-        <input type="checkbox" name="reset-[% param.name FILTER html %]"
-               id="reset-[% param.name FILTER html %]">
-        <label for="reset-[% param.name FILTER html %]">Przywróć stan domyślny</label>
-      </p>
+      [% UNLESS param.no_reset %]
+        <p>
+          <input type="checkbox" name="reset-[% param.name FILTER html %]"
+                 id="reset-[% param.name FILTER html %]">
+          <label for="reset-[% param.name FILTER html %]">Resetuj</label>
+        </p>
+      [% END %]
       <hr>
     </dd>
   [% END %]

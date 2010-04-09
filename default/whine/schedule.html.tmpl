@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# -*- mode: html -*- %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
@@ -17,6 +18,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Erik Stambaugh <erik@dasbistro.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -42,41 +44,43 @@
 %]
 
 <p>
-  "Przypominanie" polega na regularnym wykonywaniu przez [% terms.Bugzille %] zadanego 
+  Przypominanie polega na regularnym wykonywaniu przez [% terms.Bugzille %] zadanego 
   zapytania i wysyłaniu wynikowej listy [% terms.bledow %] za pomocą wiadomości e-mail.
 </p>
 
 <p>
-  Aby dodać nowe zdarzenie przypominania, należy nacisnąć przycisk "Dodaj zdarzenie". Przedtem
-  należy wpisać temat i tekst wiadomości, która będzie wysłana razem z listą [% terms.bledow %].
+  Aby dodać nowe zdarzenie przypominania, naciśnij przycisk
+  „Dodaj zdarzenie”. Wprowadź temat wiadomości i tekst, jaki będzie towarzyszył
+  liście [% terms.bledow %].
 </p>
 
 <p>
-  Harmonogram dla zdarzenia można dodać naciskając przycisk "Dodaj harmonogram". Harmonogram
-  zawiera dzień, czas lub odstęp czasu (np. co 15 minut), oraz adres e-mail, który można zmienić 
-  w zależności od uprawnień użytkownika. Zdarzenia mogą mieć więcej harmonogramów, aby
-  umożliwić uruchamianie w różnych porach lub dla różnych użytkowników.
+  Do zdarzenia można dodawać harmonogramy, naciskając przycisk „Dodaj harmonogram”.
+  Harmonogram zawiera dzień, czas lub odstęp czasu (np. co 15 minut)
+  oraz adres e-mail. Adres ten można zmienić lub nie w zależności od uprawnień
+  użytkownika. Zdarzenia mogą mieć więcej harmonogramów, aby umożliwić uruchamianie w
+  różnym czasie lub dla różnych użytkowników.
 </p>
 
 <p>
-  Dostępne zapytania to zapisane wyszukiwania. Aby je utworzyć, należy wykonać
-   <a href="query.cgi">wyszukiwanie</a>, a następnie zachować je pod konkretną nazwą.
-  Wyszukiwanie do zdarzenia można dodać naciskając przycisk "Dodaj zapytanie", a następnie wybierając
-  żądane wyszukiwanie w polu "Wyszukiwanie" i dodając tytuł dla tabeli [% terms.bledow %].  
-  Liczba w polu "Sortowanie" pozwala określić kolejność wykonywania zapytań (najmniejsza liczba
-  oznacza największy priorytet), gdy zdarzenie zawiera więcej niż jedno zapytanie.
-  Opcja "Jedna wiadomość na [% terms.blad %]" określa, czy dla każdego ze znalezionych [%
-  terms.bledow %] będzie wysyłana jedna wiadomość e-mail, czy też zostanie wysłana lista [% terms.bledow %].
+  Wyszukiwania pochodzą z zapisanych wyników wyszukiwania, które są tworzone przez wykonanie
+  <a href="query.cgi">wyszukiwania</a> i zachowania go pod konkretną nazwą.
+  Dodaj zapytanie, naciskając przycisk „Dodaj zapytanie”, wybierz odpowiednią nazwę zapisanego
+  wyszukiwania w polu „Wyszukiwanie” i dodaj tytuł dla tabeli [% terms.bledow %].
+  Podanie liczby w polu „Sortowanie” pozwala określić kolejność wykonywania zapytań (mniejsza
+  liczba oznacza większy priorytet), gdy jest wyszczególnione wiele zapytań.
+  Jeśli jest zaznaczona funkcja „Jedna wiadomość na [% terms.blad %]”, każdy [% terms.blad %] pasujący do
+  wyszukiwania będzie wysyłany w oddzielnej wiadomości e-mail.
 </p>
 
 <p>
-  Wszystkie czasy odnoszą się do strefy czasowej serwera ([% local_timezone FILTER html %]).
+  Wszystkie czasy podawane są w czasie lokalnym serwera ([% local_timezone FILTER html %]).
 </p>
 
 <form method="post" action="editwhines.cgi">
 [%# This hidden submit button must be here to set default behavior when
     the user presses return on a form input field #%]
-<input type="submit" value="Zatwierdź" name="commit"
+<input type="submit" value="Aktualizuj/Zatwierdź" name="commit"
        style="display: none;" id="commit">
 <input type="hidden" name="update" value="1">
 <input type="hidden" name="token" value="[% token FILTER html %]">
@@ -86,7 +90,7 @@
 <table cellspacing="2" cellpadding="2" style="border: 1px solid;">
   <tr>
     <th align="left">
-      Zdarzenie:
+      Zdarzenie: 
     </th>
     <td align="right" colspan="2">
       <input type="submit" value="Usuń zdarzenie"
@@ -122,6 +126,16 @@
     </td>
   </tr>
 
+  <tr>
+    <td valign="top" align="right">
+      Wyślij wiadomość nawet jesli nie ma [% terms.bledow %] w wynikach szukania:
+    </td>
+    <td colspan="2">
+      <input type="checkbox" name="event_[% event.key %]_mailifnobugs"
+        [%- IF event.value.mailifnobugs == 1 %] checked [% END %]>
+    </td>
+  </tr>
+
   [% IF event.value.schedule.size == 0 %]
 
     <tr>
@@ -147,7 +161,7 @@
         <table>
           <tr>
             <th>
-              Czas
+              Interwał
             </th>
             <th>
               [% IF mail_others %]
@@ -224,7 +238,7 @@
                id="add_query_[% event.key %]">
       </td>
       <td align="right" valign="bottom">
-        <input type="submit" value="Zatwierdź" name="commit" id="update">
+        <input type="submit" value="Aktualizuj/Zatwierdź" name="commit" id="update">
       </td>
     </tr>
 
@@ -272,7 +286,7 @@
                 <input type="checkbox" [% IF query.onemailperbug == 1 %] checked [% END %]
                        id="query_onemailperbug_[% query.id %]"
                        name="query_onemailperbug_[% query.id %]">
-                <label for="query_onemailperbug_[% query.id %]">Jedna wiadomość na [% terms.blad %]]</label>
+                <label for="query_onemailperbug_[% query.id %]">Jedna wiadomość na [% terms.blad %]</label>
               </td>
               <td align="right">
                 <input type="submit" value="Usuń"
@@ -290,7 +304,7 @@
                      id="add_query_[% event.key %]">
             </td>
             <td align="right" colspan="2">
-              <input type="submit" value="Zatwierdź" name="commit" id="update">
+        <input type="submit" value="Aktualizuj/Zatwierdź" name="commit" id="update">
             </td>
           </tr>
         </table>
@@ -325,7 +339,7 @@
     </select>
 
   [% ELSE %]
-    Proszę odwiedzić stronę <a href="query.cgi">Wyszukiwanie</a> i zapisać co najmniej jedno wyszukiwanie
+    Odwiedź stronę <a href="query.cgi">wyszukiwania</a> i zapisz zapytanie
   [% END %]
 
 [%+ END %]
@@ -334,47 +348,47 @@
   <select name="day_[% schedule.id %]">
       [%
         options = [
-            ['All',  'Codziennie',                 ],
-            ['MF',   'Od poniedziałku do piątku',    ],
-            ['Sun',  'Niedziela',                   ],
-            ['Mon',  'Poniedziałek',                   ],
-            ['Tue',  'Wtorek',                  ],
-            ['Wed',  'Środa',                ],
-            ['Thu',  'Czwartek',                 ],
-            ['Fri',  'Piątek',                   ],
-            ['Sat',  'Sobota',                 ],
-            ['1',    '1-go dnia miesiąca',  ],
-            ['2',    '2-go dnia miesiąca',  ],
-            ['3',    '3-go dnia miesiąca',  ],
-            ['4',    '4-go dnia miesiąca',  ],
-            ['5',    '5-go dnia miesiąca',  ],
-            ['6',    '6-go dnia miesiąca',  ],
-            ['7',    '7-go dnia miesiąca',  ],
-            ['8',    '8-go dnia miesiąca',  ],
-            ['9',    '9-go dnia miesiąca',  ],
-            ['10',   '10-go dnia miesiąca', ],
-            ['11',   '11-go dnia miesiąca', ],
-            ['12',   '12-go dnia miesiąca', ],
-            ['13',   '13-go dnia miesiąca', ],
-            ['14',   '14-go dnia miesiąca', ],
-            ['15',   '15-go dnia miesiąca', ],
-            ['16',   '16-go dnia miesiąca', ],
-            ['17',   '17-go dnia miesiąca', ],
-            ['18',   '18-go dnia miesiąca', ],
-            ['19',   '19-go dnia miesiąca', ],
-            ['20',   '20-go dnia miesiąca', ],
-            ['21',   '21-go dnia miesiąca', ],
-            ['22',   '22-go dnia miesiąca', ],
-            ['23',   '23-go dnia miesiąca', ],
-            ['24',   '24-go dnia miesiąca', ],
-            ['25',   '25-go dnia miesiąca', ],
-            ['26',   '26-go dnia miesiąca', ],
-            ['27',   '27-go dnia miesiąca', ],
-            ['28',   '28-go dnia miesiąca', ],
-            ['29',   '29-go dnia miesiąca', ],
-            ['30',   '30-go dnia miesiąca', ],
-            ['31',   '31-go dnia miesiąca', ],
-            ['last', 'Ostatniego dnia miesiąca',    ],
+            ['All',  'Codziennie',               ],
+            ['MF',   'Od poniedziałku do piątku',],
+            ['Sun',  'Niedziela',         ],
+            ['Mon',  'Poniedziałek',      ],
+            ['Tue',  'Wtorek',            ],
+            ['Wed',  'Środa',             ],
+            ['Thu',  'Czwartek',          ],
+            ['Fri',  'Piątek',            ],
+            ['Sat',  'Sobota',            ],
+            ['1',    '1. dnia miesiąca',  ],
+            ['2',    '2. dnia miesiąca',  ],
+            ['3',    '3. dnia miesiąca',  ],
+            ['4',    '4. dnia miesiąca',  ],
+            ['5',    '5. dnia miesiąca',  ],
+            ['6',    '6. dnia miesiąca',  ],
+            ['7',    '7. dnia miesiąca',  ],
+            ['8',    '8. dnia miesiąca',  ],
+            ['9',    '9. dnia miesiąca',  ],
+            ['10',   '10. dnia miesiąca', ],
+            ['11',   '11. dnia miesiąca', ],
+            ['12',   '12. dnia miesiąca', ],
+            ['13',   '13. dnia miesiąca', ],
+            ['14',   '14. dnia miesiąca', ],
+            ['15',   '15. dnia miesiąca', ],
+            ['16',   '16. dnia miesiąca', ],
+            ['17',   '17. dnia miesiąca', ],
+            ['18',   '18. dnia miesiąca', ],
+            ['19',   '19. dnia miesiąca', ],
+            ['20',   '20. dnia miesiąca', ],
+            ['21',   '21. dnia miesiąca', ],
+            ['22',   '22. dnia miesiąca', ],
+            ['23',   '23. dnia miesiąca', ],
+            ['24',   '24. dnia miesiąca', ],
+            ['25',   '25. dnia miesiąca', ],
+            ['26',   '26. dnia miesiąca', ],
+            ['27',   '27. dnia miesiąca', ],
+            ['28',   '28. dnia miesiąca', ],
+            ['29',   '29. dnia miesiąca', ],
+            ['30',   '30. dnia miesiąca', ],
+            ['31',   '31. dnia miesiąca', ],
+            ['last', 'Ostatniego dnia miesiąca', ],
         ]
       %]
 

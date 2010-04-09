@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%# INTERFACE:
   # panels: array of hashes representing the panels available.
@@ -27,7 +30,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% curpanel = -1 %]
-[% panels = panels.sort('sortkey') %]
+[% panels = panels.nsort('sortkey') %]
 
 [% FOREACH panel = panels %]
   [% PROCESS "admin/params/${panel.name}.html.tmpl"
@@ -45,7 +48,7 @@
 
 [% title = BLOCK %]
   [% IF curpanel == -1 %]
-    Parametry: Index
+    Parametry: Indeks
   [% ELSE %]
     Konfiguracja:
     [%+ current_panel.title FILTER html %]
@@ -67,7 +70,7 @@
       <table id="menu">
         <tr>
           <td class="index">
-            <a href="editparams.cgi?section=index" title="Pokaż wszystkie parametry">Indeks</a>
+            <a href="editparams.cgi?section=index" title="Wyświetl wszystkie parametry">Indeks</a>
           </td>
         </tr>
         [% FOREACH panel = panels %]
@@ -91,16 +94,17 @@
         [% PROCESS admin/params/index.html.tmpl panels = panels %]
       [% ELSE %]
 
-        <div class="contribute"><strong>Uwaga:</strong>
-          program [%+ terms.Bugzilla %] jest rozwijany przez wolontariuszy. Najlepszą
-          metodą podziękowania projektowi jest <a href="http://www.bugzilla.org/contribute/">wsparcie go</a>!
-          Nie trzeba być programistą aby pomóc - jest mnóstwo różnych rzeczy, które trzeba zrobić i których potrzebujemy.
+        <div class="contribute">
+          <strong>[%+ terms.Bugzilla %]</strong> jest projektem rozwijanym przez wolontariuszy.
+          Najlepszym sposobem podziękowania jest <a href="http://www.bugzilla.org/contribute/">
+          wsparcie go</a>! Nie trzeba być programistą, by pomóc w rozwoju projektu. Jest mnóstwo
+          różnych rzeczy, które trzeba zrobić i których potrzebujemy.
         </div>
 
         <p>
-          Ta strona pozwala na edycję podstawowych parametrów systemu [% terms.Bugzilla %].
-          Prosimy o ostrożność.<br>
-          Zaznaczenie opcji "Przywróć domyślny" spowoduje przywrócenie domyślnej wartości parametru.
+          Na tej stronie można wykonać edycję podstawowych parametrów [% terms.Bugzilli %].
+          Prosimy o ostrożność!<br>
+          Zaznaczenie funkcji <strong>Resetuj</strong> spowoduje przywrócenie domyślnej wartości parametru.
         </p>
 
         [%# CONTENT PANEL %]
@@ -109,7 +113,7 @@
           <input type="hidden" name="section" value="[% current_panel.name FILTER html %]">
           <input type="hidden" name="action" value="save">
           <input type="hidden" name="token" value="[% token FILTER html %]">
-          <input type="reset" value="Przywróć">
+          <input type="reset" value="Resetuj formularz">
           <input type="submit" name="action" value="Zapisz zmiany">
         </form>
       [% END %]

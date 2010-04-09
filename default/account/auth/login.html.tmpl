@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,7 @@
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #                 Toms Baugis <toms@myrealbox.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -30,21 +32,21 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Logowanie do systemu $terms.Bugzilla",
+  title = "Logowanie do $terms.Bugzilli",
   onload = "document.forms['login'].Bugzilla_login.focus()"
 %]
 
 [% USE Bugzilla %]
 
 <p>
-  Do zalogowania się wymagana jest poprawna nazwa użytkownika oraz hasło.
+  Do zalogowania wymagana jest poprawna nazwa użytkownika (login) i hasło.
 </p>
 
 <form name="login" action="[% target FILTER html %]" method="POST"
 [%- IF Bugzilla.cgi.param("data") %] enctype="multipart/form-data"[% END %]>
   <table>
     <tr>
-      <th align="right"><label for="Bugzilla_login">Nazwa użytkownika:</label></th>
+      <th align="right"><label for="Bugzilla_login">Login:</label></th>
       <td>
         <input size="35" id="Bugzilla_login" name="Bugzilla_login">
         [% Param('emailsuffix') FILTER html %] <small>(adres e-mail)</small>
@@ -64,22 +66,20 @@
         <td>
           <input type="checkbox" id="Bugzilla_remember" name="Bugzilla_remember" value="on"
                  [%+ "checked" IF Param('rememberlogin') == "defaulton" %]>
-          <label for="Bugzilla_remember">Zapamiętaj mój login</label>
+          <label for="Bugzilla_remember">Zapamiętaj login</label>
         </td>
       </tr>
     [% END %]
 
-    [% IF Param('loginnetmask') < 32 %]
-      <tr>
-        <th>&nbsp;</th>
-        <td>
-          <input type="checkbox" id="Bugzilla_restrictlogin" name="Bugzilla_restrictlogin"
-                 checked="checked">
-          <label for="Bugzilla_restrictlogin">Ograniczenie tej sesji do bieżącego adresu IP
-          (opcja ta zwiększa bezpieczeństwo)</label>
-        </td>
-      </tr>
-    [% END %]
+    <tr>
+      <th>&nbsp;</th>
+      <td>
+        <input type="checkbox" id="Bugzilla_restrictlogin" name="Bugzilla_restrictlogin"
+               checked="checked">
+        <label for="Bugzilla_restrictlogin">Ogranicz tę sesję do aktualnego adresu IP
+        (funkcja ta zwiększa bezpieczeństwo)</label>
+      </td>
+    </tr>
   </table>
 
   [% PROCESS "global/hidden-fields.html.tmpl"
@@ -88,8 +88,8 @@
   <input type="submit" name="GoAheadAndLogIn" value="Zaloguj" id="log_in">
   
   <p>
-    (Uwaga: zalecane jest włączenie obsługi ciasteczek w przeglądarce. 
-    W przeciwnym wypadku konieczne będzie częste logowanie do systemu)
+    Uwaga: Zaleca się włączenie obsługi ciasteczek dla tej witryny. 
+    W przeciwnym razie konieczne będzie częste logowanie.
   </p>
 </form>
 
@@ -101,8 +101,8 @@
     <hr>
 
     <p>
-      Nowi użytkownicy mogą 
-      <a href="createaccount.cgi">założyć sobie konto</a> w [% terms.Bugzilli %].
+      Jeśli nie masz konta w [% terms.Bugzilli %], możesz je
+      <a href="createaccount.cgi">sobie założyć</a>.
     </p>
   [% END %]
 
@@ -112,10 +112,10 @@
     <a name="forgot"></a>
     <form method="get" action="token.cgi">
       <input type="hidden" name="a" value="reqpw">
-      Aby zmienić zapomniane hasło należy wpisać
-      poniżej nazwę użytkownika i wysłać żądanie zmiany hasła.<br>
+      Jeśli masz konto, ale nie pamiętasz hasła, poniżej podaj swój login
+      i wyślij prośbę o zmianę hasła.<br>
       <input size="35" name="loginname">
-      <input type="submit" id="request" value="Wyślij żądanie">
+      <input type="submit" id="request" value="Resetuj hasło">
     </form>
   [% END %]
 

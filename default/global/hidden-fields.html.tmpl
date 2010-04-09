@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -36,14 +39,14 @@
   [% IF field == "data" && cgi.param("data") %]
     <div class="box">
       <p>
-        We were unable to store the file you uploaded because of incomplete information
-        in the form you just submitted. Because we are unable to retain the file between
-        form submissions, you must re-attach the file in addition to completing the
-        remaining missing information above.
+        Nie można zapisać wysłanego pliku, ponieważ formularz jest niekompletny.
+        Ponieważ nie można przetrzymywać plik pomiędzy kolejnymi wysłaniami
+        formularza, należy uzupełnić brakujące elementy i ponownie
+        załączyć plik.
       </p>
       <p>
-        Please re-attach the file <b>[% cgi.param(field) FILTER html %]</b> in
-        the field below:
+        Załącz ponownie plik <b>[% cgi.param(field) FILTER html %]</b> w
+        polu poniżej:
       </p>
       <p>
         <input type="file" id="data" name="data" size="50">

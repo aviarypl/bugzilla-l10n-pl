@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -38,30 +41,30 @@
 <p>
 
 [% UNLESS no_add_milestone_link %]
-  <a title="Add a milestone to product '[% product.name FILTER html %]'"
+  <a title="Dodaj wersję docelową dla „[% product.name FILTER html %]”"
      href="editmilestones.cgi?action=add&amp;product=
-          [%- product.name FILTER url_quote %]">Add</a> a milestone. 
+          [%- product.name FILTER url_quote %]">Dodaj</a> wersję docelową. 
 [% END %]
 
 [% IF milestone.name && !no_edit_milestone_link %]
-  Edit milestone <a 
-  title="Edit Milestone '[% milestone.name FILTER html %]' of product '
-         [%- product.name FILTER html %]'"
+  Edycja wersji docelowej <a 
+  title="Edycja wersji docelowej „[% milestone.name FILTER html %]” produktu
+         „[%- product.name FILTER html %]”"
   href="editmilestones.cgi?action=edit&amp;product=
         [%- product.name FILTER url_quote %]&amp;milestone=
         [%- milestone.name FILTER url_quote %]">
-        '[% milestone.name FILTER html %]'</a>.
+        „[% milestone.name FILTER html %]”</a>.
 [% END %]
 
 [% UNLESS no_edit_other_milestones_link %]
-  Edit other milestones of product <a 
+  Edytuj inne wersje docelowe produktu <a 
   href="editmilestones.cgi?product=
-        [%- product.name FILTER url_quote %]">'[% product.name FILTER html %]'</a>.
+        [%- product.name FILTER url_quote %]">„[% product.name FILTER html %]”</a>.
 
 [% END %]
 
-  Edit product <a 
+  Edytuj produkt <a 
   href="editproducts.cgi?action=edit&amp;product=
-        [%- product.name FILTER url_quote %]">'[% product.name FILTER html %]'</a>.
+        [%- product.name FILTER url_quote %]">„[% product.name FILTER html %]”</a>.
 
 </p>

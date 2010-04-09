@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): A. Karl Kornel <karl@kornel.name>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
@@ -23,20 +26,20 @@
 Content-Type: text/plain
 From: [% Param('mailfrom') %]
 To: [% user.email %]
-Subject: [[% terms.Bugzilla %]] Konto użytkownika [% user.login -%] zostało użyte do zmiany tożsamości.
+Subject: [[% terms.Bugzilla %]] Konto użytkownika [% user.login -%] zostało użyte do zmiany tożsamości
 X-Bugzilla-Type: admin
 
-    Użytkownik [%+ sudoer.identity %] użył funkcji 'sudo' do pracy w  
-[%+ terms.Bugzilla %] za pomocą Twojego konta.
+    Użytkownik [%+ sudoer.identity %] użył funkcji „sudo” do pracy w 
+[%+ terms.Bugzilli %] za pomocą Twojego konta.
 
 [% IF reason %]
     Użytkownik [%+ sudoer.identity %] podał następujący powód:
 
 [% reason FILTER wrap_comment %]
 [% ELSE %]
-    Użytkownik [%+ sudoer.identity %] nie podał powodu użycia funkcji 'sudo'.
+    Użytkownik [%+ sudoer.identity %] nie podał powodu użycia funkcji „sudo”.
 [% END %]
 
-    W przypadku wątpliwości proszę skontaktować się z administratorem 
-[%+ Param("maintainer") %].  Więcej informacji o funkcji 'sudo'
-można znaleźć pod adresem <[% Param("urlbase") %]page.cgi?id=sudo.html>.
+    Jeśli masz wątpliwości, skontaktuj się z administratorem 
+[%+ Param("maintainer") %].  Więcej informacji o funkcji „sudo”
+można znaleźć pod adresem <[% urlbase %]page.cgi?id=sudo.html>.

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -19,6 +20,7 @@
   #                 Joel Peshkin <bugreport@peshkin.net>
   #                 Jacob Steenhagen <jake@bugzilla.org>
   #                 Vlad Dascalu <jocuri@softhome.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -26,17 +28,17 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Add group"
-  subheader = "This page allows you to define a new user group."
+  title = "Dodawanie grupy"
+  subheader = "Na tej stronie można zdefiniować nową grupę użytkowników."
   doc_section = "groups.html#create-groups"
 %]
 
 <form method="post" action="editgroups.cgi">
   <table border="1" cellpadding="4" cellspacing="0"><tr>
-    <th>New Name</th>
-    <th>New Description</th>
-    <th>New User RegExp</th>
-    <th>Use For [% terms.Bugs %]</th>
+    <th>Nazwa</th>
+    <th>Opis</th>
+    <th>RegExp użytkowników</th>
+    <th>Używana dla [% terms.bledow %]</th>
   </tr><tr>
     <td><input size="20" name="name"></td>
     <td><input size="40" name="desc"></td>
@@ -44,7 +46,7 @@
     <td><input type="checkbox" name="isactive" value="1" checked></td>
   </tr>
   <tr>
-    <th>Icon URL:</th>
+    <th>Adres URL ikony:</th>
     <td colspan="3"><input type="text" size="70" maxlength="255" id="icon_url" name="icon_url"></td>
   </tr>
   [% Hook.process('field') %]
@@ -54,49 +56,49 @@
 
   <input type="checkbox" id="insertnew" name="insertnew" value="1"
     [% IF Param("makeproductgroups") %] checked[% END %]>
-  <label for="insertnew">Insert new group into all existing products.</label>
+  <label for="insertnew">Dodaj nową grupę do wszystkich istniejących produktów.</label>
   <p>
-  <input type="submit" id="create" value="Add">
+  <input type="submit" id="create" value="Dodaj">
   <input type="hidden" name="action" value="new">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
-<p><b>Name</b> is what is used with the B<!-- blah -->ugzilla->user->in_group()
-function in any customized cgi files you write that use a given group.
-It can also be used by people submitting [% terms.bugs %] by email to
-limit [% terms.abug %] to a certain set of groups.</p>
+<p><b>Nazwa</b> – element używany z funkcją B<!-- blah -->ugzilla->user->in_group()
+w każdym ze zmodyfikowanych przez użytkownika plików cgi podczas używania danej grupy.
+Może być ona także używana przez osoby wysyłające [% terms.bledy %] przez e-mail,
+by ograniczyć [% terms.blad %] do określonego zbioru grup.</p>
 
-<p><b>Description</b> is what will be shown in the [% terms.bug %] reports
-to members of the group where they can choose whether
-the [% terms.bug %] will be restricted to others in the same group.</p>
+<p><b>Opis</b> – element widoczny dla członków grupy w zgłoszeniach [% terms.bledu %]
+przy polach wyboru ograniczenia dostępu do zgłoszenia. Członkowie grupy mogą określić, czy
+zgłoszenie [% terms.bledu %] będzie wyświetlane jedynie dla członków danej grupy.</p>
 
-<p>The <b>Use For [% terms.Bugs %]</b> flag determines whether or not the
-group is eligible to be used for [% terms.bugs %]. If you clear this, it will
-no longer be possible for users to add [% terms.bugs %] to this group,
-although [% terms.bugs %] already in the group will remain in the group.
-Doing so is a much less drastic way to stop a group from growing
-than deleting the group would be. <b>Note: If you are creating
-a group, you probably want it to be usable for [% terms.bugs %], in which
-case you should leave this checked.</b></p>
+<p><b>Używana dla [% terms.bledow %]</b> – flaga określająca czy grupa
+może być używana dla [% terms.bledow %]. Jeśli zostanie ona odznaczona,
+nie będzie możliwe dodawanie nowych [% terms.bledow %] do tej grupy.
+Niemniej [% terms.bledy %] będące już w grupie, pozostaną w niej.
+Jest to mniej drastyczny sposób na powstrzymanie wzrostu grupy
+niż jej usunięcie. <b>Uwaga: Jeśli jest tworzona nowa grupa, należy 
+pozostawić to pole zaznaczone, aby możliwe było dodawanie 
+[% terms.bledow %] do grupy</b>.</p>
 
-<p><b>User RegExp</b> is optional, and if filled in, will 
-automatically grant membership to this group to anyone with an 
-email address that matches this regular expression.</p>
+<p><b>RegExp użytkownika</b> (opcjonalne) 
+Jeśli jest podane, nastąpi automatyczne udzielenie członkostwa w tej grupie
+każdemu, kogo adres e-mail pasuje do tego wyrażenia.</p>
 
 <p>
-  <b>Icon URL</b> is optional, and is the URL pointing to the icon
-  used to identify the group. It may be either a relative URL to the base URL
-  of this installation or an absolute URL. This icon will be displayed
-  in comments in [% terms.bugs %] besides the name of the author of comments.
+  <b>Adres URL ikony</b> jest opcjonalny i jest adresem prowadzącym do ikony
+  użytej do identyfikacji grupy. Może być adresem relatywnym do bazowego adresu
+  URL tej instalacji lub adresem absolutnym. Ikona będzie wyświetlana w
+  komentarzach do [% terms.bledow %] obok nazwy autora komentarza.
 </p>
 
-<p>By default, the new group will be associated with existing 
-products. Unchecking the "Insert new group into all existing 
-products" option will prevent this and make the group become 
-visible only when its controls have been added to a product.</p>
+<p>Domyślnie nowa grupa będzie skojarzona z istniejącymi 
+produktami. Odznaczając opcję „Dodaj grupę dla wszystkich 
+istniejących produktów” można zapobiec temu i grupa będzie 
+widoczna jedynie, gdy zostanie dodana do produktu.</p>
 
-<p>Back to the <a href="./">main [% terms.bugs %] page</a>
+<p>Wróć do <a href="./">strony głównej [% terms.bledow %]</a>
 
-or to the <a href="editgroups.cgi">group list</a>.
+lub do <a href="editgroups.cgi">listy grup</a>
 
 [% PROCESS global/footer.html.tmpl %] 

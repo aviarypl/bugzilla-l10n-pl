@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -28,26 +31,26 @@
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
-[% PROCESS global/header.html.tmpl title="Duplicate Warning" %]
-[% orig_bug = "$terms.bug $original_bug_id"
+[% PROCESS global/header.html.tmpl title="Ostrzeżenia związane z duplikatami" %]
+[% orig_bug = "$terms.blad $original_bug_id"
      FILTER bug_link(original_bug_id) %]
 
 <p>
-  When marking [% terms.abug %] as a duplicate, the reporter of the duplicate
-  is normally added to the CC list of the original. The permissions
-  on [% orig_bug FILTER none %] (the original) are currently set
-  such that the reporter would not normally be able to see it.
+  Gdy [% terms.blad %] jest oznaczany jako duplikat, zgłaszający ten błąd
+  jest dodawany do listy obserwatorów oryginalnego [% terms.bledu %]. Obecne ustawienia uprawnień
+  [% orig_bug FILTER none %] oryginału uniemożliwiają dodanie zgłaszającego do
+  listy – nie będzie on mógł widzieć błędu będącego oryginałem jego zgłoszenia.
 </p>
 
 <p>
-  <b>Adding the reporter to the CC list of [% orig_bug FILTER none %]
+  <b>Dodanie zgłaszającego do listy obserwatorów [% orig_bug FILTER none %]
   [% IF cclist_accessible %]
-    will immediately
+    teraz umożliwi
   [% ELSE %]
-    might, in the future,
+    może w przyszłości umożliwić
   [% END %]
-  allow him/her access to view this [% terms.bug %].</b>
-  Do you wish to do this?
+  oglądanie tego [% terms.bledu %].</b>
+  Czy kontynuować?
 </p>
 
 <form method="post" action="process_bug.cgi">
@@ -56,18 +59,18 @@
 
 <p>
   <input type="radio" name="confirm_add_duplicate" value="1">
-    Yes, add the reporter to CC list on [% orig_bug FILTER none %]
+    Dodaj zgłaszającego do listy obserwatorów [% orig_bug FILTER none %]
 </p>
 <p>
   <input type="radio" name="confirm_add_duplicate" value="0" checked="checked">
-    No, do not add the reporter to CC list on [% orig_bug FILTER none %]
+    Nie dodawaj zgłaszającego do listy obserwatorów [% orig_bug FILTER none %]
 </p>
 <p>
-  [% "Throw away my changes, and revisit $terms.bug $duplicate_bug_id"
+  [% "Odrzuć zmiany i przejdź do $terms.bledu $duplicate_bug_id"
      FILTER bug_link(duplicate_bug_id) FILTER none %]
 </p>
 <p>
-  <input type="submit" id="process" value="Submit">
+  <input type="submit" id="process" value="Wyślij">
 </p>
 
 </form>

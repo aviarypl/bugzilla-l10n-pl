@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -12,6 +13,8 @@
   #
   # Contributor(s): Shane H. W. Travis <travis@sedsystems.ca>
   #
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -24,24 +27,25 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-   title = "Default Preferences"
+   title = "Ustawienia domyślne"
  %]
 
 [% PROCESS "global/setting-descs.none.tmpl" %]
 
 <p>
-Ta strona umożliwia ustalenie domyślnych wartości dla opcji.
+Na tej stronie można ustalić domyślne wartości ustawień.
 </p>
 <p>
-Domyślna wartości opcji zostanie zastosowana dla wszystkich użytkowników, którzy nie
-zmienili wartości danej opcji lub nie są zalogowani.
+Domyślna wartość wyświetlana dla każdego ustawienia zostanie zastosowana dla wszystkich
+użytkowników, którzy nie określili swoich wartości i dla wszystkich, którzy nie są zalogowani.
 </p>
 <p>
-Pole 'Włączona' kontroluje, czy dana opcja jest dostępna dla użytkowników.<br>
-Jeśli jest ono zaznaczone, użytkownicy będą widzieć i mieć możliwość zmiany opcji
-w "Ustawieniach".<br>
-Jeśli pole nie zostanie zaznaczone, opcja nie będzie wyświetlana i wartość domyślna
-będzie używana przez wszystkich.
+Pole &bdquo;Włączone&rdquo; kontroluje, czy dane ustawienie jest dostępne
+dla użytkowników.<br>
+Jeśli jest ono zaznaczone, użytkownicy będą widzieć ustawienie na swojej stronie
+ustawień i będą mogli wybrać swoje wartości, jeśli tego sobie życzą.<br>
+Jeśli pole nie zostanie zaznaczone, ustawienie nie będzie wyświetlane
+i dla wszystkich zostanie zastosowana wartość domyślna.
 </p>
 <hr>
 
@@ -49,9 +53,9 @@ będzie używana przez wszystkich.
     <form name="adminsettingform" method="post" action="editsettings.cgi">
       <table border="1" cellpadding="4">
       <tr>
-        <th>Tekst opcji</th>
+        <th>Tekst ustawienia</th>
         <th>Wartość domyślna</th>
-        <th>Włączona</th>
+        <th>Włączone</th>
       </tr>
 
       [% FOREACH name = settings.keys %]
@@ -87,14 +91,14 @@ będzie używana przez wszystkich.
       <tr>
         <td width="150"></td>
         <td>
-          <input type="submit" id="update" value="Zastosuj">
+          <input type="submit" id="update" value="Zapisz zmiany">
         </td>
       </tr>
     </table>
   
   </form>
 [% ELSE %]
-  Brak opcji do edycji.
+  Brak ustawień do edycji.
 [% END %]
 
 [% PROCESS global/footer.html.tmpl %]

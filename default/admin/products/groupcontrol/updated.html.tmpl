@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -12,6 +13,7 @@
   #
   # Contributor(s): André Batosti <batosti@async.com.br> 
   #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -20,7 +22,7 @@
   #%]
 
 [% title = BLOCK %]
-    Update group access controls for [% product.name FILTER html %]
+    Aktualizacja elementów kontrolnych grupy dla produktu [% product.name FILTER html %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -29,21 +31,21 @@
 <p>
 [% IF changes.group_controls.now_na.size %]
   [% FOREACH g = changes.group_controls.now_na %]
-    Removing [% terms.bugs %] from group '[% g.name FILTER html %]' which
-    no longer applies to this product<p>
-    [% g.bug_count FILTER html %] [%+ terms.bugs %] removed<p>
+    Usuwanie [% terms.bledow %] z grupy „[% g.name FILTER html %]”, która
+    nie ma już zastosowania dla tego produktu<p>
+    Usunięte [%+ terms.bledy %]: [% g.bug_count FILTER html %]<p>
   [% END %]
 [% END %]
 
 [% IF changes.group_controls.now_mandatory.size %]
   [% FOREACH g = changes.group_controls.now_mandatory %]
-    Adding [% terms.bugs %] to group '[% g.name FILTER html %]' which is 
-    mandatory for this product<p>
-    [% g.bug_count FILTER html %] [%+ terms.bugs %] added<p>
+    Dodawanie [% terms.bledow %] do grupy „[% g.name FILTER html %]”, która
+    jest ponownie obligatoryjna dla tego produktu<p>
+    Dodane [%+ terms.bledy %]: [% g.bug_count FILTER html %]<p>
   [% END %]
 [% END %]
 
-Group control updates done<p>
+Aktualizacja elementów kontrolnych grupy została zakończona.<p>
 
 [% PROCESS admin/products/footer.html.tmpl %]
 

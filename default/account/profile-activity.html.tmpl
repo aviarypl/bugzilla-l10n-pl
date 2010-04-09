@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,7 @@
   #
   # Contributor(s): Vlad Dascalu <jocuri@softhome.net>
   #                 Gavin Shelley <bugzilla@chimpychompy.org>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -35,7 +37,7 @@
   #%]
 
 [% title = BLOCK %]
-  Dziennik konta dla '[% otheruser.login FILTER html %]'
+  Dziennik konta „[% otheruser.login FILTER html %]”
 [% END %]
 
 
@@ -74,11 +76,12 @@
 
 <p><a href="editusers.cgi?action=edit&amp;userid=
   [%- otheruser.id FILTER url_quote %]"
-  title="Edycja użytkownika '[% otheruser.login FILTER html %]'">Edycja użytkownika</a> | 
-  <a title="Wyszukiwanie użytkowników" href="editusers.cgi">Wyszukiwanie użytkowników</a>
+  title="Edycja użytkownika „[% otheruser.login FILTER html %]”">Edytuj użytkownika</a> lub
+  <a title="Wyszukiwanie użytkowników" href="editusers.cgi">Poszukaj innych kont</a>
   [% IF listselectionvalues.matchtype != 'exact' %]
-    | <a title="Lista użytkowników"
-       href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Lista użytkowników</a>
+    lub wróć <a title="Lista użytkowników"
+       href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">z powrotem
+    do listy użytkowników</a>
   [% END %]
 </p>
 

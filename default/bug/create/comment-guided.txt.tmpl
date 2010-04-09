@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%# INTERFACE:
   # This template has no interface.
@@ -28,26 +31,26 @@
 [% USE Bugzilla %]
 [% cgi = Bugzilla.cgi %]
 User-Agent:       [%+ cgi.user_agent() %]
-Build Identifier: [%+ cgi.param("buildid") %]
+Identyfikator kompilacji: [%+ cgi.param("buildid") %]
 
 [%+ cgi.param("comment") IF cgi.param("comment") %]
 
-[%+ IF cgi.param("reproducible") != "Choose one..." -%]
-Reproducible: [%+ cgi.param("reproducible") %]
+[%+ IF cgi.param("reproducible") != "Wybierz…" -%]
+Powtarzalność: [%+ cgi.param("reproducible") %]
 [% END %]
 
 [% IF !(cgi.param("reproduce_steps").match('^1\.\s*2\.\s*3\.\s*$') || cgi.param("reproduce_steps").match('^\s*$')) %]
-Steps to Reproduce:
+Kroki do odtworzenia:
 [%+ cgi.param("reproduce_steps") %]
 [% END %]
 
 [% IF cgi.param("actual_results") -%]
-Actual Results:  
+Aktualne wyniki:  
 [%+ cgi.param("actual_results") %]
 [% END %]
 
 [% IF cgi.param("expected_results") %]
-Expected Results:  
+Oczekiwane wyniki:  
 [%+ cgi.param("expected_results") %]
 [% END %]
 

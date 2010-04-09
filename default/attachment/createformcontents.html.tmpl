@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -19,6 +20,8 @@
   #                 Joel Peshkin <bugreport@peshkin.net>
   #                 Erik Stambaugh <erik@dasbistro.com>
   #                 Marc Schumann <wurblzap@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 <tr>
@@ -34,12 +37,12 @@
 </tr>
 [% IF Param("maxlocalattachment") %]
 <tr class="expert_fields">
-  <th>BigFile:</th>
+  <th>Duży plik:</th>
   <td>
     <input type="checkbox" id="bigfile"
            name="bigfile" value="bigfile">
     <label for="bigfile">
-      Duży plik - przechowywany poza bazą. Plik może być usunięty.
+      Duży plik - przechowywany lokalnie i może być usunięty.
     </label>
   </td>
 </tr>
@@ -48,7 +51,7 @@
 <tr class="expert_fields">
   <th><label for="attachurl">Adres URL</label>:</th>
   <td>
-    <em>Adres URL załącznika.</em><br>
+    <em>Zamiast dodawać załącznik, podaj jego adres URL.</em><br>
     <input type="text" id="attachurl" name="attachurl" size="60" 
            maxlength="2000"
            onkeyup="URLFieldHandler()" onblur="URLFieldHandler()">
@@ -64,9 +67,9 @@
   </td>
 </tr>
 <tr class="expert_fields">
-  <th>Typ pliku:</th>
+  <th>Typ zawartości:</th>
   <td>
-    <em>Jeśli załącznik jest łatką, należy zaznaczyć poniższe pole.</em><br>
+    <em>Jeśli załącznik jest łatką zaznacz poniższe pole.</em><br>
     <input type="checkbox" id="ispatch" name="ispatch" value="1"
            onchange="setContentTypeDisabledState(this.form);">
     <label for="ispatch">łatka</label><br><br>
@@ -77,20 +80,20 @@
       });
     </script>
 
-    <em>Metoda określenia typu zawartości.</em><br>
+    <em>Jeśli załącznik nie jest łatką, wybierz sposób określenia typu zawartości.</em><br>
     <input type="radio" id="autodetect"
            name="contenttypemethod" value="autodetect" checked="checked">
-      <label for="autodetect">autodetekcja</label><br>
+      <label for="autodetect">wykryj automatycznie</label><br>
     <input type="radio" id="list"
            name="contenttypemethod" value="list">
-      <label for="list">wybór z listy</label>:
+      <label for="list">wybierz z listy</label>:
       <select name="contenttypeselection" id="contenttypeselection"
               onchange="this.form.contenttypemethod[1].checked = true;">
         [% PROCESS "attachment/content-types.html.tmpl" %]
       </select><br>
     <input type="radio" id="manual"
                  name="contenttypemethod" value="manual">
-      <label for="manual">ręczny</label>:
+      <label for="manual">wprowadź ręcznie</label>:
       <input type="text" name="contenttypeentry" id="contenttypeentry"
              size="30" maxlength="200"
              onchange="if (this.value) this.form.contenttypemethod[2].checked = true;">

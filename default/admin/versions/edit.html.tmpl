@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -27,8 +30,8 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Edycja wersji '[% version.name FILTER html %]' produktu '
-                   [%- product.name FILTER html %]'[% END %]
+[% title = BLOCK %]Edycja wersji „[% version.name FILTER html %]” produktu 
+                   „[%- product.name FILTER html %]”[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
@@ -48,7 +51,7 @@
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="product" value="[% product.name FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type="submit" id="update" value="Zapisz">
+  <input type="submit" id="update" value="Zapisz zmiany">
 </form>
 
 [% PROCESS admin/versions/footer.html.tmpl

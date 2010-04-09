@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% title = "Edycja serii" %]
@@ -30,7 +32,7 @@
 [% IF changes_saved %]
   <p>
     <font color="red">
-      Seria uaktualniona.
+      Seria została uaktualniona.
     </font>
   </p>
 [% END %]
@@ -38,7 +40,7 @@
 <form method="get" action="chart.cgi" name="chartform">
   
   [% PROCESS reports/series.html.tmpl 
-     button_name = "Zmień zbiór danych" %]
+     button_name = "Zmień zestaw danych" %]
   <input type="hidden" name="action" value="alter">
   
   [% IF default.series_id %]
@@ -49,14 +51,14 @@
 <p>
   <b>Twórca</b>: 
   [% IF creator.email %]
-    <a href="mailto:[% creator.email FILTER html %]">
-    [% creator.email FILTER html %]</a>
+    <a href="mailto:[% default.creator.email FILTER html %]">
+    [% default.creator.email FILTER html %]</a>
   [% ELSE %]
     (automatycznie utworzona przez [% terms.Bugzille %])
   [% END %]
 </p>
 
-<p>Uwaga: nie jest możliwa edycja wyszukiwania związanego z tym zbiorem danych.
+<p>Uwaga: Jeszcze nie ma możliwości edycji wyszukiwania związanego z tym zestawem danych.
 </p>
 
 <p>

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,8 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Gabriel S. Oliveira <gabriel@async.com.br>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -25,14 +28,17 @@
 [% PROCESS global/header.html.tmpl
   title = title
   style_urls = ['skins/standard/admin.css']
+  javascript_urls = ['js/util.js']
 %]
 
 [% DEFAULT
   product.votesperuser = "0",
   product.maxvotesperbug  = "10000",
-  product.votestoconfirm = "0",
-  version = "unspecified",
-  product.defaultmilestone = "---"
+  product.votes_to_confirm = "0",
+  product.is_active = 1,
+  version = "nieokreślona",
+  product.defaultmilestone = constants.DEFAULT_MILESTONE
+  product.allows_unconfirmed = 0
 %]
 
 <form method="post" action="editproducts.cgi">

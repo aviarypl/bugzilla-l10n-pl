@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
    title = "Zabezpieczenia grup"
@@ -24,36 +27,32 @@
 %]
 
 [% param_descs = {
-  makeproductgroups => "Włączenie opcji spowoduje, że z każdym produktem w bazie zostanie skojarzona grupa dla ${terms.bledow}, " _
+  makeproductgroups => "Gdy ten parametr jest włączony, z każdym produktem w bazie zostanie skojarzona grupa dla $terms.bledow, " _
                        "która będzie używana przy zapytaniach o ${terms.bledy}.",
 
-  useentrygroupdefault => "Włączenie opcji spowoduje, że grupy dla $terms.bledow zostaną " _
-                          "użyte do ograniczenia dostępu do ${terms.bledow}. Przy włączonej opcji " _
-                          "użytkownicy mają dostęp do produktów, które mogą wybrać w menu wyszukiwania. " _
-                          "Przy wyłączonej opcji użytkownicy mają dostęp do wszystkich produktów, do których " _
-						  "dostęp nie został im jawnie odebrany.",
-						  
-  chartgroup => "Nazwa grupy, której członkowie mogą korzystać z funkcji 'Nowe wykresy'. " _
+  chartgroup => "Nazwa grupy, której członkowie mogą korzystać z funkcji <strong>Nowe wykresy</strong>. " _
                 "Przed udostępnieniem tej funkcji administrator powinien zapewnić, że publicznie " _
-                "dostępne kategorie i serie danych  nie mogą zostać użyte do ujawnienia poufnych informacji. " _
-                "Wartość pusta powoduje, że żaden użytkownik nie będzie mógł skorzystać z funkcji Nowe wykresy.",
+                "dostępne kategorie i serie danych nie mogą zostać użyte do ujawnienia poufnych informacji. " _
+                "Wartość pusta powoduje, że żaden użytkownik nie będzie mógł skorzystać z funkcji <strong>Nowe wykresy</strong>.",
 
-  insidergroup => "Nazwa grupy użytkowników, której członkowie mogą zobaczyć/zmieniać prywatne " _
+  insidergroup => "Nazwa grupy, której członkowie mogą widzieć/zmieniać prywatne " _
                   "komentarze i załączniki.",
 
-  timetrackinggroup => "Nazwa grupy użytkowników, której członkowie mogą zobaczyć/zmieniać informacje " _
+  timetrackinggroup => "Nazwa grupy, której członkowie mogą widzieć/zmieniać informacje " _
                        "o śledzeniu czasu pracy.",
 
-  querysharegroup => "Nazwa grupy użytkowników, której członkowie mogą udostępniać swoje " _
+  querysharegroup => "Nazwa grupy, której członkowie mogą udostępniać swoje " _
                      "zapisane wyszukiwania.",
 
-  usevisibilitygroups => "Czy ograniczyć możliwość podglądu innych użytkowników do członków określonej grupy?",
+  usevisibilitygroups => "Ogranicz możliwość podglądu innych użytkowników do " _
+                         "członków określonej grupy.",
   
-  strict_isolation => "Nie zezwalaj: przypisywać jako " _
-                      "kontaktów QA, " _
-                      "dodawać do list obserwatorów, " _
-                      "dodawać lub usuwać zależności " _
-                      "w błędach użytkownikom, którzy nie mają praw edycji do produktu zawierającego dany błąd."
+  strict_isolation => "Nie zezwalaj użytkownikom na przypisywanie " _
+                      "do specjalistów QA, " _
+                      "dodawanie do list obserwatorów, " _
+                      "lub dodawanie/usuwanie zależności " _
+                      "obejmujących każdy $terms.blad będący w produkcie, którego "_
+                      "użytkownik nie może edytować.",
 
  }
 %]

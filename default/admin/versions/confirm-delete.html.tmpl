@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -26,7 +29,7 @@
   #                    version the user wants to delete.
   #%]
 
-[% title = BLOCK %]Usuwanie wersji produktu '[% product.name FILTER html %]'
+[% title = BLOCK %]Usuwanie wersji produktu „[% product.name FILTER html %]”
   [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -50,8 +53,8 @@
   <td valign="top">[% terms.Bledy %]:</td>
   <td valign="top">
 [% IF version.bug_count %]
-  <a title="List of [% terms.bugs %] targetted at version '
-           [%- version.name FILTER html %]'"
+  <a title="Lista [% terms.bledow %] dla wersji 
+           „[%- version.name FILTER html %]”"
      href="buglist.cgi?version=[% version.name FILTER url_quote %]&amp;product=
           [%- product.name FILTER url_quote %]">
           [%- version.bug_count FILTER none %]</a>
@@ -66,14 +69,16 @@
 
 [% IF version.bug_count %]
   <p>
-  Niestety w tej wersji znajduje się nadal [% bug_count %] 
-    
-    [% PROCESS ODMIEN c=version.bug_count o1="$terms.blad"
-        o2="$terms.bledy" o3="$terms.bledow" %].
+  Niestety w tej wersji nadal
+  [% IF version.bug_count > 1 %] 
+    znajdują się [%+ terms.bledy %]: [% version.bug_count FILTER none %] 
+  [% ELSE %]
+    znajduje się [% version.bug_count FILTER none %] [%+ terms.blad %] 
+  [% END %].
 
   Należy przenieść 
 
-  [% IF version.bug_count > 1 %]
+  [% IF bug_count > 1 %]
      ten [% terms.blad %] 
   [% ELSE %]
      te [% terms.bledy %]
@@ -82,10 +87,10 @@
   </p>
 [% ELSE %]
 
-  <p>Do you really want to delete this version?</p>
+  <p>Czy na pewno chcesz usunąć tę wersję?<p>
   
   <form method="post" action="editversions.cgi">
-    <input type="submit" id="delete" value="Tak, usuń">
+    <input type="submit" value="Tak">
     <input type="hidden" name="action" value="delete">
     <input type="hidden" name="product" value="[% product.name FILTER html %]">
     <input type="hidden" name="version" value="[% version.name FILTER html %]">

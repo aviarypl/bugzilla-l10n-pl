@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -26,23 +29,20 @@
 
 [% USE Bugzilla %]
 
+[% PROCESS "bug/show-header.html.tmpl" %]
+
 [% IF    title_tag == "bug_processed" %]
   [% title = BLOCK %]
     [% IF Bugzilla.cgi.param('id') %]
-      [% terms.Bug %] [%+ id FILTER html %]
+      [% terms.Blad %] [%+ id FILTER html %] został przetworzony
     [% ELSE %]
-      [% terms.Bugs %]
+      [% terms.Bledy %] zostały przetworzone
     [% END %]
-    processed
   [% END %]
 [% ELSIF title_tag == "mid_air" %]
-  [% title = "Mid-air collision!" %]
+  [% title = "Kolizja wysyłania!" %]
 [% ELSIF title_tag == "change_votes" %]
-  [% title = "Change Votes" %]
+  [% title = "Zmiana głosów" %]
 [% END %]
 
-[% PROCESS global/header.html.tmpl
-  javascript_urls = [ "js/util.js", "js/field.js", "js/yui/calendar.js" ]
-  style_urls = [ "skins/standard/yui/calendar.css", "skins/standard/show_bug.css" ]
-  doc_section = "bug_page.html"
-%]
+[% PROCESS global/header.html.tmpl %]

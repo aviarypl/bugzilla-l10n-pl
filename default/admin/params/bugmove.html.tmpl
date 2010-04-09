@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
    title = "Przenoszenie $terms.bledow"
@@ -24,21 +27,21 @@
 %]
 
 [% param_descs = {
-  "move-enabled" => "Włączenie opcji umożliwi pewnym użytkownikom $terms.Bugzilli " _
-                    "przenoszenie $terms.bledow do innej zdefiniowanej bazy danych.",
+  "move-enabled" => "Gdy ten parametr jest włączony, niektórzy użytkownicy $terms.Bugzilli " _
+                    "mogą przenosić $terms.bledy do innej zdefiniowanej bazy danych.",
 
-  "move-button-text" => "Tekst na przycisku przenoszenia. Proszę wpisać system docelowy, do " _
-                        "którego $terms.blad jest przenoszony.",
+  "move-button-text" => "Tekst na przycisku przenoszenia. Wyjaśni, gdzie $terms.blad zostanie " _
+                        "przeniesiony. Podaj nowe miejsce docelowe.",
 
   "move-to-url" => "Adres URL bazy, do której można przenosić $terms.bledy z tej bazy.",
 
   "move-to-address" => "Przy przenoszeniu ${terms.bledow} wysyłany jest e-mail do bazy docelowej. " _
-                       "Wartość ta określa adres e-mail bazy docelowej, który przenaczony jest do odbioru " _
-					   "przenoszonych zgłoszeń ${terms.bledow}.",
+                       "Wartość ta określa adres e-mail bazy docelowej, który przeznaczony jest do odbioru " _
+                       "przenoszonych zgłoszeń ${terms.bledow}.",
 
   "moved-from-address" => "Przy przenoszeniu ${terms.bledow} wysyłany jest e-mail do bazy docelowej. " _
                           "Wartość ta określa źródłowy adres e-mail, z którego wysyłane są żądania " _
-						  "przeniesienia i na który przesyłane są ewentualne komunikaty błędów.",
+                          "przeniesienia i na który przesyłane są ewentualne komunikaty błędów.",
 
   movers => "Lista użytkowników uprawnionych do przenoszenia i ponownego otwierania przenoszonych " _
             "${terms.bledow} (w razie niepowodzenia operacji).",

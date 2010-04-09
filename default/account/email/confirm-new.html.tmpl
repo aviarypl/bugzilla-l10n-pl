@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,7 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -25,9 +27,9 @@
            onload = "document.forms['confirm_account_form'].realname.focus();" %]
 
 <div>
-  To create your account, you must enter a password in the form below.
-  Your email address and Real Name (if provided) will be shown with
-  changes you make.
+  Aby utworzyć konto, należy wybrać hasło i wpisać je do poniższego formularza.
+  Twój adres e-mail oraz imię i nazwisko – jeśli zostało podane – będą widoczne
+  po dokonaniu zmian.
 </div>
 
 <form id="confirm_account_form" method="post" action="token.cgi">
@@ -39,7 +41,7 @@
       <td>[% email FILTER html %]</td>
     </tr>
     <tr>
-      <th align="right"><small><i>(OPTIONAL)</i></small> <label for="realname">Imię i nazwisko</label>:</th>
+      <th align="right"><small><i>(opcjonalne)</i></small> <label for="realname">Imię i nazwisko</label>:</th>
       <td><input type="text" id="realname" name="realname" value=""></td>
     </tr>
     <tr>
@@ -58,19 +60,19 @@
 </form>
 
 <p>
-  This account will not be created if this form is not completed by
-  <u>[% expiration_ts FILTER time("%B %e, %Y at %H:%M %Z") %]</u>.
+  Konto nie zostanie utworzone, jeśli tworzenie konta nie zostanie poprawnie ukończone przed
+  <u>[% expiration_ts FILTER time("%e %B %Y  %H:%M %Z") %]</u>.
 </p>
 
 <p>
-  If you do not wish to create an account with this email click the
-  cancel account button below and your details will be forgotten.
+  Jeśli nie chcesz utworzyć konta z tym adresem e-mail, naciśnij
+  przycisk anulowania konta znajdujący się poniżej. Wprowadzone dane zostaną usunięte.
 </p>
 
 <form id="cancel_account_form" method="post" action="token.cgi">
   <input type="hidden" name="t" value="[% token FILTER html %]">
   <input type="hidden" name="a" value="cancel_new_account">
-  <input type="submit" id="confirm" value="Cancel Account">
+  <input type="submit" id="confirm" value="Anuluj konto">
 </form>
 
 [% PROCESS global/footer.html.tmpl %]

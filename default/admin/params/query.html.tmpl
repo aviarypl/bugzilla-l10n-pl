@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,42 +18,43 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
    title = "Wartości domyślne zapytań"
-   desc = "Wartości domyślne zapytań i list błędów"
+   desc = "Wartości domyślne zapytań i list $terms.bledow"
 %]
 
 [% param_descs = {
-  quip_list_entry_control => "Określa zasady rozszerzania listy sentencji:
+  quip_list_entry_control => "Ten parametr określa zasady dodawania sentencji do zbioru:
                               <ul>
                                 <li>
-                                  open - użytkownicy mogą dowolnie dodawać sentencje, a
-                                  ich wpisy będą natychmiast dostępne i używane.
+                                  <strong>otwarte</strong> - użytkownicy mogą dowolnie dodawać sentencje, a
+                                  wpisy te będą natychmiast dostępne do użycia,
                                 </li>
                                 <li>
-                                  moderated - można dodawać sentencje, ale przed ich użyciem muszą być
-                                  one zatwierdzone przez administratora.
+                                  <strong>moderowane</strong> - można dodawać sentencje, ale zanim będzie można 
+                                  je używać muszą być zatwierdzone przez administratora,
                                 </li>
                                 <li>
-                                  closed - nie można dodawać nowych sentencji.
+                                  <strong>zamknięte</strong> - nie można dodawać nowych sentencji.
                                 </li>
                               </ul>",
 
-  mostfreqthreshold => "Ilość duplikatów $terms.bledu, po osiągnięciu której zostanie on wyświetlony w liście " _
+  mostfreqthreshold => "Liczba duplikatów $terms.bledu po osiągnięciu, której zostanie on wyświetlony na liście " _
                        "<a href=\"duplicates.cgi\">najczęściej zgłaszanych $terms.bledow</a>. " _
                        "W przypadku dużej bazy i długiego czasu wczytywania strony z ww. listą, należy " _
                        "zwiększyć tę wartość.",
 
-  mybugstemplate => "Adres URL wyświetlający prostą listę 'wszystkie moje $terms.bledy'. " _
+  mybugstemplate => "Adres URL wyświetlający prostą listę <strong>wszystkie moje $terms.bledy</strong>. " _
                     "Zmienna %userid% będzie zamieniona na nazwę użytkownika.",
 
   defaultquery => "Domyślne zapytanie po otwarciu strony zaawansowanego wyszukiwania. " _
                   "Zapytanie w trudno czytelnym formacie parametrów URL. Przepraszamy.",
 
-  quicksearch_comment_cutoff => "Maksymalna liczba słów dla szybkiego wyszukiwania w komentarzach. " _
-                                "Jeśli szybkie zapytanie zawiera więcej słów niż podana wartość, to " _
-                                "komentarze nie będą przeszukiwane.",
+  specific_search_allow_empty_words => 
+    "Ten parametr określa czy na stronie wyszukiwania zezwolić na wyszukiwanie"
+    _ " błędów z pustym polem <strong>Słowa</strong>.",
 
-  specific_search_allow_empty_words => "Określa, czy na stronie wyszukiwania zezwolić na wyszukiwanie błędów z pustym polem 'Słowa'." }
-%]
+} %]

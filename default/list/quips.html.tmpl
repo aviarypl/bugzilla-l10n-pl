@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -36,9 +38,9 @@
 [% IF added_quip %]
   <p>
     <font color="red">
-      Sentencja '<tt>[% added_quip FILTER html %]</tt>' została dodana.
+      Sentencja „<tt>[% added_quip FILTER html %]</tt>” została dodana.
       [% IF Param("quip_list_entry_control") == "moderated" AND !user.in_group('admin') %]
-        Zostanie ona wykorzystana po jej zatwierdzeniu.
+        Zostanie wykorzystana po jej zatwierdzeniu.
       [% END %]
     </font>
   </p>
@@ -47,13 +49,13 @@
 [% IF deleted_quip %]
   <p>
     <font color="red">
-      Sentencja '<tt>[% deleted_quip FILTER html %]</tt>' została usunięta.
+      Sentencja „<tt>[% deleted_quip FILTER html %]</tt>” została usunięta.
     </font>
   </p>
 [% END %]
 
 [% IF approved or unapproved %]
-  <p>[% approved.size %] sentencji zatwierdzonych [% unapproved.size %] niezatwierdzonych</p>
+  <p>[% approved.size %] sentencji zatwierdzonych, [% unapproved.size %] niezatwierdzonych</p>
 [% END %]
 
 
@@ -64,11 +66,10 @@
 
 [% IF Param("quip_list_entry_control") != "closed" %]
   <p>
-   Zbiór sentencji może zostać rozszerzony. Można wpisać coś
-   ciekawego, zabawnego lub nudnego (lecz nie obscenicznego lub obraźliwego)
-   i nacisnąć przycisk.
-    [% IF Param("quip_list_entry_control") == "moderated" AND !user.groups.admin %]
-      Sentencja musi zostać zatwierdźona, zanim zostanie użyta po raz pierwszy.
+    Zbiór sentencji można powiększyć. Napisz coś ciekawego, zabawnego
+    lub nudnego, lecz nie obscenicznego lub obraźliwego i naciśnij przycisk.
+    [% IF Param("quip_list_entry_control") == "moderated" AND !user.in_group('admin') %]
+      Sentencja zanim zostanie użyta musi zostać zatwierdzona.
     [% END %]
   </p>
 
@@ -76,18 +77,18 @@
     <input type="hidden" name="action" value="add">
     <input size="80" name="quip">
     <p>
-      <input type="submit" id="add" value="Dodaj sentencje">
+      <input type="submit" id="add" value="Dodaj sentencję">
     </p>
   </form>
 [% ELSE %]
-  <p>Nowe sentencje nie mogą być w tej chwili dodawane.
+  <p>Obecnie nowe sentencje nie mogą być dodawane.
   </p>
 [% END %]
 
 [% IF show_quips %]
   [% IF !user.in_group('admin') %]
     <h2>
-      Istniejące sentencje
+      Istniejące sentencje:
     </h2>
     <ul>
       [% FOREACH quipid = quipids %]
@@ -98,9 +99,8 @@
   [% ELSE %]
     <h2>Edycja istniejących sentencji</h2>
     <p>
-      <strong>Uwaga:</strong> wyświetlane będą wyłącznie sentencje, które
-      zostały uprzednio zatwierdzone.
-      Jeśli parametr 'quip_list_entry_control' został ustawiony na <q>open</q>,
+      <strong>Uwaga:</strong> Będą wyświetlane tylko zatwierdzone sentencje.
+      Jeśli parametr „quip_list_entry_control” został ustawiony na „open”,
       nowe sentencje będą akceptowane automatycznie.
     </p>
     <form name="editform" method="post" action="quips.cgi">
@@ -109,7 +109,7 @@
         <thead><tr>
           <th>Sentencja</th>
           <th>Autor</th>
-          <th>Akcja</th>
+          <th>Czynność</th>
           <th>Zatwierdzona</th>
         </tr></thead><tbody>
         [% FOREACH quipid = quipids %]
@@ -122,7 +122,7 @@
             </td>
             <td>
               <a href="quips.cgi?action=delete&amp;quipid=[% quipid FILTER url_quote %]">
-                Delete
+                Usuń
               </a>
             </td>
             <td>
@@ -147,18 +147,18 @@
           }
         }
         document.write(' <input type="button" name="uncheck_all" '
-                      +'value="Uncheck All" onclick="SetCheckboxes(false);">');
+                      +'value="Odznacz wszystkie" onclick="SetCheckboxes(false);">');
         document.write(' <input type="button" name="check_all" '
-                      +'value="Check All" onclick="SetCheckboxes(true);">');
+                      +'value="Zaznacz wszystkie" onclick="SetCheckboxes(true);">');
         //--></script>
 
-      <input type="submit" id="update" value="Zapisz">
+      <input type="submit" id="update" value="Zapisz zmiany">
     </form>
     <br>
   [% END %]
 [% ELSE %]
   <p>
-    Ci, którzy lubią mądrość w dużej ilości, mogą
+    Ci, którzy lubią mądrość w dużej ilości mogą
     <a href="quips.cgi?action=show">obejrzeć
     [% IF user.in_group('admin') %]
       lub edytować

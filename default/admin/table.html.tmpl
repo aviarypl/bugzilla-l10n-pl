@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Jouni Heikniemi <jouni@heikniemi.net>
   #
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -162,9 +165,9 @@
         [% ELSE %]
           [% IF yesno_field %]
             [% IF row.${c.name} %]
-              Yes
+              Tak
             [% ELSE %]
-              No
+              Nie
             [% END %]
           [% ELSE %]
             [% IF allow_html_content %]
@@ -185,7 +188,7 @@
 [% END %]
 
 [% IF data.size == 0 %]
-  <tr><td colspan="[% columns.size %]" align="center"><i>&lt;none&gt;</i></td></tr>
+  <tr><td colspan="[% columns.size %]" align="center"><i>&lt;brak&gt;</i></td></tr>
 [% END %]
 
 

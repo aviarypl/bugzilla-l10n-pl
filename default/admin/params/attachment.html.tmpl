@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
    title = "Załączniki"
@@ -25,55 +28,53 @@
 
 [% param_descs = {
   allow_attachment_display =>
-    "If this option is on, users will be able to view attachments from"
-    _ " their browser, if their browser supports the attachment's MIME type."
-    _ " If this option is off, users are forced to download attachments,"
-    _ " even if the browser is able to display them."
-    _ "<p>This is a security restriction for installations where untrusted"
-    _ " users may upload attachments that could be potentially damaging if"
-    _ " viewed directly in the browser.</p>"
-    _ "<p>It is highly recommended that you set the <tt>attachment_base</tt>"
-    _ " parameter if you turn this parameter on.",
+    "Jeśli parametr ten jest włączony i przeglądarka użytkowników obsługuje typ MIME,"
+    _ " będą oni mogli oglądać załączniki z poziomu swojej przeglądarki."
+    _ " Jeśli parametr ten jest wyłączony, użytkownicy muszą pobrać załączniki,"
+    _ " nawet jeśli przeglądarka może je wyświetlać."
+    _ "<p>Jest to zabezpieczenie dla instalacji, w których niezaufani użytkownicy"
+    _ " oglądający załączniki w przeglądarce mogą wgrać potencjalnie szkodliwe"
+    _ " załączniki.</p>"
+    _ "<p>Jeśli ten parametr został włączony, jest wysoce zalecane włączenie znajdującego"
+    _ " się poniżej parametru <tt>attachment_base</tt>.",
 
   attachment_base => 
-    "When the <tt>allow_attachment_display</tt> parameter is on, it is "
-    _ " possible for a malicious attachment to steal your cookies or"
-    _ " perform an attack on $terms.Bugzilla using your credentials."
-    _ "<p>If you would like additional security on attachments to avoid"
-    _ " this, set this parameter to an alternate URL for your $terms.Bugzilla"
-    _ " that is not the same as <tt>urlbase</tt> or <tt>sslbase</tt>."
-    _ " That is, a different domain name that resolves to this exact"
-    _ " same $terms.Bugzilla installation.</p>"
-    _ "<p>Note that if you have set the"
-    _ " <a href=\"editparams.cgi?section=core#cookiedomain\"><tt>cookiedomain</tt>"
-    _" parameter</a>, you should set <tt>attachment_base</tt> to use a"
-    _ " domain that would <em>not</em> be matched by"
+    "Gdy parametr <tt>allow_attachment_display</tt> jest włączony, istnieje "
+    _ " możliwość, że złośliwy załącznik zakradnie się do ciasteczek lub"
+    _ " wykona atak na $terms.Bugzille, używając Twojej tożsamości."
+    _ "<p>Jeśli, by tego uniknąć, chcesz dodatkowo zabezpieczyć załączniki"
+    _ " ustaw dla $terms.Bugzilli ten parametr na alternatywny URL,"
+    _ " inny niż <tt>urlbase</tt>, czy <tt>sslbase</tt>."
+    _ " Jest to inna nazwa domeny, która określa dokładnie taką samą"
+    _ " instalację Bugzilli.</p>"
+    _ "<p>Jeśli ustawisz parametr"
+    _ " <a href=\"editparams.cgi?section=core#cookiedomain\">"
+    _ " <tt>cookiedomain</tt></a>, należy ustawić <tt>attachment_base</tt>, by używał"
+    _ " domeny, która <em>nie</em> będzie pasowała do"
     _ " <tt>cookiedomain</tt>.</p>"
-    _ "<p>For added security, you can insert <tt>%bugid%</tt> into the URL,"
-    _ " which will be replaced with the ID of the current $terms.bug that"
-    _ " the attachment is on, when you access an attachment. This will limit"
-    _ " attachments to accessing only other attachments on the same"
-    _ " ${terms.bug}. Remember, though, that all those possible domain names "
-    _ " (such as <tt>1234.your.domain.com</tt>) must point to this same"
-    _ " $terms.Bugzilla instance.",
+    _ "<p>W celu dodatkowych zabezpieczeń można do adresu URL wstawić <tt>%bugid%</tt>,"
+    _ " który w momencie otwierania załącznika będzie zamieniany z ID bieżącego"
+    _ " $terms.bledu, do którego załącznik jest dołączony. Będzie to ograniczało"
+    _ " dostęp do innych załączników dołączonych do tego samego"
+    _ " ${terms.bledu}. Pamiętaj, że wszystkie nazwy domen "
+    _ " takie, jak <tt>1234.your.domain.com</tt> muszą wskazywać na tę samą"
+    _ " instalację Bugzilli.",
 
-  allow_attachment_deletion => "Jeśli opcja ta jest włączona, administratorzy będą mogli " _
+  allow_attachment_deletion => "Jeśli parametr ten jest włączony, administratorzy będą mogli " _
                                "usuwać zawartość załączników.",
 
-  allow_attach_url => "W przypadku włączenia tej opcji możliwe będzie " _
+  allow_attach_url => "Jeśli ten parametr zostanie włączony, możliwe będzie " _
                       "podanie adresu URL podczas tworzenia załącznika " _
-                      "i traktowania tego adresu URL jako załącznik.",
+                      "i traktowania tego adresu jako załącznika.",
 
-  maxattachmentsize => "Maksymalny rozmiar załączników niebędących łatkami (w kilobajtach). " _
-                       "System $terms.Bugzilla nie zaakceptuje załączników - łatek większych niż podana wartość. " _
-				   "Aby włączyć akceptowanie łatek dowolnych rozmiarów (zależnie również od serwera WWW), " _
-				   "należy ustawić wartość 0.",
+  maxattachmentsize => "Maksymalny rozmiar załączników (w kilobajtach). " _
+                       "$terms.Bugzilla nie zaakceptuje załączników większych niż " _
+                       "podana tutaj wartość. Aby włączyć akceptowanie załączników  " _
+                       "dowolnych rozmiarów, zależne także od oprogramowania serwera, " _
+                       "należy ustawić wartość 0.",
 
-  maxlocalattachment => "Maksymalny rozmiar załączników określanych jako 'duży plik' (w megabajtach), " _
-                        "które będą przechowywane na serwerze. " _
-                        "Wartość zero oznacza, że załączniki nie będą przechowywane w systemie plików " _
-                        "serwera.",
-
-  convert_uncompressed_images => "W przypadku włączenia tej opcji w celu zaoszczędzenia miejsca, załączniki typu image/bmp " _
-                                 "zostaną przekonwertowane do image/png i skompresowane przed zapisem do bazy danych." }
+  maxlocalattachment => "Maksymalny rozmiar załączników określanych jako „duży plik” (w megabajtach), " _
+                        "które będą przechowywane na lokalnym serwerze. " _
+                        "Wartość zero oznacza, że załączniki nie będą przechowywane w lokalnym " _
+                        "systemie plików."}
 %]

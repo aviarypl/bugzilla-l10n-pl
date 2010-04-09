@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -12,6 +13,7 @@
   #
   # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -19,15 +21,15 @@
   #%]
   
 [% title = BLOCK %]
-  Dodawanie wartości do pola '[% field.description FILTER html %]' ([% field.name FILTER html %]) field
+  Dodawanie wartości do pola „[% field.description FILTER html %]” ([% field.name FILTER html %])
 [% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
 
 <p>
-  Ta strona pozwala dodać nową wartość dla pola
-  '[% field.description FILTER html %]'.
+  Na tej stronie można dodać nową wartość dla pola 
+  „[% field.description FILTER html %]”.
 </p>
 
 <form method="post" action="editvalues.cgi">
@@ -45,7 +47,7 @@
     </tr>
     [% IF field.name == "bug_status" %]
       <tr>
-        <th align="right"><label for="is_open">Rodzaj statusu:</label></th>
+        <th align="right"><label for="is_open">Typ statusu:</label></th>
         <td>
           <input type="radio" id="open_status" name="is_open" value="1" 
                  checked="checked">
@@ -57,16 +59,16 @@
       <tr>
         <th>&nbsp;</th>
         <td>
-          Uwaga: Parametr 'Rodzaj statusu' (Otwarty/Zamknięty) może być ustawiony
-          wyłącznie podczas tworzenia nowego statusu. Nie może być edytowany później.
+          Informacja: Atrybuty otwarty/zamknięty mogą być określone tylko teraz, podczas tworzenia
+          statusu. Nie mogą być później edytowane.
         </td>
       </tr>
     [% END %]
     [% IF field.value_field %]
       <tr>
         <th align="right">
-          <label for="visibility_value_id">Wartość jest dostępna, jeżeli pole
-           [%+ field.value_field.description FILTER html %] jest ustawione na:
+          <label for="visibility_value_id">Wyświetlany jest tylko, gdy
+           [%+ field.value_field.description FILTER html %] jest ustawiony na:
           </label>
         </th>
         <td>
@@ -79,7 +81,7 @@
               </option>
             [% END %]
           </select>
-          <small>(Zostaw puste, jeżeli wartość dla pola jest zawsze dostępna.)</small>
+          <small>(Pozostaw nieustawione, jeśli chcesz, by wartość ta była zawsze wyświetlana.)</small>
         </td>
       </tr>
     [% END %]

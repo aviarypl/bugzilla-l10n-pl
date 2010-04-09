@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -18,6 +19,7 @@
   # Contributor(s): Chris Lahey <clahey@ximian.com> [javascript fixes]
   #                 Christian Reis <kiko@async.com.br> [javascript rewrite]
   #                 Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS "global/field-descs.none.tmpl" %]
@@ -125,7 +127,7 @@ function doOnSelectProduct(selectmode) {
 <table>
   <tr>
     <th align="right">
-      <label for="short_desc" accesskey="d">Po<u>d</u>sumowanie</label>:
+      <label for="short_desc" accesskey="p">Krótki o<u>p</u>is</label>:
     </th>
     <td>
       [% INCLUDE "search/type-select.html.tmpl"
@@ -153,12 +155,13 @@ function doOnSelectProduct(selectmode) {
     <td colspan="4">
       <table>
         <tr>
+        [% Hook.process('before_selects_top') %]
         [% IF Param('useclassification') %]
           <td valign="top">
             <table>
               <tr valign="bottom">
                 <th align="left">
-                  <label for="classification">Klasyfikacja</label>:
+                  <label for="classification">Kategoria</label>:
                 </th>
               </tr>
               <tr valign="top">
@@ -205,7 +208,7 @@ function doOnSelectProduct(selectmode) {
             <table>
               <tr valign="bottom">
                 <th align="left">
-                  <label for="component" accesskey="K"><a href="describecomponents.cgi"><u>K</u>omponent</a></label>:
+                  <label for="component" accesskey="k"><a href="describecomponents.cgi"><u>K</u>omponent</a></label>:
                 </th>
               </tr>
               <tr valign="top">
@@ -242,7 +245,7 @@ function doOnSelectProduct(selectmode) {
             <table>
               <tr valign="bottom">
                 <th align="left">
-                  <label for="target_milestone">Wer. docelowa</label>:
+                  <label for="target_milestone">Wersja docelowa</label>:
                 </th>
               </tr>
               <tr valign="top">
@@ -252,6 +255,7 @@ function doOnSelectProduct(selectmode) {
             </table>
           </td>
         [% END %]
+        [% Hook.process('after_selects_top') %]
         </tr>
       </table>
     </td>
@@ -259,22 +263,29 @@ function doOnSelectProduct(selectmode) {
 
 [%# *** Comment URL Whiteboard Keywords *** %]
 
-  [% FOREACH field = [
-    { name => "longdesc", description => "K<u>o</u>mentarz",
-      accesskey => 'o' },
-    { name => "bug_file_loc", description => "Adres&nbsp;<u>U</u>RL",
-      accesskey => 'u' },
+  [% SET freetext_fields = [
+    { name => "longdesc", description => "Ko<u>m</u>entarz",
+      accesskey => 'm' },
+    { name => "bug_file_loc", description => "<u>A</u>dres&nbsp;URL",
+      accesskey => 'a' },
     { name => "status_whiteboard", description => "<u>T</u>ablica",
-      accesskey => 'w' } ] %]
+      accesskey => 't' } 
+  ] %]
 
-    [% UNLESS field.name == 'status_whiteboard' AND NOT Param('usestatuswhiteboard') %]
+  [% Hook.process('before_freetext_fields') %]
+  [% FOREACH field = freetext_fields %]
+    [% NEXT IF field.name == 'status_whiteboard' 
+               AND NOT Param('usestatuswhiteboard') 
+    %]
     <tr>
       <th align="right">
-        <label for="[% field.name %]" accesskey="[% field.accesskey %]">[% field.description %]</label>:
+        <label for="[% field.name %]" 
+               accesskey="[% field.accesskey %]">[% field.description %]</label>:
       </th>
       <td>
+        [% type = field.name _ "_type" %]
         [% INCLUDE "search/type-select.html.tmpl"
-           name = field.name _ "_type",
+           name = type,
            types = query_types, selected = default.$type.0 %]
       </td>
       <td><input name="[% field.name %]" id="[% field.name %]" size="40"
@@ -282,18 +293,17 @@ function doOnSelectProduct(selectmode) {
       </td>
       <td></td>
     </tr>
-    [% END %]
   [% END %]
 
-  [% IF have_keywords %]
+  [% IF use_keywords %]
     <tr>
       <th align="right">
-        <label for="keywords" accesskey="w"><a href="describekeywords.cgi">Sło<u>w</u>a kluczowe</a></label>:
+        <label for="keywords" accesskey="w"><a href="describekeywords.cgi">Sło<u>w</>a kluczowe</a></label>:
       </th>
       <td>
         [% INCLUDE "search/type-select.html.tmpl"
            name = "keywords_type",
-           types = ['allwords', 'anywords', 'nowords'], 
+           types = ['allwords', 'anywords', 'nowords', 'regexp', 'notregexp'],
            selected = default.keywords_type.0 %]
       </td>
       <td>
@@ -304,10 +314,10 @@ function doOnSelectProduct(selectmode) {
   [% END %]
 
   [%# Deadline %]
-  [% IF user.in_group(Param("timetrackinggroup")) %]
+  [% IF user.is_timetracker %]
     <tr>
       <th align="right">
-        <label for="deadlinefrom" accesskey="l"><u>T</u>ermin</label>:
+        <label for="deadlinefrom" accesskey="e">T<u>e</u>rmin</label>:
       </th>
       <td>
         od <input name="deadlinefrom" id="deadlinefrom" size="10" maxlength="10"
@@ -320,6 +330,8 @@ function doOnSelectProduct(selectmode) {
       </td>
     </tr>
   [% END %]
+
+  [% Hook.process('after_freetext_fields') %]
   
 </table>
 
@@ -329,11 +341,12 @@ function doOnSelectProduct(selectmode) {
 
 <table>
   <tr>
+    [% Hook.process('before_selects_bottom') %]
     <td>
       <table>
         <tr>
           <th align="left">
-            <label for="bug_status" accesskey="a">St<u>a</u>tus</label>:
+            <label for="bug_status" accesskey="s"><u>S</u>tatus</label>:
           </th>
         </tr>
         <tr valign="top">
@@ -385,7 +398,7 @@ function doOnSelectProduct(selectmode) {
       <table>
         <tr>
           <th align="left">
-            <label for="rep_platform" accesskey="h">Pl<u>a</u>tforma</label>:
+            <label for="rep_platform" accesskey="f">Plat<u>f</u>orma</label>:
           </th>
         </tr>
         <tr valign="top">
@@ -407,6 +420,7 @@ function doOnSelectProduct(selectmode) {
         </tr>
       </table>
     </td>
+    [% Hook.process('after_selects_bottom') %]
   </tr>
 </table>
 
@@ -445,7 +459,7 @@ function doOnSelectProduct(selectmode) {
              id="emailassigned_to[% n %]" value="1"
              [% " checked" IF default.emailassigned_to.$n %]>
       <label for="emailassigned_to[% n %]">
-        właściciela [% terms.bledu %] 
+        beneficjenta [% terms.bledu %]
       </label>
     </td>
   </tr>
@@ -466,7 +480,7 @@ function doOnSelectProduct(selectmode) {
              id="emailqa_contact[% n %]" value="1"
              [% " checked" IF default.emailqa_contact.$n %]>
       <label for="emailqa_contact[% n %]">
-        kontaktu QA
+        specjalisty QA
       </label>
     </td>
   </tr>
@@ -497,7 +511,7 @@ function doOnSelectProduct(selectmode) {
       [% FOREACH qv = [
         { name => "substring", description => "zawiera" },
         { name => "exact", description => "jest" },
-        { name => "notequals", description => "nie jest" },
+        { name => "notequals", description => "różna od" },
         { name => "regexp", description => "pasuje do wyr.reg." },
         { name => "notregexp", description => "nie pasuje do wyr.reg." } ] %]
 
@@ -523,11 +537,11 @@ function doOnSelectProduct(selectmode) {
 <table>
   <tr>
     <td>
-      <select name="bugidtype">
-        <option value="include"[% " selected" IF default.bugidtype.0 == "include" %]>tylko </option>
-        <option value="exclude"[% " selected" IF default.bugidtype.0 == "exclude" %]>oprócz</option>
+      <select name="bug_id_type">
+        <option value="anyexact"[% " selected" IF default.bug_id_type.0 == "anyexact" %]>zawiera</option>
+        <option value="nowords"[% " selected" IF default.bug_id_type.0 == "nowords" %]>oprócz</option>
       </select>
-      <label for="bug_id">[% terms.bledu %] o numerze</label>:
+      <label for="bug_id">Numery [% terms.bledow %]</label>:
     </td>
     <td>
       <input type="text" name="bug_id" id="bug_id"
@@ -536,17 +550,17 @@ function doOnSelectProduct(selectmode) {
   </tr>
   <tr>
     <td></td>
-    <td>(oddz. przecinkami)</td>
+    <td>(oddz.przecinkami)</td>
   </tr>
   [% IF Param('usevotes') %]
     <tr>
       <td align="right">
-        <label for="votes">Minimalna liczba głosów [% terms.bledow %] </label>:
+        <label for="votes">Minimalna liczba głosów</label>:
       </td>
       <td>
         <input name="votes" id="votes" size="3"
                value="[% default.votes.0 FILTER html %]">
-        głos/głosów
+        głosów
       </td>
     </tr>
   [% END %]
@@ -571,7 +585,7 @@ function doOnSelectProduct(selectmode) {
     <input name="chfieldfrom" id="chfieldfrom"
            size="10" value="[% default.chfieldfrom.0 FILTER html %]">
     a <input name="chfieldto" size="10" value="[% default.chfieldto.0 FILTER html %]">
-    <br>(RRRR-MM-DD lub względne daty)
+    <br>(RRRR-MM-DD lub relatywne daty)
   </dd>
   <dt>
     <label for="chfield">w których zmieniono pole/pola</label>:
@@ -611,17 +625,20 @@ function doOnSelectProduct(selectmode) {
   <td align="left">
     <select name="[% sel.name %]" id="[% sel.name %]"
             multiple="multiple" size="[% sel.size %]">
-      [% FOREACH name = ${sel.name} %]
-        <option value="[% name FILTER html %]"
-          [% " selected" IF lsearch(default.${sel.name}, name) != -1 %]>
-          [% IF sel.name == "bug_status" %]
-            [% get_status(name) FILTER html %]
-          [% ELSIF sel.name == "resolution" %]
-            [% get_resolution(name) FILTER html %]
-          [% ELSE %]
-            [% name FILTER html %]
-          [% END %]
-        </option>
+      [% FOREACH value = ${sel.name} %]
+        [% IF value.id %]
+          [%# This only applies for Resolution really %]
+          [% v = value.name OR '---' -%]
+          <option value="[% v FILTER html %]"
+            [% " selected" IF lsearch(default.${sel.name}, v) != -1 %]>
+            [% display_value(sel.name, value.name) FILTER html %]
+          </option>
+        [% ELSE %]
+          <option value="[% value OR '---' FILTER html %]"
+            [% " selected" IF lsearch(default.${sel.name}, value) != -1 %]>
+            [% display_value(sel.name, value) FILTER html %]
+          </option>
+        [% END %]
       [% END %]
     </select>
   </td>

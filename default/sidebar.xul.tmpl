@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# -*- mode: sgml -*- %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
@@ -19,6 +20,7 @@
   # Contributor(s): Jacob Steenhagen <jake@bugzilla.org>
   #                 Scott Collins <scc@mozilla.org>
   #                 Christopher A. Aillon <christopher@aillon.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
@@ -56,13 +58,13 @@ function normal_keypress_handler( aEvent ) {
 
 ]]></script>
 
-  <textbox id="query-field" class="descriptive-content" value="szukany tekst" onfocus="this.setSelectionRange(0,this.value.length)"/>
+  <textbox id="query-field" class="descriptive-content" value="Numer błędu lub szukane wyrażenie" onfocus="this.setSelectionRange(0,this.value.length)"/>
 
   <separator class="groove"/>
 
   <box autostretch="never" valign="top">
     <box orient="vertical" flex="1">
-      <text class="text-link" onclick="load_relative_url('query.cgi')" value="Wyszukiwane"/>
+      <text class="text-link" onclick="load_relative_url('query.cgi')" value="Wyszukiwanie"/>
       <text class="text-link" onclick="load_relative_url('report.cgi')" value="Raporty"/>
       <text class="text-link" onclick="load_relative_url('enter_bug.cgi')" value="Nowy [% terms.blad %]"/>
       <separator class="thin"/>
@@ -71,13 +73,13 @@ function normal_keypress_handler( aEvent ) {
       <text class="text-link" onclick="load_relative_url('userprefs.cgi')" value="Ustawienia"/>
   [%- IF user.in_group('tweakparams') %]
       <text class="text-link" onclick="load_relative_url('editparams.cgi')" value="Parametry"/>
-      <text class="text-link" onclick="load_relative_url('editsettings.cgi')" value="Domyślne ustawienia użytkowników"/>
+      <text class="text-link" onclick="load_relative_url('editsettings.cgi')" value="Domyślne ustawienia"/>
   [%- END %]
   [%- IF user.in_group('editusers') || user.can_bless %]
       <text class="text-link" onclick="load_relative_url('editusers.cgi')" value="Użytkownicy"/>
   [%- END %]
   [%- IF Param('useclassification') && user.in_group('editclassifications') %]
-      <text class="text-link" onclick="load_relative_url('editclassifications.cgi')" value="Klasyfikacje"/>
+      <text class="text-link" onclick="load_relative_url('editclassifications.cgi')" value="Kategorie"/>
   [%- END %]
   [%- IF user.in_group('editcomponents') %]
       <text class="text-link" onclick="load_relative_url('editcomponents.cgi')" value="Komponenty"/>
@@ -94,7 +96,7 @@ function normal_keypress_handler( aEvent ) {
       <text class="text-link" onclick="load_relative_url('editwhines.cgi')" value="Przypominanie"/>
   [%- END %]
   [%- IF user.in_group('editcomponents') %]
-      <text class="text-link" onclick="load_relative_url('sanitycheck.cgi')" value="Kontrola poprawności"/>
+      <text class="text-link" onclick="load_relative_url('sanitycheck.cgi')" value="Kontrola spójności danych"/>
   [%- END %]
   [%- IF user.authorizer.can_logout %]
       <text class="text-link" onclick="load_relative_url('index.cgi?logout=1')"

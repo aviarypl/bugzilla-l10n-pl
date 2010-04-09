@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Bradley Baetz <bbaetz@student.usyd.edu.au>
   #                 J. Paul Reed <preed@sigkill.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -41,12 +44,12 @@
 
 <dl>
 [% PROCESS emails
-   description = "E-mail wysłany do"
+   description = "Powiadomienie wysłano do"
    names = mail.sent
 %]
 
 [% PROCESS emails
-   description = "Wyłączając"
+   description = "Z wyłączeniem"
    names = mail.excluded
 %]
 </dl>
@@ -64,10 +67,10 @@
         <code>[% name FILTER html %]</code>[% ", " UNLESS loop.last() %]
       [% END %]
     [% ELSE %]
-      no one
+      nikogo
     [% END %]
   [% ELSE %]
-    (list of e-mails not available)
+    (lista adresów e-mail jest niedostępna)
   [% END %]
   </dd>
 [% END %]

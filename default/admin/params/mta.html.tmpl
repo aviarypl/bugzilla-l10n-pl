@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,67 +18,71 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
    title = "Wiadomości e-mail"
-   desc = "Określenie sposobów dostarczana wychodzących wiadomości"
+   desc = "Określenie sposobów dostarczana wiadomości wychodzących"
 %]
 
 [% param_descs = {
-  mail_delivery_method => "Określa, czy i jak wysyłane są wiadomości e-mail.<br>
+  mail_delivery_method => "Ten parametr określa czy i jak są wysyłane wiadomości e-mail.<br>
                            <ul>
                              <li>
-                               'Sendmail', 'SMTP' i 'Qmail' to programy dostarczające pocztę (MTA).
-                               Aby użyć programu sendmail pod Windows, należy zainstalować
-                               jego odpowiednik dla Windows.
+                               <strong>Sendmail</strong>, <strong>SMTP</strong> i <strong>Qmail</strong>, to programy
+                               dostarczające pocztę (MTA). Aby użyć programu Sendmail na platformie Windows,
+                               zainstaluj jego odpowiednik dla tego systemu.
                              </li>
                              <li>
-                               Wartość 'Test' jest przydatna do uruchamiania i wyszukiwania błędów.
-							   Wszystkie wiadomości zapisywane są do pliku 
-                               'data/mailer.testfile', a nie wysyłane.
+                               <strong>Test</strong> – wartość przydatna do uruchamiania i wyszukiwania błędów.
+                               Wszystkie wiadomości zapisywane są do pliku 
+                               <code>data/mailer.testfile</code>, a nie wysyłane.
                              </li>
                              <li>
-                               Wartość 'none' wyłącza całkowicie wysyłanie wiadomości. $terms.Bugzilla będzie
-							   informować o wysłaniu wiadomości, lecz nic nie zostanie wysłane.
+                               <strong>Nigdy</strong> – wartość ta wyłącza całkowicie wysyłanie wiadomości. $terms.Bugzilla będzie
+                               działać tak, jakby poczta była wysyłana, lecz nic nie jest wysłane lub
+                               zapisywane.
                              </li>
                            </ul>",
 
-  mailfrom => "Adres e-mail demona ${terms.Bugzilli}. Niektóre serwery pocztowe wymagają, " _
-              "aby ten adres był poprawny.",
+  mailfrom => "Adres e-mail demona Bugzilli. Niektóre serwery pocztowe wymagają, " _
+              "aby ten adres był ważnym adresem e-mail.",
 
-  use_mailer_queue => "In a large $terms.Bugzilla installation, updating"
-    _ " $terms.bugs can be very slow, because $terms.Bugzilla sends all"
-    _ " email at once. If you enable this parameter, $terms.Bugzilla will"
-    _ " queue all mail and then send it in the background. This requires"
-    _ " that you have installed certain Perl modules (as listed by"
-    _ " <code>checksetup.pl</code> for this feature), and that you are"
-    _ " running the <code>jobqueue.pl</code> daemon (otherwise your mail"
-    _ " won't get sent). This affects all mail sent by $terms.Bugzilla,"
-    _ " not just $terms.bug updates.",
+  use_mailer_queue => "W dużych instalacjach $terms.Bugzilli aktualizacja"
+    _ " $terms.bledow może trwać długo, ponieważ $terms.Bugzilla wysyła wszystkie"
+    _ " e-maile natychmiast. Jeśli ten parametr zostanie włączony $terms.Bugzilla będzie"
+    _ " kolejkowała wszystkie maile i wysyłała je w tle. Funkcja ta wymaga, aby"
+    _ " były zainstalowane pewne moduły Perl (wyszczególnione przez"
+    _ " <code>checksetup.pl</code>) i uruchomienia demona"
+    _ " <code>jobqueue.pl</code>. W przeciwnym razie Twoje maile nie będą"
+    _ " wysyłane. Ma to wpływ nie tylko na aktualizacje $terms.bledow, ale"
+    _ " na wszystkie maile wysyłane przez Bugzillę.",
 
-  sendmailnow => "W instalacjach używających programu sendmail starszego niż 8.12 " _
+  sendmailnow => "W instalacjach używających programu <strong>Sendmail</strong> starszego niż 8.12 " _
                  "można uzyskać znaczące przyspieszenie działania interfejsu " _
                  "w przypadku opóźnionego wysyłania wiadomości. Można to uzyskać " _
-                 "wyłączając tę opcję. W instalacjach korzystających z programu 'sendmail' " _
-                 "8.12 lub nowszego należy opcję tę pozostawić włączoną, ponieważ wyłączenie " _
+                 "wyłączając ten parametr. W instalacjach korzystających z programu <strong>Sendmail</strong> " _
+                 "8.12 lub nowszego, należy ten parametr pozostawić włączony, ponieważ wyłączenie " _
                  "nie przynosi żadnych korzyści. W przypadku korzystania z innego programu " _
-                 "dostarczającego pocztę włączenie tej opcji <b>jest wymagane</b>. W przeciwnym " _
-                 "razie nie będą wysyłane żadne wiadomości.",
+                 "dostarczającego pocztę, włączenie tego parametru <strong>jest wymagane</strong>. W przeciwnym " _
+                 "razie nie będą wysyłane żadne wiadomości o błędach.",
 
   smtpserver => "Adres serwera SMTP (w przypadku korzystania z dostarczania SMTP).",
 
-  smtp_username => "The username to pass to the SMTP server for SMTP authentication. " _
-                   "Leave this field empty if your SMTP server doesn't require authentication.",
+  smtp_username => "Nazwa użytkownika serwera SMTP używana do uwierzytelniania SMTP. " _
+                   "Jeśli serwer SMTP nie wymaga uwierzytelniania, należy to pole pozostawić puste.",
 
-  smtp_password => "The password to pass to the SMTP server for SMTP authentication. " _
-                   "This field has no effect if the smtp_username parameter is left empty.",
+  smtp_password => "Hasło do serwera SMTP używane do uwierzytelniania SMTP. " _
+                   "To pole nie ma żadnego wpływu, jeśli parametr <code>smtp_username</code> jest pusty.",
 
-  smtp_debug => "Jeśli opcja ta jest włączona, do pliku dziennika błędów serwera WWW zapisywane będą "_
-                " szczegółowe informacje dotyczące komunikacji z serwerem SMTP." _
+  smtp_debug => "Jeśli ten parametr jest włączony, do pliku dziennika błędów serwera WWW zapisywane będą "_
+                " szczegółowe informacje dotyczące komunikacji $terms.Bugzilli z serwerem SMTP." _
                 " Informacje te mogą być użyte do diagnozowania problemów z wysyłaniem " _
                 " wiadomości e-mail.",
 
-  whinedays => "Liczba dni, po których wysłane zostanie przypomnienie o nowym $terms.bledzie do właściciela. " _
+  whinedays => "Liczba dni, po których zostanie wysłane przypomnienie do beneficjenta " _
+               "$terms.bledu, który ma status NOWY. " _
                "<br> Wartość 0 wyłącza przypominanie.",
 
   globalwatchers => "Rozdzielona przecinkami lista nazw użytkowników, którzy będą otrzymywać " _

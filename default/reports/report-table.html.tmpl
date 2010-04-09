@@ -1,8 +1,9 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
   # the License at http://www.mozilla.org/MPL/
-  # ó
+  #
   # Software distributed under the License is distributed on an "AS
   # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
   # implied. See the License for the specific language governing
@@ -17,6 +18,7 @@
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #                 <rdean@cambianetworks.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -83,7 +85,7 @@
         </td>
       [% END %]
       <td class="ttotal">
-        Total
+        W sumie
       </td>
     </tr>
   [% END %]
@@ -126,7 +128,7 @@
   <tr>
     [% row_idx = 1 - row_idx %]
     <td class="ttotal">
-      Total
+      W sumie
     </td>
     [% FOREACH col = col_names %]
       [% NEXT IF col == "" %]
@@ -154,12 +156,8 @@
 </table>
 
 [% BLOCK value_display %]
-  [% SET disp_value = value %]
-  [% IF field == 'bug_status' %]
-    [% SET disp_value = get_status(value) %]
-  [% ELSIF field == 'resolution' %]
-    [% SET disp_value = get_resolution(value) %]
-  [% ELSIF field == 'assigned_to' OR field == 'reporter'
+  [% SET disp_value = display_value(field, value) %]
+  [% IF field == 'assigned_to' OR field == 'reporter'
            OR field == 'qa_contact'
   %]
     [% disp_value = value FILTER email %]

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%# INTERFACE:
   # See report-table.html.tmpl.
@@ -24,7 +26,7 @@
 
 [% colsepchar = user.settings.csv_colsepchar.value %]
 
-[% num_bugs = BLOCK %]Number of [% terms.bugs %][% END %]
+[% num_bugs = BLOCK %]Liczba [% terms.bledow %][% END %]
 [% tbl_field_disp = field_descs.$tbl_field || tbl_field %]
 [% col_field_disp = field_descs.$col_field || col_field %]
 [% row_field_disp = field_descs.$row_field || row_field %]
@@ -67,12 +69,8 @@
 [% END %]
 
 [% BLOCK value_display %]
-  [% SET disp_value = value %]
-  [% IF field == 'bug_status' %]
-    [% SET disp_value = get_status(value) %]
-  [% ELSIF field == 'resolution' %]
-    [% SET disp_value = get_resolution(value) %]
-  [% ELSIF field == 'assigned_to' OR field == 'reporter'
+  [% SET disp_value = display_value(field, value) %]
+  [% IF field == 'assigned_to' OR field == 'reporter'
            OR field == 'qa_contact'
   %]
     [% disp_value = value FILTER email %]

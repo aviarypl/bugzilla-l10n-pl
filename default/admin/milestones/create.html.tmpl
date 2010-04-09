@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -21,11 +22,13 @@
 [%# INTERFACE:
   # product: object; Bugzilla::Product object representing the product to
   #               which the milestone belongs.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
   
-[% title = BLOCK %]Add Milestone to Product '[% product.name FILTER html %]'[% END %]
-[% subheader = BLOCK %]This page allows you to add a new milestone to product
-                '[% product.name FILTER html %]'.[% END %]
+[% title = BLOCK %]Dodawanie wersji docelowej do produktu „[% product.name FILTER html %]”[% END %]
+[% subheader = BLOCK %]Za pomocą tej strony można dodać nową wersję docelową do produktu 
+                „[% product.name FILTER html %]”.[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
   subheader = subheader
@@ -35,17 +38,17 @@
 <form name="f" method="post" action="editmilestones.cgi">
   <table border="0" cellpadding="4" cellspacing="0">
     <tr>
-      <th align="right"><label for="milestone">Milestone:</label></th>
+      <th align="right"><label for="milestone">Wersja docelowa:</label></th>
       <td><input id="milestone" size="20" maxlength="20" name="milestone"
                  value=""></td>
     </tr>
     <tr>
-      <th align="right"><label for="sortkey">Sortkey:</label></th>
+      <th align="right"><label for="sortkey">Klucz sortowania:</label></th>
       <td><input id="sortkey" size="20" maxlength="20" name="sortkey"
                  value=""></td>
     </tr>
   </table>
-  <input type="submit" id="create" value="Add">
+  <input type="submit" id="create" value="Dodaj">
   <input type="hidden" name="action" value="new">
   <input type="hidden" name='product' value="[% product.name FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">

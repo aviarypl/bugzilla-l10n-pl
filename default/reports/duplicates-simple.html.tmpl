@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -15,7 +16,10 @@
   # Copyright (C) 1998 Netscape Communications Corporation. All
   # Rights Reserved.
   #
-  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  # Contributor(s): 
+  #  Gervase Markham <gerv@gerv.net>
+  #  Max Kanat-Alexander <mkanat@bugzilla.org>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -24,10 +28,13 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                      "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
-  [% IF product %]
-    [% title = "Najczęściej zgłaszane $terms.bledy dla $product" %]
+  [% IF product.size %]
+    [% title = BLOCK %]
+      ajczęściej zgłaszane $terms.bledy dla [% product.join(', ') FILTER html %]
+    [% END %]
   [% ELSE %]
     [% title = "Najczęściej zgłaszane $terms.bledy" %]
   [% END%]

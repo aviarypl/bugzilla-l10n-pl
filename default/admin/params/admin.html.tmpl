@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,25 +18,26 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
-   title = "Zasady administracyjne"
-   desc = "Ustawienia zasad dla kont"
+   title = "Reguły administracyjne"
+   desc = "Ustawienia reguł dla kont"
 %]
 
 [% param_descs = {
-  allowbugdeletion => "Ze stron edycji produktów i komponentów można usuwać wszystkie " _
-                      "powiązane $terms.bledy podczas usuwania produktu lub komponentu. " _
-                      "W celu zwiększenia bezpieczeństwa należy wcześniej włączyć tę " _
-                      "opcję, aby usuwanie to było możliwe.",
+  allowbugdeletion => "Jeśli ten parametr zostanie włączony, na stronach edycji produktów i komponentów " _
+                      "podczas usuwania produktu lub komponentu będzie można usuwać wszystkie powiązane " _
+                      "błędy. Ponieważ ten parametr ma ogrony wpływ na inne elementy, należy " _
+                      "go włączyć przed rozpoczęciem jakiejkolwiek operacji usuwania.",
 
-  allowemailchange => "Użytkownicy mogą zmieniać w ustawieniach swój adres e-mail. " _
-                      "Zmiana adresu potwierdzana jest poprzez oba adresy, więc " _
-                      "włączenie tej opcji nie pozwoli używać nieprawidłowych adresów.",
+  allowemailchange => "Włączenie tego parametru umożliwi użytkownikom, z poziomu ich ustawień, zmianę swojego " _
+                      "adresu e-mail. Zmiana adresu potwierdzana jest poprzez oba adresy, więc włączenie tego " _
+                      "parametru nie pozwoli używać nieprawidłowych adresów.",
 
-  allowuserdeletion => "Strony edycji użytkowników pozwalają administratorowi usuwać konta " _
-                       "użytkowników. W przypadku spowodowania przez usunięcie niespójności " _
-                       "danych, wyświetlone będzie ostrzeżenie. Ze względów bezpieczeństwa " _
-                       "danych należy najpierw włączyć tę opcję, aby było możliwe usuwanie " _
-                       "użytkowników, które powoduje niespójność danych.", }
+  allowuserdeletion => "Jeśli ten parametr zostanie włączony, na stronach edycji użytkowników administrator będzie mógł " _
+                       "usuwać konta użytkowników. Jeśli usunięcie konta spowoduje niespójność danych, zostanie wyświetlone " _
+                       "ostrzeżenie. Ponieważ ten parametr ma ogrony wpływ na inne elementy, należy go włączyć przed " _
+                       "rozpoczęciem jakiejkolwiek operacji usuwania." }
 %]

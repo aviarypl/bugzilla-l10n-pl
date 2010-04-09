@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,7 @@
   #
   # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
   #                 Akamai Technologies <bugzilla-dev@akamai.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -29,7 +31,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-  Edycja komponentu '[% comp.name FILTER html %]' produktu '[% product.name FILTER html %]'
+  Edycja komponentu [% comp.name FILTER html %] produktu [% product.name FILTER html %]
 [% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -56,7 +58,7 @@
       </td>
     </tr>
     <tr>
-      <td valign="top"><label for="initialowner">Domyślny właściciel:</label></td>
+      <td valign="top"><label for="initialowner">Domyślny beneficjent:</label></td>
       <td>
         [% INCLUDE global/userselect.html.tmpl
            name => "initialowner"
@@ -69,7 +71,7 @@
 [% IF Param('useqacontact') %]
     </tr>
     <tr>
-      <td valign="top"><label for="initialqacontact">Domyślny kontakt QA:</label></td>
+      <td valign="top"><label for="initialqacontact">Domyślny specjalista QA:</label></td>
       <td>
         [% INCLUDE global/userselect.html.tmpl
            name => "initialqacontact"
@@ -96,15 +98,15 @@
         %]
         <br>
         [% IF !Param("usemenuforusers") %]
-          <em>Proszę podać nazwy użytkowników oddzielone przecinkami.</em>
+          <em>Podaj nazwy użytkowników oddzielone przecinkami.</em>
         [% END %]
       </td>
     </tr>
     <tr>
-      <td>[% terms.Bledy %]:</td>
+      <td>Liczba [% terms.bledow %]:</td>
       <td>
 [% IF comp.bug_count > 0 %]
-        <a title="[% terms.Bledy %] w komponencie '[% comp.name FILTER html %]'"
+        <a title="[% terms.Bledy %] w komponencie „[% comp.name FILTER html %]”"
            href="buglist.cgi?component=
                 [%- comp.name FILTER url_quote %]&amp;product=
                 [%- product.name FILTER url_quote %]">[% comp.bug_count %]</a>
@@ -120,7 +122,7 @@
    <input type="hidden" name="componentold" value="[% comp.name FILTER html %]">
    <input type="hidden" name="product" value="[% product.name FILTER html %]">
    <input type="hidden" name="token" value="[% token FILTER html %]">
-   <input type="submit" value="Aktualizuj" id="update"> lub <a 
+   <input type="submit" value="Zapisz zmiany" id="update"> lub <a 
         href="editcomponents.cgi?action=del&amp;product=
         [%- product.name FILTER url_quote %]&amp;component=
         [%- comp.name FILTER url_quote %]">Usuń</a> ten komponent.

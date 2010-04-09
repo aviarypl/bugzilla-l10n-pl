@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Erik Stambaugh <erik@dasbistro.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -30,10 +32,6 @@
 
 [% PROCESS global/variables.none.tmpl %]
 [% PROCESS 'global/field-descs.none.tmpl' %]
-
-[%# assignee_login_string is a literal string used for getting the 
-  # assignee's name out of the bug data %]
-[% SET assignee_login_string="map_assigned_to.login_name" %]
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -50,8 +48,8 @@
 
     <p align="left">
       [% IF author.login == recipient.login %]
-        <a href="[%+ urlbase FILTER html %]editwhines.cgi">Edycja 
-            harmonogramu przypominania</a>
+        <a href="[%+ urlbase FILTER html %]editwhines.cgi">Kliknij tutaj,
+            by modyfikować harmonogram przypominania</a>
       [% ELSE %]
         To wyszukiwanie zostało zaplanowane przez użytkownika [% author.login FILTER html %].
       [% END %]
@@ -68,22 +66,22 @@
       <th align="left">Waga</th>
       <th align="left">Prio</th>
       <th align="left">Plat</th>
-      <th align="left">PrzypisanyDo</th>
+      <th align="left">Beneficjent</th>
       <th align="left">Status</th>
       <th align="left">Rozwiązanie</th>
-      <th align="left">Opis</th>
+      <th align="left">Krótki opis</th>
     </tr>
 
     [% FOREACH bug=query.bugs %]
       <tr>
         <td align="left"><a href="[%+ urlbase FILTER html %]show_bug.cgi?id=
             [%- bug.bug_id %]">[% bug.bug_id %]</a></td>
-        <td align="left">[% bug.bug_severity FILTER html %]</td>
-        <td align="left">[% bug.priority FILTER html %]</td>
-        <td align="left">[% bug.rep_platform FILTER html %]</td>
-        <td align="left">[% bug.$assignee_login_string FILTER html %]</td>
-        <td align="left">[% get_status(bug.bug_status) FILTER html %]</td>
-        <td align="left">[% get_resolution(bug.resolution) FILTER html %]</td>
+        <td align="left">[% display_value("bug_severity", bug.bug_severity) FILTER html %]</td>
+        <td align="left">[% display_value("priority", bug.priority) FILTER html %]</td>
+        <td align="left">[% display_value("rep_platform", bug.rep_platform) FILTER html %]</td>
+        <td align="left">[% bug.assigned_to FILTER html %]</td>
+        <td align="left">[% display_value("bug_status", bug.bug_status) FILTER html %]</td>
+        <td align="left">[% display_value("resolution", bug.resolution) FILTER html %]</td>
         <td align="left">[% bug.short_desc FILTER html %]</td>
       </tr>
     [% END %]

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -28,49 +30,59 @@
 [% PROCESS global/header.html.tmpl
   title = "Raporty i wykresy"
   doc_section = "reporting.html"
+  style_urls = ['skins/standard/reports.css']
 %]
 
 <p>
-  [% terms.Bugzilla %] pozwala na śledzenie stanu bazy [% terms.bledow %] na
+  [% terms.Bugzilla %] umożliwia przeglądanie i śledzenie stanu bazy [% terms.bledow %] na
   wiele różnorodnych sposobów.
 </p>
 
 <h2>Stan aktualny</h2>
 
 <ul>
-  <li>
-    <strong><a href="query.cgi">Wyszukiwanie</a></strong> - 
-    szukanie [% terms.bledow %] spełniających dane kryteria.
+  <li id="report_search">
+    <strong><a href="query.cgi">Wyszukiwanie</a></strong> –
+    wyszukiwanie [% terms.bledow %].
   </li>
-  <li>
+  <li id="report_tabular">
     <strong>
       <a href="query.cgi?format=report-table">Raporty tabelaryczne</a>
-    </strong> -
-    tabele z liczbą [% terms.bledow %]. 1, 2 lub 3 wymiarowe, jako HTML lub CSV.
+    </strong> –
+    tabele z liczbą [% terms.bledow %]. Jedno, dwu lub trójwymiarowe, jako HTML lub CSV.
   </li>
-  <li>
-    <strong>
+  [% IF feature_enabled('graphical_reports') %]
+    <li id="report_graphical">
+      <strong>
       <a href="query.cgi?format=report-graph">Raporty graficzne</a>
-    </strong> -
+    </strong> –
     wykresy liniowe, słupkowe i kołowe.
-  </li>
-</ul>
-
-<h2>Zmiany w czasie</h2>
-
-<ul>
-  <li>
-    <strong><a href="reports.cgi">Stare typy wykresów</a></strong> - 
-    wyświetla status i/lub metodę rozwiązania [% terms.bledow %]
-    w czasie, dla każdego produktu z bazy danych.
-  </li>
-  [% IF user.in_group(Param("chartgroup")) %]
-    <li>
-      <strong><a href="chart.cgi">Nowe typy wykresów</a></strong> - 
-      wyświetla wykresy dla wyników dowolnego wyszukiwania w czasie.
-      Znacznie potężniejsze od swojego prekursora.
     </li>
   [% END %]
+  [% Hook.process('current_state') %]
 </ul>
+
+[% IF feature_enabled('new_charts') OR feature_enabled('old_charts') %]
+<h2>Zmiany na tle czasu</h2>
+
+  <ul>
+    [% IF feature_enabled('old_charts') %]
+      <li id="old_charts">
+    <strong><a href="reports.cgi">Stare wykresy</a></strong> – 
+    wyświetlanie na tle czasu statusu i/lub sposobu rozwiązania [% terms.bledow %]
+    dla każdego produktu z bazy danych.
+      </li>
+    [% END %]
+    [% IF feature_enabled('new_charts') AND user.in_group(Param("chartgroup")) %]
+      <li id="new_charts">
+      <strong><a href="chart.cgi">Nowe wykresy</a></strong> – 
+      wyświetlanie na tle czasu wykresów dla wyników dowolnego wyszukiwania.
+      Dużo lepsze niż stary typ.
+      </li>
+    [% END %]
+  </ul>
+[% END %]
+
+[% Hook.process('end') %]
 
 [% PROCESS global/footer.html.tmpl %]

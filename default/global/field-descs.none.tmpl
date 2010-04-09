@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,75 +18,77 @@
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #                 Elliotte Martin <elliotte_martin@yahoo.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# Remember to PROCESS rather than INCLUDE this template. %]
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% field_descs = { "[Bug creation]"          => "[Utworzenie $terms.bledu]",
-                   "actual_time"             => "Faktyczny czas"
+[% field_descs = { "[Bug creation]"          => "[Zgłaszanie $terms.bledu]",
+                   "actual_time"             => "Aktualny czas"
                    "alias"                   => "Alias",
                    "assigned_to"             => "Przypisany do",
-                   "attach_data.thedata"     => "Załącznik - dane",
-                   "attachments.description" => "Załącznik - opis",
-                   "attachments.filename"    => "Załącznik - nazwa pliku",
-                   "attachments.mimetype"    => "Załącznik - typ mime",
-                   "attachments.ispatch"     => "Załącznik - łatka",
-                   "attachments.isobsolete"  => "Załącznik - nieaktualny",
-                   "attachments.isprivate"   => "Załącznik - prywatny",
-                   "attachments.isurl"       => "Załącznik - adres URL",
-                   "attachments.submitter"   => "Załącznik - twórca",
+                   "attach_data.thedata"     => "Dane załącznika",
+                   "attachments.description" => "Opis załącznika",
+                   "attachments.filename"    => "Nazwa pliku załącznika",
+                   "attachments.mimetype"    => "Typ MIME załącznika",
+                   "attachments.ispatch"     => "Załącznik jest łatką",
+                   "attachments.isobsolete"  => "Nieaktualny załącznik",
+                   "attachments.isprivate"   => "Prywatny załącznik",
+                   "attachments.isurl"       => "Załącznik jest adresem URL",
+                   "attachments.submitter"   => "Twórca załącznika",
                    "blocked"                 => "Blokuje",
                    "bug_file_loc"            => "URL",
                    "bug_group"               => "Grupa",
-                   "bug_id"                  => "Identyfikator $terms.bledu",
+                   "bug_id"                  => "ID $terms.bledu",
                    "bug_severity"            => "Waga błędu",
                    "bug_status"              => "Status",
                    "changeddate"             => "Zmieniono",
                    "cc"                      => "Obserwatorzy",
-                   "classification"          => "Klasyfikacja",
-                   "cclist_accessible"       => "Lista obserwatorów dostępna?",
+                   "classification"          => "Kategoria",
+                   "cclist_accessible"       => "Lista obserwatorów jest dostępna?",
                    "commenter"               => "Komentujący",
-                   "component_id"            => "Identyfikator komponentu",
+                   "component_id"            => "ID komponentu",
                    "component"               => "Komponent",
-                   "content"                 => "Treść",
+                   "content"                 => "Zawartość",
                    "creation_ts"             => "Data utworzenia",
-                   "deadline"                => "Termin",
+                   "deadline"                => "Termin ostateczny",
                    "delta_ts"                => "Zmieniono",
                    "dependson"               => "Zależy od",
                    "dup_id"                  => "Duplikat",
-                   "estimated_time"          => "Oryg. szacunek",
-                   "everconfirmed"           => "Potwierdzony?",
-                   "flagtypes.name"          => "Flaga",
+                   "estimated_time"          => "Szacunek pocz.",
+                   "everconfirmed"           => "Zawsze potwierdzony",
+                   "flagtypes.name"          => "Flagi",
                    "keywords"                => "Słowa kluczowe",
                    "longdesc"                => "Komentarz",
                    "longdescs.isprivate"     => "Komentarz prywatny",
                    "newcc"                   => "Obserwatorzy",
                    "op_sys"                  => "OS",
                    "opendate"                => "Otwarto",
-                   "owner_idle_time"         => "Czas od ost. akcji właściciela",
-                   "percentage_complete"     => "% ukończone",
+                   "owner_idle_time"         => "Czas od momentu przypisania beneficjenta",
+                   "percentage_complete"     => "Postęp (%)",
                    "priority"                => "Priorytet",
-                   "product_id"              => "Identyfikator produktu",
+                   "product_id"              => "ID produktu",
                    "product"                 => "Produkt",
-                   "qa_contact"              => "Kontakt QA",
+                   "qa_contact"              => "Specjalista QA",
                    "remaining_time"          => "Pozostało godzin",
                    "rep_platform"            => "Platforma",
                    "reporter"                => "Zgłaszający",
                    "reporter_accessible"     => "Dostępne dla zgłaszającego?",
-                   "requestees.login_name"   => "Żądający ust. flagi",
+                   "requestees.login_name"   => "Proszący o flagę",
                    "resolution"              => "Rozwiązanie",
-                   "see_also"                => "Zobacz także",
+                   "see_also"                => "Zobacz też",
                    "setters.login_name"      => "Ustawiający flagę",
-                   "setting"                 => "Opcja",
-                   "settings"                => "Opcje",
-                   "short_desc"              => "Podsumowanie",
+                   "setting"                 => "Ustawienie",
+                   "settings"                => "Ustawienia",
+                   "short_desc"              => "Krótki opis",
                    "status_whiteboard"       => "Tablica statusu",
                    "target_milestone"        => "Wersja docelowa",
                    "version"                 => "Wersja",
                    "votes"                   => "Głosów",
-                   "work_time"               => "Godzin przepracowanych"} %]
+                   "work_time"               => "Godzin przeprac."} %]
 
 [%# Also include any custom fields or fields which don't have a
     Description here, by copying their Description from the
@@ -100,60 +103,140 @@
 
 [% SET search_descs = {
   "noop"           => "---",
-  "equals"         => "jest równe",
-  "notequals"      => "nie jest równe",
-  "anyexact"       => "jest równe któremukolwiek z ciągów",
-  "substring"      => "zawiera ciąg",
-  "casesubstring"  => "zawiera ciąg (z uwzgl. wielkości liter)",
-  "notsubstring"   => "nie zawiera ciągu",
-  "anywordssubstr" => "zawiera którykolwiek z ciągów",
-  "allwordssubstr" => "zawiera wszystkie ciągi",
-  "nowordssubstr"  => "nie zawiera żadnego z ciągów",
-  "regexp"         => "zawiera wyr. regularne",
-  "notregexp"      => "nie zawiera wyr. regularnego",
-  "lessthan"       => "jest mniejsze niż",
-  "lessthaneq"     => "jest mniejsze lub równe",
-  "greaterthan"    => "jest większe niż",
-  "greaterthaneq"  => "jest większe lub równe",
-  "anywords"       => "zawiera którekolwiek ze słów",
+  "equals"         => "jest taki, jak",
+  "notequals"      => "jest inny niż",
+  "anyexact"       => "jest taki, jak którykolwiek ze znaków",
+  "substring"      => "zawiera znaki",
+  "casesubstring"  => "zawiera znaki (dokładnie takie)",
+  "notsubstring"   => "nie zawiera znaków",
+  "anywordssubstr" => "zawiera dowolne znaki",
+  "allwordssubstr" => "zawiera wszystkie znaki",
+  "nowordssubstr"  => "nie zawiera znaków",
+  "regexp"         => "odpowiada wyrażeniu reg.",
+  "notregexp"      => "nie odpowiada wyrażeniu reg.",
+  "lessthan"       => "jest mniejszy niż",
+  "lessthaneq"     => "jest mniejszy lub równy z",
+  "greaterthan"    => "jest większy niż",
+  "greaterthaneq"  => "jest większy lub równy z",
+  "anywords"       => "zawiera dowolne ze słów",
   "allwords"       => "zawiera wszystkie słowa",
-  "nowords"        => "nie zawiera żadnego ze słów",
-  "changedbefore"  => "zmieniono przed",
-  "changedafter"   => "zmieniono po",
-  "changedfrom"    => "zmieniono od",
-  "changedto"      => "zmieniono do",
-  "changedby"      => "zmieniono przez",
+  "nowords"        => "nie zawiera słów",
+  "changedbefore"  => "zmieniony przed",
+  "changedafter"   => "zmieniony po",
+  "changedfrom"    => "zmieniony z",
+  "changedto"      => "zmieniony na",
+  "changedby"      => "zmieniony przez",
   "matches"        => "pasuje do",
 } %]
 
 [% field_types = { ${constants.FIELD_TYPE_UNKNOWN}       => "Nieznany typ",
                    ${constants.FIELD_TYPE_FREETEXT}      => "Pole tekstowe",
                    ${constants.FIELD_TYPE_SINGLE_SELECT} => "Lista rozwijana",
-                   ${constants.FIELD_TYPE_MULTI_SELECT}  => "Lista wyboru",
-                   ${constants.FIELD_TYPE_TEXTAREA}      => "Duże pole tekstowe",
-                   ${constants.FIELD_TYPE_DATETIME}      => "Data/Godzina",
-                   ${constants.FIELD_TYPE_BUG_ID}        => "Identyfikator $terms.bledu",
+                   ${constants.FIELD_TYPE_MULTI_SELECT}  => "Pole wielokrotnego wyboru",
+                   ${constants.FIELD_TYPE_TEXTAREA}      => "Pole dużego tekstu",
+                   ${constants.FIELD_TYPE_DATETIME}      => "Data/Czas",
+                   ${constants.FIELD_TYPE_BUG_ID}        => "ID $terms.bledu",
                 } %]
 
-[% status_descs = { "UNCONFIRMED" => "NIEPOTWIERDZONY",
-                    "NEW"         => "NOWY",
-                    "ASSIGNED"    => "PRZYPISANY",
-                    "REOPENED"    => "PONOWNIE OTWORZONY",
-                    "RESOLVED"    => "ROZWIĄZANY",
-                    "VERIFIED"    => "ZWERYFIKOWANY",
-                    "CLOSED"      => "ZAMKNIĘTY" } %]
+[%# You can use this hash to localize (translate) the values displayed
+  # for drop-down and multiple-select fields. Lines starting with "#"
+  # are comments.
+  #%]
+[% value_descs = {
+  "bug_status" => {
+    "UNCONFIRMED" => "NIEPOTWIERDZONY",
+    "NEW"         => "NOWY",
+    "ASSIGNED"    => "PRZYPISANY",
+    "REOPENED"    => "PONOWNIEOTWARTY",
+    "RESOLVED"    => "ROZWIĄZANY",
+    "VERIFIED"    => "ZWERYFIKOWANY",
+    "CLOSED"      => "ZAMKNIĘTY",
+  },
+  
+  "resolution" => {
+    ""           => "---",
+    "FIXED"      => "NAPRAWIONY",
+    "INVALID"    => "NIEPOPRAWNY",
+    "WONTFIX"    => "NIEDONAPRAWY",
+    "DUPLICATE"  => "DUPLIKAT",
+    "WORKSFORME" => "UMNIEDZIAŁA",
+    "MOVED"      => "PRZENIESIONY",
+    " "          => " ",
+  },
 
-[% MACRO get_status(status) GET status_descs.$status || status %]
+  "bug_severity" => {
+    "blocker"     => "blokujący",
+    "critical"    => "krytyczny",
+    "major"       => "poważny",  
+    "normal"      => "normalny", 
+    "minor"       => "drobny",   
+    "trivial"     => "błahy",    
+    "enhancement" => "propozycja",  
+  },    
 
-[% resolution_descs = { "FIXED"      => "NAPRAWIONY",
-                        "INVALID"    => "NIENAPRAWIONY",
-                        "WONTFIX"    => "NIENAPRAWIALNY",
-                        "DUPLICATE"  => "DUPLIKAT",
-                        "WORKSFORME" => "U MNIE DZIAŁA",
-                        "MOVED"      => "PRZENIESIONY",
-                        "---"        => "---",
-                        " "          => " " } %]
+  "priority" => {
+    "Highest"    => "Najwyższy",
+    "High"       => "Wysoki",
+    "Normal"     => "Normalny",  
+    "Low"        => "Niski", 
+    "Lowest"     => "Najniższy",   
+  },    
+                     
+  "rep_platform" => {
+    "All"   => "Wszystkie",
+    "Other" => "Inna",
+  },             
+  
+  "op_sys" => {
+    "All"   => "Wszystkie",
+    "Other" => "Inny",
+  },
 
-[% MACRO get_resolution(res) GET resolution_descs.$res || res %]
+  "bit_description" => {
+    "Administrators"                                  => "Administratorzy"
+    "Can configure whine reports for other users"     => "Możesz konfigurować raporty powiadomień dla innych użytkowników"
+    "User can configure whine reports for self"       => "Możesz konfigurować raporty powiadomień dla samego siebie"
+    "Can perform actions as other users"              => "Możesz wykonywać działania jako inny użytkownik"
+    "Can not be impersonated by other users"          => "Nkt nie może przejąć Twojej tożsamości"
+    "Can confirm a bug or mark it a duplicate"        => "Możesz potwierdzać błędy lub oznaczać je jako duplikaty"
+    "Can create and destroy groups"                   => "Możesz tworzyć i usuwać grupy"
+    "Can edit all bug fields"                         => "Możesz edytować wszystkie pola błędu"
+    "Can create, destroy, and edit classifications"   => "Możesz tworzyć, usuwać i edytować kategorie"
+    "Can create, destroy, and edit components"        => "Możesz tworzyć, usuwać i edytować komponenty"
+    "Can create, destroy, and edit keywords"          => "Możesz tworzyć, usuwać i edytować słowa kluczowe"
+    "Can edit or disable users"                       => "Możesz edytować lub usuwać użytkowników"
+    "Can change Parameters"                           => "Możesz zmieniać parametry"
+  },                                                
+
+} %]                                                
+                                                    
+[%# We use "FILTER none" here because only the caller can know how to
+  # filter the result appropriately.                
+  #%]                                               
+[% MACRO display_value(field_name, value_name) BLOCK %][% FILTER trim %]
+  [% IF value_descs.${field_name}.${value_name}.defined %]
+    [% value_descs.${field_name}.${value_name} FILTER none %]
+  [% ELSE %]
+    [% value_name FILTER none %]
+  [% END %]
+[% END %][% END %]
+	
+[% choice_descs = { "on"                     => "włączone",
+                    "off"                    => "wyłączone",
+                    "defaulton"              => "domyślnie włączone",
+                    "defaultoff"             => "domyślnie wyłączone",
+                    "Test"                   => "Test",
+                    "None"                   => "Nigdy",
+                    "never"                  => "nigdy",
+                    "open"                   => "otwarte",
+                    "moderated"              => "moderowane",
+                    "closed"                 => "zamknięte",
+                    "wildcard"               => "wieloznacznik",
+                    "search"                 => "wyszukiwanie",
+                    "authenticated sessions" => "sesje uwierzytelnione",
+                    "always"                 => "zawsze"
+                    "disabled"               => "wyłączone"} %]
+
+[% MACRO get_choice(ch) GET choice_descs.$ch || ch %]
 
 [% Hook.process("end") %]

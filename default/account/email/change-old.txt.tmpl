@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s):     John Vandenberg <zeroj@null.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%# INTERFACE:
   # emailaddress: string. The user's old Bugzilla login email address.
@@ -27,21 +29,20 @@
 
 From: [% Param('mailfrom') %]
 To: [% emailaddress %]
-Subject: [% terms.Bugzilla %] Żądanie zmiany adresu e-mail
+Subject: [% terms.Bugzilla %] – Prośba o zmianę adresu e-mail
 Importance: High
 X-MSMail-Priority: High
 X-Priority: 1
 X-Bugzilla-Type: admin
 
-[%+ terms.Bugzilla %] otrzymała żądanie zmiany adresu e-mail konta 
+[%+ terms.Bugzilla %] otrzymała prośbę zmianę adresu e-mail konta
 na adres [%+ newemailaddress %].
 
-Jeśli odbiorca tej wiadomości nie wysłał tego żądania lub aby anulować żądanie, 
-proszę otworzyć poniższy odnośnik:
+Jeśli nie jesteś osobą, która wysłała tę prośbę lub chcesz prośbę anulować,
+otwórz poniższy odnośnik:
 
 [%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=cxlem
 
-[%#Nietłumaczone#%]
-If you do nothing, and [%+ newemailaddress %] confirms this request,
-the change will be made permanent after [% constants.MAX_TOKEN_AGE %] days
-(on [% expiration_ts FILTER time("%B %e, %Y at %H:%M %Z") %]).
+W przypadku braku reakcji i [%+ newemailaddress %] potwierdza tę prośbę,
+zmiana zostanie dokonana po [% constants.MAX_TOKEN_AGE %] dniach
+([% expiration_ts FILTER time("%e %B %Y o godzinie %H:%M %Z") %]).

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,46 +18,48 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
-   title = "Patch Viewer"
-   desc = "Set up third-party applications to run with PatchViewer"
+   title = "Przeglądarka łatek"
+   desc = "Ustawienia osobnego programu uruchamianego razem z PatchViewerem"
 %]
 
 [% param_descs = {
   cvsroot => "Baza <a href=\"http://www.cvshome.org\">CVS</a>, która będzie " _
-             "używana przez większość użytkowników systemu podczas polecenia 'cvs diff'. " _
-             "Używana w przeglądarce łatek (opcja 'Diff' dla łatek) do określenia " _
-             "bazy łatek, nawet gdy użytkownik wykonał 'cvs diff' w innym miejscu " _
-             "struktury katalogów. (UWAGA: jeśli repozytorium CVS " _
+             "używana przez większość użytkowników systemu podczas wykonywania polecenia <code>cvs diff</code>. " _
+             "Używana w przeglądarce łatek (opcja <strong>Diff</strong> dla łatek) do określenia " _
+             "bazy łatek, nawet gdy użytkownik wykonał <code>cvs diff</code> w innym miejscu " _
+             "struktury katalogów. (UWAGA: Jeśli repozytorium CVS " _
              "jest zdalne i wymaga hasła, należy zapewnić, że użytkownik " _
-             "dla $terms.Bugzilli wykonał polecenie 'cvs login' lub określić hasło " _
+             "dla $terms.Bugzilli wykonał polecenie „cvs login” lub określić hasło " _
              "<a href=\"http://www.cvshome.org/docs/manual/cvs_2.html#SEC26\"> jako " _
-             "część adres CVS root</a>.) Wartość pusta oznacza brak " _
+             "część adresu CVS root</a>.) Wartość pusta oznacza brak " _
              "repozytorium CVS.",
 
   cvsroot_get => "Drzewo CVS, z którego $terms.Bugzilla będzie pobierać łatki. " _
-                 "Niektóre instalacje wykonują lokalne kopie repozytorium CVS na serwerze gdzie zainstalowana " _
-                 "jest $terms.Bugzilla (lub umieszczają samo repozytorium na tym samym serwerze), tak że " _
-                 "repozytorium dostępne jest w lokalnym systemie plików (co oznacza szybszy dostęp). " _
-                 "W razie wątpliwości należy tutaj ustawić wartość taką jak " _
-                 "w opcji cvsroot (także pustą jeśli cvsroot jest puste).",
+                 "Niektóre instalacje wykonują lokalne kopie repozytorium CVS na serwerze, gdzie zainstalowana " _
+                 "jest $terms.Bugzilla lub umieszczają samo repozytorium na tym samym serwerze. " _
+                 "Wówczas repozytorium dostępne jest w lokalnym systemie plików, co oznacza szybszy dostęp. " _
+                 "W razie wątpliwości, należy tutaj ustawić wartość taką jak " _
+                 "w opcji <code>cvsroot</code> – pustą, jeśli cvsroot jest puste.",
 
   bonsai_url => "Adres URL serwera <a href=\"http://www.mozilla.org/bonsai.html\">Bonsai</a> " _
                 "zawierającego informacje o repozytorium CVS. " _
                 "Przeglądarka łatek użyje tych danych do tworzenia odnośników do " _
-                "'bonsai blame' dla każdego fragmentu łatki (do tego adresu zostanie dodany " _
-                "'/cvsblame.cgi?...'). W razie wątpliwości proszę pozostawić wartość pustą.",
+                "<code>bonsai blame</code> dla każdego fragmentu łatki. Do tego adresu zostanie dodany " _
+                "<code>/cvsblame.cgi?…</code>. W razie wątpliwości proszę pozostawić wartość pustą.",
 
   lxr_url => "Adres URL serwera <a href=\"http://sourceforge.net/projects/lxr\">LXR</a>, " _
              "który indeksuje repozytorium CVS. Przeglądarka łatek użyje tych danych " _
              "do tworzenia odnośników do LXR dla każdego pliku w łatce. " _
              "W razie wątpliwości proszę pozostawić wartość pustą.",
 
-  lxr_root => "Niektóre instalacje LXR nie indeksują repozytorium CVS od głównego katalogu -- " _
+  lxr_root => "Niektóre instalacje LXR nie indeksują repozytorium CVS od głównego katalogu – " _
               "np. LXR <a href=\"http://lxr.mozilla.org/mozilla\">Mozilli</a> " _
               "rozpoczyna indeksowanie od katalogu <code>mozilla/</code>. Oznacza to, że " _
-              "adresy URL są względne do tej ścieżki. " _
-              "W przypadku takiej sytuacji należy wpisać tutaj indeksowany katalog. " _
+              "adresy URL są relatywne do tej ścieżki. " _
+              "Jeśli wystąpi taka sytuacja, należy wpisać tutaj indeksowany katalog. " _
               "W razie wątpliwości proszę pozostawić wartość pustą." }
 %]

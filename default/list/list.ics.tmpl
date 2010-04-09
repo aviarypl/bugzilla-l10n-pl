@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -30,6 +31,7 @@ BEGIN:VTODO
 [%+ PROCESS ics_url base_url=urlbase bug_id=bug.bug_id +%]
 [%+ PROCESS ics_status bug_status = bug.bug_status +%]
 [%+ PROCESS ics_dtstamp +%]
+[%+ ics_priorities.${bug.priority} FILTER ics('PRIORITY') +%]
 [% IF bug.changeddate %]
 [%+ bug.changedtime FILTER time("%Y%m%dT%H%M%SZ", "UTC") FILTER ics('LAST-MODIFIED') +%]
 [% END %]
@@ -96,7 +98,7 @@ END:VCALENDAR
   [% ELSIF bug.short_short_desc %]
     [% summary = bug.short_short_desc %]
   [% ELSE %]
-    [% summary = "$terms.Bug $bug.bug_id" %]
+    [% summary = "$terms.Blad $bug.bug_id" %]
   [% END %]
   [% summary FILTER ics('SUMMARY') %]
 [% END %]

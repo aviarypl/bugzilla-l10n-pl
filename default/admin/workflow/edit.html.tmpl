@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -12,12 +13,14 @@
   #
   # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
   #                 Gervase Markham <gerv@mozilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% INCLUDE global/header.html.tmpl
-   title = "Edit Workflow"
+   title = "Edycja zmian statusu"
    style_urls = ['skins/standard/admin.css']
 %]
 
@@ -33,38 +36,38 @@
 </script>
 
 <p>
-  This page allows you to define which status transitions are valid in your workflow.
-  For compatibility with older versions of [% terms.Bugzilla %], reopening [% terms.abug %]
-  will only display either [% get_status("UNCONFIRMED") FILTER html %] or
-  [%+ get_status("REOPENED") FILTER html %] (if allowed by your workflow) but not
-  both. The decision depends on whether the [% terms.bug %] has ever been confirmed or not.
-  So it is a good idea to allow both transitions and let [% terms.Bugzilla %] select the
-  correct one.
+  Na tej stronie można określić dozwolone zmiany statusu w cyklu życia [% terms.bledu %].
+  Aby zapewnić kompatybilność ze starszymi wersjami [% terms.Bugzilli %], ponowne otwarcie –
+  jeśli cykl zmian na to zezwala – [% terms.bledu %] spowoduje wyświetlenie tylko jedego
+  statusu: [%+ get_status("UNCONFIRMED") FILTER html %] lub [%+ get_status("REOPENED") FILTER html %].
+  Decyzja, który status zostanie wyświetlony zależy od tego czy [% terms.blad %] był kiedykolwiek
+  potwierdzany, czy nie. Dobrym rozwiązaniem jest zezwolić na zmianę obu statusów i
+  pozostawić [% terms.Bugzilli %] wybór jednego z nich.
 </p>
 
 <form id="workflow_form" method="POST" action="editworkflow.cgi">
 <table>
   <tr>
     <th colspan="2">&nbsp;</th>
-    <th colspan="[% statuses.size FILTER html %]" class="title">To</th>
+    <th colspan="[% statuses.size FILTER html %]" class="title">Na</th>
   </tr>
 
   <tr>
-    <th rowspan="[% statuses.size + 2 FILTER html %]" class="title">From</th>
+    <th rowspan="[% statuses.size + 2 FILTER html %]" class="title">Z</th>
     <th>&nbsp;</th>
     [% FOREACH status = statuses %]
       <th class="col-header[% status.is_open ? " open-status" : " closed-status" %]">
-        [% status.name FILTER html %]
+        [% display_value("bug_status", status.name) FILTER html %]
       </th>
     [% END %]
   </tr>
 
   [%# This defines the entry point in the workflow %]
-  [% p = [{id => 0, name => "{Start}", is_open => 1}] %]
+  [% p = [{id => 0, name => "{Wart.początkowe}", is_open => 1}] %]
   [% FOREACH status = p.merge(statuses) %]
     <tr class="highlight">
       <th align="right" class="[% status.is_open ? "open-status" : "closed-status" %]">
-        [% status.name FILTER html %]
+        [% display_value("bug_status", status.name) FILTER html %]
       </th>
 
       [% FOREACH new_status = statuses %]
@@ -72,7 +75,7 @@
           [% checked = workflow.${status.id}.${new_status.id}.defined ? 1 : 0 %]
           [% mandatory = (status.id && new_status.name == Param("duplicate_or_move_bug_status")) ? 1 : 0 %]
           <td align="center" class="checkbox-cell[% " checked" IF checked || mandatory %]"
-              title="From [% status.name FILTER html %] to [% new_status.name FILTER html %]">
+              title="Z [% status.name FILTER html %] Na [% new_status.name FILTER html %]">
             <input type="checkbox" name="w_[% status.id %]_[% new_status.id %]"
                    id="w_[% status.id %]_[% new_status.id %]" onclick="toggle_cell(this)"
                    [%+ "checked='checked'" IF checked || mandatory %]
@@ -87,22 +90,23 @@
 </table>
 
 <p>
-  When [% terms.abug %] is marked as a duplicate of another one or is moved
-  to another installation, the [% terms.bug %] status is automatically set to
-  <b>[% Param("duplicate_or_move_bug_status") FILTER html %]</b>. All transitions to
-  this [% terms.bug %] status must then be valid (this is the reason why you cannot edit
-  them above).<br>
-  Note: you can change this setting by visiting the
-  <a href="editparams.cgi?section=bugchange#duplicate_or_move_bug_status">Parameters</a>
-  page and editing the <i>duplicate_or_move_bug_status</i> parameter.
+  Jeśli [% terms.blad %] jest oznaczony jako duplikat innego [% terms.bledu %] lub jest
+  przenoszony do innej instalacji, jego status jest automatycznie zmieniany na
+  <b>[% display_value("bug_status", Param("duplicate_or_move_bug_status")) FILTER html %]</b>. Wszystkie
+  zmiany statusu tego [% terms.bledu %] muszą być poprawne. Z tego powodu nie można
+  ich edytować powyżej.
+  <br>
+  Można zmienić to ustawienie przechodząc na stronę
+  <a href="editparams.cgi?section=bugchange#duplicate_or_move_bug_status">Parametry</a>
+  i zmodyfikować parametr <i>duplicate_or_move_bug_status</i>.
 </p>
 
 <p align="center">
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type="submit" value="Commit Changes"> -
-  <a href="editworkflow.cgi">Cancel Changes</a> -
-  <a href="editworkflow.cgi?action=edit_comment">View Comments Required on Status Transitions</a>
+  <input type="submit" value="Zapisz zmiany"> -
+  <a href="editworkflow.cgi">Anuluj zmiany</a> -
+  Przejdź na stronę <a href="editworkflow.cgi?action=edit_comment">Zmiany statusu wymagające komentarza</a>
 </p>
 
 </form>

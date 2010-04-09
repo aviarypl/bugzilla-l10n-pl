@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -23,9 +26,9 @@
   #               which the version is being created for
   #%]
   
-[% title = BLOCK %]Dodawanie wersji do produktu '[% product.name FILTER html %]'[% END %]
-[% subheader = BLOCK %]Ta strona pozwal dodać nową wersję do produktu 
-                '[% product.name FILTER html %]'.[% END %]
+[% title = BLOCK %]Dodawanie wersji do produktu „[% product.name FILTER html %]”[% END %]
+[% subheader = BLOCK %]Na tej stronie można dodać nową wersję do produktu 
+                „[% product.name FILTER html %]”.[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
   subheader = subheader

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -13,6 +14,8 @@
   # Contributor(s): Jack Nerad     <jnerad@bellsouth.net>
   #                 Tiago R. Mello <tiago@async.com.br>
   #                 Gabriel S. Oliveira <gabriel@async.com.br>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -25,33 +28,27 @@
 
 [% IF Param('useclassification') %]
   <tr>
-    <th align="right"><b>Classification:</b></th>
+    <th align="right"><b>Kategoria:</b></th>
     <td><b>[% classification.name FILTER html %]</b></td>
   </tr>
 [% END %]
     
 <tr>
-  <th align="right">Product:</th>
+  <th align="right">Produkt:</th>
   <td><input size="64" maxlength="64" name="product" 
              value="[% product.name FILTER html %]">
   </td>
 </tr>
 <tr>
-  <th align="right">Description:</th>
-  <td><textarea rows="4" cols="64" wrap="virtual" name="description">
+  <th align="right">Opis:</th>
+  <td><textarea rows="4" cols="60" wrap="virtual" name="description">
         [% product.description FILTER html %]</textarea>
   </td>
 </tr>
 
 [% IF Param('usetargetmilestone') -%]
   <tr>
-    <th align="right">URL describing milestones for this product:</th>
-    <td><input type="text" size="64" maxlength="255" name="milestoneurl"
-               value="[% product.milestoneurl FILTER html %]">
-    </td>
-  </tr>
-  <tr>
-    <th align="right">Default milestone:</th>
+    <th align="right">Domyślna wersja docelowa:</th>
     <td>
       [% IF product.milestones.size %]
         <select name="defaultmilestone">
@@ -70,45 +67,49 @@
 [% END %]
     
 <tr>
-  <th align="right">Closed for [% terms.bug %] entry:</th>
-  <td><input type="checkbox" name="disallownew" value="1"
-       [% IF product.disallownew == "1" %]
-             checked="checked"[% END %]>
+  <th align="right">Otwarty dla zgłaszania [% terms.bledow%]:</th>
+  <td><input type="checkbox" name="is_active" value="1"
+       [% ' checked="checked"' IF product.is_active %]>
+  </td>
+</tr>
+<tr>
+  <th align="right">
+    <label for="allows_unconfirmed">Włącz status
+      [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %] w
+      tym produkcie:</label>
+  </th>
+  <td><input type="checkbox" id="allows_unconfirmed" name="allows_unconfirmed"
+             [% ' checked="checked"' IF product.allows_unconfirmed %]
+             [% IF Param('usevotes') %]
+               onchange="bz_toggleClass('votes_to_confirm_container', 
+                                        'bz_default_hidden')"
+             [% END %]>
+    [% IF Param('usevotes') %]
+      <span id="votes_to_confirm_container"
+            [% ' class="bz_default_hidden"' IF !product.allows_unconfirmed %]>
+        i automatycznie potwierdź [% terms.bledy %] jeśli osiągną
+        <input size="3" maxlength="5" name="votestoconfirm" id="votestoconfirm"
+               value="[% product.votes_to_confirm FILTER html %]">
+         głosów. (Wartość 0 tego parametru spowoduje wyłączenie automatycznego potwierdzania [% terms.bledow %]
+         przez głosowanie.)
+      </span>
+    [% END %]
   </td>
 </tr>
 
-[% IF !Param('usevotes') %]
-<tr class="param_disabled">
-  <td colspan="2"
-      style="font-family: arial; font-style: italic; font-size: 0.7em; text-align: center;">
-    The 'usevotes' parameter is currently 'off'. These voting
-    settings will take effect when the parameter is next enabled.</td>
-</tr>
+[% IF Param('usevotes') %]
+  <tr>
+    <th align="right">Maksymalna liczba głosów do dyspozycji użytkownika:</th>
+    <td><input size="5" maxlength="5" name="votesperuser" id="votesperuser"
+               value="[% product.votesperuser FILTER html %]">
+    </td>
+  </tr>
+  <tr>
+    <th align="right">
+      Maks. liczba głosów jaką użytkownik może oddać na [% terms.blad %]:
+    </th>
+    <td><input size="5" maxlength="5" name="maxvotesperbug" id="maxvotesperbug"
+               value="[% product.maxvotesperbug FILTER html %]">
+    </td>
+  </tr>
 [% END %]
-<tr [% IF !Param('usevotes') %]class="param_disabled" [% END %]>
-  <th align="right">Maximum votes per person:</th>
-  <td><input size="5" maxlength="5" name="votesperuser" 
-             value="[% product.votesperuser FILTER html %]">
-  </td>
-</tr>
-<tr [% IF !Param('usevotes') %]class="param_disabled" [% END %]>
-  <th align="right">
-    Maximum votes a person can put on a single [% terms.bug %]:
-  </th>
-  <td><input size="5" maxlength="5" name="maxvotesperbug" 
-             value="[% product.maxvotesperbug FILTER html %]">
-  </td>
-</tr>
-<tr [% IF !Param('usevotes') %]class="param_disabled" [% END %]>
-  <th align="right">
-    Confirmation threshold:
-  </th>
-  <td>
-    Enter the number of votes [% terms.abug %] in this product needs to
-    automatically get out of the
-    <a href="page.cgi?id=fields.html#status">[% get_status("UNCONFIRMED") FILTER html %]</a>
-    state.<br>
-    <input size="5" maxlength="5" name="votestoconfirm" 
-           value="[% product.votestoconfirm FILTER html %]">
-  </td>
-</tr>

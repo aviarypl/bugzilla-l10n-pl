@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -35,9 +36,13 @@
 
       [% FOREACH tab = tabs %]
         [% IF tab.name == current_tab_name %]
-          <td class="selected">[% tab.label FILTER html %]</td>
+          <td id="tab_[% tab.name FILTER html %]" class="selected">
+            [% tab.label FILTER html %]</td>
         [% ELSE %]
-          <td class="clickable_area" onClick="document.location='[% tab.link FILTER html %]'"><a href="[% tab.link FILTER html %]">[% tab.label FILTER html %]</a></td>
+          <td id="tab_[% tab.name FILTER html %]" class="clickable_area"
+              onClick="document.location='[% tab.link FILTER html %]'">
+            <a href="[% tab.link FILTER html %]">[% tab.label FILTER html %]</a>
+          </td>
         [% END %]
       [% END %]
 

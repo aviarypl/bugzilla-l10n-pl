@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,7 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -28,8 +30,8 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Wybór wartości dla pola '[% field.description FILTER html %]'
-                   ([% field.name FILTER html %]) field[% END %]
+[% title = BLOCK %]Edycja wartości dla pola „[% field.description FILTER html %]”
+                   ([% field.name FILTER html %])[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
 %]
@@ -43,7 +45,7 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Wartość pola"
+       heading => "Wybierz wartość pola"
        contentlink => edit_contentlink
      },
      { 
@@ -51,8 +53,13 @@
        heading => "Klucz sortowania"
      },
      {
+       name => "isactive"
+       heading => "Włączono dla $terms.bledow"
+       yesno_field => 1
+     },
+     {
        name => "action"
-       heading => "Akcja"
+       heading => "Czynność"
        content => "Usuń"
        contentlink => delete_contentlink
      } ]
@@ -64,7 +71,7 @@
   [% IF check_value.is_static %]
     [% overrides.action.name.${check_value.name} = {
          override_content => 1
-         content => "(wartość nieusuwalna)"
+         content => "(Wartość nieusuwalna)"
          override_contentlink => 1
          contentlink => undef
        }

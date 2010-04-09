@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -22,18 +23,21 @@
   #                 Akamai Technologies <bugzilla-dev@akamai.com>
   #                 Max Kanat-Alexander <mkanat@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
-[% title = BLOCK %]Dodaj [% terms.zgloszenie %]: [% product.name FILTER html %][% END %]
+[% title = BLOCK %]Zgłaszanie [% terms.bledu %]: [% product.name FILTER html %][% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
   style_urls = [ 'skins/standard/create_attachment.css',
                  'skins/standard/yui/calendar.css' ]
   javascript_urls = [ "js/attachment.js", "js/util.js", "js/yui/calendar.js",
-                      "js/field.js", "js/yui/cookie.js", "js/TUI.js" ]
+                      "js/field.js", "js/TUI.js" ]
+  onload = 'set_assign_to();'
 %]
 
 <script type="text/javascript">
@@ -79,7 +83,7 @@ var flags = new Array([% product.components.size %]);
 
 function set_assign_to() {
     // Based on the selected component, fill the "Assign To:" field
-    // with the default component owner, and the "QA Kontakt:" field
+    // with the default component owner, and the "QA Contact:" field
     // with the default QA Contact. It also selectively enables flags.
     var form = document.Create;
     var assigned_to = form.assigned_to.value;
@@ -159,7 +163,7 @@ function handleWantsAttachment(wants_attachment) {
 }
 
 
-TUI_alternates['expert_fields'] = 'Pokaż dodatkowe pola';
+TUI_alternates['expert_fields'] = 'Wyświetl pola dodatkowe';
 // Hide the Advanced Fields by default, unless the user has a cookie
 // that specifies otherwise.
 TUI_hide_default('expert_fields');
@@ -187,21 +191,25 @@ TUI_hide_default('expert_fields');
     [%# Migration note: The following file corresponds to the old Param
       # 'entryheaderhtml'
       #%]
-    [% INCLUDE 'bug/create/user-message.html.tmpl' %]
+    [% PROCESS 'bug/create/user-message.html.tmpl' %]
     </td>
   </tr>
 
   <tr>
-    <td colspan="4">
-        <a id="expert_fields_controller" class="controller bz_default_hidden"
-            href="javascript:TUI_toggle_class('expert_fields')">Ukryj
-        dodatkowe pola</a>
+    <td colspan="2">
+      <a id="expert_fields_controller" class="controller bz_default_hidden"
+         href="javascript:TUI_toggle_class('expert_fields')">Ukryj
+        pola dodatkowe</a>
       [%# Show the link if the browser supports JS %]
       <script type="text/javascript">
-          YAHOO.util.Dom.removeClass('expert_fields_controller', 
-                                     'bz_default_hidden');
+        YAHOO.util.Dom.removeClass('expert_fields_controller', 
+                                   'bz_default_hidden');
       </script>
     </td>
+    <td colspan="2">
+      (<span class="required_star">*</span>
+      <span class="required_explanation">pola wymagane</span>)
+   </td>
   </tr>
 
   <tr>
@@ -214,12 +222,13 @@ TUI_hide_default('expert_fields');
 
   [%# We can't use the select block in these two cases for various reasons. %]
   <tr>
-    <th>
+    <th class="required">
       <a href="describecomponents.cgi?product=[% product.name FILTER url_quote %]">
       Komponent</a>:
     </th>
     <td>
       <select name="component" onchange="set_assign_to();" size="7">
+              aria-required="true" class="required">
         [%# Build the lists of assignees and QA contacts if "usemenuforusers" is enabled. %]
         [% IF Param("usemenuforusers") %]
           [% assignees_list = user.get_userlist.clone %]
@@ -249,7 +258,7 @@ TUI_hide_default('expert_fields');
           <td>
             <fieldset>
               <legend>Opis komponentu</legend>
-              <div id="comp_desc" class="comment">Wybierz kompnent, żeby zobaczyć jego opis.</div>
+              <div id="comp_desc" class="comment">Wybierz komponent, by zapoznać się z jego opisem.</div>
             </fieldset>
           </td>
         </tr>
@@ -268,7 +277,8 @@ TUI_hide_default('expert_fields');
         [%- END %]
       </select>
     </td>
-   [% INCLUDE bug/field.html.tmpl
+
+    [% INCLUDE bug/field.html.tmpl
       bug = default, field = select_fields.bug_severity, editable = 1, 
       value = default.bug_severity %]
   </tr>
@@ -289,7 +299,7 @@ TUI_hide_default('expert_fields');
 <tbody class="expert_fields">
   <tr>
     [% IF Param('usetargetmilestone') && Param('letsubmitterchoosemilestone') %]
-      [% sel = { description => 'Kamienie Milowe', name => 'target_milestone' } %]
+      [% sel = { description => 'Wersja docelowa', name => 'target_milestone' } %]
       [% INCLUDE select %]
     [% ELSE %]
       <td colspan="2">&nbsp;</td>
@@ -310,15 +320,14 @@ TUI_hide_default('expert_fields');
     <tr>
       <th>&nbsp;</th>
       <td colspan="3" class="comment">
-        We've made a guess at your
         [% IF Param('defaultplatform') %]
-          operating system. Please check it
+          System operacyjny został wykryty 
         [% ELSIF Param('defaultopsys') %]
-          platform. Please check it
+          Platforma została wykryta 
         [% ELSE %]
-          operating system and platform. Please check them
+          System operacyjny i platforma zostały wykryte
         [% END %]
-        and make any corrections if necessary.
+        automatycznie. Sprawdź wartości i dokonaj poprawek, jeśli są konieczne.
       </td>
     </tr>
   </tbody>
@@ -333,17 +342,17 @@ TUI_hide_default('expert_fields');
 [% IF bug_status.size <= 1 %]
   <input type="hidden" name="bug_status" 
          value="[% default.bug_status FILTER html %]">
-    <th>Stan początkowy:</th>
-    <td>[% get_status(default.bug_status) FILTER html %]</td>
+    <th>Status początkowy:</th>
+    <td>[% display_value("bug_status", default.bug_status) FILTER html %]</td>
 [% ELSE %]
-    [% sel = { description => 'Stan początkowy', name => 'bug_status' } %]
+    [% sel = { description => 'Status początkowy', name => 'bug_status' } %]
     [% INCLUDE select %]
 [% END %]
 
     <td>&nbsp;</td>
     [%# Calculate the number of rows we can use for flags %]
     [% num_rows = 6 + (Param("useqacontact") ? 1 : 0) +
-                      (user.in_group(Param('timetrackinggroup')) ? 3 : 0) +
+                      (user.is_timetracker ? 3 : 0) +
                       (Param("usebugaliases") ? 1 : 0)
     %]
 
@@ -379,13 +388,13 @@ TUI_hide_default('expert_fields');
          emptyok => 1
          custom_userlist => assignees_list
        %]
-      <noscript>(Leave blank to assign to component's default assignee)</noscript>
+      <noscript>(Pozostaw puste, by przypisać do domyślnego beneficjenta komponentu)</noscript>
     </td>
   </tr>
   
 [% IF Param("useqacontact") %]
     <tr>
-      <th>QA Kontakt:</th>
+      <th>Specjalista QA:</th>
       <td colspan="2">
       [% INCLUDE global/userselect.html.tmpl
          name => "qa_contact"
@@ -395,7 +404,7 @@ TUI_hide_default('expert_fields');
          emptyok => 1
          custom_userlist => qa_contacts_list
        %]
-        <noscript>(Leave blank to assign to default qa contact)</noscript>
+        <noscript>(Pozostaw puste, by przypisać do domyślnego specjalisty QA)</noscript>
       </td>
     </tr>
 [% END %]
@@ -414,13 +423,9 @@ TUI_hide_default('expert_fields');
   </tr>
 
   <tr>
-    <th>Obserwatorzy domyślni:</th>
+    <th>Domyślni obserwatorzy:</th>
     <td colspan="2">
       <div id="initial_cc">
-          <!-- This has to happen after everything above renders,
-               and onload doesn't work. So this is as good a place
-               as any to put it. -->
-          <script type="text/javascript">set_assign_to();</script>
       </div>
    </td>
   </tr>
@@ -429,12 +434,12 @@ TUI_hide_default('expert_fields');
     <td colspan="3">&nbsp;</td>
   </tr>
 
-[% IF user.in_group(Param('timetrackinggroup')) %]
+[% IF user.is_timetracker %]
   <tr>
-    <th>Przewidywany czas:</th>
+    <th>Szacowany nakład pracy:</th>
     <td colspan="2">
-      <input name="estimated_time" size="6" maxlength="6" value="0.0">
- 	<small>(Godziny)</small>
+      <input name="estimated_time" size="6" maxlength="6" value="[% estimated_time FILTER html %]">
+ 	<small>(godziny)</small>
     </td>
   </tr>
   <tr>
@@ -454,7 +459,7 @@ TUI_hide_default('expert_fields');
   <tr>
     <th>Alias:</th>
     <td colspan="2">
-      <input name="alias" size="20">
+      <input name="alias" size="20" value="[% alias FILTER html %]">
     </td>
   </tr>
 [% END %]
@@ -485,10 +490,11 @@ TUI_hide_default('expert_fields');
 <tbody>
 
   <tr>
-    <th>Podsumowanie:</th>
+    <th class="required">Krótki opis:</th>
     <td colspan="3">
       <input name="short_desc" size="70" value="[% short_desc FILTER html %]"
-             maxlength="255" spellcheck="true">
+             maxlength="255" spellcheck="true" aria-required="true"
+             class="required">
     </td>
   </tr>
 
@@ -497,7 +503,7 @@ TUI_hide_default('expert_fields');
     <td colspan="3">
       [% defaultcontent = BLOCK %]
         [% IF cloned_bug_id %]
-+++ This [% terms.bug %] was initially created as a clone of [% terms.Bug %] #[% cloned_bug_id %] +++
++++ Ten [% terms.blad %] został utworzony poprzez sklonowanie [% terms.bledu %] #[% cloned_bug_id %] +++
 
 
         [% END %]
@@ -517,7 +523,7 @@ TUI_hide_default('expert_fields');
     </td>
   </tr>
 
-  [% IF Param("insidergroup") && user.in_group(Param("insidergroup")) %]
+  [% IF user.is_insider %]
     <tr class="expert_fields">
       <th>&nbsp;</th>
       <td colspan="3">
@@ -525,7 +531,8 @@ TUI_hide_default('expert_fields');
         <input type="checkbox" id="commentprivacy" name="commentprivacy"
           [% " checked=\"checked\"" IF commentprivacy %]>
         <label for="commentprivacy">
-          Initial Description is Private
+          Opis prywatny – widoczny tylko dla członków grupy 
+          <strong>[% Param('insidergroup') FILTER html %]</strong>)
         </label>
       </td>
     </tr>
@@ -539,9 +546,9 @@ TUI_hide_default('expert_fields');
         document.write( '<div id="attachment_false">'
                       +   '<input type="button" value="Dodaj załącznik" '
                       +          'onClick="handleWantsAttachment(true)"> '
-                      +   '<em style="display: none">This button has no '
-                      +   'functionality for you because your browser does '
-                      +   'not support CSS or does not use it.<\/em>'
+                      +   '<em style="display: none">Ten przycisk nie '
+                      +   'działa, ponieważ Twoja przeglądarka nie '
+                      +   'obsługuje lub nie używa stylów CSS.<\/em>'
                       + '<\/div>'
                       + '<div id="attachment_true" style="display: none">'
                       +   '<input type="button" '
@@ -550,7 +557,7 @@ TUI_hide_default('expert_fields');
         //-->
       </script>
         <fieldset>
-          <legend>Dodaj załącznik</legend>
+          <legend>Załącznik</legend>
           <table class="attachment_entry">
             [% PROCESS attachment/createformcontents.html.tmpl
                        flag_types = product.flag_types.attachment
@@ -601,11 +608,11 @@ TUI_hide_default('expert_fields');
     <td colspan="3">
       <br>
         <strong>
-          Only users in all of the selected groups can view this [% terms.bug %]:
+          Tylko użytkownicy należący do zaznaczonych grup będą widzieli ten [% terms.blad %]:
         </strong>
       <br>
       <font size="-1">
-        (Leave all boxes unchecked to make this a public [% terms.bug %].)
+        (Pozostawienie wszystkich opcji niezaznaczonych spowoduje, że [% terms.blad %] będzie dostępny dla wszystkich.)
       </font>
       <br>
       <br>
@@ -632,11 +639,11 @@ TUI_hide_default('expert_fields');
     <td colspan="3">
       <input type="submit" id="commit" value="Wyślij"
              onclick="if (this.form.short_desc.value == '')
-             { alert('Please enter a summary sentence for this [% terms.bug %].');
+             { alert('Proszę podać krótki opis tego [% terms.bledu %].');
                return false; } return true;">
       &nbsp;&nbsp;&nbsp;&nbsp;
       <input type="submit" name="maketemplate" id="maketemplate"
-             value="Zapamiętaj jako wzorzec"
+             value="Zapamiętaj jako szablon"
              class="expert_fields">
     </td>
   </tr>
@@ -666,11 +673,8 @@ TUI_hide_default('expert_fields');
     [%- FOREACH x = ${sel.name} %]
       <option value="[% x FILTER html %]"
         [% " selected=\"selected\"" IF x == default.${sel.name} %]>
-        [% IF sel.name == "bug_status" %]
-          [% get_status(x) FILTER html %]
-        [% ELSE %]
-          [% x FILTER html %]
-        [% END %]</option>
+        [% display_value(sel.name, x) FILTER html %]
+      </option>
     [% END %]
     </select>
 

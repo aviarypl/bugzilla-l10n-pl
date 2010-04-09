@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -30,19 +33,19 @@
 
 [% filtered_desc = bug.short_desc FILTER html %]
 [% PROCESS global/header.html.tmpl
-  title = "Changes made to $terms.bug $bug.bug_id"
-  header = "Activity log for $terms.bug $bug.bug_id: $filtered_desc"
+  title = "Zmiany w zgłoszeniu $terms.bledu $bug.bug_id"
+  header = "Dziennik aktywności $terms.bledu nr $bug.bug_id: $filtered_desc"
  %]
 
 <p>
-  [% "Back to $terms.bug $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %]
+  [% "Wróć do $terms.bledu nr $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %]
 </p>
 
 [% PROCESS bug/activity/table.html.tmpl %]
 
 [% IF operations.size > 0 %]
   <p>
-    [% "Back to $terms.bug $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %]
+    [% "Wróć do $terms.bledu nr $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %]
   </p>
 [% END %]
 

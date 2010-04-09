@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -23,158 +24,158 @@
   #                 Chris Pratt
   #                 Tom Schutter
   #                 Chris Yeh
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS "global/field-descs.none.tmpl" %]
 
-[% INCLUDE global/header.html.tmpl title = "$terms.Bug Writing Guidelines" %]
+[% INCLUDE global/header.html.tmpl title = "Wytyczne zgłaszania $terms.bledow" %] 
 
-  <p>Effective [% terms.bug %] reports are the most likely to be fixed. 
-  These guidelines explain how to write such reports.
+  <p>Dobrze zgłoszone [% terms.bledy %] mają największe prawdopodobieństwo naprawy. 
+  Te wskazówki wyjaśniają, jak napisać zgłoszenie.
 
-<h3>Principles</h3>
+<h3>Zasady</h3>
 
   <ul>
-    <li>Be precise</li>
-    <li>Be clear - explain it so others can reproduce the [% terms.bug %]</li>
-    <li>One [% terms.bug %] per report</li>
-    <li>No [% terms.bug %] is too trivial to report - 
-    small [% terms.bugs %] may hide big [% terms.bugs %]</li>
-    <li>Clearly separate fact from speculation</li>
+    <li>Bądź precyzyjny</li>
+    <li>Wyrażaj się jasno - wyjaśnij, jak inni mogą reprodukować [% terms.blad %]</li>
+    <li>Jeden [% terms.blad %], jedno zgłoszenie</li>
+    <li>Nie ma zbyt błahych [% terms.bledow %] do zgłaszania – 
+    mały [% terms.blad %] może ukrywać wielkie [% terms.bledy %]</li>
+    <li>Jasno oddzielaj fakty od przypuszczeń</li>
   </ul>
 
-<h3>Preliminaries</h3>
+<h3>Czynności wstępne</h3>
 
 <ol>
-  <li>Reproduce your [% terms.bug %] using a recent build of the
-  software, to see whether it has already been fixed.
+  <li>Reprodukuj swój [% terms.blad %] używając najnowszej wersji
+  programu, by sprawdzić czy błąd nie został już naprawiony.
   </li>
 
-  <li><a href="query.cgi?format=specific">Search</a> 
-  [% terms.Bugzilla %], to see whether your [% terms.bug %] has
-  already been reported.</li>
+  <li><a href="query.cgi?format=specific">Przeszukaj</a> 
+  [% terms.Bugzille %], by sprawdzić czy Twój [% terms.blad %] nie
+  był już zgłaszany.</li>
 </ol>
 
-<h3>Reporting a New [% terms.Bug %]</h3>
+<h3>Zgłaszanie nowego [% terms.bledu %]</h3>
 
-<p>If you have reproduced the [% terms.bug %] in a recent build and 
-no-one else appears to have reported it, then:</p>
+<p>Jeśli [% terms.blad %] dało się reprodukować w najnowszej wersji i
+nie ma wcześniejszych zgłoszeń to:</p>
 
 <ol>
- <li>Choose 
- "<a href="enter_bug.cgi">Enter a new [% terms.bug %]</a>"</li>
- <li>Select the product in which you've found the [% terms.bug %]</li>
- <li>Fill out the form. Here is some help understanding it:</li>
+ <li>Wybierz 
+ „<a href="enter_bug.cgi">[% terms.Blad %]</a>”</li>
+ <li>Zaznacz produkt, w którym [% terms.blad %] został znaleziony</li>
+ <li>Wypełnij formularz. Poniżej znajduje się kilka przydatnych informacji:</li>
 </ol>
 
   <blockquote>
-    <p><b>Component:</b> In which sub-part of the software does it 
-          exist?<br>
-    This field is required.
-    Click the word "Component" to see a description of each 
-    component. If none seems appropriate, look for a "General" component.</p>
+    <p><b>Komponent:</b> Określa w której części programu występuje ten [% terms.blad %].<br>
+    To pole jest wymagane.
+    Kliknij słowo „Komponent”, by zobaczyć opis każdego 
+    komponentu. Jeśli żaden nie wydaje Ci się odpowiedni, poszukaj komponentu „Ogólny”.</p>
 
-    <p><b>OS:</b> On which operating system (OS) did you find 
-          it?
-    (e.g. Linux, Windows XP, Mac OS X.)<br>
-    If you know the [% terms.bug %] happens on more than one type of 
-    operating system, choose "All". 
-    If your OS isn't listed, choose Other.</p>
+    <p><b>OS:</b> Określa na jakim systemie operacyjnym (OS) [% terms.blad %] został
+    wykryty.
+    (np. Linux, Windows XP, Mac OS X.)<br>
+    Jeśli wiesz, że ten [% terms.blad %] występuje na każdym systemie operacyjnym,
+    wybierz <em>[% display_value("op_sys", "All") FILTER html %]</em>. 
+    Jeśli Twojego systemu operacyjnego nie ma na liście, wybierz <em>[% display_value("op_sys", "Other") FILTER html %]</em>.</p>
 
-    <p><b>Summary:</b> How would you describe the [% terms.bug %], in 
-    approximately 60 or fewer characters?<br>
-     A good summary should <b>quickly and uniquely identify [% terms.abug %]
-    report</b>. It should explain the problem, not your suggested solution.<br>
+    <p><b>Krótki opis:</b> Krótki opis [% terms.bledu %], który powinien zamknąć się
+    maksymalnie w 60 znakach.<br>
+     Dobry krótki opis powinien <b>szybko i jednoznacznie identyfikować zgłoszenie
+    [% terms.bladu %]</b>. Powinien opisywać problem, a nie Twoje sugerowane rozwiązanie.<br>
     <ul>
-     <li>Good: "<tt>Cancelling a File Copy dialog crashes 
-     File Manager</tt>"</li>
-     <li>Bad: "<tt>Software crashes</tt>"</li>
-     <li>Bad: "<tt>Browser should work with my web site</tt>"</li>
+     <li>Dobrze: „<tt>Anulowanie kopiowania plików powoduje awarię 
+     menedżera plików</tt>”</li>
+     <li>Źle: „<tt>Program ulega awarii</tt>”</li>
+     <li>Źle: „<tt>Przeglądarka powinna pracować z moją witryną internetową</tt>”</li>
     </ul>
     
-    <b>Description:</b>
-    The details of your problem report, including:</p>
+    <b>Opis:</b>
+    Szczegóły zgłaszanego problemu zawierające:</p>
 
     <blockquote>
-      <p><b>Overview:</b> More detailed restatement of
-      summary.</p>
+      <p><b>Ogólny opis</b> – nieco bardziej szczegółowe rozwinięcie zawartości
+      krótkiego opisu.</p>
 
       <blockquote>
 <pre>
-Drag-selecting any page crashes Mac builds in the NSGetFactory function.
+Zaznaczenie myszą dowolnej strony powoduje awarię wersji przeznaczonej<br/>dla Mac OSX w funkcji NSGetFactory.
 </pre>
       </blockquote>
 
-      <p><b>Steps to Reproduce:</b> Minimized, easy-to-follow steps that
-      will trigger the [% terms.bug %]. Include any special setup steps.</p>
+      <p><b>Czynności do reprodukowania błędu:</b> Możliwie nieskomplikowany opis czynności,
+      których powtórzenie pozwala na zaobserwowanie [% terms.bledu %]. Powinien zawierać
+      początkowe ustawienia wymagane do wystąpienia [% terms.bledu %].</p>
 
       <blockquote>
 <pre>
-1) View any web page. (I used the default sample page, 
+1) Otwórz dowolną stronę internetową. (Ja używałem domyślnej, przykładowej strony), 
 resource:/res/samples/test0.html)
 
-2) Drag-select the page. (Specifically, while holding down 
-the mouse button, drag the mouse pointer downwards from any 
-point in the browser's content region to the bottom of the 
-browser's content region.)
+2) Zaznacz stronę używając myszy. Wykonuje się to w następujący sposób:
+– umieść wskaźnik myszy w lewym górnym narożniku strony przeglądarki,
+– przyciśnij i przytrzymaj lewy przycisk myszy i wykonaj ciągnięcie w
+  kierunku prawego dolnego narożnika.
 </pre>
       </blockquote>
 
-      <p><b>Actual Results:</b> What the application did after performing
-      the above steps.</p>
+      <p><b>Otrzymany wynik</b> – co się stało po wykonaniu
+      tych czynności.</p>
 
       <blockquote>
 <pre>
-The application crashed.
+Program wyłączył się z błędem. Poniżej zamieszczam zrzut stosu z MacsBug.
 </pre>
       </blockquote>
 
-      <p><b>Expected Results:</b> What the application should have done,
-      were the [% terms.bug %] not present.</p>
+      <p><b>Oczekiwany wynik</b> – co powinien wykonać program, gdyby ten [% terms.blad %]
+      nie występował.</p>
 
       <blockquote>
 <pre>
-The window should scroll downwards. Scrolled content should be selected. 
-(Or, at least, the application should not crash.)
+Okno powinno zostać przewinięte w dół. Przewinięta zawartość powinna zostać zaznaczona
+lub przynajmniej program nie powinien ulec awarii.
 </pre>
       </blockquote>
 
-      <p><b>Build Date &amp; Platform:</b> Date and platform of the build
-      in which you first encountered the [% terms.bug %].</p>
+      <p><b>Wersja i platforma</b> – wersja oraz platforma, na której zaobserwowano 
+      [% terms.blad %].</p>
 
       <blockquote>
 <pre>
-Build 2006-08-10 on Mac OS 10.4.3
+Wersja z 2006-08-10 dla Mac OS 10.4.3
 </pre>
       </blockquote>
 
-      <p><b>Additional Builds and Platforms:</b> Whether or not 
-      the [% terms.bug %] takes place on other platforms (or browsers, 
-      if applicable).</p>
+      <p><b>Dodatkowe wersje i platformy</b> – czy [% terms.blad %]
+      występuje na innych platformach lub (jeśli dotyczy)
+      przeglądarkach.</p>
 
       <blockquote>
 <pre>
-Doesn't Occur On Build 2006-08-10 on Windows XP Home (Service Pack 2)
+Nie występuje na wersji z 2006-08-10 na Windows XP Home SP2
 </pre>
       </blockquote>
 
-      <p><b>Additional Information:</b> Any other useful information.
-      <br><br>For crashing [% terms.bugs %]:</p>
+      <p><b>Dodatkowe informacje</b> – dodatkowe informacje, które mogą pomóc w naprawieniu błędu.
+      <br><br>Przykładowo dla [% terms.bledow %] powodujących awarię programu:</p>
 
       <ul>
-        <li><b>Windows:</b> Note the type of the crash, and the module that the
-        application crashed in (e.g. access violation in apprunner.exe).</li>
+        <li><b>Windows:</b> Typ awarii i moduł, który spowodował awarię
+        np. pogwałcenie dostępu w apprunner.exe.</li>
 
-        <li><b>Mac OS X:</b> Attach the "Crash Reporter" log that appears
-        upon crash.
-        Only include the section directly below the crashing thread, usually 
-        titled "Thread 0 Crashed". Please do not paste the entire log!</li>
+        <li><b>Mac OS X:</b> Dołącz log z modułu zgłaszania awarii, który pojawia się po awarii.
+        Dołącz tylko fragment poniżej wątku, zwykle nazywa się on
+        „Wątek 0 uległ awarii”. Proszę nie podawać zawartości całego loga!</li>
       </ul>
     </blockquote>
 
-  <p>Double-check your report for errors and omissions, then press "Commit".
-  Your [% terms.bug %] report will now be in 
-  the [% terms.Bugzilla %] database.<br>
+  <p>Sprawdź dokładnie swoje zgłoszenie czy nie ma w nim błędów lub coś nie zostało
+  pominięte i naciśnij przycisk „Wyślij”. Twoje zgłoszenie [% terms.bledu %] będzie teraz w 
+  bazie danych [% terms.Bugzilli %].<br>
   </p>
 </blockquote>
 

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -11,6 +12,7 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -20,8 +22,8 @@
   #%]
 
 [% title = BLOCK %]
-  Usuwanie wartości '[% value.name FILTER html %]' z pola 
-  '[% field.description FILTER html %]' ([% field.name FILTER html %]) field
+  Usuwanie wartości „[% value.name FILTER html %]” z pola
+  „[% field.description FILTER html %]” ([% field.name FILTER html %])
 [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -46,9 +48,9 @@
   <td valign="top">[% terms.Bledy %]:</td>
   <td valign="top">
 [% IF value.bug_count %]
-  <a title="Lista [% terms.bledow %] dla których '
-            [%- field.description FILTER html %]' jest równe '
-            [%- value.name FILTER html %]'"
+  <a title="Lista [% terms.bledow %], dla których 
+            „[%- field.description FILTER html %]” jest
+            „[%- value.name FILTER html %]”"
      href="buglist.cgi?[% field.name FILTER url_quote %]=
            [%- value.name FILTER url_quote %]">
    [%- value.bug_count FILTER html %]</a>
@@ -66,45 +68,53 @@
       || value.controlled_values.size 
 %]
 
-  <p>Niestety wartość '[% value.name FILTER html %]' nie może zostać usunięta
-    z pola '[% field.description FILTER html %]' z następujących powodów:</p>
+  <p>Niestety wartość „[% value.name FILTER html %]” nie może zostać usunięta
+    z pola „[% field.description FILTER html %]” z następujących powodów:</p>
 
   <ul class="warningmessages">
     [% IF value.is_default %]
-      <li>'[% value.name FILTER html %]' jest domyślną wartością dla
-        pola '[% field.description FILTER html %]'.
+      <li>„[% value.name FILTER html %]” jest domyślną wartością dla
+        pola „[% field.description FILTER html %]”.
         [% IF user.in_group('tweakparams') %]
-          Należy najpierw <a href="editparams.cgi?section=bugfields">zmienić
-          domyślną wartość</a> dla tego pola, a potem usunąć bieżącą wartość.
+          Najpierw należy <a href="editparams.cgi?section=bugfields">zmienić
+          domyślną wartość</a> dla tego pola, a dopiero potem usunąć
+          bieżącą wartość.
         [% END %]
       </li>
     [% END %]
 
     [% IF value.bug_count %]
-      <li>Napotkano [% value.bug_count FILTER html %] 
-          [% PROCESS ODMIEN c=value.bug_count o1="$terms.blad" 
-            o2="$bug_count błędy" o3="$bug_count błędów" %]
-          z tą wartością pola. Należy najpierw zmienić wartość pól
-          <a title="Lista [% terms.bledow %] gdzie '
-                    [%- field.description FILTER html %]' ma wartość '
-                    [%- value.name FILTER html %]'"
+      <li>
+        [% IF value.bug_count > 1 %]
+          W tej wartości pola są [%+ terms.bledy %]: [% value.bug_count FILTER html %].
+          
+        [% ELSE %]
+          W tej wartości pola jest 1 [% terms.blad %].
+        [% END %]
+        Musisz zmienić wartość pola na
+          <a title="liście [% terms.bledow %], gdzie 
+                    „[%- field.description FILTER html %]” jest
+                    „[%- value.name FILTER html %]”"
              href="buglist.cgi?[% field.name FILTER url_quote %]=
                    [%- value.name FILTER url_quote %]">
-			   [% PROCESS ODMIEN c=value.bug_count o1="$terms.bledu" 
-            o2="$bug_count błędów" %]
+            [% IF value.bug_count > 1 %]
+              tych [% terms.bledow %] 
+            [% ELSE %]
+              tego [% terms.bledu %]
+            [% END %]
           </a>
-          a potem dopiero usunąć te wartości.            
+          na inną wartość, a dopiero potem usunąć bieżącą wartość.
       </li>
     [% END %]
 
     [% IF value_count == 1 %]
-      <li>'[% value.name FILTER html %]' jest ostatnią wartościa dla
-        '[%- field.description FILTER html %]', więc nie może zostać usunięta.
+      <li>„[% value.name FILTER html %]” jest ostatnią wartością dla
+        „[%- field.description FILTER html %]”, więc nie może zostać usunięta.
       </li>
     [% END %]
 
     [% IF value.controls_visibility_of_fields.size %]
-      <li>This value controls the visibility of the following fields:<br>
+      <li>Ta wartość nadzoruje wyświetlanie następujących pól:<br>
         [% FOREACH field = value.controls_visibility_of_fields %]
           <a href="editfields.cgi?action=edit&name=
                    [%- field.name FILTER url_quote %]">
@@ -115,8 +125,8 @@
     [% END %]
 
     [% IF value.controlled_values.size %]
-      <li>This value controls the visibility of the following values in
-        other fields:<br>
+      <li>Ta wartość nadzoruje wyświetlanie następujących wartości w
+        innych polach:<br>
        [% FOREACH field_name = value.controlled_values.keys %]
          [% FOREACH controlled = value.controlled_values.${field_name} %]
            <a href="editvalues.cgi?action=edit&field=
@@ -133,10 +143,10 @@
 
 [% ELSE %]
 
-  <p>Czy na pewno usunąć tę wartość?</p>
+  <p>Czy na pewno chcesz usunąć tę wartość?</p>
 
   <form method="post" action="editvalues.cgi">
-    <input type="submit" value="Tak, usuń" id="delete">
+    <input type="submit" value="Tak, chcę" id="delete">
     <input type="hidden" name="action" value="delete">
     <input type="hidden" name="field" value="[% field.name FILTER html %]">
     <input type="hidden" name="value" value="[% value.name FILTER html %]">

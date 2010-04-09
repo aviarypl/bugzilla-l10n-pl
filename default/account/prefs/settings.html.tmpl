@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -13,6 +14,7 @@
   # Contributor(s): Shane H. W. Travis <travis@sedsystems.ca>
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -32,9 +34,9 @@
 [% IF settings.size %]
   [% UNLESS has_settings_enabled %]
     <p class="criticalmessages">
-      Wszystkie ustawienia użytkowników zostały wyłączone przez 
+      Wszystkie preferencje użytkowników zostały wyłączone przez 
       <a href="mailto:[% Param("maintainer") %]">opiekuna</a>
-      tej instalacji. Nie można zmieniać żadnego z ustawień.
+      tej instalacji. W związku z tym nie możesz zmieniać żadnego ustawienia.
     </p>
   [% END %]
 
@@ -51,7 +53,7 @@
             <select name="[% name FILTER html %]" id="[% name FILTER html %]">
               <option value="[% default_name FILTER html %]"
                 [% ' selected="selected"' IF settings.${name}.is_default %]>
-                domyślnie ([% setting_descs.${default_val} OR default_val FILTER html %])
+                wartość domyślna ([% setting_descs.${default_val} OR default_val FILTER html %])
               </option>
               [% FOREACH x = settings.${name}.legal_values %]
                 <option value="[% x FILTER html %]"
@@ -65,7 +67,7 @@
           [% ELSE %]
             <select name="[% name FILTER html %]" id="[% name FILTER html %]" disabled="disabled">
               <option value="[% default_name FILTER html %]">
-                domyślnie ([% setting_descs.${default_val} OR default_val FILTER html %])
+                domyślne witryny ([% setting_descs.${default_val} OR default_val FILTER html %])
               </option>
             </select>
           [% END %]

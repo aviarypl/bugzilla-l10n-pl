@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -27,7 +29,7 @@
 <table>
   <tr>
     <td colspan="3">
-      Proszę podać hasło, aby potwierdzić zmiany w ustawieniach konta.
+      Podaj swoje hasło, by potwierdzić zmiany w ustawieniach konta.
     </td>
   </tr>
   <tr>
@@ -50,7 +52,7 @@
     </tr>              
 
     <tr>
-      <th align="right">Potwierdzenie nowego hasła:</th>
+      <th align="right">Potwierdź nowe hasło:</th>
       <td>
         <input type="password" name="new_password2">
       </td>
@@ -58,7 +60,7 @@
   [% END %]
 
   <tr>
-    <th align="right">Imię i nazwisko (zalecane):</th>
+    <th align="right">Imię i nazwisko (opcjonalne, ale zalecane):</th>
     <td>
       <input size="35" name="realname" value="[% realname FILTER html %]">
     </td>
@@ -68,11 +70,11 @@
     [% IF login_change_date %]
       [% IF new_login_name %]
         <tr>
-          <th align="right">Nowy adres e-mail:</th>
+          <th align="right">Proponowany nowy adres e-mail:</th>
           <td>[% new_login_name FILTER html %]</td>
         </tr>
         <tr>
-          <th align="right">Data wygaśnięcia żądania zmiany:</th>
+          <th align="right">Data wygaśnięcia prośby:</th>
           <td>[% login_change_date FILTER time %]</td>
         </tr>
       [% ELSE %]

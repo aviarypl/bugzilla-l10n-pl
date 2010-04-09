@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -14,6 +15,8 @@
   #
   # Contributor(s): Olav Vitters <olav@bkor.dhs.org>
   #                 David Lawrence <dkl@redhat.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -24,7 +27,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Already filed attachment"
+  title = "Załącznik był już utworzony"
 %]
 
 [% USE Bugzilla %]
@@ -33,16 +36,16 @@
   <tr>
     <td bgcolor="#ff0000">
       <font size="+2">
-        You already used the form to file
-        <a href="[% urlbase FILTER html %]attachment.cgi?id=[% attachid FILTER url_quote %]&action=edit">attachment [% attachid FILTER url_quote %]</a>.
+        Formularz był już używany do utworzenia
+        <a href="[% urlbase FILTER html %]attachment.cgi?id=[% attachid FILTER url_quote %]&action=edit">załącznika [% attachid FILTER url_quote %]</a>.
       </font>
     </td>
   </tr>
 </table>
 
 <p>
-  You can either <a href="[% urlbase FILTER html %]attachment.cgi?bugid=[% bugid FILTER url_quote %]&action=enter">
-  create a new attachment</a> or [% "go back to $terms.bug $bugid" FILTER bug_link(bugid) FILTER none %].
+  Możesz <a href="[% urlbase FILTER html %]attachment.cgi?bugid=[% bugid FILTER url_quote %]&action=enter">
+  utworzyć nowy załącznik</a> lub [% "wrócić do $terms.bledu $bugid" FILTER bug_link(bugid) FILTER none %].
 <p>
 
 [% PROCESS global/footer.html.tmpl %]

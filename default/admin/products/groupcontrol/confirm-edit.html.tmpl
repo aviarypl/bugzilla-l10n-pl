@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,37 +18,39 @@
   #
   # Contributor(s): Joel Peshkin <bugreport@peshkin.net>
   #
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
 [% title = BLOCK %]
-  Confirm Group Control Change for product '[%- product.name FILTER html %]'
+  Potwierdzenie zmiany grupy nadzorującej dla produktu '[%- product.name FILTER html %]'
 [% END %]
 
 [% PROCESS global/header.html.tmpl title = title %]
 [% FOREACH group = mandatory_groups %]
 <P>
-group '[% group.name FILTER html %]' impacts [% group.count %] 
-[%+ terms.bugs %] for
-which the group is newly mandatory and will be added.
+Grupa „[% group.name FILTER html %]” oddziaływuje na [% group.count %] 
+[% PROCESS ODMIEN c=group.count o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %], 
+dla których jest ponownie obligatoryjna i będzie dodana.
 [% END %]
 
 [% FOREACH group = na_groups %]
 <P>
-group '[% group.name FILTER html %]' impacts [% group.count %]&nbsp;
-[% terms.bugs %] for which the group is no longer applicable and will
-be removed.[% END %]
+Grupa „[% group.name FILTER html %]” oddziaływuje na [% group.count %] 
+[% PROCESS ODMIEN c=group.count o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %], 
+dla których nie ma już zastosowania i zostanie usunięta.[% END %]
 <form action="editproducts.cgi" method="post" >
 
   [% PROCESS "global/hidden-fields.html.tmpl" exclude="^Bugzilla_(login|password)$" %]
 
   <br>
-     Click "Continue" to proceed with the change including the changes
-     indicated above.  If you do not want these changes, use "back" to
-     return to the previous page.
+     Aby dokonać zmian (łącznie ze zmianami wymienionymi powyżej), naciśnij
+     przycisk „Kontynuuj”. Jeśli nie chcesz dokonywać zmian, użyj
+     przycisku „Wróć”, by powrócić do poprzedniej strony.
   <p>
     <input type="hidden" name="confirmed" value="confirmed">
-    <input type="submit" id="update" value="Continue">
+    <input type="submit" id="update" value="Kontynuuj">
   </p>
 
 </form>

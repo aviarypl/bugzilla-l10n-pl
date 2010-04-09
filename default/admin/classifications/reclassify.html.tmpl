@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,16 +17,17 @@
   # Rights Reserved.
   #
   # Contributor(s): Albert Ting <alt@sonic.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Zmiana klasyfikacji produktów"
+  title = "Zmiana kategorii produktów"
 %]
 
 <form method=post action="editclassifications.cgi">
   <table border=0 cellpadding=4 cellspacing=0>
     <tr>
-      <td valign="top">Klasyfikacja:</td>
+      <td valign="top">Kategoria:</td>
       <td valign="top" colspan=3>[% classification.name FILTER html %]</td>
 
     </tr><tr>
@@ -43,10 +45,10 @@
       <td valign="top" colspan=3>[% classification.sortkey FILTER html %]</td>
 
     </tr><tr>
-      <td valign="top">Produkt:</td>
-      <td valign="top">Inne klasyfikacje</td>
+      <td valign="top">Produkty:</td>
+      <td valign="top">Inne kategorie</td>
       <td></td>
-      <td valign="top">Ta klasyfikacja</td>
+      <td valign="top">Ta kategoria</td>
 
     </tr><tr>
       <td></td>
@@ -84,8 +86,7 @@
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
-<p>Back to the <a href="./">Strona główna</a>,
-| <a href="editclassifications.cgi">Lista klasyfikacji</a></p>
+[% PROCESS admin/classifications/footer.html.tmpl %]
 
 [% PROCESS global/footer.html.tmpl %]
 

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -22,9 +23,13 @@
   # otheruser:           Bugzilla::User object of viewed user.
   # groups:              array of group information (name, grant type,
   #                      canbless) for viewed user.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  # Added, changed lines 32, 95 for Polish localization
   #%]
 
 [% title = BLOCK %]Edycja użytkownika [% otheruser.identity FILTER html %][% END %]
+[% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -52,7 +57,7 @@
           <tr>
             [% IF editusers %]
               <th colspan="3">
-                Może włączać poniższe bity dla innych użytkowników
+                Możesz włączać poniższe elementy dla innych użytkowników
               </th>
             [% END %]
           </tr>
@@ -60,7 +65,7 @@
             [% IF editusers %]
               <td style="text-align: center; font-weight: bold">|</td>
             [% END %]
-            <th colspan="2">Użytkownik jest członkiem grup</th>
+            <th colspan="2">Użytkownik jest członkiem następujących grup</th>
           </tr>
           [% FOREACH group = groups %]
             [% perms = permissions.${group.id} %]
@@ -87,7 +92,7 @@
               <td class="groupname">
                 <label for="group_[% group.id %]">
                   <strong>[% group.name FILTER html %]:</strong>
-                  [%+ group.description FILTER html_light %]
+                  [%+ display_value("bit_description", group.description) FILTER html_light %]
                 </label>
               </td>
             </tr>
@@ -98,7 +103,7 @@
   [% END %]
 
   <tr>
-    <th>Funkcje w produktach:</th>
+    <th>Pełnione role w produktach:</th>
     <td>
       [% IF otheruser.product_responsibilities.size %]
         [% PROCESS admin/users/responsibilities.html.tmpl otheruser = otheruser %]
@@ -110,27 +115,27 @@
 </table>
 
 <p>
-  <input type="submit" id="update" value="Zastosuj" />
+  <input type="submit" id="update" value="Zapisz zmiany" />
   <input type="hidden" name="userid" value="[% otheruser.id %]" />
   <input type="hidden" name="action" value="update" />
   <input type="hidden" name="token" value="[% token FILTER html %]">
   [% INCLUDE listselectionhiddenfields %]
 
-  or <a href="editusers.cgi?action=activity&amp;userid=[% otheruser.id %]"
-        title="View Account History for '
-        [%- otheruser.login FILTER html %]'">View Account History</a>
+  lub <a href="editusers.cgi?action=activity&amp;userid=[% otheruser.id %]"
+        title="Zobacz historię konta
+        użytkownika „[%- otheruser.login FILTER html %]”">Historia konta</a>
 </p>
 </form>
 <p>
-  Użytkownik jest członkiem zaznaczonych i wyświetlonych na szaro grup. 
-  Kolor szary określa pośrednie członkostwo - poprzez inne grupy (zaznaczone
-   w nawiasach []) lub poprzez wyrażenie regularne (zaznaczone '*').
+  Użytkownik jest członkiem zaznaczonych lub wyświetlonych na szarym tle grup. 
+  Kolor szary określa pośrednie członkostwo poprzez inne grupy (oznaczone nawiasami [ ] kwadratowymi) 
+  lub poprzez wyrażenie regularne (oznaczone „*”).
 </p>
 [% IF editusers %]
   <p>
-    Nawiasy kwadratowe [] wokół "bless checkbox" oznaczają możliwość 
-	 przyznawania członkostwa w tej grupie innym użytkownikom 
-	 w wyniku członkostwa w innej grupie.
+    Nawiasy kwadratowe [ ] wokół pól wyboru oznaczają możliwość
+    przyznawania członkostwa w grupie innym użytkownikom 
+    w wyniku członkostwa w innej grupie.
   </p>
 [% END %]
 
@@ -146,20 +151,22 @@
 [% END %]
 
 <p>
+  Możesz także
   [% IF editusers %]
-    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">Nowy 
-    użytkownik</a> |
+    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">dodać
+    nowego użytkownika</a>
     [% IF listselectionvalues %],
     [% END %]
   [% END %]
   [% IF listselectionvalues.matchtype != 'exact' %]
-    <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Lista 
-    użytkowników</a> | 
+    przejść
+    <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">z powrotem
+    do listy użytkowników</a>,
   [% END %]
   [% IF editusers OR listselectionvalues %]
-    or
+    lub
   [% END %]
-  <a href="editusers.cgi">Wyszukiwanie użytkowników</a>.
+  <a href="editusers.cgi">poszukać innych użytkowników</a>.
 </p>
 
 [% PROCESS global/footer.html.tmpl %]

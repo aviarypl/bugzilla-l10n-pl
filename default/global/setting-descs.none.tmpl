@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -12,6 +13,8 @@
   #
   # Contributor(s): Shane H. W. Travis <travis@sedsystems.ca>
   #
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# Remember to PROCESS rather than INCLUDE this template. %]
@@ -21,7 +24,7 @@
 [% setting_descs = { 
    "comment_sort_order"               => "Kolejność komentarzy na stronach $terms.bledow",
    "csv_colsepchar"                   => "Separator pól w plikach CSV",
-   "display_quips"                    => "Wyświetlanie sentencji na stronie listy $term.bledow",
+   "display_quips"                    => "Wyświetlaj sentencje na górze każdej listy $terms.bledow",
    "zoom_textareas"                   => "Powiększaj aktywne pola tekstowe (wymaga JavaScriptu)",
    "newest_to_oldest"                 => "od najnowszego do najstarszego",
    "newest_to_oldest_desc_first"      => "od najnowszego do najstarszego (opis na górze)",
@@ -32,19 +35,19 @@
    "post_bug_submit_action"           => "Po zmianie $terms.bledu",
    "next_bug"                         => "pokaż następny $terms.blad w mojej liście",
    "same_bug"                         => "pokaż uaktualniony $terms.blad",
-   "standard"                         => "klasyczny",
+   "standard"                         => "Klasyczny",
    "skin"                             => "Wygląd $terms.Bugzilli (motyw)",
    "nothing"                          => "nie rób nic",
    "state_addselfcc"                  => "Dodawaj mnie do obserwatorów $terms.bledow, które zmieniam",
    "always"                           => "zawsze",
    "never"                            => "nigdy",
-   "cc_unless_role"                   => "tylko, gdy nie mam w nich żadnej roli",
+   "cc_unless_role"                   => "tylko, gdy nie mam w nich przypisanej żadnej roli",
    "lang"                             => "Język używany w wiadomościach e-mail",
-   "quote_replies"                    => "Cytowanie komentarzy po naciśnięciu linku Odpowiedz",
-   "quoted_reply"                     => "Cytuj cały komentarz",
-   "simple_reply"                     => "Wstaw numer komentarza do którego odnosi się odpowiedź",
-   "timezone"                         => "Strefa czasowa (wyświetlanie daty i czasu)",
-   "local"                            => "używana przez serwer",
+   "quote_replies"                    => "Cytuj skojarzony komentarz po kliknięciu odnośnika „odpowiedz”",
+   "quoted_reply"                     => "cytuj cały komentarz",
+   "simple_reply"                     => "odnoś się tylko do numeru komentarza",
+   "timezone"                         => "Strefa czasowa używana do wyświetlania dat i czasu",
+   "local"                            => "taka sama, jak serwera",
                    } 
 %]
 

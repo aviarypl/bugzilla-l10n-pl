@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
   #                 Erik Stambaugh <not_erik@dasbistro.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -38,10 +41,26 @@
 [%# use the global field descs %]
 [% PROCESS "global/field-descs.none.tmpl" %]
 
-[% IF matchsuccess == 1 %]
-  [% PROCESS global/header.html.tmpl title="Confirm Match" %]
+[%# This lists fields which use the user auto-completion feature and which
+  # are not listed in field_descs. %]
+[% field_labels = { # Used by editcomponents.cgi
+                    "initialcc"               => "Domyślni obserwatorzy",
+                    "initialowner"            => "Domyślny beneficjent",
+                    "initialqacontact"        => "Domyślny specjalista QA",
+                    # Used by process_bug.cgi
+                    "masscc"                  => "Lista obserwatorów",
+                    # Used by request.cgi
+                    "requester"               => "Proszący",
+                    "requestee"               => "Prośba",
+                    # Used by userprefs.cgi
+                    "new_watchedusers"        => "Obserwowani użytkownicy",
 
-[% USE Bugzilla %]
+   }
+%]
+[% IF matchsuccess == 1 %]
+  [% PROCESS global/header.html.tmpl title="Potwierdzenie dopasowania" %]
+
+  [% USE Bugzilla %]
 
   <form method="post" 
   [% IF script -%]
@@ -54,25 +73,29 @@
 
   <p>
     [% IF matchmultiple %]
-      [% terms.Bugzilla %] cannot make a conclusive match for one or more
-      of the names and/or email addresses you entered on the previous page.
-      <br>Please examine the lists of potential matches below and select the
-      ones you want,
+      [% terms.Bugzilla %] nie jest w stanie jednoznacznie określić poprawność niektórych
+      nazw i/lub adresów e-mail, które podano na poprzedniej stronie.<br>
+      Sprawdź poniższe listy potencjalnie prawidłowych elementów i wybierz
+      te, które chcesz,
     [% ELSE %]
-      [% terms.Bugzilla %] is configured to require verification whenever
-      you enter a name or partial email address.
-      <br>Below are the names/addresses you entered and the matched accounts.
-      Please confirm that they are correct,
+      [% terms.Bugzilla %] wymaga weryfikacji ilekroć zostanie
+      wprowadzona nazwa lub częściowy adres e-mail.
+      <br>Poniżej znajdują się wprowadzone nazwy/adresy i odpowiadające im konta.
+      Potwierdź ich poprawność
     [% END %]
-    or go back to the previous page to revise the names you entered.
+    lub wróć do poprzedniej strony, by poprawić wprowadzone nazwy/adresy.
   </p>
 [% ELSE %]
-  [% PROCESS global/header.html.tmpl title="Match Failed" %]
+  [% PROCESS global/header.html.tmpl title="Nieudane dopasowanie" %]
   <p>
-    [% terms.Bugzilla %] was unable to make any match at all for one or more of
-    the names and/or email addresses you entered on the previous page.<br>
-    Please go back and try other names or email addresses.
+    [% terms.Bugzilla %] nie jest w stanie jednoznacznie określić poprawność niektórych
+    nazw i/lub adresów e-mail, które podano na poprzedniej stronie.
+    [% IF !user.id %]
+      <b>Informacja: Jesteś obecnie wylogowany/wylogowana. Tylko dokładnie pasujące adresy e-mail
+      będą brane pod uwagę.</b>
+    [% END %]
   </p>
+  <p>Wróć do poprzedniej strony i spróbuj innych nazw lub adresów e-mail.</p>
 [% END %]
 
   <table border="0">
@@ -97,17 +120,17 @@
                 [% IF query.value.users.size > 1 %]
                   [% IF query.value.status == 'fail' %]
                     <font color="#FF0000">
-                      matches multiple users.
+                      pasuje do wielu użytkowników.
                     </font>
-                    Please go back and try again with a more specific
-                    name/address.
+                    Wróć do poprzedniej strony i podaj bardziej jednoznaczne
+                    nazwy/adresy.
                   [% ELSE %]
                     [% IF query.value.status == 'trunc' %]
-                      matched
-                      more than the maximum
-                      of [% query.value.users.size %] users:<br>
+                      pasuje do większej liczby
+                      niż maksymalna
+                      dopuszczalna liczba [% query.value.users.size %] użytkowników:<br>
                     [% ELSE %]
-                      matched:<br>
+                      pasuje do:<br>
                     [% END %]
                     <select name="[% field.key FILTER html %]"
                      id="[% field.key FILTER html %]"
@@ -128,16 +151,15 @@
                     </select>
                   [% END %]
                 [% ELSE %]
-                  matched
+                  pasuje do
                   <b>[% query.value.users.0.identity FILTER html %]</b>
                 [% END %]
             [% ELSE %]
-                [% IF (query.key.length < 3) && !(Param('emailsuffix'))
-                    && (Param('usermatchmode') == 'search') %]
-                  <font color="#FF0000">was too short for substring match
-                  (minimum 3 characters)</font>
+                [% IF (query.key.length < 3) && !Param('emailsuffix') %]
+                  <font color="#FF0000">jest za krótki
+                  (minimalnie 3 znaki)</font>
                 [% ELSE %]
-                  <font color="#FF0000">did not match anything</font>
+                  <font color="#FF0000">nie pasuje do niczego</font>
                 [% END %]
             [% END %]
             </div>
@@ -158,7 +180,7 @@
   [% PROCESS "global/hidden-fields.html.tmpl" exclude="^Bugzilla_(login|password)$" %]
 
   <p>
-    <input type="submit" id="continue" value="Continue">
+    <input type="submit" id="continue" value="Kontynuuj">
   </p>
 
   </form>
@@ -170,14 +192,12 @@
 
 [% BLOCK field_names %]
 
-  [% IF field_descs.${field_name} %]
-    [%  field_descs.${field_name} FILTER html -%]
-
-  [%-# ELSIF for things that don't belong in the field_descs hash here -%]
-
+  [% IF field_descs.$field_name %]
+    [% field_descs.$field_name FILTER html %]
+  [% ELSIF field_labels.$field_name %]
+    [% field_labels.$field_name FILTER html %]
   [% ELSIF field_name.match("^requestee") %]
-    [% fields.${field_name}.flag_type.name %] requestee
-
+    Poproszono o ustawienie flagi <code>[% fields.${field_name}.flag_type.name %]</code>
   [% ELSE %]
     [% field_name FILTER html %]
   [% END %]

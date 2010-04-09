@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,6 +18,8 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
    title = "Pola $terms.bledu"
@@ -24,43 +27,43 @@
 %]
 
 [% param_descs = {
-  useclassification => "Włączenie opcji powoduje, że $terms.Bugzilla powiąże każdy produkt z " _
-                       "określoną klasyfikacją. Aby móc edytować klasyfikacje, należy posiadać " _
-                       "uprawnienie 'editclassification'.",
+  useclassification => "Gdy ten parametr jest włączony, $terms.Bugzilla powiąże każdy produkt z " _
+                       "określoną kategorią. Aby móc edytować kategorie, należy mieć " _
+                       "uprawnienie <code>editclassification</code>.",
 
-  usetargetmilestone => "Określa, czy będzie używane pole Wersja docelowa.",
+  usetargetmilestone => "Ten parametr określa, czy będzie używane pole <strong>Wersja docelowa</strong>.",
 
-  useqacontact => "Określa, czy będzie używane pole Kontakt QA.",
+  useqacontact => "Ten parametr określa, czy będzie używane pole <strong>Specjalista QA</strong>.",
 
-  usestatuswhiteboard => "Określa, czy będzie używane pole Tablica statusów.",
+  usestatuswhiteboard => "Ten parametr określa, czy będzie używane pole <strong>Tablica statusów</strong>.",
 
-  usevotes => "Określa, czy zezwolić na głosowanie na ${terms.bledy}. Aby opcja ta była " _
+  usevotes => "Ten parametr określa, czy zezwolić na głosowanie na ${terms.bledy}. Aby funkcja ta była " _
               "efektywna, należy zmienić maksymalną liczbę dozwolonych głosów " _
               "na wartość różną od zera. Można to zrobić na stronie " _
               "<a href=\"editproducts.cgi\">edycji produktu</a>.",
 
-  usebugaliases => "Określa, czy korzystać z aliasów ${terms.bledow}, które pozwalają przypisać " _
+  usebugaliases => "Ten parametr określa, czy będzie można korzystać z aliasów $terms.bledow, które pozwalają przypisać " _
                    "$terms.bledom łatwe do zapamiętania identyfikatory lub nazwy.",
 
   use_see_also => 
-    "Do you wish to use the See Also field? It allows you refer to"
-    _ " $terms.bugs in other installations. Even if you disable this field,"
-    _ " $terms.bug relationships (URLs) already set on $terms.bugs will"
-    _ " still appear and can be removed.",
+    "Ten parametr określa, czy będzie można używać funkcji <strong>Zobacz także</strong>. Umożliwia ona odnoszenie się do"
+    _ " $terms.bledow w innych instalacjach. Nawet jeśli funkcja zostanie wyłączona,"
+    _ " $terms.bledy z już określonymi relacjami (URL-mi) $terms.bledu będą"
+    _ " nadal wyświetlane i mogą być usuwane.",
 
-  defaultpriority => "Domyślny priorytet nowotworzonych ${terms.bledow}.",
+  defaultpriority => "Domyślny priorytet tworzonych błędów.",
 
-  defaultseverity => "Domyślna waga nowotworzonych ${terms.bledow}.",
+  defaultseverity => "Domyślna waga tworzonych błędów.",
 
-  defaultplatform => "Domyślnie wybrana platforma w formularzu zgłaszania ${terms.bledow}. " _
+  defaultplatform => "Domyślnie wybrana platforma w formularzu zgłaszania błędów. " _
                      "<br> " _
-                     "Można pozostawić wartość pustą: " _
-                     "w takim przypadku zostanie użyta wartość z nagłówków przeglądarki, " _
-                     "wykryta przez ${terms.Bugzille}.",
+                     "Można pozostawić wartość pustą. " _
+                     "W takim przypadku $terms.Bugzilla użyje systemu operacyjnego " _
+                     "zgłaszanego przez przeglądarkę.",
 
-  defaultopsys => "Domyślnie wybrany system operacyjny w formularzu zgłaszania ${terms.bledow}. " _
-                     "<br> " _
-                     "Można pozostawić wartość pustą: " _
-                     "w takim przypadku zostanie użyta wartość z nagłówków przeglądarki, " _
-                     "wykryta przez ${terms.Bugzille}." }
+  defaultopsys => "Domyślnie wybrany system operacyjny w formularzu zgłaszania błędów. " _
+                  "<br> " _
+                  "Można pozostawić wartość pustą. " _
+                  "W takim przypadku $terms.Bugzilla użyje system operacyjny " _
+                  "zgłaszany przez przeglądarkę." }
 %]

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,19 +17,20 @@
   # Rights Reserved.
   #
   # Contributor(s): Albert Ting <alt@sonic.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Wybór klasyfikacji"
+  title = "Wybór kategorii"
 %]
 
 <table border=1 cellpadding=4 cellspacing=0>
   <tr bgcolor="#6666ff">
-    <th align="left">Klasyfikacja</th>
+    <th align="left">Edytuj kategorię</th>
     <th align="left">Opis</th>
     <th align="left">Klucz sortowania</th>
-    <th align="left">Prdukt</th>
-    <th align="left">Akcja</th>
+    <th align="left">Produkty</th>
+    <th align="left">Czynność</th>
   </tr>
 
   [% FOREACH cl = classifications %]
@@ -45,20 +47,20 @@
       [% IF (cl.id == 1) %]
         <td valign="top">[% cl.product_count FILTER html %]</td>
       [% ELSE %]
-        <td valign="top"><a href="editclassifications.cgi?action=reclassify&amp;classification=[% cl.name FILTER url_quote %]">zmień klasyfikacje ([% cl.product_count FILTER html %])</a></td>
+        <td valign="top"><a href="editclassifications.cgi?action=reclassify&amp;classification=[% cl.name FILTER url_quote %]">zmień kategorię ([% cl.product_count FILTER html %])</a></td>
       [% END %]
 
       [%# don't allow user to delete the default id. %]
       [% IF (cl.id == 1) %]
         <td valign="top">&nbsp;</td>
       [% ELSE %]
-        <td valign="top"><a href="editclassifications.cgi?action=del&amp;classification=[% cl.name FILTER url_quote %]">usuń</a></td>
+        <td valign="top"><a href="editclassifications.cgi?action=del&amp;classification=[% cl.name FILTER url_quote %]">Usuń</a></td>
       [% END %]
     </tr>
   [% END %]
 
   <tr>
-    <td valign="top" colspan=4>Dodaj nową klasyfikację</td>
+    <td valign="top" colspan=4>Dodaj nową kategorię</td>
     <td valign="top" align="center"><a href="editclassifications.cgi?action=add">Dodaj</a></td>
   </tr>
 </table>

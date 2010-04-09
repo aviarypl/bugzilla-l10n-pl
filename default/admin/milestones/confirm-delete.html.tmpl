@@ -1,3 +1,4 @@
+[%# 3..6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -24,9 +25,11 @@
   #               which the milestone belongs.
   # milestone: object; Bugzilla::Milestone object representing the
   #                    milestone the user wants to delete.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
-[% title = BLOCK %]Delete Milestone of Product '[% product.name FILTER html %]'
+[% title = BLOCK %]Usuwanie wersji docelowej produktu „[% product.name FILTER html %]”
   [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -35,58 +38,58 @@
 
 <table border="1" cellpadding="4" cellspacing="0">
 <tr bgcolor="#6666FF">
-  <th valign="top" align="left">Field</th>
-  <th valign="top" align="left">Value</th>
+  <th valign="top" align="left">Pole</th>
+  <th valign="top" align="left">Wartość</th>
 </tr>
 <tr>
-  <td valign="top">Milestone:</td>
+  <td valign="top">Wersja docelowa:</td>
   <td valign="top">[% milestone.name FILTER html %]</td>
 </tr>
 <tr>
-  <td valign="top">Milestone of Product:</td>
+  <td valign="top">Produkt:</td>
   <td valign="top">[% product.name FILTER html %]</td>
 </tr>
 <tr>
-  <td valign="top">[% terms.Bugs %]:</td>
+  <td valign="top">[% terms.Bledy %]:</td>
   <td valign="top">
 [% IF milestone.bug_count %]
-  <a title="List of [% terms.bugs %] targetted at milestone '
+  <a title="Lista [% terms.bledow %] z określoną wersją docelową '
            [% milestone.name FILTER html %]'"
      href="buglist.cgi?target_milestone=[% milestone.name FILTER url_quote %]&amp;product=
           [%- product.name FILTER url_quote %]">
           [% milestone.bug_count FILTER none %]</a>
 [% ELSE %]
-  None
+  Brak
 [% END %]
   </td>
 </tr>
 </table>
 
-<h2>Confirmation</h2>
+<h2>Potwierdzenie</h2>
   
 [% IF milestone.bug_count %]
 
   <table border="0" cellpadding="20" width="70%" bgcolor="red">
   <tr><td>
-    There
+    Istnieją [%+ terms.bledy %]
     [% IF milestone.bug_count > 1 %] 
-      are [% milestone.bug_count FILTER none %] [%+ terms.bugs %] 
+      otwarte dla wersji docelowej [% milestone.bug_count FILTER none %].
     [% ELSE %]
-      is 1 [% terms.bug %]
+      Istnieje 1 otwarty [% terms.blad %] dla tej wersji docelowej.
     [% END %]
-    entered for this milestone! When you delete this milestone,
-    <b><blink>ALL</blink></b> of these [% terms.bugs %] will be retargeted
-    to [% product.default_milestone FILTER html %], the default milestone for 
-    the [% product.name FILTER html %] product.
+    Po usunięciu tej wersji
+    <b><blink>WSZYSTKIE</blink></b> [% terms.bledy %] zostaną przypisane
+    do wersji [% product.default_milestone FILTER html %] – domyślnej wersji docelowej
+    produktu [% product.name FILTER html %].
   </td></tr>
   </table>
 
 [% END %]
 
-<p>Do you really want to delete this milestone?<p>
+<p>Czy na pewno chcesz usunąć tę wersję docelową?<p>
 
 <form method="post" action="editmilestones.cgi">
-  <input type="submit" id="delete" value="Yes, delete">
+  <input type="submit" id="delete" value="Tak">
   <input type="hidden" name="action" value="delete">
   <input type="hidden" name="product" value="[% product.name FILTER html %]">
   <input type="hidden" name="milestone" value="[% milestone.name FILTER html %]">

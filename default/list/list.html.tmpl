@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Myk Melez <myk@mozilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -64,8 +67,7 @@
   [% END %]
 
   [% IF user.settings.display_quips.value == 'on' %]
-    [% DEFAULT quip = "$terms.Bugzilla może wyświetlać losową sentencje, ale 
-    do tej pory żadne nie zostały zdefiniowane." %]
+    [% DEFAULT quip = "$terms.Bugzilla może w tym miejscu wyświetlać losową sentencję, ale do tej pory żadna nie została zdefiniowana." %]
     <span class="bz_quip">
       <a href="quips.cgi"><i>[% quip FILTER html %]</i></a>
     </span>
@@ -75,16 +77,17 @@
 
 [% IF toolong %]
   <h2 class="bz_smallminded">
-    Ta lista jest zbyt duża dla małego rozumku [% terms.Bugzilli %], przyciski
+    Ta lista jest zbyt duża dla małego rozumku [% terms.Bugzilli %]. Przyciski
     Następny/Poprzedni/Pierwszy/Ostatni nie zostaną wyświetlone na stronach
     z [% terms.bledami %].
   </h2>
 [% END %]
 
 [% SET shown_types = [
-  'notequal', 'regexp', 'notregexp', 'lessthan', 'lessthaneq', 
+  'notequals', 'regexp', 'notregexp', 'lessthan', 'lessthaneq', 
   'greaterthan', 'greaterthaneq', 'changedbefore', 'changedafter', 
-  'changedfrom', 'changedto', 'changedby',
+  'changedfrom', 'changedto', 'changedby', 'notsubstring', 'nowords',
+  'nowordssubstr',
 ] %]
 <ul class="search_description">
 [% FOREACH desc_item = search_description %]
@@ -93,16 +96,8 @@
     [% IF shown_types.contains(desc_item.type) || debug %]
       ([% search_descs.${desc_item.type} FILTER html %])
     [% END %]
-    [% IF desc_item.field == 'bug_status' %]
-      [% FOREACH status IN desc_item.value.split(',') %]
-        [%+ get_status(status) FILTER html %][% ',' UNLESS loop.last %]
-      [% END %]
-    [% ELSIF desc_item.field == 'resolution' %]
-      [% FOREACH resolution IN desc_item.value.split(',') %]
-        [%+ get_resolution(resolution) FILTER html %][% ',' UNLESS loop.last %]
-      [% END %]
-    [% ELSE %]
-      [%+ desc_item.value FILTER html %]
+    [% FOREACH val IN desc_item.value.split(',') %]
+      [%+ display_value(desc_item.field, val) FILTER html %][% ',' UNLESS loop.last %]
     [% END %]
     [% IF debug %]
       (<code>[% desc_item.term FILTER html %]</code>)
@@ -119,8 +114,8 @@
 
 [% IF bugs.size > 9 %]
   <span class="bz_result_count">
-    Znaleziono [% bugs.size %]&nbsp;[% PROCESS ODMIEN c=bugs.size o1=" $terms.blad"
-	  o2=" $terms.bledy" o3=" $terms.bledow" %]
+  Znaleziono [% bugs.size %]&nbsp;[% PROCESS ODMIEN c=bugs.size o1=" $terms.blad"
+    o2=" $terms.bledy" o3=" $terms.bledow" %]
   </span>
 [% END %]
 
@@ -145,7 +140,7 @@
 
 <span class="bz_result_count">
   [% IF bugs.size == 0 %]
-    [% terms.zeroSearchResults %].
+    <span class="zero_results">[% terms.zeroSearchResults %].</span>
   [% ELSIF bugs.size == 1 %]
     Znaleziono jeden [% terms.blad %].
   [% ELSE %]
@@ -153,6 +148,18 @@
     o2="$terms.bledy" o3="$terms.bledow" %]
   [% END %]
 </span>
+
+[% IF bugs.size == 0 %]
+  <ul class="zero_result_links">
+    <li>[% PROCESS enter_bug_link %]</li>
+    [% IF one_product.defined %]
+      <li><a href="enter_bug.cgi">Zgłoś nowy [% terms.blad %] w
+        innym produkcie</a></li>
+    [% END %]
+    <li><a href="[% PROCESS edit_search_url %]">Edytuj to wyszukiwanie</a></li>
+    <li><a href="query.cgi">Rozpocznij nowe wyszukiwanie</a></li>
+  </ul>
+[% END %]
 
 <br>
 
@@ -190,7 +197,7 @@
             <input type="submit" value="XML" id="xml">
         </form>
 
-        [% IF user.in_group(Param('timetrackinggroup')) %]
+        [% IF user.is_timetracker %]
           <form method="post" action="summarize_time.cgi">
             <input type="hidden" name="id" value="[% buglist_joined FILTER html %]">
             <input type="submit" id="timesummary" value="Podsumowanie czasu">
@@ -215,13 +222,13 @@
         [% IF bugs.size > 1 && caneditbugs && !dotweak %]
           <a href="buglist.cgi?[% urlquerypart FILTER html %]
             [%- "&order=$qorder" FILTER html IF order %]&amp;tweak=1"
-            >Zmień&nbsp;kilka&nbsp;[% terms.bledow %]&nbsp;na&nbsp;raz</a>
+            >Zmień&nbsp;wiele&nbsp;[% terms.bledow %]&nbsp;na&nbsp;raz</a>
           |
         [% END %]
 
         [% IF bugowners && user.id %]
           <a href="mailto:
-            [% bugowners FILTER html %]">Wyślij&nbsp;wiadomość&nbsp;do&nbsp;właściciela&nbsp;[% terms.bledow %]</a> |
+            [% bugowners FILTER html %]">Wyślij&nbsp;wiadomość&nbsp;do&nbsp;beneficjentów&nbsp;[% terms.bledow %]</a> |
         [% END %]
 
         [%# Links to more things users can do with this bug list. %]
@@ -230,11 +237,7 @@
     [% END %]
     
     <td valign="middle" class="bz_query_edit">
-      [% editqueryname = searchname OR defaultsavename OR '' %]
-      <a href="query.cgi?[% urlquerypart FILTER html %]
-      [% IF editqueryname != '' %]&amp;known_name=
-        [% editqueryname FILTER url_quote %]
-      [% END %]">Edycja&nbsp;zapytania</a>
+      <a href="[% PROCESS edit_search_url %]">Edytuj&nbsp;wyszukiwanie</a>
     </td>
       
     [% IF searchtype == "saved" %]
@@ -263,10 +266,9 @@
   </tr>
 </table>
 
-[% IF cgi.param('product').size == 1 && cgi.param('product') != "" %]
+[% IF one_product.defined %]
   <p class="bz_query_single_product">
-    <a href="enter_bug.cgi?product=[% cgi.param('product') FILTER url_quote %]">Zgłoszenie
-      nowego [% terms.bledu %] w produkcie "[% cgi.param('product') FILTER html %]"</a>
+    [% PROCESS enter_bug_link %]
   </p>
 [% END %]
 
@@ -275,3 +277,21 @@
 [%############################################################################%]
 
 [% PROCESS global/footer.html.tmpl %]
+
+[% BLOCK edit_search_url %]
+  [% editqueryname = searchname OR defaultsavename OR '' %]
+  query.cgi?[% urlquerypart FILTER html %]
+    [%- IF editqueryname != '' %]&amp;known_name=
+      [%- editqueryname FILTER url_quote %]
+    [% END %]
+[% END %]
+
+[% BLOCK enter_bug_link %]
+  <a href="enter_bug.cgi
+           [%- IF one_product.defined %]?product=
+             [%- one_product.name FILTER url_quote %][% END %]">Zgłoś
+    nowy [% terms.blad %]
+   [% IF one_product.defined %]
+     w produkcie „[% one_product.name FILTER html %]”
+   [% END %]</a>
+[% END %]

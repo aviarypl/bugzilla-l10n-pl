@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -18,36 +19,39 @@
   # Contributor(s):     Myk Melez <myk@mozilla.org>
   #                     Jeff Hedlund <jeff.hedlund@matrixsi.com>
   #                     Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
 
 [% bugidsummary = bug.bug_id _ ': ' _ bug.short_desc %]
 [% attidsummary = attachment.id _ ': ' _ attachment.description %]
-[% statuses = { '+' => "nadał" , '-' => 'odebrał' , 'X' => "anulował" ,
-                '?' => "żądał" } %]
-[% statuses1 = { '+' => "nadana" , '-' => 'odebrana' , 'X' => "anulowana" ,
-                '?' => "zażądana" } %]
+[% flagtype_name = flag ? flag.type.name : old_flag.type.name %]
+[% statuses = { '+' => "zaakceptował" , '-' => 'odrzucił' , 'X' => "anulował" ,
+                '?' => "poprosił" } %]
 
 [% to_identity = "" %]
 [% on_behalf_of = 0 %]
-[% IF flag.status == '?' %]
-  [% subject_status = "requested" %]
-  [% IF flag.setter.id == user.id %]
-    [% to_identity = flag.requestee.identity _ " for" %]
+[% action = flag.status || 'X' %]
+
+[% IF flag && flag.status == '?' %]
+  [% subject_status = "poprosił" %]
+  [% IF flag.setter_id == user.id %]
+    [% to_identity = flag.requestee.identity _ " o" %]
   [% ELSE %]
     [% on_behalf_of = 1 %]
-    [% IF flag.requestee %][% to_identity = " to " _ flag.requestee.identity %][% END %]
+    [% IF flag.requestee %][% to_identity = " do " _ flag.requestee.identity %][% END %]
   [% END %]
 [% ELSE %]
-  [% IF flag.requester %]
-    [% to_identity = flag.requester.identity _ "'s request for" %]
+  [% IF old_flag && old_flag.status == '?' %]
+    [% to_identity = old_flag.setter.identity _ " poprosił o" %]
   [% END %]
-  [% subject_status = statuses.${flag.status} %]
+  [% subject_status = statuses.$action %]
 [% END %]
 From: [% Param('mailfrom') %]
 To: [% to %]
-Subject: [% flag.type.name %] [%+ subject_status %]: [[% terms.Bug %] [%+ bug.bug_id %]] [% bug.short_desc %]
+Subject: [%+ subject_status %] flagę [% flagtype_name %] : [[% terms.Blad %] [%+ bug.bug_id %]] [% bug.short_desc %]
 [%- IF attachment %] :
   [Attachment [% attachment.id %]] [% attachment.description %][% END %]
 X-Bugzilla-Type: request
@@ -57,19 +61,19 @@ X-Bugzilla-Type: request
 [%- FILTER bullet = wrap(80) -%]
 
 [% IF on_behalf_of %]
-[% user.identity %] has reassigned [% flag.setter.identity %]'s request for [% flag.type.name %]
+Użytkownik [% user.identity %] zmienił prośbę [% flag.setter.identity %] dotyczącą umieszczenia flagi [% flagtype_name %]
 [% to_identity %]:
 [% ELSE %]
-[% user.identity %] has [% statuses.${flag.status} %] [%+ to_identity %] [%+ flag.type.name %]:
+Użytkownik [% user.identity %] ma [% statuses.$action %] flagę [%+ flagtype_name %] [%+ to_identity %]:
 [% END %]
 
-[% terms.Bug %] [%+ bugidsummary %]
+[% terms.Blad %] [%+ bugidsummary %]
 [% END %]
 [%+ urlbase %]show_bug.cgi?id=[% bug.bug_id %]
 [% IF attachment %]
 
 [% FILTER bullet = wrap(80) %]
-Attachment [% attidsummary %]
+Załącznik [% attidsummary %]
 [%- END %]
 [%+ urlbase %]attachment.cgi?id=[% attachment.id %]&action=edit
 [%- END %]
@@ -78,7 +82,7 @@ Attachment [% attidsummary %]
 [% USE Bugzilla %]
 [%-# .defined is necessary to avoid a taint issue in Perl < 5.10.1, see bug 509794. %]
 [% IF Bugzilla.cgi.param("comment").defined && Bugzilla.cgi.param("comment").length > 0 %]
-------- Dodatkowy komentarz od [% user.identity %]
+------- Dodatkowe komentarze od [% user.identity %]
 [%+ Bugzilla.cgi.param("comment") %]
 [% END %]
 

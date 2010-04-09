@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -20,6 +21,9 @@
   #                 Jacob Steenhagen <jake@bugzilla.org>
   #                 Vlad Dascalu <jocuri@softhome.net>
   #                 Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  # Added, changed lines 39, 77, 79 for Polish localization
   #%]
 
 [%# INTERFACE:
@@ -30,8 +34,9 @@
   #               available values for each grant.
   #%]
 
-[% title = BLOCK %]Change Group: [% group.name FILTER html %][% END %]
+[% title = BLOCK %]Edycja grupy: [% group.name FILTER html %][% END %]
 
+[% PROCESS "global/field-descs.none.tmpl" %]
 [% PROCESS global/header.html.tmpl
   title = title
   doc_section = "groups.html#edit-groups"
@@ -53,7 +58,7 @@
 
   <table border="1" cellpadding="4">
     <tr>
-      <th>Group:</th>
+      <th>Grupa:</th>
       <td>
         [% IF group.is_bug_group %]
           <input type="text" name="name" size="60" 
@@ -65,19 +70,19 @@
     </tr>
 
     <tr>
-      <th>Description:</th>
+      <th>Opis:</th>
       <td>
         [% IF group.is_bug_group %]
           <input type="text" name="desc" size="70" 
-                 value="[% group.description FILTER html %]">
+                 value="[% display_value("bit_description", group.description) FILTER html %]">
         [% ELSE %]
-          [% group.description FILTER html %]
+          [% display_value("bit_description", group.description) FILTER html %]
         [% END %]
       </td>
     </tr>
 
     <tr>
-      <th>User Regexp:</th>
+      <th>RegExp użytkowników:</th>
       <td>
         <input type="text" name="regexp" size="40" 
                value="[% group.user_regexp FILTER html %]">
@@ -86,7 +91,7 @@
 
     <tr>
       <th>
-        Icon URL:
+        Adres URL ikony:
         [% IF group.icon_url %]
           <img src="[% group.icon_url FILTER html %]" alt="[% group.name FILTER html %]">
         [% END %]
@@ -99,7 +104,7 @@
 
     [% IF group.is_bug_group %]
       <tr>
-        <th>Use For [% terms.Bugs %]:</th>
+        <th>Użyj dla [% terms.bledow %]:</th>
         <td>
           <input type="checkbox" name="isactive" 
                  value="1" [% 'checked="checked"' IF group.is_active %]>
@@ -109,16 +114,16 @@
     [% Hook.process('field') %]
   </table>
 
-  <h4>Group Permissions</h4>
+  <h4>Uprawnienia grupy</h4>
 
   <table class="grant_table">
     <tr>
-      <th class="one">Groups That Are a Member of This Group<br>
-        (&quot;Users in <var>X</var> are automatically in  
-         [%+ group.name FILTER html %]&quot;)</th>
-      <th>Groups That This Group Is a Member Of<br>
-        (&quot;If you are in [% group.name FILTER html %], you are 
-         automatically also in...&quot;)</th>
+      <th class="one">Grupy, które są członkiem tej grupy<br>
+        <small>(Członkowie grupy <var>X</var> są automatycznie w grupie 
+         [%+ group.name FILTER html %])</small></th>
+      <th>Grupy, których ta grupa jest członkiem<br>
+        <small>(Jeśli jesteś w grupie [% group.name FILTER html %], jesteś 
+         automatycznie także w grupie…)</small></th>
     </tr>
     <tr>
       <td class="one">
@@ -131,18 +136,18 @@
                      items_available = member_of_available
                        items_current = member_of_current %]</td>
     </tr>
-  </table>
+  </table><br>
 
   <table class="grant_table">
     <tr>
       <th class="one">
-        Groups That Can Grant Membership in This Group<br>
-        (&quot;Users in <var>X</var> can add other users to 
-         [%+ group.name FILTER html %]&quot;)
+        Grupy, które mogą nadawać członkostwo w tej grupie<br>
+        <small>(Członkowie grupy <var>X</var> mogą dodawać innych użyt. do grupy 
+         [%+ group.name FILTER html %]</small>)
 
       </th>
-     <th>Groups That This Group Can Grant Membership In<br>
-       (&quot;Users in [% group.name FILTER html %] can add users to...&quot;)
+     <th>Grupy, które tej grupie mogą nadawać członkostwo<br>
+       <small>(Członkowie grupy [% group.name FILTER html %] mogą dodawać użyt. do grupy…)</small>
      </th>
     </tr>
     <tr>
@@ -162,12 +167,12 @@
     <table class="grant_table">
       <tr>
         <th class="one">
-          Groups That Can See This Group<br>
-          (&quot;Users in <var>X</var> can see users in
-           [%+ group.name FILTER html %]&quot;)
+          Grupy, które mogą widzieć tę grupę<br>
+          <small>(Użytkownicy <var>X</var> mogą widzieć użytkowników w
+           [%+ group.name FILTER html %])</small>
         </th>
-       <th>Groups That This Group Can See<br>
-         (&quot;Users in [% group.name FILTER html %] can see users in...&quot;)
+       <th>Grupy, które ta grupa może widzieć<br>
+         <small>(Użytkownicy [% group.name FILTER html %] mogą widzieć użytkowników w…)</small>
        </th>
       </tr>
       <tr>
@@ -184,26 +189,26 @@
     </table>
   [% END %]
 
-  <input type="submit" value="Update Group">
+  <input type="submit" value="Aktualizuj">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
   
-<h4>Mass Remove</h4>
+<h4>Masowe usuwanie</h4>
 
-<p>You can use this form to do mass-removal of users from groups.
-  This is often very useful if you upgraded from [% terms.Bugzilla %] 
+<p>Tego formularza można użyć do hurtowego usuwania użytkowników z grup.
+  Funkcja ta jest często użyteczna przy aktualizacji z [% terms.Bugzilli %] 
   2.16.</p>
 
 <table><tr><td>
 <form method="post" action="editgroups.cgi">
   <fieldset>
-    <legend>Remove all explicit memberships from users whose login names
-      match the following regular expression:</legend>
+    <legend>Usuń z tej grupy użytkowników, których nazwa użytkownika
+      odpowiada następującemu wyrażeniu regularnemu:</legend>
     <input type="text" size="20" name="regexp">
-    <input type="submit" value="Remove Memberships">
+    <input type="submit" value="Usuń">
 
-    <p>If you leave the field blank, all explicit memberships in 
-      this group will be removed.</p>
+    <p>Jeśli pole pozostanie puste wszyscy użytkownicy zostaną usunięci 
+      z tej grupy.</p>
 
     <input type="hidden" name="action" value="confirm_remove">
     <input type="hidden" name="group_id" value="[% group.id FILTER html %]">
@@ -211,17 +216,17 @@
 </form>
 </td></tr></table>
  
-<p>Back to the <a href="editgroups.cgi">group list</a>.</p>
+<p>Wróć do <a href="editgroups.cgi">listy grup</a></p>
 
 [% PROCESS global/footer.html.tmpl %] 
 
 [% BLOCK select_pair %]
   <table class="select_pair">
     <tr>
-      <th><label for="[% "${name}_add" FILTER html %]">Add<br>
-        (select to add)</label></th>
-      <th><label for="[% "${name}_remove" FILTER html %]">Current<br>
-        (select to remove)</label></th>
+      <th><label for="[% "${name}_add" FILTER html %]">Dodaj<br>
+        <small>(zaznacz, by dodać)</small></label></th>
+      <th><label for="[% "${name}_remove" FILTER html %]">Obecne<br>
+        <small>(zaznacz, by usunąć)</small></label></th>
     </tr>
     <tr>
       <td>

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -16,6 +17,7 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
   
 [%# INTERFACE:
@@ -54,7 +56,7 @@
 [% switchbase     = switchbase FILTER html %]
 
 [% title = BLOCK %]
-  Report: 
+  Raport: 
   [% IF tbl_field %]
     [% tbl_field_disp FILTER html %]
   [% END %]
@@ -87,7 +89,7 @@
 
   [% FOREACH tbl = tbl_names %]    
     [% IF tbl == "-total-" %]
-      [% tbl_disp = "Total" %]
+      [% tbl_disp = "Łącznie" %]
     [% ELSE %]
       [% tbl_disp = tbl %]
     [% END %]
@@ -114,7 +116,7 @@
         [% END %]width=[% width %]&amp;height=[% height %]      
       [% END %]
       
-      <img alt="Wyniki raportu graficznego" src="[% imageurl %]"
+      <img alt="Raport graficzny wyników" src="[% imageurl %]"
         width="[% width %]" height="[% height %]">
     [% END %]
     <br>
@@ -153,7 +155,7 @@
           <a href="[% sizeurl %]&amp;width=[% width %]&amp;height=
                    [% height + 100 %]">Wyższy</a><br>
           <a href="[% sizeurl %]&amp;width=[% width - 100 %]&amp;height=
-                   [% height %]">Węższy</a> * 
+                   [% height %]">Węższy</a> *
           <a href="[% sizeurl %]&amp;width=[% width + 100 %]&amp;height=
                    [% height %]">Szerszy</a>&nbsp;&nbsp;&nbsp;&nbsp;<br>
           <a href="[% sizeurl %]&amp;width=[% width %]&amp;height=
@@ -169,7 +171,7 @@
     [% ELSE %]
       <a href="query.cgi?[% switchbase %]&amp;chart_format=
         [% format %]&amp;format=report-graph&amp;cumulate=[% cumulate %]">
-        Edit this report
+        Edytuj raport
       </a>
     [% END %]
   </p>

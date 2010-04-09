@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -13,24 +14,26 @@
   # The Initial Developer of the Original Code is Frédéric Buclin.
   #
   # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% PROCESS global/header.html.tmpl title = "Sanity Check"
+[% PROCESS global/header.html.tmpl title = "Sprawdzanie spójności danych"
                                    style_urls = ['skins/standard/admin.css'] %]
 
 <div>
   <p>
-    [% terms.Bugzilla %] is checking the referential integrity of your database.
-    This may take several minutes to complete.
+    [% terms.Bugzilla %] sprawdza spójność bazy danych.
+    Operacja ta może potrwać kilka minut.
   </p>
 
   <p>
-    Errors, if any, will be <span class="alert">emphasized like this</span>.
-    Depending on the errors found, some links will be displayed allowing you
-    to easily fix them. Fixing these errors will automatically run this script
-    again (so be aware that it may take an even longer time than the first run).
+    Błędy, jeśli są, będą <span class="alert">w ten sposób wyróżnione</span>. W zależności
+    od znalezionych błędów odnośniki będą wyświetlane w sposób ułatwiający naprawę tych
+    błędów. Po dokonaniu naprawy skrypt zostanie automatycznie ponownie uruchomiony.
+    Powtórne wykonanie skryptu może zająć więcej czasu niż za pierwszym razem.
   </p>
 </div>
 

@@ -1,3 +1,4 @@
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -19,6 +20,8 @@
   #                 Ville Skyttä <ville.skytta@iki.fi>
   #                 Myk Melez <myk@mozilla.org>
   #                 André Batosti <batosti@async.com.br>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS 'global/field-descs.none.tmpl' %]
@@ -66,16 +69,6 @@
         [% ELSE %]
             nie zależy od żadnego [% terms.bledu %].
         [% END %]
-		
-	[% IF ids.size %]
-        [%+ (ids.size == 1) ? "jednego" : ids.size %]
-        [%+ IF hide_resolved %]
-        [%+ (ids.size == 1) ? " otwartego $terms.bledu" : " otwartych $terms.bledow" %]:
-	[% ELSE %]
-	[%+ (ids.size == 1) ? terms.bledu : terms.bledow %]:
-	[% END %]
-    [% END %] 
-
     [% ELSIF type == 2 %]
         [% tree_name = "blocked_tree" %]
         [% IF ids.size %] 
@@ -83,22 +76,16 @@
         [% ELSE %]
             nie blokuje żadnych [% terms.bledow %].
         [% END %]
-	
-	[% IF ids.size %]
+    [% END %]
+    [% IF ids.size %]
         [%+ (ids.size == 1) ? "jeden" : ids.size %]
-        [%+ IF hide_resolved %]
-	[% PROCESS ODMIEN c=ids.size o1="otwarty $terms.blad" o2="otwarte $terms.bledy" 
-		o3="otwartych $terms.bledow" %]:
-	[% ELSE %]
-	[% PROCESS ODMIEN c=ids.size o1=terms.blad o2=terms.bledy o3=terms.bledow %]:
-	[% END %]
-    [% END %] 
-        
+        [%+ IF hide_resolved %]otwarty[% END %]
+        [%+ (ids.size == 1) ? terms.blad : terms.bledy %]:
     [% END %] 
   </h3>
   [% IF ids.size %]
-    ([% IF maxdepth -%]Up to [% maxdepth %] level[% "s" IF maxdepth > 1 %] deep | [% END -%]
-    <a href="buglist.cgi?bug_id=[% ids.join(",") %]">pokaż jako listę [% terms.bledow %] </a>
+    ([% IF maxdepth -%]Do głębokości [% maxdepth %] poziomów [% "" IF maxdepth > 1 %] | [% END -%]
+    <a href="buglist.cgi?bug_id=[% ids.join(",") %]">wyświetl jako listę [% terms.bledow %] </a>
     [% IF user.in_group('editbugs') && ids.size > 1 %]
       | <a href="buglist.cgi?bug_id=[% ids.join(",") %]&amp;tweak=1">zmień kilka na raz</a>
     [% END %])
@@ -126,7 +113,7 @@
       [%- INCLUDE buglink bug=bug bugid=bugid %]
     </span>
     [% IF global.seen.$bugid %]
-      <b><a title="Już wyświetlony powyżej; kliknięcie lokalizuje"
+      <b><a title="Już wyświetlony powyżej. Kliknij, by zlokalizować"
             onclick="duplicated('[% bugid FILTER html %]')"
             href="#b[% bugid %]">(*)</a></b>
     [% ELSIF tree.dependencies.$bugid.size %]
@@ -147,7 +134,7 @@
   [% END %]
   <a name="b[% bugid %]" 
      class="b [%+ extra_class FILTER none %]"
-     title="Kliknięcie rozwija lub zwija tę część drzewa. Wciśnięcie klawisza Ctrl rozwija/zwija wszystko."
+     title="Kliknięcie rozwija lub zwija tę część drzewa. Kliknięcie ze wciśniętym klawiszem Ctrl powoduje rozwinięcie/zwinięcie wszystkiego."
      [% extra_args FILTER none %]>&nbsp;&nbsp;</a>
 [% END %]
 
@@ -169,9 +156,9 @@
 [% END %]
 
 [% BLOCK buginfo %]
-  [% get_status(bug.bug_status) FILTER html -%] [%+ get_resolution(bug.resolution) FILTER html %];
-  [%-%] przypisany do [% bug.assigned_to.login FILTER email FILTER html %]
-  [%-%][% "; Wer.docelowa: " _ bug.target_milestone IF bug.target_milestone %]
+  [% display_value("bug_status", bug.bug_status) FILTER html -%] [%+ display_value("resolution", bug.resolution) FILTER html %];
+  [%-%] Przypisany do [% bug.assigned_to.login FILTER email FILTER html %]
+  [%-%][% "; Wersja docelowa: " _ bug.target_milestone IF bug.target_milestone %]
 [% END %]
 
 [%###########################################################################%]
@@ -192,12 +179,12 @@
      [% END %]
      <input type="hidden" name="hide_resolved" value="[% hide_resolved ? 0 : 1 %]">
      <input type="submit" id="toggle_visibility"
-            value="[% IF hide_resolved %]Show[% ELSE %]Ukryj[% END %] rozwiązane">
+            value="[% IF hide_resolved %]Wyświetl[% ELSE %]Ukryj[% END %] rozwiązane">
    </form>
    </td>
 
    <td>
-     Poziom max:
+     Maksymalna głębokość:
    </td>
 
    <td>
@@ -244,7 +231,7 @@
      <input name="id" type="hidden" value="[% bugid %]">
      <input name="hide_resolved" type="hidden" value="[% hide_resolved %]">
      <noscript>
-       <input type="submit" id="change_depth" value="Change"
+       <input type="submit" id="change_depth" value="Zmień"
               [% "disabled" IF realdepth < 2 %]>
      </noscript>
    </form>
@@ -272,7 +259,7 @@
      <input name="id" type="hidden" value="[% bugid %]">
      <input name="hide_resolved" type="hidden" value="[% hide_resolved %]">
      <input type="submit" id="remove_limit"
-       value="&nbsp;Bez ograniczenia&nbsp;"
+       value="&nbsp;Bez ograniczeń&nbsp;"
        [% "disabled" IF maxdepth == 0 || maxdepth == realdepth %]>
    </form>
    </td>
