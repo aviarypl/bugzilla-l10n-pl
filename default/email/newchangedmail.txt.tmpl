@@ -22,7 +22,8 @@
   #%]
 
 [% PROCESS "global/variables.none.tmpl" %]
-[% diffspl = diffs | replace('changed', 'zmienił') %]
+
+[% diffspl = diffs | replace('changed', 'zmienił/zmieniła') %]
 [% diffspl = diffspl | replace('What', '    ') %]
 [% diffspl = diffspl | replace('Removed ', 'Usunięto') %]
 [% diffspl = diffspl | replace('     \|Added', '     |Dodano') %]
@@ -39,7 +40,7 @@
 [% diffspl = diffspl | replace('Product', 'Produkt') %]
 [% diffspl = diffspl | replace('Version', 'Wersja') %]
 [% diffspl = diffspl | replace('Platform', 'Platforma') %]
-[% diffspl = diffspl | replace('OS/Version', 'OS') %]
+[% diffspl = diffspl | replace('OS/Version', 'System/Wersja') %]
 [% diffspl = diffspl | replace('Severity', 'Ważność') %]
 [% diffspl = diffspl | replace('Priority', 'Priorytet') %]
 [% diffspl = diffspl | replace('Component', 'Komponent') %]
@@ -49,6 +50,7 @@
 [% diffspl = diffspl | replace('Blocks', 'Blokuje') %]
 [% diffspl = diffspl | replace('Depends on', 'Zależy od') %]
 [% diffspl = diffspl | replace('Attachment', 'Załącznik') %]
+
 From: [% Param('mailfrom') %]
 To: [% to_user.email %]
 Subject: [[% terms.Blad %] [%+ bugid %]] [% 'Nowy: ' IF isnew %][%+ summary %]
@@ -71,7 +73,10 @@ X-Bugzilla-Changed-Fields: [% changedfields %]
 [%+ threadingmarker %]
 
 [%+ urlbase %]show_bug.cgi?id=[% bugid %]
+[%- IF diffspl %]
+
 [%+ diffspl %]
+[% END -%]
 [% FOREACH comment = new_comments %]
 
 [%- IF comment.count %]
@@ -82,6 +87,7 @@ X-Bugzilla-Changed-Fields: [% changedfields %]
 
 -- [%# Protect the trailing space of the signature marker %]
 Konfiguracja powiadomień e-mail: [% urlbase %]userprefs.cgi?tab=email
+
 ------- Otrzymujesz tę wiadomość ponieważ: -------
 [% FOREACH relationship = reasons %]
   [% SWITCH relationship %]
@@ -104,7 +110,7 @@ Obserwujesz wszystkie zmiany tego [% terms.bledu %].
     [% CASE constants.REL_ASSIGNEE %]
 Obserwujesz osobę, do której przypisany jest ten [% terms.blad %].
     [% CASE constants.REL_REPORTER %]
-Obserwujesz zgłaszającego.
+Obserwujesz osobę, która zgłosiła ten [% terms.blad %].
     [% CASE constants.REL_QA %]
 Obserwujesz specjalistę QA tego [% terms.bledu %].
     [% CASE constants.REL_CC %]

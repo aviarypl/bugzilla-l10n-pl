@@ -40,7 +40,7 @@
 <p>
   To jest wyszukiwanie uwzględniające wielkość znaków „wszystkie wyrażenia są traktowane jako część wspólna” wyszukiwania.
   Wyrażenia są oddzielane spacją.
-  Następujące wyrażenia są traktowane jako trafne: Beneficjent, Waga,
+  Następujące wyrażenia są traktowane jako trafne: Odpowiedzialny, Waga,
   Produkt, Komponent, Tablica.
   Jeśli słowo wygląda, jak część adresu URL, przeszukiwane jest również pole URL.
 </p>
@@ -49,8 +49,8 @@
   <tt>pole1,&hellip;,poleN:wartość1,&hellip;,wartośćM</tt>.
   [% terms.Blad %] jest zaliczony jeśli przynajmniej jedna z wartości
   występuje jako część wspólna w przynajmniej jednym polu.
-  Na przykład: <tt>beneficjent,zgłaszający,qa:ibm,sun</tt> zwróci
-  [%+ terms.bledy %], gdzie beneficjent, zgłaszający lub specjalista qa ma
+  Na przykład: <tt>odpowiedzialny,zgłaszający,qa:ibm,sun</tt> zwróci
+  [%+ terms.bledy %], gdzie odpowiedzialny, zgłaszający lub specjalista qa ma
   login zawierający <tt>ibm</tt> lub <tt>sun</tt>.
   Jeśli określone są tylko <tt>wartość1,&hellip;,wartośćM</tt>, prefiks (mniej więcej)
   zwróci <tt>krótki opis, słowa kluczowe, produkt, komponent, tablicę:</tt>, jak opisano

@@ -87,7 +87,7 @@
   'notequals', 'regexp', 'notregexp', 'lessthan', 'lessthaneq', 
   'greaterthan', 'greaterthaneq', 'changedbefore', 'changedafter', 
   'changedfrom', 'changedto', 'changedby', 'notsubstring', 'nowords',
-  'nowordssubstr',
+  'nowordssubstr', 'notmatches',
 ] %]
 <ul class="search_description">
 [% FOREACH desc_item = search_description %]
@@ -228,7 +228,7 @@
 
         [% IF bugowners && user.id %]
           <a href="mailto:
-            [% bugowners FILTER html %]">Wyślij&nbsp;wiadomość&nbsp;do&nbsp;beneficjentów&nbsp;[% terms.bledow %]</a> |
+            [% bugowners FILTER html %]">Wyślij&nbsp;wiadomość&nbsp;do&nbsp;osób&nbsp;odpowiedzialnych&nbsp;za&nbsp;rozwiązanie&nbsp;[% terms.bledow %]</a> |
         [% END %]
 
         [%# Links to more things users can do with this bug list. %]

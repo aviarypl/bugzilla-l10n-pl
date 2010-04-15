@@ -26,92 +26,17 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% field_descs = { "[Bug creation]"          => "[Zgłaszanie $terms.bledu]",
-                   "actual_time"             => "Aktualny czas"
-                   "alias"                   => "Alias",
-                   "assigned_to"             => "Przypisany do",
-                   "attach_data.thedata"     => "Dane załącznika",
-                   "attachments.description" => "Opis załącznika",
-                   "attachments.filename"    => "Nazwa pliku załącznika",
-                   "attachments.mimetype"    => "Typ MIME załącznika",
-                   "attachments.ispatch"     => "Załącznik jest łatką",
-                   "attachments.isobsolete"  => "Nieaktualny załącznik",
-                   "attachments.isprivate"   => "Prywatny załącznik",
-                   "attachments.isurl"       => "Załącznik jest adresem URL",
-                   "attachments.submitter"   => "Twórca załącznika",
-                   "blocked"                 => "Blokuje",
-                   "bug_file_loc"            => "URL",
-                   "bug_group"               => "Grupa",
-                   "bug_id"                  => "ID $terms.bledu",
-                   "bug_severity"            => "Waga błędu",
-                   "bug_status"              => "Status",
-                   "changeddate"             => "Zmieniono",
-                   "cc"                      => "Obserwatorzy",
-                   "classification"          => "Kategoria",
-                   "cclist_accessible"       => "Lista obserwatorów jest dostępna?",
-                   "commenter"               => "Komentujący",
-                   "component_id"            => "ID komponentu",
-                   "component"               => "Komponent",
-                   "content"                 => "Zawartość",
-                   "creation_ts"             => "Data utworzenia",
-                   "deadline"                => "Termin ostateczny",
-                   "delta_ts"                => "Zmieniono",
-                   "dependson"               => "Zależy od",
-                   "dup_id"                  => "Duplikat",
-                   "estimated_time"          => "Szacunek pocz.",
-                   "everconfirmed"           => "Zawsze potwierdzony",
-                   "flagtypes.name"          => "Flagi",
-                   "keywords"                => "Słowa kluczowe",
-                   "longdesc"                => "Komentarz",
-                   "longdescs.isprivate"     => "Komentarz prywatny",
-                   "newcc"                   => "Obserwatorzy",
-                   "op_sys"                  => "OS",
-                   "opendate"                => "Otwarto",
-                   "owner_idle_time"         => "Czas od momentu przypisania beneficjenta",
-                   "percentage_complete"     => "Postęp (%)",
-                   "priority"                => "Priorytet",
-                   "product_id"              => "ID produktu",
-                   "product"                 => "Produkt",
-                   "qa_contact"              => "Specjalista QA",
-                   "remaining_time"          => "Pozostało godzin",
-                   "rep_platform"            => "Platforma",
-                   "reporter"                => "Zgłaszający",
-                   "reporter_accessible"     => "Dostępne dla zgłaszającego?",
-                   "requestees.login_name"   => "Proszący o flagę",
-                   "resolution"              => "Rozwiązanie",
-                   "see_also"                => "Zobacz też",
-                   "setters.login_name"      => "Ustawiający flagę",
-                   "setting"                 => "Ustawienie",
-                   "settings"                => "Ustawienia",
-                   "short_desc"              => "Krótki opis",
-                   "status_whiteboard"       => "Tablica statusu",
-                   "target_milestone"        => "Wersja docelowa",
-                   "version"                 => "Wersja",
-                   "votes"                   => "Głosów",
-                   "work_time"               => "Godzin przeprac."} %]
-
-[%# Also include any custom fields or fields which don't have a
-    Description here, by copying their Description from the
-    database. If you want to override this for your language
-    or your installation, just use a hook. %]
-[% UNLESS Param('shutdownhtml') %]
-  [% FOREACH bz_field = bug_fields.values %]
-    [% SET field_descs.${bz_field.name} = bz_field.description
-       IF !field_descs.${bz_field.name}.defined %]
-  [% END %]
-[% END %]
-
 [% SET search_descs = {
   "noop"           => "---",
   "equals"         => "jest taki, jak",
   "notequals"      => "jest inny niż",
-  "anyexact"       => "jest taki, jak którykolwiek ze znaków",
-  "substring"      => "zawiera znaki",
-  "casesubstring"  => "zawiera znaki (dokładnie takie)",
-  "notsubstring"   => "nie zawiera znaków",
-  "anywordssubstr" => "zawiera dowolne znaki",
-  "allwordssubstr" => "zawiera wszystkie znaki",
-  "nowordssubstr"  => "nie zawiera znaków",
+  "anyexact"       => "jest taki, jak którekolwiek z wyrażeń",
+  "substring"      => "zawiera wyrażenie",
+  "casesubstring"  => "zawiera wyrażenie (identyczne)",
+  "notsubstring"   => "nie zawiera wyrażenia",
+  "anywordssubstr" => "zawiera dowolne wyrażenia",
+  "allwordssubstr" => "zawiera wszystkie wyrażenia",
+  "nowordssubstr"  => "nie zawiera wyrażeń",
   "regexp"         => "odpowiada wyrażeniu reg.",
   "notregexp"      => "nie odpowiada wyrażeniu reg.",
   "lessthan"       => "jest mniejszy niż",
@@ -127,13 +52,14 @@
   "changedto"      => "zmieniony na",
   "changedby"      => "zmieniony przez",
   "matches"        => "pasuje do",
+  "notmatches"     => "nie pasuje do",
 } %]
 
 [% field_types = { ${constants.FIELD_TYPE_UNKNOWN}       => "Nieznany typ",
                    ${constants.FIELD_TYPE_FREETEXT}      => "Pole tekstowe",
                    ${constants.FIELD_TYPE_SINGLE_SELECT} => "Lista rozwijana",
                    ${constants.FIELD_TYPE_MULTI_SELECT}  => "Pole wielokrotnego wyboru",
-                   ${constants.FIELD_TYPE_TEXTAREA}      => "Pole dużego tekstu",
+                   ${constants.FIELD_TYPE_TEXTAREA}      => "Duże pole tekstowe",
                    ${constants.FIELD_TYPE_DATETIME}      => "Data/Czas",
                    ${constants.FIELD_TYPE_BUG_ID}        => "ID $terms.bledu",
                 } %]
@@ -147,7 +73,7 @@
     "UNCONFIRMED" => "NIEPOTWIERDZONY",
     "NEW"         => "NOWY",
     "ASSIGNED"    => "PRZYPISANY",
-    "REOPENED"    => "PONOWNIEOTWARTY",
+    "REOPENED"    => "PONOWNIE OTWARTY",
     "RESOLVED"    => "ROZWIĄZANY",
     "VERIFIED"    => "ZWERYFIKOWANY",
     "CLOSED"      => "ZAMKNIĘTY",
@@ -157,9 +83,9 @@
     ""           => "---",
     "FIXED"      => "NAPRAWIONY",
     "INVALID"    => "NIEPOPRAWNY",
-    "WONTFIX"    => "NIEDONAPRAWY",
+    "WONTFIX"    => "NIE DO NAPRAWY",
     "DUPLICATE"  => "DUPLIKAT",
-    "WORKSFORME" => "UMNIEDZIAŁA",
+    "WORKSFORME" => "U MNIE DZIAŁA",
     "MOVED"      => "PRZENIESIONY",
     " "          => " ",
   },
@@ -194,25 +120,25 @@
 
   "bit_description" => {
     "Administrators"                                  => "Administratorzy"
-    "Can configure whine reports for other users"     => "Możesz konfigurować raporty powiadomień dla innych użytkowników"
-    "User can configure whine reports for self"       => "Możesz konfigurować raporty powiadomień dla samego siebie"
-    "Can perform actions as other users"              => "Możesz wykonywać działania jako inny użytkownik"
-    "Can not be impersonated by other users"          => "Nkt nie może przejąć Twojej tożsamości"
-    "Can confirm a bug or mark it a duplicate"        => "Możesz potwierdzać błędy lub oznaczać je jako duplikaty"
-    "Can create and destroy groups"                   => "Możesz tworzyć i usuwać grupy"
-    "Can edit all bug fields"                         => "Możesz edytować wszystkie pola błędu"
-    "Can create, destroy, and edit classifications"   => "Możesz tworzyć, usuwać i edytować kategorie"
-    "Can create, destroy, and edit components"        => "Możesz tworzyć, usuwać i edytować komponenty"
-    "Can create, destroy, and edit keywords"          => "Możesz tworzyć, usuwać i edytować słowa kluczowe"
-    "Can edit or disable users"                       => "Możesz edytować lub usuwać użytkowników"
-    "Can change Parameters"                           => "Możesz zmieniać parametry"
+    "Can configure whine reports for other users"     => "Może konfigurować raporty powiadomień dla innych użytkowników"
+    "User can configure whine reports for self"       => "Może konfigurować raporty powiadomień dla samego siebie"
+    "Can perform actions as other users"              => "Może wykonywać działania jako inny użytkownik"
+    "Can not be impersonated by other users"          => "Nkt nie może przejąć tożsamości tego użytkownika"
+    "Can confirm a bug or mark it a duplicate"        => "Może potwierdzać błędy lub oznaczać je jako duplikaty"
+    "Can create and destroy groups"                   => "Może tworzyć i usuwać grupy"
+    "Can edit all bug fields"                         => "Może edytować wszystkie pola błędu"
+    "Can create, destroy, and edit classifications"   => "Może tworzyć, usuwać i edytować kategorie"
+    "Can create, destroy, and edit components"        => "Może tworzyć, usuwać i edytować komponenty"
+    "Can create, destroy, and edit keywords"          => "Może tworzyć, usuwać i edytować słowa kluczowe"
+    "Can edit or disable users"                       => "Może edytować lub usuwać użytkowników"
+    "Can change Parameters"                           => "Może zmieniać parametry"
   },                                                
 
-} %]                                                
-                                                    
+} %]
+
 [%# We use "FILTER none" here because only the caller can know how to
-  # filter the result appropriately.                
-  #%]                                               
+  # filter the result appropriately. 
+  #%]
 [% MACRO display_value(field_name, value_name) BLOCK %][% FILTER trim %]
   [% IF value_descs.${field_name}.${value_name}.defined %]
     [% value_descs.${field_name}.${value_name} FILTER none %]
@@ -220,22 +146,108 @@
     [% value_name FILTER none %]
   [% END %]
 [% END %][% END %]
-	
-[% choice_descs = { "on"                     => "włączone",
-                    "off"                    => "wyłączone",
-                    "defaulton"              => "domyślnie włączone",
-                    "defaultoff"             => "domyślnie wyłączone",
-                    "Test"                   => "Test",
-                    "None"                   => "Nigdy",
-                    "never"                  => "nigdy",
-                    "open"                   => "otwarte",
-                    "moderated"              => "moderowane",
-                    "closed"                 => "zamknięte",
-                    "wildcard"               => "wieloznacznik",
-                    "search"                 => "wyszukiwanie",
-                    "authenticated sessions" => "sesje uwierzytelnione",
-                    "always"                 => "zawsze"
-                    "disabled"               => "wyłączone"} %]
+
+[% IF in_template_var %]
+  [% vars.terms = terms %]
+
+  [%# field_descs is loaded as a global template variable and cached
+    # across all templates--see VARIABLES in Bugzilla/Template.pm.
+    #%]
+  [% vars.field_descs = {
+    "[Bug creation]"          => "[Zgłaszanie $terms.bledu]",
+     "actual_time"             => "Aktualny czas"
+     "alias"                   => "Alias",
+     "assigned_to"             => "Przypisany do",
+     "attach_data.thedata"     => "Dane załącznika",
+     "attachments.description" => "Opis załącznika",
+     "attachments.filename"    => "Nazwa pliku załącznika",
+     "attachments.mimetype"    => "Typ MIME załącznika",
+     "attachments.ispatch"     => "Załącznik jest łatką",
+     "attachments.isobsolete"  => "Nieaktualny załącznik",
+     "attachments.isprivate"   => "Prywatny załącznik",
+     "attachments.isurl"       => "Załącznik jest adresem URL",
+     "attachments.submitter"   => "Twórca załącznika",
+     "blocked"                 => "Blokuje",
+     "bug_file_loc"            => "URL",
+     "bug_group"               => "Grupa",
+     "bug_id"                  => "ID $terms.bledu",
+     "bug_severity"            => "Waga błędu",
+     "bug_status"              => "Status",
+     "changeddate"             => "Zmieniono",
+     "cc"                      => "Obserwatorzy",
+     "classification"          => "Kategoria",
+     "cclist_accessible"       => "Lista obserwatorów jest dostępna?",
+     "commenter"               => "Komentujący",
+     "component_id"            => "ID komponentu",
+     "component"               => "Komponent",
+     "content"                 => "Zawartość",
+     "creation_ts"             => "Data utworzenia",
+     "deadline"                => "Termin ostateczny",
+     "delta_ts"                => "Zmieniono",
+     "dependson"               => "Zależy od",
+     "dup_id"                  => "Duplikat",
+     "estimated_time"          => "Szacunek pocz.",
+     "everconfirmed"           => "Zawsze potwierdzony",
+     "flagtypes.name"          => "Flagi",
+     "keywords"                => "Słowa kluczowe",
+     "longdesc"                => "Komentarz",
+     "longdescs.isprivate"     => "Komentarz prywatny",
+     "newcc"                   => "Obserwatorzy",
+     "op_sys"                  => "OS",
+     "opendate"                => "Otwarto",
+     "owner_idle_time"         => "Czas od momentu przypisania osoby odpowiedzialnej",
+     "percentage_complete"     => "Postęp (%)",
+     "priority"                => "Priorytet",
+     "product_id"              => "ID produktu",
+     "product"                 => "Produkt",
+     "qa_contact"              => "Specjalista QA",
+     "remaining_time"          => "Pozostało godzin",
+     "rep_platform"            => "Platforma",
+     "reporter"                => "Zgłaszający",
+     "reporter_accessible"     => "Dostępne dla zgłaszającego?",
+     "requestees.login_name"   => "Proszący o flagę",
+     "resolution"              => "Rozwiązanie",
+     "see_also"                => "Zobacz też",
+     "setters.login_name"      => "Ustawiający flagę",
+     "setting"                 => "Ustawienie",
+     "settings"                => "Ustawienia",
+     "short_desc"              => "Krótki opis",
+     "status_whiteboard"       => "Tablica statusu",
+     "target_milestone"        => "Wersja docelowa",
+     "version"                 => "Wersja",
+     "votes"                   => "Głosów",
+     "work_time"               => "Godzin przeprac."
+  } %]
+
+  [%# Also include any custom fields or fields which don't have a
+      Description here, by copying their Description from the
+      database. If you want to override this for your language
+      or your installation, just use a hook. %]
+  [% UNLESS Param('shutdownhtml') %]
+    [% FOREACH bz_field = bug_fields.values %]
+      [% SET vars.field_descs.${bz_field.name} = bz_field.description
+         IF !vars.field_descs.${bz_field.name}.defined %]
+    [% END %]
+  [% END %]
+[% END %]
+
+[% choice_descs = { 
+     "on"                     => "włączone",
+     "off"                    => "wyłączone",
+     "defaulton"              => "domyślnie włączone",
+     "defaultoff"             => "domyślnie wyłączone",
+     "Test"                   => "Test",
+     "None"                   => "Nigdy",
+     "never"                  => "nigdy",
+     "open"                   => "otwarte",
+     "moderated"              => "moderowane",
+     "closed"                 => "zamknięte",
+     "wildcard"               => "wieloznacznik",
+     "search"                 => "wyszukiwanie",
+     "authenticated sessions" => "sesje uwierzytelnione",
+     "always"                 => "zawsze"
+     "disabled"               => "wyłączone"
+  } %]
 
 [% MACRO get_choice(ch) GET choice_descs.$ch || ch %]
 

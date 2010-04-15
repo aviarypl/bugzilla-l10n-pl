@@ -67,16 +67,16 @@ function subcatSelected() {
     [% IF NOT category OR category.size == 0 %]
       <tr>
         <td>
-          <i>Brak zestawów danych lub są one dla Ciebie niewidoczne.</i>
+          <i>Brak zestawów danych lub są one dla ciebie niewidoczne.</i>
         </td>
       </tr>
     [% ELSE %]
       <tr>
         <th><label for="category">Kategoria</label>:</th>
         <th></th>
-        <th><label for="subcategory">Subkategoria</label>:</th>
+        <th><label for="subcategory">Komponent</label>:</th>
         <th></th>
-        <th><label for="name" accesskey="N">Nazwa</label>:</th>
+        <th><label for="name" accesskey="S">Status</label>:</th>
         <th><br>
         </th>
       </tr>
@@ -258,7 +258,7 @@ function subcatSelected() {
 
   <form action="chart.cgi" id="create_series" name="create_series" method="GET">
     <input type="hidden" name="action" value="convert_search">
-    <label for="series_from_search">Based on:</label>
+    <label for="series_from_search">Na podstawie:</label>
     <select id="series_from_search" name="series_from_search">
       <option value="">(Czysty rejestr)</option>
       [% FOREACH q = user.queries %]

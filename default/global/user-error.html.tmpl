@@ -209,7 +209,7 @@
       raportów śledzenia czasu
     [% ELSIF object == "user" %]  
       użytkownik [% IF userid %] z ID „[% userid FILTER html %]”
-      [% ELSE %]określony przez Ciebie [% END %]
+      [% ELSE %]określony przez ciebie [% END %]
     [% ELSIF object == "users" %]
       użytkowników
     [% ELSIF object == "versions" %]
@@ -299,7 +299,8 @@
 
   [% ELSIF error == "comment_too_long" %]
     [% title = "Zbyt długi komentarz" %]
-    Komentarz nie może być dłuższy niż 65,535 znaków.
+    Komentarz nie może być dłuższy niż 
+    [%+ constants.MAX_COMMENT_LENGTH FILTER html %] znaków.
 
   [% ELSIF error == "auth_classification_not_enabled" %]
     [% title = "Kategorie nie zostały włączone" %]
@@ -357,8 +358,8 @@
     znaków. „[% name FILTER html %]” zawiera więcej niż ([% name.size %] znaków).
 
   [% ELSIF error == "component_need_initialowner" %]
-    [% title = "Komponent musi mieć domyślnego beneficjenta" %]
-    Ten komponent musi mieć domyślnego beneficjenta.
+    [% title = "Komponent musi mieć domyślną osobę odpowiedzialną" %]
+    Ten komponent musi mieć domyślną osobę odpowiedzialną.
 
   [% ELSIF error == "customfield_nonexistent" %]
     [% title = "Nieznane pole dodatkowe" %]
@@ -780,7 +781,7 @@
     [% END %]
     lecz tylko
     [% IF privs < 3 %]
-      beneficjent
+      osoba odpowiedzialna za rozwiązanie [% terms.bledu %]
     [% IF privs < 2 %], zgłaszający [% END %]
       [% terms.blad %] lub
     [% END %]
@@ -1016,6 +1017,10 @@
     Nie można użyć %user% nie będąc zalogowanym, ponieważ zmienna %user% odnosi się
     do nieznanej w tym momencie nazwy użytkownika.
 
+  [% ELSIF error == "login_required" %]
+    [%# Używany w przypadkach nie opartych na logowaniu sieciowym. %]
+    Przed użyciem tej części [% terms.Bugzilli %] musisz się zalogować.
+
   [% ELSIF error == "migrate_config_created" %]
     Plik <kbd>[% file FILTER html %]</kbd> zawiera konfigurację
     zmiennych, które muszą być okreslone przed kontynuacją migracji.
@@ -1092,7 +1097,7 @@
   [% ELSIF error == "missing_content_type" %]
     [% title = "Brakujące określenie typu zawartości" %]
      Poproszono [% terms.Bugzille %] o automatyczne wykrycie typu zawartości załącznika,
-     ale Twoja przeglądarka podczas przysyłania pliku nie określiła typu zawartości.
+     ale twoja przeglądarka podczas przysyłania pliku nie określiła typu zawartości.
      Musisz podać typ zawartości ręcznie.
                 
   [% ELSIF error == "missing_content_type_method" %]
@@ -1128,7 +1133,7 @@
                     'query.html#list'  => "Listy $terms.bledow"} %]
     Wyszukiwanie o nazwie <em>[% queryname FILTER html %]</em>
     [% IF sharer_id && sharer_id != user.id %]
-      nie jest dla Ciebie udostępnione.
+      nie jest dla ciebie udostępnione.
     [% ELSE %]
       nie istnieje.
     [% END %]
@@ -1331,7 +1336,7 @@
     </em> które powinno zawierać dodatnie wartości liczbowe.
 
   [% ELSIF error == "product_name_already_in_use" %]
-    [% title = "Nazwa produktu już istnieje" %]
+    [% title = "Nazwa produktu jest już używana" %]
     [% admindocslinks = {'products.html' => 'Administracja produktami'} %]
     Nazwa „[% product FILTER html %]” jest już używana przez inny produkt.
   
@@ -1424,7 +1429,7 @@
 
   [% ELSIF error == "quicksearch_unknown_field" %]
     [% title = "Nieznane pole szybkiego wyszukiwania" %]
-    Jest problem z Twoim wyszukiwaniem:
+    Jest problem z twoim wyszukiwaniem:
     [% FOREACH field = unknown %]
       <p> <code>[% field FILTER html %]</code> nie jest poprawną nazwą pola.
     [% END %]
@@ -1440,8 +1445,8 @@
 
   [% ELSIF error == "reassign_to_empty" %]
     [% title = "Nieprawidłowe przypisanie" %]
-    Aby przepisać [% terms.blad %], należy podać adres nowego
-    beneficjenta.
+    Aby przepisać [% terms.blad %], należy podać adres nowej osoby 
+    odpowiedzialnej za rozwiązanie [% terms.bledu %].
 
   [% ELSIF error == "require_component" %]
     [% title = "Wymagany komponent" %]
@@ -1597,7 +1602,7 @@
   [% ELSIF error == "user_has_responsibility" %]
     [% title = "Nie można usunąć konta użytkownika" %]
     [% admindocslinks = {'useradmin.html' => 'Administracja użytkownikami'} %]
-    Usuwany użytkownik jest domyślnym beneficjentem [% terms.bledow %]
+    Usuwany użytkownik jest domyślną osobą odpowiedzialną za rozwiązanie [% terms.bledow %]
     [% IF Param('useqacontact') %]
       lub specjalistą QA
     [% END %]

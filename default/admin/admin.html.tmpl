@@ -32,7 +32,7 @@
   Ta strona jest dostępna tylko dla upoważnionych użytkowników. Z tego miejsca masz –
   w zależności od uprawnień – dostęp do stron administracyjnych, na których możesz dokonać
   konfiguracji różnych ustawień tej instalacji. Sekcje wyróżnione jaśniejszym kolorem są
-  dla Ciebie niedostępne.
+  dla ciebie niedostępne.
 </div>
 
 <table>
@@ -85,6 +85,8 @@
         posiadającym własne cztery stany: zatwierdzona, odrzucona, prośba i nie zdefiniowano.
         Dla każdego [% terms.bledu %] można ustawić dowolną liczbę flag i określić użytkowników,
         którzy będą mogli je modyfikować.</dd>
+
+        [% Hook.process('end_links_left') %]
       </dl>
     </td>
 
@@ -93,7 +95,7 @@
         [% class = user.in_group('admin') ? "" : "forbidden" %]
         <dt id="custom_fields" class="[% class %]"><a href="editfields.cgi">Pola dodatkowe</a></dt>
         <dd class="[% class %]">[% terms.Bugzilla %] umożliwia określenie dodatkowych pól,
-        które nie są domyślnie zdefiniowane, a są potrzebne. Pola te można również wykorzysttywać
+        które nie są domyślnie zdefiniowane, a są potrzebne. Pola te można również wykorzystywać
         w innych [% terms.bledach %] oraz w wyszukiwaniu.<br>Przed utworzeniem nowego pola,
         należy wziąć pod uwagę, że zbyt duża liczba pól może skomplikować interfejs użytkownika
         i uczynić go trudnym w użyciu. Przed utworzeniem dodatkowego pola, należy upewnić się
@@ -126,6 +128,8 @@
         <dd class="[% class %]">Tutaj można określić zapytania, które będą uruchamiane zgodnie z
         określoną datą i godziną, a wyniki zapytań będą przekazywane bezpośrednio przez e-mail. Jest
         to dobry sposób tworzenia przypomnień i śledzenia aktywności w instalacji.</dd>
+
+        [% Hook.process('end_links_right') %]
       </dl>
     </td>
   </tr>

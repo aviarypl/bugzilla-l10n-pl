@@ -43,7 +43,7 @@
 [% UNLESS no_add_milestone_link %]
   <a title="Dodaj wersję docelową dla „[% product.name FILTER html %]”"
      href="editmilestones.cgi?action=add&amp;product=
-          [%- product.name FILTER url_quote %]">Dodaj</a> wersję docelową. 
+          [%- product.name FILTER url_quote %]">Dodaj</a> wersję docelową
 [% END %]
 
 [% IF milestone.name && !no_edit_milestone_link %]
@@ -59,12 +59,12 @@
 [% UNLESS no_edit_other_milestones_link %]
   Edytuj inne wersje docelowe produktu <a 
   href="editmilestones.cgi?product=
-        [%- product.name FILTER url_quote %]">„[% product.name FILTER html %]”</a>.
+        [%- product.name FILTER url_quote %]">„[% product.name FILTER html %]”</a>
 
 [% END %]
 
   Edytuj produkt <a 
   href="editproducts.cgi?action=edit&amp;product=
-        [%- product.name FILTER url_quote %]">„[% product.name FILTER html %]”</a>.
+        [%- product.name FILTER url_quote %]">„[% product.name FILTER html %]”</a>
 
 </p>

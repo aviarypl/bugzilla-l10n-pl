@@ -54,7 +54,7 @@
   Priorytet: [%+ display_value("priority", bug.priority) -%]
   Waga: [%+ display_value("bug_severity", bug.bug_severity) -%]
   Platforma: [%+ display_value("rep_platform", bug.rep_platform) %]
-  Beneficjent: [%+ bug.assigned_to %]
+  Odpowiedzialny: [%+ bug.assigned_to %]
     Status: [%+ display_value("bug_status", bug.bug_status) %]
             [%- IF bug.resolution -%] Rozwiązanie: [% display_value("resolution", bug.resolution) -%]
                                 [%- END %]

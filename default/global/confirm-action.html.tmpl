@@ -33,19 +33,19 @@
   [% IF reason == "expired_token" %]
     Twoje zmiany zostały odrzucone, ponieważ przed wysłaniem tych zmian do
     [% script_name FILTER html %] został przekroczony limit czasu
-    [% constants.MAX_TOKEN_AGE FILTER html %] dni. Być może Twoja strona była
+    [% constants.MAX_TOKEN_AGE FILTER html %] dni. Być może twoja strona była
     wyświetlona bardzo długo lub poprzednie zmiany zostały przypadkowo ponownie wysłane.
 
   [% ELSIF reason == "missing_token" %]
     Wygląda na to, że trafiłeś/trafiłaś tutaj z nieprawidłowej strony.
     Jednym z powodów może być to, że w pasku adresu przeglądarki wprowadzono URL
     bezpośrednio zamiast w trybie bezpiecznym. inny możliwy powód, to kliknięto
-    odnośnik, który wykonał przekierowanie tutaj <b>bez Twojej zgody</b>.
+    odnośnik, który wykonał przekierowanie tutaj <b>bez twojej zgody</b>.
 
   [% ELSIF reason == "invalid_token" %]
     Zmiany zostały wysłane do [% script_name FILTER html %] z nieprawidłowym
-    tokenem, który może wskazywać, że ktoś próbował Cię wykorzystać np.
-    poprzez kliknięcie na URL, który wykonał przekierowani tutaj <b>bez Twojej
+    tokenem, który może wskazywać, że ktoś próbował cię wykorzystać np.
+    poprzez kliknięcie na URL, który wykonał przekierowani tutaj <b>bez twojej
     zgody</b>.
   [% END %]
   <p>

@@ -84,7 +84,7 @@
                    value="[% attachment.contenttype FILTER html %]">
         [% ELSE %]
           <div id="attachment_filename">
-            <label for="filename">Filename:</label>
+            <label for="filename">Nazwa pliku:</label>
             <input type="text" size="20"  class="block[% editable_or_hide %]"
                    id="filename" name="filename"
                    value="[% attachment.filename FILTER html %]">
@@ -202,7 +202,7 @@
       [% ELSIF !Param("allow_attachment_display") %]
         <td id="view_disabled" width="50%">
           <p><b>
-            Nie można wyświetlić załącznika w Twojej przeglądarce z powodu ograniczeń
+            Nie można wyświetlić załącznika w twojej przeglądarce z powodu ograniczeń
             bezpieczeństwa włączonych przez [% terms.Bugzille %].
           </b></p>
           <p><b>
@@ -223,7 +223,7 @@
                                attachment.data.replace('(.*\n|.+)', '>$1') : undef
           %]
           <iframe id="viewFrame" src="attachment.cgi?id=[% attachment.id %]" style="height: 400px; width: 100%;">
-            <b>Nie można wyświetlić załącznika podczas przeglądania jego szczegółów, ponieważ Twoja przeglądarka nie obsługuje ramek.
+            <b>Nie można wyświetlić załącznika podczas przeglądania jego szczegółów, ponieważ twoja przeglądarka nie obsługuje ramek.
             <a href="attachment.cgi?id=[% attachment.id %]">Zobacz załącznik na osobnej stronie</a>.</b>
           </iframe>
           <script type="text/javascript">

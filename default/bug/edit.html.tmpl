@@ -275,7 +275,7 @@
       <table id="summary"> 
         [% IF Param("usebugaliases") %]
           <tr>
-          [% IF bug.check_can_change_field('alias', 0, 1) %]      
+          [% IF bug.check_can_change_field('alias', 0, 1) %]
             <td>
               <label 
                 for="alias" 
@@ -487,7 +487,7 @@
             %]
             <br>
             <input type="checkbox" id="set_default_assignee" name="set_default_assignee" value="1">
-            <label id="set_default_assignee_label" for="set_default_assignee">Przywróć domyślnego beneficjenta</label>
+            <label id="set_default_assignee_label" for="set_default_assignee">Przywróć domyślną osobę odpowiedzialną</label>
           </div>
           <script type="text/javascript">
            hideEditableField('bz_assignee_edit_container', 
@@ -667,8 +667,8 @@
       [% IF NOT emitted_description %]
         [% emitted_description = 1 %]
           <div id="bz_restrict_group_visibility_help">
-            <b>Tylko użytkownicy z wybranych grup mogą widzieć ten
-	    [% terms.blad %]:</b>
+            <b>Tylko użytkownicy z wybranych grup mogą widzieć ten 
+      [% terms.blad %]:</b>
              <p class="instructions">
                Odznaczenie wszystkich pól spowoduje pełne upublicznienie tego [% terms.bledu %]
              </p>
@@ -728,7 +728,7 @@
           <label for="cclist_accessible">Obserwatorzy</label>
         </div>
         <p class="instructions">
-          Beneficjent
+          Odpowiedzialny
           [% IF (Param('useqacontact')) %]
              i specjalista QA
           [% END %]
@@ -799,7 +799,7 @@
         [% END %]
         [% IF user.id %]
           [% IF bug.cc.contains( user.email ) %]
-            włącznie z Tobą
+            łącznie z tobą
           [% END %]
         [% END %]
         <span id="cc_edit_area_showhide_container" class="bz_default_hidden">
@@ -1045,7 +1045,7 @@
     <a name="add_comment"></a>
     [% IF user.id %]
       <label for="comment" accesskey="c"><b>Dodatkowe 
-        <u>k</u>ommentarze</b></label>:
+        <u>k</u>omentarze</b></label>:
 
       [% IF user.is_insider %]
         <input type="checkbox" name="commentprivacy" value="1"

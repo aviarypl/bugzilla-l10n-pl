@@ -60,7 +60,7 @@
 
   [% ELSIF error == "auth_invalid_email" %]
     [% title = "Nieprawidłowy adres e-mail" %]
-    Podczas próby utworzenia lub aktualizacji Twojego konta otrzymaliśmy
+    Podczas próby utworzenia lub aktualizacji twojego konta otrzymaliśmy
     adres e-mail (<b>[% addr FILTER html %]</b>), który nie przechodzi
     testu poprawności składni.
     [% IF default %]
@@ -429,9 +429,6 @@
     Wystąpił błąd podczas przygotowywania żądania uwierzytelniania do serwera RADIUS:
     <code>[% errstr FILTER html %]</code>.
 
-  [% ELSIF error == "unknown_comparison_type" %]
-    Podany typ porównania jest nieobsługiwany.
-
   [% ELSIF error == "request_queue_group_invalid" %]
     Pole grupa <em>[% group FILTER html %]</em> jest nieprawidłowe.
 
@@ -469,7 +466,7 @@
     W wywołaniu: [% name FILTER html %] npotkano szablon z nieprawidłową nazwą pliku.
 
   [% ELSIF error == "unable_to_retrieve_password" %]
-     Nie można pobrać Twojego starego hasła z bazy danych.
+     Nie można pobrać twojego starego hasła z bazy danych.
 
   [% ELSIF error == "undefined_field" %]
     Pole formularza [% field FILTER html %] nie zostało zdefiniowane.

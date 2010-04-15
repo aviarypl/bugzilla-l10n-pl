@@ -146,7 +146,7 @@
 
   [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
     [% terms.Bledy %] na tej liście są posortowane według trafności.
-    Na początku listy [% terms.bledy %] najbliższe zapytaniu.
+    Na początku listy znajdują się [% terms.bledy %] najbliższe zapytaniu.
     [% IF bugs.size == constants.FULLTEXT_BUGLIST_LIMIT %]
       Wyświetlane są wyłącznie pierwsze 
       [% constants.FULLTEXT_BUGLIST_LIMIT FILTER html %] [% terms.bledy %].
@@ -185,6 +185,7 @@
         [% IF changes.sortkey.defined %]
           <li>Klucz sortowania został zmieniony na „[% classification.sortkey FILTER html %]”</li>
         [% END %]
+        [% Hook.process('classification_updated_fields') %]
       </ul>
     [% ELSE %]
       Nie dokonano żadnych zmian w <em>[% classification.name FILTER html %]</em>.
@@ -214,7 +215,7 @@
         <li>Opis został zmieniony na „[% comp.description FILTER html_light %]”</li>
       [% END %]
       [% IF changes.initialowner.defined %]
-        <li>Domyślny beneficjent został zmieniony na „[% comp.default_assignee.login FILTER html %]”</li>
+        <li>Domyślna osoba odpowiedzialna została zmieniona na „[% comp.default_assignee.login FILTER html %]”</li>
       [% END %]
       [% IF changes.initialqacontact.defined %]
         [% IF comp.default_qa_contact.id %]
@@ -234,6 +235,8 @@
           <li>Domyślna lista obserwatorów została usunięta</li>
         [% END %]
       [% END %]
+      [% Hook.process('component_updated_fields') %]
+      </ul>
     [% ELSE %]
       Nie dokonano zmian w komponencie <em>[% comp.name FILTER html %]</em>.
     [% END %]
@@ -281,7 +284,7 @@
   [% ELSIF message_tag == "extension_created" %]
     Rozszerzenie o nazwie [% name FILTER html %] zostało utworzone
     w [% path FILTER html %]. Sprawdź czy w kodzie zostały zmienione 
-    „TWOJA NAZWA” i „TWÓJ ADRES E-MAIL” na Twoją nazwę i adres e-mail.
+    „TWOJA NAZWA” i „TWÓJ ADRES E-MAIL” na twoją nazwę i adres e-mail.
 
   [% ELSIF message_tag == "field_value_created" %]
     [% title = "Utworzono nową wartość pola" %]
@@ -438,9 +441,9 @@
     [% END %]
 
   [% ELSIF message_tag == "invalid_column_name" %]
-    Określony przez użytkownika porządek sortowania zawiera jedną lub wiecej
+    Określony przez użytkownika porządek sortowania zawiera jedną lub więcej
     nieprawidłowych nazw kolumn: <em>[% invalid_fragments.join(', ') FILTER html %]</em>.
-    Zostały usuniete z listy.
+    Zostały usunięte z listy.
 
   [% ELSIF message_tag == "job_queue_depth" %]
     [% count FILTER html %] zadań w kolejce.
@@ -484,7 +487,7 @@
     [% title = "Wylogowano" %]
     [% url = "index.cgi?GoAheadAndLogIn=1" %]
     [% link = "Zaloguj ponownie" %]
-    <b>Brak danych o Twoim loginie</b>.
+    <b>Brak danych o twoim loginie</b>.
     Ciasteczko, w którym były przechowywane informacje o danych logowania zostało usunięte.
     Przy następnej próbie logowania trzeba będzie podać wymagane informacje.
 
@@ -516,7 +519,7 @@
     Wczytywanie użytkowników…
 
   [% ELSIF message_tag == "migrate_translating_bugs" %]
-    Konwertowanie [% terms.bug %] wartości na format właściwy
+    Konwertowanie wartości [% terms.bledu %] na format właściwy
     dla [%+ terms.Bugzilli %]…
 
   [% ELSIF message_tag == "migrate_user_created" %]
@@ -785,7 +788,7 @@
     Serie <em>[% series.category FILTER html %] /
       [%+ series.subcategory FILTER html %] /
       [%+ series.name FILTER html %]</em>
-      zostały usuniete.
+      zostały usunięte.
 
   [% ELSIF message_tag == "shutdown" %]
     [% title = "Wyłączenie $terms.Bugzilli" %]

@@ -27,7 +27,7 @@
 [% cgi = Bugzilla.cgi %]
 
 [% PROCESS global/header.html.tmpl
-  title="Kolejka próśb o umieszczenie flagi"
+  title="Kolejka próśb"
   style = "
     table.requests th { text-align: left; }
     table#filtering th { text-align: right; }
@@ -245,5 +245,7 @@ które nie są ograniczone do grupy.
 [% BLOCK display_buglist %]
   </table>
   [% NEXT UNLESS buglist.keys.size %]
-  <a href="buglist.cgi?bug_id=[% buglist.keys.nsort.join(",") FILTER html %]">(wyświetl jako listę błędów)</a>
+  <a href="buglist.cgi?bug_id=
+           [%- buglist.keys.nsort.join(",") FILTER html %]">(wyświetl jako listę 
+  [%+ terms.bledow %])</a>
 [% END %]

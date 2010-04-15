@@ -49,7 +49,7 @@ z produktu [% product.name FILTER html %]
   <td valign="top">[% comp.description FILTER html_light %]</td>
 </tr>
 <tr>
-  <td valign="top">Domyślny beneficjent:</td>
+  <td valign="top">Domyślny odpowiedzialny:</td>
   <td valign="top">[% comp.default_assignee.login FILTER html %]</td>
   
 [% IF Param('useqacontact') %]
@@ -84,7 +84,7 @@ z produktu [% product.name FILTER html %]
 
 </tr>
 <tr>
-  <TD VALIGN="top">Dozwolone nowe [% terms.bledy %]:</TD>
+  <TD VALIGN="top">Zgłaszanie [% terms.bledow %]:</TD>
   <TD VALIGN="top">[% IF product.is_active %]Tak[% ELSE %]Nie[% END %]</td>
 </tr>
 <tr>

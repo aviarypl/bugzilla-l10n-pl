@@ -50,7 +50,7 @@
 <hr>
 
 <p style="font-size:smaller">
- Aby zmienić wiele [% terms.bledow%], należy:</p>
+ Aby zmienić wiele [% terms.bledow%] jednocześnie, należy:</p>
 <ol style="font-size:smaller">
   <li>Zaznaczyć powyżej [% terms.bledy %], które mają być zmienione.</li>
   <li>Dokonać zmian w polach poniższego formularza. Jeśli zmiany wymagają wyjaśnień,
@@ -174,7 +174,7 @@
   [% END %]
 
   <tr>
-    <th><label for="assigned_to">Beneficjent:</label></th>
+    <th><label for="assigned_to">Opowiedzialny:</label></th>
     <td colspan="3">
       [% INCLUDE global/userselect.html.tmpl
            id => "assigned_to"
@@ -183,7 +183,7 @@
            size => 32
       %]
       <input type="checkbox" id="set_default_assignee" name="set_default_assignee" value="1">
-      <label for="set_default_assignee">Przywróć domyślnego beneficjenta</label>
+      <label for="set_default_assignee">Przywróć domyślną osobę odpowiedzialną</label>
     </td>
   </tr>
 

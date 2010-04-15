@@ -38,7 +38,7 @@
 
   <ul>
     <li>Bądź precyzyjny</li>
-    <li>Wyrażaj się jasno - wyjaśnij, jak inni mogą reprodukować [% terms.blad %]</li>
+    <li>Wyrażaj się jasno – wyjaśnij, jak inni mogą reprodukować [% terms.blad %]</li>
     <li>Jeden [% terms.blad %], jedno zgłoszenie</li>
     <li>Nie ma zbyt błahych [% terms.bledow %] do zgłaszania – 
     mały [% terms.blad %] może ukrywać wielkie [% terms.bledy %]</li>
@@ -53,7 +53,7 @@
   </li>
 
   <li><a href="query.cgi?format=specific">Przeszukaj</a> 
-  [% terms.Bugzille %], by sprawdzić czy Twój [% terms.blad %] nie
+  [% terms.Bugzille %], by sprawdzić czy twój [% terms.blad %] nie
   był już zgłaszany.</li>
 </ol>
 
@@ -70,22 +70,22 @@ nie ma wcześniejszych zgłoszeń to:</p>
 </ol>
 
   <blockquote>
-    <p><b>Komponent:</b> Określa w której części programu występuje ten [% terms.blad %].<br>
+    <p><b>Komponent</b> – określa w której części programu występuje ten [% terms.blad %].<br>
     To pole jest wymagane.
     Kliknij słowo „Komponent”, by zobaczyć opis każdego 
-    komponentu. Jeśli żaden nie wydaje Ci się odpowiedni, poszukaj komponentu „Ogólny”.</p>
+    komponentu. Jeśli żaden nie wydaje ci się odpowiedni, poszukaj komponentu „Ogólny”.</p>
 
-    <p><b>OS:</b> Określa na jakim systemie operacyjnym (OS) [% terms.blad %] został
+    <p><b>OS</b> – określa na jakim systemie operacyjnym (OS) [% terms.blad %] został
     wykryty.
     (np. Linux, Windows XP, Mac OS X.)<br>
     Jeśli wiesz, że ten [% terms.blad %] występuje na każdym systemie operacyjnym,
     wybierz <em>[% display_value("op_sys", "All") FILTER html %]</em>. 
-    Jeśli Twojego systemu operacyjnego nie ma na liście, wybierz <em>[% display_value("op_sys", "Other") FILTER html %]</em>.</p>
+    Jeśli twojego systemu operacyjnego nie ma na liście, wybierz <em>[% display_value("op_sys", "Other") FILTER html %]</em>.</p>
 
-    <p><b>Krótki opis:</b> Krótki opis [% terms.bledu %], który powinien zamknąć się
+    <p><b>Krótki opis</b> – krótki opis [% terms.bledu %], który powinien zamknąć się
     maksymalnie w 60 znakach.<br>
      Dobry krótki opis powinien <b>szybko i jednoznacznie identyfikować zgłoszenie
-    [% terms.bladu %]</b>. Powinien opisywać problem, a nie Twoje sugerowane rozwiązanie.<br>
+    [% terms.bladu %]</b>. Powinien opisywać problem, a nie twoje sugerowane rozwiązanie.<br>
     <ul>
      <li>Dobrze: „<tt>Anulowanie kopiowania plików powoduje awarię 
      menedżera plików</tt>”</li>
@@ -93,8 +93,8 @@ nie ma wcześniejszych zgłoszeń to:</p>
      <li>Źle: „<tt>Przeglądarka powinna pracować z moją witryną internetową</tt>”</li>
     </ul>
     
-    <b>Opis:</b>
-    Szczegóły zgłaszanego problemu zawierające:</p>
+    <b>Opis</b> –
+    szczegóły zgłaszanego problemu zawierające:</p>
 
     <blockquote>
       <p><b>Ogólny opis</b> – nieco bardziej szczegółowe rozwinięcie zawartości
@@ -106,7 +106,7 @@ Zaznaczenie myszą dowolnej strony powoduje awarię wersji przeznaczonej<br/>dla
 </pre>
       </blockquote>
 
-      <p><b>Czynności do reprodukowania błędu:</b> Możliwie nieskomplikowany opis czynności,
+      <p><b>Czynności do reprodukowania błędu</b> – możliwie nieskomplikowany opis czynności,
       których powtórzenie pozwala na zaobserwowanie [% terms.bledu %]. Powinien zawierać
       początkowe ustawienia wymagane do wystąpienia [% terms.bledu %].</p>
 
@@ -164,10 +164,10 @@ Nie występuje na wersji z 2006-08-10 na Windows XP Home SP2
       <br><br>Przykładowo dla [% terms.bledow %] powodujących awarię programu:</p>
 
       <ul>
-        <li><b>Windows:</b> Typ awarii i moduł, który spowodował awarię
+        <li><b>Windows</b> – typ awarii i moduł, który spowodował awarię
         np. pogwałcenie dostępu w apprunner.exe.</li>
 
-        <li><b>Mac OS X:</b> Dołącz log z modułu zgłaszania awarii, który pojawia się po awarii.
+        <li><b>Mac OS X</b> – dołącz log z modułu zgłaszania awarii, który pojawia się po awarii.
         Dołącz tylko fragment poniżej wątku, zwykle nazywa się on
         „Wątek 0 uległ awarii”. Proszę nie podawać zawartości całego loga!</li>
       </ul>

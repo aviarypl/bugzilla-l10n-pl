@@ -100,10 +100,10 @@ EOT
 ***********************************************************************
 * DOSTEP DO BAZY DANYCH                                               *
 ***********************************************************************
-* Aby uzyskac dostep do Twojej bazy danych Bugzilla wymaga, aby       *
+* Aby uzyskac dostep do twojej bazy danych Bugzilla wymaga, aby       *
 * dla uruchomionej bazy byl prawidlowo zainstalowany modul "DBD".     *
 * Zobacz ponizej poprawne polecenia do uruchomienia instalacji modułu *
-* odpowiedniego dla Twojej bazy danych.                               *
+* odpowiedniego dla twojej bazy danych.                               *
 EOT
     modules_message_optional => <<EOT,
 ***********************************************************************

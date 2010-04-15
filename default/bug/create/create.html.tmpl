@@ -388,7 +388,7 @@ TUI_hide_default('expert_fields');
          emptyok => 1
          custom_userlist => assignees_list
        %]
-      <noscript>(Pozostaw puste, by przypisać do domyślnego beneficjenta komponentu)</noscript>
+      <noscript>(Pozostaw puste, by przypisać do domyślnej osoby odpowiedzialnej za rozwiązanie)</noscript>
     </td>
   </tr>
   
@@ -547,7 +547,7 @@ TUI_hide_default('expert_fields');
                       +   '<input type="button" value="Dodaj załącznik" '
                       +          'onClick="handleWantsAttachment(true)"> '
                       +   '<em style="display: none">Ten przycisk nie '
-                      +   'działa, ponieważ Twoja przeglądarka nie '
+                      +   'działa, ponieważ twoja przeglądarka nie '
                       +   'obsługuje lub nie używa stylów CSS.<\/em>'
                       + '<\/div>'
                       + '<div id="attachment_true" style="display: none">'
@@ -581,7 +581,7 @@ TUI_hide_default('expert_fields');
         <th><a href="describekeywords.cgi">Słowa kluczowe</a>:</th>
         <td colspan="3">
           <input id="keywords" name="keywords" size="40"
-                 value="[% keywords FILTER html %]"> (optional)
+                 value="[% keywords FILTER html %]"> (opcjonalne)
         </td>
       </tr>
     [% END %]

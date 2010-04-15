@@ -68,7 +68,7 @@
              autocomplete="off"
              id="password" value="" />
       [% IF editform %]<br />
-        (Aby zmienić hasło, należy podać nowe.)
+        <small>Aby zmienić hasło, należy podać nowe</small>
       [% END %]
     </td>
   </tr>
@@ -78,8 +78,8 @@
     <td>
       <input type="checkbox" name="disable_mail" id="disable_mail" value="1" 
       [% IF otheruser.email_disabled %] checked="checked" [% END %] />
-      (Funkcja ta dotyczy powiadomień związanych z błędami i przypominaniem, a nie resetowania hasła czy innych
-      nie związanych z [% terms.bledami %] e-maili)
+      <small>(Funkcja ta dotyczy powiadomień związanych z błędami i przypominaniem, a nie resetowania hasła czy innych
+      nie związanych z [% terms.bledami %] e-maili)</small>
     </td>
   </tr>
   <tr>
@@ -94,8 +94,8 @@
          cols           = 60
          defaultcontent = otheruser.disabledtext
        %]<br>
-      (Wprowadzenie tekstu w powyższe pole spowoduje wyłączenie konta, a tekst ten będzie
-      wyświetlany jako powód wyłączenia)
+      <small>(Wprowadzenie tekstu w powyższe pole spowoduje wyłączenie konta, a tekst ten będzie
+      wyświetlany jako powód wyłączenia)</small>
     </td>
   </tr>
 [% END %]

@@ -151,7 +151,7 @@ document.write('<input type="button" value="Wyłącz wszystko" onclick="SetCheck
 
 [% relationships = [
     { id = constants.REL_ASSIGNEE,
-      description = "Beneficjent" },
+      description = "Odpowiedzialny" },
     { id = constants.REL_QA,
       description = "Specjalista QA" },
     { id = constants.REL_REPORTER,
@@ -270,9 +270,9 @@ document.write('<input type="button" value="Wyłącz wszystko" onclick="SetCheck
 
 <p>
 Jeśli obserwujesz użytkownika, będziesz otrzymywać kopie wiadomości wysyłanych do niego.
-Wiadomości będą wysyłane lub nie, odpowiednio do <strong>Twoich</strong> ustawień i
+Wiadomości będą wysyłane lub nie, odpowiednio do <strong>twoich</strong> ustawień i
 <strong>ich</strong> relacji z [% terms.bledami %] 
-(np. relacje z beneficjentem).
+(np. relacje z osobą odpowiedzialną).
 </p>
 
 <p>
@@ -296,7 +296,7 @@ Obecnie nie obserwujesz żadnych użytkowników.
   <input size="60" name="new_watchedusers" value="">
 </p>            
 
-<p><a name="watching_you" id="watching_you">Użytkownicy obserwujący Ciebie</a>:<br>
+<p><a name="watching_you" id="watching_you">Użytkownicy obserwujący ciebie</a>:<br>
   [% IF watchers.size %]
     [% FOREACH watcher = watchers %]
       [% watcher FILTER html %] <br>

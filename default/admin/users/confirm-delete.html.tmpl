@@ -240,15 +240,15 @@
           <li>
             Użytkownik [% otheruser.login FILTER html %]
             <a href="buglist.cgi?emailassigned_to1=1&amp;emailqa_contact1=1&amp;emailtype1=exact&amp;email1=
-               [%- otheruser.login FILTER url_quote %]">jest beneficjentem 
-            lub specjalistą QA w 
+               [%- otheruser.login FILTER url_quote %]">jest osobą odpowiedzialną za
+            roawiązanie [% terms.bledu %] lub specjalistą QA w 
             [% IF assignee_or_qa == 1 %]
               jednym [% terms.bledzie %] 
             [% ELSE %]
               [%+ assignee_or_qa %] [%+ terms.bledach %] 
             [% END %]</a>.
-            Usunięcie konta użytkownika spowoduje przepisanie tych ról na domyślnego
-            beneficjenta lub specjalistę QA.
+            Usunięcie konta użytkownika spowoduje przepisanie tych ról na domyślną
+            osobę odpowiedzialną lub specjalistę QA.
           </li>
         [% END %]
         [% IF cc %]
