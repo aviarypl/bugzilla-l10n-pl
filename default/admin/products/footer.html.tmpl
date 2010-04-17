@@ -52,11 +52,11 @@
 [%# Strictly speaking, we should not have to check for a
     classification if they are enabled, but I'm just being paranoid %]
   [% IF Param('useclassification') && classification %]
-    (<a title="Dodawanie produktu do kategorii '
-               [%- classification.name FILTER html %]'"
+    (<a title="Dodawanie produktu do kategorii „
+               [%- classification.name FILTER html %]”"
          href="editproducts.cgi?action=add
                [%- classification_url_part %]">do  
-     kategorii '[% classification.name FILTER html %]'</a>)
+     kategorii „[% classification.name FILTER html %]”</a>)
   [% END %]
 [% END %]
 
@@ -81,8 +81,8 @@
 [% IF Param('useclassification') && classification
       && user.in_group('editclassifications') %]
   Edycja kategorii <a href="editclassifications.cgi?action=edit
-    [%- classification_url_part %]">'
-    [%- classification.name FILTER html %]'</a>.
+    [%- classification_url_part %]">„
+    [%- classification.name FILTER html %]”</a>.
 
 [% END %]
 

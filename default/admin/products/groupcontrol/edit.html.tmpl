@@ -24,7 +24,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-    Edycja elementów kontrolnych grupy [% product.name FILTER html %]
+    Edycja elementów kontrolnych grupy „[% product.name FILTER html %]”
 [% END %]
 [% PROCESS global/header.html.tmpl 
    title = title 
@@ -42,7 +42,7 @@
       <th>Kontrola członków</th>
       <th>Dodatkowa kontrola</th>
       <th>Edycja</th>
-      <th>Edycja komponent.</th>
+      <th>Edycja komponentów.</th>
       <th>Potwierdzanie</th>
       <th>Edycja błędów</th>
       <th>[% terms.Bledy %]</th>
@@ -156,7 +156,7 @@ dla tego produktu będą mogli zgłaszać jedynie użytkownicy, którzy są
 członkami grup, które mają uprawnienia do zgłaszania [% terms.bledow %].
 </p>
 <p>
-Jeśli grupa ma zaznaczoną uprawnienie <b>Edycja</b>, użytkownicy, którzy nie są
+Jeśli grupa ma zaznaczone uprawnienie <b>Edycja</b>, użytkownicy, którzy nie są
 członkami grup, które mają prawo edycji, będą mogli ten produkt jedynie
 przeglądać. TYLKO użytkownicy, którzy są członkami grup, które mają prawo edycji
 (mają zaznaczoną funkcję Edycja) będą mieli prawo jego edycji. Jest to dodatkowe

@@ -38,14 +38,14 @@
 
   [% ELSIF reason == "missing_token" %]
     Wygląda na to, że trafiłeś/trafiłaś tutaj z nieprawidłowej strony.
-    Jednym z powodów może być to, że w pasku adresu przeglądarki wprowadzono URL
-    bezpośrednio zamiast w trybie bezpiecznym. inny możliwy powód, to kliknięto
+    Jednym z powodów może być to, że adres URL został wprowadzony bezpośrednio do pasku adresu
+    przeglądarki (generalnie bezpieczna sytuacja). Inny możliwy powód, to został kliknięty
     odnośnik, który wykonał przekierowanie tutaj <b>bez twojej zgody</b>.
 
   [% ELSIF reason == "invalid_token" %]
     Zmiany zostały wysłane do [% script_name FILTER html %] z nieprawidłowym
     tokenem, który może wskazywać, że ktoś próbował cię wykorzystać np.
-    poprzez kliknięcie na URL, który wykonał przekierowani tutaj <b>bez twojej
+    poprzez kliknięcie na URL, który wykonał przekierowanie tutaj <b>bez twojej
     zgody</b>.
   [% END %]
   <p>

@@ -32,14 +32,14 @@
 [% cgi = Bugzilla.cgi %]
 
 [% PROCESS global/header.html.tmpl
-   title = "Enter $terms.ABug"
+   title = "Zgłaszanie $terms.bledu"
    onload = "PutDescription()"
    style = "#somebugs { width: 100%; height: 500px }"
  %]
 
 <p>
   <font color="red">
-    To jest zablon używany na witrynie mozilla.org. Ten szablon oraz szablon
+    To jest szablon używany na witrynie mozilla.org. Ten szablon oraz szablon
     comment-guided.txt.tmpl, który formatuje dane wysłane przez formularz
     znajdujący się w tym szablonie są dołączone jako prezentacje tego, co jest
     ogólnie możliwe do zrobienia z własnymi szablonami, a w szczególności z własnym
@@ -135,7 +135,7 @@ function PutDescription() {
   nie znalazła pasujących do twojego wyszukiwania [% terms.bledow %].
   Sprawdź czy nie zakradła się jakaś pomyłka lub spróbuj użyć mniej słów lub innych słów kluczowych.
   Jeśli znajdziesz [% terms.blad %], który wygląda podobnie do twojego,
-  raczej dodaj do niego dodatkowe, użyteczne informacje jakie masz, niż otwieraj nowy błąd.
+  raczej dodaj do niego dodatkowe, użyteczne informacje jakie masz, niż otwieraj nowy [% terms.blad %].
 </p>
 
 
@@ -260,10 +260,10 @@ function PutDescription() {
       <p>
         Ten element powinien dokładnie identyfikować wersję używanego produktu.  
         Jeśli powyższe pole jest puste lub dane są niewłaściwe, skopiuj wersję 
-        z sekcji Pomoc danego produktu | 
-        Dla przeglądarek będzie się zaczynała od "Mozilla/5.0…".  
-        Jeśli produkt nie chce się uruchamiać, zamiast wklejać pełny adres URL, pobierz
-        go z tego miejsca.
+        z sekcji Pomoc | O programie… danego produktu. 
+        Dla przeglądarek będzie się zaczynała od „Mozilla/5.0…”.  
+        Jeśli produkt nie chce się uruchamiać, wklej pełny adres URL użyty do pobrania
+        produktu.
       </p>
     </td>
   </tr>
@@ -324,7 +324,7 @@ function PutDescription() {
       <p>
         <tt>
           <font color="#990000">Zły przykład</font>: Mozilla uległa awarii.
-          Jesteś beznadziejny!
+          Jesteście beznadziejni!
         </tt>
         <br>
         <tt>
@@ -350,7 +350,7 @@ function PutDescription() {
           Zdarza się czasami, ale nie zawsze.
         </option>
         <option name="DidntTry" value="Nie próbowano">
-          Nie próbowano powtórnie wywołać wystąpienie problemu.
+          Nie próbowano powtórnie wywołać wystąpienia problemu.
         </option>
         <option name="NotReproducible" value="Nie można powtórzyć>
           Próbowano, ale nie można powtórzyć.
@@ -379,7 +379,7 @@ function PutDescription() {
 
   <tr bgcolor="[% tablecolour %]">
     <td valign="top" align="right">
-      <b>Atualny stan</b>
+      <b>Aktualny stan</b>
     </td>
     <td valign="top">
       [% INCLUDE global/textarea.html.tmpl
@@ -429,7 +429,7 @@ function PutDescription() {
         dłuższa niż kilka wierszy, taka jak <b>śledzenie stosu</b> lub przypadek testowy <b>HTML</b>
         powinna być dodawana po zgłoszeniu [% terms.bledu %] za pomocą
         odnośnika „Dodaj załącznik” znajdującego się w zgłoszonym [% terms.bledzie %].
-        Jeśli uważasz, że jest to związane z błędem, dołącz także
+        Jeśli uważasz, że jest to związane z [% terms.bledem %], dołącz także
         swoją konfigurację wydania dostępną po wpisaniu w pasku adresu przeglądarki
         <tt>about:buildconfig</tt>.
         <br>

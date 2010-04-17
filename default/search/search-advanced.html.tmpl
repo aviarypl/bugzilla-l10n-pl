@@ -55,7 +55,7 @@ var queryform = "queryform"
 [%# The decent help requires Javascript %]
 <script type="text/javascript"> <!--
 [% IF NOT cgi.param("help") %]
-  document.write("<p><a href='query.cgi?help=1&amp;format=advanced'>Pomoc<\/a> (odświeża stronę).<\/p>");
+  document.write("<p><a href='query.cgi?help=1&amp;format=advanced'>Pomoc<\/a> <small>(nastąpi odświeżenie strony)</small>.<\/p>");
 [% ELSE %]
   [% PROCESS "search/search-help.html.tmpl" %]
   if (generateHelp())

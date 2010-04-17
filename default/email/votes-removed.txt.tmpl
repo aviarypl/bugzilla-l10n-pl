@@ -1,4 +1,4 @@
-[%# 3.4.6@bugzilla.org %]
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -25,7 +25,7 @@
 
 From: [% Param('mailfrom') %]
 To: [% to %]
-Subject: [% terms.Bug %] [%+ bugid %] Usunięto część lub wszystkie Twoje głosy.
+Subject: [% terms.Blad %] [%+ bugid %] Usunięto część lub wszystkie Twoje głosy.
 X-Bugzilla-Type: voteremoved
 
 Usunięto część lub wszystkie Twoje głosy z [% terms.bledu %] [%+ bugid %].
@@ -36,7 +36,7 @@ Oddałeś/oddałaś [% votesold FILTER html %] [%+ IF votesold == 1 %]głos[% EL
 [% IF votesnew %]
 [% PROCESS ODMIEN c=votesnew o1="Pozostał 1 głos" o2="Pozostały $votesnew głosy" o3="Pozostało $votesnew głosów" %] na ten [% terms.blad %].
 [% ELSE %]
-Nie masz więcej głosów, by głosować na ten [% terms.blab %].
+Nie masz więcej głosów, by głosować na ten [% terms.blad %].
 [% END %]
 
 Powód:

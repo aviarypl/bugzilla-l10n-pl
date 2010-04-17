@@ -42,8 +42,8 @@ NALEZY URUCHOMIC JEDNO Z NASTEPUJACYCH POLECEN (w zaleznosci od uzywanej bazy da
 EOT
     commands_optional => 'POLECENIA DO ZAINSTALOWANIA OPCJONALNYCH MODULOW:',
     commands_required => <<EOT,
-POLECENIA DO ZAINSTALOWANIA WYMAGANYCHNYCH MODULOW (*Musisz* uruchomic wszystkie te polecenia
-i nastepnie ponownie uruchomic ten skrypt):
+POLECENIA DO ZAINSTALOWANIA WYMAGANYCH MODULOW (*Musisz* uruchomic wszystkie te polecenia
+i nastepnie ponownie uruchomic skrypt checksetup.pl):
 EOT
     done => 'Zakonczono.',
     extension_must_return_name => <<END,
@@ -102,7 +102,7 @@ EOT
 ***********************************************************************
 * Aby uzyskac dostep do twojej bazy danych Bugzilla wymaga, aby       *
 * dla uruchomionej bazy byl prawidlowo zainstalowany modul "DBD".     *
-* Zobacz ponizej poprawne polecenia do uruchomienia instalacji modułu *
+* Zobacz ponizej poprawne polecenia do uruchomienia instalacji modulu *
 * odpowiedniego dla twojej bazy danych.                               *
 EOT
     modules_message_optional => <<EOT,
@@ -110,7 +110,7 @@ EOT
 * OPCJONALNE MODULY                                                   *
 ***********************************************************************
 * Niektore moduly Perla nie sa wymagane do prawidlowego dzialania     *
-* Bugzilli, ale instalujac najnowsza wersje uzyskasz dostęp do        *
+* Bugzilli, ale instalujac najnowsza wersje uzyskasz dostep do        *
 * dodatkowych funkcji.                                                *
 *                                                                     *
 * Ponizej znajduje sie lista niezainstalowanych opcjonalnych modulow  *

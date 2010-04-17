@@ -23,7 +23,7 @@
 
 [% PROCESS "global/variables.none.tmpl" %]
 
-[% diffspl = diffs | replace('changed', 'zmienił/zmieniła') %]
+[% diffspl = diffs | replace('changed', 'zmienił') %]
 [% diffspl = diffspl | replace('What', '    ') %]
 [% diffspl = diffspl | replace('Removed ', 'Usunięto') %]
 [% diffspl = diffspl | replace('     \|Added', '     |Dodano') %]

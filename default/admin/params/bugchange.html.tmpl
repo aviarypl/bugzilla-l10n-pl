@@ -27,7 +27,7 @@
 %]
 
 [% param_descs = {
-  duplicate_or_move_bug_status => "Gdy $terms.blad zostanie oznaczony jako duplikat innego błędu lub przeniesiony " _
+  duplicate_or_move_bug_status => "Gdy $terms.blad zostanie oznaczony jako duplikat innego $terms.bledu lub przeniesiony " _
                                   "do innej instalacji $terms.Bugzilla zmieni jego status na tutaj określony."
 
   letsubmitterchoosepriority => "Gdy ten parametr jest włączony, użytkownicy będą mogli określić " _
@@ -44,7 +44,7 @@
                                "${terms.bledu} (w przypadku korzystania z wersji docelowych).",
 
   commentonchange_resolution => "Gdy ten parametr jest włączony, użytkownik będzie musiał wpisać krótki " _
-                                "komentarz, jeśli zmienił dane dotyczące rozwiązania błędu.",
+                                "komentarz, jeśli zmienił dane dotyczące rozwiązania ${terms.bledu}.",
 
   commentonduplicate => "Gdy ten parametr jest włączony, użytkownik będzie musiał wpisać komentarz, " _
                         "gdy oznaczy $terms.blad jako duplikat.",

@@ -22,7 +22,7 @@
   
 [% help_html = [ 
 { id => "short_desc_type", 
-  html => "Metoda przeszukiwania krótkiego opisu" },   
+  html => "Metoda przeszukiwania krótkiego opisu." },   
 { id => "short_desc", 
   html => "Krótkie zdanie zwięźle opisujące ${terms.blad}." },   
 { id => "classification", 
@@ -38,7 +38,7 @@
            danego produktu. Wybór produktu pozwala zawęzić tę listę." },
 { id => "version", 
   html => "Pole „Wersja” określa wersję oprogramowania, w którym
-           znaleziono błąd." },
+           znaleziono ${terms.blad}." },
 { id => "target_milestone", 
   html => "Pole „Wersja docelowa” używane jest do określenia kiedy osoba, do której<br>
            $terms.blad jest przypisany spodziewa się jego rozwiązania." },
@@ -46,35 +46,35 @@
   html => "$terms.Bledy zawierają także komentarze dodane do nich przez użytkowników ${terms.Bugzilli}.
            <br>Można przeszukiwać teksty tych komentarzy." },
 { id => "longdesc_type",
-  html => "Preferowana metoda przeszukiwania komentarzy" },
+  html => "Preferowana metoda przeszukiwania komentarzy." },
 { id => "bug_file_loc", 
   html => "Z $terms.bledami mogą być skojarzone adresy URL - np. odnośnik 
            do strony,<br>gdzie problem jest widoczny." },
 { id => "bug_file_loc_type", 
-  html => "Preferowana metoda przeszukiwania adresów URL" },   
+  html => "Preferowana metoda przeszukiwania adresów URL." },   
 { id => "status_whiteboard", 
   html => "Na każdej stronie zgłoszenia $terms.bledu znajduje się pole tekstowe<br>
            do wpisywania etykiet i statusu informacji." },
 { id => "status_whiteboard_type", 
-  html => "Preferowana metoda przeszukiwania tablicy" },   
+  html => "Preferowana metoda przeszukiwania tablicy." },   
 { id => "keywords", 
   html => "Ze zdefiniowanej listy można do $terms.bledow dodawać słowa kluczowe, by<br>
            przypisywać im etykiety i je grupować." },
 { id => "keywords_type", 
-  html => "Preferowana metoda przeszukiwania słów kluczowych" },
+  html => "Preferowana metoda przeszukiwania słów kluczowych." },
 { id => "bug_status", 
-  html => "Można wybrać do wyszukiwania kilka określeń statusu $terms.bledu" },
+  html => "Można wybrać do wyszukiwania kilka statusów ${terms.bledu}." },
 { id => "resolution", 
-  html => "Jeśli $terms.blad ma status „rozwiązany”, będzie dodany jeden
-           <br>z tych powodów." },
+  html => "Jeśli $terms.blad ma status „ROZWIĄZANY”, zostanie dodane
+           <br>jedno z tych rozwiązań." },
 { id => "bug_severity", 
   html => "Jaka jest waga $terms.bledu lub czy jest to propozycja nowej funkcji, sformułowania itp." },
 { id => "priority", 
-  html => "To pole służy do określenia priorytetu błędu." },
+  html => "To pole służy do określenia priorytetu ${terms.bledu}." },
 { id => "rep_platform", 
-  html => "Typ komputera, na którym zaobserwowano błąd." },
+  html => "Typ komputera, na którym zaobserwowano ${terms.blad}." },
 { id => "op_sys", 
-  html => "System operacyjny, na którym zaobserwowano błąd." },
+  html => "System operacyjny, na którym zaobserwowano ${terms.blad}." },
 { id => "email1", 
   html => "Z każdym $terms.bledem skojarzone są osoby pełniące różne role. 
            <br>Tutaj można wyszukać te osoby i pełnione przez nich role." },
@@ -82,7 +82,7 @@
   html => "Z każdym $terms.bledem skojarzone są osoby pełniące różne role. 
            <br>Tutaj można wyszukać te osoby i pełnione przez nich role." },
 { id => "bug_id", 
-  html => "Można zawęzić wyszukiwanie do konkretnego zestawu błędów." },
+  html => "Można zawęzić wyszukiwanie do konkretnego zestawu ${terms.bledow}." },
 { id => "votes", 
   html => "Na niektóre $terms.bledy można głosować. To pole umożliwia zawężenie<br>
            wyszukiwania do $terms.bledow z więcej niż jednym głosem." },
@@ -92,13 +92,13 @@
 { id => "chfieldfrom", 
   html => "Proszę podać datę rozpoczęcia i zakończenia w formacie RRRR-MM-DD<br>
            (opcjonalnie z godziną w formacie HH:mm, w układzie 24 godzinnym) albo relatywne daty,<br>
-           jak np 1h, 2d, 3w, 4m, 5y, które oznaczają odpowiednio 1 godzinę,<br>
+           jak np. 1h, 2d, 3w, 4m, 5y, które oznaczają odpowiednio 1 godzinę,<br>
 	   2 dni, 3 tygodnie, 4 miesiące i 5 lat temu. 0d oznacza ostatnią północ,<br>
            a 0h, 0w, 0m, 0y - początek tej godziny, tygodnia, miesiąca lub roku." },
 { id => "chfieldto", 
   html => "Proszę podać datę rozpoczęcia i zakończenia w formacie RRRR-MM-DD<br>
            (opcjonalnie z godziną w formacie HH:mm, w układzie 24 godzinnym) albo relatywne daty,<br>
-           jak np 1h, 2d, 3w, 4m, 5y, które odpowiednio oznaczają 1 godzinę,<br>
+           jak np. 1h, 2d, 3w, 4m, 5y, które odpowiednio oznaczają 1 godzinę,<br>
 	   2 dni, 3 tygodnie, 4 miesiące i 5 lat temu. 0d oznacza ostatnią północ,<br>
            a 0h, 0w, 0m, 0y - początek tej godziny, tygodnia, miesiąca lub roku." },
 { id => "chfieldvalue", 

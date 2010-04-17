@@ -101,7 +101,7 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
       <a href="editparams.cgi?section=general#upgrade_notification">Strona parametrów</a>.</p>
     [% ELSIF release.error == "cannot_download" %]
       <p>Nie można utworzyć lokalnego pliku XML „[% release.xml_file FILTER html %]”.
-      Sprawdź, czy serwer sieciowy może zapisywać do tego katalogu i czy sieć jest dostępna.
+      Sprawdź, czy serwer WWW może zapisywać do tego katalogu i czy sieć jest dostępna.
       Jeśli korzystasz z serwera proxy, określ poprawnie parametr
       <a href="editparams.cgi?section=core#proxy_url">proxy_url</a>.</p>
     [% ELSIF release.error == "no_update" %]
@@ -128,7 +128,7 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
         <h1 id="welcome"> Witamy w [% terms.Bugzilli %]</h1>
         <div class="intro">[% Hook.process('intro') %]</div>
         <a id="enter_bug" class="bz_common_actions"
-           href="enter_bug.cgi"><span>Dodaj [% terms.blad %]</span></a>
+           href="enter_bug.cgi"><span>Zgłoś [% terms.blad %]</span></a>
       
         <a id="query" class="bz_common_actions" 
            href="query.cgi"><span>Szukaj</span></a>

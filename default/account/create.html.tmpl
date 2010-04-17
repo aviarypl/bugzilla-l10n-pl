@@ -40,10 +40,10 @@
 <p>
   Aby utworzyć konto w [% terms.Bugzilli %] wystarczy podać
 [% IF Param('emailsuffix') == '' %]
-  ważny adres e-mail.
+  poprawny adres e-mail.
 [% ELSE %]
-  Nazwa konta, gdy jest powiązana z [% Param('emailsuffix') %],
-  odpowiada adresowi, na który będziesz otrzymywać wiadomości.
+  nazwę konta, która w połączeniu z domeną [% Param('emailsuffix') %],
+  utworzy poprawny adres e-mail.
 [% END %]
   Na ten adres otrzymasz wiadomość z danymi do potwierdzenia utworzenia twojego
   konta. <b>Aby móc się zalogować, musisz najpierw potwierdzić utworzenia konta.</b>

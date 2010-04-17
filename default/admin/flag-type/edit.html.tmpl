@@ -32,7 +32,7 @@
 [% ELSE %]
   [% title = "Tworzenie typu flagi dla załączników" %]
   [% typeLabelLowerPlural = BLOCK %]załączniki[% END %]
-  [% typeLabelLowerSingular = BLOCK %]załącznik[% END %]
+  [% typeLabelLowerSingular = BLOCK %]załącznika[% END %]
 [% END %]
 
 [% doc_section = "flags-overview.html#flags-create" %]
@@ -142,8 +142,8 @@
       <th>Klucz sortowania:</th>
       <td>
         Liczba pomiędzy 1 a 32767, według której ten typ będzie sortowany
-        w czasie wyświetlania na liście. Jeśli kolejność w jakiej elementy 
-        zostaną wyświetlone nie jest ważna lub, jeśli mają być wyświetlane
+        w czasie wyświetlania na liście. Jeśli kolejność, w jakiej elementy 
+        zostaną wyświetlone nie jest ważna lub jeśli mają być wyświetlane
         w porządku alfabetycznym, należy zignorować to pole<br>
         <input type="text" name="sortkey" value="[% type.sortkey || 1 %]" size="5" maxlength="5">
       </td>

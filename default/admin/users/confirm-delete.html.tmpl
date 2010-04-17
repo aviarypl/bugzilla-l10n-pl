@@ -94,7 +94,7 @@
 [% IF otheruser.product_responsibilities.size %]
   <p>
     Nie można usunąć teraz użytkownika
-    [%+ otheruser.login FILTER html %], ponieważ ma on przypisane obowiązki
+    [%+ otheruser.login FILTER html %], ponieważ ma on przypisane role
     w co najmniej jednym produkcie.
   </p>
   <p>
@@ -241,7 +241,7 @@
             Użytkownik [% otheruser.login FILTER html %]
             <a href="buglist.cgi?emailassigned_to1=1&amp;emailqa_contact1=1&amp;emailtype1=exact&amp;email1=
                [%- otheruser.login FILTER url_quote %]">jest osobą odpowiedzialną za
-            roawiązanie [% terms.bledu %] lub specjalistą QA w 
+            rozwiązanie [% terms.bledu %] lub specjalistą QA w 
             [% IF assignee_or_qa == 1 %]
               jednym [% terms.bledzie %] 
             [% ELSE %]

@@ -33,8 +33,8 @@
                 "ldaps://ldap.company.com (dla bezpiecznego połączenia) lub " _
                 "ldapi://%2fvar%2flib%2fldap_sock (dla lokalnego połączenia " _
                 "opartego na gniazdach). Nazwy serwerów lub adresy URI mogą być " _
-                "rozdzielane przecinkami. Każdy serwer będzie próbował łączyć aż do " _ 
-                "nawiązania połączenia.",
+                "rozdzielane przecinkami. Próba połączenia bedzie wykonywana kolejno z każdym " _ 
+                "serwerem aż do jego nawiązania.",
 
   LDAPstartls => "Ten parametr określa, czy wymagać szyfrowanej komunikacji po " _
                  "uzyskaniu połączenia LDAP z serwerem.",
@@ -44,14 +44,14 @@
                 "(np. cn=default,cn=user:password). " _
                 "Pozostaw pole puste dla normalnych przypadków anonimowego wiązania.",
 
-  LDAPBaseDN => "BaseDN dla uwierzytelniania użytkowników " _
+  LDAPBaseDN => "BaseDN dla uwierzytelniania użytkowników" _
                 "(np: ou=People,o=Company).",
 
   LDAPuidattribute => "Nazwa atrybutu zawierającego nazwę logowania użytkownika.",
 
   LDAPmailattribute => "Nazwa atrybutu użytkownika z katalogu LDAP, który zawiera " _
                        "adres e-mail. Adres ten będzie użyty jako nazwa użytkownika " _
-                       "Bugzilli. Jeśli parametr ten będzie pusty, " _
+                       "$(terms.Bugzilli). Jeśli parametr ten będzie pusty, " _
                        "zostanie użyta nazwa użytkownika LDAP. "_
                        "W takim przypadku przydatne może być ustawienie " _
                        "parametru <tt>emailsuffix</tt>.",

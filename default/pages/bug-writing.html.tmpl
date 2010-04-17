@@ -38,7 +38,7 @@
 
   <ul>
     <li>Bądź precyzyjny</li>
-    <li>Wyrażaj się jasno – wyjaśnij, jak inni mogą reprodukować [% terms.blad %]</li>
+    <li>Wyrażaj się jasno – wyjaśnij, jak inni mogą wywołać wystąpienie [% terms.bledu %]</li>
     <li>Jeden [% terms.blad %], jedno zgłoszenie</li>
     <li>Nie ma zbyt błahych [% terms.bledow %] do zgłaszania – 
     mały [% terms.blad %] może ukrywać wielkie [% terms.bledy %]</li>
@@ -48,8 +48,8 @@
 <h3>Czynności wstępne</h3>
 
 <ol>
-  <li>Reprodukuj swój [% terms.blad %] używając najnowszej wersji
-  programu, by sprawdzić czy błąd nie został już naprawiony.
+  <li>Spróbuj wywołać wystąpienie [% terms.bledu %] używając najnowszej wersji
+  programu, by sprawdzić czy [% terms.blad %] nie został już naprawiony.
   </li>
 
   <li><a href="query.cgi?format=specific">Przeszukaj</a> 
@@ -59,12 +59,12 @@
 
 <h3>Zgłaszanie nowego [% terms.bledu %]</h3>
 
-<p>Jeśli [% terms.blad %] dało się reprodukować w najnowszej wersji i
+<p>Jeśli wystąpienie [% terms.bledu %] udało się wywołać w najnowszej wersji i
 nie ma wcześniejszych zgłoszeń to:</p>
 
 <ol>
- <li>Wybierz 
- „<a href="enter_bug.cgi">[% terms.Blad %]</a>”</li>
+ <li>Z nagłówka lub stopki strony wybierz 
+ odnośnik „<a href="enter_bug.cgi">Nowy</a>”</li>
  <li>Zaznacz produkt, w którym [% terms.blad %] został znaleziony</li>
  <li>Wypełnij formularz. Poniżej znajduje się kilka przydatnych informacji:</li>
 </ol>
@@ -85,7 +85,7 @@ nie ma wcześniejszych zgłoszeń to:</p>
     <p><b>Krótki opis</b> – krótki opis [% terms.bledu %], który powinien zamknąć się
     maksymalnie w 60 znakach.<br>
      Dobry krótki opis powinien <b>szybko i jednoznacznie identyfikować zgłoszenie
-    [% terms.bladu %]</b>. Powinien opisywać problem, a nie twoje sugerowane rozwiązanie.<br>
+    [% terms.bledu %]</b>. Powinien opisywać problem, a nie twoje sugerowane rozwiązanie.<br>
     <ul>
      <li>Dobrze: „<tt>Anulowanie kopiowania plików powoduje awarię 
      menedżera plików</tt>”</li>
@@ -102,18 +102,18 @@ nie ma wcześniejszych zgłoszeń to:</p>
 
       <blockquote>
 <pre>
-Zaznaczenie myszą dowolnej strony powoduje awarię wersji przeznaczonej<br/>dla Mac OSX w funkcji NSGetFactory.
+Zaznaczenie myszą dowolnej strony powoduje awarię wersji przeznaczonej<br/>dla Mac OS X w funkcji NSGetFactory.
 </pre>
       </blockquote>
 
-      <p><b>Czynności do reprodukowania błędu</b> – możliwie nieskomplikowany opis czynności,
+      <p><b>Czynności do odtworzenia błędu</b> – możliwie nieskomplikowany opis czynności,
       których powtórzenie pozwala na zaobserwowanie [% terms.bledu %]. Powinien zawierać
       początkowe ustawienia wymagane do wystąpienia [% terms.bledu %].</p>
 
       <blockquote>
 <pre>
-1) Otwórz dowolną stronę internetową. (Ja używałem domyślnej, przykładowej strony), 
-resource:/res/samples/test0.html)
+1) Otwórz dowolną stronę internetową. (Ja używałem domyślnej, przykładowej strony 
+resource:/res/samples/test0.html).
 
 2) Zaznacz stronę używając myszy. Wykonuje się to w następujący sposób:
 – umieść wskaźnik myszy w lewym górnym narożniku strony przeglądarki,
@@ -160,12 +160,12 @@ Nie występuje na wersji z 2006-08-10 na Windows XP Home SP2
 </pre>
       </blockquote>
 
-      <p><b>Dodatkowe informacje</b> – dodatkowe informacje, które mogą pomóc w naprawieniu błędu.
+      <p><b>Dodatkowe informacje</b> – dodatkowe informacje, które mogą pomóc w naprawieniu [% terms.bledu %].
       <br><br>Przykładowo dla [% terms.bledow %] powodujących awarię programu:</p>
 
       <ul>
         <li><b>Windows</b> – typ awarii i moduł, który spowodował awarię
-        np. pogwałcenie dostępu w apprunner.exe.</li>
+        np. naruszenie zasad dostępu w apprunner.exe.</li>
 
         <li><b>Mac OS X</b> – dołącz log z modułu zgłaszania awarii, który pojawia się po awarii.
         Dołącz tylko fragment poniżej wątku, zwykle nazywa się on
