@@ -262,8 +262,8 @@
     Teraz nastąpi próba wysłania niewysłanych wiadomości.
 
   [% ELSIF san_tag == "send_bugmail_status" %]
-    Znaleziono [% bug_count FILTER html %] [%+ terms.bledow %] związanych
-    prawdopodobnie z niewysłanymi wiadomościami.
+    Znaleziono [% bug_count FILTER html %] [%+ terms.bledow %] z
+    prawdopodobnie niewysłanymi wiadomościami.
 
   [% ELSIF san_tag == "send_bugmail_end" %]
     Wysłano niewysłane wiadomości.

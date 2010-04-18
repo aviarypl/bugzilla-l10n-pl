@@ -22,6 +22,7 @@
   #%]
 
 [% PROCESS "global/variables.none.tmpl" %]
+[% PROCESS "global/field-descs.none.tmpl" %]
 
 [% diffspl = diffs | replace('changed', 'zmienił') %]
 [% diffspl = diffspl | replace('What', '    ') %]
@@ -50,6 +51,9 @@
 [% diffspl = diffspl | replace('Blocks', 'Blokuje') %]
 [% diffspl = diffspl | replace('Depends on', 'Zależy od') %]
 [% diffspl = diffspl | replace('Attachment', 'Załącznik') %]
+[% diffspl = diffspl | replace('Resolution|', 'Rozwiązanie|') %]
+[% diffspl = diffspl | replace('QAContact', 'Specjalista QA ') %]
+
 
 From: [% Param('mailfrom') %]
 To: [% to_user.email %]

@@ -24,7 +24,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-    Edycja elementów kontrolnych grupy „[% product.name FILTER html %]”
+    Edycja uprawnień grupy „[% product.name FILTER html %]”
 [% END %]
 [% PROCESS global/header.html.tmpl 
    title = title 
@@ -38,13 +38,13 @@
   <table id="form" cellspacing="0" cellpadding="4" border="1">
     <tr bgcolor="#6666ff">
       <th>Grupa</th>
-      <th>Zgłaszanie</th>
-      <th>Kontrola członków</th>
-      <th>Dodatkowa kontrola</th>
-      <th>Edycja</th>
-      <th>Edycja komponentów.</th>
-      <th>Potwierdzanie</th>
-      <th>Edycja błędów</th>
+      <th>Zgłaszanie<br/>[% terms.bledow %]</th>
+      <th>Uprawnienia<br/>członków</th>
+      <th>Dodatkowe<br/>uprawnienia</th>
+      <th>Edycja<br/>produktów</th>
+      <th>Edycja<br/>komponentów</th>
+      <th>Potwierdzanie<br/>[% terms.bledow %]</th>
+      <th>Edycja<br/>[% terms.bledow %]</th>
       <th>[% terms.Bledy %]</th>
     </tr>
     [% FOREACH group = product.group_controls(1).values.sort("name") %]
@@ -151,15 +151,15 @@
 Te ustawienia pozwalają kontrolować zależności pomiędzy grupami a produktem.
 </p>
 <p>
-Jeśli dla grupy zaznaczono uprawnienie <b>Zgłaszanie</b>, to [% terms.bledy %]
+Jeśli dla grupy zaznaczono uprawnienie <b>Zgłaszanie [% terms.bledow %]</b>, to [% terms.bledy %]
 dla tego produktu będą mogli zgłaszać jedynie użytkownicy, którzy są 
 członkami grup, które mają uprawnienia do zgłaszania [% terms.bledow %].
 </p>
 <p>
-Jeśli grupa ma zaznaczone uprawnienie <b>Edycja</b>, użytkownicy, którzy nie są
+Jeśli grupa ma zaznaczone uprawnienie <b>Edycja produktów</b>, użytkownicy, którzy nie są
 członkami grup, które mają prawo edycji, będą mogli ten produkt jedynie
 przeglądać. TYLKO użytkownicy, którzy są członkami grup, które mają prawo edycji
-(mają zaznaczoną funkcję Edycja) będą mieli prawo jego edycji. Jest to dodatkowe
+(mają zaznaczoną funkcję Edycja produktów) będą mieli prawo jego edycji. Jest to dodatkowe
 ograniczenie tego, co może być edytowane przez użytkownika.
 </p>
 <p>
@@ -172,15 +172,15 @@ Członkowie grupy, która ma przydzielone uprawnienie <b>Edycja komponentów</b>
 wszystkie własności tego produktu włącznie z komponentami, wersjami docelowymi i wersjami.
 </p>
 <p>
-Członkowie grupy, która ma przydzielone uprawnienie <b>Potwierdzanie</b> mogą potwierdzać 
+Członkowie grupy, która ma przydzielone uprawnienie <b>Potwierdzanie [% terms.bledow %]</b> mogą potwierdzać 
 [% terms.bledy %] w tym produkcie.
 </p>
 <p>
-Członkowie grupy, która ma przydzielone uprawnienie <b>Edycja błędów</b> mogą modyfikować
+Członkowie grupy, która ma przydzielone uprawnienie <b>Edycja [% terms.bledow %]</b> mogą modyfikować
 wszystkie pola [% terms.bledow %] w tym produkcie.
 </p>
 <p>
-Pola <b>Kontrola członków</b> i <b>Dodatkowa kontrola</b> wskazują,
+Pola <b>Uprawnienia członków</b> i <b>Dodatkowe uprawnienia</b> wskazują,
 które [% terms.bledy %] zostaną umieszczone w danej grupie
 odpowiednio do poniższych definicji.
 </p>
@@ -188,10 +188,10 @@ odpowiednio do poniższych definicji.
 <table border=1>
   <tr>
     <th>
-      Kontrola członków
+      Uprawnienia członków
     </th>
     <th>
-      Dodatkowa kontrola
+      Dodatkowe uprawnienia
     </th>
     <th>
       Interpretacja
@@ -317,7 +317,7 @@ odpowiednio do poniższych definicji.
 </table>
 <p>
 Powyższa tabela opisuje wszystkie dopuszczalne kombinacje ustawień
-<b>Kontrola członków</b> oraz <b>Dodatkowa kontrola</b>.
+<b>Uprawnienia członków</b> oraz <b>Dodatkowe uprawnienia</b>.
 Przy próbie ustawienia kombinacji niewystępującej w tabeli (np. Obligatoryjna/Niedostępna,
 Domyślna/Widoczna itd.), zostanie wygenerowany odpowiedni komunikat o błędzie.
 </p>

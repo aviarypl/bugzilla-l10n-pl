@@ -825,9 +825,9 @@
     niż co [% minimum FILTER html %] dni.
     
   [% ELSIF error == "illegal_group_control_combination" %]
-    [% title = "Nieprawidłowa kombinacja grupy kontroli" %]
-    [% admindocslinks = {'groups.html' => 'Przypisywanie grupy kontroli do produktów'} %]
-    Kombinacja grupy kontroli dla grupy 
+    [% title = "Nieprawidłowa kombinacja uprawnień grupy" %]
+    [% admindocslinks = {'groups.html' => 'Przypisywanie uprawnień grupy do produktów'} %]
+    Kombinacja uprawnień grupy dla grupy 
     „[% groupname FILTER html %]” jest nieprawidłowa.
 
   [% ELSIF error == "illegal_is_obsolete" %]
