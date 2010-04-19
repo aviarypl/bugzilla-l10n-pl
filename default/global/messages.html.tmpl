@@ -747,7 +747,7 @@
 
   [% ELSIF message_tag == "remaining_time_zeroed" %]
     W związku z zamknięciem [% terms.bledu %] lub przeniesieniem z jednego statusu zamknięcia 
-    do drugiego ([% get_status("RESOLVED") FILTER html %] <-> [% get_status("CLOSED") FILTER html %]), wartość pola [% field_descs.remaining_time FILTER html %]
+    do drugiego ([% display_value("bug_status", "RESOLVED") FILTER html %] <-> [% display_value("bug_status", "CLOSED") FILTER html %]), wartość pola [% field_descs.remaining_time FILTER html %]
     została automatycznie zmieniona na zero.
 
   [% ELSIF message_tag == "sanitycheck" %]

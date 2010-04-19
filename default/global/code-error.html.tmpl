@@ -375,7 +375,7 @@
   [% ELSIF error == "no_open_bug_status" %]
     [% title = "Nie można potwierdzić $terms.bledu" %]
     To nie jest prawidłowe przekształcenie z
-    [%+ get_status("UNCONFIRMED") FILTER html %] na status otwarty.
+    [%+ display_value("bug_status", "UNCONFIRMED") FILTER html %] na status otwarty.
 
   [% ELSIF error == "param_invalid" %]
     [% title = "Nieprawidłowy parametr" %]

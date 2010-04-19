@@ -39,7 +39,7 @@
   Na tej stronie można określić dozwolone zmiany statusu w cyklu życia [% terms.bledu %].
   Aby zapewnić kompatybilność ze starszymi wersjami [% terms.Bugzilli %], ponowne otwarcie –
   jeśli cykl zmian na to zezwala – [% terms.bledu %] spowoduje wyświetlenie tylko jedego
-  statusu: [%+ get_status("UNCONFIRMED") FILTER html %] lub [%+ get_status("REOPENED") FILTER html %].
+  statusu: [% display_value("bug_status", "UNCONFIRMED") FILTER html %] lub [%+ display_value("bug_status", "REOPENED") FILTER html %].
   Decyzja, który status zostanie wyświetlony zależy od tego czy [% terms.blad %] był kiedykolwiek
   potwierdzany, czy nie. Dobrym rozwiązaniem jest zezwolić na zmianę obu statusów i
   pozostawić [% terms.Bugzilli %] wybór jednego z nich.

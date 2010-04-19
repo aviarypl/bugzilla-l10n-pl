@@ -52,7 +52,8 @@
 [% diffspl = diffspl | replace('Depends on', 'Zależy od') %]
 [% diffspl = diffspl | replace('Attachment', 'Załącznik') %]
 [% diffspl = diffspl | replace('Resolution|', 'Rozwiązanie|') %]
-[% diffspl = diffspl | replace('QAContact', 'Specjalista QA ') %]
+[% diffspl = diffspl | replace('QAContact', 'Specjalista QA') %]
+[% diffspl = diffspl | replace('CC', 'Obserwatorzy') %]
 
 
 From: [% Param('mailfrom') %]
