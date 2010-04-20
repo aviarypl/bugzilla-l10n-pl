@@ -20,7 +20,7 @@
   #                 Marc Schumann <wurblzap@gmail.com>
   #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
-  # Lines 30, 125-126, and 136 added/changed for Polish localization
+  # Lines 30, 65, 94, 101, 125-126, and 136 added/changed for Polish localization
   #%]
 
 [%# INTERFACE:
@@ -62,7 +62,7 @@
           [% FOREACH item = param.choices %]
             <option value="[% item FILTER html %]"
                     [% " selected=\"selected\"" IF lsearch(Param(param.name), item) != -1 %]>
-              [% get_choice(item) FILTER html %]
+              [% display_value("choice", item) FILTER html %]
             </option>
           [% END %]
         </select>
@@ -91,14 +91,14 @@
             '              size="[% boxSize FILTER html %]"' +
             '              name="select_[% param.name FILTER html %]">' +
                      [% FOREACH item = plist %]
-            '          <option value="[% item FILTER html %]">[% get_choice(item) FILTER html %]<\/option>' +
+            '          <option value="[% item FILTER html %]">[% display_value("choice", item) FILTER html %]<\/option>' +
                      [% END %]
             '        <option class="sortlist_separator"' +
             '                disabled="disabled"' +
             '                value="[% sortlist_separator %]">aktywne&uarr;&nbsp;&darr;nieaktywne<\/option>' +
                      [% FOREACH item = param.choices %]
                        [% IF lsearch(plist, item) == -1 %]
-            '            <option value="[% item FILTER html %]">[% get_choice(item) FILTER html %]<\/option>' +
+            '            <option value="[% item FILTER html %]">[% display_value("choice", item) FILTER html %]<\/option>' +
                        [% END %]
                      [% END %]
             '      <\/select>' +
@@ -133,7 +133,7 @@
               [% ELSIF param.name == "duplicate_or_move_bug_status" %]
                 [% display_value("bug_status", item) FILTER html %]
               [% ELSE %]
-                [% get_choice(item) FILTER html %]
+                [% display_value("choice",item) FILTER html %]
               [% END %]
             </option>
           [% END %]

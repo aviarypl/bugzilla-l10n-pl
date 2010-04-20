@@ -118,6 +118,24 @@
     "Other" => "Inny",
   },
 
+ "choice" => { 
+    "on"                     => "włączone",
+    "off"                    => "wyłączone",
+    "defaulton"              => "domyślnie włączone",
+    "defaultoff"             => "domyślnie wyłączone",
+    "Test"                   => "Test",
+    "None"                   => "Nigdy",
+    "never"                  => "nigdy",
+    "open"                   => "otwarte",
+    "moderated"              => "moderowane",
+    "closed"                 => "zamknięte",
+    "wildcard"               => "wieloznacznik",
+    "search"                 => "wyszukiwanie",
+    "authenticated sessions" => "sesje uwierzytelnione",
+    "always"                 => "zawsze"
+    "disabled"               => "wyłączone"
+  },
+
   "bit_description" => {
     "Administrators"                                  => "Administratorzy"
     "Can configure whine reports for other users"     => "Może konfigurować raporty powiadomień dla innych użytkowników"
@@ -230,25 +248,5 @@
     [% END %]
   [% END %]
 [% END %]
-
-[% choice_descs = { 
-     "on"                     => "włączone",
-     "off"                    => "wyłączone",
-     "defaulton"              => "domyślnie włączone",
-     "defaultoff"             => "domyślnie wyłączone",
-     "Test"                   => "Test",
-     "None"                   => "Nigdy",
-     "never"                  => "nigdy",
-     "open"                   => "otwarte",
-     "moderated"              => "moderowane",
-     "closed"                 => "zamknięte",
-     "wildcard"               => "wieloznacznik",
-     "search"                 => "wyszukiwanie",
-     "authenticated sessions" => "sesje uwierzytelnione",
-     "always"                 => "zawsze"
-     "disabled"               => "wyłączone"
-  } %]
-
-[% MACRO get_choice(ch) GET choice_descs.$ch || ch %]
 
 [% Hook.process("end") %]
