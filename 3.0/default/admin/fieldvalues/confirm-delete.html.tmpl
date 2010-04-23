@@ -1,0 +1,114 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
+  #%]
+
+[%# INTERFACE:
+  # value: string; The field value being deleted.
+  # bug_count: number; The number of bugs that have this field value.
+  # value_count: number; The number of values left for this field, including
+  #              this value.
+  # field: string; The name of the field.
+  # param_name: string; The name of the parameter (defaultxxx) associated
+  #             with the field.
+  #%]
+
+[% title = BLOCK %]Usuwanie wartości '[% value FILTER html %]' z pola
+  '[% field FILTER html %]'[% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+  style_urls = ['skins/standard/admin.css']
+%]
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr bgcolor="#6666FF">
+  <th valign="top" align="left">Pole</th>
+  <th valign="top" align="left">Wartość</th>
+</tr>
+<tr>
+  <td valign="top">Nazwa pola:</td>
+  <td valign="top">[% field FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">Wartość pola:</td>
+  <td valign="top">[% value FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">[% terms.Bledy %]:</td>
+  <td valign="top">
+[% IF bug_count %]
+  <a title="Lista [% terms.bledow %] dla których '[% field FILTER html %]' jest równe '
+            [% value FILTER html %]'"
+     href="buglist.cgi?[% field FILTER url_quote %]=[%- value FILTER url_quote %]">[% bug_count FILTER html %]</a>
+[% ELSE %]
+  None
+[% END %]
+  </td>
+</tr>
+</table>
+
+<h2>Potwierdzenie</h2>
+
+[% IF (param_name.defined && Param(param_name) == value) || bug_count || (value_count == 1) %]
+
+  <p>Niestety, wartość '[% value FILTER html %]' nie może zostać usunięta
+  z pola '[% field FILTER html %]' z następujących powodów:</p>
+
+  <ul class="warningmessages">
+    [% IF param_name.defined && Param(param_name) == value %]
+      <li>'[% value FILTER html %]' jest domyślną wartością dla
+          pola '[% field FILTER html %]'.
+          [% IF user.groups.tweakparams %]
+            Należy najpierw <a href="editparams.cgi?section=bugfields#
+            [%- param_name FILTER url_quote %]">zmienić domyślną wartość</a> dla
+            tego pola, a potem usunąć bieżącą wartość.
+          [% END %]
+    [% END %]
+
+    [% IF bug_count %]
+      <li>Napotkano 
+          [% PROCESS ODMIEN c=bug_count o1="1 $terms.blad"
+            o2="$bug_count błędy" o3="$bug_count błędów" %]
+          z tą wartością pola. Należy najpierw zmienić wartości pól w 
+          <a title="liście [% terms.bledow %] gdzie '[% field FILTER html %]' ma wartość '[% value FILTER html %]'"
+             href="buglist.cgi?[% field FILTER url_quote %]=[% value FILTER url_quote %]">,
+            a potem dopiero usunąć te wartości.
+    [% END %]
+
+    [% IF value_count == 1 %]
+      <li>'[% value FILTER html %]' jest ostatnią wartościa dla
+          '[%- field FILTER html %]', więc nie może zostać usunięta.
+    [% END %]
+  </ul>
+
+[% ELSE %]
+
+  <p>Czy na pewno usunąć tę wartość?</p>
+
+  <form method="post" action="editvalues.cgi">
+    <input type="submit" value="Tak, usuń" id="delete">
+    <input type="hidden" name="action" value="delete">
+    <input type="hidden" name="field" value="[% field FILTER html %]">
+    <input type="hidden" name="value" value="[% value FILTER html %]">
+    <input type="hidden" name="token" value="[% token FILTER html %]">
+  </form>
+
+[% END %]
+
+[% PROCESS admin/fieldvalues/footer.html.tmpl
+  no_edit_link = 1
+ +%]
+
+[% PROCESS global/footer.html.tmpl %] 

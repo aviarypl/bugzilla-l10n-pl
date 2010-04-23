@@ -1,0 +1,122 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@syndicomm.com>
+  #                 Joel Peshkin <bugreport@peshkin.net>
+  #                 Jacob Steenhagen <jake@bugzilla.org>
+  #                 Vlad Dascalu <jocuri@softhome.net>
+  #%]
+
+[%# INTERFACE:
+  # gid: number. The group ID.
+  # name: string. The name of the group.
+  # description: string. The description of the group.
+  # hasusers: boolean int. True if the group includes users in it.
+  # hasbugs: boolean int. True if the group includes bugs in it.
+  # hasproduct: boolean int. True if the group is binded to a product.
+  # hasflags: boolean int. True if the group is used by a flag type.
+  # shared_queries: int. Number of saved searches being shared with this group.
+  # buglist: string. The list of bugs included in this group.
+  #%]
+
+
+[% PROCESS global/header.html.tmpl
+  title = "Usuwanie grupy"
+%]
+
+<table border="1">
+  <tr>
+    <th>ID</th>
+    <th>Nazwa</th>
+    <th>Opis</th>
+  </tr>
+  <tr>
+    <td>[% gid FILTER html %]</td>
+    <td>[% name FILTER html %]</td>
+    <td>[% description FILTER html_light %]</td>
+  </tr>
+</table>
+
+<form method="post" action="editgroups.cgi">
+  [% IF hasusers %]
+    <p><b>Do grupy należy jeden lub więcej użytkowników. Nie można usunąć tej grupy 
+	dopóki są w niej użytkownicy.</b>
+
+    <br><a href="editusers.cgi?action=list&groupid=[% gid FILTER html %]&grouprestrict=1">Wyświetl
+    użytkowników</a> - <input type="checkbox" name="removeusers">Usuń
+    wszystkich użytkowników.</p>
+  [% END %]
+
+  [% IF hasbugs %]
+    <p><b>Jeden lub więcej [% terms.bledow %] jest widocznych tylko dla tej grupy.
+    Nie można usunąć grupy dopóki jakiekolwiek [% terms.bledy %] korzystają z tej grupy.</b>
+
+    <br><a href="buglist.cgi?bug_id=[% buglist FILTER html %]">Wyświetl
+    [% terms.bledy %]</a> - <input type="checkbox" name="removebugs">Usuń
+    wszystkie [% terms.bledy %] z tej grupy.</p>
+
+    <p><b>UWAGA:</b> zaznaczając tę opcję można ujawnić poufne [% terms.bledy %].
+    <B>Zdecydowanie</B> zalecane jest przejrzenie [% terms.bledow %] w tej grupie 
+	przed zaznaczeniem opcji.</p>
+  [% END %]
+
+  [% IF hasproduct %]
+    <p><b>Ta grupa powiązana jest z produktem <U>[% name FILTER html %]</U>.
+    Nie można usunąć tej grupy dopóki jest ona powiązana z produktem.</b>
+
+    <br><input type="checkbox" name="unbind">Usuń grupę mimo wszystko
+    i uczyć produkt <U>[% name FILTER html %]</U> publicznie widocznym.</p>
+  [% END %]
+  
+  [% IF hasflags %]
+    <p><b>Ta grupa określa kto może zmieniać flagi pewnych typów.
+    Nie można usunąć grupy dopóki istnieją typy flag z niej korzystające.</b>
+
+    <br><a href="editflagtypes.cgi?action=list&group=[% gid FILTER html %]">Wyświetl
+    typy flag</a> - <input type="checkbox" name="removeflags">Usuń wszystkie
+    typy flag z tej grupy.</p>
+  [% END %]
+
+  [% IF shared_queries %]
+    <p>
+      <b>Napotkano [% shared_queries %] 
+	  [% PROCESS ODMIEN c=shared_queries o1="zapisane zapytanie" o2="zapisane zapytania" o3="zapisanych zapytań" %]
+	  współdzielonych z tą grupą.</b>
+	  W przypadku usunięcia tej grupy zapisane zapytania staną się ponownie prywatne.
+    </p>
+  [% END %]
+
+  <h2>Potwierdzenie</h2>
+
+  <p>Czy na pewno usunąć tę grupę?</p>
+  [% IF (hasusers || hasbugs || hasproduct || hasflags) %]
+    <p><b>Należy zaznaczyć wszystkie powyższe opcje lub wyjaśnić wskazane 
+		problemy, aby móc kontynuować.</b></p>
+  [% END %]
+
+  <p>
+  <input type="submit" id="delete" value="Tak, usuń">
+  <input type="hidden" name="action" value="delete">
+  <input type="hidden" name="group" value="[% gid FILTER html %]">
+  <input type="hidden" name="token" value="[% token FILTER html %]">
+  </p>
+</form>
+
+Powrót do <a href="editgroups.cgi">listy grup</a>.
+
+[% PROCESS global/footer.html.tmpl %] 

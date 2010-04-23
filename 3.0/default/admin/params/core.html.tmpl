@@ -1,0 +1,106 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #%]
+
+[% 
+   title = "Ustawienia obowiązkowe"
+   desc = "Ustawienia, które są wymagane do poprawnego działania ${terms.Bugzilli}" 
+%]
+
+[% param_descs = {
+  maintainer => "Adres e-mail osoby odpowiedzialnej za działanie tej instalacji " _
+                "${terms.Bugzilli}.",
+
+  urlbase => "Początkowa część adresu URL wszystkich adresów generowanych przez ${terms.Bugzille}.",
+
+  docs_urlbase => "Początkowa część adresu URL wszystkich adresów " _
+                  "prowadzących do dokumentacji ${terms.Bugzilli}. " _
+                  "Podany adres może być bezwzględny lub względem adresu urlbase " _
+                  "powyżej. " _
+                  "Wartość pusta wyłącza odnośniki do dokumentacji.",
+
+  sslbase => "Początkowa część adresu URL wszystkich adresów HTTPS " _
+             "(SSL) ${terms.Bugzilli}.",
+
+  ssl => "Określenie, kiedy będą wymuszane sesje HTTPS z adresem " _
+         "<tt>sslbase</tt>.",
+
+  cookiedomain => "Nazwa domeny dla ciasteczek ${terms.Bugzilli}. Zwykle wartość pusta. " _
+                  "Ustawienie '.foo.com' gdy witryna znajduje się pod adresem 'www.foo.com' " _
+                  "pozwoli odczytać ciasteczka także witrynie spod adresu 'bar.foo.com'. " _
+                  "Opcja może być przydatna gdy więcej nazw hostów wskazuje " _
+                  "na ten sam serwer WWW i zachodzi potrzeba udostępnienia " _
+                  "ciasteczek ${terms.Bugzilli} witrynom o różnych adresach URL.",
+
+  cookiepath => "Ścieżka względem głównego katalogu serwera WWW, do której ograniczone " _
+                "będą ciasteczka ${terms.Bugzilli}. Zwykle jest to część URI bazowego adresu URL. " _
+                "Wartość powinna rozpoczynać się znakiem / (ukośnik). Przykładowo, jeśli " _
+                "$terms.Bugzilla znajduje się pod adresem 'http://www.somedomain.com/bugzilla/', należy " _
+                "ustawić tu wartość /bugzilla/. Wartość / pozwoli na odczyt ciasteczek wszystkim witrynom " _
+                "udostępnianym przez dany serwer WWW lub host wirtualny.",
+
+  timezone => "Strefa czasowe serwera bazy danych. Ustawienie wartości '' " _
+              "powoduje, że strefa czasowa nie będzie wyświetlana w znacznikach czasu.",
+
+  utf8 => "Użycie kodowania UTF-8 (Unicode) dla wszystkich tekstów w ${terms.Bugzilli}. W nowych " _
+          "instalacjach opcja ta powinna być włączona w celu uniknięcia problemów z kodowaniem znaków. " _
+          " <strong>W istniejących bazach opcję tę można włączyć tylko, gdy " _
+          " dane zostały uprzednio przekonwertowane do UTF-8 za pomocą skryptu " _
+          " <kbd>contrib/recode.pl</kbd></strong>. <br><br> Uwaga: " _
+          " po wyłączeniu tej opcji należy niezwłocznie uruchomić skrypt checksetup.pl.",
+
+
+ shutdownhtml => "Wpisanie tekstu w to pole spowoduje wyłączenie Bugzilli i wyświetlenie go " _
+		 "zamiast stron ${terms.Bugzilli} .",
+
+  announcehtml => "Zawartość tego pola zostanie wyświetlona na górze każdej strony ${terms.Bugzilli}. " _
+                  "Wpisany w tym miejscu kod HTML nie jest umieszczany w żadnym znaczniku. " _
+                  "Zaleca się użycie znacznika <tt>&lt;div&gt;</tt> otaczającego pozostały kod. " _
+                  "Użycie identyfikatora <em>id=message</em> spowoduje, że wyświetlony będzie " _
+                  "zielony tekst na czerwonym tle. Klasa <em>class=bz_private</em> definiuje " _
+                  "ciemnoczerwony tekst na czerwonym tle.  Można użyć dowolnego stylu z pliku " _
+                  "<tt>skins/standard/global.css</tt> lub " _
+                  "<tt>skins/custom/global.css</tt>.  Wyśrodkowany tekst można uzyskać " _
+                  "za pomocą stylu <em>style=\"text-align: center;\"</em>.",
+
+  proxy_url => "$terms.Bugzilla może łączyć się z siecią, aby pobrać informacje o nowych wydaniach " _
+               "(zob. parametr <tt>upgrade_notification</tt>). Jeśli host znajduje się za proxy, " _
+               "a serwer WWW nie ma dostępu do zmiennej środowiskowej HTTP_PROXY, należy " _
+               "wprowadzić tutaj adres serwera proxy. W przypadku, gdy wymagane jest uwierzytelnianie, " _
+               "należy użyć składni <code>http://użytkownik:hasło@url_proxy/</code>.",
+
+
+
+  upgrade_notification => "<p>Możliwe jest otrzymywanie informacji o nowych wydaniach ${terms.Bugzilli}. " _
+                          "Powiadomienie będzie wyświetlane tylko dla administratorów na głównej stronie " _
+                          "${terms.Bugzilli}.</p>" _
+                          "<ul><li>'development_snapshot' powiadamia o najnowszych wydaniach z " _
+                          "rozwojowego kodu - tzw. wersjach deweloperskich.</li>" _
+                          "<li>'latest_stable_release' powiadamia o nowych wydaniach " _
+                          "z najnowszej gałęzi stabilnego kodu. Gałąź ta może być inna " _
+                          "niż gałąź, na której opiera się niniejsza instalacja systemu.</li>" _
+                          "<li>'stable_branch_release' powiadamia tylko o wydaniach z " _
+                          "gałęzi kodu, na której oparta jest niniejsza instalacja. " _
+                          "W przypadku korzystania z wersji 'release candidate' wyświetlone zostaną " _
+                          "także powiadomienia o najnowszych wersjach 'release candidate'.</li>" _
+                          "<li>'disabled' - nie będą wyświetlane żadne powiadomienia i nie " _
+                          "będą wykonywane w tym celu żadne połączenia ze zdalnymi serwerami.</li></ul>" }
+%]

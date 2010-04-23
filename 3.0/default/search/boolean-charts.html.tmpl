@@ -1,0 +1,137 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #%]
+  
+[% types = [
+  { name => "noop", description => "---" },
+  { name => "equals", description => "jest równe" },
+  { name => "notequals", description => "nie jest równe" },
+  { name => "anyexact", description => "jest równe któremukolwiek z ciągów" },
+  { name => "substring", description => "zawiera ciąg" },
+  { name => "casesubstring", description => "zawiera ciąg (z uwzgl. wielkości liter)" },
+  { name => "notsubstring", description => "nie zawiera ciągu" },
+  { name => "anywordssubstr", description => "zawiera którykolwiek z ciągów" },
+  { name => "allwordssubstr", description => "zawiera wszystkie ciągi" },
+  { name => "nowordssubstr", description => "nie zawiera żadnego z ciągów" },
+  { name => "regexp", description => "zawiera wyr. regularne" },
+  { name => "notregexp", description => "nie zawiera wyr. regularnego" },
+  { name => "lessthan", description => "jest mniejsze niż" },
+  { name => "greaterthan", description => "jest większe niż" },
+  { name => "anywords", description => "zawiera którekolwiek ze słów" },
+  { name => "allwords", description => "zawiera wszystkie słowa" },
+  { name => "nowords", description => "nie zawiera żadnego ze słów" },
+  { name => "changedbefore", description => "zmieniono przed" },
+  { name => "changedafter", description => "zmieniono po" },
+  { name => "changedfrom", description => "zmieniono od" },
+  { name => "changedto", description => "zmieniono do" },
+  { name => "changedby", description => "zmieniono przez" },
+  { name => "matches", description => "pasuje do" } ] 
+
+%]
+
+  <p>
+    <strong>
+      <a name="chart">Zaawansowane wyszukiwanie boolowskie</a>:
+    </strong>
+  </p>
+
+[%# Whoever wrote the original version of boolean charts had a seriously twisted mind %]
+
+[% jsmagic = "onclick=\"this.form.action='query.cgi#chart'; this.form.method='POST'; return 1;\"" %]
+
+[% FOREACH chart = default.charts %]
+  [% chartnum = loop.count - 1 %]
+  <table>
+    <tr>
+      <td>
+        <input type="checkbox" id="negate[% chartnum FILTER html %]"
+             name="negate[% chartnum FILTER html %]" value="1"
+            [% "checked" IF chart.negate %]>
+        <label for="negate[% chartnum FILTER html %]">
+          NOT (negacja całego wyszukiwania)
+        </label>
+      </td>
+    </tr>
+  [% FOREACH row = chart.rows %]
+    [% rownum = loop.count - 1 %]
+    <tr>
+    [% FOREACH col = row %]
+      [% colnum = loop.count - 1 %]
+      <td>
+        <select name="[% "field${chartnum}-${rownum}-${colnum}" %]">
+          [% FOREACH field = fields %]
+            <option value="[% field.name %]"
+              [%- " selected" IF field.name == col.field %]>[% field.description %]</option>
+          [% END %]
+        </select>
+
+        <select name="[% "type${chartnum}-${rownum}-${colnum}" %]">
+          [% FOREACH type = types %]
+            <option value="[% type.name %]"
+              [%- " selected" IF type.name == col.type %]>[% type.description %]</option>
+          [% END %]
+        </select>
+
+        <input name="[% "value${chartnum}-${rownum}-${colnum}" %]" 
+               value="[% col.value FILTER html %]"> 
+      </td>
+      
+      [% UNLESS loop.last %]
+        <td align="center"> 
+          OR (alternatywa)
+        </td>    
+      </tr>
+      <tr>
+      [% ELSE %]
+        <td>
+          [% newor = colnum + 1 %]
+          <input type="submit" value="OR" [% jsmagic %]
+                 name="cmd-add[% "${chartnum}-${rownum}-${newor}" %]"
+                 id="cmd-add[% "${chartnum}-${rownum}-${newor}" %]">
+        </td>
+      [% END %]
+      
+    [% END %]
+    </tr>
+    
+    [% UNLESS loop.last %]
+    <tr>
+      <td>AND (koniunkcja)</td>
+    </tr>    
+    [% ELSE %]
+    <tr>
+      <td>
+        [% newand = rownum + 1; newchart = chartnum + 1 %]
+        <input type="submit" value="AND" [% jsmagic %]
+               name="cmd-add[% "${chartnum}-${newand}-0" %]"
+               id="cmd-add[% "${chartnum}-${newand}-0" %]">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="submit" value="Dodaj kolejny warunek" [% jsmagic %]
+               name="cmd-add[% newchart %]-0-0"
+               id="cmd-add[% newchart %]-0-0">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </td>
+    </tr>   
+    [% END %]
+    
+  [% END %]
+  </table>
+  <hr>
+[% END %]

@@ -1,0 +1,67 @@
+[%# 1.0@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Terry Weissman <terry@mozilla.org>
+  #                 Gervase Markham <gerv@gerv.net>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+[% INCLUDE global/header.html.tmpl title = "Głosowanie" %]
+
+<p>[% terms.Bugzilla %] wyposażona jest w funkcję "głosowania". Dla każdego produktu użytkownik
+ma możliwość oddania określonej liczby głosów (w przypadku niektórych produktów nie ma 
+możliwości oddania głosu, tym samym nie można głosować na [% terms.bledy %] danego produktu).
+Głosując na [% terms.blad %] można określić, które - naszym zdaniem - [% terms.bledy %]
+powinny być rozwiązane w pierwszej kolejności.</p>
+
+<p>W zależności od tego, jak administrator skonfigurował odpowiedni produkt, możliwe
+jest oddanie na [% terms.blad %] więcej niż jednego głosu. Należy jednak zauważyć, 
+że łączna liczba głosów dla produktu nie może przekroczyć wartości określonej przez
+administratora. Można więc głosować na wiele [% terms.bledow %] oddając po
+niewielkiej liczbie głosów, lub zaledwie na kilka [% terms.bledow %], dużą
+ilością głosów.</p>
+
+<p>Aby zobaczyć głosy:</p>
+
+<ul>
+  <li>Należy wejść na stronę wyszukiwania i wybrać wyszukiwanie zaawansowane. W pole
+  "Co najmniej ___ głosów" należy wpisać 1. Dzięki temu można zobaczyć [% terms.bledy %],
+  na które ktoś oddał głos.</li>
+</ul>
+
+<p>Aby zagłosować na [% terms.blad %], należy:</p>
+
+<ul>
+  <li>Otworzyć stronę odpowiedniego [% terms.bledu %].</li>
+
+  <li>Otworzyć odnośnik "Głosuj na ten [% terms.blad %]", który powinien znajdować się tuż nad
+  polem "Dodatkowy komentarz" (jeśli nie ma takiego przycisku, produkt do którego
+  przypisano ten błąd, nie pozwala na oddawanie głosów).</li>
+
+  <li>Wpisać liczbę głosów, która ma być oddana na [% terms.blad %]. Na tej stronie
+  można również zobaczyć głosy oddane na inne [% terms.bledy %] i - jeśli potrzeba -
+  powtórnie rozdysponować swoje głosy.</li>
+</ul>
+
+<p>Użytkownik zostanie poinformowany poprzez e-mail o wszystkich zmianach dla [% terms.bledow %],
+na które zagłosował.</p>
+
+<p>W każdej chwili można przejrzeć swoje głosy, korzystając z odnośnika "<a href=
+"votes.cgi?action=show_user">Moje głosy</a>" znajdującego się w stopce każdej strony.</p>
+
+[% INCLUDE global/footer.html.tmpl %]
