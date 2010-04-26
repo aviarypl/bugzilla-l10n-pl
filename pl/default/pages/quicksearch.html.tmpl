@@ -1,0 +1,186 @@
+[%# 3.4.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # Contributor(s): N.N.
+  #                 Marc Schumann <wurblzap@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% INCLUDE global/header.html.tmpl
+   title  = "Szybkie wyszukiwanie w $terms.Bugzilli",
+   style  = 'ul {margin-bottom: 2ex}
+             ul li {margin-top: 2ex}
+             ul li ul li {margin-top: 0}'
+   onload = 'document.forms[\'f\'].quicksearch.focus()'
+ %]
+
+<p style="font-size: 80%">
+  Dla użytkowników zaznajomionych ze standardowym
+  <a href="query.cgi">formularzem wyszukiwania</a> [% terms.Bugzilli %]
+  interesujący może być <a href="page.cgi?id=quicksearchhack.html">ten formularz</a>.
+</p>
+
+<p>
+  Wprowadź szukane wyrażenie lub jego fragment:
+</p>
+
+<form name="f" action="buglist.cgi" method="get"
+      onsubmit="if (this.quicksearch.value == '')
+                { alert('Najpierw wprowadź szukane wyrażenie.');
+                  return false; } return true;">
+  <input type="text" size="40" name="quicksearch">
+  <input type="submit" value="Szukaj" id="find">
+</form>
+
+<h2>Pierwsze kroki</h2>
+
+<ul>
+  <li>
+    To jest wyszukiwanie <strong>nie uwzględniające wielkości znaków</strong>.<br />
+    <ul>
+      <li>Wyrażenia <tt>tabela</tt>, <tt>Tabela</tt> i <tt>TABELA</tt> są tak samo rozpoznawane.</li>
+    </ul>
+  </li>
+  <li>
+    To jest wyszukiwanie <strong>wszystkich słów wg części wspólnej</strong>.<br />
+    Aby uzyskać najlepsze rezultaty wyszukiwania, należy używać <strong>część wspólną słów</strong>:
+    <ul>
+      <li>
+        <tt>lokaliz</tt> zamiast <tt>lokalizuj</tt> lub
+        <tt>lokalizacja</tt>.
+      </li>
+     <li>
+       <tt>tabel</tt> zamiast <tt>tabelą</tt> lub
+       <tt>tabelami</tt>.
+     </li>
+   </ul>
+  </li>
+</ul>
+
+<h2><a name="features">Funkcje</a></h2>
+
+<ul>
+  <li>
+    Operacje z wykorzystaniem operatorów logicznych: „<tt>-foo</tt>”&nbsp;(NOT),
+    „<tt>foo&nbsp;bar</tt>”&nbsp;(AND),
+    „<tt>foo|bar</tt>”&nbsp;(OR).
+    <ul>
+      <li>
+        <strong>NOT</strong>:<br />
+        Np: <tt><b>-</b><i>foo</i></tt> wyłącza [% terms.bledy %]
+        z tekstem <tt><i>foo</i></tt> w podsumowaniu.
+      </li>
+      <li>
+        <strong>AND</strong>:<br />
+        Słowa oddzielone spacją są traktowane jako koniunkcja.
+      </li>
+      <li>
+        <strong>OR</strong>:<br />
+        Wewnątrz słowa części oddzielone „|” oznaczają alternatywy.
+      </li>
+      <li>
+        Oprócz znaku  „|” do oznaczenia alternatyw można także użyć przecinka.
+      </li>
+      <li>
+        Operator OR ma wyższy priorytet niż AND. AND jest operacją najwyższego poziomu.
+      </li>
+    </ul>
+    <i>Przykład:</i>
+    <tt>url,location bar,field -focus</tt> oznacza
+    (<tt>url</tt> OR <tt>location</tt>) AND (<tt>bar</tt> OR <tt>field</tt>)
+    AND (NOT <tt>focus</tt>)
+  </li>
+  <li>
+    Użyj <tt>+foo</tt> do wyszukania [% terms.bledow %], gdzie 
+    <strong>krótki opis</strong> zawiera <tt>foo</tt> jako
+    <strong>subciąg</strong>.<br/>
+    Użyj <tt>#foo</tt> do wyszukania [% terms.bledow %], gdzie 
+    <strong>krótki opis</strong> zawiera <strong>słowo</strong> <tt>foo</tt>.
+    <ul>
+      <li>
+        <tt>+brow</tt> nie znajduje wszystkich [% terms.bledow %] w produkcie
+        <tt>Browser</tt>.
+      </li>
+      <li>
+        <tt>#title</tt> nie znajduje [% terms.bledow %] ze słowem <tt>titlebar</tt>
+        lub <tt>titled</tt>.
+      </li>
+    </ul>
+    Frazy ze znakami specjalnymi (spacja, przecinek, +, -, #, &hellip;) mogą być
+    <strong>umieszczane w cudzysłowach</strong>:
+    <ul>
+      <li>
+        <tt>"ikona kłódki"</tt>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <strong>[% terms.Bledy %] otwarte, a rozwiązane</strong>:<br />
+    Domyślnie wyświetlane są tylko [% terms.bledy %] otwarte.
+    Użyj <tt>+DUP</tt> jako pierwsze słowo zapytania, by włączyć duplikaty
+    [%+ terms.bledow %] w swoim wyszukiwaniu,
+    <tt>FIXED</tt>, by wyszukiwać tylko naprawione [%+ terms.bledy %],
+    a <tt>ALL</tt> przeszukuje wszystkie [% terms.bledy %]
+    niezależnie od statusu i rozwiązania.
+    Wyszukiwanie duplikatów jest zalecane, gdy otwartego [%+ terms.bledu %] nie można
+    znaleźć bezpośrednio.
+    <ul>
+      <li>
+        <tt>+DUP,FIXED obramowanie tabeli</tt>
+      </li>
+      <li>
+        <tt>ALL kółko myszy</tt>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <strong>Powiązanie wyszukiwania z produktami i komponentami</strong>:<br />
+    Aby szukać [% terms.bledow %] tylko w produkcie „Foo Bar”, należy dodać 
+    <tt>:foo</tt> albo <tt>:bar</tt>, lub oba do wyszukiwania.
+    Można to zrobić z każdą częścią wspólną nazwy 
+    <a href="describecomponents.cgi">produktu lub komponentu</a>.
+  </li>
+</ul>
+
+<h2>Więcej podpowiedzi</h2>
+
+<ul>
+  <li>
+    Można także <strong>wyszukiwać</strong> [% terms.bledy %] wg
+    ich numerów:<br />
+    <ul>
+      <li><tt>12345</tt></li>
+    </ul>
+  </li>
+  <li>
+    Lista, oddzielonych przecinkami, numerów [% terms.bledow %] udostępnia wykaz tych
+    [%+ terms.bledow %]:<br />
+    <ul>
+      <li><tt>12345,23456,34567</tt></li>
+    </ul>
+  </li>
+</ul>
+
+<p>
+  Domyślnie przeszukiwane są pola: krótki opis, słowa kluczowe, produkt, komponent i tablica.
+  Jeśli słowo wygląda, jak część adresu URL, przeszukiwane jest również pole URL.
+</p>
+<hr>
+
+<p>
+  Do zaawansowanych zapytań lepszy jest <a href="query.cgi">formularz wyszukiwania [% terms.Bugzilli %]</a>.
+</p>
+
+[% PROCESS global/footer.html.tmpl %]

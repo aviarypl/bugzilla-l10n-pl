@@ -1,0 +1,526 @@
+[%# 3.4.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #                 Christine Begle <cbegle@mozilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # This template has the same interface as create.html.tmpl
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% USE Bugzilla %]
+[% cgi = Bugzilla.cgi %]
+
+[% PROCESS global/header.html.tmpl
+   title = "Zgłaszanie $terms.bledu"
+   onload = "PutDescription()"
+   style = "#somebugs { width: 100%; height: 500px }"
+ %]
+
+<p>
+  <font color="red">
+    To jest szablon używany na witrynie mozilla.org. Ten szablon oraz szablon
+    comment-guided.txt.tmpl, który formatuje dane wysłane przez formularz
+    znajdujący się w tym szablonie są dołączone jako prezentacje tego, co jest
+    ogólnie możliwe do zrobienia z własnymi szablonami, a w szczególności z własnym
+    zgłoszeniem [% terms.bledu %]. Zbyt duża ilość tekstu w prezentacji nie jest
+    wskazana. Jeśli chcesz używać tego formularza na swojej instalacji [% terms.Bugzilli %],
+    należy odpowiednio go zmienić.
+  </font>
+</p>
+
+[% tablecolour = "#FFFFCC" %]
+
+[%# This script displays the descriptions for selected components. %]
+<script type="text/javascript">
+var descriptions = [
+[% FOREACH c = product.components %]
+  '[% c.description FILTER js %]',
+[% END %]
+];
+
+function PutDescription() {
+    if ((document.getElementById) && (document.body.innerHTML)) {
+        var componentIndex = document.getElementById('component').selectedIndex;
+        if (componentIndex != -1) {
+            var description = document.getElementById('description');
+            description.innerHTML = descriptions[componentIndex];
+        }
+    }
+}
+</script>
+
+<a name="step1"></a>
+<h3>Krok 1 z 3 - Sprawdzenie czy [% terms.blad %] nie został już zgłoszony</h3>
+
+<p>
+  <font color="red">Nie pomijaj tego kroku – połowa wszystkich
+  zgłaszanych [% terms.bledow %] 
+  była już wcześniej zgłaszana.</font>
+  Sprawdź dwa wykazy często zgłaszanych [% terms.bledow %]:
+</p>
+
+[%# Include other products if sensible %]
+[% IF product.name == "Firefox" %]
+  [% productstring = "product=Mozilla%20Application%20Suite&amp;product=Firefox" %]
+[% ELSIF product.name == "Thunderbird" %]
+  [% productstring = "product=Mozilla%20Application%20Suite&amp;product=Thunderbird" %]
+[% ELSE %]
+  [% productstring = BLOCK %]product=[% product.name FILTER url_quote %][% END %]
+[% END %]
+
+<p>
+    <a href="duplicates.cgi?[% productstring %]&amp;format=simple" target="somebugs">100 najpopularniejszych</a> (wczytywane wstępnie) |
+    <a href="duplicates.cgi?[% productstring %]&amp;format=simple&amp;sortby=delta&amp;reverse=1&amp;maxrows=100&amp;changedsince=14" target="somebugs">Najpopularniejsze w ciągu ostatnich 2 tygodni</a>  
+</p>
+
+<iframe name="somebugs" id="somebugs"
+  style="border: 2px black solid"
+  src="duplicates.cgi?[% productstring %]&amp;format=simple">
+</iframe>
+
+<p>
+    Jeśli twojego [% terms.bledu %] nie ma w tych wykazach, przeszukaj [% terms.Bugzille %] wprowadzając
+    w polu takim, jak to znajdujące się poniżej kilka słów kluczowych określających twój [% terms.blad %].
+    Na przykład: <tt><b>pop3 mail</b></tt> lub <tt><b>kopiuj wklej</b></tt>.
+    Wyniki wyszukiwania będą widoczne powyżej.
+  </p>
+
+[%# All bugs opened inside the past six months %]
+  <form action="buglist.cgi" method="get" target="somebugs">
+    <input type="hidden" name="format" value="simple">
+    <input type="hidden" name="order" value="relevance desc">
+    <input type="hidden" name="bug_status" value="__all__">
+    <input type="hidden" name="product" value="[% product.name FILTER html %]">
+    [% IF product.name == "Firefox" OR 
+          product.name == "Thunderbird" OR 
+          product.name == "Mozilla Application Suite" OR
+          product.name == "Camino" %]
+      <input type="hidden" name="product" value="Core">
+      <input type="hidden" name="product" value="Toolkit">
+      <input type="hidden" name="product" value="PSM">
+      <input type="hidden" name="product" value="NSPR">
+      <input type="hidden" name="product" value="NSS">
+    [% END %]      
+    <input type="hidden" name="chfieldfrom" value="-6m">
+    <input type="hidden" name="chfieldto" value="Teraz">
+    <input type="hidden" name="chfield" value="[Tworzenie błędu]">
+    <input type="text" name="content" size="40">
+    <input type="submit" id="search" value="Szukaj">
+  </form>
+
+<p>
+  Przejrzyj wyniki wyszukiwania. Jeśli pojawi się wiadomość
+  <tt><b>[% terms.zeroSearchResults %]</b></tt> oznacza to, że [% terms.Bugzilla %]
+  nie znalazła pasujących do twojego wyszukiwania [% terms.bledow %].
+  Sprawdź czy nie zakradła się jakaś pomyłka lub spróbuj użyć mniej słów lub innych słów kluczowych.
+  Jeśli znajdziesz [% terms.blad %], który wygląda podobnie do twojego,
+  raczej dodaj do niego dodatkowe, użyteczne informacje jakie masz, niż otwieraj nowy [% terms.blad %].
+</p>
+
+
+<a name="step2"></a>
+<h3>Krok 2 z 3 – Podanie informacji</h3>
+
+<p>
+  Jeśli w kilku wyszukiwaniach nie było twojego [% terms.bledu %],
+  zgłoś go nam.
+</p>
+
+<form method="post" action="post_bug.cgi">
+  <input type="hidden" name="format" value="guided">
+  <input type="hidden" name="assigned_to" value="">
+  <input type="hidden" name="priority"
+         value="[% default.priority FILTER html %]">
+  <input type="hidden" name="version"
+         value="[% default.version FILTER html %]">
+  <input type="hidden" name="token" value="[% token FILTER html %]">
+
+<table valign="top" cellpadding="5" cellspacing="5" border="0">
+
+  <tr bgcolor="[% tablecolour %]">
+    <td align="right" valign="top">
+      <b>Produkt</b>
+    </td>
+    <td valign="top">
+      <input type="hidden" name="product" value="[% product.name FILTER html %]">
+      [% product.name FILTER html %]
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      <b>Komponent</b>
+    </td>
+    <td valign="top">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td valign="top">
+            <select name="component" id="component"
+                    size="5" onchange="PutDescription()">
+              [% IF NOT default.component_ %]
+                [%# Various b.m.o. products have a "General" component,
+                    which is a useful default. %]
+                [% default.component_ = "Ogólny" %]
+              [% END %]
+              [% FOREACH c = product.components %]
+                <option value="[% c.name FILTER html %]"
+                  [% " selected=\"selected\"" IF c.name == default.component_ %]>
+                  [% c.name FILTER html %]
+                </option>
+              [% END %]
+            </select>
+          </td>
+          <td valign="top" width="100%">
+              <div id="description" style="color: green; margin-left: 10px;
+                                           height: 5em; overflow: auto;">
+                <script type="text/javascript">
+                  if ((document.getElementById) && (document.body.innerHTML)) {
+                    document.write("\
+                    Wybierz komponent, by zobaczyć jego opis.");
+                  }
+                </script>
+              </div>
+          </td>
+        </tr>
+      </table>
+      
+      <p>
+        Jest to miejsce, w którym problem występuje.
+        By wskazać właściwy komponent, możesz posłużyć się podobnym, znalezionym podczas wyszukiwania
+        [% terms.bledem %] lub jeśli potrzebujesz więcej informacji zapoznaj się z (otwieraną w nowym oknie) całą listą
+        <a target="_blank" href="describecomponents.cgi?product=
+            [% product.name FILTER url_quote %]">
+        opisów komponentów</a>.
+      </p>
+    </td>
+  </tr>
+
+  [%# We override rep_platform and op_sys for simplicity. The values chosen
+      are based on which are most common in the b.m.o database %]
+  [% rep_platform = [ "PC", "Macintosh", "Wszystkie", "Inna" ] %]
+
+  <tr bgcolor="[% tablecolour %]">
+    <td align="right" valign="top">
+      <b>Platforma sprzętowa</b>
+    </td>
+    <td valign="top">
+      [% PROCESS select sel = 'rep_platform' %]
+    </td>
+  </tr>
+
+  [% op_sys = [ "Windows 2000", "Windows XP", "Windows Vista", "Windows 7",
+                "Mac OS X", "Linux", "Wszystkie", "Inny" ] %]
+
+  <tr>
+    <td align="right" valign="top">
+      <b>System operacyjny</b>
+    </td>
+    <td valign="top">
+      [% PROCESS select sel = 'op_sys' %]
+    </td>
+  </tr>
+
+  [% IF product.name.match("Firefox|Camino|Mozilla Application Suite") %]
+    [% matches = cgi.user_agent('Gecko/(\d+)') %]
+    [% buildid = cgi.user_agent() IF matches %]
+  [% END %]
+  
+  [%# Accept URL parameter build ID for non-browser products %]
+  [% IF cgi.param("buildid") %]
+    [% buildid = cgi.param("buildid") %]
+  [% END %]
+
+  <tr bgcolor="[% tablecolour %]">
+    <td align="right" valign="top">
+      <b>Identyfikator wydania</b>
+    </td>
+    <td valign="top">
+      <input type="text" size="80" name="buildid" value="[% buildid FILTER html %]">
+      <p>
+        Ten element powinien dokładnie identyfikować wersję używanego produktu.  
+        Jeśli powyższe pole jest puste lub dane są niewłaściwe, skopiuj wersję 
+        z sekcji Pomoc | O programie… danego produktu. 
+        Dla przeglądarek będzie się zaczynała od „Mozilla/5.0…”.  
+        Jeśli produkt nie chce się uruchamiać, wklej pełny adres URL użyty do pobrania
+        produktu.
+      </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      <b>URL</b>
+    </td>
+    <td valign="top">
+      <input type="text" size="80" name="bug_file_loc" value="http://">
+      <p>
+        Adres URL, pod którym można zobaczyć zgłaszany problem (opcjonalne).<br>
+        <b>WAŻNE</b>: Jeśli problem dotyczy niedziałajacej strony internetowej, należy
+        zgłosić to w
+        <a href="https://bugzilla.mozilla.org/page.cgi?id=broken-website.html">inny sposób</a>.
+      </p>
+   </td>
+  </tr>
+
+  <tr bgcolor="[% tablecolour %]">
+    <td align="right" valign="top">
+      <b>Krótki opis</b>
+    </td>
+    <td valign="top">
+      <input type="text" size="80" name="short_desc" id="short_desc" 
+             maxlength="255" spellcheck="true">
+      <p>
+        Zdanie, które w krótki sposób opisuje problem.
+        Zrób to opisowo, używając słów kluczowych.
+      </p>
+      <p>
+        <tt>
+          <font color="#990000">Zły przykład</font>: mail uległ awarii
+        </tt>
+        <br>
+        <tt>
+          <font color="#009900">Dobry przykład</font>:
+          Ulega awarii, gdy zamykam okno wiadomości po sprawdzeniu nowych maili
+        </tt>
+      </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      <b>Szczegóły</b>
+    </td>
+    <td valign="top">
+      [% INCLUDE global/textarea.html.tmpl
+        name    = 'comment'
+        minrows = 6
+        cols    = constants.COMMENT_COLS
+      %]
+      <p>
+        Rozwiń krótki opis. Postaraj się podać możliwie, jak
+        najbardziej szczegółowe informacje o problemie.
+      </p>
+      <p>
+        <tt>
+          <font color="#990000">Zły przykład</font>: Mozilla uległa awarii.
+          Jesteście beznadziejni!
+        </tt>
+        <br>
+        <tt>
+          <font color="#009900">Dobry przykład</font>: Po awarii, która
+          nastąpiła podczas sortowania zakładek wszystkie moje najwyższego poziomu
+          foldery zakładek, których nazwy zaczynają się na litery Q do Z
+          zniknęły.
+        </tt>
+      </p>
+    </td>
+  </tr>
+
+  <tr bgcolor="[% tablecolour %]">
+    <td align="right" valign="top">
+      <b>Powtarzalność</b>
+    </td>
+    <td valign="top">
+      <select name="reproducible">
+        <option name="AlwaysReproducible" value="Zawsze">
+          Zdarza się zawsze.
+        </option>
+        <option name="Sometimes" value="Czasami">
+          Zdarza się czasami, ale nie zawsze.
+        </option>
+        <option name="DidntTry" value="Nie próbowano">
+          Nie próbowano powtórnie wywołać wystąpienia problemu.
+        </option>
+        <option name="NotReproducible" value="Nie można powtórzyć>
+          Próbowano, ale nie można powtórzyć.
+        </option>
+      </select>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      <b>Kroki do odtworzenia</b>
+    </td>
+    <td valign="top">
+      [% INCLUDE global/textarea.html.tmpl
+        name           = 'reproduce_steps'
+        minrows        = 4
+        cols           = constants.COMMENT_COLS
+        defaultcontent = "1.\n2.\n3."
+      %]
+      <p>
+        Opisz krok po kroku, jak odtworzyć problem.
+        Podaj wszystkie specjalne ustawienia, czynności.
+      </p>
+    </td>
+  </tr>
+
+  <tr bgcolor="[% tablecolour %]">
+    <td valign="top" align="right">
+      <b>Aktualny stan</b>
+    </td>
+    <td valign="top">
+      [% INCLUDE global/textarea.html.tmpl
+        name    = 'actual_results'
+        minrows = 4
+        cols    = constants.COMMENT_COLS
+      %]
+      <p>
+        Co stało się po wykonaniu kroków opisanych powyżej?
+      </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top" align="right">
+      <b>Oczekiwany rezultat</b>
+    </td>
+    <td valign="top">
+      [% INCLUDE global/textarea.html.tmpl
+        name    = 'expected_results'
+        minrows = 4
+        cols    = constants.COMMENT_COLS
+      %]
+      <p>
+        Co powinno nastąpić po wykonaniu kroków opisanych powyżej?
+      </p>
+    </td>
+  </tr>
+
+  <tr bgcolor="[% tablecolour %]">
+    <td valign="top" align="right">
+      <b>Dodatkowe informacje</b>
+    </td>
+    <td valign="top">
+      [% INCLUDE global/textarea.html.tmpl
+        name    = 'additional_info'
+        minrows = 8
+        cols    = constants.COMMENT_COLS
+      %]
+      <p>
+        Podaj dodatkowe informacje, które uważasz, że mogą być
+        związane z tym [% terms.bledem %], takie jak używany <b>motyw</b>,
+       czy [% terms.blad %] występuje z domyślnym
+        motywem?, 
+        <b><a href="http://kb.mozillazine.org/Quality_Feedback_Agent">ID awarii</a></b> lub szczegółowe
+        informacje o <b>konfiguracji twojego komputera</b>. Każda informacja
+        dłuższa niż kilka wierszy, taka jak <b>śledzenie stosu</b> lub przypadek testowy <b>HTML</b>
+        powinna być dodawana po zgłoszeniu [% terms.bledu %] za pomocą
+        odnośnika „Dodaj załącznik” znajdującego się w zgłoszonym [% terms.bledzie %].
+        Jeśli uważasz, że jest to związane z [% terms.bledem %], dołącz także
+        swoją konfigurację wydania dostępną po wpisaniu w pasku adresu przeglądarki
+        <tt>about:buildconfig</tt>.
+        <br>
+        <br>
+        Jeśli zgłaszasz awarię, podaj moduł w którym
+        program uległ awarii np. <tt>Zakłócenie aplikacji w
+        gkhtml.dll</tt>).
+      </p>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top" align="right">
+      <b>Waga błędu</b>
+    </td>
+    <td valign="top">
+      <select name="bug_severity">
+        <option name="critical" value="critical">
+          Krytyczny: Oprogramowanie ulega awariom, zawiesza się lub powoduje
+          utratę danych.
+        </option>
+        <option name="major" value="major">
+          Ważny: Nie działają ważne funkcje.
+        </option>
+        <option name="normal" value="normal" selected="selected">
+          Normalny: Jest to [% terms.blad %], który powinien być naprawiony.
+        </option>
+        <option name="minor" value="minor">
+          Drobny: Niewielkie problemy z funkcjami, łatwy do naprawy.
+        </option>
+        <option name="trivial" value="trivial">
+          Błahy: Kosmetyczny problem, taki jak literówka lub
+          niewyrównany tekst.
+        </option>
+        <option name="enhancement" value="enhancement">
+          Propozycja: Prośba o nową funkcję lub ulepszenie.
+        </option>
+      </select>
+      <p>
+        Określ, jak poważny jest to problem lub jeśli [% terms.blad %] jest 
+        prośbą o nową funkcję – opisz ją.
+      </p>
+    </td>
+  </tr>
+</table>
+
+
+<a name="step3"></a>
+<h3>Krok 3 z 3 – Wysłanie zgłoszenia [% terms.bledu %]</h3>
+
+<p>
+  <input type="submit" id="report" value="    Wyślij zgłoszenie [% terms.bledu %]"
+   onclick="if (this.form.comment.value == '')
+   { alert('Podaj trochę szczegółów o tym [% terms.bledzie %].');
+     this.form.comment.focus();
+     return false; } return true;">
+</p>
+
+<p>
+  To wszystko! Dziękujemy bardzo. Za pomocą e-maili będziesz otrzymywać informacje o
+  postępie prac nad twoim [% terms.bledem %]. 
+
+<p>  
+  Informujemy, że
+  otrzymujemy wiele zgłoszeń [% terms.bledow %], więc może upłynąć trochę czasu 
+  zanim zajmiemy się twoim problemem. Możesz przyspieszyć proces, upewniając się, że twój 
+  [%+ terms.blad %] jest
+  dobrze opisany, w sposób łatwy do zrozumienia, oraz szybko odpowiadając na
+  wysłane do ciebie pytania.
+</p>
+
+    </form>
+
+[% PROCESS global/footer.html.tmpl %]
+
+[%############################################################################%]
+[%# Block for SELECT fields                                                  #%]
+[%############################################################################%]
+
+[% BLOCK select %]
+  <select name="[% sel %]">
+    [%- IF default.$sel %]
+      <option value="[% default.$sel FILTER html %]" selected="selected">
+        [% default.$sel FILTER html -%]
+      </option>
+    [% END %]
+    [%- FOREACH x = $sel %]
+      [% NEXT IF x == default.$sel %]
+      <option value="[% x FILTER html %]">
+        [% x FILTER html -%]
+      </option>
+    [%- END %]
+  </select>
+[% END %]

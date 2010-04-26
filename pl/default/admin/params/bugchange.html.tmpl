@@ -1,0 +1,54 @@
+[%# 3.4.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+[%
+   title = "Zasady edycji $terms.bledow"
+   desc = "Ustawienia zasad edycji $terms.bledow"
+%]
+
+[% param_descs = {
+  duplicate_or_move_bug_status => "Gdy $terms.blad zostanie oznaczony jako duplikat innego $terms.bledu lub przeniesiony " _
+                                  "do innej instalacji $terms.Bugzilla zmieni jego status na tutaj określony."
+
+  letsubmitterchoosepriority => "Gdy ten parametr jest włączony, użytkownicy będą mogli określić " _
+                                "priorytet podczas tworzenia zgłoszenia ${terms.bledu}. W razie jego wyłączenia " _
+                                "wszystkie $terms.bledy będą dodawane z domyślnym " _
+                                "priorytetem określonym poniżej.",
+
+  letsubmitterchoosemilestone => "Gdy ten parametr jest włączony, użytkownicy będą mogli określić " _
+                                "wersję docelową podczas tworzenia zgłoszenia ${terms.bledu}. W razie jego wyłączenia " _
+                                "wszystkie $terms.bledy będą dodawane z domyślną " _
+                                "wersją docelową określoną dla tego produktu.",
+
+  musthavemilestoneonaccept => "Ten parametr określa czy ustawienie wersji docelowej jest wymagane do ZAAKCEPTOWANIA " _
+                               "${terms.bledu} (w przypadku korzystania z wersji docelowych).",
+
+  commentonchange_resolution => "Gdy ten parametr jest włączony, użytkownik będzie musiał wpisać krótki " _
+                                "komentarz, jeśli zmienił dane dotyczące rozwiązania ${terms.bledu}.",
+
+  commentonduplicate => "Gdy ten parametr jest włączony, użytkownik będzie musiał wpisać komentarz, " _
+                        "gdy oznaczy $terms.blad jako duplikat.",
+
+  noresolveonopenblockers => "Nie zezwalaj na rozwiązywanie $terms.bledow jako " _
+                             "naprawionych, jeżeli mają one nierozwiązane zależności." }
+%]

@@ -1,0 +1,91 @@
+[%# 3.4.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+[%
+   title = "Wiadomości e-mail"
+   desc = "Określenie sposobów dostarczana wiadomości wychodzących"
+%]
+
+[% param_descs = {
+  mail_delivery_method => "Ten parametr określa czy i jak są wysyłane wiadomości e-mail.<br>
+                           <ul>
+                             <li>
+                               <b>Sendmail</b>, <b>SMTP</b> i <b>Qmail</b>, to programy dostarczające pocztę (MTA).
+                               Aby użyć programu Sendmail na platformie Windows,
+                               zainstaluj jego odpowiednik dla tego systemu.
+                             </li>
+                             <li>
+                               Wartość <b>Test</b> jest przydatna do uruchamiania i wyszukiwania błędów.
+                               Wszystkie wiadomości zapisywane są do pliku 
+                               <code>data/mailer.testfile</code>, a nie wysyłane.
+                             </li>
+                             <li>
+                               Wartość <b>Nigdy</b> wyłącza całkowicie wysyłanie wiadomości. $terms.Bugzilla będzie
+                               działać tak, jakby poczta była wysyłana, lecz nic nie jest wysłane lub
+                               zapisywane.
+                             </li>
+                           </ul>",
+
+  mailfrom => "Adres e-mail demona ${terms.Bugzilli}. Niektóre serwery pocztowe wymagają, " _
+              "aby ten adres był ważnym adresem e-mail.",
+
+  use_mailer_queue => "W dużych instalacjach $terms.Bugzilli aktualizacja"
+    _ " $terms.bledow może trwać długo, ponieważ $terms.Bugzilla wysyła wszystkie"
+    _ " e-maile natychmiast. Jeśli ten parametr zostanie włączony $terms.Bugzilla będzie"
+    _ " kolejkowała wszystkie maile i wysyłała je w tle. Funkcja ta wymaga, aby"
+    _ " były zainstalowane pewne moduły Perl (wyszczególnione przez"
+    _ " <code>checksetup.pl</code>) i uruchomienia demona"
+    _ " <code>jobqueue.pl</code>. W przeciwnym razie twoje maile nie będą"
+    _ " wysyłane. Ma to wpływ nie tylko na aktualizacje $terms.bledow, ale"
+    _ " na wszystkie maile wysyłane przez ${terms.Bugzille}.",
+
+  sendmailnow => "W instalacjach używających programu <strong>Sendmail</strong> starszego niż 8.12 " _
+                 "można uzyskać znaczące przyspieszenie działania interfejsu " _
+                 "w przypadku opóźnionego wysyłania wiadomości. Można to uzyskać " _
+                 "wyłączając ten parametr. W instalacjach korzystających z programu <strong>Sendmail</strong> " _
+                 "8.12 lub nowszego, należy ten parametr pozostawić włączony, ponieważ wyłączenie " _
+                 "nie przynosi żadnych korzyści. W przypadku korzystania z innego programu " _
+                 "dostarczającego pocztę, włączenie tego parametru <strong>jest wymagane</strong>. W przeciwnym " _
+                 "razie nie będą wysyłane żadne wiadomości o ${terms.bledach}.",
+
+  smtpserver => "Adres serwera SMTP (w przypadku korzystania z dostarczania SMTP).",
+
+  smtp_username => "Nazwa użytkownika serwera SMTP używana do uwierzytelniania SMTP. " _
+                   "Jeśli serwer SMTP nie wymaga uwierzytelniania, należy to pole pozostawić puste.",
+
+  smtp_password => "Hasło do serwera SMTP używane do uwierzytelniania SMTP. " _
+                   "To pole nie ma żadnego wpływu, jeśli parametr <code>smtp_username</code> jest pusty.",
+
+  smtp_debug => "Jeśli ten parametr jest włączony, do pliku dziennika błędów serwera WWW zapisywane będą "_
+                " szczegółowe informacje dotyczące komunikacji $terms.Bugzilli z serwerem SMTP." _
+                " Informacje te mogą być użyte do diagnozowania problemów z wysyłaniem " _
+                " wiadomości e-mail.",
+
+  whinedays => "Liczba dni, po których zostanie wysłane przypomnienie do osoby odpowiedzialnej za " _
+               "rozwiązanie $terms.bledu, który ma status NOWY. " _
+               "<br> Wartość 0 wyłącza przypominanie.",
+
+  globalwatchers => "Rozdzielona przecinkami lista nazw użytkowników, którzy będą otrzymywać " _
+                    "kopię każdej wiadomości wysyłanej przez system." }
+
+%]

@@ -1,0 +1,69 @@
+[%# 3.4.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+[%
+   title = "Pola $terms.bledu"
+   desc = "Wybór wyświetlanych pól"
+%]
+
+[% param_descs = {
+  useclassification => "Gdy ten parametr jest włączony, $terms.Bugzilla powiąże każdy produkt z " _
+                       "określoną kategorią. Aby móc edytować kategorie, należy mieć " _
+                       "uprawnienie <code>editclassification</code>.",
+
+  usetargetmilestone => "Ten parametr określa, czy będzie używane pole <strong>Wersja docelowa</strong>.",
+
+  useqacontact => "Ten parametr określa, czy będzie używane pole <strong>Specjalista QA</strong>.",
+
+  usestatuswhiteboard => "Ten parametr określa, czy będzie używane pole <strong>Tablica statusów</strong>.",
+
+  usevotes => "Ten parametr określa, czy zezwolić na głosowanie na ${terms.bledy}. Aby funkcja ta była " _
+              "efektywna, należy zmienić maksymalną liczbę dozwolonych głosów " _
+              "na wartość różną od zera. Można to zrobić na stronie " _
+              "<a href=\"editproducts.cgi\">edycji produktu</a>.",
+
+  usebugaliases => "Ten parametr określa, czy będzie można korzystać z aliasów $terms.bledow, które pozwalają " _
+                   "przypisać $terms.bledom łatwe do zapamiętania identyfikatory lub nazwy.",
+
+  use_see_also => 
+    "Ten parametr określa, czy będzie można używać funkcji <strong>Zobacz także</strong>. Umożliwia ona odnoszenie się do"
+    _ " $terms.bledow w innych instalacjach. Nawet jeśli funkcja zostanie wyłączona,"
+    _ " $terms.bledy z już określonymi relacjami (URL-mi) $terms.bledu będą"
+    _ " nadal wyświetlane i mogą być usuwane.",
+
+  defaultpriority => "Domyślny priorytet tworzonych ${terms.bledow}.",
+
+  defaultseverity => "Domyślna waga tworzonych ${terms.bledow}.",
+
+  defaultplatform => "Domyślnie wybrana platforma w formularzu zgłaszania ${terms.bledow}. " _
+                     "<br> " _
+                     "Można pozostawić wartość pustą. " _
+                     "W takim przypadku $terms.Bugzilla użyje system operacyjny " _
+                     "zgłaszany przez przeglądarkę.",
+
+  defaultopsys => "Domyślnie wybrany system operacyjny w formularzu zgłaszania ${terms.bledow}. " _
+                  "<br> " _
+                  "Można pozostawić wartość pustą. " _
+                  "W takim przypadku $terms.Bugzilla użyje system operacyjny " _
+                  "zgłaszany przez przeglądarkę." }
+%]

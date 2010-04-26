@@ -1,0 +1,333 @@
+[%# 3.4.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Terry Weissman <terry@mozilla.org>
+  #                 Gervase Markham <gerv@gerv.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+[% PROCESS "global/field-descs.none.tmpl" %]
+[% INCLUDE global/header.html.tmpl title = "Cykl życia $terms.bledu" %]
+
+<p>
+Pola <b>Status</b> oraz <b>Rozwiązanie</b> pozwalają śledzić cykl
+życia [% terms.bledu %].
+</p>
+
+<a name="status"></a>
+<a name="resolution"></a>
+
+<table border="1" cellpadding="4">
+  <tr align="center" valign="top">
+    <td width="50%">
+      <h1>STATUS</h1>
+    </td>
+
+    <td>
+      <h1>ROZWIĄZANIE</h1>
+    </td>
+  </tr>
+
+  <tr valign="top">
+    <td>Pole <b>Status</b> określa ogólny status [% terms.bledu %].
+    Tylko niektóre przejścia pomiędzy różnymi wartościami tego pola są dozwolone.</td>
+
+    <td>Pole <b>Rozwiązanie</b> określa, co stało się z danym
+    [%+ terms.bledem %].</td>
+  </tr>
+
+  <tr valign="top">
+    <td>
+      <dl>
+        <dt>
+          <b>[% get_status("UNCONFIRMED") FILTER html %]</b>
+        </dt>
+        <dd>
+          Ten [% terms.blad %] został niedawno dodany do bazy [% terms.bledow %]. 
+          Nikt nie potwierdził, czy dany [% terms.blad %] występuje. Użytkownicy,
+          którzy mają uprawnienie "canconfirm", mogą potwierdzić [% terms.blad %], 
+          zmieniając jego status na [% get_status("NEW") FILTER html %].
+          Ewentualnie może on być bezpośrednio rozwiązany i oznaczony jako
+          <b>[% get_status("RESOLVED") FILTER html %]</b>.
+        </dd>
+
+        <dt>
+          <b>[% get_status("NEW") FILTER html %]</b>
+        </dt>
+        <dd>
+          Ten [% terms.blad %] został niedawno dodany do listy [% terms.bledow %],
+          które powinny być rozwiązane. [% terms.Blad %] o tym statusie może zostać
+          zaakceptowany ze zmianą statusu na <b>[% get_status("ASSIGNED") FILTER html %]</b>,
+          przypisany do kogoś innego z pozostawieniem statusu <b>[% get_status("NEW") FILTER html %]</b>,
+          albo rozwiązany ze statusem <b>[% get_status("RESOLVED") FILTER html %]</b>.
+        </dd>
+
+        <dt>
+          <b>[% get_status("ASSIGNED") FILTER html %]</b>
+        </dt>
+        <dd>
+          Ten [% terms.blad %] nie został jeszcze rozwiązany, lecz został już przypisany
+          do właściwej osoby. Taki [% terms.blad %] może zostać przypisany innej osobie
+          i zmienić status na <b>[% get_status("NEW") FILTER html %]</b>, albo zostać
+          rozwiązany ze zmianą statusu na <b>[% get_status("RESOLVED") FILTER html  %]</b>.
+        </dd>
+
+        <dt>
+          <b>[% get_status("REOPENED") FILTER html %]</b>
+        </dt>
+        <dd>
+          Ten [% terms.blad %] został już raz rozwiązany, lecz rozwiązanie okazało się
+          niepoprawne. Przykładowo [% terms.blad %] o rozwiązaniu 
+          <b>[% get_resolution("WORKSFORME") FILTER html %]</b> może zostać powtórnie
+          otwarty w przypadku pojawienia się informacji umożliwiających powtórzenie zgłoszeń 
+          [% terms.bledu %] przez zainteresowane osoby. 
+          [% terms.Bledy %] tego typu mogą zmienić status na
+          <b>[% get_status("ASSIGNED") FILTER html %]</b> lub
+          <b>[% get_status("RESOLVED") FILTER html %]</b>.
+        </dd>
+      </dl>
+    </td>
+
+    <td>
+      <dl>
+        <dd>
+          Brak jeszcze rozwiązania. Dla [% terms.bledow %] o „otwartych” statusach,
+          pole rozwiązanie jest puste. Pozostałe [% terms.bledy %] muszą być oznaczone
+          którymś z poniższych rozwiązań.
+        </dd>
+      </dl>
+    </td>
+  </tr>
+
+  <tr valign="top">
+    <td>
+      <dl>
+        <dt>
+          <b>[% get_status("RESOLVED") FILTER html %]</b>
+        </dt>
+        <dd>
+          Rozwiązanie [% terms.bledu %] zostało znalezione i czeka na weryfikację
+          przez specjalistę QA. Taki [% terms.blad %] może zostać powtórnie otwarty (ze zmianą
+          statusu na <b>[% get_status("REOPENED") FILTER html %]</b>), oznaczony 
+          jako <b>[% get_status("VERIFIED") FILTER html %]</b> albo zostać zamknięty
+          ze statusem <b>[% get_status("CLOSED") FILTER html %]</b>.
+        </dd>
+
+        <dt>
+          <b>[% get_status("VERIFIED") FILTER html %]</b>
+        </dt>
+        <dd>
+          Specjalista QA zapoznał się z proponowanym rozwiązaniem [% terms.bledu %] i uznał,
+          że jest ono wystarczające. [% terms.Blad %] pozostaje w tym stanie do czasu wydania
+          produktu, do którego przynależał. Wówczas status zostanie zmieniony na
+          <b>[% get_status("CLOSED") FILTER html %]</b>.
+        </dd>
+
+        <dt>
+          <b>[% get_status("CLOSED") FILTER html %]</b>
+        </dt>
+        <dd>
+          [% terms.Blad %] został uznany za zamknięty z poprawnym rozwiązaniem. Jedyną
+          możliwą zmianą statusu dla takiego [% terms.bledu %] jest zmiana na
+          <b>[% get_status("REOPENED") FILTER html %]</b>.
+        </dd>
+      </dl>
+    </td>
+
+    <td>
+      <dl>
+        <dt>
+          <b>[% get_resolution("FIXED") FILTER html %]</b>
+        </dt>
+        <dd>
+          Rozwiązanie takiego [% terms.bledu %] zostało przetestowane i wysłane do
+          repozytorium.
+        </dd>
+
+        <dt>
+          <b>[% get_resolution("INVALID") FILTER html %]</b>
+        </dt>
+        <dd>
+          Problem opisany w zgłoszeniu nie jest [% terms.bledem %].
+        </dd>
+
+        <dt>
+          <b>[% get_resolution("WONTFIX") FILTER html %]</b>
+        </dt>
+        <dd>
+          Problem opisany w zgłoszeniu [% terms.bledu %] nigdy nie zostanie
+          naprawiony.
+        </dd>
+
+        <dt>
+         <b>[% get_resolution("DUPLICATE") FILTER html %]</b>
+        </dt>
+        <dd>
+          Zgłoszenie [% terms.bledu %] jest duplikatem istniejącego zgłoszenia. Oznaczenie 
+          [% terms.bledu %] jako duplikatu wymaga podania numeru [% terms.bledu %], którego
+          duplikatem jest ten [% terms.blad %]. Informacja o duplikacie zostanie umieszczona
+          jako komentarz do już istniejącego [% terms.bledu %].
+        </dd>
+
+        <dt>
+          <b>[% get_resolution("WORKSFORME") FILTER html %] </b>
+        </dt>
+        <dd>
+          Próby powtórzenia [% terms.bledu %] zakończyły się fiaskiem, a kod źródłowy nie
+          pozwala znaleźć powodu zaobserwowanego zachowania.
+          Jeśli w późniejszym okresie pojawią się dodatkowe informacje, należy zmienić
+          status [% terms.bledu %].
+        </dd>
+
+        <dt>
+          <b>[% get_resolution("MOVED") FILTER html %]</b>
+        </dt>
+        <dd>
+          Problem opisany w tym zgłoszeniu odnosi się do produktu, którego [% terms.bledy %]
+          śledzone są w innej bazie danych. [% terms.Blad %] został przeniesiony do
+          właściwej bazy danych.
+        </dd>
+      </dl>
+    </td>
+  </tr>
+</table>
+
+<h2><a name="importance">Ważność</a></h2>
+Ważność [% terms.bledu%] jest określana jako kombinacja
+<a href="#priority">priorytetu</a> i <a href="#bug_severity">wagi</a> błędu,
+które są opisane poniżej.
+
+<h2><a name="priority">Priorytet</a></h2>
+To pole opisuje znaczenie i kolejność, w jakiej [% terms.blad %]
+powinien być naprawiony. Jest ono wykorzystywane przez
+programistów/inżynierów do określenia przypisanych sobie zadań.
+Dostępne priorytety to <b>P1</b> (najważniejszy) do
+<b>P5</b> (najmniej ważny).
+
+<h2><a name="bug_severity">Waga [% terms.bledu %]</a></h2>
+To pole określa dotkliwość [% terms.bledu %]. 
+
+<table>
+  <tr>
+    <th>Blokujący</th>
+
+    <td>Blokuje pracę programisty/testera</td>
+  </tr>
+
+  <tr>
+    <th>Krytyczny</th>
+
+    <td>Powoduje awarię programu, utratę danych lub duże wycieki pamięci</td>
+  </tr>
+
+  <tr>
+    <th>Poważny</th>
+
+    <td>Poważna utrata funkcjonalności</td>
+  </tr>
+
+  <tr>
+    <th>Normalny</th>
+
+    <td>Normalny problem, kilka strat funkcji w szczególnych okolicznościach</td>
+  </tr>
+
+  <tr>
+    <th>Drobny</th>
+
+    <td>Niewielkie braki w funkcji lub inne problemy, dla których
+    istnieją łatwe metody obejścia</td>
+  </tr>
+
+  <tr>
+    <th>Błahy</th>
+
+    <td>Problemy kosmetyczne, jak literówki, czy
+    niewyrównany tekst</td>
+  </tr>
+
+  <tr>
+    <th>Propozycje</th>
+
+    <td>Propozycje nowych funkcji</td>
+</table>
+
+<h2><a name="rep_platform">Platforma</a></h2>
+Pole określające platformę sprzętową, na której dany [% terms.blad %] został
+zaobserwowany. W polu tym można wybrać:
+
+<ul>
+  <li>Wszystkie (występuje na wszystkich platformach)</li>
+
+  <li>Macintosh</li>
+
+  <li>PC</li>
+</ul>
+<b>Uwaga:</b> Wybranie opcji „Wszystkie” podczas wyszukiwania, spowoduje, że
+[% terms.bledy %] przypisane do określonego systemu nie zostaną wyświetlone. Wyszukane będą jedynie 
+[% terms.bledy %] oznaczone jako występujące na wszystkich platformach 
+(pole „Platforma” ustawione na „Wszystkie”).
+
+<h2><a name="op_sys">OS</a></h2>
+System operacyjny, na którym dany [% terms.blad %] został zaobserwowany.
+Dostępne wartości tego pola to:
+
+<ul>
+  <li>Wszystkie ([% terms.blad %] występuje na wszystkich
+  platformach)</li>
+
+  <li>Windows</li>
+
+  <li>Mac OS</li>
+
+  <li>Linux</li>
+</ul>
+Czasami system operacyjny określa jednoznacznie platformę sprzętową, lecz nie zawsze.
+Przykładowo Linux może być uruchomiony na PC, Macintoshu lub innych platformach.
+
+<h2><a name="assigned_to">Przypisany do</a></h2>
+
+<p>
+Określa osobę odpowiedzialną za rozwiązanie danego [% terms.bledu %]. Za każdym razem,
+gdy to pole zmienia zawartość, status zmieniany jest na
+<b>[% get_status("NEW") FILTER html %]</b>, aby ułatwić znalezienie nowych 
+[% terms.bledow %] na osobistej liście [% terms.bledow %].</p>
+
+<p>
+Domyślną wartością statusu podczas wyszukiwania jest [% get_status("NEW") FILTER html %], 
+[% get_status("ASSIGNED") FILTER html %] oraz [% get_status("REOPENED") FILTER html %].
+W razie wyszukiwania [% terms.bledow %], które zostały rozwiązane lub zweryfikowane, należy 
+pamiętać o odpowiednim ustawieniu pola statusu.
+</p>
+
+[% IF Param("use_see_also") %]
+  <h2><a name="see_also"></a>Zobacz też</h2>
+
+  <p>To pole umożliwia odwoływanie się do [% terms.bledow %] w innych instalacjach.
+    Można podać adres URL do [%+ terms.bledu %] w polu „Dodaj URL [% terms.bledu %]”,
+    do informacji, że [% terms.blad %] jest spokrewniony z tym [% terms.bledem %]. Można
+    podać wiele adresów URL oddzielając je przecinkami.</p>
+
+  <p>Zazwyczaj powinno się używać tego pola, by odnieść się do [% terms.bledow %] w 
+    <em>innych</em> instalacjach. Dla [% terms.bledow %] w tej 
+    instalacji lepszym rozwiązaniem jest użycie pól „Zależy od” i „Blokuje.”
+    </p>
+[% END %]
+
+[% INCLUDE global/footer.html.tmpl %]

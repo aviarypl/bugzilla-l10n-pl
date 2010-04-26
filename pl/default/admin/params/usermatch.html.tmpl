@@ -1,0 +1,46 @@
+[%# 3.4.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #%]
+[%
+   title = "Dopasowywanie nazw użytkowników"
+   desc = "Ustawienia zasad dopasowywania nazw użytkowników"
+%]
+
+[% param_descs = {
+  usemenuforusers => "Jeśli ten parametr jest włączony, kiedy będzie potrzeba wybrania " _
+                     "użytkownika, $terms.Bugzilla będzie wyświetlać listę użytkowników " _
+                     "zamiast pola tekstowego. Parametru tego nie należy włączać w instalacjach " _
+                     "z dużą liczbą użytkowników.",
+
+  usermatchmode => "Ten parametr zezwala na użycie dopasowań podczas podawania/wyszukiwania nazw " _
+                   "użytkowników przy zgłaszaniu i edycji ${terms.bledow}.<p> " _
+                   "Wartość <b>wyłączone</b> wyłącza dopasowywanie,<br> " _
+                   "<b>wieloznacznik</b> zezwala tylko na znaki zastępujące,<br> " _
+                   "<b>wyszukiwanie</b> zezwala na znaki zastępujące i proste dopasowania podanych fragmentów nazw.",
+
+  maxusermatches => "Ograniczenie liczby wyszukiwanych nazw użytkowników.<br> " _
+                    "Wartość <b>1</b> oznacza, że żadne nazwy użytkowników nie będą wyświetlane w razie " _
+                    "niejasności w dopasowaniu podanej nazwy. Wartość przydatna dla celów zachowania poufności.<br> " _
+                    "Wartość <b>0</b> oznacza brak ograniczenia.",
+
+  confirmuniqueusermatch => "Ten parametr określa, czy wyświetlać okno potwierdzenia, gdy tylko jeden użytkownik " _
+                            "pasuje do wyszukiwanego ciągu." }
+%]

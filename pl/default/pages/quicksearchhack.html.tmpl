@@ -1,0 +1,388 @@
+[%# 3.4.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # Contributor(s): N.N.
+  #                 Marc Schumann <wurblzap@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% INCLUDE global/header.html.tmpl
+   title  = "Szybkie wyszukiwanie w $terms.Bugzilli",
+   style  = 'th {text-align: left}'
+   onload = 'document.forms[\'f\'].quicksearch.focus()'
+ %]
+
+<p>
+  Wprowadź szukane wyrażenie lub jego fragment:
+</p>
+
+<form name="f" action="buglist.cgi" method="get"
+      onsubmit="if (this.quicksearch.value == '')
+                { alert('Najpierw wprowadź szukane wyrażenie.');
+                  return false; } return true;">
+  <input type="text" size="40" name="quicksearch">
+  <input type="submit" value="Szukaj" id="find">
+  <input type="submit" name="load" value="Wczytaj formularz szukania" id="load">
+</form>
+
+<p>
+  To jest wyszukiwanie ignorujące wielkość znaków „wszystkie wyrażenia są traktowane jako część wspólna” wyszukiwania.
+  Wyrażenia są oddzielane spacją.
+  Domyślnie przeszukiwane są pola: Krótki opis, Słowa kluczowe,
+  Produkt, Komponent i Tablica.
+  Jeśli słowo wygląda, jak część adresu URL, przeszukiwane jest również pole URL.
+</p>
+<p>
+  Ogólny format dla „wyrażenia” to:
+  <tt>field1,&hellip;,fieldN:value1,&hellip;,valueM</tt>.
+  [% terms.Blad %] jest zaliczony jeśli przynajmniej jedna z wartości
+  występuje jako część wspólna w przynajmniej jednym polu.
+  Na przykład: <tt>assignee,reporter,qa:ibm,sun</tt> zwróci
+  [%+ terms.bledy %], gdzie odpowiedzialny, zgłaszający lub specjalista QA ma
+  login zawierający <tt>ibm</tt> lub <tt>sun</tt>.
+  Jeśli określone są tylko <tt>value1,&hellip;,valueM</tt>, prefiks (mniej więcej)
+  zwróci <tt>summary,keywords,product,component,statuswhiteboard:</tt>, jak opisano
+  powyżej. Można użyć <tt>-<i>word</i></tt>, by wyrazić logiczną negację
+  <tt><i>word</i></tt>.
+</p>
+<p>
+  To jest kompletna lista dostępnych pól (kolumna „Skrót” jest dla
+  prędkości):
+</p>
+
+<table border="1">
+<thead>
+<tr>
+  <th>Domyślne wyszukiwania</th>
+  <th>Skrót</th>
+  <th>Nazwa pola</th>
+  <th>Aliasy</th>
+  <th>Opis</th>
+</tr>
+</thead>
+
+<!-- Status, Resolution, Platform, OS, Priority, Severity -->
+
+<tr>
+  <td>&nbsp;</td>
+  <td rowspan="2">
+    <tt>NIEPOT,NOWY,&hellip;,ZAM,<br>NAP,DUP,&hellip;<i>(jako pierwsze wyrażenie)</i></tt>
+  </td>
+  <td><tt>status</tt></td>
+  <td>&nbsp;</td>
+  <td>
+    <a href="page.cgi?id=fields.html#status">Status</a>
+    <i>(„bug_status”)</i>
+  </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td><tt>resolution</tt></td>
+  <td>&nbsp;</td>
+  <td><a href="page.cgi?id=fields.html#resolution">Rozwiązanie</a></td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td><i>as-is</i></td>
+  <td><tt>platform</tt></td>
+  <td>&nbsp;</td>
+  <td>
+    <a href="page.cgi?id=fields.html#rep_platform">Platforma</a>
+    <i>(„rep_platform”)</i>
+  </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>os</tt></td>
+  <td><tt>opsys</tt></td>
+  <td>
+    <a href="page.cgi?id=fields.html#op_sys">OS</a>
+    <i>(„op_sys”)</i>
+  </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td><tt>p1,p2</tt> <i>or</i> <tt>p1-2</tt></td>
+  <td><tt>priority</tt></td>
+  <td><tt>pri</tt></td>
+  <td><a href="page.cgi?id=fields.html#priority">Priorytet</a></td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td><tt>blo,cri,&hellip;,enh</tt></td>
+  <td><tt>severity</tt></td>
+  <td><tt>sev</tt></td>
+  <td>
+    <a href="page.cgi?id=fields.html#bug_severity">Waga błędu</a>
+    <i>(„bug_severity”)</i>
+  </td>
+</tr>
+
+<!-- People: AssignedTo, Reporter, QA Contact, CC, Added comment -->
+<!-- Added comment is missing!!!! -->
+
+<tr>
+  <td>&nbsp;</td>
+  <td><b>@</b><i>assignee</i></td>
+  <td><tt>assignedto</tt></td>
+  <td><tt>assignee</tt></td>
+  <td>
+    <a href="page.cgi?id=fields.html#assigned_to">Przypisany do</a>
+    <i>(„assigned_to”)</i>
+  </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>reporter</tt></td>
+  <td><tt>rep</tt></td>
+  <td>Zgłaszający (login)</td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>qa</tt></td>
+  <td><tt>qacontact</tt></td>
+  <td>Specjalista QA (login) <i>(„qa_contact”)</i></td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>cc</tt></td>
+  <td>&nbsp;</td>
+  <td>CC (login)</td>
+</tr>
+
+<!-- Product, Version, Component, Target Milestone -->
+
+<tr>
+  <td><i>tak</i></td>
+  <td rowspan="2"><b>:</b><i>area</i></td>
+  <td><tt>product</tt></td>
+  <td><tt>prod</tt></td>
+  <td>Produkt (enum)</td>
+</tr>
+<tr>
+  <td><i>tak</i></td>
+  <td><tt>component</tt></td>
+  <td><tt>comp</tt></td>
+  <td><a href="describecomponents.cgi">Komponent</a></td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>version</tt></td>
+  <td><tt>ver</tt></td>
+  <td>Wersja (enum)</td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>milestone</tt></td>
+  <td><tt>target, targetmilestone</tt></td>
+  <td>Wersja docelowa <i>(„target_milestone”)</i></td>
+</tr>
+
+<!-- Summary, Description, URL, Status whiteboard, Keywords -->
+
+<tr>
+  <td><i>tak</i></td>
+  <td>&nbsp;</td>
+  <td><tt>summary</tt></td>
+  <td><tt>shortdesc</tt></td>
+  <td>
+    Krótki opis [% terms.bledu %]
+    <i>(„short_desc”)</i>
+  </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>description</tt></td>
+  <td><tt>desc, longdesc<!--, comment--></tt></td>
+  <!-- reserve "comment" for "added comment" login search?! -->
+  <td>Opis/Komentarze [% terms.bledu %]</td>
+</tr>
+<tr>
+  <td><i>zależy od</i></td>
+  <td>&nbsp;</td>
+  <td><tt>url</tt></td>
+  <td>&nbsp;</td>
+  <td>URL <i>(„bug_file_loc”)</i></td>
+</tr>
+<tr>
+  <td><i>tak</i></td>
+  <td>&nbsp;</td>
+  <td><tt>statuswhiteboard</tt></td>
+  <td><tt>sw, whiteboard</tt></td>
+  <td>Status tablicy <i>(„status_whiteboard”)</i></td>
+</tr>
+<tr>
+  <td><i>tak</i></td>
+  <td><b>!</b><i>keyword</i></td>
+  <td><tt>keywords</tt></td>
+  <td><tt>kw</tt></td>
+  <td><a href="describekeywords.cgi">Słowa kluczowe</a></td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>group</tt></td>
+  <td>&nbsp;</td>
+  <td>Grupa</td>
+</tr>
+
+<!-- Flags -->
+
+<tr>
+  <td>&nbsp;</td>
+  <td rowspan="2"><i>flag</i><b>?</b><i>requestee</i></td>
+  <td><tt>flag</tt></td>
+  <td>&nbsp;</td>
+  <td>Nazwa flagi i status (+, - lub ?)</td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td><tt>requestee</tt></td>
+  <td><tt>req</tt></td>
+  <td>Proszący o flagę (login)</td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>setter</tt></td>
+  <td><tt>set</tt></td>
+  <td>Ustawiający flagę (login)</td>
+</tr>
+
+<!-- Attachments -->
+
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>attachmentdesc</tt></td>
+  <td><tt>attachdesc</tt></td>
+  <td>
+    Opis załącznika
+    <i>(„attachments.description”)</i>
+  </td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>attachmentdata</tt></td>
+  <td><tt>attachdata</tt></td>
+  <td>Dane załącznika <i>(„attach_data.thedata”)</i></td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>attachmentmimetype</tt></td>
+  <td><tt>attachmimetype</tt></td>
+  <td>Typ mime załącznika <i>(„attachments.mimetype”)</i></td>
+</tr>
+<tr>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td><tt>votes</tt></td>
+  <td>&nbsp;</td>
+  <td>
+    Liczba głosów<br>
+    (votes:<i>N</i> i votes&gt;=<i>N</i> oznacza „co najmniej N głosów”,
+    votes&gt;<i>N</i> (oznacza „więcej niż N głosów”)
+  </td>
+</tr>
+</table>
+
+<p>
+  Przykłady użytecznych skrótów:
+</p>
+<table border="1">
+<thead>
+<tr>
+  <th>Składnia</th>
+  <th>Semantyka i przykłady</th>
+</tr>
+</thead>
+
+<!--
+<tr>
+  <td><i>STAT</i> <i>(jako pierwsze wyrażenie)</i></td>
+  <td><b>status,rozwiązanie:</b> <i>STAT</i></td>
+</tr>
+<tr>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td><tt>ALL</tt> <i>(jako pierwsze wyrażenie)</i></td>
+  <td><i>zawiera wszystkie rozwiązane [% terms.bledy %] w twoim wyszukiwaniu</i></td>
+</tr>
+<tr>
+  <td><tt>+DUP,NAPRAWIONO</tt> <i>(jako pierwsze wyrażenie)</i></td>
+  <td><i>zawiera zduplikowane i naprawione [% terms.bledy %] w twoim wyszukiwaniu</i></td>
+</tr>
+-->
+
+<tr>
+  <td><b>:</b><i>area</i></td>
+  <td><b>produkt,komponent:</b><i>area</i></td>
+</tr>
+<tr>
+  <td><i>sev</i></td>
+  <td><b>ważność:</b><i>sev</i></td>
+</tr>
+<tr>
+  <td><tt>blo,cri,maj</tt></td>
+  <td><i>waga [% terms.bledow %]</i></td>
+</tr>
+<tr>
+  <td><tt>enh</tt></td>
+  <td><i>prośba o udoskonalenie</i></td>
+</tr>
+<tr>
+  <td><b>p</b><i>level</i></td>
+  <td><b>priorytet:</b><i>level</i></td>
+</tr>
+<tr>
+  <td><tt>p1</tt></td>
+  <td><i>najwyższy priorytet [% terms.bledow %]</i></td>
+</tr>
+<tr>
+  <td><tt>p1-2</tt></td>
+  <td><i>wysoki priorytet [% terms.bledow %]</i></td>
+</tr>
+<tr>
+  <td><b>@</b><i>assignee</i></td>
+  <td><b>przypisany do:</b><i>assignee</i></td>
+</tr>
+<tr>
+  <td><b>!</b><i>keyword</i></td>
+  <td><b>słowa kluczowe:</b><i>keyword</i></td>
+</tr>
+<tr>
+  <td><i>flag</i><b>?</b><i>requestee</i></td>
+  <td><b>flaga:</b><i>flag?</i> <b>proszący:</b><i>requestee</i></td>
+</tr>
+</table>
+
+<p>
+  Więcej informacji można znaleźć w sekcji
+  <a href="page.cgi?id=quicksearch.html#features">Funkcje</a>
+  na stronie <a href="page.cgi?id=quicksearch.html">wprowadzenia</a>.
+</p>
+
+[% PROCESS global/footer.html.tmpl %]
