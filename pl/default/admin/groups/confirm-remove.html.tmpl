@@ -1,0 +1,68 @@
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@syndicomm.com>
+  #                 Joel Peshkin <bugreport@peshkin.net>
+  #                 Jacob Steenhagen <jake@bugzilla.org>
+  #                 Vlad Dascalu <jocuri@softhome.net>
+  #                 Max Kanat-Alexander <mkanat@bugzilla.org>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # group: The Bugzilla::Group being changed.
+  # regexp: the regexp according to which the update is performed.
+  #%]
+
+[% IF regexp %]
+  [% title = "Potwierdzenie: Usunąć całkowicie użytkowników pasujących do wyrażenia regularnego?" %]
+[% ELSE %]
+  [% title = "Potwierdzenie: Usunąć całkowicie wszystkich użytkowników?" %]
+[% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+  doc_section = "groups.html"
+%]
+
+[% IF regexp %]
+  <p>Ta funkcja spowoduje usunięcie wszystkich użytkowników z „[% group.name FILTER html %]”,
+    których nazwa użytkownika pasuje do wyrażenia:
+    '[% regexp FILTER html %]'</p>
+[% ELSE %]
+  <p>Ta funkcja spowoduje całkowite usunięcie wszystkich zdefiniowanych użytkowników
+    z „[% group.name FILTER html %]”.</p>
+[% END %]
+  
+<p>Zwykle taka potrzeba zachodzi tylko jeśli następuje aktualizacja grup
+  utworzonych za pomocą [% terms.Bugzilli %] 2.16 i starszych.
+  Używaj tej funkcji ze <b>szczególną ostrożnością</b>. Więcej informacji
+  uzyskasz w dokumentacji.
+</p>
+    
+<form method="post" action="editgroups.cgi">
+  <input type="hidden" name="group_id" value="[% group.id FILTER html %]">
+  <input type="hidden" name="regexp" value="[% regexp FILTER html %]">
+  <input type="hidden" name="action" value="remove_regexp">
+  
+  <input name="token" type="hidden" value="[% token FILTER html %]">
+  <input name="confirm" type="submit" value="Potwierdzam">
+  <p>Jeśli nie potwierdzasz, możesz wrócić do strony <a href="editgroups.cgi"> Edycja grup</a>.</p>
+</form>
+    
+[% PROCESS global/footer.html.tmpl %] 

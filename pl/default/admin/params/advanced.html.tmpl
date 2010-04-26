@@ -1,0 +1,52 @@
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% 
+   title = "Zaawansowane"
+   desc = "Ustawienia zaawansowane."
+%]
+
+[% param_descs = {
+  cookiedomain => 
+    "Jeśli twoja witryna ma adres „www.foo.com”, ustawienie tego"
+    _ " parametru jako <code>.foo.com</code> umożliwi adresowi <code>bar.foo.com</code>"
+    _ " dostęp do ciasteczek ${terms.Bugzilli}. Jest to przydatne jeśli masz więcej"
+    _ " niż jedną nazwę hosta wskazującą na ten sam serwer sieciowy i"
+    _ " chcesz im udostępnić ciasteczko Bugzilli.",
+
+  inbound_proxies =>
+    "Jeśli ruch przychodzący do $terms.Bugzilli odbywa się przez proxy,"
+    _ " $terms.Bugzilla rozpoznaje adres IP każdego użytkownika jako adres"
+    _ " proxy. Jeśli w tym parametrze zostaną wprowadzone, oddzielone"
+    _ " przecinkami, adresy IP, $terms.Bugzilla będzie ufała każdemu"
+    _ " nagłówkowi <code>X-Forwarded-For</code> wysłanemu z tych IP i"
+    _ " używała wartość tego nagłówka jako adresu IP użytkownika.",
+
+  proxy_url => 
+    "$terms.Bugzilla może łączyć się z siecią, aby pobierać informacje o"
+    _ " nowych wydaniach. Zobacz parametr <tt>upgrade_notification</tt>."
+    _ " Jeśli twój serwer $terms.Bugzilli znajduje się za serwerem proxy i"
+    _ " nie może uzyskać dostępu do zmiennej środowiskowej HTTP_PROXY, należy"
+    _ " tutaj wprowadzić adres serwera proxy. Jeśli wymagane jest uwierzytelnianie,"
+    _ " należy użyć składni <code>http://user:pass@proxy_url/</code>.",
+} %]

@@ -1,0 +1,253 @@
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #                 Elliotte Martin <elliotte_martin@yahoo.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# Remember to PROCESS rather than INCLUDE this template. %]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% SET search_descs = {
+  "noop"           => "---",
+  "equals"         => "jest taki, jak",
+  "notequals"      => "jest inny niż",
+  "anyexact"       => "jest taki, jak którekolwiek z wyrażeń",
+  "substring"      => "zawiera wyrażenie",
+  "casesubstring"  => "zawiera wyrażenie (identyczne)",
+  "notsubstring"   => "nie zawiera wyrażenia",
+  "anywordssubstr" => "zawiera dowolne wyrażenia",
+  "allwordssubstr" => "zawiera wszystkie wyrażenia",
+  "nowordssubstr"  => "nie zawiera wyrażeń",
+  "regexp"         => "odpowiada wyrażeniu reg.",
+  "notregexp"      => "nie odpowiada wyrażeniu reg.",
+  "lessthan"       => "jest mniejszy niż",
+  "lessthaneq"     => "jest mniejszy lub równy z",
+  "greaterthan"    => "jest większy niż",
+  "greaterthaneq"  => "jest większy lub równy z",
+  "anywords"       => "zawiera dowolne ze słów",
+  "allwords"       => "zawiera wszystkie słowa",
+  "nowords"        => "nie zawiera słów",
+  "changedbefore"  => "zmieniony przed",
+  "changedafter"   => "zmieniony po",
+  "changedfrom"    => "zmieniony z",
+  "changedto"      => "zmieniony na",
+  "changedby"      => "zmieniony przez",
+  "matches"        => "pasuje do",
+  "notmatches"     => "nie pasuje do",
+} %]
+
+[% field_types = { ${constants.FIELD_TYPE_UNKNOWN}       => "Nieznany typ",
+                   ${constants.FIELD_TYPE_FREETEXT}      => "Pole tekstowe",
+                   ${constants.FIELD_TYPE_SINGLE_SELECT} => "Lista rozwijana",
+                   ${constants.FIELD_TYPE_MULTI_SELECT}  => "Pole wielokrotnego wyboru",
+                   ${constants.FIELD_TYPE_TEXTAREA}      => "Duże pole tekstowe",
+                   ${constants.FIELD_TYPE_DATETIME}      => "Data/Czas",
+                   ${constants.FIELD_TYPE_BUG_ID}        => "ID $terms.bledu",
+                } %]
+
+[%# You can use this hash to localize (translate) the values displayed
+  # for drop-down and multiple-select fields. Lines starting with "#"
+  # are comments.
+  #%]
+[% value_descs = {
+  "bug_status" => {
+    "UNCONFIRMED" => "NIEPOTWIERDZONY",
+    "NEW"         => "NOWY",
+    "ASSIGNED"    => "PRZYPISANY",
+    "REOPENED"    => "PONOWNIE OTWARTY",
+    "RESOLVED"    => "ROZWIĄZANY",
+    "VERIFIED"    => "ZWERYFIKOWANY",
+    "CLOSED"      => "ZAMKNIĘTY",
+  },
+  
+  "resolution" => {
+    ""           => "---",
+    "FIXED"      => "NAPRAWIONY",
+    "INVALID"    => "NIEPRAWIDŁOWY",
+    "WONTFIX"    => "NIE DO NAPRAWY",
+    "DUPLICATE"  => "DUPLIKAT",
+    "WORKSFORME" => "U MNIE DZIAŁA",
+    "MOVED"      => "PRZENIESIONY",
+    " "          => " ",
+  },
+
+  "bug_severity" => {
+    "blocker"     => "blokujący",
+    "critical"    => "krytyczny",
+    "major"       => "poważny",  
+    "normal"      => "normalny", 
+    "minor"       => "drobny",   
+    "trivial"     => "błahy",    
+    "enhancement" => "propozycja",  
+  },    
+
+  "priority" => {
+    "Highest"    => "Najwyższy",
+    "High"       => "Wysoki",
+    "Normal"     => "Normalny",  
+    "Low"        => "Niski", 
+    "Lowest"     => "Najniższy",   
+  },    
+                     
+  "rep_platform" => {
+    "All"   => "Wszystkie",
+    "Other" => "Inna",
+  },             
+  
+  "op_sys" => {
+    "All"   => "Wszystkie",
+    "Other" => "Inny",
+  },
+
+ "choice" => { 
+    "on"                     => "włączone",
+    "off"                    => "wyłączone",
+    "defaulton"              => "domyślnie włączone",
+    "defaultoff"             => "domyślnie wyłączone",
+    "Test"                   => "Test",
+    "None"                   => "Nigdy",
+    "never"                  => "nigdy",
+    "open"                   => "otwarte",
+    "moderated"              => "moderowane",
+    "closed"                 => "zamknięte",
+    "wildcard"               => "wieloznacznik",
+    "search"                 => "wyszukiwanie",
+    "authenticated sessions" => "sesje uwierzytelnione",
+    "always"                 => "zawsze"
+    "disabled"               => "wyłączone"
+  },
+
+  "permissions" => {
+    "Administrators"                                  => "Administracyjne"
+    "Can configure whine reports for other users"     => "Może konfigurować raporty powiadomień dla innych użytkowników"
+    "User can configure whine reports for self"       => "Może konfigurować raporty powiadomień dla samego siebie"
+    "Can perform actions as other users"              => "Może wykonywać działania jako inny użytkownik"
+    "Can not be impersonated by other users"          => "Nikt nie może przejąć tożsamości tego użytkownika"
+    "Can confirm a bug or mark it a duplicate"        => "Może potwierdzać błędy lub oznaczać je jako duplikaty"
+    "Can create and destroy groups"                   => "Może tworzyć i usuwać grupy"
+    "Can edit all bug fields"                         => "Może edytować wszystkie pola błędu"
+    "Can create, destroy, and edit classifications"   => "Może tworzyć, usuwać i edytować kategorie"
+    "Can create, destroy, and edit components"        => "Może tworzyć, usuwać i edytować komponenty"
+    "Can create, destroy, and edit keywords"          => "Może tworzyć, usuwać i edytować słowa kluczowe"
+    "Can edit or disable users"                       => "Może edytować lub usuwać użytkowników"
+    "Can change Parameters"                           => "Może zmieniać parametry"
+  },                                                
+
+} %]
+
+[%# We use "FILTER none" here because only the caller can know how to
+  # filter the result appropriately. 
+  #%]
+[% MACRO display_value(field_name, value_name) BLOCK %][% FILTER trim %]
+  [% IF value_descs.${field_name}.${value_name}.defined %]
+    [% value_descs.${field_name}.${value_name} FILTER none %]
+  [% ELSE %]
+    [% value_name FILTER none %]
+  [% END %]
+[% END %][% END %]
+
+[% IF in_template_var %]
+  [% vars.terms = terms %]
+
+  [%# field_descs is loaded as a global template variable and cached
+    # across all templates--see VARIABLES in Bugzilla/Template.pm.
+    #%]
+  [% vars.field_descs = {
+    "[Bug creation]"           => "[Zgłaszanie $terms.bledu]",
+     "actual_time"             => "Aktualny czas"
+     "alias"                   => "Alias",
+     "assigned_to"             => "Przypisany do",
+     "attach_data.thedata"     => "Dane załącznika",
+     "attachments.description" => "Opis załącznika",
+     "attachments.filename"    => "Nazwa pliku załącznika",
+     "attachments.mimetype"    => "Typ MIME załącznika",
+     "attachments.ispatch"     => "Załącznik jest łatką",
+     "attachments.isobsolete"  => "Nieaktualny załącznik",
+     "attachments.isprivate"   => "Prywatny załącznik",
+     "attachments.isurl"       => "Załącznik jest adresem URL",
+     "attachments.submitter"   => "Twórca załącznika",
+     "blocked"                 => "Blokuje",
+     "bug_file_loc"            => "URL",
+     "bug_group"               => "Grupa",
+     "bug_id"                  => "ID $terms.bledu",
+     "bug_severity"            => "Waga $terms.bledu",
+     "bug_status"              => "Status",
+     "changeddate"             => "Zmieniono",
+     "cc"                      => "Obserwatorzy",
+     "classification"          => "Kategoria",
+     "cclist_accessible"       => "Lista obserwatorów jest dostępna",
+     "commenter"               => "Komentujący",
+     "component_id"            => "ID komponentu",
+     "component"               => "Komponent",
+     "content"                 => "Zawartość",
+     "creation_ts"             => "Data utworzenia",
+     "days_elapsed"            => "Dni od zmiany $terms.bledu"
+     "deadline"                => "Termin ostateczny",
+     "delta_ts"                => "Zmieniono",
+     "dependson"               => "Zależy od",
+     "dup_id"                  => "Duplikat",
+     "estimated_time"          => "Szacunek początkowy",
+     "everconfirmed"           => "Zawsze potwierdzony",
+     "flagtypes.name"          => "Flagi",
+     "keywords"                => "Słowa kluczowe",
+     "longdesc"                => "Komentarz",
+     "longdescs.isprivate"     => "Komentarz prywatny",
+     "newcc"                   => "Obserwatorzy",
+     "op_sys"                  => "OS",
+     "opendate"                => "Otwarto",
+     "owner_idle_time"         => "Czas od momentu przypisania osoby odpowiedzialnej",
+     "percentage_complete"     => "Postęp (%)",
+     "priority"                => "Priorytet",
+     "product_id"              => "ID produktu",
+     "product"                 => "Produkt",
+     "qa_contact"              => "Specjalista QA",
+     "remaining_time"          => "Pozostało godzin",
+     "rep_platform"            => "Platforma",
+     "reporter"                => "Zgłaszający",
+     "reporter_accessible"     => "Dostępne dla zgłaszającego",
+     "requestees.login_name"   => "Proszący o flagę",
+     "resolution"              => "Rozwiązanie",
+     "see_also"                => "Zobacz też",
+     "setters.login_name"      => "Ustawiający flagę",
+     "setting"                 => "Ustawienie",
+     "settings"                => "Ustawienia",
+     "short_desc"              => "Krótki opis",
+     "status_whiteboard"       => "Tablica statusu",
+     "target_milestone"        => "Wersja docelowa",
+     "version"                 => "Wersja",
+     "votes"                   => "Głosów",
+     "work_time"               => "Godzin przepracowane"
+  } %]
+
+  [%# Also include any custom fields or fields which don't have a
+      Description here, by copying their Description from the
+      database. If you want to override this for your language
+      or your installation, just use a hook. %]
+  [% UNLESS Param('shutdownhtml') %]
+    [% FOREACH bz_field = bug_fields.values %]
+      [% SET vars.field_descs.${bz_field.name} = bz_field.description
+         IF !vars.field_descs.${bz_field.name}.defined %]
+    [% END %]
+  [% END %]
+[% END %]
+
+[% Hook.process("end") %]

@@ -1,0 +1,56 @@
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Terry Weissman <terry@mozilla.org>
+  #                 Vlad Dascalu <jocuri@softhome.net>
+  #                 Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # keyword: A Bugzilla::Keyword object.
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = "Usuwanie słowa kluczowego"
+%]
+
+<p>
+  [% IF keyword.bug_count == 1 %]
+    Istnieje jeden [% terms.blad %] z tym słowem kluczowym.
+  [% ELSIF keyword.bug_count > 1 %]
+    Istnieją [%+ terms.bledy %] z tym słowem kluczowym:
+    [% keyword.bug_count FILTER html %].
+  [% END %]
+  
+  Czy <b>na pewno</b> chcesz usunąć
+  słowo kluczowe <code>[% keyword.name FILTER html %]</code>?
+</p>
+
+<form method="post" action="editkeywords.cgi">
+  <input type="hidden" name="id" value="[% keyword.id FILTER html %]">
+  <input type="hidden" name="action" value="delete">
+  <input type="hidden" name="token" value="[% token FILTER html %]">
+  <input type="submit" id="delete"
+         value="Tak">
+</form>
+
+<p><a href="editkeywords.cgi">Edytuj inne słowa kluczowe</a></p>
+
+[% PROCESS global/footer.html.tmpl %] 

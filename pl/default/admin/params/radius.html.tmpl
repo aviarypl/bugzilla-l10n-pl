@@ -1,0 +1,57 @@
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Marc Schumann.
+  # Portions created by Marc Schumann are Copyright (c) 2007 Marc Schumann.
+  # All rights reserved.
+  #
+  # Contributor(s): Marc Schumann <wurblzap@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+[%
+   title = "RADIUS"
+   desc = "Przed wybraniem metody uwierzytelniania RADIUS, należy najpierw skonfigurować poniższe parametry."
+%]
+
+[% param_descs = {
+  RADIUS_server => "Nazwa i opcjonalnie port serwera RADIUS " _
+                   "(np. <code>radius.company.com</code> lub " _
+                   "<code>radius.company.com:numer_portu</code>).<br>" _
+                   "Wymagane tylko jeśli parametr " _
+                   "<a href=\"?section=auth#user_verify_class\">" _
+                   "<code>user_verify_class</code></a> zawiera " _
+                   "<code>RADIUS</code>.",
+
+  RADIUS_secret => "Hasło serwera RADIUS.<br>" _
+                   "Wymagane tylko jeśli parametr " _
+                   "<a href=\"?section=auth#user_verify_class\"> " _
+                   "<code>user_verify_class</code></a> zawiera " _
+                   "<code>RADIUS</code>.",
+
+  RADIUS_NAS_IP => "Atrybut NAS-IP-Address używany podczas wymiany " _
+                   "danych z serwerem RADIUS. " _
+                   "Jeśli nie określono, zostanie użyty adres <code>127.0.0.1</code>.<br>" _
+                   "Przydatny tylko jeśli parametr " _
+                   "<a href=\"?section=auth#user_verify_class\"> " _
+                   "<code>user_verify_class</code></a> " _
+                   "zawiera <code>RADIUS</code>.",
+
+  RADIUS_email_suffix => "Sufiks dołączany do nazwy użytkownika serwera RADIUS do sformowania " _
+                         "adresu e-mail.<br>" _
+                         "Przydatny tylko jeśli parametr " _
+                         "<a href=\"?section=auth#user_verify_class\"> " _
+                         "<code>user_verify_class</code></a> " _
+                         "zawiera <code>RADIUS</code>.",
+  }
+%]

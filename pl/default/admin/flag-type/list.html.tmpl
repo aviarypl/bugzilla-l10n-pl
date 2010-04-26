@@ -1,0 +1,176 @@
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Myk Melez <myk@mozilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% PROCESS "global/js-products.html.tmpl" %]
+
+[% PROCESS global/header.html.tmpl
+  title = 'Zarządzanie flagami'
+  style = "
+    table#flag_types_bugs tr th,
+    table#flag_types_attachments tr th { text-align: left; }
+    .inactive { color: #787878; }
+    .multiplicable { display: block; }
+  "
+  onload="var f = document.flagtype_form; selectProduct(f.product, f.component, null, null, '__Any__');"
+  javascript_urls=["js/productform.js"]
+  doc_section = "flags-overview.html#flag-types"
+%]
+
+<p>
+  Flagi są atrybutami [% terms.bledow %] i załączników ze znacznikami określającymi ich stan. 
+  Pojawiają się w interfejsie jako nazwy i symbol ich stanu
+  (<strong>+</strong> dla zatwierdzonych, <strong>–</strong> dla odrzuconych i <strong>?</strong> dla próśb użytkowników).
+</p>
+
+<p>
+  Można na przykład zdefiniować flagę „recenzja”, aby użytkownicy mogli poprosić
+  o sprawdzenie ich łatek. Gdy autor łatki poprosi o jej sprawdzenie, obok 
+  załącznika pojawi się napis „recenzja?”. Gdy łatka zostanie sprawdzona,
+  w zależności od pozytywnego lub negatywnego wyniku, obok łatki pojawi się
+  odpowiednio napis „recenzja+” lub „recenzja-”.
+</p>
+
+<p>
+  Można ograniczyć liczbę flag dostępnych dla danego produktu lub komponentu. 
+  Jeśli zostanie wybrany produkt bez komponentów, wyświetlane będą tylko flagi dostępne 
+  dla przynajmniej jednego komponentu wybranego produktu.
+</p>
+
+<form id="flagtype_form" name="flagtype_form" action="editflagtypes.cgi" method="get">
+  <table>
+    <tr>
+      <th><label for="product">Produkt:</label></th>
+      <td>
+        <select name="product" onchange="selectProduct(this, this.form.component, null, null, '__Any__');">
+          <option value="">Wszystkie</option>
+          [% FOREACH prod = products %]
+            <option value="[% prod.name FILTER html %]"
+                    [% " selected" IF selected_product == prod.name %]>
+                    [% prod.name FILTER html %]</option>
+          [% END %]
+        </select>
+      </td>
+      <th><label for="component">Komponent:</label></th>
+      <td>
+        <select name="component">
+          <option value="">Wszystkie</option>
+          [% FOREACH comp = components %]
+            <option value="[% comp FILTER html %]"
+                    [% " selected" IF selected_component == comp %]>
+                    [% comp FILTER html %]</option>
+          [% END %]
+        </select>
+      </td>
+      <td>
+        <input type="checkbox" id="show_flag_counts" name="show_flag_counts" value="1"
+               [%+ 'checked="checked"' IF show_flag_counts %]>
+        <label for="show_flag_counts">Wyświetlaj liczbę flag</label>
+      </td>
+      <td><input type="submit" id="submit" value="Filtruj"></td>
+    </tr>
+  </table>
+</form>
+
+<h3>Flagi dla [% terms.bledow %]</h3>
+
+[% PROCESS display_flag_types types=bug_types types_id='bugs' %]
+
+<p>
+  <a href="editflagtypes.cgi?action=enter&amp;target_type=bug">Utwórz flagę dla [% terms.bledow %]</a>
+</p>
+
+<h3>Flagi dla załączników</h3>
+
+[% PROCESS display_flag_types types=attachment_types types_id='attachments' %]
+
+<p>
+  <a href="editflagtypes.cgi?action=enter&amp;target_type=attachment">Utwórz flagę dla załączników</a>
+</p>
+
+[% PROCESS global/footer.html.tmpl %]
+
+
+[% BLOCK display_flag_types %]
+  <table id="flag_types_[% types_id FILTER html %]" cellspacing="0" cellpadding="4" border="1">
+
+    <tr>
+      <th>Nazwa flagi</th>
+      <th>Opis</th>
+      <th>Klucz sortowania</th>
+      <th>Właściwości</th>
+      <th>Grupa weryfikująca</th>
+      <th>Grupa pytająca</th>
+      [% IF show_flag_counts %]
+        <th>Flagi</th>
+        [%# Note to translators: translate the strings in quotes only. %]
+        [% state_desc = {granted = 'zatwierdzono' denied = 'odrzucono' pending = 'oczekuje'} %]
+      [% END %]
+      <th>Czynności</th>
+    </tr>
+
+    [% FOREACH type = types %]
+
+      <tr class="[% IF type.is_active %]aktywna[% ELSE %]nieaktywna[% END %]">
+        <td><a href="editflagtypes.cgi?action=edit&amp;id=[% type.id %]">[% type.name FILTER html FILTER no_break %]</a></td>
+        <td>[% type.description FILTER html %]</td>
+        <td align="right">[% type.sortkey FILTER html %]</td>
+        <td>
+          [% IF type.is_requestable %]
+            <span class="requestable">pytająca</span>
+          [% END %]
+          [% IF type.is_requestable && type.is_requesteeble %]
+            <span class="requesteeble">(ukierunkowana)</span>
+          [% END %]
+          [% IF type.is_multiplicable %]
+            <span class="multiplicable">wielokrotna</span>
+          [% END %]
+        </td>
+        <td>[% IF type.grant_group %][% type.grant_group.name FILTER html %][% END %]</td>
+        <td>[% IF type.request_group %][% type.request_group.name FILTER html %][% END %]</td>
+        [% IF show_flag_counts %]
+          <td>
+            [% FOREACH state = ['granted', 'pending', 'denied'] %]
+              [% bug_list = bug_lists.${type.id}.$state || [] %]
+              [% IF bug_list.size %]
+                <a href="buglist.cgi?bug_id=[% bug_list.unique.nsort.join(",") FILTER html %]">
+                  [% bug_list.size FILTER html %] [%+ state_desc.$state FILTER html %]
+                </a>
+                <br>
+              [% ELSE %]
+                0 [% state_desc.$state FILTER html %]<br>
+              [% END %]
+            [% END %]
+          </td>
+        [% END %]
+        <td>
+          <a href="editflagtypes.cgi?action=copy&amp;id=[% type.id %]">Kopiuj</a>
+          | <a href="editflagtypes.cgi?action=confirmdelete&amp;id=[% type.id %]">Usuń</a>
+        </td>
+      </tr>
+
+    [% END %]
+
+  </table>
+[% END %]

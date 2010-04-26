@@ -1,0 +1,54 @@
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+[%
+   title = "Przenoszenie $terms.bledow"
+   desc = "Parametry dotyczące przenoszenia $terms.bledow pomiędzy instalacjami $terms.Bugzilli "
+%]
+
+[% param_descs = {
+  "move-enabled" => "Gdy ten parametr jest włączony, niektórzy użytkownicy $terms.Bugzilli " _
+                    "mogą przenosić $terms.bledy do innej zdefiniowanej bazy danych.",
+
+  "move-button-text" => "Tekst na przycisku przenoszenia. Wyjaśni, gdzie $terms.blad zostanie " _
+                        "przeniesiony. Podaj nowe miejsce docelowe.",
+
+  "move-to-url" => "Adres URL bazy, do której można przenosić $terms.bledy z tej bazy.",
+
+  "move-to-address" => "Przy przenoszeniu ${terms.bledow} wysyłany jest e-mail do bazy docelowej. " _
+                       "Wartość ta określa adres e-mail bazy docelowej, który przeznaczony jest do odbioru " _
+                       "przenoszonych zgłoszeń ${terms.bledow}.",
+
+  "moved-from-address" => "Przy przenoszeniu ${terms.bledow} wysyłany jest e-mail do bazy docelowej. " _
+                          "Wartość ta określa źródłowy adres e-mail, z którego wysyłane są żądania " _
+                          "przeniesienia i na który przesyłane są ewentualne komunikaty błędów.",
+
+  movers => "Lista użytkowników uprawnionych do przenoszenia i ponownego otwierania przenoszonych " _
+            "${terms.bledow} (w razie niepowodzenia operacji).",
+
+  "moved-default-product" => "Produkt, do którego przypisywane będą $terms.bledy przenoszone " _
+                             "z innych baz.",
+
+  "moved-default-component" => "Komponent, do którego przypisywane będą raporty $terms.bledow przenoszone " _
+                               "z innych baz." }
+%]

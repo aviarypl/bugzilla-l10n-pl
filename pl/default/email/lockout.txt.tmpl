@@ -1,0 +1,42 @@
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is the Mozilla Corporation.
+  # Portions created by the Initial Developer are Copyright (C) 2008
+  # the Initial Developer. All Rights Reserved.
+  #
+  # Contributor(s):
+  #   Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+From: [% Param('mailfrom') %]
+To: [% Param('maintainer') %]
+Subject: [[% terms.Bugzilla %]] – odmowa dostępu do konta: [% locked_user.login %] ([% attempts.0.ip_addr %])
+X-Bugzilla-Type: admin
+
+Ten adres IP [% attempts.0.ip_addr %] został zablokowany z powodu zbyt
+dużej liczby prób logowania ([%- constants.MAX_LOGIN_ATTEMPTS +%]) na
+konto [% locked_user.login %]. 
+
+Liczba prób logowania:
+
+[% FOREACH login = attempts %]
+  [%+ login.login_time FILTER time %]
+[% END %]
+
+Ponowne logowanie z tego adresu IP będzie możliwe o
+[%+ unlock_at FILTER time %].

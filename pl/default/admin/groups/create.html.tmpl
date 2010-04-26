@@ -1,0 +1,104 @@
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@syndicomm.com>
+  #                 Joel Peshkin <bugreport@peshkin.net>
+  #                 Jacob Steenhagen <jake@bugzilla.org>
+  #                 Vlad Dascalu <jocuri@softhome.net>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # none
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = "Dodawanie grupy"
+  subheader = "Na tej stronie można zdefiniować nową grupę użytkowników."
+  doc_section = "groups.html#create-groups"
+%]
+
+<form method="post" action="editgroups.cgi">
+  <table border="1" cellpadding="4" cellspacing="0"><tr>
+    <th>Nazwa</th>
+    <th>Opis</th>
+    <th>RegExp użytkowników</th>
+    <th>Używana dla [% terms.bledow %]</th>
+  </tr><tr>
+    <td><input size="20" name="name"></td>
+    <td><input size="40" name="desc"></td>
+    <td><input size="30" name="regexp"></td>
+    <td><input type="checkbox" name="isactive" value="1" checked></td>
+  </tr>
+  <tr>
+    <th>Adres URL ikony:</th>
+    <td colspan="3"><input type="text" size="70" maxlength="255" id="icon_url" name="icon_url"></td>
+  </tr>
+  [% Hook.process('field') %]
+  </table>
+
+  <hr>
+
+  <input type="checkbox" id="insertnew" name="insertnew" value="1"
+    [% IF Param("makeproductgroups") %] checked[% END %]>
+  <label for="insertnew">Dodaj nową grupę do wszystkich istniejących produktów.</label>
+  <p>
+  <input type="submit" id="create" value="Dodaj">
+  <input type="hidden" name="action" value="new">
+  <input type="hidden" name="token" value="[% token FILTER html %]">
+</form>
+
+<p><b>Nazwa</b> – element używany z funkcją B<!-- blah -->ugzilla->user->in_group()
+w każdym ze zmodyfikowanych przez użytkownika plików cgi podczas używania danej grupy.
+Może być ona także używana przez osoby wysyłające [% terms.bledy %] przez e-mail,
+by ograniczyć [% terms.blad %] do określonego zbioru grup.</p>
+
+<p><b>Opis</b> – element widoczny dla członków grupy w zgłoszeniach [% terms.bledu %]
+przy polach wyboru ograniczenia dostępu do zgłoszenia. Członkowie grupy mogą określić, czy
+zgłoszenie [% terms.bledu %] będzie wyświetlane jedynie dla członków danej grupy.</p>
+
+<p><b>Używana dla [% terms.bledow %]</b> – flaga określająca czy grupa
+może być używana dla [% terms.bledow %]. Jeśli zostanie ona odznaczona,
+nie będzie możliwe dodawanie nowych [% terms.bledow %] do tej grupy.
+Niemniej [% terms.bledy %] będące już w grupie, pozostaną w niej.
+Jest to mniej drastyczny sposób na powstrzymanie wzrostu grupy
+niż jej usunięcie. <b>Uwaga: Jeśli jest tworzona nowa grupa, należy 
+pozostawić to pole zaznaczone, aby możliwe było dodawanie 
+[% terms.bledow %] do grupy</b>.</p>
+
+<p><b>RegExp użytkownika</b> (opcjonalne) 
+Jeśli jest podane, nastąpi automatyczne udzielenie członkostwa w tej grupie
+każdemu, kogo adres e-mail pasuje do tego wyrażenia.</p>
+
+<p>
+  <b>Adres URL ikony</b> jest opcjonalny i jest adresem prowadzącym do ikony
+  użytej do identyfikacji grupy. Może być adresem relatywnym do bazowego adresu
+  URL tej instalacji lub adresem absolutnym. Ikona będzie wyświetlana w
+  komentarzach do [% terms.bledow %] obok nazwy autora komentarza.
+</p>
+
+<p>Domyślnie nowa grupa będzie skojarzona z istniejącymi 
+produktami. Odznaczając opcję „Dodaj grupę dla wszystkich 
+istniejących produktów” można zapobiec temu i grupa będzie 
+widoczna jedynie, gdy zostanie dodana do produktu.</p>
+
+<p>Wróć do <a href="./">strony głównej [% terms.bledow %]</a>
+
+lub do <a href="editgroups.cgi">listy grup</a>
+
+[% PROCESS global/footer.html.tmpl %] 

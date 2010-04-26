@@ -1,0 +1,269 @@
+[%# 3.6@bugzilla.org %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # product: Bugzilla::Product object; The product
+  #
+  # (classification fields available if Param('useclassification') is enabled:)
+  #
+  # classification: Bugzilla::Classification object; The classification 
+  #                                                  the product is in
+  #
+  #%]
+
+[% title = BLOCK %]Usuwanie produktu „[% product.name FILTER html %]”
+[% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+  style_urls = ['skins/standard/admin.css']
+%]
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <tr bgcolor="#6666FF">
+    <th valign="top" align="left">Pole</th>
+    <th valign="top" align="left">Wartość</th>
+  </tr>
+
+  [% IF Param('useclassification') %]
+    <tr>
+      <td>Kategoria:</td>
+      <td>[% classification.name FILTER html %]</td>
+    </tr>
+    <tr>
+      <td>Opis kategorii:</td>
+      [%# descriptions are intentionally not filtered to allow html content %]
+      <td>
+        [% IF classification.description %]
+          [% classification.description FILTER html_light %]
+        [% ELSE %]
+          <span style="color: red">brakujące</span>
+        [% END %]
+      </td>
+    </tr>
+  [% END %]
+
+  <tr>
+    <td valign="top">Produkt:</td>
+    <td valign="top">
+      <a href="editproducts.cgi?product=[% product.name FILTER url_quote %]">
+        [% product.name FILTER html %]
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">Opis:</td>
+    [%# descriptions are intentionally not filtered to allow html content %]
+    <td valign="top">
+      [% IF product.description %]
+        [% product.description FILTER html_light %]
+      [% ELSE %]
+        <span style="color: red">brakujące</span>
+      [% END %]
+    </td>
+  </tr>
+
+  [% IF Param('usetargetmilestone') %]
+    <tr>
+      <td>URL do wersji docelowych produktu:</td>
+      <td>
+        [% IF product.milestone_url %]
+          <a href="[% product.milestone_url FILTER html %]">
+            [%- product.milestone_url FILTER html %]
+          </a>
+        [% ELSE %]
+          brak
+        [% END %]
+      </td>
+    </tr>
+  [% END %]
+
+  <tr>
+    <td>Zgłaszanie [% terms.bledow %]:</td>
+    <td>
+      [% IF product.is_active %]
+        dozwolone
+      [% ELSE %]
+        niedozwolone
+      [% END %]
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      [% IF product.components.size > 0 %]
+        <a href="editcomponents.cgi?product=[% product.name FILTER url_quote %]"
+           title="Edycja komponentów produktu „[% product.name FILTER html %]”">
+          Komponenty:
+        </a>
+      [% ELSE %]
+        Komponenty:
+      [% END %]
+    </td>
+    <td>
+      [% IF product.components.size > 0 %]
+        <table>
+          [% FOREACH c = product.components %]
+            <tr>
+              <th align="right">[% c.name FILTER html %]:</th>
+              [%# descriptions are intentionally not filtered to allow html content %]
+              <td>
+                [% IF c.description %]
+                  [% c.description FILTER html_light %]
+                [% ELSE %]
+                  <span style="color: red">brak</span>
+                [% END %]
+              </td>
+            </tr>
+          [% END %]
+        </table>
+      [% ELSE %]
+        brak
+      [% END %]
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      [% IF product.versions.size > 0 %]
+        <a href="editversions.cgi?product=[%- product.name FILTER url_quote %]">
+          Wersje:
+        </a>
+      [% ELSE %]
+        Wersje:
+      [% END %]
+    </td>
+    <td>
+      [% IF product.versions.size > 0 %]
+        [% FOREACH v = product.versions %]
+          [% v.name FILTER html %]<br>
+        [% END %]
+      [% ELSE %]
+        brak
+      [% END %]
+    </td>
+  </tr>
+
+
+  [% IF Param('usetargetmilestone') %]
+    <tr>
+      <td valign="top">
+        [% IF product.milestones.size > 0 %]
+          <a href="editmilestones.cgi?product=[%- product.name FILTER url_quote %]">
+          Wersje docelowe:
+          </a>
+        [% ELSE %]
+        Wersje docelowe:
+        [% END %]
+      </td>
+      <td>
+        [% IF product.milestones.size > 0 %]
+          [% FOREACH m = product.milestones %]
+            [% m.name FILTER html %]<br>
+          [% END %]
+        [% ELSE %]
+        brak
+        [% END %]
+      </td>
+    </tr>
+  [% END %]
+
+  <tr>
+    <td>Liczba [% terms.bledow %]:</td>
+    <td>
+      [% IF product.bug_count %]
+        <a href="buglist.cgi?product=[% product.name FILTER url_quote %]"
+           title="Lista [% terms.bledow %] dla produktu „[% product.name FILTER html %]”">
+          [% product.bug_count FILTER html %]
+        </a>
+      [% ELSE %]
+        brak
+      [% END %]
+    </td>
+  </tr>
+</table>
+
+<h2>Potwierdzenie</h2>
+
+[% IF product.bug_count %]
+
+  [% IF !Param("allowbugdeletion") %]
+
+    <p>Niestety, w tym produkcie nadal
+
+    [% IF product.bug_count > 1 %]
+      istnieją [%+ terms.bledy %]: [% product.bug_count FILTER html %].
+    [% ELSE %]
+      istnieje 1 [% terms.blad %].
+    [% END %]
+
+    Zanim będzie możliwe usunięcie tego produktu, należy przepisać 
+
+    [% IF product.bug_count > 1 %]
+       te [% terms.bledy %]
+    [% ELSE %]
+       ten [% terms.blad %]
+    [% END %]
+
+    do innego produktu.
+
+  [% ELSE %]
+
+    <table border="0" cellpadding="20" width="70%" bgcolor="red">
+      <tr>
+        <td>
+          Nadal
+          [% IF product.bug_count > 1 %]
+            istnieją otwarte [%+ terms.bledy %] dla tego produktu: [% product.bug_count FILTER html %].
+          [% ELSE %]
+            Istnieje 1 otwarty [% terms.blad %] dla tego produktu!
+          [% END %]
+          Usunięcie produktu spowoduje usunięcie
+          <b><blink>WSZYSTKICH</blink></b> zapisanych [% terms.bladow %]
+          oraz całej ich historii.
+        </td>
+      </tr>
+    </table>
+
+  [% END %]
+
+[% END %]
+
+[% Hook.process("confirmation") %]
+
+[% IF product.bug_count == 0 || Param('allowbugdeletion') %]
+
+  <p>Czy na pewno chcesz usunąć ten produkt?<p>
+
+  <form method="post" action="editproducts.cgi">
+    <input type="checkbox" id="delete_series" name="delete_series" value=1>
+    <label for="delete_series">
+      Usuń wszystkie powiązane serie <small>(można je usunąć później z poziomu strony
+      <a href="chart.cgi?category=[% product.name FILTER html %]">Nowe wykresy</a>)</small>
+    </label><p>
+    <input type="submit" id="delete" value="Tak">
+    <input type="hidden" name="action" value="delete">
+    <input type="hidden" name="product" value="[% product.name FILTER html %]">
+    <input type="hidden" name="token" value="[% token FILTER html %]">
+  </form>
+
+[% END %]
+
+[% PROCESS admin/products/footer.html.tmpl %]
+
+[% PROCESS global/footer.html.tmpl %]
