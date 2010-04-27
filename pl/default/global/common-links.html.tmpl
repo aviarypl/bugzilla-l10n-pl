@@ -59,7 +59,7 @@
   [% END %]
 
   [% IF user.login %]
-    <li><span class="separator">| </span><a href="userprefs.cgi">Ustawienia</a></li>
+    <li><span class="separator">| </span><a href="userprefs.cgi">Preferencje</a></li>
     [% IF user.in_group('tweakparams') || user.in_group('editusers') || user.can_bless
           || (Param('useclassification') && user.in_group('editclassifications'))
           || user.in_group('editcomponents') || user.in_group('admin') || user.in_group('creategroups')

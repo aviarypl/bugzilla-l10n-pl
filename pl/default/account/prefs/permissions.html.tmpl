@@ -32,17 +32,18 @@
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
+[% PROCESS "global/field-descs.none.tmpl" %]
 
 <table align="center">
   <tr>
     <td>
       [% IF has_bits.size %]
-        Na swoim koncie masz ustawione następujące uprawnienia:
+        Obecnie masz następujące uprawnienia:
         <table align="center">
           [% FOREACH bit_description = has_bits %]
             <tr>
               <td>[% bit_description.name FILTER html %]</td>
-              <td>[% bit_description.desc FILTER html_light %]</td>
+              <td>[% get_permissions(bit_description.desc) FILTER html_light %]</td>
             </tr>
           [% END %]
         </table>
@@ -52,7 +53,7 @@
           [% IF products && products.size %]
             <br>
             <p>
-              Masz także lokalne uprawnienia '[% privs FILTER html %]'
+              Masz także lokalne uprawnienia „[% privs FILTER html %]”
               dla następujących produktów:
             </p>
             <p>
@@ -70,7 +71,7 @@
       [% IF user.in_group('editusers') %]
         <br>
         Masz uprawnienia do edycji uprawnień innych użytkowników. Możesz nadawać
-        lub odbierać wszystkie uprawnienia, wszystkim użytkownikom.
+        lub odbierać uprawnienia wszystkim użytkownikom.
       [% ELSIF set_bits.size %]
         <br>
         Możesz <a href="editusers.cgi">innym użytkownikom</a>
@@ -79,7 +80,7 @@
           [% FOREACH bit_description = set_bits %]
             <tr>
               <td>[% bit_description.name FILTER html %]</td>
-              <td>[% bit_description.desc FILTER html_light %]</td>
+              <td>[% get_permissions(bit_description.desc) FILTER html_light %]</td>
             </tr>
           [% END %]
           </table>

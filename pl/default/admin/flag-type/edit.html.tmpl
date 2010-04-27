@@ -187,8 +187,8 @@
       <td>
         <input type="checkbox" id="is_requesteeble" name="is_requesteeble"
                [% " checked" IF type.is_requesteeble || !type.is_requesteeble.defined %]>
-        <label for="is_requesteeble">pytająca nietypowo (użytkownicy będą mogli poprosić zamiast domyślnej grupy,
-         określonych użytkowników o odpowiedź na tę flagę)</label>
+        <label for="is_requesteeble">pytająca ukierunkowana (użytkownicy będą mogli poprosić o odpowiedź
+          na tę flagę określonych użytkowników zamiast domyślnej grupy)</label>
       </td>
     </tr>
 
@@ -198,12 +198,12 @@
         <input type="checkbox" id="is_multiplicable" name="is_multiplicable"
                [% " checked" IF type.is_multiplicable || !type.is_multiplicable.defined %]>
         <label for="is_multiplicable">wielokrotna (flaga będzie mogła być umieszczana dla 
-          tego samego [% typeLabelLowerSingular %] wielokrotnie)</label>
+          tego samego [% typeLabelLowerSingular %] wieloktotnie)</label>
       </td>
     </tr>
 
     <tr>
-      <th>Grupa oceniająca:</th>
+      <th>Grupa weryfikująca:</th>
       <td>
         Członkowie wybranej tutaj grupy będą mogli oceniać tę flagę. Aby zezwolić wszystkim
         użytkownikom na ocenianie tej flagi, należy wybrać <kbd>brak grupy</kbd>.<br>

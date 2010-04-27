@@ -197,4 +197,22 @@
 
 [% MACRO get_choice(ch) GET choice_descs.$ch || ch %]
 
+[% permissions_descs = {
+    "Administrators"                                  => "Administracyjne"
+    "Can configure whine reports for other users"     => "Może konfigurować raporty powiadomień dla innych użytkowników"
+    "User can configure whine reports for self"       => "Może konfigurować raporty powiadomień dla samego siebie"
+    "Can perform actions as other users"              => "Może wykonywać działania jako inny użytkownik"
+    "Can not be impersonated by other users"          => "Nikt nie może przejąć tożsamości tego użytkownika"
+    "Can confirm a bug or mark it a duplicate"        => "Może potwierdzać błędy lub oznaczać je jako duplikaty"
+    "Can create and destroy groups"                   => "Może tworzyć i usuwać grupy"
+    "Can edit all bug fields"                         => "Może edytować wszystkie pola błędu"
+    "Can create, destroy, and edit classifications"   => "Może tworzyć, usuwać i edytować kategorie"
+    "Can create, destroy, and edit components"        => "Może tworzyć, usuwać i edytować komponenty"
+    "Can create, destroy, and edit keywords"          => "Może tworzyć, usuwać i edytować słowa kluczowe"
+    "Can edit or disable users"                       => "Może edytować lub usuwać użytkowników"
+    "Can change Parameters"                           => "Może zmieniać parametry"
+} %]
+
+[% MACRO get_permissions(perm) GET permissions_descs.$perm || perm %]
+
 [% Hook.process("end") %]

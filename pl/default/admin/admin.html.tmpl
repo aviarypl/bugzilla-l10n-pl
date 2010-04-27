@@ -30,9 +30,9 @@
 
 <div>
   Ta strona jest dostępna tylko dla upoważnionych użytkowników. Z tego miejsca masz –
-  w zależności od uprawnień – dostęp do stron administracyjnych, na których możesz dokonać
-  konfiguracji różnych ustawień tej instalacji. Sekcje wyróżnione jaśniejszym kolorem są
-  dla ciebie niedostępne.
+  w zależności od uprawnień – dostęp do stron administracyjnych, na których możesz
+  konfigurować różne ustawienia tej instalacji. Sekcje wyróżnione jaśniejszym kolorem
+  są dla ciebie niedostępne.
 </div>
 
 <table>
@@ -41,15 +41,15 @@
       <dl>
         [% class = user.in_group('tweakparams') ? "" : "forbidden" %]
         <dt class="[% class %]"><a href="editparams.cgi">Parametry</a></dt>
-        <dd class="[% class %]">Tutaj można określić istotne parametry instalacji. Jest to miejsce,
+        <dd class="[% class %]">Tutaj definiuje się istotne parametry instalacji. Jest to miejsce,
         gdzie można ustalić adres URL tej instalacji, sposób uwierzytelniania
-        użytkowników, wybrać, jakie pola [% terms.bledu %] będą wyświetlane. Wybrać
+        użytkowników, wybrać, jakie pola [% terms.bledu %] będą wyświetlane; wybrać
         agenta transferowego poczty do wysyłania powiadomień, określić, które grupy
         użytkowników mają dostęp do wykresów, udostępniać zapytania i wiele innych opcji.</dd>
 
         <dt class="[% class %]"><a href="editsettings.cgi">Ustawienia domyślne</a></dt>
         <dd class="[% class %]">Ustawienia określające domyślne preferencje użytkowników. Są to wartości, które
-        będą używane jako wartości domyślne dla wszystkich użytkowników. Użytkownicy będą mogli określić swoje
+        będą używane jako parametry domyślne dla wszystkich użytkowników. Użytkownicy będą mogli określić swoje
         preferencje z poziomu sekcji <a href="userprefs.cgi?tab=settings">Ustawienia</a>.</dd>
 
         [% class = user.in_group('editcomponents') ? "" : "forbidden" %]
@@ -57,7 +57,7 @@
         <dd class="[% class %]">W celu zlokalizowania problemów w bazie danych, należy uruchomić sprawdzenie
         spójności danych. W zależności od rozmiaru instalacji operacja ta może zająć nawet kilkadziesiąt
         minut. Proces ten można zautomatyzować uruchamiając skrypt <tt>sanitycheck.pl</tt>. O wykrytych
-        błędach zostanie drogą mailową powiadomiony właściwy użytkownik.</dd>
+        błędach zostanie mailem powiadomiony właściwy użytkownik.</dd>
 
         [% class = (user.in_group('editusers') || user.can_bless) ? "" : "forbidden" %]
         <dt class="[% class %]"><a href="editusers.cgi">Użytkownicy</a></dt>
@@ -66,7 +66,7 @@
 
         [% class = (Param('useclassification') && user.in_group('editclassifications')) ? "" : "forbidden" %]
         <dt class="[% class %]"><a href="editclassifications.cgi">Kategorie</a></dt>
-        <dd class="[% class %]">Jeśli w instalacji jest jednocześnie zarządzane wiele produktów, dobrze
+        <dd class="[% class %]">Jeśli w instalacji zarządza się jednocześnie wieloma produktami, dobrze
         jest zgrupować te produkty w odpowiednie kategorie. Umożliwia to użytkownikom łatwiejsze odnalezienie
         informacji podczas szukania, czy zgłaszania nowych [% terms.bledow %].</dd>
 
@@ -75,7 +75,7 @@
         <dt class="[% class %]"><a href="editproducts.cgi">Produkty</a></dt>
         <dd class="[% class %]">Tutaj można modyfikować wszystkie ustawienia produktów włącznie z
         ograniczeniami grup, które pozwalają określić dostęp do [% terms.bledow %] znajdujących się w tych
-        produktach. Można także bezpośrednio modyfikować niektóre konkretne atrybuty produktów, takie jak
+        produktach. Można także bezpośrednio modyfikować niektóre konkretne atrybuty produktów, takie jak:
         <a href="editcomponents.cgi">komponenty</a>, <a href="editversions.cgi">wersje</a>
         i <a href="editmilestones.cgi">wersje docelowe</a>.</dd>
 
@@ -94,37 +94,37 @@
         <dt class="[% class %]"><a href="editfields.cgi">Pola dodatkowe</a></dt>
         <dd class="[% class %]">[% terms.Bugzilla %] umożliwia określenie dodatkowych pól,
         które nie są domyślnie zdefiniowane, a są potrzebne. Pola te można również wykorzystywać
-        w innych [% terms.bledach %] oraz w wyszukiwaniu.<br>Przed utworzeniem nowego pola,
-        należy wziąć pod uwagę, że zbyt duża liczba pól może skomplikować interfejs użytkownika
-        i uczynić go trudnym w użyciu. Przed utworzeniem dodatkowego pola, należy upewnić się
+        w innych [% terms.bledach %] oraz jako elementy funkcji wyszukiwania.<br>Przed utworzeniem nowego
+        pola, należy wziąć pod uwagę, że zbyt duża liczba pól może skomplikować interfejs użytkownika
+        i uczynić go trudnym w użyciu. Przed utworzeniem dodatkowego pola, należy upewnić się,
         czy nie ma innych, satysfakcjonujących sposobów uzyskania pożądanego efektu.</dd>
 
         <dt class="[% class %]"><a href="editvalues.cgi">Wartości pól</a></dt>
         <dd class="[% class %]">Tutaj można określić poprawne wartości dla pól, których wartości
-        muszą należeć do niektórych podanych list. Można także określić tutaj poprawne wartości
+        muszą należeć do niektórych podanych list oraz zdefiniować poprawne wartości
         niektórych typów pól dodatkowych.</dd>
 
         <dt class="[% class %]"><a href="editworkflow.cgi">Zmiany statusu [%terms.bledow %]</a></dt>
-        <dd class="[% class %]">W tej sekcji można dostosować zmiany statusu i wybrać dostępne podczas
-        tworzenia [% terms.bledu %] jego początkowe statusy. Można także okrelić dozwolone przekształcenia
+        <dd class="[% class %]">W tej sekcji można określić zmiany statusu i wybrać dostępne podczas
+        tworzenia [% terms.bledu %] jego początkowe statusy. Można także określić dozwolone przekształcenia
         statusu [% terms.bledu %] podczas modyfikacji istniejących [% terms.bledow %].</dd>
 
         [% class = user.in_group('creategroups') ? "" : "forbidden" %]
         <dt class="[% class %]"><a href="editgroups.cgi">Grupy</a></dt>
-        <dd class="[% class %]">Tutaj można zdefiniować grupy, które będą używane w instalacji.
+        <dd class="[% class %]">Tutaj można zdefiniować grupy, które będą wykorzystane w instalacji.
         Mogą one być używane do zdefiniowania nowych uprawnień użytkowników lub ograniczenia
         dostępu do niektórych [% terms.bledow %].</dd>
 
         [% class = user.in_group('editkeywords') ? "" : "forbidden" %]
         <dt class="[% class %]"><a href="editkeywords.cgi">Słowa kluczowe</a></dt>
-        <dd class="[% class %]">Słowa kluczowe, to łatwy sposób „oznaczenia” [% terms.bledow %]
+        <dd class="[% class %]">Słowa kluczowe to łatwy sposób „oznaczenia” [% terms.bledow %]
         umożliwiający w przyszłości łatwiejsze ich odnalezienie. Tutaj można określić słowa
         kluczowe używane z [% terms.bledami %].</dd>
 
         [% class = user.in_group('bz_canusewhines') ? "" : "forbidden" %]
         <dt class="[% class %]"><a href="editwhines.cgi">Powiadomienia</a></dt>
         <dd class="[% class %]">Tutaj można określić zapytania, które będą uruchamiane zgodnie z
-        określoną datą i godziną, a wyniki zapytań będą przekazywane bezpośrednio przez e-mail. Jest
+        określoną datą i godziną. Wyniki zapytań będą przekazywane bezpośrednio e-mailem. Jest
         to dobry sposób tworzenia przypomnień i śledzenia aktywności w instalacji.</dd>
       </dl>
     </td>

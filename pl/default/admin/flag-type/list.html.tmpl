@@ -33,7 +33,7 @@
     .inactive { color: #787878; }
     .multiplicable { display: block; }
   "
-  onload="var f = document.flagtype_form; selectProduct(f.product, f.component, null, null, '__Any__');"
+  onload="var f = document.flagtype_form; selectProduct(f.product, f.component, null, null, '__All__');"
   javascript_urls=["js/productform.js"]
   doc_section = "flags-overview.html#flag-types"
 %]
@@ -120,7 +120,7 @@
       <th>Opis</th>
       <th>Klucz sortowania</th>
       <th>Właściwości</th>
-      <th>Grupa oceniająca</th>
+      <th>Grupa weryfikująca</th>
       <th>Grupa pytająca</th>
       [% IF show_flag_counts %]
         <th>Flagi</th>
@@ -141,7 +141,7 @@
             <span class="requestable">pytająca</span>
           [% END %]
           [% IF type.is_requestable && type.is_requesteeble %]
-            <span class="requesteeble">(nietypowo)</span>
+            <span class="requesteeble">(ukierunkowana)</span>
           [% END %]
           [% IF type.is_multiplicable %]
             <span class="multiplicable">wielokrotna</span>
