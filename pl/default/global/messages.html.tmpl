@@ -129,29 +129,29 @@
     [% link  = "Proszę kliknąć tutaj, jeśli strona nie odświeża się automatycznie." %]
 
   [% ELSIF message_tag == "buglist_updated_named_query" %]
-    [% title = "Zaktualizowano zapytanie" %]
-    Twoje zapytanie o nazwie <code><a 
+    [% title = "Zaktualizowano wyszukiwanie" %]
+    Twoje wyszukiwanie o nazwie <code><a 
      href="buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% queryname FILTER url_quote %]"
     >[% queryname FILTER html %]</a></code> zostało zaktualizowane.
 
   [% ELSIF message_tag == "buglist_new_default_query" %]
-    Domyślne zapytanie zostało zapisane. Można również dodać
-    zakładkę do wyników dowolnego zapytania.
+    Domyślne wyszukiwanie zostało zapisane. Można również dodać
+    zakładkę do wyników dowolnego wyszukiwania.
 
   [% ELSIF message_tag == "buglist_new_named_query" %]
-    [% title = "Utworzono zapytanie" %]
-    Masz nowe zapytanie o nazwie <code><a
+    [% title = "Utworzono wyszukiwanie" %]
+    Masz nowe wyszukiwanie o nazwie <code><a
      href="buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% queryname FILTER url_quote %]"
     >[% queryname FILTER html %]</a></code>.
 
   [% ELSIF message_tag == "buglist_query_gone" %]
-    [% title = "Usuwanie zapytania" %]
-    [% link  = "Wróć do strony zapytań." %]
-    Zapytanie <b>[% namedcmd FILTER html %]</b> zostało usunięte.
+    [% title = "Usuwanie wyszukiwania" %]
+    [% link  = "Wróć do strony wyszukiwania." %]
+    Wyszukiwanie <b>[% namedcmd FILTER html %]</b> zostało usunięte.
 
   [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
     [% terms.Bledy %] na tej liście są posortowane według trafności.
-    Na początku listy znajdują się [% terms.bledy %] najbliższe zapytaniu.
+    Na początku listy znajdują się [% terms.bledy %] najbliższe wyszukiwaniu.
     [% IF bugs.size == constants.FULLTEXT_BUGLIST_LIMIT %]
       Wyświetlane są wyłącznie pierwsze 
       [% constants.FULLTEXT_BUGLIST_LIMIT FILTER html %] [% terms.bledy %].
@@ -159,7 +159,7 @@
 
   [% ELSIF message_tag == "change_columns" %]
     [% title = "Zmiana kolumn" %]
-    Trwa ponowne wykonanie zapytania z nowymi kolumnami…
+    Trwa ponowne wykonanie wyszukiwania z nowymi kolumnami…
     Kliknij <a href="[% redirect_url FILTER html %]">tutaj</a>,
     jeśli strona nie odświeży się automatycznie.
 

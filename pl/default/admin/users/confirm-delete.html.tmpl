@@ -306,14 +306,14 @@
           <li>
             Użytkownik [% otheruser.login FILTER html %] ma
             [% IF namedqueries == 1 %]
-              zapisane zapytanie [% 'shared' IF namedquery_group_map %].
+              zapisane wyszukiwanie [% 'shared' IF namedquery_group_map %].
             [% ELSE %]
-              zapisane zapytania [%+ namedqueries FILTER html %]. 
+              zapisane wyszukiwania [%+ namedqueries FILTER html %]. 
             [% END %].
             [% IF namedqueries == 1 %]
-              To zapytanie zostanie usunięte razem z kontem użytkownika
+              To wyszukiwanie zostanie usunięte razem z kontem użytkownika
             [% ELSE %]
-              Te zapytania zostaną usunięte razem z kontem użytkownika
+              Te wyszukiwania zostaną usunięte razem z kontem użytkownika
             [% END %].
 
             [% IF namedquery_group_map %]
@@ -328,9 +328,9 @@
               [% END %]
               Inni użytkownicy nie będę już mogli używać
               [% IF namedquery_group_map > 1 %]
-                tych zapytań
+                tych wyszukiwań
               [% ELSE %]
-                tego zapytania
+                tego wyszukiwania
               [% END %].
               
             [% END %]
