@@ -34,7 +34,7 @@ adresu e-mail ([% email %]).
 Aby potwierdzić chęć utworzenia konta z tym adresem e-mail, należy otworzyć
 poniższy odnośnik przed [% expiration_ts FILTER time("%e %B %Y  %H:%M %Z") %]:
 
-[%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=request_new_account
+[%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=nowe_konto
 
 Jeśli otrzymałeś/otrzymałaś tę wiadomość po [% expiration_ts FILTER time("%e %B %Y  %H:%M %Z") %] lub
 chcesz utworzyć konto z innym adresem e-mail, musisz ponownie przejść przez

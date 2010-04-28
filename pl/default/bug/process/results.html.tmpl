@@ -38,11 +38,11 @@
 [% DEFAULT type="bug" %]
 
 [% Link = BLOCK %][% "$terms.Blad $id" FILTER bug_link(id) %][% END %]
-[% link = BLOCK %][% "$terms.blad $id" FILTER bug_link(id) %][% END %]
+[% link = BLOCK %][% "$terms.bledu $id" FILTER bug_link(id) %][% END %]
 
 [%
   title = {
-    'bug' => "Zmiany dla $link zostały zapisane" ,
+    'bug' => "Zmiany $link zostały zapisane" ,
     'dupe' => "Adnotacja o duplikacie została dodana do $link" ,
     'dep' => "Sprawdzanie zmian zależności dla $link" ,
     'votes' => "$Link został potwierdzony przez liczbę głosów" ,

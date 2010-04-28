@@ -50,11 +50,11 @@
     [%+ IF use_keywords %][%+ field_descs.keywords FILTER html %],[% END %]
     [%+ IF Param('usebugaliases') %][% field_descs.alias FILTER html %],[% END %]
     [%+ field_descs.short_desc FILTER html %], 
-    [%+ IF Param('usestatuswhiteboard') %][% field_descs.status_whiteboard FILTER html %],[% END %]
+    [%+ IF Param('usestatuswhiteboard') %][% field_descs.status_whiteboard FILTER html %][% END %]
     i [% field_descs.longdesc FILTER html %] w poszukiwaniu wprowadzonego słowa/słów.</li>
 
   <li>Wprowadzenie w pole wyszukiwania <strong>numeru</strong> [% terms.bledu %] spowoduje
-    otwarcie [% terms.bledu %] o takim ID. 
+    otwarcie [% terms.bledu %] o takim numerze. 
     [% IF Param('usebugaliases') %]
       Także wpisanie <strong>aliasu</strong> of [% terms.bledu %]
       spowoduje bezpośrednie przeniesienie cię do tego [% terms.bledu %].
@@ -99,7 +99,7 @@
 <p>Do przeszukiwania można wybrać dowolne z pól, podając w polu szukania
   np. <kbd>pole:wartość</kbd>. Można także skrócić nazwę przeszukiwanego pola
   do długości, która będzie oznaczała tylko nazwę jednego pola. Na przykład
-  parametr wyszukiwania <kbd>stat:NOWY</kbd> będzie szukał [%+ terms.bledow %]
+  parametr wyszukiwania <kbd>stat:NEW</kbd> będzie szukał [%+ terms.bledow %]
   o statusie <kbd>NOWY</kbd>. Niektóre pola mają złożoną nazwę, wówczas można
   do ich wyszukiwania użyć dowolnego członu nazwy.</p>
 
@@ -186,8 +186,8 @@
     <p>OR ma wyższy priorytet niż AND; AND jest operacją najwyższego poziomu.
       Przykład:</p>
     <p>Parametr wyszukiwania <em><kbd>url|pasek adresu|pole -aktywne</kbd></em> oznacza
-      (<kbd>url</kbd> LUB <kbd>adresu</kbd>) I (<kbd>pasek</kbd> LUB 
-      <kbd>pole</kbd>) I (NIE <kbd>aktywne</kbd>).</p>
+      (<kbd>url</kbd> OR <kbd>adresu</kbd>) I (<kbd>pasek</kbd> OR 
+      <kbd>pole</kbd>) AND (NOT <kbd>aktywne</kbd>).</p>
   </li>
 </ul>
 
@@ -210,9 +210,9 @@
       <td class="field_nickname">
         Podaj jako <strong>pierwsze słowo</strong> wyszukiwania nazwę dowolnego
         statusu lub nawet jego skrót, a [% terms.bledy %] z tym statusem
-        będą wyszukiwane. Skrót <strong><kbd>Wszystkie</kbd></strong>
+        będą wyszukiwane. Skrót <strong><kbd>ALL</kbd></strong>
         jest specjalnym skrótem, który oznacza „wszystkie statusy”,
-        <strong><kbd>Otwarty</kbd></strong> skrótem, który oznacza
+        <strong><kbd>OPEN</kbd></strong> skrótem, który oznacza
         „wszystkie błędy o otwartych statusach”.
       </td>
     </tr>
@@ -222,15 +222,15 @@
         Podaj jako <strong>pierwsze słowo</strong> wyszukiwania np. nazwę dowolnego
         typu rozwiązania lub nawet jego skrót, a [% terms.bledy %] z tym typem rozwiązania
         będą wyszukiwane. Na przykład,
-        jeśli pierwszym słowem twojego wyszukiwania będzie <kbd>NAPRAWIONY</kbd>, zostaną wyszukane
+        jeśli pierwszym słowem twojego wyszukiwania będzie <kbd>FIX</kbd>, zostaną wyszukane
         wszystkie [%+ terms.bledy %] z rozwiązaniem <kbd>NAPRAWIONY</kbd>.
     </tr>
     <tr>
       <td class="field_name">[% field_descs.priority FILTER html %]</td>
-      <td class="field_nickname"><strong>Najwyższy</strong> – jako słowo umieszczone gdziekolwiek w
+      <td class="field_nickname"><strong>P1</strong> – jako słowo umieszczone gdziekolwiek w
         parametrze wyszukiwania – oznacza „znajdź [% terms.blady %] z najwyższym priorytetem”, 
-        <strong>High</strong> oznacza priorytet drugiego stopnia itp.
-        <p>Parametr wyszukiwania <strong>najwyższy-normalny</strong> będzie powodował wyszukiwanie [% terms.bledów %]
+        <strong>P2</strong> oznacza priorytet drugiego stopnia itp.
+        <p>Parametr wyszukiwania <strong>P1-P3</strong> będzie powodował wyszukiwanie [% terms.bledów %]
         w każdym z trzech priorytetów mieszczących się w tym zakresie itp.</p>
       </td>
     </tr>
@@ -253,7 +253,7 @@
       [% SET key = "flagtypes.name" %]
       <td class="field_name">[% field_descs.$key FILTER html %]</td>
       <td class="field_nickname">
-        <em>flag</em><strong>?</strong><em>prośba od</em>
+        <em>flag</em><strong>?</strong><em>użytkownik_ustawiający_tę_flagę</em>
       </td>
     </tr>
     <tr>
