@@ -45,7 +45,7 @@
 
 <p>
   Przypominanie polega na regularnym wykonywaniu przez [% terms.Bugzille %] zadanego 
-  zapytania i wysyłaniu wynikowej listy [% terms.bledow %] za pomocą wiadomości e-mail.
+  wyszukiwania i wysyłaniu wynikowej listy [% terms.bledow %] za pomocą wiadomości e-mail.
 </p>
 
 <p>
@@ -65,10 +65,10 @@
 <p>
   Wyszukiwania pochodzą z zapisanych wyników wyszukiwania, które są tworzone przez wykonanie
   <a href="query.cgi">szukania</a> i zachowania go pod konkretną nazwą.
-  Dodaj zapytanie, naciskając przycisk „Dodaj zapytanie”, wybierz odpowiednią nazwę zapisanego
+  Dodaj wyszukiwanie, naciskając przycisk „Dodaj wyszukiwanie”, wybierz odpowiednią nazwę zapisanego
   wyszukiwania w polu „Wyszukiwanie” i dodaj tytuł dla tabeli [% terms.bledow %].
-  Podanie liczby w polu „Sortowanie” pozwala określić kolejność wykonywania zapytań (mniejsza
-  liczba oznacza większy priorytet), gdy jest wyszczególnione wiele zapytań.
+  Podanie liczby w polu „Sortowanie” pozwala określić kolejność wykonywania wyszukiwań (mniejsza
+  liczba oznacza większy priorytet), gdy jest wyszczególnione wiele wyszukiwań.
   Jeśli jest zaznaczona funkcja „Jedna wiadomość na [% terms.blad %]”, każdy [% terms.blad %] pasujący do
   wyszukiwania będzie wysyłany w oddzielnej wiadomości e-mail.
 </p>
@@ -229,11 +229,11 @@
 
     <tr>
       <td valign="top" align="right">
-        Zapytania:
+        Wyszukiwania:
       </td>
       <td align="left">
-        Brak zapytań <br>
-        <input type="submit" value="Dodaj zapytanie"
+        Brak wyszukiwań <br>
+        <input type="submit" value="Dodaj wyszukiwanie"
                name="add_query_[% event.key %]"
                id="add_query_[% event.key %]">
       </td>
@@ -246,7 +246,7 @@
 
     <tr>
       <td valign="top" align="right">
-        Zapytania:
+        Wyszukiwania:
       </td>
       <td align="left" colspan="2">
 
@@ -299,7 +299,7 @@
 
           <tr>
             <td colspan="3">
-              <input type="submit" value="Dodaj zapytanie"
+              <input type="submit" value="Dodaj wyszukiwanie"
                      name="add_query_[% event.key %]"
                      id="add_query_[% event.key %]">
             </td>
@@ -339,7 +339,7 @@
     </select>
 
   [% ELSE %]
-    Odwiedź stronę <a href="query.cgi">wyszukiwania</a> i zapisz zapytanie
+    Odwiedź stronę <a href="query.cgi">wyszukiwania</a> i zapisz wyszukiwanie
   [% END %]
 
 [%+ END %]

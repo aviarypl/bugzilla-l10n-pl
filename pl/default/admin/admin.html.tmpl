@@ -45,7 +45,7 @@
         gdzie można ustalić adres URL tej instalacji, sposób uwierzytelniania
         użytkowników, wybrać, jakie pola [% terms.bledu %] będą wyświetlane; wybrać
         agenta transferowego poczty do wysyłania powiadomień, określić, które grupy
-        użytkowników mają dostęp do wykresów, udostępniać zapytania i wiele innych opcji.</dd>
+        użytkowników mają dostęp do wykresów, udostępniać wyszukiwania i wiele innych opcji.</dd>
 
         <dt id="preferences" class="[% class %]"><a href="editsettings.cgi">Ustawienia domyślne</a></dt>
         <dd class="[% class %]">Ustawienia określające domyślne preferencje użytkowników. Są to wartości, które
@@ -125,8 +125,8 @@
 
         [% class = user.in_group('bz_canusewhines') ? "" : "forbidden" %]
         <dt id="whining" class="[% class %]"><a href="editwhines.cgi">Powiadomienia</a></dt>
-        <dd class="[% class %]">Tutaj można określić zapytania, które będą uruchamiane zgodnie z
-        określoną datą i godziną. Wyniki zapytań będą przekazywane bezpośrednio e-mailem. Jest
+        <dd class="[% class %]">Tutaj można określić wyszukiwania, które będą uruchamiane zgodnie z
+        określoną datą i godziną. Wyniki wyszukiwań będą przekazywane bezpośrednio e-mailem. Jest
         to dobry sposób tworzenia przypomnień i śledzenia aktywności w instalacji.</dd>
 
         [% Hook.process('end_links_right') %]

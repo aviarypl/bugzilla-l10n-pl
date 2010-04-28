@@ -28,24 +28,24 @@
 
 [% param_descs = {
   makeproductgroups => "Gdy ten parametr jest włączony, z każdym produktem w bazie zostanie skojarzona grupa dla $terms.bledow, " _
-                       "która będzie używana przy zapytaniach o ${terms.bledy}.",
+                       "która będzie używana do przeszukiwania ${terms.bledow}.",
 
-  chartgroup => "Nazwa grupy, której członkowie mogą korzystać z funkcji <strong>Nowe wykresy</strong>. " _
+  chartgroup => "Grupa, której członkowie mogą korzystać z funkcji <strong>Nowe wykresy</strong>. " _
                 "Przed udostępnieniem tej funkcji administrator powinien zapewnić, że publicznie " _
                 "dostępne kategorie i serie danych nie mogą zostać użyte do ujawnienia poufnych informacji. " _
                 "Wartość pusta powoduje, że żaden użytkownik nie będzie mógł skorzystać z funkcji <strong>Nowe wykresy</strong>.",
 
-  insidergroup => "Nazwa grupy, której członkowie mogą widzieć/zmieniać prywatne " _
+  insidergroup => "Grupa, której członkowie mogą widzieć/zmieniać prywatne " _
                   "komentarze i załączniki.",
 
-  timetrackinggroup => "Nazwa grupy, której członkowie mogą widzieć/zmieniać informacje " _
+  timetrackinggroup => "Grupa, której członkowie mogą widzieć/zmieniać informacje " _
                        "o śledzeniu czasu pracy.",
 
-  querysharegroup => "Nazwa grupy, której członkowie mogą udostępniać swoje " _
+  querysharegroup => "Grupa, której członkowie mogą udostępniać swoje " _
                      "zapisane wyszukiwania.",
 
   usevisibilitygroups => "Ogranicz możliwość podglądu innych użytkowników do " _
-                         "członków określonej grupy.",
+                         "członków danej grupy.",
   
   strict_isolation => "Nie zezwalaj użytkownikom na przypisywanie " _
                       "do specjalistów QA, " _

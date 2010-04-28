@@ -171,14 +171,14 @@
       </li>
       <li>
         <strong>AND</strong>:<br />
-        Parametr <kbd><em>pasek narzędzi</em></kbd> wyszukuje [% terms.bledy %] zawierające
-        oba słowa <kbd>pasek</kbd> i <kbd>narzędzi</kbd>.<br>
+        Parametr <kbd><em>pasek narzędzi</em></kbd> spowoduje wyszukiwanie [% terms.bledow %]
+        zawierających oba słowa <kbd>pasek</kbd> i <kbd>narzędzi</kbd>.<br>
         Parametr <kbd><em>pasek AND narzędzi</em></kbd> ma takie samo działanie.
       </li>
       <li>
         <strong>OR</strong>:<br>
         Parametr <kbd><em>pasek<strong>|</strong>narzędzi</em></kbd> będzie wyszukiwał 
-        [% terms.bledy %] zawierające <kbd>pasek</kbd> LUB <kbd>narzędzi</kbd>.<br>
+        [% terms.bledy %] zawierające <kbd>pasek</kbd> lub <kbd>narzędzi</kbd>.<br>
         Parametr <kbd><em>pasek OR narzędzi</em></kbd> ma takie samo działanie.<br>
       </li>
     </ul>
@@ -186,7 +186,7 @@
     <p>OR ma wyższy priorytet niż AND; AND jest operacją najwyższego poziomu.
       Przykład:</p>
     <p>Parametr wyszukiwania <em><kbd>url|pasek adresu|pole -aktywne</kbd></em> oznacza
-      (<kbd>url</kbd> OR <kbd>adresu</kbd>) I (<kbd>pasek</kbd> OR 
+      (<kbd>url</kbd> OR <kbd>adresu</kbd>) AND (<kbd>pasek</kbd> OR 
       <kbd>pole</kbd>) AND (NOT <kbd>aktywne</kbd>).</p>
   </li>
 </ul>
@@ -253,7 +253,7 @@
       [% SET key = "flagtypes.name" %]
       <td class="field_name">[% field_descs.$key FILTER html %]</td>
       <td class="field_nickname">
-        <em>flag</em><strong>?</strong><em>użytkownik_ustawiający_tę_flagę</em>
+        <em>flag</em><strong>?</strong><em>użytkownik_zamieszczający_flagę</em>
       </td>
     </tr>
     <tr>

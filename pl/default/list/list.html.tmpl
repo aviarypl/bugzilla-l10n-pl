@@ -246,14 +246,14 @@
         <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
                 [% searchname FILTER url_quote %]&amp;token=
                 [% issue_hash_token([search_id, searchname]) FILTER url_quote %]">
-          Usuń&nbsp;zapytanie&nbsp;'[% searchname FILTER html %]'</a>
+          Usuń&nbsp;wyszukiwanie&nbsp;'[% searchname FILTER html %]'</a>
       </td>
     [% ELSE %]
       <td>&nbsp;</td>
       
       <td valign="middle" class="bz_query_remember">
         <form method="get" action="buglist.cgi">
-          <input type="submit" id="remember" value="Zapisz zapytanie"> jako 
+          <input type="submit" id="remember" value="Zapisz wyszukiwanie"> jako 
           <input type="hidden" name="newquery" 
                  value="[% urlquerypart FILTER html %][% "&order=$qorder" FILTER html IF order %]">
           <input type="hidden" name="cmdtype" value="doit">

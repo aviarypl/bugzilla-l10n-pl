@@ -741,7 +741,7 @@
     nazwę grupy.
 
   [% ELSIF error == "illegal_at_least_x_votes" %]
-    [% title = "Zapytanie nie ma sensu" %]
+    [% title = "Wyszukiwanie nie ma sensu" %]
     Pole <em>Co najmniej ___ głosów</em> musi być liczbą naturalną. 
     Podano nieprawidłową wartość <tt>[% value FILTER html %]</tt>.
     
@@ -755,7 +755,7 @@
     [%+ bug_id FILTER html %].
          
   [% ELSIF error == "illegal_attachment_is_patch" %]
-    [% title = "Zapytanie nie ma sensu" %]
+    [% title = "Wyszukiwanie nie ma sensu" %]
     Jedynymi prawidłowymi wartościami dla pola <em>Załącznik jest łatką</em>
     jest 0 lub 1.
 
@@ -795,7 +795,7 @@
     [% terms.bledow %] może zmienić to pole.
 
   [% ELSIF error == "illegal_changed_in_last_x_days" %]
-    [% title = "Zapytanie nie ma sensu" %]
+    [% title = "Wyszukiwanie nie ma sensu" %]
     Wartość pola <em>Zmieniono w ciągu ___ dni</em> musi być liczbą naturalną. 
     Podano nieprawidłową wartość <tt>[% value FILTER html %]</tt>.
     
@@ -831,13 +831,13 @@
     „[% groupname FILTER html %]” jest nieprawidłowa.
 
   [% ELSIF error == "illegal_is_obsolete" %]
-    [% title = "Zapytanie nie ma sensu" %]
+    [% title = "Wyszukiwanie nie ma sensu" %]
     Jedynymi prawidłowymi wartościami dla pola <em>Załącznik jest nieaktualny</em>
     jest 0 lub 1.
 
   [% ELSIF error == "illegal_query_name" %]
-    [% title = "Nieprawidłowa nazwa zapytania" %]
-    Nazwa zapytania nie może zawierać żadnego z następujących znaków: 
+    [% title = "Nieprawidłowa nazwa wyszukiwania" %]
+    Nazwa wyszukiwania nie może zawierać żadnego z następujących znaków: 
     &lt;, &gt;, &amp;.
 
   [% ELSIF error == "illegal_series_creation" %]
@@ -1128,7 +1128,7 @@
     Nie podano nazwy dla tej serii.
                 
   [% ELSIF error == "missing_query" %]
-    [% title = "Brak zapytania" %]
+    [% title = "Brak wyszukiwania" %]
     [% docslinks = {'query.html' => "Wyszukiwanie $terms.bledow",
                     'query.html#list'  => "Listy $terms.bledow"} %]
     Wyszukiwanie o nazwie <em>[% queryname FILTER html %]</em>
@@ -1418,13 +1418,13 @@
     tą.
 
   [% ELSIF error == "query_name_missing" %]
-    [% title = "Nie podano nazwy zapytania" %]
+    [% title = "Nie podano nazwy wyszukiwania" %]
     [% docslinks = {'query.html#list' => "Listy $terms.bledow"} %]
     Należy podać nazwę dla wyszukiwania.
 
   [% ELSIF error == "query_name_too_long" %]
-    [% title = "Zbyt długa nazwa zapytania" %]
-    Nazwa zapytanie nie może być dłuższa niż [% constants.MAX_LEN_QUERY_NAME FILTER html %]
+    [% title = "Zbyt długa nazwa wyszukiwania" %]
+    Nazwa wyszukiwania nie może być dłuższa niż [% constants.MAX_LEN_QUERY_NAME FILTER html %]
     znaki.	
 
   [% ELSIF error == "quicksearch_unknown_field" %]
@@ -1470,16 +1470,16 @@
     Nie można ustawić rozwiązania dla otwartego [% terms.bledu %].
 
   [% ELSIF error == "saved_search_used_by_whines" %]
-    [% title = "Zapamiętane zapytanie jest używane" %]
+    [% title = "Zapisane wyszukiwanie jest używane" %]
     [% docslinks = {'whining.html' => 'O przypominaniu'} %]
-    Zapamiętane wyszukiwanie <em>[% search_name FILTER html %]</em> jest używane
+    Zapisane wyszukiwanie <em>[% search_name FILTER html %]</em> jest używane
     przez następujące <a href="editwhines.cgi">raporty przypominania</a>:
     [%+ subjects FILTER html %]
 
   [% ELSIF error == "search_content_without_matches" %]
-    [% title = "Nieprawidłowe zapytanie" %]
-    Pole „zawartość” może być używane wyłącznie z zapytaniem „pasuje”,
-    a zapytanie „pasuje” tylko z polem „zawartość”.
+    [% title = "Nieprawidłowe wyszukiwanie" %]
+    Pole „zawartość” może być używane wyłącznie z wyszukiwaniem „pasuje”,
+    a wyszukiwanie „pasuje” tylko z polem „zawartość”.
 
   [% ELSIF error == "series_already_exists" %]
     [% title = "Seria już istnieje" %]
