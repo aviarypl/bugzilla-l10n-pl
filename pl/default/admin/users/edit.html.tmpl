@@ -28,6 +28,7 @@
   #%]
 
 [% title = BLOCK %]Edycja użytkownika [% otheruser.identity FILTER html %][% END %]
+[% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -49,13 +50,13 @@
   %]
   [% IF groups.size %]
     <tr>
-      <th>Uprawnienia grup:</th>
+      <th>Członkostwo w grupach:</th>
       <td>
         <table class="groups">
           <tr>
             [% IF editusers %]
               <th colspan="3">
-                Możesz włączać poniższe elementy dla innych użytkowników
+                <small>Możesz przyznawać członkostwo w grupach innym użytkownikom</small>
               </th>
             [% END %]
           </tr>
@@ -90,7 +91,7 @@
               <td class="groupname">
                 <label for="group_[% group.id %]">
                   <strong>[% group.name FILTER html %]:</strong>
-                  [%+ group.description FILTER html_light %]
+                  [%+  get_permissions(group.description) FILTER html_light %]
                 </label>
               </td>
             </tr>

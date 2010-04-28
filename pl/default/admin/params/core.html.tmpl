@@ -56,51 +56,10 @@
                   "ciasteczek $terms.Bugzilli witrynom o różnych adresach URL.",
 
   cookiepath => "Ścieżka relatywna do głównego katalogu serwera WWW, do której ograniczone " _
-                "będą ciasteczka ${terms.Bugzilli}. Zwykle jest to część URI bazowego adresu URL. " _
-                "Wartość powinna rozpoczynać się znakiem / (ukośnik). Przykładowo, jeśli " _
-                "$terms.Bugzilla znajduje się pod adresem „http://www.somedomain.com/bugzilla/”, należy " _
-                "ustawić tu wartość /bugzilla/. Wartość / pozwoli na odczyt ciasteczek $terms.Bugzilli wszystkim witrynom " _
-                "udostępnianym przez dany serwer WWW lub host wirtualny.",
-
-  utf8 => "Użycie kodowania UTF-8 (Unicode) dla wszystkich tekstów w ${terms.Bugzilli}. W nowych " _
-          "instalacjach parametr ten powinien być włączony w celu uniknięcia problemów z kodowaniem znaków. " _
-          "<strong>W istniejących bazach parametr ten można włączyć tylko, gdy " _
-          "dane zostały uprzednio skonwertowane do UTF-8 za pomocą skryptu " _
-          "<kbd>contrib/recode.pl</kbd></strong>. <br><br> " _
-          "Po wyłączeniu tego parametru, należy niezwłocznie uruchomić skrypt <kbd>checksetup.pl</kbd>.",
-
-
- shutdownhtml => "Wpisanie tekstu w to pole spowoduje wyłączenie $terms.Bugzilli i wyświetlenie go " _
-		 "zamiast stron ${terms.Bugzilli}.",
-
-  announcehtml => "Zawartość tego pola zostanie wyświetlona na górze każdej strony ${terms.Bugzilli}. " _
-                  "Wpisany w tym miejscu kod HTML nie jest umieszczany w żadnym znaczniku. " _
-                  "Zaleca się zawarcie kodu w znaczniku <tt>&lt;div&gt;</tt>. " _
-                  "Użycie identyfikatora <em>id=message</em> spowoduje wyświetlenie zielonego " _
-                  "tekstu na czerwonym tle. Klasa <em>class=bz_private</em> definiuje " _
-                  "ciemnoczerwony tekst na czerwonym tle. Można użyć dowolnego stylu z pliku " _
-                  "<tt>skins/standard/global.css</tt> lub " _
-                  "<tt>skins/custom/global.css</tt>. Wyśrodkowany tekst można uzyskać " _
-                  "za pomocą stylu <em>style=\"text-align: center;\"</em>.",
-
-  proxy_url => "$terms.Bugzilla może łączyć się z siecią, aby pobrać informacje o nowych wydaniach " _
-               "(zob. parametr <tt>upgrade_notification</tt>). Jeśli host znajduje się za serwerem proxy, " _
-               "a serwer WWW nie ma dostępu do zmiennej środowiskowej HTTP_PROXY, należy " _
-               "wprowadzić tutaj adres serwera proxy. W przypadku, gdy wymagane jest uwierzytelnianie, " _
-               "należy użyć składni <code>http://użytkownik:hasło@url_proxy/</code>.",
-
-  upgrade_notification => "<p>Możliwe jest otrzymywanie informacji o nowych wydaniach ${terms.Bugzilli}. " _
-                          "Powiadomienie będzie wyświetlane tylko dla administratorów na głównej stronie " _
-                          "${terms.Bugzilli}.</p>" _
-                          "<ul><li><b>development_snapshot</b> powiadamia o najnowszych wydaniach z " _
-                          "rozwojowego kodu – tak zwanych wersjach deweloperskich.</li>" _
-                          "<li><b>latest_stable_release</b> powiadamia o nowych wydaniach " _
-                          "z najnowszej gałęzi stabilnego kodu. Gałąź ta może być inna " _
-                          "niż gałąź, na której opiera się niniejsza instalacja ${terms.Bugzilli}.</li>" _
-                          "<li><b>stable_branch_release</b> powiadamia tylko o wydaniach z " _
-                          "gałęzi kodu, na której oparta jest niniejsza instalacja. " _
-                          "W przypadku korzystania z wersji „release candidate” wyświetlone zostaną " _
-                          "także powiadomienia o najnowszych wersjach „release candidate”.</li>" _
-                          "<li><b>wyłączone</b> – nie będą wyświetlane żadne powiadomienia i nie " _
-                          "będą wykonywane w tym celu żadne połączenia ze zdalnymi serwerami.</li></ul>" }
-%]
+                "będą ciasteczka ${terms.Bugzilli}. Zwykle jest to część URI bazowego adresu URL, " _
+                "którego wartość powinna rozpoczynać się znakiem / (ukośnik). Np., jeśli " _
+                "$terms.Bugzilla znajduje się pod adresem „http://www.somedomain.com/bugzilla/”, " _
+                "należy ustawić tu wartość /bugzilla/. Wartość / pozwoli na odczyt " _
+                "ciasteczek $terms.Bugzilli wszystkim witrynom udostępnianym " _
+                "przez dany serwer WWW lub host wirtualny.",
+} %]

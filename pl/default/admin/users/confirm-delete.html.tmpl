@@ -174,12 +174,12 @@
           <li>
             Użytkownik [% otheruser.login FILTER html %]
             <a href="buglist.cgi?field0-0-0=setters.login_name&amp;type0-0-0=equals&amp;value0-0-0=
-               [%- otheruser.login FILTER url_quote %]">ustawił
-            lub poprosił o ustawienie
+               [%- otheruser.login FILTER url_quote %]">zweryfikował
+            lub poprosił o 
             [% IF flags.setter == 1 %]
-              flagi
+              flagę
             [% ELSE %]
-              [%+ flags.setter %] flag
+              [%+ flags.setter %] flagi
             [% END %]</a>.
             Usunięcie konta użytkownika spowoduje niespójność
             w bazie danych w wyniku czego

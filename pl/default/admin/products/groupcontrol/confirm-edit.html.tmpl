@@ -24,20 +24,20 @@
 
 [% PROCESS global/variables.none.tmpl %]
 [% title = BLOCK %]
-  Potwierdzenie zmiany uprawnień grupy dla produktu „[%- product.name FILTER html %]”
+  Potwierdzenie zmiany relacji grupa/produkt dla „[%- product.name FILTER html %]”
 [% END %]
 
 [% PROCESS global/header.html.tmpl title = title %]
 [% FOREACH group = mandatory_groups %]
 <P>
-Grupa „[% group.name FILTER html %]” oddziaływuje na [% group.count %] 
+Grupa „[% group.name FILTER html %]” oddziałuje na [% group.count %] 
 [% PROCESS ODMIEN c=group.count o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %], 
 dla których jest ponownie obligatoryjna i będzie dodana.
 [% END %]
 
 [% FOREACH group = na_groups %]
 <P>
-Grupa „[% group.name FILTER html %]” oddziaływuje na [% group.count %] 
+Grupa „[% group.name FILTER html %]” oddziałuje na [% group.count %] 
 [% PROCESS ODMIEN c=group.count o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %], 
 dla których nie ma już zastosowania i zostanie usunięta.[% END %]
 <form action="editproducts.cgi" method="post" >

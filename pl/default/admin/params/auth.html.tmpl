@@ -34,8 +34,8 @@
                  "i/lub takiej metody uwierzytelniania.",
 
   auth_env_email => "Jest to zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
-                    "do przechowywania adresu e-mail użytkownika. Pole to jest wymagane do " _
-                    "korzystania z uwierzytelniania za pomocą środowiska. Nie podawaj żadnej " _
+                    "do przechowywania adresu e-mail użytkownika. Wypełnienie tego pola jest niezbędne, " _
+                    "by korzystać z uwierzytelniania za pomocą środowiska. Nie należy podawać żadnej " _
                     "wartości, jeśli nie zamierzasz używać takiej metody uwierzytelniania.",
 
   auth_env_realname => "Jest to zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
@@ -96,11 +96,11 @@
                       </li>
                       <li>
                         „wyłączone” – ciasteczka wygasają wraz z zamknięciem sesji (użytkownik
-                        musi zalogować się w każdej sesji przeglądarki),
+                        musi zalogować się podczas każdej sesji przeglądarki),
                       </li>
                       <li>
                         „domyślnie włączone”/„domyślnie wyłączone” – domyślne działania jak opisane wyżej, ale
-                        użytkownik może zdecydować, czy jego sesja ma być zapamiętana.
+                        dodatkowo użytkownik może zdecydować, czy jego sesja ma być zapamiętana.
                       </li>
                     </ul>",
 
@@ -109,25 +109,25 @@
                   "32 wyłącza tę funkcję.<br> " _
                   "Uwaga: Włączenie funkcji może spowodować obniżenie poziomu bezpieczeństwa systemu.",
 
-  requirelogin => "Włączenie tego parametru spowoduje, że dostęp poza stronę główną " _
-                  "będzie wymagał logowania. Dostęp do danych będą mieli tylko " _
+  requirelogin => "Włączenie tego parametru wymusi konieczność logowania, by uzyskać " _
+                  "dostęp poza stronę główną. Dostęp do danych będą mieli tylko " _
                   "zalogowani użytkownicy.",
 
-  emailregexp => "Parametr ten określa wyrażenie regularne kontrolujące poprawny adres e-mail. " _
-                 "Wartość domyślna określa wszystkie poprawne adresy e-mail. Często stosowana " _
-                 "wartość to <tt>^[^@]+$</tt>, która oznacza " _
+  emailregexp => "Parametr ten określa wyrażenie regularne kontrolujące poprawny adres e-mail, " _
+                 "natomiast jego wartość domyślna określa wszystkie poprawne adresy e-mail. " _
+                 "Często stosowana wartość to <tt>^[^@]+$</tt>, która oznacza " _
                  "„lokalne nazwy użytkowników, bez znaku @”.",
 
   emailregexpdesc => "Pole to służy do opisania słowami adresów e-mail dozwolonych przez " _
                      "wartość parametru <tt>emailregexp</tt>.",
 
   emailsuffix => "Jest to ciąg znaków dołączany do każdego adresu e-mail podczas wysyłania poczty. " _
-                 "Funkcja przydatna w przypadku zmiany parametru <tt>emailregexp</tt> na zezwalający " _
-                 "tylko na lokalne nazwy użytkowników. Wówczas poczta będzie dostarczana " _
-                 "pod adresy w formie nazwa_użytkownika@lokalna.nazwa.hosta.",
+                 "Funkcja ta jest przydatna, jeżeli parametr <tt>emailregexp</tt> zostanie zmieniony " _
+                 "na zezwalający tylko na lokalne nazwy użytkowników. W takim przypadku poczta będzie " _
+                 "dostarczana pod wszystkie adresy w formie nazwa_użytkownika@lokalna.nazwa.hosta.",
 
   createemailregexp => "Parametr ten określa wyrażenie regularne kontrolujące adresy e-mail osób, " _
-                       "którze mogą dokonać samodzielnej rejestracji za pomocą funkcji „Nowe konto”. " _
+                       "które mogą dokonać samodzielnej rejestracji za pomocą funkcji „Nowe konto”. " _
                        "Domyślna wartość (.*) zezwala na rejestrację z dowolnego konta e-mail. " _
                        "Jeśli żaden parametr nie zostanie podany, możliwość samodzielnej rejestracji " _
                        "będzie wyłączona, a wszystkie konta będą musiały być tworzone przez administratora." }

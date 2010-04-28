@@ -28,19 +28,19 @@
 
 [% param_descs = {
   duplicate_or_move_bug_status => "Gdy $terms.blad zostanie oznaczony jako duplikat innego $terms.bledu lub przeniesiony " _
-                                  "do innej instalacji $terms.Bugzilla zmieni jego status na tutaj określony."
+                                  "do innej instalacji, $terms.Bugzilla zmieni jego status na tutaj określony."
 
   letsubmitterchoosepriority => "Gdy ten parametr jest włączony, użytkownicy będą mogli określić " _
-                                "priorytet podczas tworzenia zgłoszenia ${terms.bledu}. W razie jego wyłączenia " _
+                                "priorytet podczas zgłaszania ${terms.bledu}. W razie jego wyłączenia " _
                                 "wszystkie $terms.bledy będą dodawane z domyślnym " _
                                 "priorytetem określonym poniżej.",
 
   letsubmitterchoosemilestone => "Gdy ten parametr jest włączony, użytkownicy będą mogli określić " _
-                                "wersję docelową podczas tworzenia zgłoszenia ${terms.bledu}. W razie jego wyłączenia " _
+                                "wersję docelową podczas zgłaszania ${terms.bledu}. W razie jego wyłączenia " _
                                 "wszystkie $terms.bledy będą dodawane z domyślną " _
                                 "wersją docelową określoną dla tego produktu.",
 
-  musthavemilestoneonaccept => "Ten parametr określa czy ustawienie wersji docelowej jest wymagane do ZAAKCEPTOWANIA " _
+  musthavemilestoneonaccept => "Ten parametr określa, czy ustawienie wersji docelowej jest wymagane do ZAAKCEPTOWANIA " _
                                "${terms.bledu} (w przypadku korzystania z wersji docelowych).",
 
   commentonchange_resolution => "Gdy ten parametr jest włączony, użytkownik będzie musiał wpisać krótki " _
@@ -49,6 +49,6 @@
   commentonduplicate => "Gdy ten parametr jest włączony, użytkownik będzie musiał wpisać komentarz, " _
                         "gdy oznaczy $terms.blad jako duplikat.",
 
-  noresolveonopenblockers => "Nie zezwalaj na rozwiązywanie $terms.bledow jako " _
-                             "naprawionych, jeżeli mają one nierozwiązane zależności." }
+  noresolveonopenblockers => "Gdy ten parametr zostanie włączony, nie będzie możliwości rozwiązywania $terms.bledow " _
+                             "jako naprawionych, jeżeli mają one nierozwiązane zależności." }
 %]

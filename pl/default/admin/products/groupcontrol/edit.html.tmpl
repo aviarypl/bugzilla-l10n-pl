@@ -24,7 +24,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-    Edycja uprawnień grupy „[% product.name FILTER html %]”
+    Edycja relacji grupa/produkt dla „[% product.name FILTER html %]”
 [% END %]
 [% PROCESS global/header.html.tmpl 
    title = title 
@@ -148,7 +148,7 @@
 
 
 <p>
-Te ustawienia pozwalają kontrolować zależności pomiędzy grupami a produktem.
+Te ustawienia pozwalają kontrolować relacje pomiędzy grupami a produktem.
 </p>
 <p>
 Jeśli dla grupy zaznaczono uprawnienie <b>Zgłaszanie [% terms.bledow %]</b>, to [% terms.bledy %]
@@ -256,9 +256,9 @@ odpowiednio do poniższych definicji.
     </td>
     <td>
       [% terms.Bledy %] dotyczące tego produktu mogą być ograniczone jedynie do tej grupy.
-      Użytkownicy, którzy są członkami tej grupy, będą mogli umieszczać [% terms.bledy %]
-       w tej grupie. Nie-członkowie będą zmuszeni do ograniczenia [% terms.bledow %] do
-       tej grupy podczas początkowego wprowadzania [% terms.bledu %] dotyczącego tego produktu.
+      Użytkownicy, którzy są członkami tej grupy, będą mogli umieszczać [% terms.bledy %] w tej grupie.
+      Użytkownicy nie będący członkami tej grupy będą zmuszeni do ograniczenia [% terms.bledow %] do 
+      tej grupy, gdy po raz pierwszy zgłaszają [% terms.blad %] dotyczący tego produktu.
     </td>
   </tr>
   <tr>
@@ -282,7 +282,7 @@ odpowiednio do poniższych definicji.
       Domyślna
     </td>
     <td>
-      [% terms.Bledy %]  dotyczące tego produktu mogą być ograniczone jedynie do tej
+      [% terms.Bledy %] dotyczące tego produktu mogą być ograniczone jedynie do tej
       grupy i są domyślnie umieszczane w tej grupie. Użytkownicy, którzy są członkami tej 
       grupy, będą mogli umieszczać [% terms.bledy %] w tej grupie. Inni użytkownicy będą
       mogli ograniczyć [% terms.bledy %] do tej grupy i będzie to domyślne działanie.
@@ -319,7 +319,7 @@ odpowiednio do poniższych definicji.
 Powyższa tabela opisuje wszystkie dopuszczalne kombinacje ustawień
 <b>Uprawnienia członków</b> oraz <b>Dodatkowe uprawnienia</b>.
 Przy próbie ustawienia kombinacji niewystępującej w tabeli (np. Obligatoryjna/Niedostępna,
-Domyślna/Widoczna itd.), zostanie wygenerowany odpowiedni komunikat o błędzie.
+Domyślna/Widoczna itd.), zostanie wygenerowany odpowiedni komunikat o [% terms.bledzie %].
 </p>
 [% PROCESS global/footer.html.tmpl %]
 

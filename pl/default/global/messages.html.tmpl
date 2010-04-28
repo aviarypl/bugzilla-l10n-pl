@@ -553,17 +553,17 @@
     Typ flagi <em>[% name FILTER html %]</em> został utworzony.
 
   [% ELSIF message_tag == "flag_type_changes_saved" %]
-    [% title = BLOCK %]Zmiany typu flagi „[% name FILTER html %]” zostały zapisane[% END %]
+    [% title = BLOCK %]Zmiana flagi „[% name FILTER html %]” została zapisana[% END %]
     Zmiany typu flagi <em>[% name FILTER html %]</em> 
     zostały zapisane.
 
   [% ELSIF message_tag == "flag_type_deleted" %]
-    [% title = BLOCK %]Usunięto typ flagi „[% name FILTER html %]„[% END %]
-    Typ flagi <em>[% name FILTER html %]</em> został usunięty.
+    [% title = BLOCK %]Usunięto flagę „[% name FILTER html %]„[% END %]
+    Flaga <em>[% name FILTER html %]</em> została usunięta.
 
   [% ELSIF message_tag == "flag_type_deactivated" %]
     [% title = BLOCK %]Typ flagi „[% flag_type.name FILTER html %]” został dezaktywowany[% END %]
-    Typ flagi <em>[% flag_type.name FILTER html %]</em> został dezaktywowany.
+    Flaga <em>[% flag_type.name FILTER html %]</em> została dezaktywowana.
 
   [% ELSIF message_tag == "install_admin_get_email" %]
     Wprowadź adres e-mail administratora:
