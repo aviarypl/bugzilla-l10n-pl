@@ -28,20 +28,20 @@
 
 [% param_descs = {
   webdotbase => "Możliwe jest wyświetlanie grafów zależności ${terms.bledow}.
-                 Ten parametr można określić jako:
+                 W tym parametrze można określić jedną z następujących wartości:
                  <ul>
                    <li>
                      pełna ścieżka do narzędzia <code>dot</code> (część pakietu 
-                     <a href=\"http://www.graphviz.org\">GraphViz</a>), co włączy lokalne
-                     generowanie grafów,
+                     <a href=\"http://www.graphviz.org\">GraphViz</a>) – grafy będą 
+                     generowane lokalnie,
                    </li>
                    <li>
                      przedrostek adresu URL wskazujący na instalację pakietu 
                      <a href=\"http://www.research.att.com/~north/cgi-bin/webdot.cgi\">webdot
-                     </a>, co włączy zdalne generowanie grafów,
+                     </a> – grafy będą generowane zdalnie,
                    </li>
                    <li>
-                     pusta wartość, która oznacza wyłączenie rysowania grafów.
+                     nie określać żadnej wartości – nastąpi wyłączenie rysowania grafów.
                    </li>
                  </ul>
                  Domyślną wartością jest publicznie dostępny serwer webdot. W razie zmiany

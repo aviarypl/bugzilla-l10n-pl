@@ -28,20 +28,20 @@
 
 [% param_descs = {
   "move-enabled" => "Gdy ten parametr jest włączony, niektórzy użytkownicy $terms.Bugzilli " _
-                    "mogą przenosić $terms.bledy do innej zdefiniowanej bazy danych.",
+                    "mogą przenosić $terms.bledy do innej, zdefiniowanej bazy danych.",
 
-  "move-button-text" => "Tekst na przycisku przenoszenia. Wyjaśni, gdzie $terms.blad zostanie " _
-                        "przeniesiony. Podaj nowe miejsce docelowe.",
+  "move-button-text" => "Tutaj należy podać tekst wyświetlany na przycisku przenoszenia. Powinien on " _
+                        "wskazywać, gdzie $terms.blad zostanie przeniesiony.",
 
-  "move-to-url" => "Adres URL bazy, do której można przenosić $terms.bledy z tej bazy.",
+  "move-to-url" => "Adres URL bazy, do której można przenosić $terms.bledy z tejże bazy.",
 
-  "move-to-address" => "Przy przenoszeniu ${terms.bledow} wysyłany jest e-mail do bazy docelowej. " _
-                       "Wartość ta określa adres e-mail bazy docelowej, który przeznaczony jest do odbioru " _
-                       "przenoszonych zgłoszeń ${terms.bledow}.",
+  "move-to-address" => "Podczas przenoszenia ${terms.bledow} wysyłany jest e-mail do bazy docelowej. " _
+                       "Parametr ten określa adres e-mail bazy docelowej przeznaczony do odbioru " _
+                       "informacji o przenoszonych ${terms.bledach}.",
 
-  "moved-from-address" => "Przy przenoszeniu ${terms.bledow} wysyłany jest e-mail do bazy docelowej. " _
-                          "Wartość ta określa źródłowy adres e-mail, z którego wysyłane są żądania " _
-                          "przeniesienia i na który przesyłane są ewentualne komunikaty błędów.",
+  "moved-from-address" => "Podczas przenoszenia ${terms.bledow} wysyłany jest e-mail do bazy " _
+                          "docelowej. Parametr ten określa źródłowy adres e-mail, z którego " _
+                          "wysyłane są e-maile i komunikaty o błędach.",
 
   movers => "Lista użytkowników uprawnionych do przenoszenia i ponownego otwierania przenoszonych " _
             "${terms.bledow} (w razie niepowodzenia operacji).",
