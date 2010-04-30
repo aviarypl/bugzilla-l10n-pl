@@ -27,8 +27,8 @@
 %]
 
 [% param_descs = {
-  makeproductgroups => "Gdy ten parametr jest włączony, z każdym produktem w bazie zostanie skojarzona grupa dla $terms.bledow, " _
-                       "która będzie używana do przeszukiwania ${terms.bledow}.",
+  makeproductgroups => "Gdy ten parametr jest włączony, z każdym produktem w bazie danych zostanie skojarzona grupa $terms.bledu " _
+                       "i jej członkowie będą mogli przeszukiwać ${terms.bledy}.",
 
   useentrygroupdefault => "Gdy ten parametr jest włączony, grupy dla $terms.bledow zostaną " _
                           "użyte do ograniczenia dostępu do ${terms.bledow}. Jeśli jest włączony, " _
@@ -39,7 +39,7 @@
   chartgroup => "Grupa, której członkowie mogą korzystać z funkcji „Nowe wykresy”. " _
                 "Przed udostępnieniem tej funkcji administrator powinien zapewnić, że publicznie " _
                 "dostępne kategorie i serie danych nie mogą zostać użyte do ujawnienia poufnych informacji. " _
-                "Wartość pusta powoduje, że żaden użytkownik nie będzie mógł skorzystać z funkcji „Nowe wykresy”.",
+                "Brak grupy uniemożliwi wszystkim użytkownikom skorzystanie z funkcji „Nowe wykresy”.",
 
   insidergroup => "Grupa, której członkowie mogą widzieć/zmieniać prywatne " _
                   "komentarze i załączniki.",
@@ -54,7 +54,7 @@
   
   strict_isolation => "Nie zezwalaj użytkownikom na przypisywanie " _
                       "do specjalistów QA, " _
-                      "dodawanie do list obserwatorów, " _
+                      "dodawanie do list obserwatorów " _
                       "lub dodawanie/usuwanie zależności " _
                       "obejmujących każdy $terms.blad będący w produkcie, którego "_
                       "użytkownik nie może edytować.",

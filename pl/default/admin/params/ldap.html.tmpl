@@ -34,17 +34,17 @@
                 "ldapi://%2fvar%2flib%2fldap_sock (dla lokalnego połączenia " _
                 "opartego na gniazdach). Nazwy serwerów lub adresy URI mogą być " _
                 "rozdzielane przecinkami. Próba połączenia bedzie wykonywana kolejno z każdym " _ 
-                "serwerem aż do jego nawiązania.",
+                "serwerem, aż do jego nawiązania.",
 
-  LDAPstartls => "Ten parametr określa, czy wymagać szyfrowanej komunikacji po " _
+  LDAPstarttls => "Ten parametr określa, czy wymagać szyfrowanej komunikacji po " _
                  "uzyskaniu połączenia LDAP z serwerem.",
 
   LDAPbinddn => "Jeśli serwer LDAP wymaga użycia binddn i hasła " _
                 "zamiast anonimowego wiązania, należy podać je w tym miejscu " _
-                "(np. cn=default,cn=user:password). " _
-                "Pozostaw pole puste dla normalnych przypadków anonimowego wiązania.",
+                "(np. cn=default,cn=user:password). Należy pozostawić puste " _
+                "pole dla normalnych anonimowych wiązań.",
 
-  LDAPBaseDN => "BaseDN dla uwierzytelniania użytkowników" _
+  LDAPBaseDN => "Podstawowa nazwa wyróżniająca (BaseDN) dla uwierzytelniania użytkowników " _
                 "(np: ou=People,o=Company).",
 
   LDAPuidattribute => "Nazwa atrybutu zawierającego nazwę logowania użytkownika.",
@@ -57,5 +57,5 @@
                        "parametru <tt>emailsuffix</tt>.",
 
   LDAPfilter => "Filtr LDAP, który będzie użyty razem z <tt>LDAPuidattribute</tt> " _
-                "(operacja AND) do uzyskania listy poprawnych użytkowników." }
+                "(operacja AND) do uzyskania listy uprawnionych użytkowników." }
 %]

@@ -27,28 +27,28 @@
 %]
 
 [% param_descs = {
-  useclassification => "Gdy ten parametr jest włączony, $terms.Bugzilla powiąże każdy produkt z " _
+  useclassification => "Gdy ten parametr zostanie włączony, będzie można powiązać każdy produkt z " _
                        "określoną kategorią. Aby móc edytować kategorie, należy mieć " _
                        "uprawnienie <code>editclassification</code>.",
 
-  usetargetmilestone => "Ten parametr określa, czy będzie używane pole <strong>Wersja docelowa</strong>.",
+  usetargetmilestone => "Parametr ten określa, czy będzie używane pole <strong>Wersja docelowa</strong>.",
 
-  useqacontact => "Ten parametr określa, czy będzie używane pole <strong>Specjalista QA</strong>.",
+  useqacontact => "Parametr ten określa, czy będzie używane pole <strong>Specjalista QA</strong>.",
 
-  usestatuswhiteboard => "Ten parametr określa, czy będzie używane pole <strong>Tablica statusów</strong>.",
+  usestatuswhiteboard => "Parametr ten określa, czy będzie używane pole <strong>Tablica statusów</strong>.",
 
-  usevotes => "Ten parametr określa, czy zezwolić na głosowanie na ${terms.bledy}. Aby funkcja ta była " _
+  usevotes => "Włączenie tego parametru spowoduje uaktywnienie głosowań na ${terms.bledy}. Aby funkcja ta była " _
               "efektywna, należy zmienić maksymalną liczbę dozwolonych głosów " _
               "na wartość różną od zera. Można to zrobić na stronie " _
               "<a href=\"editproducts.cgi\">edycji produktu</a>.",
 
-  usebugaliases => "Ten parametr określa, czy będzie można korzystać z aliasów $terms.bledow, które pozwalają " _
-                   "przypisać $terms.bledom łatwe do zapamiętania identyfikatory lub nazwy.",
+  usebugaliases => "Parametr ten definjuje, czy będzie można korzystać z aliasów $terms.bledow, które pozwalają przypisać " _
+                   "$terms.bledom łatwe do zapamiętania identyfikatory lub nazwy.",
 
   use_see_also => 
-    "Ten parametr określa, czy będzie można używać funkcji <strong>Zobacz także</strong>. Umożliwia ona odnoszenie się do"
+    "Parametr ten określa, czy będzie można używać funkcji <strong>Zobacz także</strong>. Umożliwia ona odnoszenie się do"
     _ " $terms.bledow w innych instalacjach. Nawet jeśli funkcja zostanie wyłączona,"
-    _ " $terms.bledy z już określonymi relacjami (URL-mi) $terms.bledu będą"
+    _ " $terms.bledy z już określonymi relacjami (URL-mi) $terms.bledu, będą"
     _ " nadal wyświetlane i mogą być usuwane.",
 
   defaultpriority => "Domyślny priorytet tworzonych ${terms.bledow}.",
@@ -57,13 +57,13 @@
 
   defaultplatform => "Domyślnie wybrana platforma w formularzu zgłaszania ${terms.bledow}. " _
                      "<br> " _
-                     "Można pozostawić wartość pustą. " _
-                     "W takim przypadku $terms.Bugzilla użyje system operacyjny " _
+                     "Można nie określać tego parametru, " _
+                     "wówczas zostanie użyty system operacyjny " _
                      "zgłaszany przez przeglądarkę.",
 
   defaultopsys => "Domyślnie wybrany system operacyjny w formularzu zgłaszania ${terms.bledow}. " _
                   "<br> " _
-                  "Można pozostawić wartość pustą. " _
-                  "W takim przypadku $terms.Bugzilla użyje system operacyjny " _
+                  "Można nie określać tego parametru, " _
+                  "wówczas zostanie użyty system operacyjny " _
                   "zgłaszany przez przeglądarkę." }
 %]
