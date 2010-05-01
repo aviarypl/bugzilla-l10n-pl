@@ -27,10 +27,10 @@
 %]
 
 [% param_descs = {
-  mail_delivery_method => "Ten parametr określa czy i jak są wysyłane wiadomości e-mail.<br>
+  mail_delivery_method => "Ten parametr określa, czy i jak są wysyłane wiadomości e-mail.<br>
                            <ul>
                              <li>
-                               <strong>Sendmail</strong>, <strong>SMTP</strong> i <strong>Qmail</strong>, to programy
+                               <strong>Sendmail</strong>, <strong>SMTP</strong> i <strong>Qmail</strong> to programy
                                dostarczające pocztę (MTA). Aby użyć programu Sendmail na platformie Windows,
                                zainstaluj jego odpowiednik dla tego systemu.
                              </li>
@@ -41,7 +41,7 @@
                              </li>
                              <li>
                                <strong>Nigdy</strong> – wartość ta wyłącza całkowicie wysyłanie wiadomości. $terms.Bugzilla będzie
-                               działać tak, jakby poczta była wysyłana, lecz nic nie jest wysłane lub
+                               działać tak, jakby poczta była wysyłana, lecz nic nie będzie wysłane lub
                                zapisywane.
                              </li>
                            </ul>",
@@ -50,18 +50,18 @@
               "aby ten adres był ważnym adresem e-mail.",
 
   use_mailer_queue => "W dużych instalacjach $terms.Bugzilli aktualizacja"
-    _ " $terms.bledow może trwać długo, ponieważ $terms.Bugzilla wysyła wszystkie"
-    _ " e-maile natychmiast. Jeśli ten parametr zostanie włączony $terms.Bugzilla będzie"
-    _ " kolejkowała wszystkie maile i wysyłała je w tle. Funkcja ta wymaga, aby"
-    _ " były zainstalowane pewne moduły Perl (wyszczególnione przez"
-    _ " <code>checksetup.pl</code>) i uruchomienia demona"
-    _ " <code>jobqueue.pl</code>. W przeciwnym razie twoje maile nie będą"
-    _ " wysyłane. Ma to wpływ nie tylko na aktualizacje $terms.bledow, ale"
-    _ " na wszystkie maile wysyłane przez ${terms.Bugzille}.",
+    _ " $terms.bledow może trwać długo, ponieważ wszystkie e-maile są wysyłane przez"
+    _ " $terms.Bugzille natychmiast. Jeśli ten parametr zostanie włączony, wszystkie"
+    _ " maile będą ustawiane w kolejce i wysyłane w tle. Funkcja ta wymaga, aby"
+    _ " były zainstalowane pewne moduły Perl (wyszczególnione przez skrypt"
+    _ " <code>checksetup.pl</code>) i uruchomiony demon <code>jobqueue.pl</code>."
+    _ " W przeciwnym razie maile nie będą wysyłane. Ma to wpływ nie"
+    _ " tylko na aktualizacje $terms.bledow, ale na wszystkie maile"
+    _ " wysyłane przez ${terms.Bugzille}.",
 
-  sendmailnow => "W instalacjach używających programu <strong>Sendmail</strong> starszego niż 8.12 " _
-                 "można uzyskać znaczące przyspieszenie działania interfejsu " _
-                 "w przypadku opóźnionego wysyłania wiadomości. Można to uzyskać " _
+  sendmailnow => "W instalacjach używających program <strong>Sendmail</strong> starszy niż 8.12, " _
+                 " można uzyskać znaczące przyspieszenie działania interfejsu " _
+                 " opóźniając wysyłanie wiadomości. Taki efekt można osiągnąć " _
                  "wyłączając ten parametr. W instalacjach korzystających z programu <strong>Sendmail</strong> " _
                  "8.12 lub nowszego, należy ten parametr pozostawić włączony, ponieważ wyłączenie " _
                  "nie przynosi żadnych korzyści. W przypadku korzystania z innego programu " _
@@ -74,7 +74,7 @@
                    "Jeśli serwer SMTP nie wymaga uwierzytelniania, należy to pole pozostawić puste.",
 
   smtp_password => "Hasło do serwera SMTP używane do uwierzytelniania SMTP. " _
-                   "To pole nie ma żadnego wpływu, jeśli parametr <code>smtp_username</code> jest pusty.",
+                   "Jeśli parametr <code>smtp_username</code> jest pusty, należy pole to pozostawić puste",
 
   smtp_debug => "Jeśli ten parametr jest włączony, do pliku dziennika błędów serwera WWW zapisywane będą "_
                 " szczegółowe informacje dotyczące komunikacji $terms.Bugzilli z serwerem SMTP." _
@@ -82,7 +82,7 @@
                 " wiadomości e-mail.",
 
   whinedays => "Liczba dni, po których zostanie wysłane przypomnienie do osoby odpowiedzialnej za " _
-               "rozwiązanie $terms.bledu, który ma status NOWY. " _
+               "rozwiązanie $terms.bledu o statusie – NOWY. " _
                "<br> Wartość 0 wyłącza przypominanie.",
 
   globalwatchers => "Rozdzielona przecinkami lista nazw użytkowników, którzy będą otrzymywać " _
