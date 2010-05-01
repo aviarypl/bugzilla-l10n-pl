@@ -162,7 +162,7 @@ function handleWantsAttachment(wants_attachment) {
 }
 
 
-TUI_alternates['expert_fields'] = 'Wyświetl pola dodatkowe';
+TUI_alternates['expert_fields'] = '<small>Wiecej pól</small>';
 // Hide the Advanced Fields by default, unless the user has a cookie
 // that specifies otherwise.
 TUI_hide_default('expert_fields');
@@ -197,8 +197,8 @@ TUI_hide_default('expert_fields');
   <tr>
     <td colspan="4">
         <a id="expert_fields_controller" class="controller bz_default_hidden"
-            href="javascript:TUI_toggle_class('expert_fields')">Ukryj
-        pola dodatkowe</a>
+         href="javascript:TUI_toggle_class('expert_fields')"><small>Ukryj
+        pola</small></a>
       [%# Show the link if the browser supports JS %]
       <script type="text/javascript">
           YAHOO.util.Dom.removeClass('expert_fields_controller', 

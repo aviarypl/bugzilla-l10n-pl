@@ -18,6 +18,7 @@
   #
   # Contributor(s): Dave Miller <justdave@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%
    title = "Dopasowywanie nazw użytkowników"
@@ -25,9 +26,9 @@
 %]
 
 [% param_descs = {
-  usemenuforusers => "Jeśli ten parametr jest włączony, kiedy będzie potrzeba wybrania " _
-                     "użytkownika, $terms.Bugzilla będzie wyświetlać listę użytkowników " _
-                     "zamiast pola tekstowego. Parametru tego nie należy włączać w instalacjach " _
+  usemenuforusers => "Jeśli ten parametr jest włączony, kiedy zajdzie potrzeba " _
+                     "wybrania użytkownika, zamiast pola tekstowego zostanie wyświetlona " _
+                     "lista użytkowników. Parametru tego nie należy włączać w instalacjach " _
                      "z dużą liczbą użytkowników.",
 
   usermatchmode => "Ten parametr zezwala na użycie dopasowań podczas podawania/wyszukiwania nazw " _
@@ -37,10 +38,10 @@
                    "<b>wyszukiwanie</b> zezwala na znaki zastępujące i proste dopasowania podanych fragmentów nazw.",
 
   maxusermatches => "Ograniczenie liczby wyszukiwanych nazw użytkowników.<br> " _
-                    "Wartość <b>1</b> oznacza, że żadne nazwy użytkowników nie będą wyświetlane w razie " _
-                    "niejasności w dopasowaniu podanej nazwy. Wartość przydatna dla celów zachowania poufności.<br> " _
+                    "Wartość <b>1</b> oznacza, że w razie niejasności w dopasowaniu podanej nazwy, żadne " _
+                    "nazwy użytkowników nie będą wyświetlane. Wartość przydatna dla celów zachowania poufności.<br> " _
                     "Wartość <b>0</b> oznacza brak ograniczenia.",
 
   confirmuniqueusermatch => "Ten parametr określa, czy wyświetlać okno potwierdzenia, gdy tylko jeden użytkownik " _
-                            "pasuje do wyszukiwanego ciągu." }
+                            "spełnia warunki wyszukiwania." }
 %]

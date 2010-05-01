@@ -27,29 +27,29 @@
 %]
 
 [% param_descs = {
-  cvsroot => "Baza <a href=\"http://www.cvshome.org\">CVS</a>, która będzie " _
-             "używana przez większość użytkowników systemu podczas wykonywania polecenia „cvs diff”. " _
-             "Używana w przeglądarce łatek (opcja „Diff” dla łatek) do określenia " _
-             "bazy łatek, nawet gdy użytkownik wykonał „cvs diff” w innym miejscu " _
-             "struktury katalogów. (UWAGA: Jeśli repozytorium CVS " _
-             "jest zdalne i wymaga hasła, należy zapewnić, że użytkownik " _
-             "dla $terms.Bugzilli wykonał polecenie „cvs login” lub określić hasło " _
+  cvsroot => "Repozytorium <a href=\"http://www.cvshome.org\">CVS</a>, które będzie " _
+             "używane przez większość użytkowników systemu podczas wykonywania polecenia <code>cvs diff</code>. " _
+             "Przeglądarka łatek użyje tych danych (funkcja <strong>Diff</strong> dla łatek), by dowiedzieć się, gdzie " _
+             "znajduje się baza łatek, nawet gdy użytkownicy wykonali polecenie <code>cvs diff</code> z różnych miejsc " _
+             "w strukturze katalogów. Jeśli repozytorium CVS jest " _
+             "zdalne i wymaga hasła, należy upewnić się, że użytkownik " _
+             "$terms.Bugzilli zalogował się do repozytorium lub określić hasło " _
              "<a href=\"http://www.cvshome.org/docs/manual/cvs_2.html#SEC26\"> jako " _
-             "część adresu CVS root</a>.) Wartość pusta oznacza brak " _
+             "część adresu repozytorium CVS</a>.) Puste pole oznacza brak " _
              "repozytorium CVS.",
 
-  cvsroot_get => "Drzewo CVS, z którego $terms.Bugzilla będzie pobierać łatki. " _
+  cvsroot_get => "Repozytorium CVS, z którego będą pobierane łatki. " _
                  "Niektóre instalacje wykonują lokalne kopie repozytorium CVS na serwerze, gdzie zainstalowana " _
-                 "jest $terms.Bugzilla lub umieszczają samo repozytorium na tym samym serwerze. " _
-                 "Wówczas repozytorium dostępne jest w lokalnym systemie plików, co oznacza szybszy dostęp. " _
+                 "jest $terms.Bugzilla lub umieszczają na tym samym serwerze tylko repozytorium. " _
+                 "Wówczas repozytorium dostępne jest w lokalnym systemie plików, co oznacza szybszy dostęp do niego. " _
                  "W razie wątpliwości, należy tutaj ustawić wartość taką jak " _
-                 "w opcji cvsroot – pustą, jeśli cvsroot jest puste.",
+                 "dla parametru <code>cvsroot</code> – pustą, jeśli <code>cvsroot</code> jest pusty.",
 
   bonsai_url => "Adres URL serwera <a href=\"http://www.mozilla.org/bonsai.html\">Bonsai</a> " _
                 "zawierającego informacje o repozytorium CVS. " _
                 "Przeglądarka łatek użyje tych danych do tworzenia odnośników do " _
-                "„bonsai blame” dla każdego fragmentu łatki. Do tego adresu zostanie dodany " _
-                "„/cvsblame.cgi?…”. W razie wątpliwości proszę pozostawić wartość pustą.",
+                "<code>bonsai blame</code> dla każdego fragmentu łatki. Do tego adresu zostanie dodany " _
+                "<code>/cvsblame.cgi?…</code>. W razie wątpliwości proszę pozostawić wartość pustą.",
 
   lxr_url => "Adres URL serwera <a href=\"http://sourceforge.net/projects/lxr\">LXR</a>, " _
              "który indeksuje repozytorium CVS. Przeglądarka łatek użyje tych danych " _
