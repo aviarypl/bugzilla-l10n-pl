@@ -76,11 +76,11 @@
 
 <p><a href="editusers.cgi?action=edit&amp;userid=
   [%- otheruser.id FILTER url_quote %]"
-  title="Edycja użytkownika „[% otheruser.login FILTER html %]”">Edytuj użytkownika</a> lub
-  <a title="Wyszukiwanie użytkowników" href="editusers.cgi">Poszukaj innych kont</a>
+  title="Edycja użytkownika „[% otheruser.login FILTER html %]”">Edytuj użytkownika</a>&nbsp;&nbsp; 
+  <a title="Wyszukiwanie użytkowników" href="editusers.cgi">Poszukaj innych użytkowników</a>&nbsp;&nbsp;
   [% IF listselectionvalues.matchtype != 'exact' %]
-    lub wróć <a title="Lista użytkowników"
-       href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">z powrotem
+    <a title="Lista użytkowników"
+       href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Przejdź
     do listy użytkowników</a>
   [% END %]
 </p>

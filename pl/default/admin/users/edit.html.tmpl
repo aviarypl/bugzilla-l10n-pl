@@ -57,7 +57,7 @@
           <tr>
             [% IF editusers %]
               <th colspan="3">
-                <small>Możesz przyznawać członkostwo w grupach innym użytkownikom</small>
+                <small>Ten użytkownik może przyznawać członkostwo w grupach innym użytkownikom</small>
               </th>
             [% END %]
           </tr>
@@ -121,8 +121,8 @@
   <input type="hidden" name="token" value="[% token FILTER html %]">
   [% INCLUDE listselectionhiddenfields %]
 
-  lub <a href="editusers.cgi?action=activity&amp;userid=[% otheruser.id %]"
-        title="Zobacz historię konta
+  &nbsp;&nbsp;<a href="editusers.cgi?action=activity&amp;userid=[% otheruser.id %]"
+        title="Historia konta
         użytkownika „[%- otheruser.login FILTER html %]”">Historia konta</a>
 </p>
 </form>
@@ -151,22 +151,22 @@
 [% END %]
 
 <p>
-  Możesz także
+  
   [% IF editusers %]
-    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">dodać
+    <a href="editusers.cgi?action=add[% INCLUDE listselectionurlparams %]">Dodaj
     nowego użytkownika</a>
-    [% IF listselectionvalues %],
+    [% IF listselectionvalues %]
     [% END %]
   [% END %]
   [% IF listselectionvalues.matchtype != 'exact' %]
-    przejść
-    <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">z powrotem
-    do listy użytkowników</a>,
+    &nbsp;&nbsp;
+    <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">
+    Przejdź do listy użytkowników</a>
   [% END %]
   [% IF editusers OR listselectionvalues %]
-    lub
+    &nbsp;&nbsp;
   [% END %]
-  <a href="editusers.cgi">poszukać innych użytkowników</a>.
+  <a href="editusers.cgi">Poszukaj innych użytkowników</a>
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
