@@ -98,7 +98,7 @@
         %]
         <br>
         [% IF !Param("usemenuforusers") %]
-          <em>Podaj nazwy użytkowników oddzielone przecinkami.</em>
+          <small>Podaj nazwy użytkowników oddzielone przecinkami.</small>
         [% END %]
       </td>
     </tr>
@@ -122,10 +122,10 @@
    <input type="hidden" name="componentold" value="[% comp.name FILTER html %]">
    <input type="hidden" name="product" value="[% product.name FILTER html %]">
    <input type="hidden" name="token" value="[% token FILTER html %]">
-   <input type="submit" value="Zapisz zmiany" id="update"> lub <a 
+   <input type="submit" value="Zapisz zmiany" id="update">&nbsp;&nbsp;<a 
         href="editcomponents.cgi?action=del&amp;product=
         [%- product.name FILTER url_quote %]&amp;component=
-        [%- comp.name FILTER url_quote %]">Usuń</a> ten komponent.
+        [%- comp.name FILTER url_quote %]">Usuń ten komponent</a>
 
 </form>
 

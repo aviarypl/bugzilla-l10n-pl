@@ -39,19 +39,19 @@
 
 <form name="f" method="get" action="editusers.cgi">
 <input type="hidden" name="action" value="list" />
-<p><label for="matchvalue">Pokaż użytkowników z:</label>
+<p><label for="matchvalue">Wyświetl użytkowników o</label>
 <select id="matchvalue" name="matchvalue">
-  <option value="login_name">nazwą użytkownika</option>
-  <option value="realname">imieniem i nazwiskiem</option>
-  <option value="userid">ID</option>
+  <option value="login_name">nazwie użytkownika</option>
+  <option value="realname">imieniu i nazwisku</option>
+  <option value="userid">identyfikatorze</option>
 </select>
-<label for="matchstr">pasującym do</label>
-<input size="32" name="matchstr" id="matchstr" />
+<label for="matchstr"></label>
+<input size="32" name="matchstr" id="matchstr" />&nbsp;
 <select name="matchtype">
-  <option value="substr" selected="selected">ciągu znaków bez rozróżniania wielkości znaków</option>
-  <option value="regexp">regexp bez rozróżniania wielkości znaków</option>
-  <option value="notregexp">regexp z rozróżnianiem wielkości znaków</option>
-  <option value="exact">dokładnie (znajdź tego użytkownika)</option>
+  <option value="substr" selected="selected">nie rozróżniaj wielkości znaków</option>
+  <option value="regexp">regexp (nie rozróżniaj wielkości znaków)</option>
+  <option value="notregexp">regexp (rozróżniaj wielkość znaków)</option>
+  <option value="exact">dokładnie tego użytkownika</option>
 </select>
 <input type="submit" id="search" value="Szukaj" /></p>
 
@@ -69,12 +69,12 @@
 
 [% IF editusers %]
   <p>
-    Możesz także <a href="editusers.cgi?action=add">dodać nowego użytkownika</a>
+    <a href="editusers.cgi?action=add">Dodaj nowego użytkownika</a>
     [%- IF listselectionvalues %]
-      lub
-      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">wyświetlić
-      ponownie listę użytkowników</a>
-    [%- END %].
+      &nbsp;&nbsp;
+      <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Wyświetl
+      listę użytkowników</a>
+    [%- END %]
   </p>
 [% END %]
 

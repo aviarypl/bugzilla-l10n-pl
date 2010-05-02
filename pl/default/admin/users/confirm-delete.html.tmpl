@@ -93,13 +93,13 @@
 
 [% IF otheruser.product_responsibilities.size %]
   <p>
-    Nie można usunąć teraz użytkownika
+    Nie można usunąć użytkownika
     [%+ otheruser.login FILTER html %], ponieważ ma on przypisane role
     w co najmniej jednym produkcie.
   </p>
   <p>
     [% IF user.in_group("editcomponents", component.product_id) %]
-      Można je zmienić korzystając z odnośników powyżej.
+      Można je zmienić korzystając z odnośników powyżej,
     [% ELSE %]
       Teraz możesz
     [% END %]
@@ -174,7 +174,7 @@
           <li>
             Użytkownik [% otheruser.login FILTER html %]
             <a href="buglist.cgi?field0-0-0=setters.login_name&amp;type0-0-0=equals&amp;value0-0-0=
-               [%- otheruser.login FILTER url_quote %]">zweryfikował
+               [%- otheruser.login FILTER url_quote %]">określił
             lub poprosił o 
             [% IF flags.setter == 1 %]
               flagę
@@ -287,7 +287,7 @@
             Użytkownik [% otheruser.login FILTER html %] został 
             <a href="buglist.cgi?field0-0-0=requestees.login_name&amp;type0-0-0=equals&amp;value0-0-0=
                [%- otheruser.login FILTER url_quote %]">poproszony 
-            o ustawienie
+            o zweryfikowanie
             [% IF flags.requestee == 1 %]
               flagi 
             [% ELSE %]
@@ -318,7 +318,7 @@
 
             [% IF namedquery_group_map %]
               [% IF namedqueries > 1 %]
-                Wśród zapisanych zapytań
+                Wśród zapisanych wyszukiwań
                 [% IF namedquery_group_map > 1 %]
                   [%+ namedquery_group_map FILTER html %] są
                 [% ELSE %]
@@ -422,7 +422,7 @@
         [% END %]
         [% IF whine_events %]
           <li>
-            Użytkownik [% otheruser.login FILTER html %]zaplanował
+            Użytkownik [% otheruser.login FILTER html %] zaplanował
             [% IF whine_events == 1 %]
               przypomnienie
             [% ELSE %]

@@ -50,12 +50,12 @@
 </form>
 
 <p>
-  Możesz także <a href="editusers.cgi">poszukać użytkownika</a>
-  [% IF listselectionvalues %],
-    lub
-    <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">przejść
-    z powrotem do listy użytkowników</a>
-  [% END %].
+  <a href="editusers.cgi">Poszukaj użytkownika</a>
+  [% IF listselectionvalues %]
+    &nbsp;&nbsp;
+    <a href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Przejdź
+    do listy użytkowników</a>
+  [% END %]
 </p>
 
 [% PROCESS global/footer.html.tmpl %]
