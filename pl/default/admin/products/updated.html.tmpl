@@ -47,8 +47,8 @@
 [% IF changes.name.defined %]
   <p>
   Zaktualizowano nazwę produktu z „[% changes.name.0 FILTER html %]” na
-  <a href="editproducts.cgi?action=edit&amp;product=
-  [%- product.name FILTER url_quote %]">[% product.name FILTER html %]</a>'.
+  „<a href="editproducts.cgi?action=edit&amp;product=
+  [%- product.name FILTER url_quote %]">[% product.name FILTER html %]</a>”.
   </p>
 [% END %]
 
@@ -75,7 +75,7 @@
 [% IF changes.defaultmilestone.defined %]
   <p>
   Zaktualizowano domyślną wersję docelową produktu z „[% changes.defaultmilestone.0 FILTER html %]” na
-  '[% product.default_milestone FILTER html %]'.
+  „[% product.default_milestone FILTER html %]”.
   </p>
 [% END %]
   
@@ -113,8 +113,8 @@
     [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %].
   [% ELSE %]
     Produkt obecnie nie zezwala na status 
-    [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %] status.
-    Informacja: Wszystkie 
+    [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %].
+    Wszystkie 
     <a href="buglist.cgi?product=
             [%- product.name FILTER url_quote %]&amp;bug_status=UNCONFIRMED"> 
     [%- terms.bledy %], które obecnie mają status
@@ -155,7 +155,7 @@
     [% FOREACH detail = changes.too_many_total_votes %]
       &rarr;usunięto głosy oddane na [% terms.blad %] <a href="show_bug.cgi?id=
      [%- detail.id FILTER url_quote %]">
-     [%- detail.id FILTER html %]</a> z [% detail.name FILTER html %]<br>
+     [%- detail.id FILTER html %]</a> od [% detail.name FILTER html %]<br>
     [% END %]
   [% ELSE %]
     &rarr;nie znaleziono.

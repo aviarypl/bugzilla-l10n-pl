@@ -47,7 +47,7 @@
       [% IF (cl.id == 1) %]
         <td valign="top">[% cl.product_count FILTER html %]</td>
       [% ELSE %]
-        <td valign="top"><a href="editclassifications.cgi?action=reclassify&amp;classification=[% cl.name FILTER url_quote %]">zmień kategorię ([% cl.product_count FILTER html %])</a></td>
+        <td valign="top"><a href="editclassifications.cgi?action=reclassify&amp;classification=[% cl.name FILTER url_quote %]">Zmień kategorię</a> ([% cl.product_count FILTER html %])</td>
       [% END %]
 
       [%# don't allow user to delete the default id. %]

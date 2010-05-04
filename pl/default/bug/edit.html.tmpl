@@ -667,10 +667,10 @@
       [% IF NOT emitted_description %]
         [% emitted_description = 1 %]
           <div id="bz_restrict_group_visibility_help">
-            <b>Tylko użytkownicy z wybranych grup mogą widzieć ten 
-      [% terms.blad %]:</b>
+            <strong>Tylko użytkownicy z wybranych grup mogą widzieć ten 
+      [% terms.blad %]</strong>
              <p class="instructions">
-               Odznaczenie wszystkich pól spowoduje pełne upublicznienie tego [% terms.bledu %]
+               <small>Odznaczenie wszystkich pól spowoduje pełne upublicznienie tego [% terms.bledu %]</small>
              </p>
           </div>
       [% END %]
@@ -684,7 +684,7 @@
              [% ' checked="checked"' IF group.ison %]
              [% ' disabled="disabled"' IF NOT group.ingroup %]>
       <label for="bit-[% group.bit %]">
-      [%- display_value("bit_description", group.description) FILTER html_light %]</label>
+      [%- display_value("permissions", group.description) FILTER html_light %]</label>
       <br>
     [% END %]
 
@@ -969,16 +969,16 @@
   <table class="bz_time_tracking_table">
     <tr>
       <th>
-        <label for="estimated_time">Szacunek począt.</label>
+        <label for="estimated_time">Szacunek<br/>początkowy</label>
       </th>
       <th>
-        Szacunek aktualny
+        Szacunek<br/>aktualny
       </th>
       <th>
-        <label for="work_time">Godz.przeprac.</label>
+        <label for="work_time">Godziny<br/>przepracowane</label>
       </th>
       <th>
-        <label for="remaining_time">Godz.pozost.</label>
+        <label for="remaining_time">Godziny<br/>pozostałe</label>
       </th>
       <th>
         Postęp (%)
@@ -987,7 +987,7 @@
         Zysk
       </th>
       <th>
-        <label for="deadline">Czas zakończenia</label>
+        <label for="deadline">Czas<br/>zakończenia</label>
       </th>
     </tr>
     <tr>
@@ -1029,8 +1029,8 @@
     <tr>
       <td colspan="7" class="bz_summarize_time">
         <a href="summarize_time.cgi?id=[% bug.bug_id %]&amp;do_depends=1">
-        Podsumowanie czasu (włącznie z czasem dla [% terms.bledow %]
-        blokujących ten [% terms.blad %])</a>
+        Podsumowanie czasu</a> <small>(włącznie z czasem dla [% terms.bledow %]
+        blokujących ten [% terms.blad %])</small>
       </td>
     </tr>
   </table> 

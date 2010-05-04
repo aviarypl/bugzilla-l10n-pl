@@ -74,9 +74,9 @@
       <td>
         [% IF group.is_bug_group %]
           <input type="text" name="desc" size="70" 
-                 value="[% display_value("bit_description", group.description) FILTER html %]">
+                 value="[% display_value("permissions", group.description) FILTER html %]">
         [% ELSE %]
-          [% display_value("bit_description", group.description) FILTER html %]
+          [% display_value("permissions", group.description) FILTER html %]
         [% END %]
       </td>
     </tr>

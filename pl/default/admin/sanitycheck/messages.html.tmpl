@@ -97,7 +97,7 @@
     Znaleziono [% entries FILTER html %] nieprawidłowe wpisy w group_control_map
 
   [% ELSIF san_tag == "bug_check_control_values_violation" %]
-    Wyszukiwanie [% terms.bledow %] w grupach naruszających ich grupy kontrolne produktu
+    Wyszukiwanie [% terms.bledow %] naruszających relacje grupa/produkt
 
   [% ELSIF san_tag == "bug_check_control_values_error_text" %]
     Grupy bez uprawnień do produktów
@@ -179,7 +179,7 @@
     Zawsze potwierdzone zostały naprawione.
 
   [% ELSIF san_tag == "flag_check_start" %]
-    Sprawdzanie prawidłowości umieszczenia flag w produkcie/komponencie.
+    Sprawdzanie prawidłowości umieszczania flag w produkcie/komponencie.
 
   [% ELSIF san_tag == "flag_deletion_start" %]
     Usuwanie nieprawidłowych flag.

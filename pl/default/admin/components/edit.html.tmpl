@@ -31,7 +31,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-  Edycja komponentu [% comp.name FILTER html %] produktu [% product.name FILTER html %]
+  Edycja komponentu „[% comp.name FILTER html %]” produktu „[% product.name FILTER html %]”
 [% END %]
 [% PROCESS global/header.html.tmpl
   title = title

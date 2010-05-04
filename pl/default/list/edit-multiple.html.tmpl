@@ -49,9 +49,9 @@
 
 <hr>
 
-<p style="font-size:smaller">
+<p style="font-size:small">
  Aby zmienić wiele [% terms.bledow%] jednocześnie, należy:</p>
-<ol style="font-size:smaller">
+<ol style="font-size:small">
   <li>Zaznaczyć powyżej [% terms.bledy %], które mają być zmienione.</li>
   <li>Dokonać zmian w polach poniższego formularza. Jeśli zmiany wymagają wyjaśnień,
    można je wpisać do pola komentarza.</li>
@@ -150,14 +150,14 @@
         <input id="estimated_time"
                name="estimated_time"
                value="[% dontchange FILTER html %]"
-               size="6">
+               size="12">
       </td>
       <th><label for="deadline">Termin (RRRR-MM-DD):</label></th>
       <td>
         <input id="deadline"
                name="deadline"
                value="[% dontchange FILTER html %]"
-               size="10">
+               size="12">
       </td>
     </tr>
     <tr>
@@ -166,7 +166,7 @@
         <input id="remaining_time"
                name="remaining_time"
                value="[% dontchange FILTER html %]"
-               size="6">
+               size="12">
       </td>
       <th>&nbsp;</th>
       <td>&nbsp;</td>
@@ -308,7 +308,7 @@
   minrows = 5
   maxrows = 25
   cols    = constants.COMMENT_COLS
-%]<br>
+%]<br/><br/>
 
 [% Hook.process('before_groups') %]
 
@@ -317,9 +317,9 @@
   <b>Grupy:</b><br>
   <table border="1">
     <tr>
-      <th>Nie<br>zmieniaj<br>ograniczeń<br>tej grupy</th>
-      <th>Usuń<br>[% terms.bledy %]<br>z tej<br>grupy</th>
-      <th>Dodaj<br>[% terms.bledy %]<br>do tej<br>grupy</th>
+      <th>Nie zmieniaj<br/>ograniczeń tej grupy</th>
+      <th>Usuń [% terms.bledy %]<br/>z tej grupy</th>
+      <th>Dodaj [% terms.bledy %]<br/>do tej grupy</th>
       <th>Nazwa grupy</th>
     </tr>
 
@@ -342,7 +342,7 @@
 
       <td>
         [% SET inactive = !group.is_active %]
-        [% display_value("bit_description", group.description) FILTER html_light FILTER inactive(inactive) %]
+        [% display_value("permissions", group.description) FILTER html_light FILTER inactive(inactive) %]
       </td>
 
     </tr>
@@ -356,7 +356,7 @@
   [% END %]
 
 [% END %]
-<input type="submit" id="commit" value="Zapisz">
+<br/><input type="submit" id="commit" value="Zapisz">
 
 [% IF Param('move-enabled') && user.is_mover %]
   <input type="submit" name="action" id="action" value="[% Param('move-button-text') %]">

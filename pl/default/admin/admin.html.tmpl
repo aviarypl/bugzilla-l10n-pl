@@ -55,7 +55,7 @@
         [% class = user.in_group('editcomponents') ? "" : "forbidden" %]
         <dt id="sanitycheck" class="[% class %]"><a href="sanitycheck.cgi">Sprawdzanie spójności danych</a></dt>
         <dd class="[% class %]">W celu zlokalizowania problemów w bazie danych, należy uruchomić sprawdzenie
-        spójności danych. W zależności od rozmiaru instalacji operacja ta może zająć nawet kilkadziesiąt
+        spójności danych. W zależności od rozmiaru instalacji, operacja ta może zająć nawet kilkadziesiąt
         minut. Proces ten można zautomatyzować uruchamiając skrypt <tt>sanitycheck.pl</tt>. O wykrytych
         błędach zostanie mailem powiadomiony właściwy użytkownik.</dd>
 
@@ -98,7 +98,7 @@
         które nie są domyślnie zdefiniowane, a są potrzebne. Pola te można również wykorzystywać
         w innych [% terms.bledach %] oraz jako elementy funkcji wyszukiwania.<br>Przed utworzeniem nowego
         pola, należy wziąć pod uwagę, że zbyt duża liczba pól może skomplikować interfejs użytkownika
-        i uczynić go trudnym w użyciu. Przed utworzeniem dodatkowego pola, należy upewnić się,
+        i uczynić go trudnym w użyciu. Przed utworzeniem dodatkowego pola, należy upewnić się
         czy nie ma innych, satysfakcjonujących sposobów uzyskania pożądanego efektu.</dd>
 
         <dt id="field_values" class="[% class %]"><a href="editvalues.cgi">Wartości pól</a></dt>
@@ -107,9 +107,9 @@
         niektórych typów pól dodatkowych.</dd>
 
         <dt id="status_workflow" class="[% class %]"><a href="editworkflow.cgi">Zmiany statusu [%terms.bledow %]</a></dt>
-        <dd class="[% class %]">W tej sekcji można określić zmiany statusu i wybrać dostępne podczas
-        tworzenia [% terms.bledu %] jego początkowe statusy. Można także określić dozwolone przekształcenia
-        statusu [% terms.bledu %] podczas modyfikacji istniejących [% terms.bledow %].</dd>
+        <dd class="[% class %]">W tej sekcji można dostosować zmiany statusu i wybrać dostępne podczas
+        tworzenia [% terms.bledu %] jego początkowe statusy. Podczas modyfikacji istniejących [% terms.bledow %],
+        można także określić dozwolone przekształcenia statusu [% terms.bledu %].</dd>
 
         [% class = user.in_group('creategroups') ? "" : "forbidden" %]
         <dt id="groups" class="[% class %]"><a href="editgroups.cgi">Grupy</a></dt>

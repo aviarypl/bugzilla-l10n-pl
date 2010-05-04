@@ -27,8 +27,8 @@
   #               which the component belongs.
   #%]
 
-[% title = BLOCK %]Usuwanie komponentu [% comp.name FILTER html %]
-z produktu [% product.name FILTER html %]
+[% title = BLOCK %]Usuwanie komponentu „[% comp.name FILTER html %]”
+z produktu „[% product.name FILTER html %]”
   [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -91,7 +91,7 @@ z produktu [% product.name FILTER html %]
   <td valign="top">[% terms.Bledy %]:</td>
   <td valign="top">
 [% IF comp.bug_count %]
-  <a title="Lista [% terms.bledow %] dla komponentu [% comp.name FILTER html %]"
+  <a title="Lista [% terms.bledow %] dla komponentu „[% comp.name FILTER html %]”"
      href="buglist.cgi?component=[% comp.name FILTER url_quote %]&amp;product=
           [%- product.name FILTER url_quote %]">[% comp.bug_count %]</a>
 [% ELSE %]

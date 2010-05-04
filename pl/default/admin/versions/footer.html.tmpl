@@ -41,28 +41,24 @@
 [% UNLESS no_add_version_link %]
   <a title="Dodaj wersję do produktu „[% product.name FILTER html %]”"
      href="editversions.cgi?action=add&amp;product=
-          [%- product.name FILTER url_quote %]">Dodaj</a> wersję. 
+          [%- product.name FILTER url_quote %]">Dodaj wersję</a>&nbsp;&nbsp; 
 [% END %]
 
 [% IF version.name && !no_edit_version_link %]
-  Modyfikuj wersję <a 
-  title="Modyfikuj wersję „[% version.name FILTER html %]” produktu 
+  <a title="Modyfikuj wersję „[% version.name FILTER html %]” produktu 
          „[%- product.name FILTER html %]”"
   href="editversions.cgi?action=edit&amp;product=
         [%- product.name FILTER url_quote %]&amp;version=
         [%- version.name FILTER url_quote %]">
-        „[% version.name FILTER html %]”</a>.
+        Modyfikuj wersję „[% version.name FILTER html %]”</a>&nbsp;&nbsp;
 [% END %]
 
 [% UNLESS no_edit_other_versions_link %]
-  Modyfikuj inne wersje produktu <a 
-  href="editversions.cgi?product=
-        [%- product.name FILTER url_quote %]">„[% product.name FILTER html %]”</a>.
-
+  <a href="editversions.cgi?product=
+        [%- product.name FILTER url_quote %]">Modyfikuj inne wersje produktu
+        „[% product.name FILTER html %]”</a>&nbsp;&nbsp;
 [% END %]
 
-  Modyfikuj produkt <a 
-  href="editproducts.cgi?action=edit&amp;product=
-        [%- product.name FILTER url_quote %]">„[% product.name FILTER html %]”</a>.
-
+  <a href="editproducts.cgi?action=edit&amp;product=
+        [%- product.name FILTER url_quote %]">Modyfikuj produkt „[% product.name FILTER html %]”</a>
 </p>

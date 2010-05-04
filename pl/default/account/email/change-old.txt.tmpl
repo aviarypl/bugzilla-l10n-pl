@@ -35,7 +35,7 @@ X-MSMail-Priority: High
 X-Priority: 1
 X-Bugzilla-Type: admin
 
-[%+ terms.Bugzilla %] otrzymała prośbę o zmianę adresu e-mail konta
+[%+ terms.Bugzilla %] otrzymała prośbę o zmianę adresu e-mail Twojego konta
 na adres [%+ newemailaddress %].
 
 Jeśli nie jesteś osobą, która wysłała tę prośbę lub chcesz prośbę anulować,
@@ -43,6 +43,6 @@ otwórz poniższy odnośnik:
 
 [%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=cxlem
 
-W przypadku braku reakcji i [%+ newemailaddress %] potwierdza tę prośbę,
+W przypadku braku reakcji i gdy [%+ newemailaddress %] potwierdza tę prośbę,
 zmiana zostanie dokonana po [% constants.MAX_TOKEN_AGE %] dniach
 ([% expiration_ts FILTER time("%e %B %Y o godzinie %H:%M %Z") %]).

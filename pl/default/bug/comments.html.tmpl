@@ -213,7 +213,7 @@
             [% NEXT UNLESS group.icon_url %]
             <img src="[% group.icon_url FILTER html %]"
                  alt="[% group.name FILTER html %]"
-                 title="[% group.name FILTER html %] - [% display_value("bit_description", group.description) FILTER html %]">
+                 title="[% group.name FILTER html %] - [% display_value("permissions", group.description) FILTER html %]">
           [% END %]
         </span>
 

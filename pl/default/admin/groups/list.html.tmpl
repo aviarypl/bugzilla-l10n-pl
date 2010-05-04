@@ -136,30 +136,30 @@
 <p>
   <strong>Nazwa</strong> – element używany z funkcją B<!-- blah -->ugzilla->user->in_group()
 w każdym ze zmodyfikowanych przez użytkownika plików cgi podczas używania danej grupy.
-Może być ona także używana przez osoby wysyłające [% terms.bledy %] przez e-mail,
-by ograniczyć [% terms.blad %] do określonego zestawu grup.
+Może być ona także używana przez osoby wysyłające [% terms.bledy %] za pomocą e-maili,
+by przypisać [% terms.blad %] do określonego zestawu grup.
 </p>
 
 <p>
-  <strong>Opis</strong> – element widoczny dla członków grupy w zgłoszeniach [% terms.bledu %]
+  <strong>Opis</strong> – element widoczny dla członków grupy. Wyświetlany w zgłoszeniach [% terms.bledu %]
 przy polach wyboru ograniczenia dostępu do zgłoszenia. Członkowie grupy mogą określić, czy
 zgłoszenie [% terms.bledu %] będzie wyświetlane jedynie dla członków danej grupy.
 </p>
 
 <p>
-  <strong>RegExp użytkownika</strong> (opcjonalne)
-Jeśli jest podane, nastąpi automatyczne udzielenie członkostwa w tej grupie
-każdemu, kogo adres e-mail pasuje do tego wyrażenia. Nie zapomnij o końcowym „$”.
+  <strong>RegExp użytkownika</strong> (opcjonalne) –
+jeśli jest podane, nastąpi automatyczne udzielenie członkostwa w tej grupie
+każdemu, kogo adres e-mail pasuje do tego wyrażenia. Należy pamiętać o końcowym „$”.
 Przykład: „@mycompany\.com$”
 </p>
 
 <p>
   <strong>Używana dla [% terms.bledow %]</strong> – flaga określająca czy grupa
-może być używana dla [% terms.bledow %]. Jeśli zostanie ona usunięta
+może być używana dla [% terms.bledow %]. Jeśli zostanie ona usunięta,
 nie będzie możliwe dodawanie nowych [% terms.bledow %] do tej grupy.
-Niemniej [% terms.bledy %] będące już w grupie pozostaną w niej.
+Niemniej, [% terms.bledy %] będące już w grupie pozostaną w niej.
 Jest to mniej drastyczny sposób na powstrzymanie wzrostu grupy
-niż jej usunięcie, a także sposobem utrzymania list użytkowników bez
+niż jej usunięcie. Jest także sposobem utrzymania list użytkowników bez
 zaśmiecania list grup używanych do ograniczeń [% terms.bledow %].
 </p>
 

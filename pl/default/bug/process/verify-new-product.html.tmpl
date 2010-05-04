@@ -132,7 +132,7 @@
       <input type="checkbox" id="bit-[% group.id FILTER html %]"
              name="bit-[% group.id FILTER html %]" disabled="disabled" value="1">
       <label for="bit-[% group.id FILTER html %]">
-        [% group.name FILTER html %]: [% display_value("bit_description", group.description) FILTER html %]
+        [% group.name FILTER html %]: [% display_value("permissions", group.description) FILTER html %]
       </label>
       <br>
     [% END %]
