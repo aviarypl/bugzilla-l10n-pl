@@ -35,6 +35,7 @@
 
 [% title = BLOCK %]Edycja grupy: [% group.name FILTER html %][% END %]
 
+[% PROCESS "global/field-descs.none.tmpl" %]
 [% PROCESS global/header.html.tmpl
   title = title
   doc_section = "groups.html#edit-groups"
@@ -72,9 +73,9 @@
       <td>
         [% IF group.is_bug_group %]
           <input type="text" name="desc" size="70" 
-                 value="[% group.description FILTER html %]">
+                 value="[% get_permissions(group.description) FILTER html %]">
         [% ELSE %]
-          [% group.description FILTER html %]
+          [% get_permissions(group.description) FILTER html %]
         [% END %]
       </td>
     </tr>

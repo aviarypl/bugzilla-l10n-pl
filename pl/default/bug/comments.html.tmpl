@@ -24,6 +24,7 @@
   #%]
 
 [% PROCESS bug/time.html.tmpl %]
+[% PROCESS "global/field-descs.none.tmpl" %]
 
   <script type="text/javascript">
   <!--
@@ -199,7 +200,7 @@
             [% NEXT UNLESS group.icon_url %]
             <img src="[% group.icon_url FILTER html %]"
                  alt="[% group.name FILTER html %]"
-                 title="[% group.name FILTER html %] - [% group.description FILTER html %]">
+                 title="[% group.name FILTER html %] - [% get_permissions(group.description) FILTER html %]">
           [% END %]
         </span>
 

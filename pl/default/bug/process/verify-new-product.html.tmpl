@@ -36,6 +36,8 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
+[% PROCESS "global/field-descs.none.tmpl" %]
+
 [% PROCESS global/header.html.tmpl
   title = 'Weryfikacja danych o nowym produkcie…' %]
 
@@ -128,7 +130,7 @@
       <input type="checkbox" id="bit-[% group.id FILTER html %]"
              name="bit-[% group.id FILTER html %]" disabled="disabled" value="1">
       <label for="bit-[% group.id FILTER html %]">
-        [% group.name FILTER html %]: [% group.description FILTER html %]
+        [% group.name FILTER html %]: [% get_permissions(group.description) FILTER html %]
       </label>
       <br>
     [% END %]

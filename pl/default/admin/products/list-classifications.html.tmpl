@@ -40,7 +40,7 @@
 [% columns = [
      { 
        name => "name"
-       heading => "Wybierz produkty"
+       heading => "Wybierz produkt"
        contentlink => edit_contentlink
      },
      { 
@@ -59,7 +59,7 @@
 [% IF user.in_group('editcomponents') %]
   [% columns.push({
        heading => "Czynność"
-       content => "Nowy produkt"
+       content => "Dodaj produkt"
        contentlink => add_contentlink })
   %]
 [% END %]

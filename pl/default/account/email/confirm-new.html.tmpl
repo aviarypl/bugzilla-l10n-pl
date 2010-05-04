@@ -21,7 +21,7 @@
   # expiration_ts: expiration date of the token.
   #%]
 
-[% title = BLOCK %]Tworzenie nowego konta dla '[% email FILTER html %]'[% END %]
+[% title = BLOCK %]Tworzenie nowego konta dla „[% email FILTER html %]”[% END %]
 [% PROCESS "global/header.html.tmpl"
            title = title
            onload = "document.forms['confirm_account_form'].realname.focus();" %]

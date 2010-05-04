@@ -47,7 +47,7 @@
 
 <p>
 [% UNLESS no_add_product_link || !user.in_group("editcomponents") %]
-  <a title="Dodawanie produktu"
+  <a title="Dodawanie nowego produktu"
      href="editproducts.cgi?action=add">Dodaj</a> produkt[% -%]
 [%# Strictly speaking, we should not have to check for a
     classification if they are enabled, but I'm just being paranoid %]
@@ -61,28 +61,26 @@
 [% END %]
 
 [% IF product && !no_edit_product_link %]
-  Edytuj produkt <a 
-  title="Edytuj produkt „[% product.name FILTER html %]” 
+  &nbsp;&nbsp;<a title="Edytuj produkt „[% product.name FILTER html %]” 
          [%- classification_text %]"
   href="editproducts.cgi?action=edit&amp;product=[% product.name FILTER url_quote %]">
-        „[% product.name FILTER html %]”</a>.
+        Edytuj produkt „[% product.name FILTER html %]”</a>
 [% END %]
 
 
 [%# Edit other products (in a classification if specified): %]
 [% UNLESS no_edit_other_products_link %]
-  Edytuj <a 
-  href="editproducts.cgi?
-        [%- classification_url_part_start FILTER none %]">inne produkty
-          [% classification_text %]</a>.
+  &nbsp;&nbsp;<a href="editproducts.cgi?
+        [%- classification_url_part_start FILTER none %]">Edytuj inne produkty
+          [% classification_text %]</a>
 
 [% END %]
 
 [% IF Param('useclassification') && classification
       && user.in_group('editclassifications') %]
-  Edycja kategorii <a href="editclassifications.cgi?action=edit
-    [%- classification_url_part %]">„
-    [%- classification.name FILTER html %]”</a>.
+  &nbsp;&nbsp;<a href="editclassifications.cgi?action=edit
+    [%- classification_url_part %]">Edytuj kategorię „
+    [%- classification.name FILTER html %]”</a>
 
 [% END %]
 

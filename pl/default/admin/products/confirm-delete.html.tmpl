@@ -52,7 +52,7 @@
         [% IF classification.description %]
           [% classification.description FILTER html_light %]
         [% ELSE %]
-          <span style="color: red">brakujące</span>
+          <span style="color: red">brak</span>
         [% END %]
       </td>
     </tr>
@@ -73,7 +73,7 @@
       [% IF product.description %]
         [% product.description FILTER html_light %]
       [% ELSE %]
-        <span style="color: red">brakujące</span>
+        <span style="color: red">brak</span>
       [% END %]
     </td>
   </tr>
@@ -204,7 +204,7 @@
 
   [% IF !Param("allowbugdeletion") %]
 
-    <p>Niestety, w tym produkcie nadal
+    <p>W tym produkcie nadal
 
     [% IF product.bug_count > 1 %]
       istnieją [%+ terms.bledy %]: [% product.bug_count FILTER html %].

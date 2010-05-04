@@ -28,10 +28,10 @@ To: [% emailaddress %]
 Subject: [% PROCESS subject %]
 X-Bugzilla-Type: admin
 
-Prośba została anulowana z adresu [% remoteaddress %].
+Prośba została anulowana z [% remoteaddress %].
 
-Jeśli ta prośba nie pochodzi od ciebie, to może być pomyłką
-lub próbą włamania na twoje konto w [% terms.Bugzilli %].
+Jeśli ta prośba nie pochodzi od Ciebie, to może być pomyłką
+lub próbą włamania na Twoje konto w [% terms.Bugzilli %].
 
 Przejrzyj wiadomość znajdującą się poniżej i w razie podejrzeń
 prześlij ją na adres [% Param('maintainer') %].
@@ -45,13 +45,13 @@ prześlij ją na adres [% Param('maintainer') %].
 
 [% BLOCK subject %]
   [% IF tokentype == 'new_account' %]
-    Prośba o utworzenie konta została anulowana
+    Prośba o utworzenie konta została anulowana.
   [% ELSIF tokentype == 'password' %]
-    Prośba o zmianę hasła została anulowana
+    Prośba o zmianę hasła została anulowana.
   [% ELSIF tokentype == 'emailnew' OR tokentype == 'emailold' %]
-    Prośba o zmianę adresu e-mail została anulowana
+    Prośba o zmianę adresu e-mail została anulowana.
   [% ELSE %]
-    Token [% tokentype %] został anulowany
+    Token [% tokentype %] został anulowany.
   [% END %]
 [% END %]
 
@@ -64,20 +64,20 @@ prześlij ją na adres [% Param('maintainer') %].
     [% new_email %] została anulowana.
 
   [% ELSIF cancelaction == 'email_change_canceled_reinstated' %]
-    Prośba o zmianę adresu e-mail dla twojego konta na 
+    Prośba o zmianę adresu e-mail dla Twojego konta na 
     [% new_email %] została anulowana. Zostały przywrócone
     dotychczasowe ustawienia.
 
   [% ELSIF cancelaction == 'emailold_change_canceled' %]
-    Prośba o zmianę adresu e-mail dla twojego konta na
+    Prośba o zmianę adresu e-mail dla Twojego konta na
     [% new_email %] została anulowana.
 
   [% ELSIF cancelaction == 'password_change_canceled' %]
     Poproszono o anulowanie.
 
   [% ELSIF cancelaction == 'account_creation_canceled' %]
-    Tworzenie konta użytkownika [% emailaddress %]
-    zostało anulowane.
+    Próba utworzenia konta użytkownika [% emailaddress %]
+    została anulowana.
 
   [% ELSIF cancelaction == 'user_logged_in' %]
     Logowanie wykonano poprawnie.

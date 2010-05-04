@@ -55,14 +55,14 @@
         [% class = user.in_group('editcomponents') ? "" : "forbidden" %]
         <dt class="[% class %]"><a href="sanitycheck.cgi">Sprawdzanie spójności danych</a></dt>
         <dd class="[% class %]">W celu zlokalizowania problemów w bazie danych, należy uruchomić sprawdzenie
-        spójności danych. W zależności od rozmiaru instalacji operacja ta może zająć nawet kilkadziesiąt
+        spójności danych. W zależności od rozmiaru instalacji, operacja ta może zająć nawet kilkadziesiąt
         minut. Proces ten można zautomatyzować uruchamiając skrypt <tt>sanitycheck.pl</tt>. O wykrytych
         błędach zostanie mailem powiadomiony właściwy użytkownik.</dd>
 
         [% class = (user.in_group('editusers') || user.can_bless) ? "" : "forbidden" %]
         <dt class="[% class %]"><a href="editusers.cgi">Użytkownicy</a></dt>
         <dd class="[% class %]">W tej sekcji można tworzyć nowe konta użytkowników lub modyfikować istniejące. 
-        Można także dodawać/usuwać użytkowników z grup. Sekcja zwana również „Uprawnienia użytkowników”.</dd>
+        Można także dodawać/usuwać użytkowników z grup. Sekcja ta zwana jest również „Uprawnienia użytkowników”.</dd>
 
         [% class = (Param('useclassification') && user.in_group('editclassifications')) ? "" : "forbidden" %]
         <dt class="[% class %]"><a href="editclassifications.cgi">Kategorie</a></dt>
