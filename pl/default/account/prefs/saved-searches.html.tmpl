@@ -133,6 +133,7 @@
                 >[% group.name FILTER html %]</option>
               [% END %]
             </select>
+            <br/>
             [% IF user.can_bless %]
               <input type="checkbox" id="force_[% q.id FILTER html %]"
                      name="force_[% q.id FILTER html %]" value="1"
@@ -151,9 +152,9 @@
     [% END %]
   </table>
 [% IF user.can_bless %]
-  <p>Dla każdego wyszukiwania, które ma zaznaczoną funkcję wyświetlania w stopce z chwilą
-     naciśnięcia przycisku „Zapisz zmiany”, do stopki strony każdego użytkownika będącego
-     członkiem grupy jest dodawany odnośnik.</p> 
+  <p>Dla każdego wyszukiwania, które ma zaznaczoną funkcję wyświetlania w stopce, z chwilą
+     naciśnięcia przycisku „Zapisz zmiany” do stopki strony każdego użytkownika będącego
+     członkiem grupy zostanie dodany odnośnik.</p> 
 [% END %]
 </blockquote>
 
