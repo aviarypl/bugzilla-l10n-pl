@@ -1229,14 +1229,14 @@
 
   [% ELSIF error == "object_not_specified" %]
     [% type = BLOCK %][% INCLUDE object_name class = class %][% END %]
-    [% title = BLOCK %]Nie określono [% type FILTER ucfirst FILTER html %] 
+    [% title = BLOCK %]Nie określono [% type FILTER html %] 
     [% END %]
     Należy wybrać/podać [% type FILTER html %].
 
   [% ELSIF error == "object_does_not_exist" %]
     [% type = BLOCK %][% INCLUDE object_name class = class %][% END %]
-    [% title = BLOCK %]Nieprawidłowy [% type FILTER ucfirst FILTER html %][% END %]
-    Brak [% type FILTER html %] 
+    [% title = BLOCK %]Brak [% type FILTER html %][% END %]
+    Nie ma [% type FILTER html %]
     [% IF id.defined %]
       z ID „[% id FILTER html %]”
     [% ELSE %]
@@ -1251,7 +1251,7 @@
     [% END %]
 
   [% ELSIF error == "old_password_incorrect" %]
-    [% title = "Niepoprawne poprzednie hasło" %]
+    [% title = "Nieprawidłowe poprzednie hasło" %]
     Nie podano prawidłowego poprzedniego hasła.
 
   [% ELSIF error == "old_password_required" %]
@@ -1381,7 +1381,7 @@
                          'milestones.html' => 'Administracja wersjami docelowymi',
                          'versions.html'   => 'Administracja wersjami'} %]
     Nie określono produktu przy próbie edycji komponentu, wersji docelowej,
-	wersji lub produktu.
+    wersji lub produktu.
 
   [% ELSIF error == "query_name_exists" %]
     [% title = "Nazwa wyszukiwania jest już używana" %]
@@ -1722,7 +1722,7 @@
 
 [% BLOCK object_name %]
   [% IF class == "Bugzilla::User" %]
-    użytkownik
+    użytkownika
   [% ELSIF class == "Bugzilla::Component" %]
     komponent
   [% ELSIF class == "Bugzilla::Version" %]
