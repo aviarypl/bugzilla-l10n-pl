@@ -138,7 +138,7 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
       
         <a id="account" class="bz_common_actions"
           [% IF user.id %]
-            href="userprefs.cgi"><span>Preferencje użytkownika</span></a>
+            href="userprefs.cgi"><span>Preferencje</span></a>
           [% ELSIF Param('createemailregexp')
                    && user.authorizer.user_can_create_account 
           %]
