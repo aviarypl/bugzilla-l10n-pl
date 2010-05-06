@@ -27,7 +27,7 @@
 
 [% bugidsummary = bug.bug_id _ ': ' _ bug.short_desc %]
 [% attidsummary = attachment.id _ ': ' _ attachment.description %]
-[% statuses = { '+' => "nadał" , '-' => 'odebrał' , 'X' => "anulował" ,
+[% statuses = { '+' => "zaakceptował" , '-' => 'odrzucił' , 'X' => "anulował" ,
                 '?' => "poprosił" } %]
 
 [% to_identity = "" %]
@@ -35,7 +35,7 @@
 [% IF flag.status == '?' %]
   [% subject_status = "poprosił" %]
   [% IF flag.setter.id == user.id %]
-    [% to_identity = " od użytkownika " _ flag.requestee.identity  %]
+    [% to_identity = "od użytkownika " _ flag.requestee.identity  %]
   [% ELSE %]
     [% on_behalf_of = 1 %]
     [% IF flag.requestee %][% to_identity = " do " _ flag.requestee.identity %][% END %]
@@ -48,9 +48,9 @@
 [% END %]
 From: [% Param('mailfrom') %]
 To: [% to %]
-Subject: [%+ subject_status %] flagę [% flag.type.name %] : [[% terms.Blad %] [%+ bug.bug_id %]] [% bug.short_desc %]
+Subject: Użytkownik [%+ subject_status %] flagę „[% flag.type.name %]” dla: [[% terms.Blad %] [%+ bug.bug_id %]] [% bug.short_desc %]
 [%- IF attachment %] :
-  [Attachment [% attachment.id %]] [% attachment.description %][% END %]
+  [Załącznik [% attachment.id %]] [% attachment.description %][% END %]
 X-Bugzilla-Type: request
 [%+ threadingmarker %]
 
@@ -58,10 +58,10 @@ X-Bugzilla-Type: request
 [%- FILTER bullet = wrap(80) -%]
 
 [% IF on_behalf_of %]
-Użytkownik [% user.identity %] zmienił prośbę [% flag.setter.identity %] dotyczącą przydzielenia flagi [% flag.type.name %]
+Użytkownik [% user.identity %] ponownie przydzielił prośbę [% flag.setter.identity %] dotyczącą flagi „[% flag.type.name %]”
 [% to_identity %]:
 [% ELSE %]
-Użytkownik [% user.identity %] ma [% statuses.${flag.status} %] flagę [%+ flag.type.name %] [%+ to_identity %]:
+Użytkownik [% user.identity %] [% statuses.${flag.status} %] flagę „[%+ flag.type.name %]” [%+ to_identity %]
 [% END %]
 
 [% terms.Blad %] [%+ bugidsummary %]
