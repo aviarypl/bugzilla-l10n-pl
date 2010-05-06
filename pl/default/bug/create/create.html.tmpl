@@ -227,7 +227,7 @@ TUI_hide_default('expert_fields');
       Komponent</a>:
     </th>
     <td>
-      <select name="component" onchange="set_assign_to();" size="7">
+      <select name="component" onchange="set_assign_to();" size="7"
               aria-required="true" class="required">
         [%# Build the lists of assignees and QA contacts if "usemenuforusers" is enabled. %]
         [% IF Param("usemenuforusers") %]
