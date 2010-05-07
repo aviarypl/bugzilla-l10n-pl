@@ -55,14 +55,15 @@
   "notmatches"     => "nie pasuje do",
 } %]
 
-[% field_types = { ${constants.FIELD_TYPE_UNKNOWN}       => "Nieznany typ",
-                   ${constants.FIELD_TYPE_FREETEXT}      => "Pole tekstowe",
-                   ${constants.FIELD_TYPE_SINGLE_SELECT} => "Lista rozwijana",
-                   ${constants.FIELD_TYPE_MULTI_SELECT}  => "Pole wielokrotnego wyboru",
-                   ${constants.FIELD_TYPE_TEXTAREA}      => "Duże pole tekstowe",
-                   ${constants.FIELD_TYPE_DATETIME}      => "Data/Czas",
-                   ${constants.FIELD_TYPE_BUG_ID}        => "ID $terms.bledu",
-                } %]
+[% field_types = {
+  ${constants.FIELD_TYPE_UNKNOWN}       => "Nieznany typ",
+  ${constants.FIELD_TYPE_FREETEXT}      => "Pole tekstowe",
+  ${constants.FIELD_TYPE_SINGLE_SELECT} => "Lista rozwijana",
+  ${constants.FIELD_TYPE_MULTI_SELECT}  => "Pole wielokrotnego wyboru",
+  ${constants.FIELD_TYPE_TEXTAREA}      => "Duże pole tekstowe",
+  ${constants.FIELD_TYPE_DATETIME}      => "Data/Czas",
+  ${constants.FIELD_TYPE_BUG_ID}        => "Identyfikator $terms.bledu",
+} %]
 
 [%# You can use this hash to localize (translate) the values displayed
   # for drop-down and multiple-select fields. Lines starting with "#"
@@ -212,7 +213,7 @@
      "longdesc"                => "Komentarz",
      "longdescs.isprivate"     => "Komentarz prywatny",
      "newcc"                   => "Obserwatorzy",
-     "op_sys"                  => "OS",
+     "op_sys"                  => "OS/Wersja",
      "opendate"                => "Otwarto",
      "owner_idle_time"         => "Czas od momentu przypisania osoby odpowiedzialnej",
      "percentage_complete"     => "Postęp (%)",

@@ -37,7 +37,7 @@
 
 <p>
   Na tej stronie można określić dozwolone zmiany statusu w cyklu życia [% terms.bledu %].
-  Aby zapewnić kompatybilność ze starszymi wersjami [% terms.Bugzilli %], ponowne otwarcie
+  Aby zapewnić kompatybilność ze starszymi wersjami [% terms.Bugzilli %], ponowne otwarcie 
   [% terms.bledu %] – jeśli cykl zmian na to zezwala – spowoduje wyświetlenie tylko jedego
   statusu: [% display_value("bug_status", "UNCONFIRMED") FILTER html %] lub [%+ display_value("bug_status", "REOPENED") FILTER html %].
   Decyzja, który status zostanie wyświetlony zależy od tego, czy [% terms.blad %] był kiedykolwiek
@@ -104,9 +104,9 @@
 <p align="center">
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="token" value="[% token FILTER html %]">
-  <input type="submit" value="Zapisz zmiany"> -
-  <a href="editworkflow.cgi">Anuluj zmiany</a> -
-  Przejdź na stronę <a href="editworkflow.cgi?action=edit_comment">Zmiany statusu wymagające komentarza</a>
+  <input type="submit" value="Zapisz zmiany">&nbsp;&nbsp;
+  <a href="editworkflow.cgi">Anuluj zmiany</a>&nbsp;&nbsp;
+  <a href="editworkflow.cgi?action=edit_comment">Zmiany statusu wymagające komentarza</a>
 </p>
 
 </form>

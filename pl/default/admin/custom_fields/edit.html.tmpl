@@ -48,7 +48,7 @@
       <td>[% field.name FILTER html %]</td>
 
       <th align="right">
-        <label for="enter_bug">Może być ustawione w trakcie tworzenia [% terms.bledu %]:</label>
+        <label for="enter_bug">Ustawiane w trakcie tworzenia [% terms.bledu %]:</label>
       </th>
       <td><input type="checkbox" id="enter_bug" name="enter_bug" value="1"
                  [%- " checked" IF field.enter_bug %]
@@ -60,7 +60,7 @@
                  value="[% field.description FILTER html %]"></td>
 
       <th align="right">
-        <label for="new_bugmail">Wyświetlane w powiadomieniach o nowych [% terms.bledach %]:</label>
+        <label for="new_bugmail">Wyświetlane w pow. o nowych [% terms.bledach %]:</label>
       </th>
       <td><input type="checkbox" id="new_bugmail" name="new_bugmail" value="1"
                  [%- " checked" IF field.mailhead %]></td>
@@ -80,7 +80,7 @@
                value="[% field.sortkey FILTER html %]">
       </td>
       <th align="right">
-        <label for="visibility_field_id">Pola wyświetlane tylko, gdy:</label>
+        <label for="visibility_field_id">Pole wyświetlane tylko, gdy:</label>
       </th>
       <td>
         <select name="visibility_field_id" id="visibility_field_id"
@@ -91,7 +91,7 @@
             <option value="[% sel_field.id FILTER html %]"
              [% ' selected="selected"' 
                 IF sel_field.id == field.visibility_field.id %]>
-              [% sel_field.description FILTER html %]
+              [% field_descs.${sel_field.name} FILTER html %]
               ([% sel_field.name FILTER html %])
             </option>
           [% END %]
@@ -131,7 +131,7 @@
               <option value="[% sel_field.id FILTER html %]"
                [% ' selected="selected"' 
                   IF sel_field.id == field.value_field.id %]>
-                [% sel_field.description FILTER html %]
+                [% field_descs.${sel_field.name} FILTER html %]
                 ([% sel_field.name FILTER html %])
               </option>
             [% END %]

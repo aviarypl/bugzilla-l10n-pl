@@ -30,7 +30,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Edycja wartości dla pola „[% field.description FILTER html %]”
+[% title = BLOCK %]Edycja wartości dla pola „[% field_descs.${field.name} FILTER html %]”
                    ([% field.name FILTER html %])[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
