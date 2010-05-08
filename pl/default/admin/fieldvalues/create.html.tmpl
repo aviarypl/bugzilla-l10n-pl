@@ -21,7 +21,7 @@
   #%]
   
 [% title = BLOCK %]
-  Dodawanie wartości dla pola „[% field.description FILTER html %]” ([% field.name FILTER html %])
+  Dodawanie wartości dla pola „[% field_descs.${field.name} FILTER html %]” ([% field.name FILTER html %])
 [% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -29,7 +29,7 @@
 
 <p>
   Na tej stronie można dodać nową wartość dla pola 
-  „[% field.description FILTER html %]”.
+  „[% field_descs.${field.name} FILTER html %]”.
 </p>
 
 <form method="post" action="editvalues.cgi">
@@ -59,7 +59,7 @@
       <tr>
         <th>&nbsp;</th>
         <td>
-          Informacja: Atrybuty otwarty/zamknięty mogą być określone tylko teraz, podczas tworzenia
+          Atrybuty otwarty/zamknięty mogą być określone tylko teraz, podczas tworzenia
           statusu. Nie mogą być później edytowane.
         </td>
       </tr>

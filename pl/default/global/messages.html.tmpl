@@ -286,7 +286,7 @@
   [% ELSIF message_tag == "field_value_created" %]
     [% title = "Utworzono nową wartość pola" %]
     Wartość <em>[% value.name FILTER html %]</em> została dodana jako
-    ważny wybór dla pola <em>[% field.description FILTER html %]</em>
+    prawidłowy wybór dla pola <em>[% field_descs.${field.name} FILTER html %]</em>
     (<em>[% field.name FILTER html %]</em>).
     [% IF field.name == "bug_status" %]
       Przejdź na <a href="editworkflow.cgi">stronę zmian statusów błędów</a>,
@@ -294,16 +294,16 @@
     [% END %]
 
   [% ELSIF message_tag == "field_value_deleted" %]
-    [% title = "Usunięto pole wartości" %]
+    [% title = "Usunięto wartość pola" %]
     Wartość <em>[% value.name FILTER html %]</em> pola
-    <em>[% field.description FILTER html %]</em>
+    <em>[% field_descs.${field.name} FILTER html %]</em>
     (<em>[% field.name FILTER html %]</em>) została usunięta.
 
   [% ELSIF message_tag == "field_value_updated" %]
     [% title = "Zaktualizowano wartość pola" %]
     [% IF changes.keys.size %]
       Wartość <em>[% value_old FILTER html %]</em> pola
-      <em>[% field.description FILTER html %]</em>
+      <em>[% field_descs.${field.name} FILTER html %]</em>
       (<em>[% field.name FILTER html %]</em>) została zmieniona:
       <ul>
         [% IF changes.value %]

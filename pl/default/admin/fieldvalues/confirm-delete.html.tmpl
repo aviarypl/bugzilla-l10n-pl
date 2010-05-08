@@ -23,7 +23,7 @@
 
 [% title = BLOCK %]
   Usuwanie wartości „[% value.name FILTER html %]” z pola
-  „[% field.description FILTER html %]” ([% field.name FILTER html %])
+  „[% field_descs.${field.name} FILTER html %]” ([% field.name FILTER html %])
 [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -38,7 +38,7 @@
 </tr>
 <tr>
   <td valign="top">Nazwa pola:</td>
-  <td valign="top">[% field.description FILTER html %]</td>
+  <td valign="top">[% field_descs.${field.name} FILTER html %]</td>
 </tr>
 <tr>
   <td valign="top">Wartość pola:</td>
@@ -49,7 +49,7 @@
   <td valign="top">
 [% IF value.bug_count %]
   <a title="Lista [% terms.bledow %], dla których 
-            „[%- field.description FILTER html %]” jest
+            „[%- field_descs.${field.name} FILTER html %]” jest
             „[%- value.name FILTER html %]”"
      href="buglist.cgi?[% field.name FILTER url_quote %]=
            [%- value.name FILTER url_quote %]">
@@ -68,13 +68,13 @@
       || value.controlled_values.size 
 %]
 
-  <p>Niestety wartość „[% value.name FILTER html %]” nie może zostać usunięta
-    z pola „[% field.description FILTER html %]” z następujących powodów:</p>
+  <p>Wartość „[% value.name FILTER html %]” nie może zostać usunięta
+    z pola „[% field_descs.${field.name} FILTER html %]” z następujących powodów:</p>
 
   <ul class="warningmessages">
     [% IF value.is_default %]
       <li>„[% value.name FILTER html %]” jest domyślną wartością dla
-        pola „[% field.description FILTER html %]”.
+        pola „[% field_descs.${field.name} FILTER html %]”.
         [% IF user.in_group('tweakparams') %]
           Najpierw należy <a href="editparams.cgi?section=bugfields">zmienić
           domyślną wartość</a> dla tego pola, a dopiero potem usunąć
@@ -93,7 +93,7 @@
         [% END %]
         Musisz zmienić wartość pola na
           <a title="liście [% terms.bledow %], gdzie 
-                    „[%- field.description FILTER html %]” jest
+                    „[%- field_descs.${field.name} FILTER html %]” jest
                     „[%- value.name FILTER html %]”"
              href="buglist.cgi?[% field.name FILTER url_quote %]=
                    [%- value.name FILTER url_quote %]">
@@ -109,7 +109,7 @@
 
     [% IF value_count == 1 %]
       <li>„[% value.name FILTER html %]” jest ostatnią wartością dla
-        „[%- field.description FILTER html %]”, więc nie może zostać usunięta.
+        „[%- field_descs.${field.name} FILTER html %]”, więc nie może zostać usunięta.
       </li>
     [% END %]
 
@@ -118,7 +118,7 @@
         [% FOREACH field = value.controls_visibility_of_fields %]
           <a href="editfields.cgi?action=edit&name=
                    [%- field.name FILTER url_quote %]">
-            [%- field.description FILTER html %] 
+            [%- field_descs.${field.name} FILTER html %] 
             ([% field.name FILTER html %])</a><br>
         [% END %]
       </li>

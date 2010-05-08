@@ -33,7 +33,7 @@
 [% END %]
 
 [% PROCESS global/header.html.tmpl 
-  title = "Tworzenie nowego zbioru danych"
+  title = "Tworzenie nowego zestawu danych"
   onload = "doOnSelectProduct(0);"
   javascript = js_data 
   javascript_urls = [ "js/productform.js" ]
@@ -46,13 +46,13 @@
 
 <p>
   <input type="submit" name="action-search" value="Uruchom wyszukiwanie,">
-  aby wyświetlić [% terms.bledy %], które będą zawarte w tym zbiorze.
+  aby wyświetlić [% terms.bledy %], które będą zawarte w tym zestawie.
 </p>
     
-<h3>Parametry zbioru danych</h3>
+<h3>Parametry zestawu danych</h3>
       
 [% PROCESS reports/series.html.tmpl 
-   button_name = "Utwórz zbiór danych" %]
+   button_name = "Utwórz zestaw danych" %]
   <input type="hidden" name="action" value="create">
 
 <script type="text/javascript">
