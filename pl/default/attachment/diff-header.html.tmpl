@@ -72,8 +72,8 @@ Różnica pomiędzy #[% oldid %] oraz #[% newid %] do [% terms.bledu %] #[% bugi
   [% IF headers %]
     <a href="[% PROCESS viewurl id=attachid %]">Wyświetl</a>
     | <a href="[% PROCESS editurl id=attachid %]">Szczegóły</a>
-    | <a href="[% PROCESS diffurl id=attachid %]&amp;context=[% context FILTER url_quote %]&amp;collapsed=[% collapsed FILTER url_quote %]&amp;headers=[% headers FILTER url_quote %]&amp;format=raw">Raw&nbsp;zunifikowany</a>
-    | Wróć do [% "$terms.bug $bugid" FILTER bug_link(bugid) FILTER none %]
+    | <a href="[% PROCESS diffurl id=attachid %]&amp;context=[% context FILTER url_quote %]&amp;collapsed=[% collapsed FILTER url_quote %]&amp;headers=[% headers FILTER url_quote %]&amp;format=raw">Format&nbsp;łatki</a>
+    | Wróć do [% "$terms.bledu $bugid" FILTER bug_link(bugid) FILTER none %]
   [% END %]
   [% IF other_patches.size > 0 %]
     [% IF headers %] |[%END%]
@@ -87,7 +87,7 @@ Różnica pomiędzy #[% oldid %] oraz #[% newid %] do [% terms.bledu %] #[% bugi
       [% END %]
       </select>
       oraz tą łatką
-      <input type="submit" id="diff" value="Diff">
+      <input type="submit" id="diff" value="Różnice">
       <input type="hidden" name="action" value="interdiff">
       <input type="hidden" name="newid" value="[% attachid %]">
       <input type="hidden" name="headers" value="[% headers FILTER html %]">
@@ -96,8 +96,8 @@ Różnica pomiędzy #[% oldid %] oraz #[% newid %] do [% terms.bledu %] #[% bugi
   <br>
 [% ELSE %]
   [% IF headers %]
-    <a href="attachment.cgi?oldid=[% oldid %]&amp;newid=[% newid %]&amp;action=interdiff&amp;format=raw">Raw zunifikowany</a>
-    | Wróć do [% "$terms.bug $bugid" FILTER bug_link(bugid) FILTER none %]
+    <a href="attachment.cgi?oldid=[% oldid %]&amp;newid=[% newid %]&amp;action=interdiff&amp;format=raw">Format&nbsp;łatki</a>
+    | Wróć do [% "$terms.bledu $bugid" FILTER bug_link(bugid) FILTER none %]
     |
   [% END %]
 [% END %]
@@ -136,12 +136,12 @@ Różnica pomiędzy #[% oldid %] oraz #[% newid %] do [% terms.bledu %] #[% bugi
 [% IF warning %]
 <h2 class="warning">Ostrzeżenie: 
   [% IF warning == "interdiff1" %]
-  Z powodu niedoskonałości [% terms.Bugzilli %] wyświetlany diagram różnic pomiędzy dwiema
+  Z powodu niedoskonałości [% terms.Bugzilli %] wyświetlany diagram różnic pomiędzy dwoma
   łatkami stworzonymi dla różnych zestawów plików może pokazywać niektóre dane w 
   niewłaściwych miejscach.
   [% END %]
   [% IF warning == "interdiff2" %]
-  Z powodu niedoskonałości [%+ terms.Bugzilli %] wyświetlany diagram różnic pomiędzy dwiema
+  Z powodu niedoskonałości [%+ terms.Bugzilli %] wyświetlany diagram różnic pomiędzy dwoma
   łatkami może być wyświetlany niepoprawnie w przypadku porównywania łatek stworzonych
   dla różnych wersji plików.
   [% END %]

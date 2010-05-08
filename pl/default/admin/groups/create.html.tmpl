@@ -56,49 +56,49 @@
 
   <input type="checkbox" id="insertnew" name="insertnew" value="1"
     [% IF Param("makeproductgroups") %] checked[% END %]>
-  <label for="insertnew">Dodaj nową grupę do wszystkich istniejących produktów.</label>
+  <label for="insertnew">Dodaj grupę do wszystkich istniejących produktów</label>
   <p>
   <input type="submit" id="create" value="Dodaj">
   <input type="hidden" name="action" value="new">
   <input type="hidden" name="token" value="[% token FILTER html %]">
 </form>
 
-<p><b>Nazwa</b> – element używany z funkcją B<!-- blah -->ugzilla->user->in_group()
-w każdym ze zmodyfikowanych przez użytkownika plików cgi podczas używania danej grupy.
+<p><b>Nazwa</b> – element używany z funkcją [% terms.Bugzilli %] → user → in_group()
+w każdym ze zmodyfikowanych przez użytkownika plików <tt>cgi</tt> podczas używania danej grupy.
 Może być ona także używana przez osoby wysyłające [% terms.bledy %] za pomocą e-maili,
 by przypisać [% terms.blad %] do określonego zbioru grup.</p>
 
 <p><strong>Opis</strong> – element widoczny dla członków grupy. Wyświetlany w zgłoszeniach [% terms.bledu %]
 przy polach wyboru ograniczenia dostępu do zgłoszenia. Członkowie grupy mogą określić, czy
-zgłoszenie [% terms.bledu %] będzie wyświetlane jedynie dla członków danej grupy.
+zgłoszenie [% terms.bledu %] będzie wyświetlane jedynie dla członków danej grupy.</p>
 
 <p><strong>Używana dla [% terms.bledow %]</strong> – flaga określająca czy grupa
 może być używana dla [% terms.bledow %]. Jeśli zostanie ona odznaczona,
 nie będzie możliwe dodawanie nowych [% terms.bledow %] do tej grupy.
 Niemniej, [% terms.bledy %] będące już w grupie, pozostaną w niej.
 Jest to mniej drastyczny sposób na powstrzymanie wzrostu grupy
-niż jej usunięcie. <strong>Uwaga: Jeśli jest tworzona nowa grupa, należy 
-pozostawić to pole zaznaczone, aby możliwe było dodawanie 
-[% terms.bledow %] do grupy</strong>.</p>
+niż jej usunięcie. <strong>Uwaga: Jeśli jest tworzona nowa grupa,
+ aby możliwe było dodawanie [% terms.bledow %] do grupy, należy
+pozostawić to pole zaznaczone</strong>.</p>
 
 <p><strong>RegExp użytkownika</strong> (opcjonalne) – 
 jeśli jest podane, nastąpi automatyczne udzielenie członkostwa w tej grupie
-każdemu, kogo adres e-mail pasuje do tego wyrażenia.</p>
+każdemu, czyj adres e-mail pasuje do tego wyrażenia.</p>
 
 <p>
-  <strong>Adres URL ikony</strong> jest opcjonalny i jest adresem prowadzącym do ikony
+  <strong>Adres URL ikony</strong> (opcjonalny) – jest adresem prowadzącym do ikony
   użytej do identyfikacji grupy. Może być adresem relatywnym do bazowego adresu
   URL tej instalacji lub adresem absolutnym. Ikona będzie wyświetlana w
   komentarzach do [% terms.bledow %] obok nazwy autora komentarza.
 </p>
 
 <p>Domyślnie nowa grupa będzie skojarzona z istniejącymi 
-produktami. Odznaczając opcję „Dodaj grupę dla wszystkich 
+produktami. Odznaczając funkcję „Dodaj grupę dla wszystkich 
 istniejących produktów” można zapobiec temu i grupa będzie 
 widoczna jedynie, gdy zostanie dodana do produktu.</p>
 
-<p>Wróć do <a href="./">strony głównej [% terms.bledow %]</a>
+<p><a href="./">Strona główna [% terms.bledow %]</a>&nbsp;&nbsp;
 
-lub do <a href="editgroups.cgi">listy grup</a>
+<a href="editgroups.cgi">Lista grup</a></p>
 
 [% PROCESS global/footer.html.tmpl %] 

@@ -60,8 +60,8 @@
 
     <br><a href="editusers.cgi?action=list&amp;groupid=
                  [%- group.id FILTER url_quote %]&amp;grouprestrict=1">Wyświetl
-    użytkowników</a> - <label><input type="checkbox" name="removeusers">Usuń
-    wszystkich użytkowników z tej grupy.</label></p>
+    użytkowników</a>&nbsp;&nbsp;<label><input type="checkbox" name="removeusers">Usuń
+    wszystkich użytkowników z tej grupy</label></p>
   [% END %]
 
   [% IF group.granted_by_direct(constants.GROUP_MEMBERSHIP).size %]
@@ -75,16 +75,16 @@
 
   [% IF group.bugs.size %]
     <p><b>[% group.bugs.size FILTER html %] zgłoszeń [%+ terms.bledow %] jest
-     widocznych tylko dla tej grupy. Nie można usunąć grupy dopóki jakiekolwiek
+     widocznych tylko dla tej grupy. Nie można usunąć grupy dopóki 
      [%+ terms.bledy %] używają tej grupy.</b>
 
     <br><a href="buglist.cgi?field0-0-0=bug_group&amp;type0-0-0=equals&amp;value0-0-0=
-                 [%- group.name FILTER url_quote %]">Wyświetl,
-    które [% terms.bledy %]</a> – 
+                 [%- group.name FILTER url_quote %]">Wyświetl
+    [% terms.bledy %]</a>&nbsp;&nbsp; 
     <label><input type="checkbox" name="removebugs">Usuń
-    wszystkie [% terms.bledy %] z tej grupy.</label></p>
+    wszystkie [% terms.bledy %] z tej grupy</label></p>
 
-    <p><b>UWAGA:</b> Zaznaczając tę funkcję można spowodować ujawnienie poufnych
+    <p><b>Uwaga:</b> Zaznaczając tę funkcję można spowodować ujawnienie poufnych
     [% terms.bledow %]. <b>Zdecydowanie</b> zaleca się przejrzenie
     [% terms.bledow %] w tej grupie przed zaznaczeniem
     funkcji.</p>
@@ -102,11 +102,11 @@
           [% IF control == 'othercontrol' OR control == 'membercontrol' %]
             [% SWITCH data.controls.$control %]
               [% CASE constants.CONTROLMAPMANDATORY %]
-                [% SET type = "Mandatory" %]
+                [% SET type = "Obligatoryjna" %]
               [% CASE constants.CONTROLMAPSHOWN %]
-                [% SET type = "Shown" %]
+                [% SET type = "Widoczna" %]
               [% CASE constants.CONTROLMAPDEFAULT %]
-                [% SET type = "Default" %]
+                [% SET type = "Domyślna" %]
             [% END %]
             [% active.push("$control: $type") %]
           [% ELSE %]
@@ -127,26 +127,26 @@
           [%- data.product.name FILTER html %]</a>
           ([% active.join(', ') FILTER html %])
           [% IF hidden %]
-            <strong>OSTRZEŻENIE: Ten produkt jest obecnie ukryty.
-            Usunięcie tej grupy spowoduje upublicznienie tego produktu.
+            <strong>Ostrzeżenie: Ten produkt jest obecnie ukryty.
+            Usunięcie grupy spowoduje upublicznienie tego produktu.
             </strong>
           [% END %]</li>
       [% END %]
     </ul>
 
-    <p><label><input type="checkbox" name="unbind">Usuń grupę mimo wszystko
-      i usuń te kontrolki.</label></p>
+    <p><label><input type="checkbox" name="unbind">Mimo wszystko usuń grupę i
+      elementy kontrolne</label></p>
   [% END %]
   
   [% IF group.flag_types.size %]
-    <p><b>Ta grupa określa kto może zmieniać flagi pewnych typów.
-    Nie można usunąć grupy dopóki istnieją typy flag z niej korzystające.</b>
+    <p><b>Ta grupa określa kto może zmieniać niektóre flagi.
+    Nie można usunąć grupy dopóki istnieją flagi z niej korzystające.</b>
 
     <br><a href="editflagtypes.cgi?action=list&amp;group=
                  [%- group.id FILTER url_quote %]">Wyświetl
-    typy flag</a> – 
+    flagi</a>&nbsp;&nbsp;
     <label><input type="checkbox" name="removeflags">Usuń wszystkie
-    typy flag z tej grupy.</label></p>
+    flagi z tej grupy</label></p>
   [% END %]
 
   [% IF shared_queries %]
@@ -186,6 +186,6 @@
   </p>
 </form>
 
-Wróć do <a href="editgroups.cgi">listy grup</a>
+<a href="editgroups.cgi">Lista grup</a>
 
 [% PROCESS global/footer.html.tmpl %] 

@@ -131,11 +131,11 @@
   overrides = overrides
 %]
 
-<p><a href="editgroups.cgi?action=add">Nowa grupa</a></p>
+<p><a href="editgroups.cgi?action=add">Dodaj nową grupę</a></p>
 
 <p>
-  <strong>Nazwa</strong> – element używany z funkcją B<!-- blah -->ugzilla->user->in_group()
-w każdym ze zmodyfikowanych przez użytkownika plików cgi podczas używania danej grupy.
+  <strong>Nazwa</strong> – element używany z funkcją [% terms.Bugzilli %] → user → in_group()
+w każdym ze zmodyfikowanych przez użytkownika plików <tt>cgi</tt> podczas używania danej grupy.
 Może być ona także używana przez osoby wysyłające [% terms.bledy %] za pomocą e-maili,
 by przypisać [% terms.blad %] do określonego zestawu grup.
 </p>
@@ -149,12 +149,12 @@ zgłoszenie [% terms.bledu %] będzie wyświetlane jedynie dla członków danej 
 <p>
   <strong>RegExp użytkownika</strong> (opcjonalne) –
 jeśli jest podane, nastąpi automatyczne udzielenie członkostwa w tej grupie
-każdemu, kogo adres e-mail pasuje do tego wyrażenia. Należy pamiętać o końcowym „$”.
+każdemu, czyj adres e-mail pasuje do tego wyrażenia. Należy pamiętać o końcowym „$”.
 Przykład: „@mycompany\.com$”
 </p>
 
 <p>
-  <strong>Używana dla [% terms.bledow %]</strong> – flaga określająca czy grupa
+  <strong>Używana dla [% terms.bledow %]</strong> – flaga określająca, czy grupa
 może być używana dla [% terms.bledow %]. Jeśli zostanie ona usunięta,
 nie będzie możliwe dodawanie nowych [% terms.bledow %] do tej grupy.
 Niemniej, [% terms.bledy %] będące już w grupie pozostaną w niej.

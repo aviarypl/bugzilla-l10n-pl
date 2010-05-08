@@ -122,7 +122,7 @@
                    [%+ IF !can_edit %]class="bz_hidden_option"[% END %]
                    [%+ 'checked="checked"' IF attachment.ispatch %]>
             [% IF can_edit %]
-              <label for="ispatch">łatka</label>
+              <label for="ispatch">Łatka</label>
             [% ELSE %]
               <span class="label">To jest łatka:</span>
               [%+ attachment.ispatch ? "yes" : "no" %]
@@ -170,7 +170,7 @@
 
         [% IF user.id %]
           <div id="smallCommentFrame">
-            <label for="comment">Komentarz (w [% terms.bledzie %]):</label>
+            <small><label for="comment">Komentarz (w [% terms.bledzie %]):</label></small>
             [% INCLUDE global/textarea.html.tmpl
               id      = 'comment'
               name    = 'comment'
@@ -239,9 +239,9 @@
               document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment(patchviewerinstalled);" style="display: none;">Cofnij edycję jako komentarz<\/button>');
               document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment(patchviewerinstalled);" style="display: none;">Przywróć edycję jako komentarz<\/button>');
 [% IF use_patchviewer %]
-              document.write('<button type="button" id="viewDiffButton" onclick="viewDiff(attachment_id, patchviewerinstalled);">Zobacz załącznik jako Diff<\/button>');
+              document.write('<button type="button" id="viewDiffButton" onclick="viewDiff(attachment_id, patchviewerinstalled);">Zobacz załącznik jako różnice<\/button>');
 [% END %]
-              document.write('<button type="button" id="viewRawButton" onclick="viewRaw(patchviewerinstalled);" style="display: none;">Zobacz załącznik jako Diff<\/button>');
+              document.write('<button type="button" id="viewRawButton" onclick="viewRaw(patchviewerinstalled);" style="display: none;">Zobacz załącznik jako łatkę<\/button>');
             }
             //-->
           </script>
@@ -253,7 +253,7 @@
             jego typu MIME ([% attachment.contenttype FILTER html %]).
           </b></p>
           <p><b>
-            <a href="attachment.cgi?id=[% attachment.id %]">Pobranie załącznika</a>.
+            <a href="attachment.cgi?id=[% attachment.id %]">Pobierz załącznik</a>
           </b></p>
         </td>
       [% END %]

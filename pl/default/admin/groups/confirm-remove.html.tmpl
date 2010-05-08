@@ -30,9 +30,9 @@
   #%]
 
 [% IF regexp %]
-  [% title = "Potwierdzenie: Usunąć całkowicie użytkowników pasujących do wyrażenia regularnego?" %]
+  [% title = "Potwierdzenie: Usunąć bezpowrotnie użytkowników pasujących do wyrażenia regularnego?" %]
 [% ELSE %]
-  [% title = "Potwierdzenie: Usunąć całkowicie wszystkich użytkowników?" %]
+  [% title = "Potwierdzenie: Usunąć bezpowrotnie wszystkich użytkowników?" %]
 [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -41,16 +41,16 @@
 %]
 
 [% IF regexp %]
-  <p>Ta funkcja spowoduje usunięcie wszystkich użytkowników z „[% group.name FILTER html %]”,
+  <p>Ta funkcja spowoduje usunięcie wszystkich użytkowników z grupy „[% group.name FILTER html %]”,
     których nazwa użytkownika pasuje do wyrażenia:
-    '[% regexp FILTER html %]'</p>
+    „[% regexp FILTER html %]”</p>
 [% ELSE %]
   <p>Ta funkcja spowoduje całkowite usunięcie wszystkich zdefiniowanych użytkowników
-    z „[% group.name FILTER html %]”.</p>
+    z grupy „[% group.name FILTER html %]”.</p>
 [% END %]
   
 <p>Zwykle taka potrzeba zachodzi tylko jeśli następuje aktualizacja grup
-  utworzonych za pomocą [% terms.Bugzilli %] 2.16 i starszych.
+  utworzonych za pomocą [% terms.Bugzilli %] 2.16 i starszych wersji.
   Używaj tej funkcji ze <b>szczególną ostrożnością</b>. Więcej informacji
   uzyskasz w dokumentacji.
 </p>
@@ -62,7 +62,7 @@
   
   <input name="token" type="hidden" value="[% token FILTER html %]">
   <input name="confirm" type="submit" value="Potwierdzam">
-  <p>Jeśli nie potwierdzasz, możesz wrócić do strony <a href="editgroups.cgi"> Edycja grup</a>.</p>
+  <p>Jeśli nie potwierdzasz, możesz wrócić do strony <a href="editgroups.cgi">Edycja grup</a>.</p>
 </form>
     
 [% PROCESS global/footer.html.tmpl %] 
