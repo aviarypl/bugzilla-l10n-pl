@@ -60,19 +60,19 @@
     dopóki są w niej użytkownicy.</b>
 
     <br><a href="editusers.cgi?action=list&groupid=[% gid FILTER html %]&grouprestrict=1">Wyświetl
-    użytkowników</a> - <input type="checkbox" name="removeusers">Usuń
-    wszystkich użytkowników z tej grupy.</p>
+    użytkowników</a>&nbsp;&nbsp;<input type="checkbox" name="removeusers">Usuń
+    wszystkich użytkowników z tej grupy</p>
   [% END %]
 
   [% IF hasbugs %]
     <p><b>Jedno lub więcej zgłoszeń [% terms.bledow %] jest widocznych tylko dla tej grupy.
     Nie można usunąć grupy dopóki jakiekolwiek [% terms.bledy %] używają tej grupy.</b>
 
-    <br><a href="buglist.cgi?bug_id=[% buglist FILTER html %]">Wyświetl,
-    które [% terms.bledy %]</a> – <input type="checkbox" name="removebugs">Usuń
-    wszystkie [% terms.bledy %] z tej grupy.</p>
+    <br><a href="buglist.cgi?bug_id=[% buglist FILTER html %]">Wyświetl
+    [% terms.bledy %]</a>&nbsp;&nbsp;<input type="checkbox" name="removebugs">Usuń
+    wszystkie [% terms.bledy %] z tej grupy</p>
 
-    <p><b>UWAGA:</b> Zaznaczając tę funkcję można spowodować ujawnienie poufnych [% terms.bledow %].
+    <p><b>Uwaga:</b> Zaznaczając tę funkcję można spowodować ujawnienie poufnych [% terms.bledow %].
     <b>Zdecydowanie</b> zaleca się przejrzenie [% terms.bledow %] w tej grupie
     przed zaznaczeniem funkcji.</p>
   [% END %]
@@ -86,12 +86,12 @@
   [% END %]
   
   [% IF hasflags %]
-    <p><b>Ta grupa określa kto może zmieniać flagi pewnych typów.
-    Nie można usunąć grupy dopóki istnieją typy flag z niej korzystające.</b>
+    <p><b>Ta grupa określa kto może zmieniać niektóre flagi.
+    Nie można usunąć grupy dopóki istnieją flagi z niej korzystające.</b>
 
     <br><a href="editflagtypes.cgi?action=list&group=[% gid FILTER html %]">Wyświetl
-    typy flag</a> - <input type="checkbox" name="removeflags">Usuń wszystkie
-    typy flag z tej grupy.</p>
+    flagi</a>&nbsp;&nbsp;<input type="checkbox" name="removeflags">Usuń wszystkie
+    flagi z tej grupy</p>
   [% END %]
 
   [% IF shared_queries %]
@@ -129,6 +129,6 @@
   </p>
 </form>
 
-Wróć do <a href="editgroups.cgi">listy grup</a>.
+<a href="editgroups.cgi">Lista grup</a>
 
 [% PROCESS global/footer.html.tmpl %] 

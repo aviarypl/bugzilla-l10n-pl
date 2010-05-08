@@ -45,13 +45,13 @@
 
 <form action="relogin.cgi" method="POST">
   <p>
-    Aby rozpocząć
+    Aby rozpocząć,
     [% IF Param('usemenuforusers') %]
       wybierz 
     [% ELSE %]
       podaj login 
     [% END %]
-    <label for="target_login"><u>u</u>żytkownika, którego tożsamość będzie przyjęta</label>:
+    <label for="target_login">użytkownika, którego tożsamość będzie przyjęta</label>:
     [% INCLUDE global/userselect.html.tmpl
        id => "target_login"
        name => "target_login"
@@ -63,20 +63,20 @@
   
   [% IF !Param('usemenuforusers') %]
     <p>
-      Nazwa użytkownika musi być podana dokładnie. Nie będą wyświetlane żadne podpowiedzi.
+      Login użytkownika musi być podany dokładnie. Nie będą wyświetlane żadne podpowiedzi.
     </p>
   [% END %]
   
   <p>
     Poświęć chwilę na wyjaśnienie <label for="reason">powodów użycia tej 
-    funkcji:<br>
+    funkcji.<br>
     <input type="text" id="reason" name="reason" size="80" maxlength="200"
            value="[% reason_default FILTER html %]">
   </p>
   
   <p>
     Wprowadzona wiadomość zostanie wysłana do użytkownika, którego tożsamość
-    zostanie użyta. Można pozostawić pole puste, ale użytkownik ten i tak
+    zostanie użyta. Można nie podawać żadnej informacji, ale użytkownik ten, i tak
     będzie wiedział o przejęciu jego tożsamości.
   </p>
   
@@ -96,7 +96,7 @@
   [% END %]
   
   <p>
-    Naciśnij przycisk, aby rozpocząć sesję:
+    Aby rozpocząć sesję, naciśnij przycisk:
     <input type="submit" value="Rozpocznij sesję">
     <input type="hidden" name="action" value="begin-sudo">
     <input type="hidden" name="token" value="[% token FILTER html %]">

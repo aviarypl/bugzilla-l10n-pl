@@ -27,7 +27,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Załącznik był już utworzony"
+  title = "Formularz załącznika był już wypełniany"
 %]
 
 [% USE Bugzilla %]
@@ -44,8 +44,8 @@
 </table>
 
 <p>
-  Możesz <a href="[% urlbase FILTER html %]attachment.cgi?bugid=[% bugid FILTER url_quote %]&action=enter">
-  utworzyć nowy załącznik</a> lub [% "wrócić do $terms.bledu $bugid" FILTER bug_link(bugid) FILTER none %].
+  <a href="[% urlbase FILTER html %]attachment.cgi?bugid=[% bugid FILTER url_quote %]&action=enter">
+  Utwórz nowy załącznik</a>&nbsp;&nbsp;[% "Wróć do $terms.bledu $bugid" FILTER bug_link(bugid) FILTER none %]
 <p>
 
 [% PROCESS global/footer.html.tmpl %]

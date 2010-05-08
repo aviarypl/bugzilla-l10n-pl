@@ -24,7 +24,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-    Edycja relacji grupa/produkt dla „[% product.name FILTER html %]”
+    Edycja relacji grupa/produkt dla produktu „[% product.name FILTER html %]”
 [% END %]
 [% PROCESS global/header.html.tmpl 
    title = title 
@@ -151,14 +151,14 @@
 Te ustawienia pozwalają kontrolować relacje pomiędzy grupami a produktem.
 </p>
 <p>
-Jeśli dla grupy zaznaczono uprawnienie <b>Zgłaszanie [% terms.bledow %]</b>, to [% terms.bledy %]
-dla tego produktu będą mogli zgłaszać jedynie użytkownicy, którzy są 
+Jeśli dla grupy zaznaczono uprawnienie <b>Zgłaszanie [% terms.bledow %]</b>, [% terms.bledy %]
+dla tego produktu będą mogli zgłaszać jedynie użytkownicy będący 
 członkami grup, które mają uprawnienia do zgłaszania [% terms.bledow %].
 </p>
 <p>
-Jeśli grupa ma zaznaczone uprawnienie <b>Edycja produktów</b>, użytkownicy, którzy nie są
+Jeśli grupa ma zaznaczone uprawnienie <b>Edycja produktów</b>, użytkownicy niebędący
 członkami grup, które mają prawo edycji, będą mogli ten produkt jedynie
-przeglądać. TYLKO użytkownicy, którzy są członkami grup, które mają prawo edycji
+przeglądać. TYLKO użytkownicy, którzy są członkami grup mających prawo edycji
 (mają zaznaczoną funkcję Edycja produktów) będą mieli prawo jego edycji. Jest to dodatkowe
 ograniczenie tego, co może być edytowane przez użytkownika.
 </p>
@@ -181,7 +181,7 @@ wszystkie pola [% terms.bledow %] w tym produkcie.
 </p>
 <p>
 Pola <b>Uprawnienia członków</b> i <b>Dodatkowe uprawnienia</b> wskazują,
-które [% terms.bledy %] zostaną umieszczone w danej grupie
+które [% terms.bledy %] zostaną umieszczone w danej grupie,
 odpowiednio do poniższych definicji.
 </p>
 
@@ -243,8 +243,8 @@ odpowiednio do poniższych definicji.
     </td>
     <td>
       [% terms.Bledy %] dotyczące tego produktu mogą być umieszczane w tej grupie przez każdego
-      z uprawnieniami do edycji [% terms.bledu %], nawet jeśli nie jest członkiem tej grupy.
-      [% terms.Bledy %] zgłaszane przez nie-członków są domyślnie umieszczane w tej grupie.
+      z uprawnieniami do edycji [% terms.bledu %], nawet jeśli nie jest członkiem tej grupy.&nbsp;
+      [% terms.Bledy %] zgłaszane przez innych użytkowników są domyślnie umieszczane w tej grupie.
     </td>
   </tr>
   <tr>
@@ -257,7 +257,7 @@ odpowiednio do poniższych definicji.
     <td>
       [% terms.Bledy %] dotyczące tego produktu mogą być ograniczone jedynie do tej grupy.
       Użytkownicy, którzy są członkami tej grupy, będą mogli umieszczać [% terms.bledy %] w tej grupie.
-      Użytkownicy nie będący członkami tej grupy będą zmuszeni do ograniczenia [% terms.bledow %] do 
+      Użytkownicy niebędący członkami tej grupy będą zmuszeni do ograniczenia [% terms.bledow %] do 
       tej grupy, gdy po raz pierwszy zgłaszają [% terms.blad %] dotyczący tego produktu.
     </td>
   </tr>
@@ -319,7 +319,7 @@ odpowiednio do poniższych definicji.
 Powyższa tabela opisuje wszystkie dopuszczalne kombinacje ustawień
 <b>Uprawnienia członków</b> oraz <b>Dodatkowe uprawnienia</b>.
 Przy próbie ustawienia kombinacji niewystępującej w tabeli (np. Obligatoryjna/Niedostępna,
-Domyślna/Widoczna itd.), zostanie wygenerowany odpowiedni komunikat o [% terms.bledzie %].
+Domyślna/Widoczna itp.) zostanie wygenerowany odpowiedni komunikat o [% terms.bledzie %].
 </p>
 [% PROCESS global/footer.html.tmpl %]
 

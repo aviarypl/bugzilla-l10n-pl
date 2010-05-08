@@ -300,7 +300,7 @@
           %]
           <iframe id="viewFrame" src="attachment.cgi?id=[% attachment.id %]" style="height: 400px; width: 100%;">
             <b>Nie można wyświetlić załącznika podczas przeglądania jego szczegółów, ponieważ twoja przeglądarka nie obsługuje elementu IFRAME.
-            <a href="attachment.cgi?id=[% attachment.id %]">Zobacz załącznik na osobnej stronie</a>.</b>
+            <a href="attachment.cgi?id=[% attachment.id %]">Zobacz załącznik na osobnej stronie</a></b>
           </iframe>
           <script type="text/javascript">
             <!--
@@ -312,9 +312,9 @@
               document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment();" style="display: none;">Cofnij edycję jako komentarz<\/button>');
               document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment();" style="display: none;">Przywróć edycję jako komentarz<\/button>');
 [% IF patchviewerinstalled %]
-              document.write('<button type="button" id="viewDiffButton" onclick="viewDiff();">Zobacz załącznik jako Diff<\/button>');
+              document.write('<button type="button" id="viewDiffButton" onclick="viewDiff();">Zobacz załącznik jako różnice<\/button>');
 [% END %]
-              document.write('<button type="button" id="viewRawButton" onclick="viewRaw();" style="display: none;">Zobacz załącznik jako Raw<\/button>');
+              document.write('<button type="button" id="viewRawButton" onclick="viewRaw();" style="display: none;">Zobacz załącznik jako łatkę<\/button>');
             }
             //-->
           </script>
@@ -326,7 +326,7 @@
             jego typu MIME ([% attachment.contenttype FILTER html %]).
           </b></p>
           <p><b>
-            <a href="attachment.cgi?id=[% attachment.id %]">Pobranie załącznika</a>.
+            <a href="attachment.cgi?id=[% attachment.id %]">Pobierz załącznik</a>
           </b></p>
         </td>
       [% END %]
