@@ -126,8 +126,8 @@
   [% IF old_groups.size %]
     <p>Następujące grupy nie są prawidłowe dla produktu <b>[% product.name FILTER html %]</b>
     lub nie masz uprawnień do ograniczenia [% terms.bledow %] do tych grup.</p>
-    Dostęp do tych [%+ terms.bledow %] nie będzie już ograniczony i mogą stać się
-    ogólnodostępne, jeśli nie będą przypisane do innej grupy:<br>
+    Dostęp do tych [%+ terms.bledow %] nie będzie już ograniczony i jeśli nie zostaną
+    przypisane do innej grupy mogą stać się ogólnodostępne:<br>
     [% FOREACH group = old_groups %]
       <input type="checkbox" id="bit-[% group.id FILTER html %]"
              name="bit-[% group.id FILTER html %]" disabled="disabled" value="1">
@@ -201,9 +201,9 @@
 
 [% IF cgi.param('id') AND cgi.param('id').match('^\d+$') %]
   [% id = cgi.param('id') %]
-  Anuluj i wróć do [% "$terms.bledu $id" FILTER bug_link(id) FILTER none %]
+  [% "Wróć do $terms.bledu $id" FILTER bug_link(id) FILTER none %]&nbsp;&nbsp;
 [% ELSE %]
-  Anuluj i wróć do <a href="buglist.cgi?regetlastlist=1">wyników ostatniego wyszukiwania</a>
+  <a href="buglist.cgi?regetlastlist=1">Wróć do wyników ostatniego wyszukiwania</a>
 [% END %]
 
 [% PROCESS global/footer.html.tmpl %]

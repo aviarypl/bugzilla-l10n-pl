@@ -79,7 +79,7 @@
     [% END %]
     [% IF ids.size %]
         [%+ (ids.size == 1) ? "1" : ids.size %]
-        [%+ IF hide_resolved %]otwarty[% END %]
+        [%+ IF hide_resolved %][% PROCESS ODMIEN c=product.total o1=" otwarty" o2=" otwarte" o3=" otwartych" %][% END %]
         [%+ (ids.size == 1) ? terms.blad : terms.bledow %]:
     [% END %] 
   </h3>

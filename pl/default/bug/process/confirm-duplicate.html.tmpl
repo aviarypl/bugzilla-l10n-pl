@@ -38,14 +38,14 @@
 <p>
   Gdy [% terms.blad %] jest oznaczany jako duplikat, zgłaszający ten [% terms.blad %]
   jest dodawany do listy obserwatorów oryginalnego [% terms.bledu %]. Obecne ustawienia uprawnień
-  [% orig_bug FILTER none %] oryginału uniemożliwiają dodanie zgłaszającego do
+  [% orig_bug FILTER none %] (oryginał) uniemożliwiają dodanie zgłaszającego do
   listy – nie będzie on mógł widzieć [% terms.bledu %] będącego oryginałem jego zgłoszenia.
 </p>
 
 <p>
-  <b>Dodanie zgłaszającego do listy obserwatorów [% orig_bug FILTER none %]
+  <b>Dodanie zgłaszającego do listy obserwatorów [% terms.bledu %] [% orig_bug FILTER none %]
   [% IF cclist_accessible %]
-    teraz umożliwi
+    umożliwi teraz
   [% ELSE %]
     może w przyszłości umożliwić
   [% END %]

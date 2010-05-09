@@ -135,7 +135,7 @@
                  [%+ IF !can_edit %]class="bz_hidden_option"[% END %]
                  [%+ 'checked="checked"' IF attachment.isobsolete %]>
           [% IF can_edit %]
-            <label for="isobsolete">zdezaktualizowany</label>
+            <label for="isobsolete">Zdezaktualizowany</label>
           [% ELSE %]
             <span class="label">Jest zdezaktualizowany:</span>
             [%+ attachment.isobsolete ? "yes" : "no" %]
@@ -236,12 +236,12 @@
               document.write('<iframe id="viewDiffFrame" style="height: 400px; width: 100%; display: none;"><\/iframe>');
 [% END %]
               document.write('<button type="button" id="editButton" onclick="editAsComment(patchviewerinstalled);">Edytuj załącznik jako komentarz<\/button>');
-              document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment(patchviewerinstalled);" style="display: none;">Cofnij edycję jako komentarz<\/button>');
-              document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment(patchviewerinstalled);" style="display: none;">Przywróć edycję jako komentarz<\/button>');
+              document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment(patchviewerinstalled);" style="display: none;">Cofnij edytowanie jako komentarz<\/button>');
+              document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment(patchviewerinstalled);" style="display: none;">Przywróć edytowanie jako komentarz<\/button>');
 [% IF use_patchviewer %]
-              document.write('<button type="button" id="viewDiffButton" onclick="viewDiff(attachment_id, patchviewerinstalled);">Zobacz załącznik jako różnice<\/button>');
+              document.write('<button type="button" id="viewDiffButton" onclick="viewDiff(attachment_id, patchviewerinstalled);">Wyświetl załącznik jako różnice<\/button>');
 [% END %]
-              document.write('<button type="button" id="viewRawButton" onclick="viewRaw(patchviewerinstalled);" style="display: none;">Zobacz załącznik jako łatkę<\/button>');
+              document.write('<button type="button" id="viewRawButton" onclick="viewRaw(patchviewerinstalled);" style="display: none;">Wyświetl załącznik jako łatkę<\/button>');
             }
             //-->
           </script>

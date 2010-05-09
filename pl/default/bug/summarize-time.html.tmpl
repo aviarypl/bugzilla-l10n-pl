@@ -78,7 +78,7 @@
   [% END %]
 
   [% IF null.size > 0 %]
-    [% INCLUDE inactive_report %]
+    [% INCLUDE inactive_report %]<br />
             <h4 style="margin: 0">Suma nieaktywnych [% terms.bledow %]: [% null.size %]</h4>
   [% END %]
 
@@ -145,7 +145,7 @@
                               detailed=detailed %]
     [% END %]
 
-    [% additional = "$terms.Bledow: $global.bug_count.size
+    [% additional = "${terms.Bledow}: $global.bug_count.size
                      Programistów: $global.owner_count.size" %]
     [% INCLUDE section_total additional=additional colspan=2 %]
     </table>

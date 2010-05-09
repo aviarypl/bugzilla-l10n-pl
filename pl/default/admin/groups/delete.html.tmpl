@@ -74,18 +74,18 @@
   [% END %]
 
   [% IF group.bugs.size %]
-    <p><b>[% group.bugs.size FILTER html %] zgłoszeń [%+ terms.bledow %] jest
-     widocznych tylko dla tej grupy. Nie można usunąć grupy dopóki 
+    <p><b>Tylko dla tej grupy są widoczne zgłoszenia [%+ terms.bledow %]: 
+     [% group.bugs.size FILTER html %]. Nie można usunąć grupy dopóki 
      [%+ terms.bledy %] używają tej grupy.</b>
 
     <br><a href="buglist.cgi?field0-0-0=bug_group&amp;type0-0-0=equals&amp;value0-0-0=
-                 [%- group.name FILTER url_quote %]">Wyświetl
+                 [%- group.name FILTER url_quote %]">Wyświetl 
     [% terms.bledy %]</a>&nbsp;&nbsp; 
     <label><input type="checkbox" name="removebugs">Usuń
     wszystkie [% terms.bledy %] z tej grupy</label></p>
 
-    <p><b>Uwaga:</b> Zaznaczając tę funkcję można spowodować ujawnienie poufnych
-    [% terms.bledow %]. <b>Zdecydowanie</b> zaleca się przejrzenie
+    <p><b>Uwaga:</b> Zaznaczając tę funkcję można spowodować ujawnienie poufnych 
+    [% terms.bledow %]. <b>Zdecydowanie</b> zaleca się przejrzenie 
     [% terms.bledow %] w tej grupie przed zaznaczeniem
     funkcji.</p>
   [% END %]
