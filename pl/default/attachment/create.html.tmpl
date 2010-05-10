@@ -53,7 +53,7 @@
     <tr>
       <th>Dezaktualizacja:</th>
       <td>
-        <small><em>Zaznacz załączniki, które zostaną zdezaktualizowane po dodaniu nowego załącznika. (opcjonalne)</em></small><br/>
+        <em>Zaznacz załączniki, które zostaną zdezaktualizowane po dodaniu nowego załącznika. (opcjonalne)</em><br/>
         [% IF attachments.size %]
           [% FOREACH attachment = attachments %]
             [% IF ((attachment.isprivate == 0) || (Param("insidergroup")
@@ -64,7 +64,7 @@
             [% END %]
           [% END %]
         [% ELSE %]
-            [brak załączników do dezaktualizacji]
+            [brak załączników do zdezaktualizowania]
         [% END %]
       </td>
     </tr>
@@ -73,10 +73,10 @@
       <tr>
         <th>Przepisanie:</th>
         <td>
-          <small><em>Aby przepisać ten [% terms.blad %] na siebie,
-              zaznacz poniższe pole wyboru.</em></small><br/>
+          <em>Aby przepisać ten [% terms.blad %] na siebie,
+              zaznacz poniższe pole wyboru.</em><br/>
           <input type="checkbox" id="takebug" name="takebug" value="1">
-          <label for="takebug">przepisz [% terms.blad %] na mnie</label>
+          <label for="takebug">Przepisz [% terms.blad %] na mnie</label>
           [% bug_statuses = [] %]
           [% FOREACH bug_status = bug.status.can_change_to %]
             [% NEXT IF bug_status.name == "UNCONFIRMED" && !bug.product_obj.votes_to_confirm %]
@@ -98,7 +98,7 @@
     <tr>
       <th><label for="comment">Komentarz:</label></th>
       <td>
-        <small><em>Dodaj komentarz dotyczący tego załącznika. (opcjonalne)</em></small><br/>
+        <em>Dodaj komentarz dotyczący tego załącznika. (opcjonalne)</em><br/>
         [% INCLUDE global/textarea.html.tmpl
           name    = 'comment'
           id      = 'comment'

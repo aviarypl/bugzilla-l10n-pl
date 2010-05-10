@@ -78,16 +78,16 @@
         [% END %]
     [% END %]
     [% IF ids.size %]
-        [%+ (ids.size == 1) ? "jeden" : ids.size %]
-        [%+ IF hide_resolved %]otwarty[% END %]
-        [%+ (ids.size == 1) ? terms.blad : terms.bledy %]:
+        [%+ (ids.size == 1) ? "1" : ids.size %]
+        [%+ IF hide_resolved %][% PROCESS ODMIEN c=product.total o1=" otwarty" o2=" otwarte" o3=" otwartych" %][% END %]
+        [%+ (ids.size == 1) ? terms.blad : terms.bledow %]:
     [% END %] 
   </h3>
   [% IF ids.size %]
     ([% IF maxdepth -%]Do głębokości [% maxdepth %] poziomów [% "" IF maxdepth > 1 %] | [% END -%]
-    <a href="buglist.cgi?bug_id=[% ids.join(",") %]">pokaż jako listę [% terms.bledow %] </a>
+    <a href="buglist.cgi?bug_id=[% ids.join(",") %]">wyświetl jako listę [% terms.bledow %] </a>
     [% IF user.in_group('editbugs') && ids.size > 1 %]
-      | <a href="buglist.cgi?bug_id=[% ids.join(",") %]&amp;tweak=1">zmień kilka na raz</a>
+      | <a href="buglist.cgi?bug_id=[% ids.join(",") %]&amp;tweak=1">zmień kilka jednocześnie</a>
     [% END %])
     <ul class="tree">
       [% INCLUDE display_tree tree=$tree_name %]
@@ -179,7 +179,7 @@
      [% END %]
      <input type="hidden" name="hide_resolved" value="[% hide_resolved ? 0 : 1 %]">
      <input type="submit" id="toggle_visibility"
-            value="[% IF hide_resolved %]Pokaż[% ELSE %]Ukryj[% END %] rozwiązane">
+            value="[% IF hide_resolved %]Wyświetl[% ELSE %]Ukryj[% END %] rozwiązane">
    </form>
    </td>
 

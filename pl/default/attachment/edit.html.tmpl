@@ -216,11 +216,11 @@
 
           <input type="checkbox" id="ispatch" name="ispatch" value="1"
                  [%+ 'checked="checked"' IF attachment.ispatch %]>
-          <label for="ispatch">łatka</label>
+          <label for="ispatch">Łatka</label>
         [% END %]
           <input type="checkbox" id="isobsolete" name="isobsolete" value="1"
                  [%+ 'checked="checked"' IF attachment.isobsolete %]>
-          <label for="isobsolete">zdezaktualizowany</label>
+          <label for="isobsolete">Zdezaktualizowany</label>
           [% IF (Param("insidergroup") && user.in_group(Param("insidergroup"))) %]
             <input type="checkbox" id="isprivate" name="isprivate" value="1"
                    [% " checked" IF attachment.isprivate %]>
@@ -309,8 +309,8 @@
               document.write('<iframe id="viewDiffFrame" style="height: 400px; width: 100%; display: none;"><\/iframe>');
 [% END %]
               document.write('<button type="button" id="editButton" onclick="editAsComment();">Edytuj załącznik jako komentarz<\/button>');
-              document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment();" style="display: none;">Cofnij edycję jako komentarz<\/button>');
-              document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment();" style="display: none;">Przywróć edycję jako komentarz<\/button>');
+              document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment();" style="display: none;">Cofnij edytowanie jako komentarz<\/button>');
+              document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment();" style="display: none;">Przywróć edytowanie jako komentarz<\/button>');
 [% IF patchviewerinstalled %]
               document.write('<button type="button" id="viewDiffButton" onclick="viewDiff();">Zobacz załącznik jako różnice<\/button>');
 [% END %]

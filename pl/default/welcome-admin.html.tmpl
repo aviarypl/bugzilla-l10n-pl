@@ -44,7 +44,7 @@
 
   <ul>
     <li><a href="editparams.cgi?section=core#maintainer">maintainer</a> – osoba odpowiedzialna
-    za wszystko dobre i złe, co będzie się działo z tą instalacją,</li>
+    za wszystko, co dobre i złe będzie działo się z tą instalacją,</li>
 
     <li><a href="editparams.cgi?section=core#urlbase">urlbase</a> – podstawowy adres URL
     wskazujący na tę instalację, który będzie również używany w wiadomościach e-mail wysyłanych
@@ -54,26 +54,26 @@
     <li><a href="editparams.cgi?section=core#cookiepath">cookiepath</a> – ważny parametr
     wykorzystywany przez przeglądarki do poprawnego zarządzania ciasteczkami,</li>
 
-    <li><a href="editparams.cgi?section=core#utf8">utf8</a> – parametr umożliwiający kodowanie wszystkich
-    tekstów za pomocą standardu UTF-8. Zaleca się pozostawić ten parametr
+    <li><a href="editparams.cgi?section=core#utf8">utf8</a> – parametr umożliwiający kodowanie
+    wszystkich tekstów za pomocą standardu UTF-8. Zaleca się pozostawić ten parametr
     włączony.</li>
   </ul>
 
   <p>Ważne są także następujące parametry:</p>
 
   <ul>
-    <li><a href="editparams.cgi?section=auth#requirelogin">requirelogin</a> – jeśli jest włączony,
-    zabezpiecza instalację przed użytkownikami nieposiadającymi konta. Innymi słowy,
-    użytkownicy, by cokolwiek zobaczyć i dokonać jakichkolwiek zmian będą musieli się zarejestrować i zalogować.
-    Funkcja przydatna w razie potrzeby zachowania poufności danych,</li>
+    <li><a href="editparams.cgi?section=auth#requirelogin">requirelogin</a> – jeśli ten parametr jest
+    włączony, instalacja będzie zabezpieczona przed użytkownikami nieposiadającymi konta. Innymi słowy,
+    użytkownicy, by cokolwiek zobaczyć i dokonać jakichkolwiek zmian będą musieli się zarejestrować i
+    zalogować. Funkcja przydatna jeśli istnieje potrzeba zachowania poufności danych,</li>
 
     <li><a href="editparams.cgi?section=auth#createemailregexp">createemailregexp</a>
     – parametr ten określa, którzy użytkownicy mają prawo założyć konto w tej instalacji.
-    Jeśli jest ustawiony na „.*” (wartość domyślna), każdy może utworzyć swoje konto. Jeśli
-    jest ustawiony na „@mycompany.com”, tylko użytkownicy mający adres w domenie
-    @mycompany.com będą mogli utworzyć konto. W przypadku pozostawienia pustej wartości,
-    konta będą mogły być zakładane tylko przez administratora. Jeśli instalacja ma być
-    instalacją prywatną, należy dla tego parametru ustawić wartość inną od domyślnej,</li>
+    Jeśli jest określony jako „.*” (wartość domyślna), każdy może utworzyć konto. Gdy
+    jest określony jako „@mycompany.com”, tylko użytkownicy mający adres w domenie
+    @mycompany.com będą mogli utworzyć konto. Jeśli żadna wartość nie zostanie podana,
+    konta będą mogły być zakładane tylko przez administratora. W przypadku, gdy instalacja ma
+    być instalacją prywatną, należy dla tego parametru ustawić wartość inną od domyślnej,</li>
 
     <li><a href="editparams.cgi?section=mta#mail_delivery_method">mail_delivery_method</a>
     – parametr ten określa metodę używaną do wysyłania poczty np. sendmail lub SMTP. Musi być

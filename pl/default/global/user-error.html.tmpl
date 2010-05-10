@@ -366,7 +366,7 @@
   [% ELSIF error == "dependency_loop_multi" %]
     [% title = "Pętla w zależnościach" %]
     Następujące [% terms.blad %]/[% terms.bledy %] znajdą się 
-    w polach „blokuje” i „zależy od” drzewa zależności, jeśli zmiany
+    w polach „Blokuje” i „Zależy od” drzewa zależności, jeśli zmiany
     te zostaną zatwierdzone:
     [% FOREACH dep = deps %]
       [%+ dep FILTER bug_link(dep) FILTER none %]
@@ -1203,7 +1203,7 @@
                          'components.html' => 'Dodawanie komponentów',
                          'groups.html'     => 'Zabezpieczenia grup'} %]
     Nie utworzono żadnego produktu, dla którego można utworzyć [% terms.blad %]
-    lub nie masz uprawnień dostępu do któregokolwiek produktu.
+    lub nie masz uprawnień dostępu do produktów.
 
   [% ELSIF error == "no_valid_action" %]
     [% title = "Nie podano prawidłowej czynności" %]
