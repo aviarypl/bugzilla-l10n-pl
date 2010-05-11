@@ -32,7 +32,7 @@
 [% INCLUDE global/header.html.tmpl title = "Wytyczne zgłaszania $terms.bledow" %] 
 
   <p>Dobrze zgłoszone [% terms.bledy %] mają największe prawdopodobieństwo naprawy. 
-  Te wskazówki wyjaśniają, jak napisać zgłoszenie.
+  Te wskazówki wyjaśniają, jak napisać poprawnie zgłoszenie.
 
 <h3>Zasady</h3>
 
@@ -75,8 +75,7 @@ nie ma wcześniejszych zgłoszeń to:</p>
     Kliknij słowo „Komponent”, by zobaczyć opis każdego 
     komponentu. Jeśli żaden nie wydaje ci się odpowiedni, poszukaj komponentu „Ogólny”.</p>
 
-    <p><b>OS</b> – określa na jakim systemie operacyjnym (OS) [% terms.blad %] został
-    wykryty.
+    <p><b>OS</b> – określa na jakim systemie operacyjnym (OS) [% terms.blad %] został wykryty.
     (np. Linux, Windows XP, Mac OS X.)<br>
     Jeśli wiesz, że ten [% terms.blad %] występuje na każdym systemie operacyjnym,
     wybierz <em>[% display_value("op_sys", "All") FILTER html %]</em>. 
@@ -85,7 +84,7 @@ nie ma wcześniejszych zgłoszeń to:</p>
     <p><b>Krótki opis</b> – krótki opis [% terms.bledu %], który powinien zamknąć się
     maksymalnie w 60 znakach.<br>
      Dobry krótki opis powinien <b>szybko i jednoznacznie identyfikować zgłoszenie
-    [% terms.bledu %]</b>. Powinien opisywać problem, a nie twoje sugerowane rozwiązanie.<br>
+    [+ % terms.bledu %]</b>. Powinien opisywać problem, a nie twoje sugerowane rozwiązanie.<br>
     <ul>
      <li>Dobrze: „<tt>Anulowanie kopiowania plików powoduje awarię 
      menedżera plików</tt>”</li>

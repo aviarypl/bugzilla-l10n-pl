@@ -26,7 +26,7 @@
 Content-Type: text/plain
 From: [% Param('mailfrom') %]
 To: [% user.email %]
-Subject: [[% terms.Bugzilla %]] Twoje konto [% user.login -%] zostało użyte do zmiany tożsamości
+Subject: [[% terms.Bugzilla %]] – Twoje konto [% user.login -%] zostało użyte do zmiany tożsamości
 X-Bugzilla-Type: admin
 
     Użytkownik [%+ sudoer.identity %] użył funkcji „sudo” do pracy w 
@@ -41,5 +41,5 @@ X-Bugzilla-Type: admin
 [% END %]
 
     Jeśli masz wątpliwości, skontaktuj się z administratorem 
-[%+ Param("maintainer") %].  Więcej informacji o funkcji „sudo”
+[%+ Param("maintainer") %]. Więcej informacji o funkcji „sudo”
 można znaleźć pod adresem <[% urlbase %]page.cgi?id=sudo.html>.

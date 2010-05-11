@@ -25,13 +25,14 @@
 
 From: [% Param('mailfrom') %]
 To: [% to %]
-Subject: [% terms.Blad %] [%+ bugid %] Usunięto część lub wszystkie Twoje głosy.
+Subject: [% terms.Blad %] [%+ bugid %] – Usunięto część lub wszystkie Twoje głosy.
 X-Bugzilla-Type: voteremoved
 
 Usunięto część lub wszystkie Twoje głosy z [% terms.bledu %] [%+ bugid %].
 
-Oddałeś/oddałaś [% votesold FILTER html %] [%+ IF votesold == 1 %]głos[% ELSE %]głosy[% END
-%] na ten [% terms.blad %], ale [% votesremoved FILTER html %] zostały usunięte.
+Oddałeś/oddałaś [% votesold FILTER html %] [%+ IF votesold %] 
+[% PROCESS ODMIEN c=votesold o1="głos" o2="głosy" o3="głosów" %]
+[% END %] na ten [% terms.blad %], ale [% votesremoved FILTER html %] zostały usunięte.
 
 [% IF votesnew %]
 [% PROCESS ODMIEN c=votesnew o1="Pozostał 1 głos" o2="Pozostały $votesnew głosy" o3="Pozostało $votesnew głosów" %] na ten [% terms.blad %].

@@ -55,13 +55,13 @@
     Załączników nie można przechowywać lokalnie. Ta funkcja jest wyłączona.
 
   [% ELSIF error == "attachment_url_disabled" %]
-    [% title = "Dodawanie adresu URL do załączników wyłaczone" %]
+    [% title = "Dodawanie adresu URL do załączników wyłączone" %]
     Nie można dołączać adresów URL. Ta funkcja jest obecnie wyłączona.
 
   [% ELSIF error == "auth_invalid_email" %]
     [% title = "Nieprawidłowy adres e-mail" %]
     Podczas próby utworzenia lub aktualizacji twojego konta otrzymaliśmy
-    adres e-mail (<b>[% addr FILTER html %]</b>), który nie przechodzi
+    adres e-mail (<b>[% addr FILTER html %]</b>), który nie spełnia wymogów
     testu poprawności składni.
     [% IF default %]
       Prawidłowy adres e-mail musi zawierać dokładnie jeden znak „@”,
@@ -218,7 +218,7 @@
 
   [% ELSIF error == "inactive_group" %]
     Próba dodania [% terms.bledu %] do grupy „[% name FILTER html %]”, 
-	która nie jest używana dla [% terms.bledow %].
+    która nie jest używana dla [% terms.bledow %].
 
   [% ELSIF error == "invalid_attach_id_to_obsolete" %]
      Numer [% attach_id FILTER html %], podany jako jeden z identyfikatorów
@@ -264,7 +264,7 @@
 
   [% ELSIF error == "feature_disabled" %]
     Funkcja [% install_string("feature_$feature") FILTER html %] jest
-    niedostępna w tej [% terms.Bugzilli %]. 
+    niedostępna w tej instalacji [% terms.Bugzilli %]. 
     [% IF user.in_group('admin') %]
       Jeśli chcesz włączyć tę funkcję, uruchom skrypt 
       <kbd>checksetup.pl</kbd>, by zobaczyć, jak zainstalować niezbędne
@@ -290,11 +290,11 @@
 
   [% ELSIF error == "flag_type_inactive" %]
     [% title = "Nieaktywne typy flag" %]
-    Typ flagi [% type FILTER html %] jest nieaktywny i nie może być używany
+    Flaga [% type FILTER html %] jest nieaktywna i nie może być używana
     do tworzenia nowych flag.
 
   [% ELSIF error == "flag_type_nonexistent" %]
-    Nie ma typu flagi z identyfikatorem <em>[% id FILTER html %]</em>.
+    Nie ma flagi z identyfikatorem <em>[% id FILTER html %]</em>.
 
   [% ELSIF error == "flag_type_target_type_invalid" %]
     Docelowy element nie był ani <em>[% terms.bledem %]</em>, ani <em>załącznikiem</em>
@@ -391,12 +391,12 @@
     [% title = "Brak parametru" %]
     Funkcja <code>[% function FILTER html %]</code> wymaga
     argumentu <code>[% param FILTER html %]</code>, który nie
-    został ustawiony.
+    został określony.
 
   [% ELSIF error == "params_required" %]
     [% title = "Brak parametru" %]
     Funkcja <code>[% function FILTER html %]</code> wymaga
-    ustawienia jednego z następujących parametrów:
+    określenia jednego z następujących parametrów:
     <code>[% params.join(', ') FILTER html %]</code>
 
   [% ELSIF error == "product_empty_group_controls" %]

@@ -86,10 +86,10 @@
     lub wróć do poprzedniej strony, by poprawić wprowadzone nazwy/adresy.
   </p>
 [% ELSE %]
-  [% PROCESS global/header.html.tmpl title="Nieudane dopasowanie" %]
+  [% PROCESS global/header.html.tmpl title="Dane nie są identyczne" %]
   <p>
     [% terms.Bugzilla %] nie jest w stanie jednoznacznie określić poprawność niektórych
-    nazw i/lub adresów e-mail, które podano na poprzedniej stronie.
+    nazw lub adresów e-mail, które podano na poprzedniej stronie.
     [% IF !user.id %]
       <b>Informacja: Jesteś obecnie wylogowany/wylogowana. Tylko dokładnie pasujące adresy e-mail
       będą brane pod uwagę.</b>

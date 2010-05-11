@@ -49,7 +49,7 @@
           + groups_added_to.size + groups_removed_from.size
           + groups_granted_rights_to_bless.size + groups_denied_rights_to_bless.size %]
       [% title = "Zaktualizowano konto $loginold" %]
-      Zostały zatwierdzone poniższe zmiany dla konta użytkownika
+      Poniższe zmiany zostały zatwierdzone dla konta użytkownika
       [%+ loginold FILTER html %]:
       <ul>
         [% FOREACH field = changed_fields %]
@@ -142,11 +142,11 @@
   [% ELSIF message_tag == "buglist_query_gone" %]
     [% title = "Usuwanie wyszukiwania" %]
     [% link  = "Wróć do strony wyszukiwania." %]
-    Wyszukiwanie <b>[% namedcmd FILTER html %]</b> zostało usunięte.
+    Wyszukiwanie <code<b>[% namedcmd FILTER html %]</b></code zostało usunięte.
 
   [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
     [% terms.Bledy %] na tej liście są posortowane według trafności.
-    Na początku listy znajdują się [% terms.bledy %] najbliższe wyszukiwaniu.
+    Na początku listy znajdują się [% terms.bledy %] najbliższe parametrom wyszukiwania.
     [% IF bugs.size == constants.FULLTEXT_BUGLIST_LIMIT %]
       Wyświetlane są wyłącznie pierwsze 
       [% constants.FULLTEXT_BUGLIST_LIMIT FILTER html %] [% terms.bledy %].
@@ -173,17 +173,17 @@
       zostały zapisane:
       <ul>
         [% IF changes.name.defined %]
-          <li>Nazwa została zmieniona na „[% classification.name FILTER html %]”</li>
+          <li>Nazwa została zmieniona na <em>[% classification.name FILTER html %]</em></li>
         [% END %]
         [% IF changes.description.defined %]
           [% IF classification.description %]
-            <li>Opis został zmieniony na „[% classification.description FILTER html %]”</li>
+            <li>Opis został zmieniony na <em>[% classification.description FILTER html %]</em></li>
           [% ELSE %]
             <li>Opis został usunięty</li>
           [% END %]
         [% END %]
         [% IF changes.sortkey.defined %]
-          <li>Klucz sortowania został zmieniony na „[% classification.sortkey FILTER html %]”</li>
+          <li>Klucz sortowania został zmieniony na <em>[% classification.sortkey FILTER html %]</em></li>
         [% END %]
         [% Hook.process('classification_updated_fields') %]
       </ul>
@@ -577,7 +577,7 @@
 
     [% IF shutdown_is_active == 1 %]
       <hr>
-      [% terms.Bugzilla %] została wyłączona. Aby włączyć system ponownie, należy
+      [% terms.Bugzilla %] została wyłączona. Aby ją włączyć ponownie, należy
       wyczyścić pole <em>shutdownhtml</em>.
     [% END%]
 
@@ -608,7 +608,7 @@
     Flaga <em>[% name FILTER html %]</em> została usunięta.
 
   [% ELSIF message_tag == "flag_type_deactivated" %]
-    [% title = BLOCK %]Typ flagi „[% flag_type.name FILTER html %]” został dezaktywowany[% END %]
+    [% title = BLOCK %]Flaga „[% flag_type.name FILTER html %]” została dezaktywowana[% END %]
     Flaga <em>[% flag_type.name FILTER html %]</em> została dezaktywowana.
 
   [% ELSIF message_tag == "install_admin_get_email" %]
@@ -686,7 +686,7 @@
 
   [% ELSIF message_tag == "install_urlbase_default" %]
     Teraz po instalacji [% terms.Bugzilli %], nalezy przejsc na strone
-    "Parametry" (odnosnik znajduje sie w stopce konta Administratora),
+    "Parametry" (odnosnik znajduje sie w stopce konta administratora),
     by sprawdzic czy ustawienia sa zgodne z zalozeniami, wlacznie ze
     sprawdzeniem poprawnosci adresu bazowego.
 
@@ -703,7 +703,7 @@
     dostępne dla zapisu przez użytkownika i serwer www oraz inne pliki (w tym
     plik localconfig, który zawiera hasło bazy danych) muszą być dostępne do
     zapisu dla wszystkich. Oznacza to, że _ktokolwiek_ kto ma dostęp do
-    tego komputera może dowolnie manipulować przy instalacji tej [%+ terms.Bugzilli %]
+    tego komputera może dowolnie manipulować przy tej instalacji [%+ terms.Bugzilli %]
     i uruchomić dowolny kod Perl jako użytkownik serwera www.
 
     Naprawdę należy zmienić tę opcję.
@@ -767,12 +767,12 @@
   [% ELSIF message_tag == "sudo_started" %]
     [% title = "Rozpoczęto sesję sudo" %]
       Rozpoczęto sesję sudo. Przez następne 6 godzin lub do czasu zakończenia
-      sesji, wszystko, co zrobisz, robisz na konto użytkownika,
+      sesji, wszystko, co zrobisz – robisz na konto użytkownika,
       którego tożsamość została przejęta ([% target FILTER html %]).
   
   [% ELSIF message_tag == "sudo_ended" %]
     [% title = "Zakończono sesję sudo" %]
-      Zakończono sesję sudo. Od tego momentu wszystkio co robisz – robisz
+      Zakończono sesję sudo. Od tego momentu wszystko co robisz – robisz
       na własne konto.
 
   [% ELSIF message_tag == "series_created" %]

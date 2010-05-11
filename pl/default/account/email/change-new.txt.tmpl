@@ -1,4 +1,3 @@
-  # Translated by Zespół Aviary.pl <team@aviary.pl>
 [%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
@@ -28,17 +27,14 @@ To: [% emailaddress %]
 Subject: [% terms.Bugzilla %] – Prośba o zmianę adresu e-mail
 X-Bugzilla-Type: admin
 
-[%+ terms.Bugzilla %] otrzymała prośbę o zmianę adresu e-mail dla konta
-[% oldemailaddress %] na Twój adres.
+[%+ terms.Bugzilla %] otrzymała prośbę o zmianę adresu e-mail dla konta [% oldemailaddress %] na Twój adres.
 
-Aby potwierdzić zmianę, otwórz poniższy odnośnik:
+Aby potwierdzić zmianę otwórz poniższy odnośnik:
 
 [%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=cfmem
 
-Jeśli nie jesteś osobą, która wysłała tę prośbę lub chcesz prośbę anulować, 
-otwórz poniższy odnośnik:
+Jeśli nie jesteś osobą, która wysłała tę prośbę lub chcesz prośbę anulować, otwórz poniższy odnośnik:
 
 [%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=cxlem
 
-W przypadku braku reakcji prośba wygaśnie po [% constants.MAX_TOKEN_AGE %] dniach
-([% expiration_ts FILTER time("%e %B %Y o godzinie %H:%M %Z") %]).
+W przypadku braku reakcji prośba wygaśnie po [% constants.MAX_TOKEN_AGE %] dniach ([% expiration_ts FILTER time("%e %B %Y o godzinie %H:%M %Z") %]).
