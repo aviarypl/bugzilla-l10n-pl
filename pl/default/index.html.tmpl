@@ -97,8 +97,8 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
       Data wydania: [% release.data.date FILTER html %]</p>
 
       <p class="notice">Ta wiadomość jest wyświetlana jedynie zalogowanym użytkownikom z uprawnieniami administratora.
-      Można skonfigurować treść tej wiadomości na stronie
-      <a href="editparams.cgi?section=general#upgrade_notification">Strona parametrów</a>.</p>
+      Sposób sprawdzania nowych wersji można skonfigurować na stronie
+      <a href="editparams.cgi?section=general#upgrade_notification">parametrów</a>.</p>
     [% ELSIF release.error == "cannot_download" %]
       <p>Nie można utworzyć lokalnego pliku XML „[% release.xml_file FILTER html %]”.
       Sprawdź, czy serwer WWW może zapisywać do tego katalogu i czy sieć jest dostępna.
@@ -116,7 +116,7 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
     [% ELSIF release.error == "unknown_parameter" %]
       <p>Parametr „[% Param("upgrade_notification") FILTER html %]” nie jest poprawnym parametrem powiadamiania.
       Sprawdź ten parametr na stronie 
-      <a href="editparams.cgi?section=core#upgrade_notification">Parametry</a>.</p>
+      <a href="editparams.cgi?section=core#upgrade_notification">parametrów</a>.</p>
     [% END %]
   </div>
 [% END %]
@@ -139,7 +139,7 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
           [% ELSIF Param('createemailregexp')
                    && user.authorizer.user_can_create_account 
           %]
-            href="createaccount.cgi"><span>Utwórz nowe konto</span></a>
+            href="createaccount.cgi"><span>Nowe konto</span></a>
           [% ELSE %]
             href="?GoAheadAndLogIn=1"><span>Zaloguj się</span></a>
           [% END %]
@@ -154,24 +154,24 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
             <input id="find" type="submit" value="Szybkie szukanie">
             <ul class="additional_links" id="quicksearch_links">
               <li>
-                <a href="page.cgi?id=quicksearch.html">Szybkie szukanie – Pomoc</a>
+                <a href="page.cgi?id=quicksearch.html">Wyszukiwanie – pomoc</a>
               </li>
               <li class="bz_default_hidden" id="quicksearch_plugin">
                 |
                 <a href="javascript:window.external.AddSearchProvider('[% urlbase FILTER html %]search_plugin.cgi')">
-                 Zainstaluj wtyczkę szybkiego szukania
+                 Zainstaluj wtyczkę wyszukiwarki
                 </a>
               </li>
             </ul>
             <ul class="additional_links">
               <li>
                 <a href="[% docs_urlbase FILTER html %]using.html">
-                  [%- terms.Bugzilla %] – Podręcznik użytkownika
+                  Podręcznik użytkownika
                 </a>
                 &nbsp;|
               </li>
               <li>
-                <a href="page.cgi?id=release-notes.html" > Informacje o wydaniu</a>
+                <a href="page.cgi?id=release-notes.html"> Informacje o wydaniu</a>
               </li>
             </ul>
           </div>

@@ -53,7 +53,7 @@
         preferencje z poziomu sekcji <a href="userprefs.cgi?tab=settings">Ustawienia</a>.</dd>
 
         [% class = user.in_group('editcomponents') ? "" : "forbidden" %]
-        <dt id="sanitycheck" class="[% class %]"><a href="sanitycheck.cgi">Sprawdzanie spójności danych</a></dt>
+        <dt id="sanitycheck" class="[% class %]"><a href="sanitycheck.cgi">Spójność danych</a></dt>
         <dd class="[% class %]">W celu zlokalizowania problemów w bazie danych, należy uruchomić sprawdzenie
         spójności danych. W zależności od rozmiaru instalacji, operacja ta może zająć nawet kilkadziesiąt
         minut. Proces ten można zautomatyzować uruchamiając skrypt <tt>sanitycheck.pl</tt>. O wykrytych
