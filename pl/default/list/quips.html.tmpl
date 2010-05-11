@@ -69,7 +69,7 @@
     Zbiór sentencji można powiększyć. Napisz coś ciekawego, zabawnego
     lub nudnego, lecz nie obscenicznego lub obraźliwego i naciśnij przycisk.
     [% IF Param("quip_list_entry_control") == "moderated" AND !user.in_group('admin') %]
-      Sentencja zanim zostanie użyta musi zostać zatwierdzona.
+      Sentencja, zanim zostanie użyta musi zostać zatwierdzona.
     [% END %]
   </p>
 
@@ -100,7 +100,7 @@
     <h2>Edycja istniejących sentencji</h2>
     <p>
       <strong>Uwaga:</strong> Będą wyświetlane tylko zatwierdzone sentencje.
-      Jeśli parametr „quip_list_entry_control” został ustawiony na „otwarte”,
+      Jeśli parametr „quip_list_entry_control” ma wartość „otwarte”,
       nowe sentencje będą akceptowane automatycznie.
     </p>
     <form name="editform" method="post" action="quips.cgi">

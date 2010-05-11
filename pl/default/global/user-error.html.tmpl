@@ -52,7 +52,7 @@
     [% title = "Tworzenie kont jest wyłączone" %]
     Tworzenie kont zostało wyłączone lub ograniczone.
     <hr>
-    Nowe konta może tworzyć tylko administrator. Opiekunem
+    Nowe konta może tworzyć tylko administrator. Administratorem
     jest [% Param("maintainer") %].
 
   [% ELSIF error == "account_creation_restricted" %]
@@ -107,7 +107,7 @@
   [% ELSIF error == "auth_cant_create_account" %]
     [% title = "Nie można utworzyć konta" %]
     Ta witryna korzysta z metod weryfikacji użytkownika, które
-    nie pozwalają na tworzenie nowych kont. W celu utworzenia konta,
+    nie pozwalają na tworzenie nowych kont. W celu utworzenia konta
     proszę skontaktować się z administratorem.
 
   [% ELSIF error == "auth_failure" %]
@@ -169,7 +169,7 @@
     [% ELSIF object == "field_values" %]
       wartości pól
     [% ELSIF object == "flagtypes" %]
-      typów flag
+      flag
     [% ELSIF object == "group_access" %]
       dostępu grup
     [% ELSIF object == "groups" %]
@@ -219,7 +219,7 @@
 
   [% ELSIF error == "bug_access_denied" %]
     [% title = "Brak dostępu" %]
-    [% admindocslinks = {'groups.html' => 'Group Security'} %]
+    [% admindocslinks = {'groups.html' => 'Zabezpieczenia grup'} %]
     Nie masz uprawnień dostępu do [% terms.bledu %] #[% bug_id FILTER html %].
 
   [% ELSIF error == "bug_access_query" %]
@@ -238,7 +238,7 @@
       Adresy URL muszą zaczynać się od „http” lub „https”.
     [% ELSIF reason == 'show_bug' %]
       Adres URL [%+ terms.bledu %] powinien wskazywać na plik <code>show_bug.cgi</code>
-      znajdujący sie w instalacji [% terms.Bugzilli %].
+      znajdujący się w instalacji [% terms.Bugzilli %].
     [% ELSIF reason == 'id' %]
       Pod tym adresem URL nie ma ważnego [% terms.bledu %].
     [% END %]
@@ -256,7 +256,7 @@
     Nie można wyszukiwać lub zapamiętać wyszukiwania bez podanych kryteriów wyszukiwania.
 
   [% ELSIF error == "chart_too_large" %]
-    [% title = "Wykres zbyt duży" %]
+    [% title = "Wykres jest za duży" %]
     Wykres nie może być większy niż 2000 x 2000.
 
   [% ELSIF error == "comment_id_invalid" %]
@@ -312,7 +312,7 @@
     Nie można usunąć domyślnej kategorii.
 
   [% ELSIF error == "classification_has_products" %]
-     Niestety w tej kategorii nadal istnieją produkty. Przed
+     W tej kategorii nadal istnieją produkty. Przed
      usunięciem kategorii, należy przepisać te produkty do
      innej kategorii.
 
@@ -322,11 +322,11 @@
     komponent o nazwie <em>[% name FILTER html %]</em>.
 
   [% ELSIF error == "component_blank_description" %]
-    [% title = "Pusty opis komponentu jest niedopuszczalny" %]
+    [% title = "Brak opisu komponentu" %]
     Należy podać opis dla tego komponentu.
 
   [% ELSIF error == "component_blank_name" %]
-    [% title = "Pusta nazwa komponentu jest niedopuszczalna" %]
+    [% title = "Brak nazwy komponentu" %]
     Należy podać nazwę dla tego nowego komponentu.
 
   [% ELSIF error == "component_has_bugs" %]
@@ -359,7 +359,7 @@
     zanotowano w nim aktywność.
 
   [% ELSIF error == "customfield_has_contents" %]
-    [% title = "Pole dodatkowe ma zawartośc" %]
+    [% title = "Pole dodatkowe ma zawartość" %]
     Nie można usunąć pola dodatkowego „[% name FILTER html %]”, ponieważ
     co najmniej jeden [% terms.blad %] ma w nim zapisaną wartość.
 
@@ -375,12 +375,12 @@
 
   [% ELSIF error == "dependency_loop_single" %]
     [% title = "Pętla w zależnościach" %]
-    Nie można ustawić [% terms.bledu %] blokującego samego siebie lub zależnego od siebie.
+    [% terms.Blad %] nie może blokować samego siebie lub być od siebie zależnym.
 
   [% ELSIF error == "dupe_id_required" %]
     [% title = "Wymagany ID duplikatu $terms.bledu" %]
-    Należy określić ID [% terms.bledu %], by oznaczyć ten [% terms.blad %]
-    jako jego duplikat.
+    By oznaczyć ten [% terms.blad %] jako duplikat, należy
+    określić ID [% terms.bledu %], którego jest duplikatem.
 
   [% ELSIF error == "dupe_not_allowed" %]
     [% title = "Nie można oznaczyć $terms.bledow jako duplikatów" %]
@@ -407,7 +407,7 @@
     Nie udało się potwierdzić adresu e-mail.
 
   [% ELSIF error == "email_no_text_plain" %]
-    Wiadomość nie zawierała żadnego tekstu. System [% terms.Bugzilla %] nie
+    Wiadomość nie zawierała żadnego tekstu. [% terms.Bugzilla %] nie
     obsługuje poczty w formacie HTML i poczty HTML z załącznikami.
 
   [% ELSIF error == "empty_group_description" %]
@@ -421,7 +421,7 @@
   [% ELSIF error == "entry_access_denied" %]
     [% title = "Brak dostępu" %]
     [% admindocslinks = {'groups.html' => 'Group Security'} %]
-    Niestety produkt <em>[% product FILTER html %]</em> nie istnieje
+    Produkt <em>[% product FILTER html %]</em> nie istnieje
     lub nie masz uprawnień dostępu do [% terms.bledow %] w tym
     produkcie.
 
@@ -461,7 +461,7 @@
     Należy podać nazwę dla tego pola.
 
   [% ELSIF error == "field_value_control_select_only" %]
-    [% title = "ieprawidłowa wartość kontrolna pola" %]
+    [% title = "Nieprawidłowa wartość kontrolna pola" %]
     Tylko listy rozwijane i pola wielokrotnego wyboru mogą być polami, które
     kontrolują ich wartości.
 
@@ -571,40 +571,40 @@
 
   [% ELSIF error == "flag_requestee_needs_privs" %]
     [% title = "Brak uprawnień" %]
-    Użytkownik [% requestee.identity FILTER html %] nie ma uprawnień do ustawiania flagi
+    Użytkownik [% requestee.identity FILTER html %] nie ma uprawnień do weryfikowania flagi
     <em>[% flagtype.name FILTER html %]</em>. Proszę wybrać użytkownika, który jest 
     członkiem grupy <em>[% flagtype.grant_group.name FILTER html %]</em>.
 
   [% ELSIF error == "flag_requestee_unauthorized" %]
-    [% title = "Prośba o ustawienie flagi do osoby bez uprawnień" %]
+    [% title = "Prośba o zweryfikowanie flagi do osoby bez uprawnień" %]
     [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami',
                          'groups.html' => 'Zabezpieczenia grup'} %]
     [% docslinks = {'flags-overview.html' => 'Wprowadzenie do flag',
                     'flags.html' => 'Korzystanie z flag'} %]
 
     Poproszono [% requestee.identity FILTER html %]
-    o ustawienie flagi <code>[% flag_type.name FILTER html %]</code> w [% terms.bledzie %] 
+    o zweryfikowanie flagi <code>[% flag_type.name FILTER html %]</code> w [% terms.bledzie %] 
     [%+ bug_id FILTER html -%]
     [% IF attach_id && attach_id > 0 %], załączniku [% attach_id FILTER html %][% END %],
     lecz dostęp do tego [% terms.bledu %] został ograniczony wyłącznie do określonych grup.
-    Osoba, którą poproszono nie należy do żadnej z tych grup.
-    Proszę poprosić kogoś innego o ustawienie flagi lub umożliwić
-    dostęp do tego [% terms.bledu %] dla obserwatorów i dodać tę osobę do listy obserwatorów.
+    Osoba, którą poproszono o zweryfikowanie flagi nie należy do żadnej z tych grup.
+    Proszę poprosić kogoś innego o dokonanie weryfikacji lub umożliwić dostęp do
+    tego [% terms.bledu %] dla obserwatorów i dodać tę osobę do listy obserwatorów.
 
   [% ELSIF error == "flag_requestee_unauthorized_attachment" %]
-    [% title = "Prośba o flagę do osoby bez praw dostępu" %]
+    [% title = "Prośba o zweryfikowanie flagi do osoby bez praw dostępu" %]
     [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami',
                          'groups.html' => 'Zabezpieczenia grup'} %]
     [% docslinks = {'flags-overview.html' => 'Wprowadzenie do flag',
                     'flags.html' => 'Korzystanie z flag'} %]
 
     Poproszono [% requestee.identity FILTER html %]
-    o ustawienie flagi <code>[% flag_type.name FILTER html %]</code> w 
+    o zweryfikowanie flagi <code>[% flag_type.name FILTER html %]</code> w 
     [%+ terms.bledzie %] [%+ bug_id FILTER html %],
     załączniku [% attach_id FILTER html %], lecz dostęp do tego załącznika mają wyłącznie
-    osoby należące do grupy [% Param("insidergroup") FILTER html %]. Osoba, którą poproszono
-    nie należy do niej. Proszę poprosić kogoś innego o ustawienie flagi lub poprosić administratora
-    o dodanie tej osoby do grupy.
+    osoby należące do grupy [% Param("insidergroup") FILTER html %]. Osoba, którą poproszono o
+    zweryfikowanie flagi nie należy do niej. Proszę poprosić kogoś innego o dokonanie weryfikacji
+    lub poprosić administratora o dodanie tej osoby do grupy.
 
   [% ELSIF error == "flag_type_cc_list_invalid" %]
     [% title = "Nieprawidłowa lista obserwatorów flagi" %]
@@ -623,7 +623,7 @@
   [% ELSIF error == "flag_type_name_invalid" %]
     [% title = "Nieprawidłowa nazwa flagi" %]
     [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami'} %]
-    Długość nazwy <em>[% name FILTER html %]</em> musi zawierać się pomiędzy
+    Długość nazwy flagi <em>[% name FILTER html %]</em> musi zawierać się pomiędzy
     1 - 50 znakami i nie może zawierać żadnej spacji lub przecinka.
 
   [% ELSIF error == "flag_update_denied" %]
@@ -632,8 +632,8 @@
                          'groups.html' => 'Zabezpieczenia grup'} %]
     [% docslinks = {'flags-overview.html' => 'Wprowadzenie do flag',
                     'flags.html' => 'Używanie flag'} %]
-    Próbowano [% IF status == "+" %] ustawić [% ELSIF status == "-" %] usunąć
-    [% ELSIF status == "X" %] wyczyścić [% ELSE %] prosić [% END %]
+    Próbowano [% IF status == "+" %] zaakceptować [% ELSIF status == "-" %] odrzucić
+    [% ELSIF status == "X" %] usunąć [% ELSE %] prosić [% END %]
     <code>[% name FILTER html %]
           [% IF status == "X" %][% old_status FILTER html %][% END %]</code>.
 
@@ -697,7 +697,7 @@
     
   [% ELSIF error == "group_invalid_restriction" %]
     Próbujesz ograniczyć [% terms.blad %] [%+ bug.id FILTER html %] do
-    grupy o ID [% group_id FILTER html %], ale [% terms.bugs %] w
+    grupy o ID [% group_id FILTER html %], ale [% terms.bledow %] w
     produkcie „[% product FILTER html %]” nie można ograniczać do
     tej grupy.
 
@@ -778,7 +778,7 @@
     [% title = "Nieprawidłowa data" %]
     „<tt>[% date FILTER html %]</tt>” nie jest poprawną datą.
     [% IF format %]
-      Proszę użyć formatu „<tt>[% format FILTER html %]</tt>”.
+      Proszę użyć formatu „<tt>RRRR-MM-DD</tt>”.
     [% END %]
     
   [% ELSIF error == "illegal_email_address" %]
@@ -801,7 +801,7 @@
     
   [% ELSIF error == "illegal_group_control_combination" %]
     [% title = "Nieprawidłowa kombinacja uprawnień grupy" %]
-    [% admindocslinks = {'groups.html' => 'Przypisywanie uprawnień grupy do produktów'} %]
+    [% admindocslinks = {'groups.html' => 'Edycja grup'} %]
     Kombinacja uprawnień grupy dla grupy 
     „[% groupname FILTER html %]” jest nieprawidłowa.
 
@@ -891,7 +891,7 @@
 
   [% ELSIF error == "invalid_format" %]
     [% title = "Nieprawidłowy format" %]
-    Format "[% format FILTER html %]" jest nieprawidłowy. Musi być jednym z
+    Format „[% format FILTER html %]” jest nieprawidłowy. Musi być jednym z
     [% FOREACH my_format = formats %]
       "[% my_format FILTER html %]"
     [% END %]
@@ -907,7 +907,7 @@
 
   [% ELSIF error == "invalid_maxrows" %]
     [% title = "Nieprawidłowa wartość „Maksymalna liczba wierszy”" %]
-    Maksymalna liczba wierszy „[% maxrows FILTER html %]” musi być dodatnią
+    Wartość maksymalna liczba wierszy „[% maxrows FILTER html %]” musi być dodatnią
     liczbą całkowitą.
 
   [% ELSIF error == "invalid_parameter" %]
@@ -996,7 +996,7 @@
     [% admindocslinks = {'products.html' => 'Administracja produktami',
                          'milestones.html' => 'O wersjach docelowych'} %]
     Wersja [% milestone.name FILTER html %] jest domyślną wersją docelową dla
-    produktu „[% milestone.product.name FILTER html %]”, więc nie może
+    produktu „[% milestone.product.name FILTER html %]”, zatem nie może
     być usunięta.
 
   [% ELSIF error == "milestone_name_too_long" %]
@@ -1065,7 +1065,7 @@
   [% ELSIF error == "missing_datasets" %]
     [% title = "Nie wybrano zestawu danych" %]
     [% docslinks = {'reporting.html' => 'Raporty'} %]
-    Proszę wybrać jeden lub więcej zestaów danych do narysowania wykresu.
+    Proszę wybrać jeden lub więcej zestawów danych do narysowania wykresu.
     
   [% ELSIF error == "missing_frequency" %]
     [% title = "Brakująca częstotliwość" %]
@@ -1339,7 +1339,7 @@
     Nie masz uprawnień do edycji właściwości produktu „[% product FILTER html %]”.
 
   [% ELSIF error == "product_blank_name" %]
-    [% title = "Niedozwolona pusta nazwa produktu" %]
+    [% title = "Niedozwolone puste pole nazwy produktu" %]
     [% admindocslinks = {'products.html' => 'Administracja produktami'} %]
     Należy podać nazwę produktu.
   
@@ -1390,7 +1390,7 @@
     <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
     [%- name FILTER url_quote %]&amp;token=
     [% issue_hash_token([query_id, name]) FILTER url_quote %]">usuń</a>
-    tą.
+    obecną.
 
   [% ELSIF error == "query_name_missing" %]
     [% title = "Nie podano nazwy wyszukiwania" %]
@@ -1440,7 +1440,7 @@
 
   [% ELSIF error == "resolution_not_allowed" %]
     [% title = "Nie można ustawić rozwiązania" %]
-    Nie można ustawić rozwiązania dla otwartego [% terms.bledu %].
+    Nie można określić rozwiązania dla otwartego [% terms.bledu %].
 
   [% ELSIF error == "saved_search_used_by_whines" %]
     [% title = "Zapisane wyszukiwanie jest używane" %]
@@ -1463,7 +1463,7 @@
       już istnieje.
     
   [% ELSIF error == "sidebar_supports_mozilla_only" %]
-    Skrypt - sidebar.cgi obsługuje obecnie wyłącznie przeglądarki oparte na Mozilli.
+    Skrypt - sidebar.cgi obsługuje obecnie wyłącznie przeglądarki oparte na technologii Mozilli.
     <a href="http://www.mozilla.org">Zachęcamy do darmowego pobrania</a>.
 
   [% ELSIF error == "still_unresolved_bugs" %]
@@ -1473,7 +1473,7 @@
       [% PROCESS ODMIEN c=dependencies.0.dependencies o1="nierozwiązaną zależność"
         o2="nierozwiązane zależności" o3="nierozwiązanych zależności" %].
       Wyświetl
-      <a href="showdependencytree.cgi?id=[% dependencies.0.bug_id FILTER none %]&amp;hide_resolved=1">Drzewo
+      <a href="showdependencytree.cgi?id=[% dependencies.0.bug_id FILTER none %]&amp;hide_resolved=1">drzewo
       zależności</a>.
     [% ELSE %]
       Znaleziono [% dependency_count FILTER none %] otwartych [% terms.bledow %], które
@@ -1491,7 +1491,7 @@
 
   [% ELSIF error == "sudo_in_progress" %]
     [% title = "Sesja sudo jest aktywna" %]
-    Trwa sesja sudo (z tożsamością [% target FILTER html %]).  
+    Trwa sesja sudo z tożsamością [% target FILTER html %].  
     Przed rozpoczęciem nowej sesji, należy zakończyć (odnośnik w stopce) trwającą sesję.
 
   [% ELSIF error == "sudo_password_required" %]
@@ -1533,7 +1533,7 @@
     został anulowany.
 
   [% ELSIF error == "too_soon_for_new_token" %]
-    [% title = "Zbyt krótki okres czasu pomiędzy prośbami o nowy token" %]
+    [% title = "Zbyt krótki okres pomiędzy prośbami o nowy token" %]
     Poproszono o token dla nowego
     [% IF type == "password" %]
       hasła
@@ -1558,11 +1558,11 @@
     „[%- product FILTER html %]”.
 
   [% ELSIF error == "version_blank_name" %]
-    [% title = "Pusta nazwa wersji" %]
+    [% title = "Puste pole nazwy wersji" %]
     Należy podać nazwę dla tej wersji.
 
   [% ELSIF error == "version_has_bugs" %]
-    [% title = BLOCK %]Wersja nadal ma przypisane [% terms.bledy %][% END %]
+    [% title = BLOCK %]Wersja ma przypisane [% terms.bledy %][% END %]
     Nadal [% nb FILTER html %] [%+ terms.bledow %] jest przypisanych do tej
     wersji. Należy przypisać te [% terms.bledy %] do innej wersji, aby
     możliwe było usunięcie tej wersji.
@@ -1608,11 +1608,11 @@
 
   [% ELSIF error == "user_not_insider" %]
     [% title = "Użytkownik nie jest w grupie poufnej" %]
-    Niestety nie masz uprawnień do zaznaczania/odznaczania komentarzy lub załączników
+    Nie masz uprawnień do zaznaczania/odznaczania komentarzy lub załączników
     jako prywatne.
 
   [% ELSIF error == "votes_must_be_nonnegative" %]
-    [% title = "Głosy nie mogą być liczbą ujemną" %]
+    [% title = "Liczna głosów nie może być wartością ujemną" %]
     [% admindocslinks = {'voting.html' => 'Ustawienia funkcji głosowania'} %]
     Do głosowania na [% terms.bledy %] można używać tylko liczb dodatnich.
 

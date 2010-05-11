@@ -146,11 +146,11 @@
 
   [% ELSIF san_tag == "cross_check_attachment_has_references" %]
     <a href="sanitycheck.cgi?remove_invalid_attach_references=1">Usuń
-    nieprawidłowe odniesienia do nieistniejących załączników.</a>
+    nieprawidłowe odniesienia do nieistniejących załączników</a>
 
   [% ELSIF san_tag == "cross_check_bug_has_references" %]
     <a href="sanitycheck.cgi?remove_invalid_bug_references=1">Usuń
-    nieprawidłowe odniesienia do nieistniejących [% terms.bledow %].</a>
+    nieprawidłowe odniesienia do nieistniejących [% terms.bledow %]</a>
 
   [% ELSIF san_tag == "double_cross_check_to" %]
     Sprawdzanie odniesień do [% table FILTER html %].[% field1 FILTER html %] /
@@ -246,7 +246,7 @@
 
   [% ELSIF san_tag == "keyword_cache_rebuild" %]
     <a href="sanitycheck.cgi?rebuildkeywordcache=1">Kliknij tutaj, by
-    odbudować bufor słów kluczowych</a>.
+    odbudować bufor słów kluczowych</a>
 
   [% ELSIF san_tag == "profile_login_start" %]
     Sprawdzanie danych logowania profili.
@@ -276,7 +276,7 @@
     co najmniej pół godziny: [% INCLUDE bug_list badbugs = badbugs %]
 
   [% ELSIF san_tag == "unsent_bugmail_fix" %]
-    <a href="sanitycheck.cgi?rescanallBugMail=1">Wyślij te wiadomości</a>.
+    <a href="sanitycheck.cgi?rescanallBugMail=1">Wyślij te wiadomości</a>
 
   [% ELSIF san_tag == "vote_cache_rebuild_start" %]
     Odbudowywanie bufora głosowania.

@@ -69,6 +69,16 @@
         [% ELSE %]
             nie zależy od żadnego [% terms.bledu %].
         [% END %]
+
+    [% IF ids.size %]
+          [%+ (ids.size == 1) ? "jednego" : ids.size %]
+          [%+ IF hide_resolved %]
+          [%+ (ids.size == 1) ? " otwartego $terms.bledu" : " otwartych $terms.bledow" %]:
+    [% ELSE %]
+    [%+ (ids.size == 1) ? terms.bledu : terms.bledow %]:
+    [% END %]
+      [% END %] 
+
     [% ELSIF type == 2 %]
         [% tree_name = "blocked_tree" %]
         [% IF ids.size %] 
@@ -76,11 +86,16 @@
         [% ELSE %]
             nie blokuje żadnych [% terms.bledow %].
         [% END %]
-    [% END %]
     [% IF ids.size %]
-        [%+ (ids.size == 1) ? "1" : ids.size %]
-        [%+ IF hide_resolved %][% PROCESS ODMIEN c=product.total o1=" otwarty" o2=" otwarte" o3=" otwartych" %][% END %]
-        [%+ (ids.size == 1) ? terms.blad : terms.bledow %]:
+        [%+ (ids.size == 1) ? "jeden" : ids.size %]
+        [%+ IF hide_resolved %]
+    [% PROCESS ODMIEN c=ids.size o1="otwarty $terms.blad" o2="otwarte $terms.bledy" 
+      o3="otwartych $terms.bledow" %]:
+    [% ELSE %]
+    [% PROCESS ODMIEN c=ids.size o1=terms.blad o2=terms.bledy o3=terms.bledow %]:
+      [% END %]
+        [% END %]
+
     [% END %] 
   </h3>
   [% IF ids.size %]
