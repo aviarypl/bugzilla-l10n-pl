@@ -26,7 +26,7 @@
 [% INCLUDE global/header.html.tmpl title = "Cykl życia $terms.bledu" %]
 
 <p>
-Pola <b>Status</b> oraz <b>Rozwiązanie</b> pozwalają śledzić cykl
+Pola <b>Status</b> oraz <b>Rozwiązanie</b> umożliwiają śledzenie cyklu
 życia [% terms.bledu %].
 </p>
 
@@ -45,10 +45,10 @@ Pola <b>Status</b> oraz <b>Rozwiązanie</b> pozwalają śledzić cykl
   </tr>
 
   <tr valign="top">
-    <td>Pole <b>Status</b> określa ogólny status [% terms.bledu %].
+    <td>W polu <b>Status</b> określa się ogólny status [% terms.bledu %].
     Tylko niektóre przejścia pomiędzy różnymi wartościami tego pola są dozwolone.</td>
 
-    <td>Pole <b>Rozwiązanie</b> określa, co stało się z danym
+    <td>W polu <b>Rozwiązanie</b> określa się, co stało się z danym
     [%+ terms.bledem %].</td>
   </tr>
 
@@ -94,10 +94,10 @@ Pola <b>Status</b> oraz <b>Rozwiązanie</b> pozwalają śledzić cykl
         <dd>
           Ten [% terms.blad %] został już raz rozwiązany, lecz rozwiązanie okazało się
           niepoprawne. Przykładowo [% terms.blad %] o rozwiązaniu 
-          <b>[% get_resolution("WORKSFORME") FILTER html %]</b> może zostać powtórnie
-          otwarty w przypadku pojawienia się informacji umożliwiających powtórzenie zgłoszeń 
-          [% terms.bledu %] przez zainteresowane osoby. 
-          [% terms.Bledy %] tego typu mogą zmienić status na
+          <b>[% get_resolution("WORKSFORME") FILTER html %]</b>, w przypadku pojawienia się większej
+          ilości informacji, może zostać [% get_status("REOPENED") FILTER html %], ponieważ można go  
+          teraz reprodukować. 
+          Od tego momentu [% terms.bledy %] można oznaczać jako
           <b>[% get_status("ASSIGNED") FILTER html %]</b> lub
           <b>[% get_status("RESOLVED") FILTER html %]</b>.
         </dd>
@@ -214,14 +214,14 @@ Ważność [% terms.bledu%] jest określana jako kombinacja
 które są opisane poniżej.
 
 <h2><a name="priority">Priorytet</a></h2>
-To pole opisuje znaczenie i kolejność, w jakiej [% terms.blad %]
-powinien być naprawiony. Jest ono wykorzystywane przez
+Znaczenie i kolejność, w jakiej [% terms.blad %]
+powinien być naprawiony. Pole jest wykorzystywane przez
 programistów/inżynierów do określenia przypisanych sobie zadań.
 Dostępne priorytety to <b>P1</b> (najważniejszy) do
 <b>P5</b> (najmniej ważny).
 
 <h2><a name="bug_severity">Waga [% terms.bledu %]</a></h2>
-To pole określa dotkliwość [% terms.bledu %]. 
+Dotkliwość [% terms.bledu %]. 
 
 <table>
   <tr>
@@ -269,7 +269,7 @@ To pole określa dotkliwość [% terms.bledu %].
 </table>
 
 <h2><a name="rep_platform">Platforma</a></h2>
-Pole określające platformę sprzętową, na której dany [% terms.blad %] został
+Platforma sprzętowa, na której dany [% terms.blad %] został
 zaobserwowany. W polu tym można wybrać:
 
 <ul>
@@ -304,7 +304,7 @@ Przykładowo Linux może być uruchomiony na PC, Macintoshu lub innych platforma
 <h2><a name="assigned_to">Przypisany do</a></h2>
 
 <p>
-Określa osobę odpowiedzialną za rozwiązanie danego [% terms.bledu %]. Za każdym razem,
+Osoba odpowiedzialna za rozwiązanie danego [% terms.bledu %]. Za każdym razem,
 gdy to pole zmienia zawartość, status zmieniany jest na
 <b>[% get_status("NEW") FILTER html %]</b>, aby ułatwić znalezienie nowych 
 [% terms.bledow %] na osobistej liście [% terms.bledow %].</p>
@@ -319,14 +319,14 @@ pamiętać o odpowiednim ustawieniu pola statusu.
 [% IF Param("use_see_also") %]
   <h2><a name="see_also"></a>Zobacz też</h2>
 
-  <p>To pole umożliwia odwoływanie się do [% terms.bledow %] w innych instalacjach.
-    W polu „Dodaj URL [% terms.bledu %]” można podać adres URL do [%+ terms.bledu %]
-    dla informacji, że [% terms.blad %] jest spokrewniony z tym [% terms.bledem %]. Można
-    podać wiele adresów URL oddzielając je przecinkami.</p>
+  <p>Odwoływanie się do [% terms.bledow %] w innych instalacjach.
+    W celu poinformowania, że dany [% terms.blad %] jest spokrewniony z [% terms.bledem %]
+    znajdującym się w innej instalacji, w polu „Dodaj URL [% terms.bledu %]” można podać adres URL
+    spokrewnionego [%+ terms.bledu %]. Można podać wiele adresów URL oddzielając je przecinkami.</p>
 
   <p>Zazwyczaj powinno się używać tego pola, by odnieść się do [% terms.bledow %] w 
     <em>innych</em> instalacjach. Dla [% terms.bledow %] w tej 
-    instalacji lepszym rozwiązaniem jest użycie pól „Zależy od” i „Blokuje.”
+    instalacji, lepszym rozwiązaniem jest użycie pól „Zależy od” i „Blokuje”.
     </p>
 [% END %]
 

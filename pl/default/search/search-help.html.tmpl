@@ -30,26 +30,27 @@
            Kategoria to zaszeregowanie najwyższego poziomu." },
 { id => "product", 
   html => Param('useclassification') ?
-       "$terms.Bledy zaszeregowywane są wg produktów i komponentów. Wybór kategorii pozwala zawęzić tę listę" :
+       "$terms.Bledy zaszeregowywane są wg produktów i komponentów.<br>
+           Wybór kategorii pozwala zawęzić tę listę." :
        "$terms.Bledy zaszeregowywane są wg produktów i komponentów.<br>
            Produkt jest zaszeregowaniem najwyższego poziomu." },
 { id => "component", 
-  html => "Komponenty to zaszeregowanie drugiego poziomu. Każdy z nich należy do<br> 
-           danego produktu. Wybór produktu pozwala zawęzić tę listę." },
+  html => "Komponenty to zaszeregowanie drugiego poziomu. Każdy z nich należy<br> 
+           do danego produktu. Wybór produktu pozwala zawęzić tę listę." },
 { id => "version", 
   html => "Pole „Wersja” określa wersję oprogramowania, w którym
            znaleziono ${terms.blad}." },
 { id => "target_milestone", 
-  html => "Pole „Wersja docelowa” używane jest do określenia kiedy osoba, do której<br>
-           $terms.blad jest przypisany spodziewa się jego rozwiązania." },
+  html => "Pole „Wersja docelowa” używane jest do określenia kiedy osoba,<br>
+           do której $terms.blad jest przypisany spodziewa się jego rozwiązania." },
 { id => "longdesc",
-  html => "$terms.Bledy zawierają także komentarze dodane do nich przez użytkowników ${terms.Bugzilli}.
-           <br>Można przeszukiwać teksty tych komentarzy." },
+  html => "$terms.Bledy zawierają także komentarze dodane do nich przez użytkowników<br>
+           ${terms.Bugzilli}. Można przeszukiwać teksty tych komentarzy." },
 { id => "longdesc_type",
   html => "Preferowana metoda przeszukiwania komentarzy." },
 { id => "bug_file_loc", 
-  html => "Z $terms.bledami mogą być skojarzone adresy URL - np. odnośnik 
-           do strony,<br>gdzie problem jest widoczny." },
+  html => "Z $terms.bledami mogą być skojarzone adresy URL - np. odnośnik<br> 
+           do strony, gdzie problem jest widoczny." },
 { id => "bug_file_loc_type", 
   html => "Preferowana metoda przeszukiwania adresów URL." },   
 { id => "status_whiteboard", 
@@ -58,8 +59,8 @@
 { id => "status_whiteboard_type", 
   html => "Preferowana metoda przeszukiwania tablicy." },   
 { id => "keywords", 
-  html => "Ze zdefiniowanej listy można do $terms.bledow dodawać słowa kluczowe, by<br>
-           przypisywać im etykiety i je grupować." },
+  html => "Ze zdefiniowanej listy można do $terms.bledow dodawać słowa<br>
+           kluczowe, by przypisywać im etykiety i je grupować." },
 { id => "keywords_type", 
   html => "Preferowana metoda przeszukiwania słów kluczowych." },
 { id => "bug_status", 
@@ -68,7 +69,7 @@
   html => "Jeśli $terms.blad ma status „ROZWIĄZANY”, zostanie dodane
            <br>jedno z tych rozwiązań." },
 { id => "bug_severity", 
-  html => "Jaka jest waga $terms.bledu lub czy jest to propozycja nowej funkcji, sformułowania itp." },
+  html => "Jaka jest waga $terms.bledu lub czy jest to propozycja<br>nowej funkcji, sformułowania itp." },
 { id => "priority", 
   html => "To pole służy do określenia priorytetu ${terms.bledu}." },
 { id => "rep_platform", 
@@ -76,31 +77,29 @@
 { id => "op_sys", 
   html => "System operacyjny, na którym zaobserwowano ${terms.blad}." },
 { id => "email1", 
-  html => "Z każdym $terms.bledem skojarzone są osoby pełniące różne role. 
-           <br>Tutaj można wyszukać te osoby i pełnione przez nich role." },
+  html => "Z każdym $terms.bledem skojarzone są osoby pełniące różne role.<br> 
+           Tutaj można wyszukać te osoby i pełnione przez nich role." },
 { id => "email2", 
-  html => "Z każdym $terms.bledem skojarzone są osoby pełniące różne role. 
-           <br>Tutaj można wyszukać te osoby i pełnione przez nich role." },
+  html => "Z każdym $terms.bledem skojarzone są osoby pełniące różne role.<br> 
+           Tutaj można wyszukać te osoby i pełnione przez nich role." },
 { id => "bug_id", 
   html => "Można zawęzić wyszukiwanie do konkretnego zestawu ${terms.bledow}." },
 { id => "votes", 
-  html => "Na niektóre $terms.bledy można głosować. To pole umożliwia zawężenie<br>
+  html => "Na niektóre $terms.bledy można głosować. To pole umożliwia zawężenie<br/>
            wyszukiwania do $terms.bledow z więcej niż jednym głosem." },
 { id => "chfield", 
-  html => "Można wyszukiwać także wg określonych typów zmian ${terms.bledu}.<br>
-           Za pomocą tego pola można określić, które pola należy wziąć pod uwagę." },
+  html => "Można wyszukiwać także wg określonych typów zmian ${terms.bledu}. Za pomocą<br>
+           tego pola można określić, które pola należy wziąć pod uwagę." },
 { id => "chfieldfrom", 
-  html => "Proszę podać datę rozpoczęcia i zakończenia w formacie RRRR-MM-DD<br>
-           (opcjonalnie z godziną w formacie HH:mm, w układzie 24 godzinnym) albo relatywne daty,<br>
-           jak np. 1h, 2d, 3w, 4m, 5y, które oznaczają odpowiednio 1 godzinę,<br>
-	   2 dni, 3 tygodnie, 4 miesiące i 5 lat temu. 0d oznacza ostatnią północ,<br>
-           a 0h, 0w, 0m, 0y - początek tej godziny, tygodnia, miesiąca lub roku." },
+  html => "Proszę podać datę rozpoczęcia i zakończenia w formacie RRRR-MM-DD, (opcjonalnie z godziną w
+           formacie HH:mm, w układzie 24 godzinnym) albo relatywne daty, jak np. 1h, 2d, 3w, 4m, 5y,
+           które oznaczają odpowiednio: 1 godzinę, 2 dni, 3 tygodnie, 4 miesiące i 5 lat temu.
+           0d oznacza ostatnią północ, a 0h, 0w, 0m, 0y – początek tej godziny, tygodnia, miesiąca lub roku." },
 { id => "chfieldto", 
-  html => "Proszę podać datę rozpoczęcia i zakończenia w formacie RRRR-MM-DD<br>
-           (opcjonalnie z godziną w formacie HH:mm, w układzie 24 godzinnym) albo relatywne daty,<br>
-           jak np. 1h, 2d, 3w, 4m, 5y, które odpowiednio oznaczają 1 godzinę,<br>
-	   2 dni, 3 tygodnie, 4 miesiące i 5 lat temu. 0d oznacza ostatnią północ,<br>
-           a 0h, 0w, 0m, 0y - początek tej godziny, tygodnia, miesiąca lub roku." },
+  html => "Proszę podać datę rozpoczęcia i zakończenia w formacie RRRR-MM-DD, (opcjonalnie z godziną w
+           formacie HH:mm, w układzie 24 godzinnym) albo relatywne daty, jak np. 1h, 2d, 3w, 4m, 5y,
+           które odpowiednio oznaczają 1 godzinę, 2 dni, 3 tygodnie, 4 miesiące i 5 lat temu.
+           0d oznacza ostatnią północ, a 0h, 0w, 0m, 0y – początek tej godziny, tygodnia, miesiąca lub roku." },
 { id => "chfieldvalue", 
   html => "W tym czasie została zmieniona wartość powyższego pola" },
 ] %]

@@ -53,7 +53,7 @@
         preferencje z poziomu sekcji <a href="userprefs.cgi?tab=settings">Ustawienia</a>.</dd>
 
         [% class = user.in_group('editcomponents') ? "" : "forbidden" %]
-        <dt class="[% class %]"><a href="sanitycheck.cgi">Sprawdzanie spójności danych</a></dt>
+        <dt class="[% class %]"><a href="sanitycheck.cgi">Spójność danych</a></dt>
         <dd class="[% class %]">W celu zlokalizowania problemów w bazie danych, należy uruchomić sprawdzenie
         spójności danych. W zależności od rozmiaru instalacji, operacja ta może zająć nawet kilkadziesiąt
         minut. Proces ten można zautomatyzować uruchamiając skrypt <tt>sanitycheck.pl</tt>. O wykrytych
@@ -105,9 +105,9 @@
         niektórych typów pól dodatkowych.</dd>
 
         <dt class="[% class %]"><a href="editworkflow.cgi">Zmiany statusu [%terms.bledow %]</a></dt>
-        <dd class="[% class %]">W tej sekcji można określić zmiany statusu i wybrać dostępne podczas
-        tworzenia [% terms.bledu %] jego początkowe statusy. Można także określić dozwolone przekształcenia
-        statusu [% terms.bledu %] podczas modyfikacji istniejących [% terms.bledow %].</dd>
+        <dd class="[% class %]">W tej sekcji można dostosować zmiany statusu i wybrać dostępne podczas
+        tworzenia [% terms.bledu %] jego początkowe statusy. Podczas modyfikacji istniejących [% terms.bledow %],
+        można także określić dozwolone przekształcenia statusu [% terms.bledu %].</dd>
 
         [% class = user.in_group('creategroups') ? "" : "forbidden" %]
         <dt class="[% class %]"><a href="editgroups.cgi">Grupy</a></dt>
@@ -122,7 +122,7 @@
         kluczowe używane z [% terms.bledami %].</dd>
 
         [% class = user.in_group('bz_canusewhines') ? "" : "forbidden" %]
-        <dt class="[% class %]"><a href="editwhines.cgi">Powiadomienia</a></dt>
+        <dt class="[% class %]"><a href="editwhines.cgi">Przypomnienia</a></dt>
         <dd class="[% class %]">Tutaj można określić wyszukiwania, które będą uruchamiane zgodnie z
         określoną datą i godziną. Wyniki wyszukiwań będą przekazywane bezpośrednio e-mailem. Jest
         to dobry sposób tworzenia przypomnień i śledzenia aktywności w instalacji.</dd>

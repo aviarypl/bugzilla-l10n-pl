@@ -97,8 +97,8 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
       Data wydania: [% release.data.date FILTER html %]</p>
 
       <p class="notice">Ta wiadomość jest wyświetlana jedynie zalogowanym użytkownikom z uprawnieniami administratora.
-      Można skonfigurować treść tej wiadomości na stronie
-      <a href="editparams.cgi?section=core#upgrade_notification">Parametry</a>.</p>
+      Sposób sprawdzania nowych wersji można skonfigurować na stronie
+      <a href="editparams.cgi?section=general#upgrade_notification">parametrów</a>.</p>
     [% ELSIF release.error == "missing_package" %]
       <p>Brakuje pakietu „[% release.package FILTER html %]”. Ten pakiet jest wymagany do
       <a href="editparams.cgi?section=core#upgrade_notification">informowania o nowych wydaniach</a>.</p>
@@ -119,7 +119,7 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
     [% ELSIF release.error == "unknown_parameter" %]
       <p>Parametr „[% Param("upgrade_notification") FILTER html %]” nie jest poprawnym parametrem powiadamiania.
       Sprawdź ten parametr na stronie 
-      <a href="editparams.cgi?section=core#upgrade_notification">Parametry</a>.</p>
+      <a href="editparams.cgi?section=core#upgrade_notification">parametrów</a>.</p>
     [% END %]
   </div>
 [% END %]
@@ -142,7 +142,7 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
           [% ELSIF Param('createemailregexp')
                    && user.authorizer.user_can_create_account 
           %]
-            href="createaccount.cgi"><span>Utwórz nowe konto</span></a>
+            href="createaccount.cgi"><span>Nowe konto</span></a>
           [% ELSE %]
             href="?GoAheadAndLogIn=1"><span>Zaloguj się</span></a>
           [% END %]
@@ -169,7 +169,7 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
             <ul class="additional_links">
               <li>
                 <a href="[% docs_urlbase FILTER html %]using.html">
-                  [%- terms.Bugzilla %] – Podręcznik użytkownika
+                  Podręcznik użytkownika
                 </a>
                 &nbsp;|
               </li>
