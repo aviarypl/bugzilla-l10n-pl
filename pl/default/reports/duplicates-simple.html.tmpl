@@ -33,7 +33,7 @@
 <html>
   [% IF product.size %]
     [% title = BLOCK %]
-      ajczęściej zgłaszane $terms.bledy dla [% product.join(', ') FILTER html %]
+      Najczęściej zgłaszane $terms.bledy dla [% product.join(', ') FILTER html %]
     [% END %]
   [% ELSE %]
     [% title = "Najczęściej zgłaszane $terms.bledy" %]
