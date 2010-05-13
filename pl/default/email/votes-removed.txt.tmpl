@@ -30,9 +30,7 @@ X-Bugzilla-Type: voteremoved
 
 Usunięto część lub wszystkie Twoje głosy z [% terms.bledu %] [%+ bugid %].
 
-Oddałeś/oddałaś [% votesold FILTER html %] [%+ IF votesold %] 
-[% PROCESS ODMIEN c=votesold o1="głos" o2="głosy" o3="głosów" %]
-[% END %] na ten [% terms.blad %], ale [% votesremoved FILTER html %] zostały usunięte.
+Oddałeś/oddałaś [% votesold FILTER html %] [%+ IF votesold %]&nbsp;[% PROCESS ODMIEN c=votesold o1="głos" o2="głosy" o3="głosów" %] [% END %] na ten [% terms.blad %], ale [% votesremoved FILTER html %] zostały usunięte.
 
 [% IF votesnew %]
 [% PROCESS ODMIEN c=votesnew o1="Pozostał 1 głos" o2="Pozostały $votesnew głosy" o3="Pozostało $votesnew głosów" %] na ten [% terms.blad %].
@@ -49,8 +47,7 @@ Powód:
   Oddałeś/oddałaś za dużo głosów na jeden [% terms.blad%].
 
 [% ELSIF reason == "votes_too_many_per_user" %]
-  Zasady głosowania na ten produkt zostały zmienione. Oddałeś/oddałaś
-  za dużo głosów, więc wszystkie zostały usunięte.
+  Zasady głosowania na ten produkt zostały zmienione. Oddałeś/oddałaś za dużo głosów, więc wszystkie zostały usunięte.
 [% END %]
 
 

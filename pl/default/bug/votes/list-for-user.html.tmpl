@@ -81,8 +81,8 @@
       <tr>
         <td></td>
         <th>Liczba głosów</th>
-        <th>[% terms.Blad %] #</th>
-        <th>Podsumowanie</th>
+        <th>Nr [% terms.bledu %]</th>
+        <th>Krótki opis</th>
       </tr>
 
       [% onevoteproduct = 0 %]
@@ -132,7 +132,7 @@
             </td>
             <td>
               [% bug.summary FILTER html %]
-              (<a href="votes.cgi?action=show_bug&amp;bug_id=[% bug.id %]">wyświetl liczbę głosów</a>)
+              (<a href="votes.cgi?action=show_bug&amp;bug_id=[% bug.id %]">liczba głosów</a>)
             </td>
           </tr>
         [% END %]
@@ -140,7 +140,7 @@
         <tr>
           <td></td>
           <td colspan="3">Zużyto [% product.total %]&nbsp;[% PROCESS ODMIEN c=product.total o1=" głos" o2=" głosy" o3=" głosów" %]
-            z [% product.maxvotes %] dozwolonych.
+            z [% product.maxvotes %] dostępnych.
             <br>
             <br>
           </td>
@@ -149,20 +149,20 @@
     </table>
 
     [% IF canedit %]
-      <input type="submit" value="Zmień moje głosy" id="change">&nbsp;&nbsp;
+      <input type="submit" value="Zmień głosy" id="change">&nbsp;&nbsp;
       <a href="buglist.cgi?bug_id=[% all_bug_ids.join(",") FILTER url_quote %]">Wyświetl wszystkie
         jako listę [% terms.bledow %]</a>
       <br>
       <br>
       Aby zmienić liczbę głosów, należy 
       [% IF multivoteproduct %]
-        podać nowe wartości (zero oznacza brak głosów)
+        podać nową wartość (zero oznacza brak głosów)
         [% " lub " IF onevoteproduct %]
       [% END %]
       [% IF onevoteproduct %]
         zaznaczyć pole wyboru
       [% END %]
-      i nacisnąć przycisk <b>Zmień moje głosy</b>.
+      i nacisnąć przycisk <b>Zmień głosy</b>.
     [% ELSE %]
        <a href="buglist.cgi?bug_id=[% all_bug_ids.join(",") FILTER url_quote %]">Wyświetl wszystkie
          jako listę [% terms.bledow %]</a>

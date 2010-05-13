@@ -31,7 +31,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-           title = "Wyświetl głosy"
+           title = "Oddane głosy"
            subheader = "$terms.Blad <a href=\"show_bug.cgi?id=$bug_id\">$bug_id</a>"
  %]
 
@@ -51,13 +51,13 @@
           [% voter.login_name FILTER email FILTER html %]
         </a>
       </td>
-      <td align="right">
+      <td align="center">
         [% voter.vote_count %]
       </td>
     </tr>
   [% END %]
 </table>
 
-<p>Suma głosów: [% total %]</p>
+<p><strong>Suma głosów: [% total %]</strong></p>
 
 [% PROCESS global/footer.html.tmpl %]
