@@ -45,21 +45,21 @@
 
 <p>
   Przypominanie polega na regularnym wykonywaniu przez [% terms.Bugzille %] zadanego 
-  wyszukiwania i wysyłaniu wynikowej listy [% terms.bledow %] za pomocą wiadomości e-mail.
+  wyszukiwania i wysyłaniu wynikowej listy [% terms.bledow %] za pomocą e-maila.
 </p>
 
 <p>
-  Aby dodać nowe zdarzenie przypominania, naciśnij przycisk
-  „Dodaj zdarzenie”, a następnie wprowadź temat wiadomości i tekst, jaki będzie towarzyszył
+  Aby dodać nowe wydarzenie przypominania, naciśnij przycisk
+  „Dodaj wydarzenie”, a następnie wprowadź temat wiadomości i tekst, jaki będzie towarzyszył
   liście [% terms.bledow %].
 </p>
 
 <p>
-  Do zdarzenia można dodawać harmonogramy, naciskając przycisk „Dodaj harmonogram”.
+  Do wydarzenia można dodawać harmonogramy, naciskając przycisk „Dodaj harmonogram”.
   Harmonogram zawiera dzień, czas lub odstęp czasu (np. co 15 minut)
   oraz adres e-mail. Adres ten można zmienić lub nie w zależności od uprawnień
-  użytkownika. Zdarzenia mogą mieć więcej harmonogramów, aby umożliwić uruchamianie w
-  różnym czasie lub dla różnych użytkowników.
+  użytkownika. Wydarzenia mogą mieć wiele harmonogramów, by umożliwić uruchamianie
+  wyszukiwania w różnym czasie lub dla różnych użytkowników.
 </p>
 
 <p>
@@ -90,10 +90,10 @@
 <table cellspacing="2" cellpadding="2" style="border: 1px solid;">
   <tr>
     <th align="left">
-      Zdarzenie: 
+      Wydarzenie: 
     </th>
     <td align="right" colspan="2">
-      <input type="submit" value="Usuń zdarzenie"
+      <input type="submit" value="Usuń wydarzenie"
              name="remove_event_[% event.key %]"
              id="remove_event_[% event.key %]">
     </td>
@@ -319,7 +319,7 @@
 [% END %]
 
 <p align="left">
-  <input type="submit" value="Dodaj zdarzenie" name="add_event" id="add_event">
+  <input type="submit" value="Dodaj wydarzenie" name="add_event" id="add_event">
 </p>
 
 </form>

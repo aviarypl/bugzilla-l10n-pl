@@ -21,7 +21,7 @@
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
-[% INCLUDE global/header.html.tmpl title = "sudo – przejęcie tożsamości" %]
+[% INCLUDE global/header.html.tmpl title = "Funkcja „sudo” – przejęcie tożsamości" %]
 
 <p>
   Funkcja <b>sudo</b> w [%+ terms.Bugzilli %] umożliwia czasowe przyjęcie tożsamości
@@ -32,16 +32,16 @@
 <p>
   Podczas sesji „sudo” wszystkie czynności wykonywane są
   tak jakby były wykonywane przez użytkownika, którego tożsamość jest
-  przyjęta. Funkcja ta jest przydatna w celu testowania i wykonywania ważnych
+  przyjęta. Funkcja ta jest przydatna do testowania i wykonywania ważnych
   zadań podczas nieobecności danego użytkownika. Użytkownik, którego tożsamość została 
   przejęta, otrzyma powiadomienie z informacją o użyciu funkcji „sudo”.
 </p>
 
 <p>
-  Aby użyć tej funkcji trzeba należeć do odpowiedniej grupy. Grupa ta
+  Aby użyć tę funkcję, trzeba należeć do odpowiedniej grupy. Grupa ta
   zawiera domyślnie wszystkich administratorów. Inni użytkownicy mogą
-  być dodani do tej grupy ręcznie. Aby uzyskać dostęp, należy skontaktować
-  się z opiekunem systemu: 
+  być dodani do tej grupy ręcznie. Aby uzyskać dostęp do funkcji „sudo”,
+  należy skontaktować się z opiekunem systemu: 
   <a href="mailto:[% Param("maintainer") %]">
   [%- Param("maintainer") %]</a>.
 </p>
@@ -49,12 +49,12 @@
 <p>
   W celu ochrony przed przejęciem tożsamości przez innych użytkowników, należy skontaktować
   się z opiekunem systemu i zapytać o taką możliwość. Użytkownicy, którzy mają
-  dostęp do tej funkcji są chronieni automatycznie.
+  dostęp do tej funkcji, są chronieni automatycznie.
 </p>
 
 <p id="message">
   [% IF user.in_group('bz_sudoers') %]
-    Jesteś członkiem grupy <b>bz_sudoers</b>. Możesz użyć tej funkcji
+    Jesteś członkiem grupy <b>bz_sudoers</b>. Możesz użyć tę funkcję
     do przejęcia tożsamości innych użytkowników.
   [% ELSE %]
     Nie jesteś członkiem odpowiedniej grupy i nie możesz użyć tej funkcji
@@ -63,7 +63,7 @@
   [% IF user.in_group('bz_sudo_protect') %]
     <br>
     Jesteś członkiem grupy <b>bz_sudo_protect</b>. Inni użytkownicy
-    nie mogą użyć funkcji sudo do przejęcia twojej tożsamości.
+    nie mogą użyć funkcji „sudo” do przejęcia twojej tożsamości.
   [% END %]
 </p>
 
