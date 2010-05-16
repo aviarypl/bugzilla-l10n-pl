@@ -29,38 +29,29 @@ X-Bugzilla-Type: whine
 
 [Ta wiadomość została wygenerowana automatycznie.]
 
-W systemie śledzenia [% terms.bledow %] [% terms.Bugzilla %] ([% urlbase %])
-jest co najmniej jeden [% terms.blad %] przypisany do Ciebie, 
-który wymaga uwagi.
+W systemie śledzenia [% terms.bledow %] [% terms.Bugzilla %] ([% urlbase %]) jest co najmniej jeden [% terms.blad %] przypisany do Ciebie, który wymaga uwagi.
 
-Wszystkie te [% terms.bledy %] mają status [% get_status("NEW") %] lub 
-[% get_status("REOPENED") %] i nikt się nimi nie zajmował od co najmniej
-[% Param("whinedays") %] dni.
+Wszystkie te [% terms.bledy %] mają status [% get_status("NEW") %] lub [% get_status("REOPENED") %] i nikt się nimi nie zajmował od co najmniej [% Param("whinedays") %] dni.
 Należy przejrzeć ww. [% terms.bledy %] i podjąć decyzję co do ich dalszego losu.
 
 Możliwe decyzje:
 
-(1) Ten [% terms.blad %] jest prosty do rozwiązania (np. jest [% get_resolution("INVALID") %]),
-    więc można go wyeliminować natychmiast.
+(1) Ten [% terms.blad %] jest prosty do rozwiązania (np. jest [% get_resolution("INVALID") %]), więc można go wyeliminować natychmiast.
 (2) Ten [% terms.blad %] nie należy do Ciebie, więc trzeba go do kogoś przypisać.
-    (Podpowiedź: Jeśli nie wiesz komu przypisać ten błąd, sprawdź pole Komponent,
-    i jeśli wygląda rozsądnie, użyj funkcji „Przywróć domyślną osobę odpowiedzialną”.)
-(3) Jeśli [% terms.blad %] jest przypisany do Ciebie, lecz nie możesz rozwiązać go w tej chwili,
-    zaakceptuj [% terms.blad %] ustawiając status na [% get_status("ASSIGNED") %].
+    (Podpowiedź: Jeśli nie wiesz komu przypisać ten błąd, sprawdź pole Komponent, i jeśli wygląda rozsądnie, użyj funkcji „Przywróć domyślną osobę odpowiedzialną”.)
+(3) Jeśli [% terms.blad %] jest przypisany do Ciebie, lecz nie możesz rozwiązać go w tej chwili, zaakceptuj [% terms.blad %] ustawiając status na [% get_status("ASSIGNED") %].
 
-Pełną listę [% terms.bledow %] ze statusem [% get_status("NEW") %]/[% get_status("REOPENED") %]
-można uzyskać pod adresem:
+Pełną listę [% terms.bledow %] ze statusem [% get_status("NEW") %]/[% get_status("REOPENED") %] można uzyskać pod adresem:
 
  [% urlbase %]buglist.cgi?bug_status=NEW&bug_status=REOPENED&assigned_to=[% email %]
 
 lub można użyć zwykłej strony zapytań:
+
 [%+ urlbase %]query.cgi
 
-Poniżej dołączono poszczególne adresy URL do wszystkich Twoich [% terms.bledow %] ze statusem
-[% get_status("NEW") %], którymi nikt się nie zajmował od co najmniej [% Param("whinedays") %] dni.
+Poniżej dołączono poszczególne adresy URL do wszystkich Twoich [% terms.bledow %] ze statusem [% get_status("NEW") %], którymi nikt się nie zajmował od co najmniej [% Param("whinedays") %] dni.
 
-Wiadomość tę będziesz otrzymywać codziennie do czasu podjęcia kroków w celu rozwiązania
-tych [% terms.bledow %].
+Wiadomość tę będziesz otrzymywać codziennie do czasu podjęcia kroków w celu rozwiązania tych [% terms.bledow %].
 
 [% FOREACH bug = bugs %]
  [%+ bug.summary %]

@@ -41,7 +41,7 @@
     [% END %]
     [% IF login_info %]
       Możesz teraz przejść do strony <a href="index.cgi">logowania</a>, aby
-      zalogować się i pracować w tej instalacji [% terms.Bugzilli %].
+      się zalogować.
     [% END %]
 
   [% ELSIF message_tag == "account_creation_canceled" %]
@@ -54,7 +54,7 @@
           + groups_added_to.size + groups_removed_from.size
           + groups_granted_rights_to_bless.size + groups_denied_rights_to_bless.size %]
       [% title = "Zaktualizowano konto $loginold" %]
-      Zostały zatwierdzone poniższe zmiany dla konta użytkownika
+      Poniższe zmiany zostały zatwierdzone dla konta użytkownika
       [%+ loginold FILTER html %]:
       <ul>
         [% FOREACH field = changed_fields %]

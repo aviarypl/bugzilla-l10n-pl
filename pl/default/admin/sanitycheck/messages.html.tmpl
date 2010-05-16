@@ -22,13 +22,13 @@
 
 [% san_message = BLOCK %]
   [% IF san_tag == "checks_start" %]
-    Teraz zostanie uruchomione sprawdzanie spójności danych.
+    Test spójności danych.
 
   [% ELSIF san_tag == "checks_completed" %]
-    Sprawdzanie spójności danych zostało zakończone.
+    Test spójności danych został zakończony.
 
   [% ELSIF san_tag == "attachment_reference_deletion_start" %]
-    Teraz zostaną usunięte wszystkie odniesienia do usuniętych załączników.
+    Usuwanie wszystkich odniesień do usuniętych załączników…
 
   [% ELSIF san_tag == "attachment_reference_deletion_end" %]
     Wszystkie powiązania z usuniętymi załącznikami zostały usunięte.
@@ -40,95 +40,95 @@
     <a href="sanitycheck.cgi?[% param FILTER url_quote %]=1">[% text FILTER html %]</a>.
 
   [% ELSIF san_tag == "bug_check_creation_date" %]
-    Wyszukiwanie [% terms.bledow %] bez daty utworzenia (są niewidoczne).
+    Test [% terms.bledow %] bez daty utworzenia (są niewidoczne).
 
   [% ELSIF san_tag == "bug_check_creation_date_error_text" %]
-    [% terms.Bledy %] bez daty utworzenia
+    [% terms.Bledy %] bez daty utworzenia:
 
   [% ELSIF san_tag == "bug_check_creation_date_repair_text" %]
-    Naprawianie brakujących dat utworzenia [% terms.bledow %]
+    Naprawianie brakujących dat utworzenia [% terms.bledow %]…
 
   [% ELSIF san_tag == "bug_check_bugs_fulltext" %]
-    Wyszukiwanie [% terms.bledow %] bez wpisów do wyszukiwania pełnotekstowego.
+    Test [% terms.bledow %] bez wpisów do wyszukiwania pełnotekstowego.
 
   [% ELSIF san_tag == "bug_check_bugs_fulltext_error_text" %]
-    [% terms.Bledy %] bez wpisów do wyszukiwania pełnotekstowego
+    [% terms.Bledy %] bez wpisów do wyszukiwania pełnotekstowego:
 
   [% ELSIF san_tag == "bug_check_bugs_fulltext_repair_text" %]
-    Naprawianie brakujących wpisów do wyszukiwania pełnotekstowego tych [% terms.bledow %]
+    Naprawianie brakujących wpisów do wyszukiwania pełnotekstowego tych [% terms.bledow %]…
 
   [% ELSIF san_tag == "bug_check_res_dupl" %]
-    Sprawdzanie rozwiązań/duplikatów
+    Test rozwiązań/duplikatów
 
   [% ELSIF san_tag == "bug_check_res_dupl_error_text" %]
-    [% terms.Bledy %] znalezione w tabeli duplikatów niezaznaczone jako duplikaty
+    [% terms.Bledy %] znalezione w tabeli duplikatów niezaznaczone jako duplikaty:
 
   [% ELSIF san_tag == "bug_check_res_dupl_error_text2" %]
-    [% terms.Bledy %] znalezione z oznaczeniem „rozwiązane” duplikaty, ale niebędące w tabeli duplikatów
+    [% terms.Bledy %] znalezione z oznaczeniem „rozwiązane” duplikaty, ale niebędące w tabeli duplikatów:
 
   [% ELSIF san_tag == "bug_check_status_res" %]
-    Sprawdzanie statusów/rozwiązań
+    Test statusów/rozwiązań
 
   [% ELSIF san_tag == "bug_check_status_res_error_text" %]
-    [% terms.Bledy %] z otwartym statusem i rozwiązaniem
+    [% terms.Bledy %] z otwartym statusem i rozwiązaniem:
 
   [% ELSIF san_tag == "bug_check_status_res_error_text2" %]
-    [% terms.Bledy %] ze statusem innym niż otwarty i bez rozwiązania
+    [% terms.Bledy %] ze statusem innym niż otwarty i bez rozwiązania:
 
   [% ELSIF san_tag == "bug_check_status_everconfirmed" %]
-    Sprawdzanie statusów/zawsze potwierdzonych
+    Test statusów/zawsze potwierdzonych.
 
   [% ELSIF san_tag == "bug_check_status_everconfirmed_error_text" %]
-    [% terms.Bledy %], które są NIEPOTWIERDZONE, ale mają ustawiony status „zawsze potwierdzony”
+    [% terms.Bledy %], które są NIEPOTWIERDZONE, ale mają ustawiony status „zawsze potwierdzony”:
 
   [% ELSIF san_tag == "bug_check_status_everconfirmed_error_text2" %]
-    [% terms.Bledy %] z potwierdzonym statusem, ale nie mają ustawionego statusu „zawsze potwierdzony”
+    [% terms.Bledy %] z potwierdzonym statusem, ale nie mają ustawionego statusu „zawsze potwierdzony”:
 
   [% ELSIF san_tag == "bug_check_votes_everconfirmed" %]
-    Sprawdzanie głosów/zawsze potwierdzonych
+    Test głosów/zawsze potwierdzonych.
 
   [% ELSIF san_tag == "bug_check_votes_everconfirmed_error_text" %]
-    [% terms.Bledy %], które mają wystarczającą liczbę głosów do potwierdzenia, ale nie zostały potwierdzone
+    [% terms.Bledy %], które mają wystarczającą liczbę głosów do potwierdzenia, ale nie zostały potwierdzone:
 
   [% ELSIF san_tag == "bug_check_control_values" %]
-    Wyszukiwanie nieprawidłowych wartości w group_control_map
+    Test nieprawidłowych wartości w group_control_map.
 
   [% ELSIF san_tag == "bug_check_control_values_alert" %]
     Znaleziono [% entries FILTER html %] nieprawidłowe wpisy w group_control_map
 
   [% ELSIF san_tag == "bug_check_control_values_violation" %]
-    Wyszukiwanie [% terms.bledow %] naruszających relacje grupa/produkt
+    Test [% terms.bledow %] naruszających relacje grupa/produkt.
 
   [% ELSIF san_tag == "bug_check_control_values_error_text" %]
-    Grupy bez uprawnień do produktów
+    Grupy bez uprawnień do produktów:
 
   [% ELSIF san_tag == "bug_check_control_values_repair_text" %]
     Przypisz zagubione grupy do produktów, na które oddziałują
-    (ustaw kontrolę członka na <code>Widoczna</code>)
+    (ustaw kontrolę członka na <code>Widoczna</code>).
 
   [% ELSIF san_tag == "bug_check_control_values_error_text2" %]
-    Istnieją zagubione grupy, które potrzebują swoich produktów
+    Istnieją zagubione grupy, które potrzebują swoich produktów.
 
   [% ELSIF san_tag == "bug_creation_date_start" %]
-    Naprawianie brakującej daty utworzenia [% terms.bledu %].
+    Naprawianie brakującej daty utworzenia [% terms.bledu %]…
 
   [% ELSIF san_tag == "bug_creation_date_fixed" %]
-    Naprawione [%+ terms.bledy %]: [% bug_count FILTER html %].
+    Naprawione [%+ terms.bledy %]: [% bug_count FILTER html %]:
 
   [% ELSIF san_tag == "bugs_fulltext_start" %]
-    Naprawianie [% terms.bledow %] wpisów dla wyszukiwania pełnotekstowego.
+    Naprawianie [% terms.bledow %] wpisów dla wyszukiwania pełnotekstowego…
 
   [% ELSIF san_tag == "bugs_fulltext_fixed" %]
-    Naprawione [%+ terms.bledy %]: [% bug_count FILTER html %].
+    Naprawione [%+ terms.bledy %]: [% bug_count FILTER html %]:
 
   [% ELSIF san_tag == "bug_reference_deletion_start" %]
-    Usuwanie wszystkich odniesień do usuniętych [% terms.bledow %].
+    Usuwanie wszystkich odniesień do usuniętych [% terms.bledow %]…
 
   [% ELSIF san_tag == "bug_reference_deletion_end" %]
     Wszystkie odniesienia do usuniętych [% terms.bledow %] zostały usunięte.
 
   [% ELSIF san_tag == "cross_check_to" %]
-    Sprawdzanie odniesień do [% table FILTER html %].[% field FILTER html %]…
+    Test odniesień do [% table FILTER html %].[% field FILTER html %] …
 
   [% ELSIF san_tag == "cross_check_from" %]
     … z [% table FILTER html %].[% field FILTER html %].
@@ -140,7 +140,7 @@
       [% IF keyname == "bug_id" %]
         ([% PROCESS bug_link bug_id = key %])
       [% ELSE %]
-        ([% keyname FILTER html %] == '[% key FILTER html %]')
+        ([% keyname FILTER html %] == „[% key FILTER html %]”)
       [% END %]
     [% END %]
 
@@ -153,7 +153,7 @@
     nieprawidłowe odniesienia do nieistniejących [% terms.bledow %]</a>
 
   [% ELSIF san_tag == "double_cross_check_to" %]
-    Sprawdzanie odniesień do [% table FILTER html %].[% field1 FILTER html %] /
+    Test odniesień do [% table FILTER html %].[% field1 FILTER html %] /
     [%+ table FILTER html %].[% field2 FILTER html %]…
 
   [% ELSIF san_tag == "double_cross_check_from" %]
@@ -173,16 +173,16 @@
     [% END %]
 
   [% ELSIF san_tag == "everconfirmed_start" %]
-    Naprawianie zawsze potwierdzonych.
+    Naprawianie zawsze potwierdzonych…
 
   [% ELSIF san_tag == "everconfirmed_end" %]
     Zawsze potwierdzone zostały naprawione.
 
   [% ELSIF san_tag == "flag_check_start" %]
-    Sprawdzanie prawidłowości umieszczania flag w produkcie/komponencie.
+    Test prawidłowości umieszczania flag w produkcie/komponencie.
 
   [% ELSIF san_tag == "flag_deletion_start" %]
-    Usuwanie nieprawidłowych flag.
+    Usuwanie nieprawidłowych flag…
 
   [% ELSIF san_tag == "flag_deletion_end" %]
     Nieprawidłowe flagi zostały usunięte.
@@ -217,29 +217,29 @@
     Naprawiono uszkodzone ustawienia kontrolne grupy: [% counter FILTER html %].
 
   [% ELSIF san_tag == "keyword_check_start" %]
-    Sprawdzanie tabeli słów kluczowych.
+    Test tabeli słów kluczowych.
 
   [% ELSIF san_tag == "keyword_check_alert" %]
-    Zduplikowane wpisy w definicjach słów kluczowych dla ID [% id FILTER html %].
+    Zduplikowane wpisy w definicjach słów kluczowych dla ID [% id FILTER html %]:
 
   [% ELSIF san_tag == "keyword_check_invalid_name" %]
-    Nieprawidłowa nazwa w definicjach słów kluczowych dla ID [% id FILTER html %].
+    Nieprawidłowa nazwa w definicjach słów kluczowych dla ID [% id FILTER html %]:
 
   [% ELSIF san_tag == "keyword_check_invalid_id" %]
-    Nieprawidłowy identyfikator w definicjach słów kluczowych dla nazwy [% id FILTER html %].
+    Nieprawidłowy identyfikator w definicjach słów kluczowych dla nazwy [% id FILTER html %]:
 
   [% ELSIF san_tag == "keyword_check_duplicated_ids" %]
     Znaleziono duplikaty identyfikatorów słów kluczowych w [% PROCESS bug_link bug_id = id %].
 
   [% ELSIF san_tag == "keyword_cache_start" %]
-    Sprawdzanie zbuforowanych słów kluczowych.
+    Test zbuforowanych słów kluczowych.
 
   [% ELSIF san_tag == "keyword_cache_alert" %]
     Znaleziono [% badbugs.size FILTER none %] [%+ terms.bledow %] z nieprawidłowo
     zbuforowanymi słowami kluczowymi: [% INCLUDE bug_list badbugs = badbugs %]
 
   [% ELSIF san_tag == "keyword_cache_fixing" %]
-    Naprawianie bufora słów kluczowych.
+    Naprawianie bufora słów kluczowych…
 
   [% ELSIF san_tag == "keyword_cache_fixed" %]
     Bufor słów kluczowych został naprawiony.
@@ -249,7 +249,7 @@
     odbudować bufor słów kluczowych</a>
 
   [% ELSIF san_tag == "profile_login_start" %]
-    Sprawdzanie danych logowania profili.
+    Test danych logowania profili.
 
   [% ELSIF san_tag == "profile_login_alert" %]
     Nieprawidłowy adres e-mail profilu, id=[% id FILTER html %],
@@ -259,7 +259,7 @@
     Napraw te [% terms.bledy %].
 
   [% ELSIF san_tag == "send_bugmail_start" %]
-    Teraz nastąpi próba wysłania niewysłanych wiadomości.
+    Próba wysłania niewysłanych wiadomości.
 
   [% ELSIF san_tag == "send_bugmail_status" %]
     Znaleziono [% bug_count FILTER html %] [%+ terms.bledow %] z
@@ -269,7 +269,7 @@
     Wysłano niewysłane wiadomości.
 
   [% ELSIF san_tag == "unsent_bugmail_check" %]
-    Wyszukiwanie niewysłanych wiadomości.
+    Test niewysłanych wiadomości.
 
   [% ELSIF san_tag == "unsent_bugmail_alert" %]
     [% terms.Bledy %], w których dokonano zmian, ale nie wysłano wiadomości przez
@@ -279,7 +279,7 @@
     <a href="sanitycheck.cgi?rescanallBugMail=1">Wyślij te wiadomości</a>
 
   [% ELSIF san_tag == "vote_cache_rebuild_start" %]
-    Odbudowywanie bufora głosowania.
+    Odbudowywanie bufora głosowania…
 
   [% ELSIF san_tag == "vote_cache_rebuild_end" %]
     Bufor głosowania został odbudowany.
@@ -289,22 +289,22 @@
     odbudować bufor głosowania</a>
 
   [% ELSIF san_tag == "vote_cache_alert" %]
-    Nieprawidłowy bufor głosowania dla [% PROCESS bug_link bug_id = id %]
+    Nieprawidłowy bufor głosowania dla [% PROCESS bug_link bug_id = id %].
 
   [% ELSIF san_tag == "vote_count_start" %]
-    Sprawdzanie zbuforowanej liczby głosów.
+    Test zbuforowanej liczby głosów.
 
   [% ELSIF san_tag == "vote_count_alert" %]
     Nieprawidłowa suma głosów dla [% terms.bledu %] [%+ id FILTER html %].
 
   [% ELSIF san_tag == "whines_obsolete_target_deletion_start" %]
-    Usuwanie nieistniejących użytkowników/grupy z przypomnień.
+    Usuwanie nieistniejących użytkowników/grupy z przypomnień…
 
   [% ELSIF san_tag == "whines_obsolete_target_deletion_end" %]
     Usunięto z przypomnień nieistniejących użytkowników/grupy.
 
   [% ELSIF san_tag == "whines_obsolete_target_start" %]
-    Wyszukiwanie przypomnień z nieistniejącymi użytkownikami/grupami.
+    Test przypomnień z nieistniejącymi użytkownikami/grupami.
 
   [% ELSIF san_tag == "whines_obsolete_target_alert" %]
     [% FOREACH schedule = schedules %]

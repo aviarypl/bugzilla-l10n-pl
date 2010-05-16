@@ -68,7 +68,7 @@
         <dt class="[% class %]"><a href="editclassifications.cgi">Kategorie</a></dt>
         <dd class="[% class %]">Jeśli w instalacji zarządza się jednocześnie wieloma produktami, dobrze
         jest zgrupować te produkty w odpowiednie kategorie. Umożliwia to użytkownikom łatwiejsze odnalezienie
-        informacji podczas szukania, czy zgłaszania nowych [% terms.bledow %].</dd>
+        informacji podczas szukania czy zgłaszania nowych [% terms.bledow %].</dd>
 
         [% class = (user.in_group('editcomponents')
                     || user.get_products_by_permission("editcomponents").size) ? "" : "forbidden" %]
@@ -95,8 +95,8 @@
         <dd class="[% class %]">[% terms.Bugzilla %] umożliwia określenie dodatkowych pól,
         które nie są domyślnie zdefiniowane, a są potrzebne. Pola te można również wykorzystywać
         w innych [% terms.bledach %] oraz jako elementy funkcji wyszukiwania.<br>Przed utworzeniem nowego
-        pola, należy wziąć pod uwagę, że zbyt duża liczba pól może skomplikować interfejs użytkownika
-        i uczynić go trudnym w użyciu. Przed utworzeniem dodatkowego pola, należy upewnić się,
+        pola należy pamiętać, że zbyt duża liczba pól może skomplikować interfejs użytkownika
+        i uczynić go trudnym w użyciu. Przed utworzeniem dodatkowego pola, należy upewnić się
         czy nie ma innych, satysfakcjonujących sposobów uzyskania pożądanego efektu.</dd>
 
         <dt class="[% class %]"><a href="editvalues.cgi">Wartości pól</a></dt>
@@ -123,7 +123,7 @@
 
         [% class = user.in_group('bz_canusewhines') ? "" : "forbidden" %]
         <dt class="[% class %]"><a href="editwhines.cgi">Przypomnienia</a></dt>
-        <dd class="[% class %]">Tutaj można określić wyszukiwania, które będą uruchamiane zgodnie z
+        <dd class="[% class %]">Tutaj można określić wyszukiwania uruchamiane zgodnie z
         określoną datą i godziną. Wyniki wyszukiwań będą przekazywane bezpośrednio e-mailem. Jest
         to dobry sposób tworzenia przypomnień i śledzenia aktywności w instalacji.</dd>
       </dl>

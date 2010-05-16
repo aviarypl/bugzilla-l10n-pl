@@ -28,17 +28,18 @@ To: [% email %]
 Subject: [% terms.Bugzilla %] – potwierdzenie utworzenia konta
 X-Bugzilla-Type: admin
 
-[%+ terms.Bugzilla %] otrzymała prośbę o utworzenie konta z użyciem tego adresu e-mail ([% email %]).
+[%+ terms.Bugzilla %] otrzymała prośbę o utworzenie konta z adresem e-mail ([% email %]) jako loginem.
 
-Aby potwierdzić chęć utworzenia konta z tym adresem e-mail, należy otworzyć poniższy odnośnik przed [% expiration_ts FILTER time("%e %B %Y  %H:%M %Z") %]:
+Aby potwierdzić utworzenie konta z tym adresem e-mail, należy otworzyć poniższy odnośnik przed [% expiration_ts FILTER time("%e %B %Y  %H:%M %Z") %]:
 
 [%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=request_new_account
 
-Jeśli ta wiadomość dotarła do Ciebie po [% expiration_ts FILTER time("%e %B %Y  %H:%M %Z") %] lub chcesz utworzyć konto z innym adresem e-mail, musisz ponownie przejść przez proces tworzenia konta, przechodząc do:
+Jeśli ta wiadomość dotarła do Ciebie po [% expiration_ts FILTER time("%e %B %Y  %H:%M %Z") %] lub chcesz utworzyć konto z innym adresem e-mail, musisz ponownie przejść przez proces tworzenia konta, otwierając odnośnik:
 
 [%+ urlbase %]createaccount.cgi
 
 [% IF Param('createemailregexp') == '.*' && Param('emailsuffix') == '' %]
+
 [% terms.Bugzilla %] jest otwartym systemem śledzenia [% terms.bledow %]. Wszelkie treści publikowane w związku z [%+ terms.bledami %], włącznie z adresami e-mail, będą ogólnie dostępne. By zapobiec otrzymywaniu niechcianych wiadomości, zalecamy użycie drugorzędnego konta lub konta utworzonego w jednym z serwisów sieciowych takich jak: Gmail, Yahoo, Hotmail lub podobne serwisy.
 [% END %]
 

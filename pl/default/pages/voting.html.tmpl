@@ -25,46 +25,45 @@
 [% INCLUDE global/header.html.tmpl title = "Głosowanie" %]
 
 <p>[% terms.Bugzilla %] wyposażona jest w funkcję „głosowania”. W każdym
-produkcie użytkownik ma możliwość oddania określoną liczbę głosów.
-W niektórych produktach nie ma możliwości oddania głosu, zatem użytkownik nie
-ma możliwości głosowania na [% terms.bledy %] danego produktu. Oddając głos na dany
-[% terms.blad %], użytkownik wskazuje, że powinien on jego zdaniem
-być rozwiązany w pierwszej kolejności.</p>
+produkcie użytkownik ma możliwość oddania określoną liczbę głosów. Jeśli w jakimś
+produkcie wartość tę określono jako 0, użytkownik nie ma możliwości głosowania na
+[% terms.bledy %] tego produktu. Oddając głos na dany [% terms.blad %], użytkownik
+wskazuje, iż właśnie ten powinien być rozwiązany w pierwszej kolejności.</p>
 
-<p>W zależności od tego, jak administrator skonfigurował odpowiedni produkt, Użytkownik
+<p>W zależności od tego, jak administrator skonfigurował odpowiedni produkt, użytkownik
 może mieć możliwość oddania na [% terms.blad %] więcej niż jednego głosu. Należy jednak pamiętać, 
-że liczba głosów, jaką posiada użytkownik jest ograniczona. Gdy jest dozwolone
+że liczba głosów, jaką posiada użytkownik, jest ograniczona. Gdy jest dozwolone
 oddawanie wielu głosów i użytkownik dysponuje odpowiednią liczbą głosów,
 będzie musiał zdecydować, czy oddać swoje głosy na dużą liczbę [% terms.bledow %]
-wskazując na swoje minimalne zainteresowanie tymi [% terms.bledami %] czy
+wskazując na swoje minimalne zainteresowanie tymi [% terms.bledami %], czy
 skoncentrować się na kilku [% terms.bledach %] udzielając im dużego poparcia.</p>
 
-<p>Aby zobaczyć głosy:</p>
+<p>Aby zobaczyć głosy</p>
 
 <ul>
-  <li>Należy wejść na stronę wyszukiwania i wykonać normalne wyszukiwanie, ale w pole
-  „Co najmniej ___ głosów” należy wpisać 1. Dzięki temu można zobaczyć
+  <li>należy wejść na stronę wyszukiwania i wykonać standardowe wyszukiwanie, ale w pole
+  „Co najmniej ___ głosów” należy wpisać 1. Dzięki temu można zobaczyć 
   [% terms.bledy %], na które ktoś oddał przynajmniej jeden głos.</li>
 </ul>
 
 <p>Aby zagłosować na [% terms.blad %], należy:</p>
 
 <ul>
-  <li>Otworzyć stronę odpowiedniego [% terms.bledu %].</li>
+  <li>otworzyć stronę odpowiedniego [% terms.bledu %],</li>
 
-  <li>Kliknąć odnośnik (głosuj) znajdujący się po prawej stronie pola „Ważność”
+  <li>kliknąć odnośnik (głosuj) znajdujący się po prawej stronie pola „Ważność”.
   Jeśli nie ma takiego odnośnika, głosowanie na [% terms.bledy %] w tym produkcie
-  może być niedozwolone.</li>
+  może być niedozwolone,</li>
 
-  <li>Wpisać liczbę głosów, która ma być oddana na [% terms.blad %]. Na tej stronie
-  można również zobaczyć głosy oddane przez użytkownika na inne [% terms.bledy %],
-  i - jeśli potrzeba -  powtórnie rozdysponować swoje głosy.</li>
+  <li>wpisać liczbę głosów, która ma być oddana na [% terms.blad %]. Na tej stronie
+  można również zobaczyć głosy oddane przez użytkownika na inne [% terms.bledy %]
+  i - jeśli potrzeba - powtórnie rozdysponować głosy.</li>
 </ul>
 
-<p>Użytkownik zostanie poinformowany poprzez e-mail o wszystkich zmianach w
+<p>Użytkownik zostanie poinformowany poprzez e-mail o wszystkich zmianach w 
 [% terms.bledach %], na które zagłosował.</p>
 
-<p>W każdej chwili można przejrzeć swoje głosy, klikając odnośnik "<a href=
-"votes.cgi?action=show_user">Moje głosy</a>" znajdujący się w stopce każdej strony.</p>
+<p>W każdej chwili można przejrzeć swoje głosy, klikając odnośnik „<a href=
+"votes.cgi?action=show_user">Moje głosy</a>” znajdujący się w stopce każdej strony.</p>
 
 [% INCLUDE global/footer.html.tmpl %]
