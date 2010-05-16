@@ -58,19 +58,17 @@
   </li>
 </ul>
 
-<h2>Zmiany na tle czasu</h2>
+<h2>Zmiany w czasie</h2>
 
 <ul>
   <li>
     <strong><a href="reports.cgi">Stare wykresy</a></strong> – 
-    wyświetlanie na tle czasu statusu i/lub sposobu rozwiązania [% terms.bledow %]
-    dla każdego produktu z bazy danych.
+    wyświetlanie na tle czasu statusu i/lub sposobu rozwiązania [% terms.bledow %].
   </li>
   [% IF user.in_group(Param("chartgroup")) %]
     <li>
       <strong><a href="chart.cgi">Nowe wykresy</a></strong> – 
       wyświetlanie na tle czasu wykresów dla wyników dowolnego wyszukiwania.
-      Dużo lepsze niż stary typ.
     </li>
   [% END %]
   [% Hook.process('current_state') %]
