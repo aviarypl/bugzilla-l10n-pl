@@ -1197,11 +1197,11 @@
 
   [% ELSIF error == "no_bugs_in_list" %]
     [% title = "Usunąć etykietę?" %]
-    Nastąpi usunięcie wszystkich [% terms.bledow %] z etykiety
-    <em>[% name FILTER html %]</em>. Spowoduje to całkowite usunięcie etykiety.
+    Nastąpi usunięcie etykiety <em>[% name FILTER html %]</em> ze wszystkich 
+    [% terms.bledow %]. Operacja ta spowoduje całkowite usunięcie etykiety.
     Kliknij <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
     [%- name FILTER url_quote %]&amp;token=
-    [%- issue_hash_token([query_id, name]) FILTER url_quote %]">ten odnośnik</a>
+    [%- issue_hash_token([query_id, name]) FILTER url_quote %]">ten odnośnik</a>,
     jeśli etykieta ma zostać usunięta.
 
   [% ELSIF error == "no_bugs_to_remove" %]

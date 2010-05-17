@@ -128,10 +128,10 @@
     Wszystkie odniesienia do usuniętych [% terms.bledow %] zostały usunięte.
 
   [% ELSIF san_tag == "cross_check_to" %]
-    Test odniesień do [% table FILTER html %].[% field FILTER html %] …
+    Test odniesień do [% table FILTER html %].[% field FILTER html %] z:
 
   [% ELSIF san_tag == "cross_check_from" %]
-    … z [% table FILTER html %].[% field FILTER html %].
+    [% table FILTER html %].[% field FILTER html %]
 
   [% ELSIF san_tag == "cross_check_alert" %]
     Znaleziono nieprawidłową wartość „[% value FILTER html %]” w
@@ -154,10 +154,10 @@
 
   [% ELSIF san_tag == "double_cross_check_to" %]
     Test odniesień do [% table FILTER html %].[% field1 FILTER html %] /
-    [%+ table FILTER html %].[% field2 FILTER html %]…
+    [%+ table FILTER html %].[% field2 FILTER html %] z:
 
   [% ELSIF san_tag == "double_cross_check_from" %]
-    … z [% table FILTER html %].[% field1 FILTER html %] /
+    [% table FILTER html %].[% field1 FILTER html %] /
     [%+ table FILTER html %].[% field2 FILTER html %].
 
   [% ELSIF san_tag == "double_cross_check_alert" %]

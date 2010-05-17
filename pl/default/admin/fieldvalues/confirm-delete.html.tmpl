@@ -91,10 +91,10 @@
         [% ELSE %]
           W tej wartości pola jest 1 [% terms.blad %].
         [% END %]
-        Musisz zmienić wartość pola na
-          <a title="liście [% terms.bledow %], gdzie 
-                    „[%- field_descs.${field.name} FILTER html %]” jest
-                    „[%- value.name FILTER html %]”"
+        Musisz zmienić wartość pola
+          <a title="Lista [% terms.bledow %], gdzie
+	„[%- field_descs.${field.name} FILTER html %]” ma wartość
+	„[%- value.name FILTER html %]”"
              href="buglist.cgi?[% field.name FILTER url_quote %]=
                    [%- value.name FILTER url_quote %]">
             [% IF value.bug_count > 1 %]

@@ -36,12 +36,12 @@ lub próbą włamania na Twoje konto w [% terms.Bugzilli %].
 Przejrzyj wiadomość znajdującą się poniżej i w razie podejrzeń
 prześlij ją na adres [% Param('maintainer') %].
 
-       Token: [% token %]
-       Typ tokenu: [% tokentype %]
-       Użytkownik: [% emailaddress %]
-       Data wystawienia: [% issuedate FILTER time("%d.%m.%Y %H:%M:%S %Z", timezone) %]
-       Data zdarzenia: [% eventdata %]
-       Powód anulowania: [% PROCESS cancelactionmessage %]
+           Token: [% token %]
+      Typ tokenu: [% tokentype %]
+      Użytkownik: [% emailaddress %]
+Data wystawienia: [% issuedate FILTER time("%d.%m.%Y %H:%M:%S %Z", timezone) %]
+  Data zdarzenia: [% eventdata %]
+Powód anulowania: [% PROCESS cancelactionmessage %]
 
 [% BLOCK subject %]
   [% IF tokentype == 'new_account' %]

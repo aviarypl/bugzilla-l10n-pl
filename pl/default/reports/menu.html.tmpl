@@ -63,21 +63,19 @@
 </ul>
 
 [% IF feature_enabled('new_charts') OR feature_enabled('old_charts') %]
-<h2>Zmiany na tle czasu</h2>
+<h2>Zmiany w czasie</h2>
 
   <ul>
     [% IF feature_enabled('old_charts') %]
       <li id="old_charts">
     <strong><a href="reports.cgi">Stare wykresy</a></strong> – 
-    wyświetlanie na tle czasu statusu i/lub sposobu rozwiązania [% terms.bledow %]
-    dla każdego produktu z bazy danych.
+    wyświetlanie na tle czasu statusu i/lub sposobu rozwiązania [% terms.bledow %].
       </li>
     [% END %]
     [% IF feature_enabled('new_charts') AND user.in_group(Param("chartgroup")) %]
       <li id="new_charts">
       <strong><a href="chart.cgi">Nowe wykresy</a></strong> – 
       wyświetlanie na tle czasu wykresów dla wyników dowolnego wyszukiwania.
-      Dużo lepsze niż stary typ.
       </li>
     [% END %]
   </ul>
