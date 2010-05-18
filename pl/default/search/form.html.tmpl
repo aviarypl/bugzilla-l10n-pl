@@ -542,22 +542,17 @@ function doOnSelectProduct(selectmode) {
         <option value="nowords"[% " selected" IF default.bug_id_type.0 == "nowords" %]>Oprócz</option>
       </select>
       <label for="bug_id">nr [% terms.bledow %]</label>:
-    </td>
-    <td>
       <input type="text" name="bug_id" id="bug_id"
              value="[% default.bug_id.0 FILTER html %]" size="20">
     </td>
   </tr>
   <tr>
-    <td></td>
-    <td>(oddz.przecinkami)</td>
+    <td align="right">(oddz.przecinkami)&nbsp;&nbsp;&nbsp;&nbsp;</td>
   </tr>
   [% IF Param('usevotes') %]
     <tr>
-      <td align="right">
-        <label for="votes">Minimalna liczba głosów</label>:
-      </td>
       <td>
+        <label for="votes">Tylko [% terms.bledy %] liczbą głosów co najmniej</label>:
         <input name="votes" id="votes" size="3"
                value="[% default.votes.0 FILTER html %]">
       </td>
