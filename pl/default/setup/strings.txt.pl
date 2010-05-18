@@ -148,13 +148,13 @@ EOT
 * Ostatnie polecenie nalezy uruchamiac az do chwili ujrzenia na       *
 * poczatku wyswietlanej listy tekstu "theory58S".                     *
 EOT
-    template_precompile   => "Ponowne kompilowanie szablonow...",
+    template_precompile   => "Kompilowanie szablonow...",
     template_removal_failed => <<END,
 OSTRZEZENIE: Nie mozna usunac katalogu '##datadir##/template'.
-         Zostal on przeniesiony do '##datadir##/deleteme', ktory powinien zostać
+         Zostal on przeniesiony do '##datadir##/deleteme', ktory powinien zostac
          usuniety reczne, by zwolnic miejsce na dysku.
 END
-    template_removing_dir => "Usuwanie istniejacych skompilowanych szablonow...",
+    template_removing_dir => "Usuwanie istniejacych szablonow...",
 );
 
 1;
