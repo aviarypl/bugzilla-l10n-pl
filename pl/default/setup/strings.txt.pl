@@ -126,7 +126,7 @@ EOT
 * poczatku wyswietlanej listy tekstu "theory58S".                     *
 EOT
     template_precompile   => "Kompilowanie szablonow...",
-    template_removing_dir => "Usuwanie istniejacych skompilowanych szablonow...",
+    template_removing_dir => "Usuwanie istniejacych szablonow...",
 );
 
 1;

@@ -51,14 +51,14 @@
  [% FOREACH bug=query.bugs %]
   [% terms.Blad +%] [%+ bug.bug_id %]:
   [%+ urlbase %]show_bug.cgi?id=[% bug.bug_id +%]
-  Priorytet: [%+ bug.priority -%]
-          Waga: [%+ get_severity(bug.bug_severity) -%]
-     Platforma: [%+ get_platform(bug.rep_platform) %] 
+       Priorytet: [%+ bug.priority -%]
+            Waga: [%+ get_severity(bug.bug_severity) -%]
+       Platforma: [%+ get_platform(bug.rep_platform) %] 
   Odpowiedzialny: [%+ bug.assigned_to %]
-  Status: [%+ get_status(bug.bug_status) %]
-            [%- IF bug.resolution -%] Rozwiązanie: [% get_resolution(bug.resolution) -%]
+          Status: [%+ get_status(bug.bug_status) %]
+    [%- IF bug.resolution -%] Rozwiązanie: [% get_resolution(bug.resolution) -%]
                                 [%- END %]
-   Krótki opis: [% bug.short_desc %]
+     Krótki opis: [% bug.short_desc %]
 
  [% END %]
 

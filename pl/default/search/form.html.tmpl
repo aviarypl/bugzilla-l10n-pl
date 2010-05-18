@@ -127,7 +127,7 @@ function doOnSelectProduct(selectmode) {
 <table>
   <tr>
     <th align="right">
-      <label for="short_desc" accesskey="k"><u>K</u>rótki opis</label>:
+      <label for="short_desc" accesskey="k"><u>K</u>rótki opis</label>
     </th>
     <td>
       [% INCLUDE "search/type-select.html.tmpl"
@@ -160,7 +160,7 @@ function doOnSelectProduct(selectmode) {
             <table>
               <tr valign="bottom">
                 <th align="left">
-                  <label for="classification">Kategoria</label>:
+                  <label for="classification">Kategoria</label>
                 </th>
               </tr>
               <tr valign="top">
@@ -183,7 +183,7 @@ function doOnSelectProduct(selectmode) {
             <table>
               <tr valign="bottom">
                 <th align="left">
-                  <label for="product" accesskey="p"><u>P</u>rodukt</label>:
+                  <label for="product" accesskey="p"><u>P</u>rodukt</label>
                 </th>
               </tr>
               <tr valign="top">
@@ -207,7 +207,7 @@ function doOnSelectProduct(selectmode) {
             <table>
               <tr valign="bottom">
                 <th align="left">
-                  <label for="component" accesskey="m"><a href="describecomponents.cgi">Ko<u>m</u>ponent</a></label>:
+                  <label for="component" accesskey="m"><a href="describecomponents.cgi">Ko<u>m</u>ponent</a></label>
                 </th>
               </tr>
               <tr valign="top">
@@ -230,7 +230,7 @@ function doOnSelectProduct(selectmode) {
             <table>
               <tr valign="bottom">
                 <th align="left">
-                  <label for="version">Wersja</label>:
+                  <label for="version">Wersja</label>
                 </th>
               </tr>
               <tr valign="top">
@@ -244,7 +244,7 @@ function doOnSelectProduct(selectmode) {
             <table>
               <tr valign="bottom">
                 <th align="left">
-                  <label for="target_milestone">Wersja docelowa</label>:
+                  <label for="target_milestone">Wersja docelowa</label>
                 </th>
               </tr>
               <tr valign="top">
@@ -272,7 +272,7 @@ function doOnSelectProduct(selectmode) {
     [% UNLESS field.name == 'status_whiteboard' AND NOT Param('usestatuswhiteboard') %]
     <tr>
       <th align="right">
-        <label for="[% field.name %]" accesskey="[% field.accesskey %]">[% field.description %]</label>:
+        <label for="[% field.name %]" accesskey="[% field.accesskey %]">[% field.description %]</label>
       </th>
       <td>
         [% type = field.name _ "_type" %]
@@ -291,7 +291,7 @@ function doOnSelectProduct(selectmode) {
   [% IF have_keywords %]
     <tr>
       <th align="right">
-        <label for="keywords" accesskey="s"><a href="describekeywords.cgi"><u>S</u>łowa kluczowe</a></label>:
+        <label for="keywords" accesskey="s"><a href="describekeywords.cgi"><u>S</u>łowa kluczowe</a></label>
       </th>
       <td>
         [% INCLUDE "search/type-select.html.tmpl"
@@ -310,7 +310,7 @@ function doOnSelectProduct(selectmode) {
   [% IF user.in_group(Param("timetrackinggroup")) %]
     <tr>
       <th align="right">
-        <label for="deadlinefrom" accesskey="c"><u>C</u>zas zakończenia</label>:
+        <label for="deadlinefrom" accesskey="c"><u>C</u>zas zakończenia</label>
       </th>
       <td>
         od <input name="deadlinefrom" id="deadlinefrom" size="10" maxlength="10"
@@ -336,7 +336,7 @@ function doOnSelectProduct(selectmode) {
       <table>
         <tr>
           <th align="left">
-            <label for="bug_status" accesskey="a">St<u>a</u>tus</label>:
+            <label for="bug_status" accesskey="a">St<u>a</u>tus</label>
           </th>
         </tr>
         <tr valign="top">
@@ -349,7 +349,7 @@ function doOnSelectProduct(selectmode) {
       <table>
         <tr>
           <th align="left">
-            <label for="resolution" accesskey="r"><u>R</u>ozwiązanie</label>:
+            <label for="resolution" accesskey="r"><u>R</u>ozwiązanie</label>
           </th>
         </tr>
         <tr valign="top">
@@ -362,7 +362,7 @@ function doOnSelectProduct(selectmode) {
       <table>
         <tr>
           <th align="left">
-            <label for="bug_severity">Waga</label>:
+            <label for="bug_severity">Waga</label>
           </th>
         </tr>
         <tr valign="top">
@@ -375,7 +375,7 @@ function doOnSelectProduct(selectmode) {
       <table>
         <tr>
           <th align="left">
-            <label for="priority" accesskey="i">Pr<u>i</u>orytet</label>:
+            <label for="priority" accesskey="i">Pr<u>i</u>orytet</label>
           </th>
         </tr>
         <tr valign="top">
@@ -388,7 +388,7 @@ function doOnSelectProduct(selectmode) {
       <table>
         <tr>
           <th align="left">
-            <label for="rep_platform" accesskey="f">Plat<u>f</u>orma</label>:
+            <label for="rep_platform" accesskey="f">Plat<u>f</u>orma</label>
           </th>
         </tr>
         <tr valign="top">
@@ -401,7 +401,7 @@ function doOnSelectProduct(selectmode) {
       <table>
         <tr>
           <th align="left">
-            <label for="op_sys" accesskey="o"><u>O</u>S</label>:
+            <label for="op_sys" accesskey="o"><u>O</u>S</label>
           </th>
         </tr>
         <tr valign="top">
@@ -527,29 +527,23 @@ function doOnSelectProduct(selectmode) {
   <tr>
     <td>
       <select name="bugidtype">
-        <option value="include"[% " selected" IF default.bugidtype.0 == "include" %]>zawiera</option>
-        <option value="exclude"[% " selected" IF default.bugidtype.0 == "exclude" %]>oprócz</option>
+        <option value="include"[% " selected" IF default.bugidtype.0 == "include" %]>Zawiera</option>
+        <option value="exclude"[% " selected" IF default.bugidtype.0 == "exclude" %]>Oprócz</option>
       </select>
-      <label for="bug_id">Numery [% terms.bledow %]</label>:
-    </td>
-    <td>
+      <label for="bug_id">nr [% terms.bledow %]</label>:
       <input type="text" name="bug_id" id="bug_id"
              value="[% default.bug_id.0 FILTER html %]" size="20">
     </td>
   </tr>
   <tr>
-    <td></td>
-    <td>(oddz.przecinkami)</td>
+    <td align="right">(oddz.przecinkami)&nbsp;&nbsp;&nbsp;&nbsp;</td>
   </tr>
   [% IF Param('usevotes') %]
     <tr>
-      <td align="right">
-        <label for="votes">Minimalna liczba głosów</label>:
-      </td>
       <td>
+        <label for="votes">Tylko [% terms.bledy %] liczbą głosów co najmniej</label>:
         <input name="votes" id="votes" size="3"
                value="[% default.votes.0 FILTER html %]">
-        
       </td>
     </tr>
   [% END %]
@@ -568,16 +562,16 @@ function doOnSelectProduct(selectmode) {
 
 <dl class="bug_changes">
   <dt>
-    <label for="chfieldfrom">Tylko [% terms.bledy %] zmienione pomiędzy</label>:
+    <label for="chfieldfrom">Tylko [% terms.bledy %] zmienione pomiędzy</label>
   </dt>
   <dd>
     <input name="chfieldfrom" id="chfieldfrom"
            size="10" value="[% default.chfieldfrom.0 FILTER html %]">
-    a <input name="chfieldto" size="10" value="[% default.chfieldto.0 FILTER html %]">
+    , a <input name="chfieldto" size="10" value="[% default.chfieldto.0 FILTER html %]">,
     <br>(RRRR-MM-DD lub relatywne daty)
   </dd>
   <dt>
-    <label for="chfield">w których zmieniono pole/pola</label>:
+    <label for="chfield">w których zmieniono pole/pola</label>
   </dt>
   <dd>
     [%# Create array, so we can sort it by description #%]
@@ -594,7 +588,7 @@ function doOnSelectProduct(selectmode) {
     [% END %]
     </select>
   </dd>
-  <dt><label for="chfieldvalue">Nowa wartość pola</label>:</dt>
+  <dt><label for="chfieldvalue">Nowa wartość pola</label></dt>
   <dd>
     <input name="chfieldvalue" id="chfieldvalue"
            size="20" value="[% default.chfieldvalue.0 FILTER html %]">

@@ -28,8 +28,8 @@
 [% WRAPPER search/tabs.html.tmpl %]
 
 <p>
-Znajdź konkretny [% terms.blad %] podając słowa, które go określają.
-Zostaną przeszukane opisy i komentarze do [% terms.bledow %], a następnie zostanie
+Znajdź konkretny [% terms.blad %], podając słowa, które go określają.
+Zostaną przeszukane opisy i komentarze do [% terms.bledow %], po czym zostanie
 wyświetlona lista znalezionych [% terms.bledow %] posortowana według
 trafności dopasowania.
 </p>
@@ -116,7 +116,7 @@ z osadzoną animacją Flash, można wpisać „awaria bezpieczny SSL flash”.
         <input type="submit" id="search" value="Szukaj"
              onclick="if (this.form.content.value == '')
                       {alert('Pole „słowa” nie może być puste. Podaj co najmniej ' +
-                             'jedno słowo w swoich kryteriach wyszukiwania.');
+                             'jedno słowo w kryteriach wyszukiwania.');
                        return false;} return true;">
       [% END %]
     </td>
