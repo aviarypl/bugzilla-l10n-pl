@@ -73,11 +73,11 @@ function subcatSelected() {
       </tr>
     [% ELSE %]
       <tr>
-        <th><label for="category">Kategoria</label>:</th>
+        <th><label for="category">Kategoria</label></th>
         <th></th>
-        <th><label for="subcategory">Komponent</label>:</th>
+        <th><label for="subcategory">Subkategoria</label></th>
         <th></th>
-        <th><label for="name" accesskey="S">Status</label>:</th>
+        <th><label for="name" accesskey="S">Status</label></th>
         <th><br>
         </th>
       </tr>
@@ -101,7 +101,7 @@ function subcatSelected() {
                                    
         <td>
           <noscript>
-            <input type="submit" name="action-assemble" value="Uaktualnij --&gt;"
+            <input type="submit" name="action-assemble" value="Uaktualnij &rarr;"
                    id="action-assemble2">
           </noscript>
         </td>
@@ -251,17 +251,17 @@ function subcatSelected() {
 </form>
 
 [% IF user.in_group('editbugs') %]
-  <h3><a href="query.cgi?format=create-series">Nowy zestaw danych</a></h3>
+  <h3>Nowy zestaw danych</h3>
   <p>
     Na podstawie jednego z zapisanych wyszukiwań możesz utworzyć nowy zestaw danych
-    lub rozpocząć od nowa.
+    lub rozpocząć z czystym formularzem.
   </p>
 
   <form action="chart.cgi" id="create_series" name="create_series" method="GET">
     <input type="hidden" name="action" value="convert_search">
     <label for="series_from_search">Na podstawie:</label>
     <select id="series_from_search" name="series_from_search">
-      <option value="">(Czysty rejestr)</option>
+      <option value="">(Czysty formularz)</option>
       [% FOREACH q = user.queries %]
         <option value="[% q.name FILTER html %]">[% q.name FILTER html %]</option>
       [% END %]

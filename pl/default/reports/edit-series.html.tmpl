@@ -50,7 +50,7 @@
 
 <p>
   <b>Twórca</b>: 
-  [% IF creator.email %]
+  [% IF default.creator %]
     <a href="mailto:[% default.creator.email FILTER html %]">
     [% default.creator.email FILTER html %]</a>
   [% ELSE %]
