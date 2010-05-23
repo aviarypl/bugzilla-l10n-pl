@@ -541,7 +541,7 @@ function doOnSelectProduct(selectmode) {
   [% IF Param('usevotes') %]
     <tr>
       <td>
-        <label for="votes">Tylko [% terms.bledy %] liczbą głosów co najmniej</label>:
+        <label for="votes">Tylko [% terms.bledy %] z liczbą głosów co najmniej</label>:
         <input name="votes" id="votes" size="3"
                value="[% default.votes.0 FILTER html %]">
       </td>

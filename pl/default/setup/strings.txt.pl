@@ -92,7 +92,7 @@ EOT
 *                                                                     *
 * Ponizej znajduje sie lista niezainstalowanych opcjonalnych modulow  *
 * z opisem funkcji, ktore beda dostepne po ich instalacji. W tabeli   *
-* znajduja sie polecenia ulatwiajace instalacje kazdego modulu        *
+* znajduja sie polecenia ulatwiajace instalacje kazdego modulu.       *
 EOT
     modules_message_required => <<EOT,
 ***********************************************************************
@@ -126,7 +126,7 @@ EOT
 * poczatku wyswietlanej listy tekstu "theory58S".                     *
 EOT
     template_precompile   => "Kompilowanie szablonow...",
-    template_removing_dir => "Usuwanie istniejacych szablonow...",
+    template_removing_dir => "Usuwanie istniejacych szablonow... ",
 );
 
 1;

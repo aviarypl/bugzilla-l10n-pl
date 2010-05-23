@@ -65,7 +65,7 @@
   [% IF detailed %]
     <h4 style="margin: 0">
       Pozostało [% global.remaining FILTER format("%.2f") %] godzin z
-      pierwotnego szacunku [% global.estimated FILTER format("%.2f") %]godz.
+      pierwotnego szacunku [% global.estimated FILTER format("%.2f") %] godz.
       [% IF global.deadline %]
         (termin ostateczny [% global.deadline FILTER html %])
       [% END %]
@@ -78,7 +78,7 @@
   [% END %]
 
   [% IF null.size > 0 %]
-    [% INCLUDE inactive_report %]<br />
+    [% INCLUDE inactive_report %]<br>
             <h4 style="margin: 0">Suma nieaktywnych [% terms.bledow %]: [% null.size %]</h4>
   [% END %]
 
@@ -100,8 +100,8 @@
                                     detailed=detailed %]
         [% END %]
 
-    [% additional = "Programistów: $global.owner_count.size  
-                     $terms.Bledow: $global.bug_count.size " %] 
+    [% additional = "Programistów: $global.owner_count.size 
+                     $terms.Bledow: $global.bug_count.size" %] 
     [% INCLUDE section_total colspan=3 additional=additional %]
     </table>
 [% END %]
@@ -202,10 +202,10 @@
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
               <td width="33%">
-                Szacowano: [% bugs.$id.estimated_time FILTER format("%.2f") %]h
+                Szacowano: [% bugs.$id.estimated_time FILTER format("%.2f") %] godz.
               </td>
               <td width="33%">
-                Pozostało: [% bugs.$id.remaining_time FILTER format("%.2f") %]h
+                Pozostało: [% bugs.$id.remaining_time FILTER format("%.2f") %] godz.
               </td>
               <td width="33%">
                 Termin: [% bugs.$id.deadline || "<b>Nie określono</b>" %]

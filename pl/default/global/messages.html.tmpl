@@ -69,9 +69,9 @@
               Wyjaśnienie powodu wyłączenia konta zostało zmodyfikowane.
             [% ELSIF field == 'disable_mail' %]
               [% IF otheruser.email_disabled %]
-                Poczta błędów została wyłączona.
+                Poczta [% terms.bledow %] została wyłączona.
               [% ELSE %]
-                Poczta błędów została włączona.
+                Poczta [% terms.bledow %] została włączona.
               [% END %]
             [% END %]
           </li>
@@ -289,7 +289,7 @@
     prawidłowy wybór dla pola <em>[% field_descs.${field.name} FILTER html %]</em>
     (<em>[% field.name FILTER html %]</em>).
     [% IF field.name == "bug_status" %]
-      Przejdź na <a href="editworkflow.cgi">stronę zmian statusów błędów</a>,
+      Przejdź na <a href="editworkflow.cgi">stronę zmian statusów [% terms.bledow %]</a>,
       by dodać nowy status [% terms.bledu %].
     [% END %]
 
@@ -558,7 +558,7 @@
     zostały zapisane.
 
   [% ELSIF message_tag == "flag_type_deleted" %]
-    [% title = BLOCK %]Usunięto flagę „[% name FILTER html %]„[% END %]
+    [% title = BLOCK %]Usunięto flagę „[% name FILTER html %]”[% END %]
     Flaga <em>[% name FILTER html %]</em> została usunięta.
 
   [% ELSIF message_tag == "flag_type_deactivated" %]
@@ -685,7 +685,7 @@
     dodać co najmniej jeden komponent</a> zanim ktokolwiek będzie mógł zgłaszać [% terms.bledy %] w tym produkcie.
 
   [% ELSIF message_tag == "product_deleted" %]
-    [% title = "Usunieto produkt" %]
+    [% title = "Usunięto produkt" %]
     Produkt <em>[% product.name FILTER html %]</em> i wszystkie jego wersje,
     komponenty, wersje docelowe i elementy kontrolne grupy zostały usunięte.
     [% IF product.bug_count %]

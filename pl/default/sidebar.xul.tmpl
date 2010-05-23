@@ -70,7 +70,7 @@ function normal_keypress_handler( aEvent ) {
       <separator class="thin"/>
 
 [% IF user.id %]
-      <text class="text-link" onclick="load_relative_url('userprefs.cgi')" value="Ustawienia"/>
+      <text class="text-link" onclick="load_relative_url('userprefs.cgi')" value="Preferencje"/>
   [%- IF user.in_group('tweakparams') %]
       <text class="text-link" onclick="load_relative_url('editparams.cgi')" value="Parametry"/>
       <text class="text-link" onclick="load_relative_url('editsettings.cgi')" value="Domyślne ustawienia"/>

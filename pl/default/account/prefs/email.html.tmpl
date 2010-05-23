@@ -284,7 +284,7 @@ Obserwujesz następujących użytkowników:
         [% FOREACH w = watchedusers %]
            <option value="[% w FILTER html %]">[% w FILTER html %]</option>
         [% END %]
-    </select> <br />
+    </select> <br>
     <input type="checkbox" id="remove_watched_users" name="remove_watched_users">
     <label for="remove_watched_users">Usuń zaznaczonych użytkowników z listy obserwowanych</label>
 [% ELSE %]
@@ -293,7 +293,7 @@ Obecnie nie obserwujesz żadnych użytkowników.
 </p>
 
 <p><a name="new_watched_by_you" id="new_watched_by_you">Dodaj użytkowników do listy obserwowanych</a>:
-  <input size="60" name="new_watchedusers" value=""><br/><small>(nazwy oddzielone przecinkami)</small>
+  <input size="60" name="new_watchedusers" value=""><br><small>(nazwy oddzielone przecinkami)</small>
 </p>            
 
 <p><a name="watching_you" id="watching_you">Użytkownicy obserwujący ciebie</a>:<br>

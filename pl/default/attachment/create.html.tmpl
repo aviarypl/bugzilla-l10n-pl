@@ -53,14 +53,14 @@
     <tr>
       <th>Dezaktualizacja:</th>
       <td>
-        <em>Zaznacz załączniki, które zostaną zdezaktualizowane po dodaniu nowego załącznika. (opcjonalne)</em><br/>
+        <em>Zaznacz załączniki, które zostaną zdezaktualizowane po dodaniu nowego załącznika. (opcjonalne)</em><br>
         [% IF attachments.size %]
           [% FOREACH attachment = attachments %]
             [% IF ((attachment.isprivate == 0) || (Param("insidergroup")
               && user.in_group(Param("insidergroup")))) %]
               <input type="checkbox" id="[% attachment.id %]"
                    name="obsolete" value="[% attachment.id %]">
-              <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">[% attachment.id %]: [% attachment.description FILTER html %]</a><br/>
+              <a href="attachment.cgi?id=[% attachment.id %]&amp;action=edit">[% attachment.id %]: [% attachment.description FILTER html %]</a><br>
             [% END %]
           [% END %]
         [% ELSE %]
@@ -74,7 +74,7 @@
         <th>Przepisanie:</th>
         <td>
           <em>Aby przepisać ten [% terms.blad %] na siebie,
-              zaznacz poniższe pole wyboru.</em><br/>
+              zaznacz poniższe pole wyboru.</em><br>
           <input type="checkbox" id="takebug" name="takebug" value="1">
           <label for="takebug">Przepisz [% terms.blad %] na mnie</label>
           [% bug_statuses = [] %]
@@ -98,7 +98,7 @@
     <tr>
       <th><label for="comment">Komentarz:</label></th>
       <td>
-        <em>Dodaj komentarz dotyczący tego załącznika. (opcjonalne)</em><br/>
+        <em>Dodaj komentarz dotyczący tego załącznika. (opcjonalne)</em><br>
         [% INCLUDE global/textarea.html.tmpl
           name    = 'comment'
           id      = 'comment'
@@ -113,7 +113,7 @@
       <tr>
         <th>Prywatność:</th>
         <td>
-          <small><em>Jeśli załącznik ma być traktowany jako prywatny, zaznacz poniższe pole.</em></small><br/>
+          <small><em>Jeśli załącznik ma być traktowany jako prywatny, zaznacz poniższe pole.</em></small><br>
           <input type="checkbox" name="isprivate" id="isprivate"
           value="1" onClick="updateCommentPrivacy(this)">
         <label for="isprivate">Prywatny</label>

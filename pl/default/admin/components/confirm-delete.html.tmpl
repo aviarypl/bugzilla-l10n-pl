@@ -110,9 +110,9 @@ z produktu „[% product.name FILTER html %]”
     W tym komponencie nadal
 
     [% IF comp.bug_count > 1 %] 
-      istnieją [%+ terms.bledy %]: [% comp.bug_count %] 
+      istnieją [%+ terms.bledy %]: [% comp.bug_count %]. 
     [% ELSE %]
-      istnieje [% comp.bug_count %] [%+ terms.blad %] 
+      istnieje [% comp.bug_count %] [%+ terms.blad %]. 
     [% END %]
 
     Musisz przypisać 
@@ -145,7 +145,7 @@ z produktu „[% product.name FILTER html %]”
 
 [% IF comp.bug_count == 0 || Param('allowbugdeletion') %]
 
-  <p>Czy na pewno chcesz usunąć ten komponent?<p>
+  <p>Czy na pewno chcesz usunąć ten komponent?</p>
   
   <form method="post" action="editcomponents.cgi">
   <input type="submit" id="delete" value="Tak">

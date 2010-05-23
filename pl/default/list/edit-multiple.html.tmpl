@@ -300,16 +300,16 @@
   minrows = 5
   maxrows = 25
   cols    = constants.COMMENT_COLS
-%]<br/><br/>
+%]<br><br>
 
 [% IF groups.size > 0 %]
 
   <b>Grupy:</b><br>
   <table border="1">
     <tr>
-      <th>Nie zmieniaj<br/>ograniczeń tej grupy</th>
-      <th>Usuń [% terms.bledy %]<br/>z tej grupy</th>
-      <th>Dodaj [% terms.bledy %]<br/>do tej grupy</th>
+      <th>Nie zmieniaj<br>ograniczeń tej grupy</th>
+      <th>Usuń [% terms.bledy %]<br>z tej grupy</th>
+      <th>Dodaj [% terms.bledy %]<br>do tej grupy</th>
       <th>Nazwa grupy</th>
     </tr>
 
@@ -346,7 +346,7 @@
   [% END %]
 
 [% END %]
-<br/><input type="submit" id="commit" value="Zapisz">
+<br><input type="submit" id="commit" value="Zapisz">
 
 [% IF Param('move-enabled') && user.is_mover %]
   <input type="submit" name="action" id="action" value="[% Param('move-button-text') %]">

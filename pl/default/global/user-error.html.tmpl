@@ -59,7 +59,7 @@
     [% title = "Tworzenie kont jest ograniczone" %]
     Tworzenie kont zostało ograniczone.
     <hr>
-    Skontaktuj sie ze swoim administratorem lub opiekunem
+    Skontaktuj się ze swoim administratorem lub opiekunem
     ([% Param("maintainer") %]), by uzyskać informacje
     na temat utworzenia konta.
 
@@ -462,8 +462,8 @@
 
   [% ELSIF error == "field_value_control_select_only" %]
     [% title = "Nieprawidłowa wartość kontrolna pola" %]
-    Tylko listy rozwijane i pola wielokrotnego wyboru mogą być polami, które
-    kontrolują ich wartości.
+    Tylko listy rozwijane i pola wielokrotnego wyboru mogą mieć pole, które
+    kontroluje ich wartości.
 
   [% ELSIF error == "fieldname_invalid" %]
     [% title = "Podane pole nie istnieje" %]
@@ -647,13 +647,13 @@
   [% ELSIF error == "flag_type_sortkey_invalid" %]
     [% title = "Nieprawidłowy klucz sortowania flagi" %]
     Klucz sortowania musi być liczbą z przedziału 0-32767.
-    Nie może być <em>[% sortkey FILTER html %]</em>.
+    Nie może być to <em>[% sortkey FILTER html %]</em>.
 
   [% ELSIF error == "freetext_too_long" %]
     [% title = "Za długi tekst" %]
-    Wprowadzony tekst zawiera ([% text.length FILTER html %] znaków.
+    Wprowadzony tekst zawiera [% text.length FILTER html %] znaków.
     Dopuszczalna liczba to [% constants.MAX_FREETEXT_LENGTH FILTER none %]
-    znaków):
+    znaków:
     <p><em>[% text FILTER html %]</em></p>
 
   [% ELSIF error == "group_cannot_delete" %]
@@ -807,7 +807,7 @@
 
   [% ELSIF error == "illegal_is_obsolete" %]
     [% title = "Wyszukiwanie nie ma sensu" %]
-    Jedynymi prawidłowymi wartościami dla pola <em>Załącznik jest nieaktualny</em>
+    Jedynymi prawidłowymi wartościami dla pola <em>Załącznik jest zdezaktualizowany</em>
     jest 0 lub 1.
 
   [% ELSIF error == "illegal_query_name" %]
@@ -916,7 +916,7 @@
 
   [% ELSIF error == "invalid_product_name" %]
     [% title = "Nieprawidłowa nazwa produktu" %]
-    Nazwa produktu „[% product FILTER html %]” jest nieprawidłowa lub nie istnieje.
+    Nazwa produktu „[% product FILTER html %]” jest nieprawidłowa lub produkt nie istnieje.
 
   [% ELSIF error == "invalid_regexp" %]
     [% title = "Nieprawidłowe wyrażenie regularne" %]
@@ -1103,11 +1103,11 @@
     Nie podano subkategorii dla tej serii.
                 
   [% ELSIF error == "missing_version" %]
-    [% title = "Braku wersji" %]
+    [% title = "Brak wersji" %]
     [% admindocslinks = {'versions.html' => 'Definiowanie wersji'} %]
     Produkt <em>[% product.name FILTER html %]</em>
     musi mieć zdefiniowaną przynajmniej jedną wersję, by możliwe było
-    zgłaszanie [% terms.bledow %] dla niego.<p>
+    zgłaszanie [% terms.bledow %] dla niego.<br>
     [% IF user.in_group("editcomponents", product.id) %]
       <a href="editversions.cgi?action=add&amp;product=[% product.name FILTER url_quote %]">Utwórz
       nową wersję</a>.
@@ -1151,7 +1151,7 @@
     [% terms.bledow %]. Operacja ta spowoduje całkowite usunięcie etykiety.
     Kliknij <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
     [%- name FILTER url_quote %]&amp;token=
-    [%- issue_hash_token([query_id, name]) FILTER url_quote %]">ten odnośnik</a>
+    [%- issue_hash_token([query_id, name]) FILTER url_quote %]">ten odnośnik</a>,
     jeśli etykieta ma zostać usunięta.
 
   [% ELSIF error == "no_bugs_to_remove" %]
@@ -1235,7 +1235,7 @@
 
   [% ELSIF error == "object_does_not_exist" %]
     [% type = BLOCK %][% INCLUDE object_name class = class %][% END %]
-    [% title = BLOCK %]Brak [% type FILTER html %][% END %]
+    [% title = BLOCK %]Nieprawidłowy [% type FILTER ucfirst FILTER html %][% END %]
     Nie ma [% type FILTER html %]
     [% IF id.defined %]
       z ID „[% id FILTER html %]”
@@ -1259,7 +1259,7 @@
     Aby zmienić adres e-mail, należy podać poprzednie hasło.
 
   [% ELSIF error == "password_change_requests_not_allowed" %]
-    [% title = "Zmiana hasła jest nie dozwolona" %]
+    [% title = "Zmiana hasła jest niedozwolona" %]
     Konfiguracja systemu nie zezwala na zmianę hasła.
 
   [% ELSIF error == "passwords_dont_match" %]
@@ -1553,7 +1553,7 @@
 
   [% ELSIF error == "version_already_exists" %]
     [% title = "Wersja już istnieje" %]
-    [% admindocslinks = {'versions.html' => 'Administracja wersji'} %]
+    [% admindocslinks = {'versions.html' => 'Administracja wersjami'} %]
     Wersja „[% name FILTER html %]” już istnieje dla produktu
     „[%- product FILTER html %]”.
 
@@ -1612,7 +1612,7 @@
     jako prywatne.
 
   [% ELSIF error == "votes_must_be_nonnegative" %]
-    [% title = "Liczna głosów nie może być wartością ujemną" %]
+    [% title = "Liczba głosów nie może być wartością ujemną" %]
     [% admindocslinks = {'voting.html' => 'Ustawienia funkcji głosowania'} %]
     Do głosowania na [% terms.bledy %] można używać tylko liczb dodatnich.
 
