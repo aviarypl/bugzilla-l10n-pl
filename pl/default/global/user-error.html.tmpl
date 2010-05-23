@@ -671,7 +671,7 @@
   [% ELSIF error == "flag_type_sortkey_invalid" %]
     [% title = "Nieprawidłowy klucz sortowania flagi" %]
     Klucz sortowania musi być liczbą z przedziału 0-32767.
-    Nie może  to być <em>[% sortkey FILTER html %]</em>.
+    Nie może być to <em>[% sortkey FILTER html %]</em>.
 
   [% ELSIF error == "freetext_too_long" %]
     [% title = "Za długi tekst" %]
@@ -1260,7 +1260,7 @@
 
   [% ELSIF error == "object_does_not_exist" %]
     [% type = BLOCK %][% INCLUDE object_name class = class %][% END %]
-    [% title = BLOCK %]Invalid [% type FILTER ucfirst FILTER html %][% END %]
+    [% title = BLOCK %]Nieprawidłowy [% type FILTER ucfirst FILTER html %][% END %]
     Nie ma [% type FILTER html %]
     [% IF id.defined %]
       z ID „[% id FILTER html %]”
