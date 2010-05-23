@@ -24,7 +24,7 @@
 [% PROCESS global/variables.none.tmpl %]
 [% filtered_summary = bugsummary FILTER html %]
 [% header = BLOCK %]Wszystkie załączniki do 
-  [%+ "$terms.bledu $bug.bug.id" FILTER bug_link(bug) FILTER none %][% END %]
+  [%+ "$terms.bledu $bug.id" FILTER bug_link(bug) FILTER none %][% END %]
 
 [% title = BLOCK %]
   Wszystkie załączniki do [% terms.bledu %] [%+ bug.bug_id FILTER html %]

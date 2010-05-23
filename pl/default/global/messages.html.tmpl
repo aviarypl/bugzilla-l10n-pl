@@ -64,9 +64,9 @@
               Wyjaśnienie powodu wyłączenia konta zostało zmodyfikowane.
             [% ELSIF field == 'disable_mail' %]
               [% IF otheruser.email_disabled %]
-                Poczta błędów została wyłączona.
+                Poczta [% terms.bledow %] została wyłączona.
               [% ELSE %]
-                Poczta błędów została włączona.
+                Poczta [% terms.bledow %] została włączona.
               [% END %]
             [% END %]
           </li>
@@ -263,18 +263,18 @@
       Nie dokonano żadnych zmian.
     [% END %]
 
-  [% ELSIF message_tag == "emailold_change_cancelled" %]
+  [% ELSIF message_tag == "emailold_change_canceled" %]
     [% title = "Anulowanie prośby o zmianę adresu e-mail" %]
     Prośba o zmianę adresu e-mail konta na adres
     [%+ new_email FILTER html %] została anulowana.
 
-  [% ELSIF message_tag == "email_change_cancelled" %]
+  [% ELSIF message_tag == "email_change_canceled" %]
     [% title = "Anulowanie prośby o zmianę adresu e-mail" %]
     Prośba o zmianę adresu e-mail konta z
     [%+ old_email FILTER html %] na
     [%+ new_email FILTER html %] została anulowana.
 
-  [% ELSIF message_tag == "email_change_cancelled_reinstated" %]
+  [% ELSIF message_tag == "email_change_canceled_reinstated" %]
     [% title = "Anulowanie prośby o zmianę adresu e-mail" %]
     Prośba o zmianę adresu e-mail konta
     [%+ old_email FILTER html %] na adres
@@ -292,7 +292,7 @@
     prawidłowy wybór dla pola <em>[% field_descs.${field.name} FILTER html %]</em>
     (<em>[% field.name FILTER html %]</em>).
     [% IF field.name == "bug_status" %]
-      Przejdź na <a href="editworkflow.cgi">stronę zmian statusów błędów</a>,
+      Przejdź na <a href="editworkflow.cgi">stronę zmian statusów [% terms.bledow %]</a>,
       by dodać nowy status [% terms.bledu %].
     [% END %]
 
@@ -604,7 +604,7 @@
     zostały zapisane.
 
   [% ELSIF message_tag == "flag_type_deleted" %]
-    [% title = BLOCK %]Usunięto flagę „[% name FILTER html %]„[% END %]
+    [% title = BLOCK %]Usunięto flagę „[% name FILTER html %]”[% END %]
     Flaga <em>[% name FILTER html %]</em> została usunięta.
 
   [% ELSIF message_tag == "flag_type_deactivated" %]
@@ -731,7 +731,7 @@
     dodać co najmniej jeden komponent</a> zanim ktokolwiek będzie mógł zgłaszać [% terms.bledy %] w tym produkcie.
 
   [% ELSIF message_tag == "product_deleted" %]
-    [% title = "Usunieto produkt" %]
+    [% title = "Usunięto produkt" %]
     Produkt <em>[% product.name FILTER html %]</em> i wszystkie jego wersje,
     komponenty, wersje docelowe i elementy kontrolne grupy zostały usunięte.
     [% IF product.bug_count %]

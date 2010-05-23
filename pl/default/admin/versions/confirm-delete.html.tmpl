@@ -69,25 +69,25 @@
 
 [% IF version.bug_count %]
   <p>
-  Niestety w tej wersji nadal
+  W tej wersji nadal
   [% IF version.bug_count > 1 %] 
-    znajdują się [%+ terms.bledy %]: [% version.bug_count FILTER none %] 
+    znajdują się [%+ terms.bledy %]: [% version.bug_count FILTER none %]
   [% ELSE %]
-    znajduje się [% version.bug_count FILTER none %] [%+ terms.blad %] 
+    znajduje się [% version.bug_count FILTER none %] [%+ terms.blad %]
   [% END %].
 
   Należy przenieść 
 
-  [% IF bug_count > 1 %]
-     ten [% terms.blad %] 
+  [% IF version.bug_count > 1 %]
+     te [% terms.bledy %] 
   [% ELSE %]
-     te [% terms.bledy %]
+     ten [% terms.blad %]
   [% END %]
   do innej wersji, a potem ponownie spróbować usunąć tę wersję.
   </p>
 [% ELSE %]
 
-  <p>Czy na pewno chcesz usunąć tę wersję?<p>
+  <p>Czy na pewno chcesz usunąć tę wersję?</p>
   
   <form method="post" action="editversions.cgi">
     <input type="submit" value="Tak">

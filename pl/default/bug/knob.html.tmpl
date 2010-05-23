@@ -37,7 +37,7 @@
   [% IF bug.resolution 
         OR bug.check_can_change_field('resolution', bug.resolution, 1)
   %]
-    <noscript><br/>rozwiązany&nbsp;jako&nbsp;</noscript>
+    <noscript><br>rozwiązany&nbsp;jako&nbsp;</noscript>
   [% END %]
 
   <span id="resolution_settings">
@@ -51,7 +51,7 @@
   </span>
 
   [% IF bug.check_can_change_field('dup_id', 0, 1) %]
-    <noscript><br/> duplikat</noscript>
+    <noscript><br> duplikat</noscript>
     <span id="duplicate_settings"> 
       <span id="dup_id_container" class="bz_default_hidden">
         [% "${terms.bledu} ${bug.dup_id}" FILTER bug_link(bug.dup_id) FILTER none %]
@@ -67,7 +67,7 @@
       <a href="#" id="dup_id_discoverable_action">Oznacz jako duplikat</a>
     </div>
   [% ELSIF bug.dup_id %]
-    <noscript><br/> duplikat</noscript>
+    <noscript><br> duplikat</noscript>
     <span id="duplicate_display"> 
       [% "${terms.bledu} ${bug.dup_id}" FILTER bug_link(bug.dup_id) FILTER none %]</span>
   [% END %]

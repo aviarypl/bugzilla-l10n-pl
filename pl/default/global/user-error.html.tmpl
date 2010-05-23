@@ -60,7 +60,7 @@
     [% title = "Tworzenie kont jest ograniczone" %]
     Tworzenie kont zostało ograniczone.
     <hr>
-    Skontaktuj sie ze swoim administratorem lub opiekunem
+    Skontaktuj się ze swoim administratorem lub opiekunem
     ([% Param("maintainer") %]), by uzyskać informacje
     na temat utworzenia konta.
 
@@ -227,7 +227,7 @@
   [% ELSIF error == "attachment_illegal_url" %]
     [% title = "Nieprawidłowy adres URL załącznika" %]
     <em>[% url FILTER html %]</em> nie jest prawidłowym adresem URL dla załączników.
-    Musi rozpoczynać sie od http://, https:// or ftp://.
+    Musi rozpoczynać sie od http://, https:// lub ftp://.
 
   [% ELSIF error == "attachment_removed" %]
     [% title = "Usunięty załącznik" %]
@@ -486,8 +486,8 @@
 
   [% ELSIF error == "field_value_control_select_only" %]
     [% title = "Nieprawidłowa wartość kontrolna pola" %]
-    Tylko listy rozwijane i pola wielokrotnego wyboru mogą być polami, które
-    kontrolują ich wartości.
+    Tylko listy rozwijane i pola wielokrotnego wyboru mogą mieć pole, które
+    kontroluje ich wartości.
 
   [% ELSIF error == "fieldname_invalid" %]
     [% title = "Podane pole nie istnieje" %]
@@ -671,13 +671,13 @@
   [% ELSIF error == "flag_type_sortkey_invalid" %]
     [% title = "Nieprawidłowy klucz sortowania flagi" %]
     Klucz sortowania musi być liczbą z przedziału 0-32767.
-    Nie może być <em>[% sortkey FILTER html %]</em>.
+    Nie może  to być <em>[% sortkey FILTER html %]</em>.
 
   [% ELSIF error == "freetext_too_long" %]
     [% title = "Za długi tekst" %]
-    Wprowadzony tekst zawiera ([% text.length FILTER html %] znaków.
+    Wprowadzony tekst zawiera [% text.length FILTER html %] znaków.
     Dopuszczalna liczba to [% constants.MAX_FREETEXT_LENGTH FILTER none %]
-    znaków):
+    znaków:
     <p><em>[% text FILTER html %]</em></p>
 
   [% ELSIF error == "group_cannot_delete" %]
@@ -773,10 +773,10 @@
     [% title = "Brak dostępu" %]
     Próbowano zmienić pole
     <strong>[% field_descs.$field FILTER html %]</strong> 
-    [% IF oldvalue %]
+    [% IF oldvalue.defined %]
     z  <em>[% oldvalue.join(', ') FILTER html %]</em>
     [% END %]
-    [% IF newvalue %]
+    [% IF newvalue.defined %]
       na <em>[% newvalue.join(', ') FILTER html %]</em>,
     [% END %]
     lecz tylko
@@ -832,7 +832,7 @@
 
   [% ELSIF error == "illegal_is_obsolete" %]
     [% title = "Wyszukiwanie nie ma sensu" %]
-    Jedynymi prawidłowymi wartościami dla pola <em>Załącznik jest nieaktualny</em>
+    Jedynymi prawidłowymi wartościami dla pola <em>Załącznik jest zdezaktualizowany</em>
     jest 0 lub 1.
 
   [% ELSIF error == "illegal_query_name" %]
@@ -940,7 +940,7 @@
 
   [% ELSIF error == "invalid_product_name" %]
     [% title = "Nieprawidłowa nazwa produktu" %]
-    Nazwa produktu „[% product FILTER html %]” jest nieprawidłowa lub nie istnieje.
+    Nazwa produktu „[% product FILTER html %]” jest nieprawidłowa lub produkt nie istnieje.
 
   [% ELSIF error == "invalid_regexp" %]
     [% title = "Nieprawidłowe wyrażenie regularne" %]
@@ -1027,8 +1027,8 @@
 
   [% ELSIF error == "migrate_from_invalid" %]
     „[% from FILTER html %]” nie jest prawidłowym typem trackera [% terms.bledu %]
-    do migracji. Zobacz zawartość katalogu <kbd>B[% %]ugzilla/Migracja/</kbd>,
-    sprawdzić prawidłowe trackery [% terms.bledu %].
+    do migracji. Zobacz zawartość katalogu <kbd>B[% %]ugzilla/Migrate/</kbd>,
+    by sprawdzić prawidłowe trackery [% terms.bledu %].
 
   [% ELSIF error == "milestone_already_exists" %]
     [% title = "Wersja docelowa już istnieje" %]
@@ -1153,11 +1153,11 @@
     Nie podano subkategorii dla tej serii.
                 
   [% ELSIF error == "missing_version" %]
-    [% title = "Braku wersji" %]
+    [% title = "Brak wersji" %]
     [% admindocslinks = {'versions.html' => 'Definiowanie wersji'} %]
     Produkt <em>[% product.name FILTER html %]</em>
     musi mieć zdefiniowaną przynajmniej jedną wersję, by możliwe było
-    zgłaszanie [% terms.bledow %] dla niego.<p>
+    zgłaszanie [% terms.bledow %] dla niego.<br>
     [% IF user.in_group("editcomponents", product.id) %]
       <a href="editversions.cgi?action=add&amp;product=[% product.name FILTER url_quote %]">Utwórz
       nową wersję</a>.
@@ -1260,7 +1260,7 @@
 
   [% ELSIF error == "object_does_not_exist" %]
     [% type = BLOCK %][% INCLUDE object_name class = class %][% END %]
-    [% title = BLOCK %]Brak [% type FILTER html %][% END %]
+    [% title = BLOCK %]Invalid [% type FILTER ucfirst FILTER html %][% END %]
     Nie ma [% type FILTER html %]
     [% IF id.defined %]
       z ID „[% id FILTER html %]”
@@ -1284,7 +1284,7 @@
     Aby zmienić adres e-mail, należy podać poprzednie hasło.
 
   [% ELSIF error == "password_change_requests_not_allowed" %]
-    [% title = "Zmiana hasła jest nie dozwolona" %]
+    [% title = "Zmiana hasła jest niedozwolona" %]
     Konfiguracja systemu nie zezwala na zmianę hasła.
 
   [% ELSIF error == "passwords_dont_match" %]
@@ -1431,7 +1431,7 @@
     [% title = "Nieznane pole szybkiego wyszukiwania" %]
     Jest problem z twoim wyszukiwaniem:
     [% FOREACH field = unknown %]
-      <p> <code>[% field FILTER html %]</code> nie jest poprawną nazwą pola.
+      <p> <code>[% field FILTER html %]</code> nie jest poprawną nazwą pola.</p>
     [% END %]
     [% FOREACH field = ambiguous.keys %]
       <p><code>[% field FILTER html %]</code> pasuje do więcej niż jednego pola:
@@ -1580,7 +1580,7 @@
 
   [% ELSIF error == "version_already_exists" %]
     [% title = "Wersja już istnieje" %]
-    [% admindocslinks = {'versions.html' => 'Administracja wersji'} %]
+    [% admindocslinks = {'versions.html' => 'Administracja wersjami'} %]
     Wersja „[% name FILTER html %]” już istnieje dla produktu
     „[%- product FILTER html %]”.
 
@@ -1641,7 +1641,7 @@
     jako prywatne.
 
   [% ELSIF error == "votes_must_be_nonnegative" %]
-    [% title = "Liczna głosów nie może być wartością ujemną" %]
+    [% title = "Liczba głosów nie może być wartością ujemną" %]
     [% admindocslinks = {'voting.html' => 'Ustawienia funkcji głosowania'} %]
     Do głosowania na [% terms.bledy %] można używać tylko liczb dodatnich.
 

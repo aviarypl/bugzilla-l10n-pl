@@ -51,8 +51,8 @@ EOT
 Rozszerzenia musza zwracac swoja nazwe, a nie <code>1</code> lub numer. Wiecej
 szczegolow znajdziesz w dokumentacji Bugzilla::Extension.
 END
-    feature_auth_ldap         => 'Uwierzytelnienie LDAP',
-    feature_auth_radius       => 'Uwierzytelnienie RADIUS',
+    feature_auth_ldap         => 'Uwierzytelnianie LDAP',
+    feature_auth_radius       => 'Uwierzytelnianie RADIUS',
     feature_graphical_reports => 'Raporty graficzne',
     feature_html_desc         => 'Wiecej HTML w opisach Produktu/Grupy',
     feature_inbound_email     => 'E-mail przychodzacy',
@@ -63,7 +63,7 @@ END
     feature_mod_perl          => 'mod_perl',
     feature_moving            => 'Przenoszenie bledow pomiedzy instalacjami',
     feature_patch_viewer      => 'Przegladarka latek',
-    feature_smtp_auth         => 'Uwierzytelnienie SMTP',
+    feature_smtp_auth         => 'Uwierzytelnianie SMTP',
     feature_updates           => 'Automatyczne powiadomienia o aktualizacji',
     feature_xmlrpc            => 'Interfejs XML-RPC',
 
@@ -115,7 +115,7 @@ EOT
 *                                                                     *
 * Ponizej znajduje sie lista niezainstalowanych opcjonalnych modulow  *
 * z opisem funkcji, ktore beda dostepne po ich instalacji. W tabeli   *
-* znajduja sie polecenia ulatwiajace instalacje kazdego modulu        *
+* znajduja sie polecenia ulatwiajace instalacje kazdego modulu.       *
 EOT
     modules_message_required => <<EOT,
 ***********************************************************************
@@ -154,7 +154,7 @@ OSTRZEZENIE: Nie mozna usunac katalogu '##datadir##/template'.
          Zostal on przeniesiony do '##datadir##/deleteme', ktory powinien zostac
          usuniety reczne, by zwolnic miejsce na dysku.
 END
-    template_removing_dir => "Usuwanie istniejacych szablonow...",
+    template_removing_dir => "Usuwanie istniejacych szablonow... ",
 );
 
 1;
