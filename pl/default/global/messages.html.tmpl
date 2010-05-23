@@ -258,7 +258,7 @@
 
   [% ELSIF message_tag == "default_settings_updated" %]
     [% IF changes_saved %]
-      Zmiany w domyślnych ustawieniach zostały zapisane.
+      Zmiany w ustawieniach domyślnych zostały zapisane.
     [% ELSE %]
       Nie dokonano żadnych zmian.
     [% END %]
@@ -384,9 +384,9 @@
       [% FOREACH field = changes.keys.sort %]
         [% SWITCH field %]
           [% CASE 'name' %]
-            <li>Zmieniono nazwę na „[% changes.name.1 FILTER html %]”,</li>
+            <li>Zmieniono nazwę na „[% changes.name.1 FILTER html %]”.</li>
           [% CASE 'description' %]
-            <li>Zmieniono opis,</li>
+            <li>Zmieniono opis.</li>
           [% CASE 'userregexp' %]
             <li>Zmieniono wyrażenie regularne.</li>
           [% CASE 'isactive' %]
