@@ -159,13 +159,13 @@
 
 [% MACRO get_resolution(res) GET resolution_descs.$res || res %]
 	
-[% severity_descs = { "blocker"     => "blokujący",
-                      "critical"    => "krytyczny",
-                      "major"       => "poważny",
-                      "normal"      => "normalny",
-                      "minor"       => "drobny",
-                      "trivial"     => "błahy",
-                      "enhancement" => "propozycja" } %]
+[% severity_descs = { "blocker"     => "Blokujący",
+                      "critical"    => "Krytyczny",
+                      "major"       => "Poważny",
+                      "normal"      => "Normalny",
+                      "minor"       => "Drobny",
+                      "trivial"     => "Błahy",
+                      "enhancement" => "Propozycja" } %]
 
 [% MACRO get_severity(sev) GET severity_descs.$sev || sev %]
 	

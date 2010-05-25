@@ -248,7 +248,7 @@
     jest niepoprawny.
 
   [% ELSIF error == "flag_type_inactive" %]
-    [% title = "Nieaktywne typy flag" %]
+    [% title = "Nieaktywne flagi" %]
     Flaga [% type FILTER html %] jest nieaktywna i nie może być używana
     do tworzenia nowych flag.
 
@@ -328,7 +328,8 @@
     Wymagany jest poprawny identyfikator sentencji.
 
   [% ELSIF error == "no_manual_moved" %]
-    Nie można ustawić rozwiązania [% terms.bledu %] na PRZENIESIONY bez
+    Nie można ustawić rozwiązania [% terms.bledu %] na [%
+    get_resolution("MOVED") FILTER html %] bez
     przeniesienia [% terms.bledu %].
 
   [% ELSIF error == "no_open_bug_status" %]

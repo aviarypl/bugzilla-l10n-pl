@@ -174,7 +174,7 @@
           <li>
             Użytkownik [% otheruser.login FILTER html %]
             <a href="buglist.cgi?field0-0-0=setters.login_name&amp;type0-0-0=equals&amp;value0-0-0=
-               [%- otheruser.login FILTER url_quote %]">określił
+               [%- otheruser.login FILTER url_quote %]">zweryfikował
             lub poprosił o 
             [% IF flags.setter == 1 %]
               flagę
@@ -295,9 +295,9 @@
             [% END %]</a>.
             Usunięcie konta użytkownika spowoduje, że
             [% IF flags.requestee == 1 %]
-              ta flaga zostanie uznana jako przypadkowa prośba
+              ta flaga zostanie uznana jako nieukierunkowana prośba
             [% ELSE %]
-              te flagi zostaną uznane jako przypadkowe prośby
+              te flagi zostaną uznane jako nieukierunkowana prośby
             [% END %].
 
           </li>

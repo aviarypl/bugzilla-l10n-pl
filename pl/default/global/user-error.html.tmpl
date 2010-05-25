@@ -59,7 +59,7 @@
     [% title = "Tworzenie kont jest ograniczone" %]
     Tworzenie kont zostało ograniczone.
     <hr>
-    Skontaktuj się ze swoim administratorem lub opiekunem
+    Skontaktuj się z administratorem lub opiekunem [% terms.Bugzilli %]
     ([% Param("maintainer") %]), by uzyskać informacje
     na temat utworzenia konta.
 
@@ -113,9 +113,8 @@
   [% ELSIF error == "auth_failure" %]
     [% title = "Wymagana autoryzacja" %]
     [% admindocslinks = {'groups.html' => 'Zabezpieczenia grup'} %]
-    Niestety,
     [% IF group %]
-      nie jesteś członkiem grupy „[% group FILTER html %]”,
+      Nie jesteś członkiem grupy „[% group FILTER html %]”,
     [% END %]
 
     [% IF reason %]
@@ -204,7 +203,7 @@
     [% ELSIF object == "versions" %]
       wersji
     [% ELSIF object == "workflow" %]
-      wykazu zmian
+      zmian statusu [% terms.bledow %]
     [% END %].
 
     [% Hook.process("auth_failure") %]
@@ -240,7 +239,7 @@
       Adres URL [%+ terms.bledu %] powinien wskazywać na plik <code>show_bug.cgi</code>
       znajdujący się w instalacji [% terms.Bugzilli %].
     [% ELSIF reason == 'id' %]
-      Pod tym adresem URL nie ma ważnego [% terms.bledu %].
+      Pod tym adresem URL nie ma [% terms.bledu %] o takim numerze.
     [% END %]
 
   [% ELSIF error == "bug_url_too_long" %]
@@ -868,8 +867,8 @@
     [% END %]
 
   [% ELSIF error == "invalid_changedsince" %]
-    [% title = "Nieprawidłowa wartość dla „Zmieniono w trakcie ___ dni”" %]
-    Wartość pola „Zmieniono w trakcie ___ dni” „[% changedsince FILTER html %]”
+    [% title = "Nieprawidłowa wartość pola „Zmieniono w ciągu ___ dni”" %]
+    Wartość pola „Zmieniono w ciągu ___ dni” „[% changedsince FILTER html %]”
     musi być >= 0.
 
   [% ELSIF error == "invalid_content_type" %]
