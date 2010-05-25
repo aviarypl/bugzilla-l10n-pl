@@ -32,31 +32,31 @@
 [% cgi = Bugzilla.cgi %]
 
 [% IF NOT (cgi.user_agent("MSIE [1-6]") OR cgi.user_agent("Mozilla/4")) %]
-  <link rel="Top" href="[% urlbase FILTER html %]">
+  <link rel="Góra" href="[% urlbase FILTER html %]">
 
   [%# *** Attachment *** %]
   [% IF attachment && attachment.bug_id %]
-    <link rel="Up" href="show_bug.cgi?id=[% attachment.bug_id FILTER none %]">
+    <link rel="W górę" href="show_bug.cgi?id=[% attachment.bug_id FILTER none %]">
   [% END %]
 
 
   [%# *** Dependencies, Votes, Activity, Print-version *** %]
   [% IF bug %]
-    <link rel="Show" title="Drzewo zależności"
+    <link rel="Wyświetl" title="Drzewo zależności"
           href="showdependencytree.cgi?id=[% bug.bug_id %]&amp;hide_resolved=1">
     [% IF Param('webdotbase') %]
-    <link rel="Show" title="Graf zależności"
+    <link rel="Wyświetl" title="Graf zależności"
             href="showdependencygraph.cgi?id=[% bug.bug_id %]">
     [% END %]
 
     [% IF bug.use_votes %]
-      <link rel="Show" title="Głosy ([% bug.votes %])"
+      <link rel="Wyświetl" title="Głosy ([% bug.votes %])"
             href="votes.cgi?action=show_bug&amp;bug_id=[% bug.bug_id %]">
     [% END %]
 
-      <link rel="Show" title="Raport aktywności [% terms.bledu %]"
+      <link rel="Wyświetl" title="Raport aktywności [% terms.bledu %]"
             href="show_activity.cgi?id=[% bug.bug_id %]">
-      <link rel="Show" title="Wersja do druku"
+      <link rel="Wyświetl" title="Wersja do druku"
             href="show_bug.cgi?format=multiple&amp;id=[% bug.bug_id %]">
   [% END %]
 
@@ -84,21 +84,21 @@
 
   [%# *** Bugzilla Administration Tools *** %]
   [% IF user.login %] 
-    [% '<link rel="Administration" title="Parametry"    
+    [% '<link rel="Administracja" title="Parametry"    
               href="editparams.cgi">' IF user.in_group('tweakparams') %]
-    [% '<link rel="Administration" title="Użytkownicy"    
+    [% '<link rel="Administracja" title="Użytkownicy"    
               href="editusers.cgi">' IF user.in_group('editusers') %]
-    [% '<link rel="Administration" title="Produkty" href="editproducts.cgi">'
+    [% '<link rel="Administracja" title="Produkty" href="editproducts.cgi">'
        IF user.in_group('editcomponents') || user.get_products_by_permission("editcomponents").size %]
-    [% '<link rel="Administration" title="Typy flag"   
+    [% '<link rel="Administracja" title="Typy flag"   
               href="editflagtypes.cgi">' IF user.in_group('editcomponents') %]
-    [% '<link rel="Administration" title="Grupy"        
+    [% '<link rel="Administracja" title="Grupy"        
               href="editgroups.cgi">' IF user.in_group('creategroups') %]
-    [% '<link rel="Administration" title="Słowa kluczowe"      
+    [% '<link rel="Administracja" title="Słowa kluczowe"      
               href="editkeywords.cgi">' IF user.in_group('editkeywords') %]
-    [% '<link rel="Administration" title="Przypominanie"       
+    [% '<link rel="Administracja" title="Przypominanie"       
               href="editwhines.cgi">' IF user.in_group('bz_canusewhines') %]
-    [% '<link rel="Administration" title="Sprawdzanie spójności"  
+    [% '<link rel="Administracja" title="Sprawdzanie spójności"  
               href="sanitycheck.cgi">' IF user.in_group('editcomponents') %]
   [% END %]  
 [% END %]

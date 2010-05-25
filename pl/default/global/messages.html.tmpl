@@ -113,7 +113,7 @@
   [% ELSIF message_tag == "attachment_creation_failed" %]
     [% terms.Blad %] został utworzony, lecz nie powiodło się utworzenie 
     załącznika.
-    Proszę dodać załącznik poprzez odnośnik „Utwórz nowy załącznik”
+    Proszę dodać załącznik poprzez odnośnik „Dodaj załącznik”
     znajdujący się poniżej.
 
   [% ELSIF message_tag == "bug_group_description" %]
@@ -148,8 +148,8 @@
     [% terms.Bledy %] na tej liście są posortowane według trafności.
     Na początku listy znajdują się [% terms.bledy %] najbliższe parametrom wyszukiwania.
     [% IF bugs.size == constants.FULLTEXT_BUGLIST_LIMIT %]
-      Wyświetlane są wyłącznie pierwsze 
-      [% constants.FULLTEXT_BUGLIST_LIMIT FILTER html %] [% terms.bledy %].
+      Wyświetlane jest wyłącznie pierwsze 
+      [% constants.FULLTEXT_BUGLIST_LIMIT FILTER html %] [% terms.bledow %].
     [% END %]
 
   [% ELSIF message_tag == "change_columns" %]
@@ -324,11 +324,11 @@
         [% END %]
         [% IF changes.visibility_value_id %]
           [% IF value.visibility_value.defined %]
-            <li>Będzie wyświetlany tylko, gdy
-              [%+ value.field.value_field.description FILTER html %] jest ustawiony na
+            <li>Będzie wyświetlane tylko, gdy
+              [%+ value.field.value_field.description FILTER html %] jest ustawione na
               „[%+ value.visibility_value.name FILTER html %]”.</li>
           [% ELSE %]
-            <li>Teraz jest wyświetlany zawsze bez względu na to, co jest ustawione
+            <li>Teraz jest wyświetlane zawsze bez względu na to, co jest ustawione
               [%+ value.field.value_field.description FILTER html %].
             </li>
           [% END %]
@@ -595,12 +595,12 @@
     Twoje hasło zostało zmienione.
 
   [% ELSIF message_tag == "flag_type_created" %]
-    [% title = BLOCK %]Typ flagi „[% name FILTER html %]” został utworzony[% END %]
-    Typ flagi <em>[% name FILTER html %]</em> został utworzony.
+    [% title = BLOCK %]Flaga „[% name FILTER html %]” została utworzona[% END %]
+    Flaga <em>[% name FILTER html %]</em> została utworzona.
 
   [% ELSIF message_tag == "flag_type_changes_saved" %]
     [% title = BLOCK %]Zmiana flagi „[% name FILTER html %]” została zapisana[% END %]
-    Zmiany typu flagi <em>[% name FILTER html %]</em> 
+    Zmiany flagi <em>[% name FILTER html %]</em> 
     zostały zapisane.
 
   [% ELSIF message_tag == "flag_type_deleted" %]

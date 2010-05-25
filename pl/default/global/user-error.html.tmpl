@@ -60,7 +60,7 @@
     [% title = "Tworzenie kont jest ograniczone" %]
     Tworzenie kont zostało ograniczone.
     <hr>
-    Skontaktuj się ze swoim administratorem lub opiekunem
+    Skontaktuj się z administratorem lub opiekunem [% terms.Bugzilli %]
     ([% Param("maintainer") %]), by uzyskać informacje
     na temat utworzenia konta.
 
@@ -120,9 +120,8 @@
   [% ELSIF error == "auth_failure" %]
     [% title = "Wymagana autoryzacja" %]
     [% admindocslinks = {'groups.html' => 'Zabezpieczenia grup'} %]
-    Niestety,
     [% IF group %]
-      nie jesteś członkiem grupy „[% group FILTER html %]”,
+      Nie jesteś członkiem grupy „[% group FILTER html %]”,
     [% END %]
 
     [% IF reason %]
@@ -215,7 +214,7 @@
     [% ELSIF object == "versions" %]
       wersji
     [% ELSIF object == "workflow" %]
-      wykazu zmian
+      zmian statusu [% terms.bledow %]
     [% END %].
 
     [% Hook.process("auth_failure") %]
@@ -256,7 +255,7 @@
       Adres URL [%+ terms.bledu %] powinien wskazywać na plik <code>show_bug.cgi</code>
       znajdujący się w instalacji [% terms.Bugzilli %].
     [% ELSIF reason == 'id' %]
-      Pod tym adresem URL nie ma ważnego [% terms.bledu %].
+      Pod tym adresem URL nie ma [% terms.bledu %] o takim numerze.
     [% END %]
 
   [% ELSIF error == "bug_url_too_long" %]
@@ -984,8 +983,8 @@
     [% END %]
 
   [% ELSIF error == "json_rpc_post_only" %]
-    Z powodów bezpieczeństwa z metodą POST HTTP możesz używać tylko
-    JSON-RPC.
+    Z powodów bezpieczeństwa korzystając z JSON-RPC możesz używać tylko
+    metody POST protokółu HTTP.
 
   [% ELSIF error == "keyword_already_exists" %]
     [% title = "Słowo kluczowe już istnieje" %]
@@ -1026,9 +1025,9 @@
     zmiennych, które muszą być określone przed kontynuacją migracji.
 
   [% ELSIF error == "migrate_from_invalid" %]
-    „[% from FILTER html %]” nie jest prawidłowym typem trackera [% terms.bledu %]
-    do migracji. Zobacz zawartość katalogu <kbd>B[% %]ugzilla/Migrate/</kbd>,
-    by sprawdzić prawidłowe trackery [% terms.bledu %].
+    Nie można dokonać migracji. „[% from FILTER html %]” nie jest prawidłowym typem trackera [% terms.bledu %].
+    Zobacz zawartość katalogu <kbd>B[% %]ugzilla/Migrate/</kbd>, by sprawdzić
+    prawidłowe trackery [% terms.bledu %].
 
   [% ELSIF error == "milestone_already_exists" %]
     [% title = "Wersja docelowa już istnieje" %]

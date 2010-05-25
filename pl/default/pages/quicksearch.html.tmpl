@@ -105,13 +105,11 @@
 
 [% IF Bugzilla.active_custom_fields.size %]
   [% SET first_field = Bugzilla.active_custom_fields.0 %]
-  <p>Pola dodatkowe mogą być używane i ich nazwy skracane bazując
-    na części ich nazwy <em>po</em> <kbd>cf_</kbd> jeśli użyta
-    przez ciebie początkowa część nazwy pola dodatkowego to
+  <p>Pola dodatkowe mogą być używane i ich nazwy skracane. Bazą
+    skrótu może być tylko część nazwy występująca <em>po</em>
     <kbd>cf_</kbd>. Na przykład 
-    <kbd>[% first_field.name FILTER html %]</kbd> może także
-    odwoływać się jako 
-    <kbd>[% first_field.name.replace('^cf_') FILTER html %]</kbd>.
+    <kbd>cf_pole_dodatkowe</kbd> może także
+    odwoływać się jako <kbd>pole_dodatkowe</kbd>.
     Niemniej jeśli będzie to powodowało konflikt pomiędzy nazwą standardowego
     pola używanego w [%+ terms.Bugzilli %], a nazwą pola dodatkowego,
     nazwa pola standardowego ma pierwszeństwo.</p>
@@ -252,7 +250,7 @@
       [% SET key = "flagtypes.name" %]
       <td class="field_name">[% field_descs.$key FILTER html %]</td>
       <td class="field_nickname">
-        <em>flag</em><strong>?</strong><em>użytkownik_zamieszczający_flagę</em>
+        <em>flag</em><strong>?</strong><em>użytkownik_zamieszczający</em>
       </td>
     </tr>
     <tr>
