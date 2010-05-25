@@ -1625,8 +1625,8 @@
 
   [% ELSIF error == "user_match_failed" %]
     [% title = "Nic nie znaleziono" %]
-    Użytkownik <tt>[% name FILTER html %]</tt> nie istnieje lub nie masz uprawnień 
-    do jego wyświetlenia.
+    Nie ma użytkownika o identyfikatorze <tt>[% name FILTER html %]</tt> lub 
+    nie masz uprawnień do oglądania jego danych.
 
   [% ELSIF error == "user_match_too_many" %]
     [% title = "Brak rozstrzygnięcia" %]
