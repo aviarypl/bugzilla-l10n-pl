@@ -87,10 +87,10 @@
     [% IF Param('usevotes') %]
       <span id="votes_to_confirm_container"
             [% ' class="bz_default_hidden"' IF !product.allows_unconfirmed %]>
-        i automatycznie potwierdź [% terms.bledy %] jeśli osiągną
+        i automatycznie potwierdź [% terms.bledy %] jeśli osiągną następującą liczbę głosów:
         <input size="3" maxlength="5" name="votestoconfirm" id="votestoconfirm"
-               value="[% product.votes_to_confirm FILTER html %]">
-         głosów. Wartość 0 tego parametru spowoduje wyłączenie automatycznego potwierdzania [% terms.bledow %]
+               value="[% product.votes_to_confirm FILTER html %]">.
+         Wartość 0 tego parametru spowoduje wyłączenie automatycznego potwierdzania [% terms.bledow %]
          przez głosowanie.
       </span>
     [% END %]

@@ -45,7 +45,7 @@ EOT
 POLECENIA DO ZAINSTALOWANIA WYMAGANYCH MODULOW (*Musisz* uruchomic wszystkie te polecenia
 i nastepnie ponownie uruchomic skrypt checksetup.pl):
 EOT
-    done => 'Zakonczono.',
+    done => 'zakonczono.',
     extension_must_return_name => <<END,
 ##file## zwrocil ##returned##, ktory nie jest poprawna nazwa rozszerzenia.
 Rozszerzenia musza zwracac swoja nazwe, a nie <code>1</code> lub numer. Wiecej
@@ -154,7 +154,7 @@ OSTRZEZENIE: Nie mozna usunac katalogu '##datadir##/template'.
          Zostal on przeniesiony do '##datadir##/deleteme', ktory powinien zostac
          usuniety reczne, by zwolnic miejsce na dysku.
 END
-    template_removing_dir => "Usuwanie istniejacych szablonow... ",
+    template_removing_dir => "Usuwanie istniejacych skompilowanych szablonow... ",
 );
 
 1;

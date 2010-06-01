@@ -446,7 +446,7 @@
 
   [% ELSIF error == "extension_first_letter_caps" %]
     Nazwa rozszerzenia musi zaczynać się dużą literą.
-    (Podano '[% name FILTER html %]'.)
+    (Podano „[% name FILTER html %]”.)
 
   [% ELSIF error == "field_already_exists" %]
     [% title = "Pole już istnieje" %]
@@ -852,7 +852,7 @@
 
   [% ELSIF error == "illegal_time" %]
     [% title = "Nieprawidłowy format czasu" %]
-  „'<tt>[% time FILTER html %]</tt>” nie jest prawidłowym formatem czasu.
+  „<tt>[% time FILTER html %]</tt>” nie jest prawidłowym formatem czasu.
     [% IF format %]
       Proszę użyć formatu „<tt>[% format FILTER html %]</tt>”.
     [% END %]
@@ -984,7 +984,7 @@
 
   [% ELSIF error == "json_rpc_post_only" %]
     Z powodów bezpieczeństwa korzystając z JSON-RPC możesz używać tylko
-    metody POST protokółu HTTP.
+    metody POST protokołu HTTP.
 
   [% ELSIF error == "keyword_already_exists" %]
     [% title = "Słowo kluczowe już istnieje" %]
@@ -1025,9 +1025,9 @@
     zmiennych, które muszą być określone przed kontynuacją migracji.
 
   [% ELSIF error == "migrate_from_invalid" %]
-    Nie można dokonać migracji. „[% from FILTER html %]” nie jest prawidłowym typem trackera [% terms.bledu %].
+    Nie można dokonać migracji. „[% from FILTER html %]” nie jest prawidłowym typem trackera błędów.
     Zobacz zawartość katalogu <kbd>B[% %]ugzilla/Migrate/</kbd>, by sprawdzić
-    prawidłowe trackery [% terms.bledu %].
+    prawidłowe trackery błędów.
 
   [% ELSIF error == "milestone_already_exists" %]
     [% title = "Wersja docelowa już istnieje" %]
@@ -1764,7 +1764,7 @@
   [% ELSIF class == "Bugzilla::Flag" %]
     flaga
   [% ELSIF class == "Bugzilla::FlagType" %]
-    typ flagi
+    flaga
   [% ELSIF class == "Bugzilla::Field" %]
     pole
   [% ELSIF class == "Bugzilla::Group" %]

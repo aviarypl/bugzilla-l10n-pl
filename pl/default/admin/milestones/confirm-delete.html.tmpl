@@ -1,4 +1,4 @@
-[%# 3..6@bugzilla.org %]
+[%# 3.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -53,8 +53,8 @@
   <td valign="top">[% terms.Bledy %]:</td>
   <td valign="top">
 [% IF milestone.bug_count %]
-  <a title="Lista [% terms.bledow %] z określoną wersją docelową '
-           [% milestone.name FILTER html %]'"
+  <a title="Lista [% terms.bledow %] z określoną wersją docelową „
+           [% milestone.name FILTER html %]”"
      href="buglist.cgi?target_milestone=[% milestone.name FILTER url_quote %]&amp;product=
           [%- product.name FILTER url_quote %]">
           [% milestone.bug_count FILTER none %]</a>
@@ -71,9 +71,9 @@
 
   <table border="0" cellpadding="20" width="70%" bgcolor="red">
   <tr><td>
-    Istnieją otwarte [%+ terms.bledy %]
+    
     ([% IF milestone.bug_count > 1 %])
-      dla wersji docelowej [% milestone.bug_count FILTER none %].
+      Istnieją [% milestone.bug_count FILTER none %] otwarte [%+ terms.bledy %] dla tej wersji docelowej.
     [% ELSE %]
       Istnieje 1 otwarty [% terms.blad %] dla tej wersji docelowej.
     [% END %]

@@ -71,7 +71,7 @@
   <p>
   W tej wersji nadal
   [% IF version.bug_count > 1 %] 
-    znajdują się [%+ terms.bledy %]: [% version.bug_count FILTER none %]
+    znajdują się [% terms.bledy %]: [%+ version.bug_count FILTER none %]
   [% ELSE %]
     znajduje się [% version.bug_count FILTER none %] [%+ terms.blad %]
   [% END %].

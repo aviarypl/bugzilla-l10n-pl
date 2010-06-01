@@ -90,7 +90,7 @@
               href="editusers.cgi">' IF user.in_group('editusers') %]
     [% '<link rel="Administracja" title="Produkty" href="editproducts.cgi">'
        IF user.in_group('editcomponents') || user.get_products_by_permission("editcomponents").size %]
-    [% '<link rel="Administracja" title="Typy flag"   
+    [% '<link rel="Administracja" title="Flagi"   
               href="editflagtypes.cgi">' IF user.in_group('editcomponents') %]
     [% '<link rel="Administracja" title="Grupy"        
               href="editgroups.cgi">' IF user.in_group('creategroups') %]

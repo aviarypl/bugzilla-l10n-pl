@@ -23,15 +23,15 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-Normalne szablony prowadzą do tego katalogu. Można wczytać je
+Standardowe szablony prowadzą do tego katalogu. Można wczytać je
 używając kodu:
 
 use B[% %]ugzilla::Error;
 my $template = B[% %]ugzilla->template;
-$template->process('[% name FILTER lower %]/some-template.html.tmpl')
+$template->process('[% name FILTER lower %]/nazwa-szablonu.html.tmpl')
   or ThrowTemplateError($template->error());
 
-Ten kod pokazuje, jak wczytać plik o nazwie some-template.html.tmpl znajdujący się
+Ten kod pokazuje, jak wczytać plik o nazwie nazwa-szablonu.html.tmpl znajdujący się
 w tym katalogu.
 
 Należy zwrócić baczną uwagę, by pełna ścieżka do twojego szablonu nigdy nie

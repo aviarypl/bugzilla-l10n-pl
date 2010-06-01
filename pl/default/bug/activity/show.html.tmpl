@@ -38,14 +38,14 @@
  %]
 
 <p>
-  [% "Wróć do $terms.bledu nr $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %]
+  [% "Wróć do $terms.bledu nr $bug.bug_id" FILTER bug_link(bug) FILTER none %]
 </p>
 
 [% PROCESS bug/activity/table.html.tmpl %]
 
 [% IF operations.size > 0 %]
   <p>
-    [% "Wróć do $terms.bledu nr $bug.bug_id" FILTER bug_link(bug.bug_id) FILTER none %]
+    [% "Wróć do $terms.bledu nr $bug.bug_id" FILTER bug_link(bug) FILTER none %]
   </p>
 [% END %]
 

@@ -55,7 +55,7 @@
     Załączników nie można przechowywać lokalnie. Ta funkcja jest wyłączona.
 
   [% ELSIF error == "attachment_url_disabled" %]
-    [% title = "Dodawanie adresu URL do załączników wyłączone" %]
+    [% title = "Dodawanie adresów URL jako załączników wyłączone" %]
     Nie można dołączać adresów URL. Ta funkcja jest obecnie wyłączona.
 
   [% ELSIF error == "auth_invalid_email" %]
@@ -164,8 +164,8 @@
   [% ELSIF error == "extension_must_return_name" %]
     <code>[% extension FILTER html %]</code> zwrócił
     <code>[% returned FILTER html %]</code>, który nie jest poprawną nazwą
-    rozszerzenia. Rozszerzenia muszą zwracać swoją nazwę <code>1</code>
-    lub liczbę. Szczegóły znajdziesz w dokumentacji
+    rozszerzenia. Rozszerzenia muszą zwracać swoją nazwę, a nie <code>1</code>
+    lub numer. Więcej szczegółów znajdziesz w dokumentacji
     <a href="[% docs_urlbase FILTER html %]api/Bugzilla/Extension.html">Bugzilla::Extension</a>.
 
 
@@ -177,7 +177,7 @@
 
     <ul>
       <li><code>[% filename FILTER html %]</code> nie określa
-        <code>[% package FILTER html %]</code> pakietu.</li>
+        pakietu <code>[% package FILTER html %]</code>.</li>
       <li><code>[% package FILTER html %]</code> nie określa
         metody <code>NAME</code> lub metoda <code>NAME</code>
         zwraca pusty ciąg znaków.</li>
@@ -189,9 +189,9 @@
     podaje, że „[% extern_user FILTER html %]” posiada ten ID.
 
   [% ELSIF error == "field_choice_must_use_type" %]
-    Gdy jest wywoływana metoda class na <code>Bugzilla::Field::Choice</code>,
-    trzeba wywołać <code>Bugzilla::Field::Choice-&gt;type('some_field')</code>,
-    by wygenerować prawidłową klasę (nie można wywołać bezpośrednio metody class
+    Gdy jest wywoływana metoda klasy na <code>Bugzilla::Field::Choice</code>,
+    trzeba wywołać <code>Bugzilla::Field::Choice-&gt;type('nazwa_pola')</code>,
+    by wygenerować prawidłową klasę (nie można wywołać bezpośrednio metody klasy
     na Bugzilla::Field::Choice).
 
   [% ELSIF error == "field_not_custom" %]

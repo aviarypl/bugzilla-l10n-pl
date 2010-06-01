@@ -63,8 +63,8 @@
 [% IF product && !no_edit_product_link %]
   &nbsp;&nbsp;<a title="Edytuj produkt „[% product.name FILTER html %]” 
          [%- classification_text %]"
-  href="editproducts.cgi?action=edit&amp;product=[% product.name FILTER url_quote %]">
-        Edytuj produkt „[% product.name FILTER html %]”</a>
+  href="editproducts.cgi?action=edit&amp;product=[% product.name FILTER url_quote %]">Edytuj produkt „
+        [% product.name FILTER html %]”</a>
 [% END %]
 
 

@@ -142,7 +142,7 @@
     [% FOREACH detail = changes.too_many_votes %]
       &rarr;usunięto głosy oddane na [% terms.blad %] <a href="show_bug.cgi?id=
      [%- detail.id FILTER url_quote %]">
-     [%- detail.id FILTER html %]</a> od [% detail.name FILTER html %]<br>
+     [%- detail.id FILTER html %]</a> przez [% detail.name FILTER html %]<br>
     [% END %]
   [% ELSE %]
     &rarr;nie znaleziono.
@@ -155,7 +155,7 @@
     [% FOREACH detail = changes.too_many_total_votes %]
       &rarr;usunięto głosy oddane na [% terms.blad %] <a href="show_bug.cgi?id=
      [%- detail.id FILTER url_quote %]">
-     [%- detail.id FILTER html %]</a> od [% detail.name FILTER html %]<br>
+     [%- detail.id FILTER html %]</a> przez [% detail.name FILTER html %]<br>
     [% END %]
   [% ELSE %]
     &rarr;nie znaleziono.
