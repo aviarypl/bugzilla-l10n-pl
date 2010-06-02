@@ -16,6 +16,7 @@
 # The Original Code is the Bugzilla Bug Tracking System.
 #
 # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
+#
 # Translated by Zespół Aviary.pl <team@aviary.pl>
 
 # This file contains a single hash named %strings, which is used by the
