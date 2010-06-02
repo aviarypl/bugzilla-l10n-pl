@@ -43,8 +43,8 @@
     comment-guided.txt.tmpl, który formatuje dane wysłane przez formularz
     znajdujący się w tym szablonie są dołączone jako prezentacje tego, co jest
     ogólnie możliwe do zrobienia z własnymi szablonami, a w szczególności z własnym
-    zgłoszeniem [% terms.bledu %]. Zbyt duża ilość tekstu w prezentacji nie jest
-    wskazana. Jeśli chcesz używać tego formularza w swojej instalacji [% terms.Bugzilli %],
+    formularzem zgłoszenia [% terms.bledu %]. Większość tekstu w tej w prezentacji nie będzie
+    tobie potrzebna. Jeśli chcesz używać tego formularza w swojej instalacji [% terms.Bugzilli %],
     należy odpowiednio go zmienić.
   </font>
 </p>
@@ -123,8 +123,8 @@ function PutDescription() {
       <input type="hidden" name="product" value="NSS">
     [% END %]      
     <input type="hidden" name="chfieldfrom" value="-6m">
-    <input type="hidden" name="chfieldto" value="Teraz">
-    <input type="hidden" name="chfield" value="[Tworzenie błędu]">
+    <input type="hidden" name="chfieldto" value="Now">
+    <input type="hidden" name="chfield" value="[Bug creation]">
     <input type="text" name="content" size="40">
     <input type="submit" id="search" value="Szukaj">
   </form>
@@ -181,7 +181,7 @@ function PutDescription() {
               [% IF NOT default.component_ %]
                 [%# Various b.m.o. products have a "General" component,
                     which is a useful default. %]
-                [% default.component_ = "Ogólny" %]
+                [% default.component_ = "General" %]
               [% END %]
               [% FOREACH c = product.components %]
                 <option value="[% c.name FILTER html %]"
@@ -218,7 +218,7 @@ function PutDescription() {
 
   [%# We override rep_platform and op_sys for simplicity. The values chosen
       are based on which are most common in the b.m.o database %]
-  [% rep_platform = [ "PC", "Macintosh", "Wszystkie", "Inna" ] %]
+  [% rep_platform = [ "PC", "Macintosh", "All", "Other" ] %]
 
   <tr bgcolor="[% tablecolour %]">
     <td align="right" valign="top">
@@ -230,7 +230,7 @@ function PutDescription() {
   </tr>
 
   [% op_sys = [ "Windows 2000", "Windows XP", "Windows Vista", "Windows 7",
-                "Mac OS X", "Linux", "Wszystkie", "Inny" ] %]
+                "Mac OS X", "Linux", "All", "Other" ] %]
 
   <tr>
     <td align="right" valign="top">
@@ -296,7 +296,7 @@ function PutDescription() {
       </p>
       <p>
         <tt>
-          <font color="#990000">Zły przykład</font>: mail uległ awarii
+          <font color="#990000">Zły przykład</font>: klient poczty uległ awarii
         </tt>
         <br>
         <tt>
