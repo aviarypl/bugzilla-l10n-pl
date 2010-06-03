@@ -1,4 +1,4 @@
-[%# 3.6PLRC@aviary.pl %]
+[%# 3.6PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -79,7 +79,8 @@
 [% IF ! showbugcounts %]
 
   <p><a href="editversions.cgi?product=[% product.name FILTER url_quote %]&amp;showbugcounts=1">
-      Wyświetl kolumnę z liczbą [% terms.bledow %] (odświeża stronę – wolne)</a></p>
+      Wyświetl kolumnę z liczbą [% terms.bledow %]</a> <small> (odświeża stronę – 
+wolne)</small></p>
 
 [% END %]
 
