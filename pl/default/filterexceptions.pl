@@ -1,4 +1,4 @@
-# 3.6@bugzilla.org 
+# 3.6PLRC@aviary.pl 
 # -*- Mode: perl; indent-tabs-mode: nil -*-
 #
 # The contents of this file are subject to the Mozilla Public
