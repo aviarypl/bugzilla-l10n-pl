@@ -18,6 +18,7 @@
   #
   # Contributor(s): Terry Weissman <terry@mozilla.org>
   #                 Gervase Markham <gerv@gerv.net>
+  #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
@@ -156,8 +157,8 @@ Pola <b>Status</b> oraz <b>Rozwiązanie</b> umożliwiają śledzenie cyklu
           <b>[% get_resolution("FIXED") FILTER html %]</b>
         </dt>
         <dd>
-          Rozwiązanie takiego [% terms.bledu %] zostało oznaczone w drzewie i
-          przetestowane.
+          Rozwiązanie takiego [% terms.bledu %] zostało przetestowane i wysłane do
+          repozytorium.
         </dd>
 
         <dt>
@@ -209,8 +210,8 @@ Pola <b>Status</b> oraz <b>Rozwiązanie</b> umożliwiają śledzenie cyklu
 </table>
 
 <h2><a name="importance">Ważność</a></h2>
-Ważność [% terms.bledu%] jest określana jako kombinacja
-<a href="#priority">priorytetu</a> i <a href="#bug_severity">wagi</a> [% terms.bledu %],
+Ważność [% terms.bledu %] jest określana jako kombinacja
+<a href="#priority">priorytetu</a> i <a href="#bug_severity">wagi</a> [%+ terms.bledu %],
 które są opisane poniżej.
 
 <h2><a name="priority">Priorytet</a></h2>
@@ -251,7 +252,7 @@ Dotkliwość [% terms.bledu %].
   <tr>
     <th>Drobny</th>
 
-    <td>Niewielkia utrata funkcjonalności lub inne problemy, dla których
+    <td>Niewielka utrata funkcjonalności lub inne problemy, dla których
     istnieją łatwe metody obejścia</td>
   </tr>
 

@@ -21,6 +21,8 @@
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
+[% PROCESS global/variables.none.tmpl %]
+
 [%# This line is really long for a reason: to get rid of any possible textnodes
   # between the elements.  This is necessary because DOM parent-child-sibling
   # relations can change and screw up the javascript for restoring, collapsing
@@ -37,13 +39,13 @@
   [% END %]
   [% IF file.plus_lines %]
     [% IF file.minus_lines %]
-      (-[% file.minus_lines %]&nbsp;/&nbsp;+[% file.plus_lines %]&nbsp;wiersze)
+      (-[% file.minus_lines %]&nbsp;[% PROCESS ODMIEN c=file.minus_lines o1="wiersz" o2="wiersze" o3="wierszy" %]&nbsp;/&nbsp;+[% file.plus_lines %]&nbsp;[% PROCESS ODMIEN c=file.plus_lines o1="wiersz" o2="wiersze" o3="wierszy" %])
     [% ELSE %]
       (+[% file.plus_lines %]&nbsp;[% PROCESS ODMIEN c=file.plus_lines o1="wiersz" o2="wiersze" o3="wierszy" %])
     [% END %]
   [% ELSE %]
     [% IF file.minus_lines %]
-      (-[% file.minus_lines %]&nbsp;[% PROCESS ODMIEN c=file.plus_lines o1="wiersz" o2="wiersze" o3="wierszy" %])
+      (-[% file.minus_lines %]&nbsp;[% PROCESS ODMIEN c=file.minus_lines o1="wiersz" o2="wiersze" o3="wierszy" %])
     [% END %]
   [% END %]
 </td></tr></thead><tbody class="[% collapsed ? 'file_collapse' : 'file' %]">
@@ -81,7 +83,7 @@ incremental_restore()
     &nbsp;&nbsp;[% section.func_info FILTER html IF section.func_info %]
   [% END %] 
     </th><th>
-<a name="[% file.filename FILTER html %]_sec[% section_num %]" href="#[% file.filename FILTER html %]_sec[% section_num %]">Przejdź&nbsp;do&nbsp;tego&nbsp;miejsca</a>&nbsp;
+<a name="[% file.filename FILTER html %]_sec[% section_num %]" href="#[% file.filename FILTER html %]_sec[% section_num %]">Odnośnik&nbsp;do&nbsp;tego&nbsp;miejsca</a>&nbsp;
     </th></tr></table>
   </th></tr>
   [% current_line_old = section.old_start %]

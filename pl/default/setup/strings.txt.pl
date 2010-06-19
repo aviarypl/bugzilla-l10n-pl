@@ -16,6 +16,7 @@
 # The Original Code is the Bugzilla Bug Tracking System.
 #
 # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
+#
 # Translated by Zespół Aviary.pl <team@aviary.pl>
 
 # This file contains a single hash named %strings, which is used by the
@@ -43,7 +44,7 @@ EOT
 POLECENIA DO ZAINSTALOWANIA WYMAGANYCH MODULOW (*Musisz* uruchomic wszystkie te polecenia
 i nastepnie ponownie uruchomic skrypt checksetup.pl):
 EOT
-    done => 'Zakonczono.',
+    done => 'zakonczono.',
     header => "* To jest Bugzilla ##bz_ver## wraz z Perl ##perl_ver##\n"
             . "* Uruchomiono na ##os_name## ##os_ver##",
      install_all => <<EOT,
@@ -125,8 +126,8 @@ EOT
 * Ostatnie polecenie nalezy uruchamiac az do chwili ujrzenia na       *
 * poczatku wyswietlanej listy tekstu "theory58S".                     *
 EOT
-    template_precompile   => "Kompilowanie szablonow...",
-    template_removing_dir => "Usuwanie istniejacych szablonow... ",
+    template_precompile   => "Kompilowanie szablonow... ",
+    template_removing_dir => "Usuwanie istniejacych skompilowanych szablonow... ",
 );
 
 1;

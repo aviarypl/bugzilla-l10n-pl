@@ -441,7 +441,7 @@ TUI_hide_default('expert_fields');
     </td>
   </tr>
   <tr>
-    <th>Termin:</th>
+    <th>Termin ostateczny:</th>
     <td colspan="2">
       <input name="deadline" size="10" maxlength="10" value="[% deadline FILTER html %]">
       <small>(RRRR-MM-DD)</small>
@@ -528,7 +528,8 @@ TUI_hide_default('expert_fields');
         <input type="checkbox" id="commentprivacy" name="commentprivacy"
           [% " checked=\"checked\"" IF commentprivacy %]>
         <label for="commentprivacy">
-          Początkowy opis jest prywatny
+          Opis prywatny – widoczny tylko dla członków grupy 
+          <strong>[% Param('insidergroup') FILTER html %]</strong>)
         </label>
       </td>
     </tr>

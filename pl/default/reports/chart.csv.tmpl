@@ -1,4 +1,4 @@
-[%# 3.4.6@bugzilla.org %]
+﻿[%# 3.4.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -17,13 +17,14 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
-  # Translated by Zesp� Aviary.pl <team@aviary.pl>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% colsepchar = user.settings.csv_colsepchar.value %]
 
 [% data = chart.data %]
-Data\Seria
+Data\Serie
 [% FOREACH label = chart.labels %]
   [% colsepchar %][% label FILTER csv %]
 [% END %]

@@ -35,7 +35,7 @@
 [% message = BLOCK %]
   [% IF    message_tag == "account_created" %]
     [% title = "Utworzono konto $otheruser.login" %]
-    Zostało utworzone nowe konto [% otheruser.login FILTER html %].
+    Zostało utworzone konto użytkownika [% otheruser.login FILTER html %].
     [% IF groups.size %]
       Za pomocą poniższego formularza możesz zmienić ustawienia grup.
     [% END %]
@@ -265,18 +265,18 @@
       Nie dokonano żadnych zmian.
     [% END %]
 
-  [% ELSIF message_tag == "emailold_change_cancelled" %]
+  [% ELSIF message_tag == "emailold_change_canceled" %]
     [% title = "Anulowanie prośby o zmianę adresu e-mail" %]
     Prośba o zmianę adresu e-mail konta na adres
     [%+ new_email FILTER html %] została anulowana.
 
-  [% ELSIF message_tag == "email_change_cancelled" %]
+  [% ELSIF message_tag == "email_change_canceled" %]
     [% title = "Anulowanie prośby o zmianę adresu e-mail" %]
     Prośba o zmianę adresu e-mail konta z
     [%+ old_email FILTER html %] na
     [%+ new_email FILTER html %] została anulowana.
 
-  [% ELSIF message_tag == "email_change_cancelled_reinstated" %]
+  [% ELSIF message_tag == "email_change_canceled_reinstated" %]
     [% title = "Anulowanie prośby o zmianę adresu e-mail" %]
     Prośba o zmianę adresu e-mail konta
     [%+ old_email FILTER html %] na adres
@@ -321,11 +321,11 @@
         [% END %]
         [% IF changes.visibility_value_id %]
           [% IF value.visibility_value.defined %]
-            <li>Będzie wyświetlany tylko, gdy
-              [%+ value.field.value_field.description FILTER html %] jest ustawiony na
+            <li>Będzie wyświetlane tylko, gdy
+              [%+ value.field.value_field.description FILTER html %] jest ustawione na
               „[%+ value.visibility_value.name FILTER html %]”.</li>
           [% ELSE %]
-            <li>Teraz jest wyświetlany zawsze bez względu na to, co jest ustawione
+            <li>Teraz jest wyświetlane zawsze bez względu na to, co jest ustawione w
               [%+ value.field.value_field.description FILTER html %].
             </li>
           [% END %]
@@ -566,21 +566,21 @@
     Flaga <em>[% flag_type.name FILTER html %]</em> została dezaktywowana.
 
   [% ELSIF message_tag == "install_admin_get_email" %]
-    Wprowadź adres e-mail administratora:
+    Wprowadz adres e-mail administratora:
 
   [% ELSIF message_tag == "install_admin_get_name" %]
-    Wprowadź imię i nazwisko administratora:
+    Wprowadz imie i nazwisko administratora:
 
   [% ELSIF message_tag == "install_admin_get_password" %]
-    Wprowadź hasło konta administratora:
+    Wprowadz haslo konta administratora:
 
   [% ELSIF message_tag == "install_admin_created" %]
-    Użytkownik [% user.login FILTER html %] jest teraz administratorem.
+    Uzytkownik [% user.login FILTER html %] jest teraz administratorem.
 
   [% ELSIF message_tag == "install_admin_setup" %]
     Prawdopodobnie nie ma jeszcze konta administratora.
-    Może to być pierwsze uruchomienie [% terms.Bugzilli %] lub
-    uprawnienia administratora zostały przypadkowo usunięte.
+    Moze to byc pierwsze uruchomienie [% terms.Bugzilli %] lub
+    uprawnienia administratora zostaly przypadkowo usuniete.
 
   [% ELSIF message_tag == "install_column_add" %]
     Dodawanie nowej kolumny „[% column FILTER html %]” do tabeli „[% table FILTER html %]”…
@@ -592,16 +592,16 @@
     Zmiana nazwy kolumny „[% old FILTER html %]” na „[% new FILTER html %]”…
 
   [% ELSIF message_tag == "install_confirm_password" %]
-    Podaj ponownie hasło:
+    Podaj ponownie haslo:
 
   [% ELSIF message_tag == "install_default_classification" %]
-    Tworzenie domyślnej kategorii „[% name FILTER html %]”…
+    Tworzenie domyslnej kategorii „[% name FILTER html %]”…
 
   [% ELSIF message_tag == "install_default_product" %]
-    Tworzenie przykładowego produktu „[% name FILTER html %]”…
+    Tworzenie przykladowego produktu „[% name FILTER html %]”…
 
   [% ELSIF message_tag == "install_file_perms_fix" %]
-    Określanie uprawnień plików…
+    Okreslanie uprawnien plikow…
 
   [% ELSIF message_tag == "install_fk_add" %]
     Dodawanie obcego klucza: [% table FILTER html %].[% column FILTER html %] -&gt; [% fk.TABLE FILTER html %].[% fk.COLUMN FILTER html %]…
@@ -610,27 +610,27 @@
     Usuwanie obcego klucza: [% table FILTER html %].[% column FILTER html %] -&gt; [% fk.TABLE FILTER html %].[% fk.COLUMN FILTER html %]…
 
   [% ELSIF message_tag == "install_fk_invalid" %]
-    Błąd: Nieprawidłowe wartości dla kolumn tabeli [% column FILTER html %] w [% table FILTER html %].
-    (Te wartości nie istnieją w tabeli [% foreign_table FILTER html %] w kolumnie
+    Blad: Nieprawidlowe wartosci dla kolumn tabeli [% column FILTER html %] w [% table FILTER html %].
+    (Te wartosci nie istnieja w tabeli [% foreign_table FILTER html %] w kolumnie
     [% foreign_column FILTER html %].)
 
-    Przed kontynuacją wykonywania skryptu checksetup, należy te wartości naprawić,
-    usuwając te wiersze z bazy danych lub zmieniając wartości
-    kolumny [% column FILTER html %] w [% table FILTER html %] na prawidłowe wartości w [% foreign_table FILTER html %].[% foreign_column FILTER html %].
+    Przed kontynuacja wykonywania skryptu checksetup, nalezy te wartosci naprawic,
+    usuwajac te wiersze z bazy danych lub zmieniajac wartosci
+    kolumny [% column FILTER html %] w [% table FILTER html %] na prawidlowe wartosci w [% foreign_table FILTER html %].[% foreign_column FILTER html %].
 
-    Nieprawidłowe wartości z kolumny [% table FILTER html %].[% column FILTER html %] to:
+    Nieprawidlowe wartosci z kolumny [% table FILTER html %].[% column FILTER html %] to:
     [%+ values.join(', ') FILTER html %]
 
   [% ELSIF message_tag == "install_fk_invalid_fixed" %]
-    Ostrzeżenie: Nieprawidłowe wartości w [% table FILTER html %].[% column FILTER html %],
-    które mogą zostać [% IF action == 'delete' %]usunięte[% ELSE %]ustawione jako NULL[% END %]:
+    Ostrzezenie: Nieprawidlowe wartosci w [% table FILTER html %].[% column FILTER html %],
+    ktore moga zostac [% IF action == 'delete' %]usuniete[% ELSE %]ustawione jako NULL[% END %]:
     [%+ values.join(', ') FILTER html %]
 
   [% ELSIF message_tag == "install_group_create" %]
     Tworzenie grupy [% name FILTER html %]…
 
   [% ELSIF message_tag == "install_setting_new" %]
-    Dodawanie nowego ustawienia użytkownika o nazwie „[% name FILTER html %]”
+    Dodawanie nowego ustawienia uzytkownika o nazwie „[% name FILTER html %]”
 
   [% ELSIF message_tag == "install_table_drop" %]
     Usuwanie tabeli „[% name FILTER html %]”…
@@ -645,37 +645,37 @@
     sprawdzeniem poprawnosci adresu bazowego.
 
   [% ELSIF message_tag == "install_reset_password" %]
-    Wprowadź nowe hasło dla [% user.login FILTER html %]:
+    Wprowadz nowe haslo dla [% user.login FILTER html %]:
 
   [% ELSIF message_tag == "install_reset_password_done" %]
-    Nowe hasło zostało ustanowione.
+    Nowe haslo zostalo ustanowione.
 
   [% ELSIF message_tag == "install_webservergroup_empty" %]
     ****************************************************************************
-    UWAGA! Nie podano wartości dla parametru "webservergroup" w pliku
-    localconfig. Oznacza to, że pewne pliki i katalogi, które muszą być
-    dostępne dla zapisu przez użytkownika i serwer www oraz inne pliki (w tym
-    plik localconfig, który zawiera hasło bazy danych) muszą być dostępne do
-    zapisu dla wszystkich. Oznacza to, że _ktokolwiek_ kto ma dostęp do
-    tego komputera może dowolnie manipulować przy tej instalacji [%+ terms.Bugzilli %]
-    i uruchomić dowolny kod Perl jako użytkownik serwera www.
+    UWAGA! Nie podano wartosci dla parametru "webservergroup" w pliku
+    localconfig. Oznacza to, ze pewne pliki i katalogi, ktore musza byc
+    dostepne dla zapisu przez uzytkownika i serwer www oraz inne pliki (w tym
+    plik localconfig, ktory zawiera haslo bazy danych) musza byc dostepne do
+    zapisu dla wszystkich. Oznacza to, ze _ktokolwiek_ kto ma dostep do
+    tego komputera moze dowolnie manipulowac przy tej instalacji [%+ terms.Bugzilli %]
+    i uruchomic dowolny kod Perl jako uzytkownik serwera www.
 
-    Naprawdę należy zmienić tę opcję.
+    Naprawde nalezy zmienic te opcje.
     ****************************************************************************
 
   [% ELSIF message_tag == "install_webservergroup_not_in" %]
-    Uwaga: Podano wartość parametru "webservergroup" w pliku 
-    localconfig, lecz skrypt ten nie jest uruchomiony przez a) użytkownika [% constants.ROOT_USER FILTER html %]; 
-    lub b) członka tej grupy. Może to spowodować problemy z uprawnieniami i zmniejszenie 
-    poziomu bezpieczeństwa. W przypadku problemów z pracą skryptów [% terms.Bugzilli %],
-    należy zalogować się jako [% constants.ROOT_USER FILTER html %] i uruchomić ten skrypt ponownie, 
-    zostać członkiem tej grupy lub usunąć parametr "webservergroup".
+    Uwaga: Podano wartosc parametru "webservergroup" w pliku 
+    localconfig, lecz skrypt ten nie jest uruchomiony przez a) uzytkownika [% constants.ROOT_USER FILTER html %]; 
+    lub b) czlonka tej grupy. Moze to spowodowac problemy z uprawnieniami i zmniejszenie 
+    poziomu bezpieczenstwa. W przypadku problemow z praca skryptow [% terms.Bugzilli %],
+    nalezy zalogowac sie jako [% constants.ROOT_USER FILTER html %] i uruchomic ten skrypt ponownie, 
+    zostac czlonkiem tej grupy lub usunac parametr "webservergroup".
 
   [% ELSIF message_tag == "install_webservergroup_windows" %]
     Uwaga: Ustawiono parametr webservergroup w [% constants.bz_locations.localconfig FILTER html %]
-    Proszę zauważyć, że ustawienie to nie powoduje zwiększenia bezpieczeństwa w przypadku
-    pracy systemu w środowisku Windows.
-    Sprawdź uprawnienia do plików w katalogu [% terms.Bugzilli %] i usuń niepotrzebne
+    Prosze zauwazyc, ze ustawienie to nie powoduje zwiekszenia bezpieczenstwa w przypadku
+    pracy systemu w srodowisku Windows.
+    Sprawdz uprawnienia do plikow w katalogu [% terms.Bugzilli %] i usun niepotrzebne
     prawa zapisu.
 
   [% ELSIF message_tag == "product_created" %]
@@ -687,7 +687,7 @@
   [% ELSIF message_tag == "product_deleted" %]
     [% title = "Usunięto produkt" %]
     Produkt <em>[% product.name FILTER html %]</em> i wszystkie jego wersje,
-    komponenty, wersje docelowe i elementy kontrolne grupy zostały usunięte.
+    komponenty, wersje docelowe i relacje grupa/produkt zostały usunięte.
     [% IF product.bug_count %]
       Wszystkie [% terms.bledy %] znajdujące się w tym produkcie i wszystkie odniesienia
       do niego zostały także usunięte.

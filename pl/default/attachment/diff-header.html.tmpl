@@ -72,7 +72,7 @@ Różnica pomiędzy #[% oldid %] oraz #[% newid %] do [% terms.bledu %] #[% bugi
   [% IF headers %]
     <a href="[% PROCESS viewurl id=attachid %]">Wyświetl</a>
     | <a href="[% PROCESS editurl id=attachid %]">Szczegóły</a>
-    | <a href="[% PROCESS diffurl id=attachid %]&amp;context=[% context FILTER url_quote %]&amp;collapsed=[% collapsed FILTER url_quote %]&amp;headers=[% headers FILTER url_quote %]&amp;format=raw">Format&nbsp;łatki</a>
+    | <a href="[% PROCESS diffurl id=attachid %]&amp;context=[% context FILTER url_quote %]&amp;collapsed=[% collapsed FILTER url_quote %]&amp;headers=[% headers FILTER url_quote %]&amp;format=raw">Format&nbsp;zunifikowany</a>
   [% END %]
   [% IF other_patches.size > 0 %]
     [% IF headers %] |[%END%]
@@ -95,7 +95,7 @@ Różnica pomiędzy #[% oldid %] oraz #[% newid %] do [% terms.bledu %] #[% bugi
   <br>
 [% ELSE %]
   [% IF headers %]
-    <a href="attachment.cgi?oldid=[% oldid %]&amp;newid=[% newid %]&amp;action=interdiff&amp;format=raw">Format&nbsp;łatki</a>
+    <a href="attachment.cgi?oldid=[% oldid %]&amp;newid=[% newid %]&amp;action=interdiff&amp;format=raw">Format&nbsp;zunifikowany</a>
     |
   [% END %]
 [% END %]

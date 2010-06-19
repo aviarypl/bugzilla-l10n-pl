@@ -448,7 +448,7 @@
         [% IF bug.resolution %]
           [%+ get_resolution(bug.resolution) FILTER html %]
           [% IF bug.dup_id %]
-            &nbsp;[% "${terms.bledu} ${bug.dup_id}" FILTER bug_link(bug.dup_id) FILTER none %]
+            [%+ "${terms.bledu} ${bug.dup_id}" FILTER bug_link(bug.dup_id) FILTER none %]
           [% END %]
         [% END %]
         [% IF bug.user.canedit || bug.user.isreporter %]
@@ -505,12 +505,12 @@
     [% IF Param("usetargetmilestone") && bug.target_milestone %]
       <tr>
         <td class="field_label">
-          <label for="target_milestone"><b>
+          <label for="target_milestone">
             [% IF bug.milestoneurl %]
               <a href="[% bug.milestoneurl FILTER html %]">
             [% END %]
             Wersja&nbsp;docelowa[% "</a>" IF bug.milestoneurl %]
-          [%%]</b></label>:
+          [%%]</label>:
         </td>
         [% PROCESS select selname = "target_milestone" %]
       </tr>
@@ -776,8 +776,9 @@
             [% IF (Param('useqacontact')) %]
                i specjalista QA
             [% END %]
-            mogą zawsze widzieć [% terms.blad %] i ustawienia tej sekcji nie mają na to wpływu, nawet jeśli
-            widzialność [% terms.bledu %] jest ograniczona tylko do jednej grupy.)
+          mogą zawsze widzieć [% terms.blad %] i ta sekcja nie ma na to
+          wpływu chyba, że [% terms.blad %] jest ograniczony do
+          co najmniej jednej grupy.
           </small>
         </div>
         <div>
@@ -1057,7 +1058,7 @@
         Zysk
       </th>
       <th>
-        <label for="deadline">Czas<br>zakończenia</label>
+        <label for="deadline">Termin<br>ostateczny</label>
       </th>
     </tr>
     <tr>

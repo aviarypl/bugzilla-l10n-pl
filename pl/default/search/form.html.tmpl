@@ -19,6 +19,7 @@
   # Contributor(s): Chris Lahey <clahey@ximian.com> [javascript fixes]
   #                 Christian Reis <kiko@async.com.br> [javascript rewrite]
   #                 Gervase Markham <gerv@gerv.net>
+  #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
@@ -310,7 +311,7 @@ function doOnSelectProduct(selectmode) {
   [% IF user.in_group(Param("timetrackinggroup")) %]
     <tr>
       <th align="right">
-        <label for="deadlinefrom" accesskey="c"><u>C</u>zas zakończenia</label>
+        <label for="deadlinefrom" accesskey="c">Termin ostate<u>c</u>zny</label>
       </th>
       <td>
         od <input name="deadlinefrom" id="deadlinefrom" size="10" maxlength="10"
@@ -567,7 +568,7 @@ function doOnSelectProduct(selectmode) {
   <dd>
     <input name="chfieldfrom" id="chfieldfrom"
            size="10" value="[% default.chfieldfrom.0 FILTER html %]">
-    , a <input name="chfieldto" size="10" value="[% default.chfieldto.0 FILTER html %]">,
+     a <input name="chfieldto" size="10" value="[% default.chfieldto.0 FILTER html %]">,
     <br>(RRRR-MM-DD lub relatywne daty)
   </dd>
   <dt>

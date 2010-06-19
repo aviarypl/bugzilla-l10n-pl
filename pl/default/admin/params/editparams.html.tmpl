@@ -21,6 +21,7 @@
   #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
+
 [%# INTERFACE:
   # panels: array of hashes representing the panels available.
   # param_changed: array of parameters which have been changed.
@@ -30,7 +31,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% curpanel = -1 %]
-[% panels = panels.sort('sortkey') %]
+[% panels = panels.nsort('sortkey') %]
 
 [% FOREACH panel = panels %]
   [% PROCESS "admin/params/${panel.name}.html.tmpl"

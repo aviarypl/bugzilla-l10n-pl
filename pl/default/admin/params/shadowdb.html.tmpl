@@ -21,6 +21,7 @@
   #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
+
 [%
    title = "Kopia bazy danych"
    desc = "Dodatkowa metoda zwiększająca wydajność operacji na bazie danych"
@@ -42,11 +43,11 @@
                   "(localhost) spowoduje, że parametr <tt>shadowdbport</tt> " _
                   "zostanie zignorowany.",
 
-  shadowdb => "Wartość niepusta określa nazwę dodatkowej bazy danych, której " _
-              "$terms.Bugzilla będzie używać jako kopii bazy do odczytu. " _
-              "Długie, blokujące połączenia i zapytania będą wykonywane na tej bazie, " _
-              "a inni użytkownicy nie będą doświadczać opóźnień. Baza ta znajduje się na " _
-              "komputerze określonym dla parametru <tt>shadowdbhost</tt>. " _
+  shadowdb => "Nazwa dodatkowej bazy danych, której $terms.Bugzilla będzie " _
+              "używać jako kopii bazy do odczytu. Długie, blokujące połączenia " _
+              "i wyszukiwania będą wykonywane na tej bazie, a inni użytkownicy " _
+              "nie będą odczuwali żadnych opóźnień. Baza ta znajduje się na komputerze " _
+              "określonym dla parametru <tt>shadowdbhost</tt>. " _
               "$terms.Bugzilla sama z siebie nie replikuje bazy. W przypadku korzystania z tej " _
               "funkcji, należy samodzielnie zapewnić replikację bazy danych." }
 %]

@@ -105,7 +105,7 @@
     Nie można otworzyć pliku <tt>[% filename FILTER html %]</tt> z danymi do wykresu.
   
   [% ELSIF error == "chart_lines_not_installed" %]
-    [% admindocslinks = {'installation.html#install-perlmodules' => 'By korzystać z wykresów, niezbędna jest instalacja modułów Perl'} %]
+    [% admindocslinks = {'installation.html#install-perlmodules' => 'Instalowanie modułów Perl'} %]
     Wykresy nie będą działać, póki nie zostanie zainstalowany moduł Perl Chart::Lines.
     Proszę uruchomić skrypt checksetup.pl, aby otrzymać instrukcję instalacji.
 
@@ -146,9 +146,9 @@
     podaje, że „[% extern_user FILTER html %]” posiada ten ID.
 
   [% ELSIF error == "field_choice_must_use_type" %]
-    Gdy jest wywoływana metoda class na <code>Bugzilla::Field::Choice</code>,
-    trzeba wywołać <code>Bugzilla::Field::Choice-&gt;type('some_field')</code>,
-    by wygenerować prawidłową klasę (nie można wywołać bezpośrednio metody class
+    Gdy jest wywoływana metoda klasy na <code>Bugzilla::Field::Choice</code>,
+    trzeba wywołać <code>Bugzilla::Field::Choice-&gt;type('nazwa_pola')</code>,
+    by wygenerować prawidłową klasę (nie można wywołać bezpośrednio metody klasy
     na Bugzilla::Field::Choice).
 
   [% ELSIF error == "field_type_mismatch" %]
@@ -157,10 +157,10 @@
 
   [% ELSIF error == "field_not_custom" %]
     „[% field.description FILTER html %]” ([% field.name FILTER html %])
-    nie jest dodatkowym polem.
+    nie jest polem dodatkowym.
 
   [% ELSIF error == "gd_not_installed" %]
-    [% admindocslinks = {'installation.html#install-perlmodules' => 'By korzystać z wykresów, niezbędna jest instalacja modułów Perl'} %]
+    [% admindocslinks = {'installation.html#install-perlmodules' => 'Instalowanie modułów Perl'} %]
     Wykresy nie będą wyświetlane do czasu zainstalowania modułu Perl GD.
     Proszę uruchomić skrypt checksetup.pl, aby otrzymać instrukcję instalacji.
 
@@ -184,13 +184,13 @@
           
   [% ELSIF error == "invalid_column_name_cookie" %]
     [% title = "Nieprawidłowa nazwa kolumny" %]
-     Kolejność sortowania opisana w Twoim ciasteczku zawiera nieprawidłową
+     Kolejność sortowania opisana w twoim ciasteczku zawiera nieprawidłową
      nazwę kolumny <em>[% fragment FILTER html %]</em>.
      Ciasteczko zostało usunięte.
          
   [% ELSIF error == "invalid_column_name_form" %]
     [% title = "Nieprawidłowa nazwa kolumny" %]
-     Porządek sortowania określony w Twoim formularzu wysyłania zawiera
+     Porządek sortowania określony w twoim formularzu wysyłania zawiera
      nieprawidłową nazwę kolumny <em>[% fragment FILTER html %]</em>.
 
   [% ELSIF error == "invalid_customfield_type" %]
@@ -361,7 +361,7 @@
 
   [% ELSIF error == "product_empty_group_controls" %]
     [% title = "Brak uprawnień grupy" %]
-    Nowe ustawienia muszą mieć uprawnienia do modyfikacji uprawnień dla
+    Należy edytować relacje grupa/produkt dla
     grupy [% group.name FILTER html %].
 
   [% ELSIF error == "product_illegal_group_control" %]

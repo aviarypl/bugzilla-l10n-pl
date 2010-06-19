@@ -17,6 +17,8 @@
   # Rights Reserved.
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# INTERFACE:
@@ -34,10 +36,10 @@
 
 [% IF target == "enter_bug.cgi" %]
   [% title = "Zgłaszanie $terms.bledu" %]
-  [% subheader = BLOCK %]Wybierz produkt, dla którego będzie zgłaszany [% terms.blad %]. [% END %]
+  [% subheader = BLOCK %]Wybierz produkt, dla którego będzie zgłaszany [% terms.blad %]: [% END %]
 [% ELSIF target == "describecomponents.cgi" %]
   [% title = "Opisy komponentów" %]
-  [% subheader = "Wybierz produkt, którego komponenty chcesz obejrzeć." %]
+  [% subheader = "Wybierz produkt, którego komponenty chcesz obejrzeć:" %]
 [% END %]
 
 [% DEFAULT title = "Wybór produktu" %]

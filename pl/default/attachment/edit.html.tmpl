@@ -182,8 +182,8 @@
 
     <tr>
       <td width="25%">
-        <small>
-        <b><label for="description">Opis</label>:</b><br>
+        
+        <label for="description">Opis</label>:<br>
           [% INCLUDE global/textarea.html.tmpl
             id             = 'description'
             name           = 'description'
@@ -199,17 +199,17 @@
             <input type="hidden" name="contenttypeentry"
                    value="[% attachment.contenttype FILTER html %]">
         [% ELSE %]
-          <b><label for="filename">Nazwa pliku</label>:</b><br>
+          <label for="filename">Nazwa pliku</label>:<br>
             <input type="text" size="20" id="filename" name="filename"
                    value="[% attachment.filename FILTER html %]"><br>
-          <b>Rozmiar:</b>
+          Rozmiar:
           [% IF attachment.datasize %]
             [%+ attachment.datasize FILTER unitconvert %]
           [% ELSE %]
             <em>usunięty</em>
           [% END %]<br>
 
-          <b><label for="contenttypeentry">Typ MIME</label>:</b><br>
+          <label for="contenttypeentry">Typ MIME</label>:<br>
             <input type="text" size="20"
                    id="contenttypeentry" name="contenttypeentry"
                    value="[% attachment.contenttype FILTER html %]"><br>
@@ -224,7 +224,8 @@
           [% IF (Param("insidergroup") && user.in_group(Param("insidergroup"))) %]
             <input type="checkbox" id="isprivate" name="isprivate" value="1"
                    [% " checked" IF attachment.isprivate %]>
-            <label for="isprivate">prywatny</label><br>
+            <label for="isprivate">prywatny (widoczny tylko dla członków grupy 
+                <strong>[% Param('insidergroup') FILTER html %]</strong>)</label><br>
           [% END %]
           <br>
         </small>
@@ -237,8 +238,8 @@
         [% END %]
 
         <div id="smallCommentFrame">
-          <b><small><label for="comment">Komentarz</label> (w
-          [%+ terms.bledzie %]):</small></b><br>
+          <small><label for="comment">Komentarz (w
+          [%+ terms.bledzie %]):</label></small><br>
             [% INCLUDE global/textarea.html.tmpl
               id      = 'comment'
               name    = 'comment'
@@ -300,7 +301,7 @@
           %]
           <iframe id="viewFrame" src="attachment.cgi?id=[% attachment.id %]" style="height: 400px; width: 100%;">
             <b>Nie można wyświetlić załącznika podczas przeglądania jego szczegółów, ponieważ twoja przeglądarka nie obsługuje elementu IFRAME.
-            <a href="attachment.cgi?id=[% attachment.id %]">Zobacz załącznik na osobnej stronie</a></b>
+            <a href="attachment.cgi?id=[% attachment.id %]">Zobacz załącznik na osobnej stronie</a>.</b>
           </iframe>
           <script type="text/javascript">
             <!--

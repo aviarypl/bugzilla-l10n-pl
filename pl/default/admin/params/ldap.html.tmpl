@@ -21,6 +21,7 @@
   #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
+
 [%
    title = "LDAP"
    desc = "Poniższe parametry należy ustawić przed użyciem uwierzytelniania LDAP"
@@ -28,12 +29,12 @@
 
 [% param_descs = {
   LDAPserver => "Nazwa i opcjonalnie port serwera LDAP " _
-                "(np. ldap.company.com lub ldap.company.com:numer_portu). " _
+                "(np. ldap.firma.com lub ldap.firma.com:numer_portu). " _
                 "Można także użyć składni URI, np. "_
-                "ldaps://ldap.company.com (dla bezpiecznego połączenia) lub " _
+                "ldaps://ldap.firma.com (dla bezpiecznego połączenia) lub " _
                 "ldapi://%2fvar%2flib%2fgniazdo_ldap (dla lokalnego połączenia " _
                 "opartego na gniazdach). Nazwy serwerów lub adresy URI mogą być " _
-                "rozdzielane przecinkami. Próba połączenia bedzie wykonywana kolejno z każdym " _ 
+                "rozdzielane przecinkami. Próba połączenia będzie wykonywana kolejno z każdym " _ 
                 "serwerem, aż do jego nawiązania.",
 
   LDAPstarttls => "Ten parametr określa, czy wymagać szyfrowanej komunikacji po " _
@@ -45,7 +46,7 @@
                 "pole dla normalnych anonimowych wiązań.",
 
   LDAPBaseDN => "Podstawowa nazwa wyróżniająca (BaseDN) dla uwierzytelniania użytkowników " _
-                "(np: ou=People,o=Company).",
+                "(np. ou=Pracownicy,o=Firma).",
 
   LDAPuidattribute => "Nazwa atrybutu zawierającego nazwę logowania użytkownika.",
 

@@ -827,7 +827,7 @@
 
   [% ELSIF error == "illegal_time" %]
     [% title = "Nieprawidłowy format czasu" %]
-  „'<tt>[% time FILTER html %]</tt>” nie jest prawidłowym formatem czasu.
+  „<tt>[% time FILTER html %]</tt>” nie jest prawidłowym formatem czasu.
     [% IF format %]
       Proszę użyć formatu „<tt>[% format FILTER html %]</tt>”.
     [% END %]
@@ -867,8 +867,8 @@
     [% END %]
 
   [% ELSIF error == "invalid_changedsince" %]
-    [% title = "Nieprawidłowa wartość pola „Zmieniono w ciągu ___ dni”" %]
-    Wartość pola „Zmieniono w ciągu ___ dni” „[% changedsince FILTER html %]”
+    [% title = "Nieprawidłowa wartość dla „Zmieniono w trakcie ___ dni”" %]
+    Wartość pola „Zmieniono w trakcie ___ dni” „[% changedsince FILTER html %]”
     musi być >= 0.
 
   [% ELSIF error == "invalid_content_type" %]
@@ -1602,8 +1602,9 @@
 
   [% ELSIF error == "user_match_failed" %]
     [% title = "Nic nie znaleziono" %]
-    Użytkownik <tt>[% name FILTER html %]</tt> nie istnieje lub nie masz uprawnień 
-    do jego wyświetlenia.
+    Nie ma użytkownika o identyfikatorze <tt>[% name FILTER html %]</tt> lub 
+    nie masz uprawnień do oglądania jego danych.
+
 
   [% ELSIF error == "user_not_insider" %]
     [% title = "Użytkownik nie jest w grupie poufnej" %]

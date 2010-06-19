@@ -21,6 +21,7 @@
   #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
+
 [%
    title = "Wiadomości e-mail"
    desc = "Określenie sposobów dostarczana wiadomości wychodzących"
@@ -30,17 +31,17 @@
   mail_delivery_method => "Ten parametr określa, czy i jak są wysyłane wiadomości e-mail.<br>
                            <ul>
                              <li>
-                               <b>Sendmail</b>, <b>SMTP</b> i <b>Qmail</b> to programy dostarczające
-                               pocztę (MTA). Aby użyć serwera poczty na platformie Windows,
-                               zainstaluj emulator sendmail przeznaczony dla tego systemu.
+                               <strong>Sendmail</strong>, <strong>SMTP</strong> i <strong>Qmail</strong> to programy
+                               dostarczające pocztę (MTA). Aby użyć Sendmail na platformie Windows, zainstaluj Sendmail lub jego odpowiednik
+                               przeznaczony dla tego systemu.
                              </li>
                              <li>
-                               <b>Test</b> – wartość przydatna do uruchamiania i wyszukiwania błędów.
+                               <strong>Test</strong> – wartość przydatna do testowania instalacji.
                                Wszystkie wiadomości zapisywane są do pliku 
                                <code>data/mailer.testfile</code>, a nie wysyłane.
                              </li>
                              <li>
-                               <b>Nigdy</b> – wartość ta wyłącza całkowicie wysyłanie wiadomości. $terms.Bugzilla będzie
+                               <strong>Nigdy</strong> – wartość ta wyłącza całkowicie wysyłanie wiadomości. $terms.Bugzilla będzie
                                działać tak, jakby poczta była wysyłana, lecz nic nie będzie wysłane lub
                                zapisywane.
                              </li>

@@ -153,13 +153,13 @@ Te ustawienia pozwalają kontrolować relacje pomiędzy grupami a produktem.
 <p>
 Jeśli dla grupy zaznaczono uprawnienie <b>Zgłaszanie [% terms.bledow %]</b>, [% terms.bledy %]
 dla tego produktu będą mogli zgłaszać jedynie użytkownicy będący 
-członkami grup, które mają uprawnienia do zgłaszania [% terms.bledow %].
+członkami grup, które mają przydzielone uprawnienie Zgłaszanie [% terms.bledow %].
 </p>
 <p>
 Jeśli grupa ma zaznaczone uprawnienie <b>Edycja produktów</b>, użytkownicy niebędący
 członkami grup, które mają prawo edycji, będą mogli ten produkt jedynie
 przeglądać. TYLKO użytkownicy, którzy są członkami grup mających prawo edycji
-(mają zaznaczoną funkcję Edycja produktów) będą mieli prawo jego edycji. Jest to dodatkowe
+(mają przydzielone uprawnienie Edycja produktów) będą mieli prawo jego edycji. Jest to dodatkowe
 ograniczenie tego, co może być edytowane przez użytkownika.
 </p>
 <p>
@@ -319,7 +319,7 @@ odpowiednio do poniższych definicji.
 Powyższa tabela opisuje wszystkie dopuszczalne kombinacje ustawień
 <b>Uprawnienia członków</b> oraz <b>Dodatkowe uprawnienia</b>.
 Przy próbie ustawienia kombinacji niewystępującej w tabeli (np. Obligatoryjna/Niedostępna,
-Domyślna/Widoczna itp.) zostanie wygenerowany odpowiedni komunikat o [% terms.bledzie %].
+Domyślna/Widoczna itp.) zostanie wygenerowany odpowiedni komunikat o błędzie.
 </p>
 [% PROCESS global/footer.html.tmpl %]
 

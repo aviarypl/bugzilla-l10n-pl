@@ -21,9 +21,10 @@
   #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
+
 [%
    title = "Przeglądarka łatek"
-   desc = "Ustawienia osobnego programu uruchamianego razem z PatchViewerem"
+   desc = "Ustawienia programów uruchamianych razem z PatchViewerem"
 %]
 
 [% param_descs = {
@@ -40,7 +41,7 @@
 
   cvsroot_get => "Repozytorium CVS, z którego będą pobierane łatki. " _
                  "Niektóre instalacje wykonują lokalne kopie repozytorium CVS na serwerze, gdzie zainstalowana " _
-                 "jest $terms.Bugzilla lub umieszczają na tym samym serwerze tylko repozytorium. " _
+                 "jest $terms.Bugzilla lub umieszczają repozytorium na tym samym serwerze. " _
                  "Wówczas repozytorium dostępne jest w lokalnym systemie plików, co oznacza szybszy dostęp do niego. " _
                  "W razie wątpliwości, należy tutaj ustawić wartość taką, jak " _
                  "dla parametru <code>cvsroot</code> – pustą, jeśli <code>cvsroot</code> jest pusty.",

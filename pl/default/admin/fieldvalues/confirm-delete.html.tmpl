@@ -12,6 +12,7 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
@@ -49,7 +50,7 @@
   <td valign="top">
 [% IF value.bug_count %]
   <a title="Lista [% terms.bledow %], dla których 
-            „[%- field_descs.${field.name} FILTER html %]” jest
+            „[%- field_descs.${field.name} FILTER html %]” ma wartość
             „[%- value.name FILTER html %]”"
      href="buglist.cgi?[% field.name FILTER url_quote %]=
            [%- value.name FILTER url_quote %]">
@@ -86,10 +87,10 @@
     [% IF value.bug_count %]
       <li>
         [% IF value.bug_count > 1 %]
-          W tej wartości pola są [%+ terms.bledy %]: [% value.bug_count FILTER html %].
+          Występują [% terms.bledy %] z tą wartością: [%+ value.bug_count FILTER html %].
           
         [% ELSE %]
-          W tej wartości pola jest 1 [% terms.blad %].
+          Występuje 1 [% terms.blad %] z tą wartością.
         [% END %]
         Musisz zmienić wartość pola
           <a title="Lista [% terms.bledow %], gdzie
@@ -98,11 +99,11 @@
              href="buglist.cgi?[% field.name FILTER url_quote %]=
                    [%- value.name FILTER url_quote %]">
             [% IF value.bug_count > 1 %]
-              tych [% terms.bledow %] 
+              tych [% terms.bledow %]</a>
             [% ELSE %]
-              tego [% terms.bledu %]
+              tego [% terms.bledu %]</a>
             [% END %]
-          </a>
+          
           na inną wartość, a dopiero potem usunąć bieżącą wartość.
       </li>
     [% END %]

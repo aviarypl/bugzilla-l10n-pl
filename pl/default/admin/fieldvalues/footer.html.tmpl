@@ -12,6 +12,7 @@
   # The Original Code is the Bugzilla Bug Tracking System.
   #
   # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
@@ -38,12 +39,12 @@
 [% END %]
 
 [% IF value.defined && !no_edit_link %]
-  <a title="Edycja wartości „[% value.name FILTER html %]” dla pola
-         „[%- field.name FILTER html %]”"
+  <a title="Edycja wartości „[% value.name FILTER html %]” dla pola „
+         [%- field.name FILTER html %]”"
   href="editvalues.cgi?action=edit&amp;field=
         [%- field.name FILTER url_quote %]&amp;value=
         [%- value.name FILTER url_quote %]">Edytuj wartość
-        dla pola „[% value.name FILTER html %]”'</a>
+        „[% value.name FILTER html %]”</a>
 [% END %]
 
 [% UNLESS no_edit_other_link %]

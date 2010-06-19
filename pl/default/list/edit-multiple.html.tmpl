@@ -20,10 +20,12 @@
   #                 Max Kanat-Alexander <mkanat@bugzilla.org>
   #                 Frédéric Buclin <LpSolit@gmail.com>
   #                 Guy Pyrzak <guy.pyrzak@gmail.com>
+  #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
+[% PROCESS "global/field-descs.none.tmpl" %]
 
 [% dontchange = "–nie zmieniaj–" %]
 <input type="hidden" name="dontchange" value="[% dontchange FILTER html %]">
@@ -45,7 +47,7 @@
 <hr>
 
 <p style="font-size:small">
- Aby zmienić wiele [% terms.bledow%] jednocześnie, należy:</p>
+ Aby zmienić wiele [% terms.bledow %] jednocześnie, należy:</p>
 <ol style="font-size:small">
   <li>Zaznaczyć powyżej [% terms.bledy %], które mają być zmienione.</li>
   <li>Dokonać zmian w polach poniższego formularza. Jeśli zmiany wymagają wyjaśnień,
@@ -147,7 +149,7 @@
                value="[% dontchange FILTER html %]"
                size="12">
       </td>
-      <th><label for="deadline">Termin (RRRR-MM-DD):</label></th>
+      <th><label for="deadline">Termin ostateczny (RRRR-MM-DD):</label></th>
       <td>
         <input id="deadline"
                name="deadline"
