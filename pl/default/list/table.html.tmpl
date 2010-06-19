@@ -165,6 +165,8 @@
 [%# Bug Table                                                                #%]
 [%############################################################################%]
 
+[% Hook.process("before_table") %]
+
 [% tableheader %]
 
 [% FOREACH bug = bugs %]
