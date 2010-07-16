@@ -33,7 +33,7 @@
 <p>
 
 [% UNLESS no_add_link %]
-  <a title="Dodawanie wartości do pola „[% field_descs.${field.name} FILTER html %]”"
+  <a title="Dodawanie wartości do pola „[% field.description FILTER html %]”"
      href="editvalues.cgi?action=add&amp;field=
           [%- field.name FILTER url_quote %]">Dodaj wartość</a>&nbsp;&nbsp;
 [% END %]
@@ -49,7 +49,7 @@
 
 [% UNLESS no_edit_other_link %]
    <a href="editvalues.cgi?field=
-        [%- field.name FILTER url_quote %]">Inne wartości dla pola „[% field_descs.${field.name} FILTER html %]”</a>
+        [%- field.name FILTER url_quote %]">Inne wartości dla pola „[% field.description FILTER html %]”</a>
 
 [% END %]
 

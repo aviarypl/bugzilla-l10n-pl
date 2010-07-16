@@ -76,16 +76,16 @@
     [% terms.Bledy %] ze statusem innym niż otwarty i bez rozwiązania:
 
   [% ELSIF san_tag == "bug_check_status_everconfirmed" %]
-    Test statusów/zawsze potwierdzonych.
+    Test statusów/kiedykolwiek potwierdzonych.
 
   [% ELSIF san_tag == "bug_check_status_everconfirmed_error_text" %]
-    [% terms.Bledy %], które są NIEPOTWIERDZONE, ale mają ustawiony status „zawsze potwierdzony”:
+    [% terms.Bledy %], które są NIEPOTWIERDZONE, ale mają ustawiony status „kiedykolwiek potwierdzony”:
 
   [% ELSIF san_tag == "bug_check_status_everconfirmed_error_text2" %]
-    [% terms.Bledy %] z potwierdzonym statusem, ale nie mają ustawionego statusu „zawsze potwierdzony”:
+    [% terms.Bledy %] z potwierdzonym statusem, ale nie mają ustawionego statusu „kiedykolwiek potwierdzony”:
 
   [% ELSIF san_tag == "bug_check_votes_everconfirmed" %]
-    Test głosów/zawsze potwierdzonych.
+    Test głosów/kiedykolwiek potwierdzonych.
 
   [% ELSIF san_tag == "bug_check_votes_everconfirmed_error_text" %]
     [% terms.Bledy %], które mają wystarczającą liczbę głosów do potwierdzenia, ale nie zostały potwierdzone:
@@ -104,7 +104,7 @@
 
   [% ELSIF san_tag == "bug_check_control_values_repair_text" %]
     Przypisz zagubione grupy do produktów, na które oddziałują
-    (ustaw kontrolę członka na <code>Widoczna</code>).
+    (ustaw wpis <code>Widoczna</code> dla pola Uprawnienia członków).
 
   [% ELSIF san_tag == "bug_check_control_values_error_text2" %]
     Istnieją zagubione grupy, które potrzebują swoich produktów.
@@ -113,13 +113,13 @@
     Naprawianie brakującej daty utworzenia [% terms.bledu %]…
 
   [% ELSIF san_tag == "bug_creation_date_fixed" %]
-    Naprawione [%+ terms.bledy %]: [% bug_count FILTER html %].
+    Naprawione [% terms.bledy %]: [% bug_count FILTER html %].
 
   [% ELSIF san_tag == "bugs_fulltext_start" %]
     Naprawianie [% terms.bledow %] wpisów dla wyszukiwania pełnotekstowego…
 
   [% ELSIF san_tag == "bugs_fulltext_fixed" %]
-    Naprawione [%+ terms.bledy %]: [% bug_count FILTER html %].
+    Naprawione [% terms.bledy %]: [% bug_count FILTER html %].
 
   [% ELSIF san_tag == "bug_reference_deletion_start" %]
     Usuwanie wszystkich odniesień do usuniętych [% terms.bledow %]…
@@ -173,10 +173,10 @@
     [% END %]
 
   [% ELSIF san_tag == "everconfirmed_start" %]
-    Naprawianie zawsze potwierdzonych…
+    Naprawianie kiedykolwiek potwierdzonych…
 
   [% ELSIF san_tag == "everconfirmed_end" %]
-    Zawsze potwierdzone zostały naprawione.
+    Kiedykolwiek potwierdzone zostały naprawione.
 
   [% ELSIF san_tag == "flag_check_start" %]
     Test prawidłowości umieszczania flag w produkcie/komponencie.

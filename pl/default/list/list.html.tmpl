@@ -269,7 +269,7 @@
 [% IF cgi.param('product').size == 1 && cgi.param('product') != "" %]
   <p class="bz_query_single_product">
     <a href="enter_bug.cgi?product=[% cgi.param('product') FILTER url_quote %]">Zgłoszenie
-      nowego [% terms.bledu %] w produkcie "[% cgi.param('product') FILTER html %]"</a>
+      nowego [% terms.bledu %] w produkcie „[% cgi.param('product') FILTER html %]”</a>
   </p>
 [% END %]
 

@@ -207,7 +207,7 @@
     <p>W tym produkcie nadal
 
     [% IF product.bug_count > 1 %]
-      istnieją [%+ terms.bledy %]: [% product.bug_count FILTER html %].
+      istnieją [% terms.bledy %]: [% product.bug_count FILTER html %].
     [% ELSE %]
       istnieje 1 [% terms.blad %].
     [% END %]
@@ -220,7 +220,7 @@
        ten [% terms.blad %]
     [% END %]
 
-    do innego produktu.
+    do innego produktu.</p>
 
   [% ELSE %]
 
@@ -229,7 +229,7 @@
         <td>
           Nadal
           [% IF product.bug_count > 1 %]
-            istnieją otwarte [%+ terms.bledy %] dla tego produktu: [% product.bug_count FILTER html %].
+            istnieją otwarte [% terms.bledy %] dla tego produktu: [% product.bug_count FILTER html %].
           [% ELSE %]
             Istnieje 1 otwarty [% terms.blad %] dla tego produktu!
           [% END %]
@@ -248,7 +248,7 @@
 
 [% IF product.bug_count == 0 || Param('allowbugdeletion') %]
 
-  <p>Czy na pewno chcesz usunąć ten produkt?<p>
+  <p>Czy na pewno chcesz usunąć ten produkt?</p>
 
   <form method="post" action="editproducts.cgi">
     <input type="submit" id="delete" value="Tak">

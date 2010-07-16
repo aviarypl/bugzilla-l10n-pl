@@ -43,7 +43,7 @@
                    "bug_file_loc"            => "URL",
                    "bug_group"               => "Grupa",
                    "bug_id"                  => "ID $terms.bledu",
-                   "bug_severity"            => "Waga błędu",
+                   "bug_severity"            => "Waga $terms.bledu",
                    "bug_status"              => "Status",
                    "changeddate"             => "Zmieniono",
                    "cc"                      => "Obserwatorzy",
@@ -59,7 +59,7 @@
                    "dependson"               => "Zależy od",
                    "dup_id"                  => "Duplikat",
                    "estimated_time"          => "Szacunek pocz.",
-                   "everconfirmed"           => "Zawsze potwierdzony",
+                   "everconfirmed"           => "Kiedykolwiek potwierdzony",
                    "flagtypes.name"          => "Flagi",
                    "keywords"                => "Słowa kluczowe",
                    "longdesc"                => "Komentarz",
@@ -77,14 +77,14 @@
                    "rep_platform"            => "Platforma",
                    "reporter"                => "Zgłaszający",
                    "reporter_accessible"     => "Dostępne dla zgłaszającego?",
-                   "requestees.login_name"   => "Ustawiający flagę pytającą",
+                   "requestees.login_name"   => "Weryfikujący flagę",
                    "resolution"              => "Rozwiązanie",
                    "see_also"                => "Zobacz też",
-                   "setters.login_name"      => "Weryfikujący flagę",
+                   "setters.login_name"      => "Ustawiający flagę pytającą",
                    "setting"                 => "Ustawienie",
                    "settings"                => "Ustawienia",
                    "short_desc"              => "Krótki opis",
-                   "status_whiteboard"       => "Tablica statusu",
+                   "status_whiteboard"       => "Tablica",
                    "target_milestone"        => "Wersja docelowa",
                    "version"                 => "Wersja",
                    "votes"                   => "Głosy",
@@ -198,19 +198,19 @@
 [% MACRO get_choice(ch) GET choice_descs.$ch || ch %]
 
 [% permissions_descs = {
-    "Administrators"                                  => "Administracyjne"
-    "Can configure whine reports for other users"     => "Może konfigurować raporty powiadomień dla innych użytkowników"
-    "User can configure whine reports for self"       => "Może konfigurować raporty powiadomień dla samego siebie"
-    "Can perform actions as other users"              => "Może wykonywać działania jako inny użytkownik"
-    "Can not be impersonated by other users"          => "Nikt nie może przejąć tożsamości tego użytkownika"
-    "Can confirm a bug or mark it a duplicate"        => "Może potwierdzać błędy lub oznaczać je jako duplikaty"
-    "Can create and destroy groups"                   => "Może tworzyć i usuwać grupy"
-    "Can edit all bug fields"                         => "Może edytować wszystkie pola $terms.bledu"
-    "Can create, destroy, and edit classifications"   => "Może tworzyć, usuwać i edytować kategorie"
-    "Can create, destroy, and edit components"        => "Może tworzyć, usuwać i edytować komponenty"
-    "Can create, destroy, and edit keywords"          => "Może tworzyć, usuwać i edytować słowa kluczowe"
-    "Can edit or disable users"                       => "Może edytować lub usuwać użytkowników"
-    "Can change Parameters"                           => "Może zmieniać parametry"
+    "Administrators"                                  => "Administrowanie"
+    "Can configure whine reports for other users"     => "Konfigurowanie raportów powiadomień dla innych użytkowników"
+    "User can configure whine reports for self"       => "Konfigurowanie raportów powiadomień dla samego siebie"
+    "Can perform actions as other users"              => "Przejmowanie tożsamości innych użytkowników"
+    "Can not be impersonated by other users"          => "Ochrona przed przejęciem tożsamości"
+    "Can confirm a bug or mark it a duplicate"        => "Potwierdzanie $terms.bledow lub oznaczanie ich jako duplikaty"
+    "Can create and destroy groups"                   => "Tworzenie i usuwanie grup"
+    "Can edit all bug fields"                         => "Edytowanie wszystkich pól $terms.bledu"
+    "Can create, destroy, and edit classifications"   => "Tworzenie, usuwanie i edytowanie kategorii"
+    "Can create, destroy, and edit components"        => "Tworzenie, usuwanie i edytowanie komponentów"
+    "Can create, destroy, and edit keywords"          => "Tworzenie, usuwanie i edytowanie słów kluczowych"
+    "Can edit or disable users"                       => "Tworzenie, usuwanie i edytowanie kont użytkowników"
+    "Can change Parameters"                           => "Zmiana parametrów"
 } %]
 
 [% MACRO get_permissions(perm) GET permissions_descs.$perm || perm %]

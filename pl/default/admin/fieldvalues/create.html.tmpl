@@ -22,7 +22,7 @@
   #%]
   
 [% title = BLOCK %]
-  Dodawanie wartości dla pola „[% field_descs.${field.name} FILTER html %]” ([% field.name FILTER html %])
+  Dodawanie wartości dla pola „[% field.name FILTER html %]” ([% field.description FILTER html %])
 [% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -30,7 +30,7 @@
 
 <p>
   Na tej stronie można dodać nową wartość dla pola 
-  „[% field_descs.${field.name} FILTER html %]”.
+  „[% field.name FILTER html %]” ([% field.description FILTER html %]).
 </p>
 
 <form method="post" action="editvalues.cgi">
@@ -69,7 +69,7 @@
       <tr>
         <th align="right">
           <label for="visibility_value_id">Wyświetlany jest tylko, gdy
-           „[%+ field.value_field.description FILTER html %]” jest ustawiony na:
+           „[% field.value_field.description FILTER html %]” przyjmuje wartość:
           </label>
         </th>
         <td>

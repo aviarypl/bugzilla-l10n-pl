@@ -54,7 +54,13 @@
           [% IF products && products.size %]
             <br>
             <p>
-              Masz także lokalne uprawnienia „[% privs FILTER html %]”
+			[% privsdesc = {
+               "editcomponents" => "Edycja komponentów",
+               "canconfirm"   => "Potwierdzanie $terms.bledow",
+               "editbugs"   => "Edycja $terms.bledow",
+               } 
+            %]
+              Masz także lokalne uprawnienia „[% privsdesc.$privs FILTER html %]”
               dla następujących produktów:
             </p>
             <p>

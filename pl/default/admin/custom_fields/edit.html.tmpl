@@ -97,7 +97,7 @@
             </option>
           [% END %]
         </select>
-        <label for="visibility_value_id"><strong>jest określone dla:</strong></label>
+        <label for="visibility_value_id"><strong>przyjmuje wartość:</strong></label>
         <select name="visibility_value_id" id="visibility_value_id">
           [% FOREACH value = field.visibility_field.legal_values %]
             <option value="[% value.id FILTER html %]"

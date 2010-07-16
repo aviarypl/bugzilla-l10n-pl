@@ -62,16 +62,16 @@ Powód anulowania: [% PROCESS cancelactionmessage %]
 
   [% ELSIF cancelaction == 'email_change_canceled' %]
     Prośba o zmianę adresu e-mail z [% old_email %] na
-    [% new_email %] została anulowana.
+    [%+ new_email %] została anulowana.
 
   [% ELSIF cancelaction == 'email_change_canceled_reinstated' %]
     Prośba o zmianę adresu e-mail dla Twojego konta na 
-    [% new_email %] została anulowana. Zostały przywrócone
+    [%+ new_email %] została anulowana. Zostały przywrócone
     dotychczasowe ustawienia.
 
   [% ELSIF cancelaction == 'emailold_change_canceled' %]
     Prośba o zmianę adresu e-mail dla Twojego konta na
-    [% new_email %] została anulowana.
+    [%+ new_email %] została anulowana.
 
   [% ELSIF cancelaction == 'password_change_canceled' %]
     Poproszono o anulowanie.

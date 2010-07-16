@@ -733,7 +733,7 @@
               <b>Tylko użytkownicy z wybranych grup mogą widzieć ten [% terms.blad %]:</b>
               <br>
               <small>
-                (Odznaczenie wszystkich pól spowoduje pełne upublicznienie tego [% terms.bledu %])
+                (Odznaczenie wszystkich pól spowoduje pełne upublicznienie tego [% terms.bledu %].)
               </small>
             </div>
     [% END %]
@@ -772,13 +772,12 @@
           <b>Użytkownicy, którzy pełnią poniżej wybrane role mogą zawsze widzieć ten [% terms.blad %]:</b>
           <br>
           <small>
-            (Osoba odpowiedzialna
-            [% IF (Param('useqacontact')) %]
-               i specjalista QA
+            (Odpowiedzialny może[% IF (Param('useqacontact')) %],
+               podobnie jak specjalista QA, 
             [% END %]
-          mogą zawsze widzieć [% terms.blad %] i ta sekcja nie ma na to
-          wpływu chyba, że [% terms.blad %] jest ograniczony do
-          co najmniej jednej grupy.
+          zawsze widzieć [% terms.blad %] i ta sekcja nie ma na to
+          wpływu, chyba że [% terms.blad %] jest ograniczony do
+          co najmniej jednej grupy.)
           </small>
         </div>
         <div>

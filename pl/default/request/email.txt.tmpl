@@ -28,21 +28,21 @@
 [% bugidsummary = bug.bug_id _ ': ' _ bug.short_desc %]
 [% attidsummary = attachment.id _ ': ' _ attachment.description %]
 [% statuses = { '+' => "zaakceptował" , '-' => 'odrzucił' , 'X' => "anulował" ,
-                '?' => "poprosił" } %]
+                '?' => "poprosił o" } %]
 
 [% to_identity = "" %]
 [% on_behalf_of = 0 %]
 [% IF flag.status == '?' %]
-  [% subject_status = "poprosił" %]
+  [% subject_status = "poprosił o" %]
   [% IF flag.setter.id == user.id %]
-    [% to_identity = "od użytkownika " _ flag.requestee.identity  %]
+    [% to_identity = "użytkownika " _ flag.requestee.identity  %]
   [% ELSE %]
     [% on_behalf_of = 1 %]
     [% IF flag.requestee %][% to_identity = " do " _ flag.requestee.identity %][% END %]
   [% END %]
 [% ELSE %]
   [% IF flag.requester %]
-    [% to_identity = "poproszoną przez" _ flag.requester.identity  %]
+    [% to_identity = "poproszoną przez " _ flag.requester.identity  %]
   [% END %]
   [% subject_status = statuses.${flag.status} %]
 [% END %]
@@ -58,10 +58,10 @@ X-Bugzilla-Type: request
 [%- FILTER bullet = wrap(80) -%]
 
 [% IF on_behalf_of %]
-Użytkownik [% user.identity %] ponownie przydzielił prośbę [% flag.setter.identity %] dotyczącą flagi „[% flag.type.name %]”
-[% to_identity %]:
+Użytkownik [% user.identity %] ponownie przydzielił prośbę [%+ flag.setter.identity %] dotyczącą flagi „[% flag.type.name %]”
+[% to_identity %] dla:
 [% ELSE %]
-Użytkownik [% user.identity %] [% statuses.${flag.status} %] flagę „[%+ flag.type.name %]” [%+ to_identity %]
+Użytkownik [% user.identity %] [%+ statuses.${flag.status} %] flagę „[%+ flag.type.name %]” [%+ to_identity %] dla: 
 [% END %]
 
 [% terms.Blad %] [%+ bugidsummary %]

@@ -1,4 +1,4 @@
-[%# 3.4.6@bugzilla.org %]
+﻿[%# 3.4.6@bugzilla.org %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -90,6 +90,65 @@
        }
      }
    } 
+
+%]
+
+[% overrides.description = { 
+	 'description' => { 
+       "Administrators" => { 
+         override_content => 1  
+         content => "Administrowanie" 
+       }
+       "Can configure whine reports for other users" => { 
+         override_content => 1  
+         content => "Konfigurowanie raportów powiadomień dla innych użytkowników" 
+       }
+       "User can configure whine reports for self" => { 
+         override_content => 1  
+         content => "Konfigurowanie raportów powiadomień dla samego siebie" 
+       }
+       "Can perform actions as other users" => { 
+         override_content => 1  
+         content => "Przejmowanie tożsamości innych użytkowników" 
+       }
+       "Can not be impersonated by other users" => { 
+         override_content => 1  
+         content => "Ochrona przed przejęciem tożsamości" 
+       }
+       "Can confirm a bug or mark it a duplicate" => { 
+         override_content => 1  
+         content => "Potwierdzanie $terms.bledow lub oznaczanie ich jako duplikaty" 
+       }
+       "Can create and destroy groups" => { 
+         override_content => 1  
+         content => "Tworzenie i usuwanie grup" 
+       }
+       "Can edit all bug fields" => { 
+         override_content => 1  
+         content => "Edytowanie wszystkich pól $terms.bledu" 
+       }
+       "Can create, destroy, and edit classifications" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i edytowanie kategorii" 
+       }
+       "Can create, destroy, and edit components" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i edytowanie komponentów" 
+       }
+       "Can create, destroy, and edit keywords" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i edytowanie słów kluczowych" 
+       }
+       "Can edit or disable users" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i edytowanie kont użytkowników" 
+       }
+       "Can change Parameters" => { 
+         override_content => 1  
+         content => "Zmiana parametrów" 
+       }
+     }
+   }
 %]
 
 [% FOREACH group IN ["chartgroup", "insidergroup", "timetrackinggroup", "querysharegroup"] %]
@@ -150,7 +209,7 @@ zgłoszenie [% terms.bledu %] będzie wyświetlane jedynie dla członków danej 
   <strong>RegExp użytkownika</strong> (opcjonalne) –
 jeśli jest podane, nastąpi automatyczne udzielenie członkostwa w tej grupie
 każdemu, kogo adres e-mail pasuje do tego wyrażenia. Należy pamiętać o końcowym „$”.
-Przykład: „@mycompany\.com$”
+Przykład: „@mojafirma\.com$”
 </p>
 
 <p>

@@ -556,7 +556,7 @@
       i następnie podanie adresu URL do tego pliku na stronie
       tworzenia załączników w polu <b>Dołącz URL</b>.
     [% ELSE %]
-      i następnie podania adresu URL w komentarzu lub polu URL
+      i następnie podanie adresu URL w komentarzu lub polu URL
       tego [% terms.bledu %].
     [% END %]
     <br>Jeśli załącznik jest obrazkiem, należy skonwertować go do formatu
@@ -740,7 +740,7 @@
       [%+ old.name FILTER html %] na [% new.name FILTER html %].
     [% ELSE %]
       Nie masz uprawnień do zgłaszania nowego [% terms.bledu %] ze
-      statusem [%+ new.name FILTER html %]. 
+      statusem [% new.name FILTER html %]. 
     [% END %]
 
   [% ELSIF error == "illegal_change" %]
@@ -757,7 +757,7 @@
     [% IF privs < 3 %]
       osoba odpowiedzialna za rozwiązanie [% terms.bledu %]
     [% IF privs < 2 %], zgłaszający [% END %]
-      [% terms.blad %] lub
+      [%+ terms.blad %] lub
     [% END %]
     użytkownik o odpowiednich uprawnieniach może zmieniać to pole.
 
@@ -766,7 +766,7 @@
     Podjęto próbę zmiany pola 
     <strong>[% field_descs.$field FILTER html %]</strong>, lecz
     tylko użytkownik uprawniony do edycji obu powiązanych
-    [% terms.bledow %] może zmienić to pole.
+    [%+ terms.bledow %] może zmienić to pole.
 
   [% ELSIF error == "illegal_changed_in_last_x_days" %]
     [% title = "Wyszukiwanie nie ma sensu" %]
@@ -892,7 +892,7 @@
     [% title = "Nieprawidłowy format" %]
     Format „[% format FILTER html %]” jest nieprawidłowy. Musi być jednym z
     [% FOREACH my_format = formats %]
-      "[% my_format FILTER html %]"
+      „[% my_format FILTER html %]”
     [% END %]
     .
 
@@ -984,7 +984,7 @@
     [% admindocslinks = {'products.html' => 'Administracja produktami',
                          'milestones.html' => 'O wersjach docelowych'} %]
     Wersja docelowa „[% name FILTER html %]” została już zdefiniowana dla produktu 
-    [%- product FILTER html %]”.
+     „[% product FILTER html %]”.
 
   [% ELSIF error == "milestone_blank_name" %]
     [% title = "Pusta nazwa dla wersji docelowej jest niedozwolona" %]
@@ -1172,8 +1172,8 @@
     [% title = "Błąd podczas odczytu pliku z poprzednimi duplikatami" %]
     [% admindocslinks = {'extraconfig.html' => 'Ustawienia zadania collecstats.pl'} %]
     Wystąpił błąd podczas odczytu pliku z duplikatami sprzed
-    [% changedsince FILTER html %] dni ([% whenever FILTER html %]):
-    [% error_msg FILTER html %].
+    [%+ changedsince FILTER html %] dni ([% whenever FILTER html %]):
+    [%+ error_msg FILTER html %].
 
   [% ELSIF error == "no_dupe_stats_error_yesterday" %]
     [% title = "Błąd podczas odczytu wczorajszego pliku z duplikatami" %]
@@ -1517,7 +1517,7 @@
     Można oddać najwyżej [% max FILTER html %] głosów na pojedynczy
     [%+ terms.blad %] w produkcie
     <tt>[% product FILTER html %]</tt>, a próbowano oddać
-    [% votes FILTER html %] głosów.
+    [%+ votes FILTER html %] głosów.
 
   [% ELSIF error == "too_many_votes_for_product" %]
     [% title = "Nieprawidłowe głosowanie" %]
@@ -1629,7 +1629,7 @@
     Ten token nie może być użyty do zmiany adresu e-mail.
 
   [% ELSIF error == "wrong_token_for_creating_account" %]
-    [% title = "Niepoprawny token" %]
+    [% title = "Nieprawidłowy token" %]
     Ten token nie może być użyty do utworzenia konta.
 
   [% ELSIF error == "xmlrpc_invalid_value" %]

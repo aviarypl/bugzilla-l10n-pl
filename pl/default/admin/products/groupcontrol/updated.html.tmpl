@@ -33,7 +33,7 @@
   [% FOREACH g = changes.group_controls.now_na %]
     Usuwanie [% terms.bledow %] z grupy „[% g.name FILTER html %]”, która
     nie ma już zastosowania dla tego produktu<p>
-    Usunięte [%+ terms.bledy %]: [% g.bug_count FILTER html %]<p>
+    Usunięte [% terms.bledy %]: [% g.bug_count FILTER html %]<p>
   [% END %]
 [% END %]
 
@@ -41,7 +41,7 @@
   [% FOREACH g = changes.group_controls.now_mandatory %]
     Dodawanie [% terms.bledow %] do grupy „[% g.name FILTER html %]”, która
     jest ponownie obligatoryjna dla tego produktu<p>
-    Dodane [%+ terms.bledy %]: [% g.bug_count FILTER html %]<p>
+    Dodane [% terms.bledy %]: [% g.bug_count FILTER html %]<p>
   [% END %]
 [% END %]
 

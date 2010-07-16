@@ -38,4 +38,4 @@ Jeśli nie jesteś osobą, która wysłała tę prośbę lub chcesz prośbę anu
 
 [%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=cxlem
 
-W przypadku braku reakcji prośba wygaśnie po [% constants.MAX_TOKEN_AGE %] dniach ([% expiration_ts FILTER time("%e %B %Y o godzinie %H:%M %Z") %]).
+W przypadku braku reakcji prośba wygaśnie po [% constants.MAX_TOKEN_AGE %] dniach ([% expiration_ts FILTER time("%d.%m.%Y o godzinie %H:%M %Z") %]).

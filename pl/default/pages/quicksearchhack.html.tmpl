@@ -13,6 +13,7 @@
   #
   # Contributor(s): N.N.
   #                 Marc Schumann <wurblzap@gmail.com>
+  #
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
@@ -54,8 +55,8 @@
   login zawierający <tt>ibm</tt> lub <tt>sun</tt>.
   Jeśli określone są tylko <tt>value1,&hellip;,valueM</tt>, prefiks (mniej więcej)
   zwróci <tt>summary,keywords,product,component,statuswhiteboard:</tt>, jak opisano
-  powyżej. Można użyć <tt>-<i>word</i></tt>, by wyrazić logiczną negację
-  <tt><i>word</i></tt>.
+  powyżej. Można użyć <tt>-<i>wyrażenie</i></tt>, by wyrazić logiczną negację
+  <tt><i>wyrażenia</i></tt>.
 </p>
 <p>
   To jest kompletna lista dostępnych pól (kolumna „Skrót” jest dla
@@ -78,7 +79,7 @@
 <tr>
   <td>&nbsp;</td>
   <td rowspan="2">
-    <tt>NIEPOT,NOWY,&hellip;,ZAM,<br>NAP,DUP,&hellip;<i>(jako pierwsze wyrażenie)</i></tt>
+    <tt>UNCO,NEW,&hellip;,CLOS,<br>FIX,DUP,&hellip;<i>(jako pierwsze wyrażenie)</i></tt>
   </td>
   <td><tt>status</tt></td>
   <td>&nbsp;</td>
@@ -126,7 +127,7 @@
   <td><tt>severity</tt></td>
   <td><tt>sev</tt></td>
   <td>
-    <a href="page.cgi?id=fields.html#bug_severity">Waga błędu</a>
+    <a href="page.cgi?id=fields.html#bug_severity">Waga [% terms.bledu %]</a>
     <i>(„bug_severity”)</i>
   </td>
 </tr>
@@ -228,7 +229,7 @@
   <td>&nbsp;</td>
   <td><tt>statuswhiteboard</tt></td>
   <td><tt>sw, whiteboard</tt></td>
-  <td>Status tablicy <i>(„status_whiteboard”)</i></td>
+  <td>Tablica <i>(„status_whiteboard”)</i></td>
 </tr>
 <tr>
   <td><i>tak</i></td>
@@ -258,14 +259,14 @@
   <td>&nbsp;</td>
   <td><tt>requestee</tt></td>
   <td><tt>req</tt></td>
-  <td>Proszący o flagę (login)</td>
+  <td>Weryfikujący flagę (login)</td>
 </tr>
 <tr>
   <td>&nbsp;</td>
   <td>&nbsp;</td>
   <td><tt>setter</tt></td>
   <td><tt>set</tt></td>
-  <td>Weryfikujący flagę (login)</td>
+  <td>Proszący o flagę (login)</td>
 </tr>
 
 <!-- Attachments -->
@@ -332,7 +333,7 @@
   <td><i>zawiera wszystkie rozwiązane [% terms.bledy %] w twoim wyszukiwaniu</i></td>
 </tr>
 <tr>
-  <td><tt>+DUP,NAPRAWIONO</tt> <i>(jako pierwsze wyrażenie)</i></td>
+  <td><tt>+DUP,FIXED</tt> <i>(jako pierwsze wyrażenie)</i></td>
   <td><i>zawiera zduplikowane i naprawione [% terms.bledy %] w twoim wyszukiwaniu</i></td>
 </tr>
 -->
@@ -375,7 +376,7 @@
 </tr>
 <tr>
   <td><i>flag</i><b>?</b><i>requestee</i></td>
-  <td><b>flaga:</b><i>flag?</i> <b>proszący:</b><i>requestee</i></td>
+  <td><b>flaga:</b><i>nazwa_flagi?</i> <b>weryfikujący:</b><i>requestee</i></td>
 </tr>
 </table>
 

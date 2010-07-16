@@ -45,10 +45,10 @@
      href="editmilestones.cgi?action=add&amp;product=
           [%- product.name FILTER url_quote %]">Dodaj wersję docelową</a>
 [% END %]
-
+&nbsp;&nbsp;
 [% IF milestone.name && !no_edit_milestone_link %]
-  <a title="Edytuj wersję docelową „[% milestone.name FILTER html %]” produktu
-         „[%- product.name FILTER html %]”"
+  <a title="Edytuj wersję docelową „[% milestone.name FILTER html %]” produktu „
+         [%- product.name FILTER html %]”"
   href="editmilestones.cgi?action=edit&amp;product=
         [%- product.name FILTER url_quote %]&amp;milestone=
         [%- milestone.name FILTER url_quote %]">Edytuj wersję docelową

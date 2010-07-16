@@ -154,7 +154,7 @@
     Na początku listy znajdują się [% terms.bledy %] najbliższe parametrom wyszukiwania.
     [% IF bugs.size == constants.FULLTEXT_BUGLIST_LIMIT %]
       Wyświetlane jest wyłącznie pierwsze 
-      [% constants.FULLTEXT_BUGLIST_LIMIT FILTER html %] [% terms.bledow %].
+      [%+ constants.FULLTEXT_BUGLIST_LIMIT FILTER html %] [%+ terms.bledow %].
     [% END %]
 
   [% ELSIF message_tag == "change_columns" %]
@@ -234,7 +234,7 @@
           [% FOREACH cc_user = comp.initial_cc %]
             [% cc_list.push(cc_user.login) %]
           [% END %]
-          <li>Domyślna lista obserwatorów została zaktualizowana do [% cc_list.join(", ") FILTER html %]</li>
+          <li>Domyślna lista obserwatorów została zaktualizowana o [% cc_list.join(", ") FILTER html %]</li>
         [% ELSE %]
           <li>Domyślna lista obserwatorów została usunięta</li>
         [% END %]
@@ -464,7 +464,7 @@
             <b>Po zakończeniu edycji słów kluczowych, należy
             <a href="sanitycheck.cgi?rebuildkeywordcache=1">przebudować
             bufor słów kluczowych</a></b>. W bardzo dużych instalacjach
-            [% terms.Bugzilli %] może zająć to kilka minut.
+            [%+ terms.Bugzilli %] może zająć to kilka minut.
           </li>
         [% END %]
         [% IF changes.description.defined %]
@@ -757,7 +757,7 @@
   [% ELSIF message_tag == "user_match_failed" %]
     Podano nazwę użytkownika, która nie pasuje do żadnego 
     użytkownika [% terms.Bugzilli %], więc pole
-    [% match_field FILTER html %] pozostawiono puste.
+    [%+ match_field FILTER html %] pozostawiono puste.
 
   [% ELSIF message_tag == "user_match_multiple" %]
     Podano nazwę użytkownika, która pasuje do kilku użytkowników,

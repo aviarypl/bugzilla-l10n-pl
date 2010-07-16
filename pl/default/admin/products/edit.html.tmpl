@@ -115,11 +115,11 @@ wersje:</a>
             [% IF g.group.isactive %]
               [% group_control.${g.membercontrol} FILTER html %]/
               [% group_control.${g.othercontrol} FILTER html %]
-              [% IF g.entry %], ENTRY[% END %]
-              [% IF g.canedit %], CANEDIT[% END %]
-              [% IF g.editcomponents %], editcomponents[% END %]
-              [% IF g.canconfirm %], canconfirm[% END %]
-              [% IF g.editbugs %], editbugs[% END %]
+              [% IF g.entry %], Zgłaszanie [% terms.bledow %][% END %]
+              [% IF g.canedit %], Edycja produktów[% END %]
+              [% IF g.editcomponents %], Edycja komponentów[% END %]
+              [% IF g.canconfirm %], Potwierdzanie [% terms.bledow %][% END %]
+              [% IF g.editbugs %], Edycja [% terms.bledow %][% END %]
             [% ELSE %]
               WYŁĄCZONO
             [% END %]

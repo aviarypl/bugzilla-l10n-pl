@@ -25,7 +25,7 @@
 
 [% title = BLOCK %]
   Edycja wartości „[% value.name FILTER html %]” pola 
-  „[% field_descs.${field.name} FILTER html %]” ([% field.name FILTER html %])
+  „[% field.description FILTER html %]” ([% field.name FILTER html %])
 [% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -64,8 +64,8 @@
     [% IF field.value_field %]
       <tr>
         <th align="right">
-          <label for="visibility_value_id">Wyświetlany jest tylko, gdy 
-           [%+ field.value_field.description FILTER html %] jest ustawiony na:
+          <label for="visibility_value_id">Wyświetlana jest tylko, gdy 
+           „[% field.value_field.description FILTER html %]” przyjmuje wartość:
           </label>
         </th>
         <td>
