@@ -23,7 +23,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% title = BLOCK %]
-  Edycja pola dodatkowego „[% field.name FILTER html %]” ([% field.description FILTER html %])
+  Modyfikowanie pola dodatkowego „[% field.name FILTER html %]” ([% field.description FILTER html %])
 [% END %]
 
 [% javascript = BLOCK %]
@@ -113,7 +113,7 @@
       <tr>
         <th>&nbsp;</th>
         <td>
-          <a href="editvalues.cgi?field=[% field.name FILTER url_quote %]">Edycja
+          <a href="editvalues.cgi?field=[% field.name FILTER url_quote %]">Modyfikowanie
             dozwolonych wartości dla tego pola</a>.
         </td>
 

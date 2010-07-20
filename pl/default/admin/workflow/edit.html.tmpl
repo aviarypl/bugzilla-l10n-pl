@@ -20,7 +20,7 @@
 [% PROCESS "global/field-descs.none.tmpl" %]
 
 [% INCLUDE global/header.html.tmpl
-   title = "Edycja zmian statusu"
+   title = "Modyfikowanie zmian statusu"
    style_urls = ['skins/standard/admin.css']
 %]
 
@@ -94,7 +94,7 @@
   przenoszony do innej instalacji, jego status jest automatycznie zmieniany na
   <b>[% get_status(Param("duplicate_or_move_bug_status")) FILTER html %]</b>.
   Wszystkie zmiany statusu tego [% terms.bledu %] muszą być potem poprawne, dlatego nie można
-  ich edytować powyżej.
+  ich modyfikować powyżej.
   <br>
   Można zmienić to ustawienie przechodząc na stronę
   <a href="editparams.cgi?section=bugchange#duplicate_or_move_bug_status">Parametry</a>

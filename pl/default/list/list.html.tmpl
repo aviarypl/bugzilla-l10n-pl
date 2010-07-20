@@ -56,7 +56,7 @@
 
 <div class="bz_query_head" align="center">
   <span class="bz_query_timestamp">
-    <b>[% currenttime FILTER time('%a %e %b %Y %T %Z') FILTER html %]</b><br>
+    <b>[% currenttime FILTER time('%d.%m.%Y %T %Z') FILTER html %]</b><br>
   </span>
 
   [% IF debug %]
@@ -237,7 +237,7 @@
       <a href="query.cgi?[% urlquerypart FILTER html %]
       [% IF editqueryname != '' %]&amp;known_name=
         [% editqueryname FILTER url_quote %]
-        [% END %]">Edytuj&nbsp;wyszukiwanie</a>
+        [% END %]">Modyfikuj&nbsp;wyszukiwanie</a>
     </td>
       
     [% IF searchtype == "saved" %]

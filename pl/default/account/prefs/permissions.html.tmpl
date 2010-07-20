@@ -55,9 +55,9 @@
             <br>
             <p>
 			[% privsdesc = {
-               "editcomponents" => "Edycja komponentów",
+               "editcomponents" => "Modyfikowanie komponentów",
                "canconfirm"   => "Potwierdzanie $terms.bledow",
-               "editbugs"   => "Edycja $terms.bledow",
+               "editbugs"   => "Modyfikowanie $terms.bledow",
                } 
             %]
               Masz także lokalne uprawnienia „[% privsdesc.$privs FILTER html %]”
@@ -77,7 +77,7 @@
 
       [% IF user.in_group('editusers') %]
         <br>
-        Masz uprawnienia do edycji uprawnień innych użytkowników. Możesz nadawać
+        Masz uprawnienia do modyfikowania uprawnień innych użytkowników. Możesz nadawać
         lub odbierać uprawnienia wszystkim użytkownikom.
       [% ELSIF set_bits.size %]
         <br>

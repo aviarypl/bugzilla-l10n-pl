@@ -32,8 +32,8 @@
 <div class="throw_error">
   [% IF reason == "expired_token" %]
     Twoje zmiany zostały odrzucone, ponieważ przed ich wysłaniem
-    do skryptu „[% script_name FILTER html %]” został przekroczony limit czasu
-    [% constants.MAX_TOKEN_AGE FILTER html %] dni. Być może twoja strona była
+    do skryptu „[% script_name FILTER html %]” został przekroczony limit
+    czasu [% constants.MAX_TOKEN_AGE FILTER html %] dni. Być może twoja strona była
     wyświetlona bardzo długo lub poprzednie zmiany zostały przypadkowo ponownie wysłane.
 
   [% ELSIF reason == "missing_token" %]

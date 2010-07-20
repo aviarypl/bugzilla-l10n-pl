@@ -98,7 +98,7 @@
       [% END %]
     </ul>
   [% ELSE %]
-    <h2>Edycja istniejących sentencji</h2>
+    <h2>Modyfikowanie istniejących sentencji</h2>
     <p>
       <strong>Uwaga:</strong> Będą wyświetlane tylko zatwierdzone sentencje.
       Jeśli parametr „quip_list_entry_control” ma wartość „otwarte”,
@@ -162,7 +162,7 @@
     Ci, którzy lubią mądrość w dużej ilości mogą
     <a href="quips.cgi?action=show">obejrzeć
     [% IF user.in_group('admin') %]
-      lub edytować
+      lub modyfikować
     [% END %]
     całą listę</a>.
   </p>

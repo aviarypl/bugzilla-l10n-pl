@@ -47,21 +47,21 @@
 [% END %]
 &nbsp;&nbsp;
 [% IF milestone.name && !no_edit_milestone_link %]
-  <a title="Edytuj wersję docelową „[% milestone.name FILTER html %]” produktu „
+  <a title="Modyfikuj wersję docelową „[% milestone.name FILTER html %]” produktu „
          [%- product.name FILTER html %]”"
   href="editmilestones.cgi?action=edit&amp;product=
         [%- product.name FILTER url_quote %]&amp;milestone=
-        [%- milestone.name FILTER url_quote %]">Edytuj wersję docelową
+        [%- milestone.name FILTER url_quote %]">Modyfikuj wersję docelową
         „[% milestone.name FILTER html %]”</a>
 [% END %]
 &nbsp;&nbsp;
 [% UNLESS no_edit_other_milestones_link %]
    <a href="editmilestones.cgi?product=
-        [%- product.name FILTER url_quote %]">Edytuj wersje docelowe produktu „[% product.name FILTER html %]”</a>
+        [%- product.name FILTER url_quote %]">Modyfikuj wersje docelowe produktu „[% product.name FILTER html %]”</a>
 
 [% END %]
 &nbsp;&nbsp;
   <a href="editproducts.cgi?action=edit&amp;product=
-        [%- product.name FILTER url_quote %]">Edytuj produkt „[% product.name FILTER html %]”</a>
+        [%- product.name FILTER url_quote %]">Modyfikuj produkt „[% product.name FILTER html %]”</a>
 
 </p>

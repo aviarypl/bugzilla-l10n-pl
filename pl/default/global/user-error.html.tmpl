@@ -466,7 +466,7 @@
 
   [% ELSIF error == "fieldname_invalid" %]
     [% title = "Podane pole nie istnieje" %]
-    Pole „[% field.name  FILTER html %]” nie istnieje lub nie może być edytowane przy
+    Pole „[% field.name  FILTER html %]” nie istnieje lub nie może być modyfikowane przy
     użyciu tego interfejsu.
 
   [% ELSIF error == "fieldvalue_already_exists" %]
@@ -721,11 +721,11 @@
     
   [% ELSIF error == "illegal_attachment_edit" %]
     [% title = "Brak dostępu" %]
-    Nie masz uprawnień do edycji załącznika [% attach_id FILTER html %].
+    Nie masz uprawnień do modyfikowania załącznika [% attach_id FILTER html %].
 
   [% ELSIF error == "illegal_attachment_edit_bug" %]
     [% title = "Brak dostępu" %]
-    Nie masz uprawnień do edycji załączników dla [% terms.bledu %] 
+    Nie masz uprawnień do modyfikowania załączników dla [% terms.bledu %] 
     [%+ bug_id FILTER html %].
          
   [% ELSIF error == "illegal_attachment_is_patch" %]
@@ -765,7 +765,7 @@
     [% title = "Brak dostępu" %]
     Podjęto próbę zmiany pola 
     <strong>[% field_descs.$field FILTER html %]</strong>, lecz
-    tylko użytkownik uprawniony do edycji obu powiązanych
+    tylko użytkownik uprawniony do modyfikowania obu powiązanych
     [%+ terms.bledow %] może zmienić to pole.
 
   [% ELSIF error == "illegal_changed_in_last_x_days" %]
@@ -800,7 +800,7 @@
     
   [% ELSIF error == "illegal_group_control_combination" %]
     [% title = "Nieprawidłowa kombinacja uprawnień grupy" %]
-    [% admindocslinks = {'groups.html' => 'Edycja grup'} %]
+    [% admindocslinks = {'groups.html' => 'Modyfikowanie grup'} %]
     Kombinacja uprawnień grupy dla grupy 
     „[% groupname FILTER html %]” jest nieprawidłowa.
 
@@ -822,7 +822,7 @@
   [% ELSIF error == "illegal_series_edit" %]
     [% admindocslinks = {'groups.html' => 'Zabezpieczenia grup'} %]
     [% docslinks = {'reporting.html' => 'Raporty'} %]
-    Nie masz uprawnień do edycji serii. Czynność ta zarezerwowana jest dla twórcy serii
+    Nie masz uprawnień do modyfikowania serii. Czynność ta zarezerwowana jest dla twórcy serii
     lub administratora.
 
   [% ELSIF error == "illegal_time" %]
@@ -1206,7 +1206,7 @@
 
   [% ELSIF error == "no_valid_action" %]
     [% title = "Nie podano prawidłowej czynności" %]
-    Nie można edytować [% field_descs.$field FILTER html %] – nie podano prawidłowej czynności.
+    Nie można modyfikować [% field_descs.$field FILTER html %] – nie podano prawidłowej czynności.
 
   [% ELSIF error == "number_not_numeric" %]
     [% title = "Wymagana wartość liczbowa" %]
@@ -1293,7 +1293,7 @@
   [% ELSIF error == "product_illegal_group" %]
     [% title = "Niepoprawna grupa" %]
     Grupa [% group.name FILTER html %] nie jest aktywną grupą dla [% terms.bledu %]
-    i nie możesz edytować elementów kontrolnych dla niej.
+    i nie możesz modyfikować elementów kontrolnych dla niej.
 
   [% ELSIF error == "product_illegal_votes" %]
     [% title = "Głosy muszą mieć wartość dodatnią" %]
@@ -1335,7 +1335,7 @@
 
   [% ELSIF error == "product_admin_denied" %]
     [% title = "Brak dostępu do produktu" %]
-    Nie masz uprawnień do edycji właściwości produktu „[% product FILTER html %]”.
+    Nie masz uprawnień do modyfikowania właściwości produktu „[% product FILTER html %]”.
 
   [% ELSIF error == "product_blank_name" %]
     [% title = "Niedozwolone puste pole nazwy produktu" %]
@@ -1349,10 +1349,10 @@
     produktu <em>[% product.name FILTER html %]</em> zostało wyłączone.
 
   [% ELSIF error == "product_edit_denied" %]
-    [% title = "Brak dostępu do edycji produktu" %]
+    [% title = "Brak dostępu do modyfikowania produktu" %]
     [% admindocslinks = {'products.html' => 'Administracja produktami',
                          'groups.html'   => 'Zabezpieczenia grup'} %]
-    Nie masz uprawnień do edycji [% terms.bledu %] dla produktu
+    Nie masz uprawnień do modyfikowania [% terms.bledu %] dla produktu
     [%+ product FILTER html %].
 
   [% ELSIF error == "product_has_bugs" %]
@@ -1379,7 +1379,7 @@
                          'components.html' => 'Administracja komponentami',
                          'milestones.html' => 'Administracja wersjami docelowymi',
                          'versions.html'   => 'Administracja wersjami'} %]
-    Nie określono produktu przy próbie edycji komponentu, wersji docelowej,
+    Nie określono produktu przy próbie modyfikowania komponentu, wersji docelowej,
     wersji lub produktu.
 
   [% ELSIF error == "query_name_exists" %]
@@ -1568,7 +1568,7 @@
 
   [% ELSIF error == "version_not_specified" %]
     [% title = "Nie podano wersji" %]
-    Podczas edycji nie podano wersji.
+    Podczas modyfikowania nie podano wersji.
 
   [% ELSIF error == "users_deletion_disabled" %]
     [% title = "Usuwanie nie zostało uaktywnione" %]
@@ -1710,7 +1710,7 @@
                   
     [% FOREACH q = Bugzilla.user.queries %]
       [% IF q.name == namedcmd %]
-        lub <a href="query.cgi?[% q.url FILTER html %]">dokonać edycji</a>
+        lub <a href="query.cgi?[% q.url FILTER html %]">dokonać modyfikacji</a>
       [% END %]
     [% END %]
     

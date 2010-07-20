@@ -226,7 +226,7 @@
     [% terms.bledu %] [%+ my_bug_id FILTER html %].
 
   [% ELSIF error == "flags_not_available" %]
-    [% title = "Edycja flag jest niedozwolona" %]
+    [% title = "Modyfikacja flag jest niedozwolona" %]
     [% IF type == "b" %]
       Flagi nie mogą być ustawiane lub zmieniane podczas
       zmiany kilku [% terms.bledow %] jednocześnie.
@@ -361,7 +361,7 @@
 
   [% ELSIF error == "product_empty_group_controls" %]
     [% title = "Brak uprawnień grupy" %]
-    Należy edytować relacje grupa/produkt dla
+    Należy modyfikować relacje grupa/produkt dla
     grupy [% group.name FILTER html %].
 
   [% ELSIF error == "product_illegal_group_control" %]

@@ -60,7 +60,7 @@ var queryform = "queryform"
 [% ELSE %]
   [% PROCESS "search/search-help.html.tmpl" %]
   if (generateHelp())
-    document.write("<p>By uzyskać pomoc umieść wskaźnik myszy nad elementem strony.<\/p>");
+    document.write("<p>By uzyskać pomoc umieść kursor nad elementem strony.<\/p>");
   else
     document.write("<p>Zainicjowanie pomocy się nie powiodło. Pomoc jest niedostępna.<\/p>");
 [% END %]

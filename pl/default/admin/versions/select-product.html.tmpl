@@ -30,13 +30,13 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Wybór produktu do edycji wersji"
+  title = "Wybór produktu, którego wersje będą modyfikowane"
 %]
 
 [% columns = [
      { 
        name => "name"
-       heading => "Edytuj wersje"
+       heading => "Wybierz produkt"
        contentlink => "editversions.cgi?product=%%name%%" 
      },
      { 

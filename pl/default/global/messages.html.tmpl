@@ -447,7 +447,7 @@
   [% ELSIF message_tag == "keyword_deleted" %]
     [% title = "Usunięto słowo kluczowe" %]
     Słowo kluczowe <em>[% keyword.name FILTER html %]</em> zostało usunięte.
-    <b>Po zakończeniu edycji słów kluczowych, należy
+    <b>Po zakończeniu modyfikowania słów kluczowych, należy
     <a href="sanitycheck.cgi?rebuildkeywordcache=1">przebudować bufor słów
     kluczowych</a></b>. W bardzo dużych instalacjach [% terms.Bugzilli %]
     może zająć to kilka minut.
@@ -461,7 +461,7 @@
         [% IF changes.name.defined %]
           <li>
             Zmieniono nazwę słowa kluczowego na <em>[% keyword.name FILTER html %]</em>.
-            <b>Po zakończeniu edycji słów kluczowych, należy
+            <b>Po zakończeniu modyfikowania słów kluczowych, należy
             <a href="sanitycheck.cgi?rebuildkeywordcache=1">przebudować
             bufor słów kluczowych</a></b>. W bardzo dużych instalacjach
             [%+ terms.Bugzilli %] może zająć to kilka minut.
