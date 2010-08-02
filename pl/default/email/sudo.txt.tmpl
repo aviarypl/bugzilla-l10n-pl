@@ -29,14 +29,14 @@ To: [% user.email %]
 Subject: [[% terms.Bugzilla %]] – Użyto tożsamości Twojego konta [% user.login %]
 X-Bugzilla-Type: admin
 
-    Użytkownik [%+ sudoer.identity %] użył funkcji „sudo” do pracy w [%+ terms.Bugzilli %] za pomocą Twojego konta.
+    Użytkownik [% sudoer.identity %] użył funkcji „sudo” do pracy w [% terms.Bugzilli %] za pomocą Twojego konta.
 
 [% IF reason %]
-    Użytkownik [%+ sudoer.identity %] podał następujący powód:
+    Użytkownik [% sudoer.identity %] podał następujący powód:
 
 [% reason FILTER wrap_comment %]
 [% ELSE %]
-    Użytkownik [%+ sudoer.identity %] nie podał powodu użycia funkcji „sudo”.
+    Użytkownik [% sudoer.identity %] nie podał powodu użycia funkcji „sudo”.
 [% END %]
 
-    Jeśli masz wątpliwości, skontaktuj się z administratorem [%+ Param("maintainer") %]. Więcej informacji o funkcji „sudo” można znaleźć pod adresem <[% urlbase %]page.cgi?id=sudo.html>.
+    Jeśli masz wątpliwości, skontaktuj się z administratorem [% Param("maintainer") %]. Więcej informacji o funkcji „sudo” można znaleźć pod adresem <[% urlbase %]page.cgi?id=sudo.html>.

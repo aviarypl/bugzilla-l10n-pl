@@ -112,7 +112,7 @@
 
   [% ELSIF error == "auth_failure" %]
     [% title = "Wymagana autoryzacja" %]
-    [% admindocslinks = {'groups.html' => 'Zabezpieczenia grup'} %]
+    [% admindocslinks = {'groups.html' => 'Grupy zabezpieczeń'} %]
     [% IF group %]
       Nie jesteś członkiem grupy „[% group FILTER html %]”,
     [% END %]
@@ -218,7 +218,7 @@
 
   [% ELSIF error == "bug_access_denied" %]
     [% title = "Brak dostępu" %]
-    [% admindocslinks = {'groups.html' => 'Zabezpieczenia grup'} %]
+    [% admindocslinks = {'groups.html' => 'Grupy zabezpieczeń'} %]
     Nie masz uprawnień dostępu do [% terms.bledu %] #[% bug_id FILTER html %].
 
   [% ELSIF error == "bug_access_query" %]
@@ -236,7 +236,7 @@
     [% IF reason == 'http' %]
       Adresy URL muszą zaczynać się od „http” lub „https”.
     [% ELSIF reason == 'show_bug' %]
-      Adres URL [%+ terms.bledu %] powinien wskazywać na plik <code>show_bug.cgi</code>
+      Adres URL [% terms.bledu %] powinien wskazywać na plik <code>show_bug.cgi</code>
       znajdujący się w instalacji [% terms.Bugzilli %].
     [% ELSIF reason == 'id' %]
       Pod tym adresem URL nie ma [% terms.bledu %] o takim numerze.
@@ -419,7 +419,7 @@
   
   [% ELSIF error == "entry_access_denied" %]
     [% title = "Brak dostępu" %]
-    [% admindocslinks = {'groups.html' => 'Group Security'} %]
+    [% admindocslinks = {'groups.html' => 'Grupy zabezpieczeń'} %]
     Produkt <em>[% product FILTER html %]</em> nie istnieje
     lub nie masz uprawnień dostępu do [% terms.bledow %] w tym
     produkcie.
@@ -529,13 +529,13 @@
   [% ELSIF error == "fieldvalue_sortkey_invalid" %]
     [% title = "Nieprawidłowy klucz sortowanie pola" %]
     Klucz sortowania „[% sortkey FILTER html %]” dla
-    pola [%+ field.description FILTER html %] nie jest poprawną
+    pola [% field.description FILTER html %] nie jest poprawną
     (dodatnią) liczbą.
 
   [% ELSIF error == "fieldvalue_still_has_bugs" %]
     [% title = "Nie można usunąć tej wartości pola" %]
     Nie można usunąć wartości „[% value.name FILTER html %]” dla pola
-    [% field.description FILTER html %], ponieważ nadal
+    [%+ field.description FILTER html %], ponieważ nadal
     [%+ value.bug_count FILTER html %] [%+ terms.bledy %] ją używają.
 
   [% ELSIF error == "fieldvalue_undefined" %]
@@ -550,7 +550,7 @@
     [% title = "Plik jest zbyt duży" %]
     Plik załącznika ma [% filesize FILTER html %] kilobajtów (KB).
     Załączniki, które nie są łatkami, nie mogą być większe
-    niż [%+ Param('maxattachmentsize') %] KB. <br>
+    niż [% Param('maxattachmentsize') %] KB. <br>
     Zaleca się umieszczenie załącznika na zewnętrznym serwerze
     [% IF Param("allow_attach_url") %]
       i następnie podanie adresu URL do tego pliku na stronie
@@ -577,7 +577,7 @@
   [% ELSIF error == "flag_requestee_unauthorized" %]
     [% title = "Prośba o zweryfikowanie flagi do osoby bez uprawnień" %]
     [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami',
-                         'groups.html' => 'Zabezpieczenia grup'} %]
+                         'groups.html' => 'Grupy zabezpieczeń'} %]
     [% docslinks = {'flags-overview.html' => 'Wprowadzenie do flag',
                     'flags.html' => 'Korzystanie z flag'} %]
 
@@ -593,7 +593,7 @@
   [% ELSIF error == "flag_requestee_unauthorized_attachment" %]
     [% title = "Prośba o zweryfikowanie flagi do osoby bez praw dostępu" %]
     [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami',
-                         'groups.html' => 'Zabezpieczenia grup'} %]
+                         'groups.html' => 'Grupy zabezpieczeń'} %]
     [% docslinks = {'flags-overview.html' => 'Wprowadzenie do flag',
                     'flags.html' => 'Korzystanie z flag'} %]
 
@@ -628,7 +628,7 @@
   [% ELSIF error == "flag_update_denied" %]
     [% title = "Modyfikacja flagi zabroniona" %]
     [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami',
-                         'groups.html' => 'Zabezpieczenia grup'} %]
+                         'groups.html' => 'Grupy zabezpieczeń'} %]
     [% docslinks = {'flags-overview.html' => 'Wprowadzenie do flag',
                     'flags.html' => 'Używanie flag'} %]
     Próbowano [% IF status == "+" %] zaakceptować [% ELSIF status == "-" %] odrzucić
@@ -815,12 +815,12 @@
     &lt;, &gt;, &amp;.
 
   [% ELSIF error == "illegal_series_creation" %]
-    [% admindocslinks = {'groups.html' => 'Zabezpieczenia grup'} %]
+    [% admindocslinks = {'groups.html' => 'Grupy zabezpieczeń'} %]
     [% docslinks = {'reporting.html' => 'Raporty'} %]
     Nie masz uprawnień do tworzenia serii.
         
   [% ELSIF error == "illegal_series_edit" %]
-    [% admindocslinks = {'groups.html' => 'Zabezpieczenia grup'} %]
+    [% admindocslinks = {'groups.html' => 'Grupy zabezpieczeń'} %]
     [% docslinks = {'reporting.html' => 'Raporty'} %]
     Nie masz uprawnień do modyfikowania serii. Czynność ta zarezerwowana jest dla twórcy serii
     lub administratora.
@@ -968,7 +968,7 @@
   [% ELSIF error == "local_file_too_large" %]
     [% title = "Za duży plik lokalny" %]
     Rozmiar pliku lokalnego nie może przekroczyć
-    [% Param('maxlocalattachment') %] MB.
+    [%+ Param('maxlocalattachment') %] MB.
 
   [% ELSIF error == "login_needed_for_password_change" %]
     [% title = "Wymagana nazwa konta" %]
@@ -1200,7 +1200,7 @@
     [% title = "Brak produktów" %]
     [% admindocslinks = {'products.html'   => 'Ustawienia produktu',
                          'components.html' => 'Dodawanie komponentów',
-                         'groups.html'     => 'Zabezpieczenia grup'} %]
+                         'groups.html'     => 'Grupy zabezpieczeń'} %]
     Nie utworzono żadnego produktu, dla którego można utworzyć [% terms.blad %]
     lub nie masz uprawnień dostępu do produktów.
 
@@ -1351,7 +1351,7 @@
   [% ELSIF error == "product_edit_denied" %]
     [% title = "Brak dostępu do modyfikowania produktu" %]
     [% admindocslinks = {'products.html' => 'Administracja produktami',
-                         'groups.html'   => 'Zabezpieczenia grup'} %]
+                         'groups.html'   => 'Grupy zabezpieczeń'} %]
     Nie masz uprawnień do modyfikowania [% terms.bledu %] dla produktu
     [%+ product FILTER html %].
 
@@ -1360,7 +1360,7 @@
     [% admindocslinks = {'products.html' => 'Administracja produktami'} %]
     Nadal [% nb FILTER html %] [%+ terms.bledow %] jest przypisanych do tego
     produktu. Aby usunięcie produktu było możliwe, należy przypisać te
-    [% terms.bledy %] do innego produktu.
+    [%+ terms.bledy %] do innego produktu.
 
   [% ELSIF error == "product_must_have_description" %]
     [% title = "Wymagany opis produktu" %]

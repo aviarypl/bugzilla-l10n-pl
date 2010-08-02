@@ -124,7 +124,7 @@
   [% IF old_groups.size %]
     <p>Następujące grupy nie są prawidłowe dla produktu <b>[% product.name FILTER html %]</b>
     lub nie masz uprawnień do ograniczenia [% terms.bledow %] do tych grup.</p>
-    Dostęp do tych [%+ terms.bledow %] nie będzie już ograniczony i jeśli nie zostaną
+    Dostęp do tych [% terms.bledow %] nie będzie już ograniczony i jeśli nie zostaną
     przypisane do innej grupy mogą stać się ogólnodostępne:<br>
     [% FOREACH group = old_groups %]
       <input type="checkbox" id="bit-[% group.id FILTER html %]"

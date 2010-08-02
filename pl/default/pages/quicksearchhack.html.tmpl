@@ -39,7 +39,7 @@
 </form>
 
 <p>
-  To jest wyszukiwanie ignorujące wielkość znaków „wszystkie wyrażenia są traktowane jako część wspólna” wyszukiwania.
+  To jest wyszukiwanie „wszystkich słów wg części wspólnej” nie uwzględniające wielkości znaków.
   Wyrażenia są oddzielane spacją.
   Domyślnie przeszukiwane są pola: Krótki opis, Słowa kluczowe,
   Produkt, Komponent i Tablica.
@@ -47,20 +47,20 @@
 </p>
 <p>
   Ogólny format dla „wyrażenia” to:
-  <tt>field1,&hellip;,fieldN:value1,&hellip;,valueM</tt>.
-  [% terms.Blad %] jest zaliczony jeśli przynajmniej jedna z wartości
+  <tt>pole1,&hellip;,poleN:wartość1,&hellip;,wartośćM</tt>.
+  [%+ terms.Blad %] jest zaliczony jeśli przynajmniej jedna z wartości
   występuje jako część wspólna w przynajmniej jednym polu.
   Na przykład: <tt>assignee,reporter,qa:ibm,sun</tt> zwróci
   [%+ terms.bledy %], gdzie odpowiedzialny, zgłaszający lub specjalista QA ma
   login zawierający <tt>ibm</tt> lub <tt>sun</tt>.
-  Jeśli określone są tylko <tt>value1,&hellip;,valueM</tt>, prefiks (mniej więcej)
-  zwróci <tt>summary,keywords,product,component,statuswhiteboard:</tt>, jak opisano
+  Jeśli określone są tylko <tt>wartość1,&hellip;,wartośćM</tt>, domyślnie dodany zostanie prefiks (mniej więcej)
+  zawierający pola <tt>summary,keywords,product,component,statuswhiteboard:</tt>, jak opisano
   powyżej. Można użyć <tt>-<i>wyrażenie</i></tt>, by wyrazić logiczną negację
   <tt><i>wyrażenia</i></tt>.
 </p>
 <p>
-  To jest kompletna lista dostępnych pól (kolumna „Skrót” jest dla
-  prędkości):
+  To jest kompletna lista dostępnych pól (kolumna „Skrót” zawiera ich
+  skrócone nazwy):
 </p>
 
 <table border="1">
@@ -303,7 +303,7 @@
   <td>
     Liczba głosów<br>
     (votes:<i>N</i> i votes&gt;=<i>N</i> oznacza „co najmniej N głosów”,
-    votes&gt;<i>N</i> (oznacza „więcej niż N głosów”)
+    votes&gt;<i>N</i> oznacza „więcej niż N głosów”)
   </td>
 </tr>
 </table>
