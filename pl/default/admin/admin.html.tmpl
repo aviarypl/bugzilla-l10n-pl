@@ -1,4 +1,4 @@
-[%# 3.4.6PL@aviary.pl %]
+[%# 3.4.7PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -85,6 +85,7 @@
         posiadającym własne cztery stany: zatwierdzona, odrzucona, prośba i nie zdefiniowano.
         Dla każdego [% terms.bledu %] można ustawić dowolną liczbę flag i określić użytkowników,
         którzy będą mogli je modyfikować.</dd>
+        [% Hook.process('end_links_left') %]
       </dl>
     </td>
 
@@ -124,6 +125,7 @@
         <dd class="[% class %]">Tutaj można określić wyszukiwania uruchamiane zgodnie z
         określoną datą i godziną. Wyniki wyszukiwań będą przekazywane bezpośrednio e-mailem. Jest
         to dobry sposób tworzenia przypomnień i śledzenia aktywności w instalacji.</dd>
+        [% Hook.process('end_links_right') %]
       </dl>
     </td>
   </tr>

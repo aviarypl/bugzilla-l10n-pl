@@ -1,4 +1,4 @@
-[%# 3.4.6PL@aviary.pl %]
+[%# 3.4.7PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -164,6 +164,7 @@
             <bz:component rdf:about="[% urlbase FILTER xml %]component.cgi?name=[% component.name FILTER url_quote 
                           %]&amp;product=[% product.name FILTER url_quote %]">
               <bz:name>[% component.name FILTER html %]</bz:name>
+              [% IF show_flags %]
               <bz:flag_types>
                 <Seq>
                   [% flag_types = component.flag_types.bug.merge(component.flag_types.attachment) %]
@@ -175,6 +176,7 @@
                   [% END %]
                 </Seq>
               </bz:flag_types>
+              [% END %]
             </bz:component>
           </li>
         [% END %]
@@ -212,6 +214,7 @@
     </bz:target_milestones>
   [% END %]
 
+  [% IF show_flags %]
   <bz:flag_types>
     <Seq>
       [% FOREACH flag_type = all_visible_flag_types.values.sort('name') %]
@@ -234,6 +237,7 @@
       [% END %]
     </Seq>
   </bz:flag_types>
+  [% END %]
 
   <bz:fields>
     <Seq>

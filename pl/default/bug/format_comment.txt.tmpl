@@ -1,4 +1,4 @@
-[%# 3.4.6PL@aviary.pl %]
+[%# 3.4.7PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -39,7 +39,7 @@
   #              already_wrapped: Determines whether the comment is pre-wrapped
   #%]
 
-[% PROCESS 'global/field-descs.none.tmpl' %]
+[% PROCESS 'global/variables.none.tmpl' %]
 
 [%- IF comment.type == constants.CMT_DUPE_OF -%]
 X[% comment.body %]
@@ -55,8 +55,7 @@ X[% comment.body %]
 [%+ terms.Blad %] został przeniesiony do [% Param("move-to-url") %].
 Jeśli przenoszenie zakończy się prawidłowo, [% comment.extra_data %] otrzyma powiadomienie zawierające
 numer nowego [% terms.bledu %] w innej bazie danych.
-Jeśli wszystko zakończyło się pomyślnie, oznacz ten [% terms.blad %] jako
-[%+ get_status('VERIFIED') %] i wklej odnośnik do nowego [% terms.bledu %].
+Jeśli wszystko zakończyło się pomyślnie wklej odnośnik do nowego [% terms.bledu %].
 Jeśli nie, otwórz ponownie ten [% terms.blad %].
 [%- ELSE -%]
 X[%- comment.body %]

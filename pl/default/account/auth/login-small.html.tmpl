@@ -1,4 +1,4 @@
-[%# 3.4.6PL@aviary.pl %]
+[%# 3.4.7PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -27,7 +27,7 @@
   # then we are accessing the home page. %]
 
 [% login_target = cgi.url("-relative" => 1, "-query" => 1) %]
-[% IF !login_target %]
+[% IF !login_target OR login_target.match("^token.cgi") %]
  [% login_target = "index.cgi" %]
 [% END %]
 

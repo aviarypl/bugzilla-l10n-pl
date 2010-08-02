@@ -59,6 +59,40 @@
 
 <h2><a name="v34_point"></a>Updates In This 3.4.x Release</h2>
 
+<h3>3.4.7</h3>
+
+<p>This release fixes one security issue related to time tracking.
+  See the <a href="http://www.bugzilla.org/security/3.2.6/">Security
+  Advisory</a> for details.</p>
+
+<p>In addition, the following important fixes/changes have been made in
+  this release:</p>
+
+<ul>
+  <li><kbd>show_bug.cgi</kbd> (the bug viewing/editing page)
+    should be considerably faster when you have many comments on
+    bug, now.
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=498309">Bug 498309</a>)
+  </li>
+  <li><kbd>jobqueue.pl</kbd> would lose its connection to the database and
+    stop sending emails if it was running for a long time.
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=538705">Bug 538705</a>)
+  </li>
+  <li>When loading <kbd>config.cgi</kbd>, you can now specify 
+    <kbd>?flags=0</kbd> in the URL to specify that you don't want
+    flag data. This speeds up config.cgi considerably.
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=553267">Bug 553267</a>)
+  </li>
+  <li>Logging in after changing your password would throw a confusing error.
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=549814">Bug 549814</a>)
+  </li>
+  <li>Some crashes that would occur when using PostgreSQL and trying to
+    delete a custom field are now fixed. 
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=557495">Bug 557495</a>
+    and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=557686">Bug 557686</a>)
+  </li>
+</ul>
+
 <h3>3.4.6</h3>
 
 <ul>
@@ -297,7 +331,7 @@
   <li><a href="#v34_feat_vals">Custom Fields Whose List of Values
     Change Depending on the Value of Another Field</a></li>
   <li><a href="#v34_feat_bugid">New Custom Field Type: 
-    bug ID</a></li>
+    Bug ID</a></li>
   <li><a href="#v34_feat_see">"See Also" Field</a></li>
   <li><a href="#v34_feat_cols">Re-order Columns in Search Results</a></li>
   <li><a href="#v34_feat_desc">Search Descriptions</a></li>
