@@ -55,7 +55,13 @@
           [% IF products && products.size %]
             <br>
             <p>
-              Masz także lokalne uprawnienia „[% privs FILTER html %]”
+			[% privsdesc = {
+               "editcomponents" => "Modyfikowanie komponentów",
+               "canconfirm"   => "Potwierdzanie $terms.bledow",
+               "editbugs"   => "Modyfikowanie $terms.bledow",
+               } 
+            %]
+              Masz także lokalne uprawnienia „[% privsdesc.$privs FILTER html %]”
               dla następujących produktów:
             </p>
             <p>
@@ -72,7 +78,7 @@
 
       [% IF user.in_group('editusers') %]
         <br>
-        Masz uprawnienia do edycji uprawnień innych użytkowników. Możesz nadawać
+        Masz uprawnienia do modyfikowania uprawnień innych użytkowników. Możesz nadawać
         lub odbierać uprawnienia wszystkim użytkownikom.
       [% ELSIF set_bits.size %]
         <br>

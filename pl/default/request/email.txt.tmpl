@@ -29,29 +29,29 @@
 [% attidsummary = attachment.id _ ': ' _ attachment.description %]
 [% flagtype_name = flag ? flag.type.name : old_flag.type.name %]
 [% statuses = { '+' => "zaakceptował" , '-' => 'odrzucił' , 'X' => "anulował" ,
-                '?' => "poprosił" } %]
+                '?' => "poprosił o" } %]
 
 [% to_identity = "" %]
 [% on_behalf_of = 0 %]
 [% action = flag.status || 'X' %]
 
 [% IF flag && flag.status == '?' %]
-  [% subject_status = "poprosił" %]
+  [% subject_status = "poprosił o" %]
   [% IF flag.setter_id == user.id %]
-    [% to_identity = flag.requestee.identity _ " dla" %]
+    [% to_identity = "użytkownika " _ flag.requestee.identity %]
   [% ELSE %]
     [% on_behalf_of = 1 %]
-    [% IF flag.requestee %][% to_identity = " do" _ flag.requestee.identity %][% END %]
+    [% IF flag.requestee %][% to_identity = " do " _ flag.requestee.identity %][% END %]
   [% END %]
 [% ELSE %]
   [% IF old_flag && old_flag.status == '?' %]
-    [% to_identity = old_flag.setter.identity _ " poprosił o nią dla" %]
+    [% to_identity = "poproszoną przez " _ old_flag.setter.identity %]
   [% END %]
   [% subject_status = statuses.$action %]
 [% END %]
 From: [% Param('mailfrom') %]
 To: [% to %]
-Subject: Użytkownik [%+ subject_status %] flagę „[% flagtype_name %]” dla: [[% terms.Blad %] [%+ bug.bug_id %]] [% bug.short_desc %]
+Subject: Użytkownik [% subject_status %] flagę „[% flagtype_name %]” dla: [[% terms.Blad %] [%+ bug.bug_id %]] [% bug.short_desc %]
 [%- IF attachment %] :
   [Załącznik [% attachment.id %]] [% attachment.description %][% END %]
 X-Bugzilla-Type: request
@@ -61,10 +61,10 @@ X-Bugzilla-Type: request
 [%- FILTER bullet = wrap(80) -%]
 
 [% IF on_behalf_of %]
-Użytkownik [% user.identity %] ponownie przydzielił prośbę [% flag.setter.identity %] dotyczącą flagi „[% flagtype_name %]”
-[% to_identity %]:
+Użytkownik [% user.identity %] ponownie przydzielił prośbę [% flag.setter.identity %] dotyczącą flagi „[% flag.type.name %]”
+[% to_identity %] dla:
 [% ELSE %]
-Użytkownik [% user.identity %] [% statuses.$action %] flagę „[%+ flagtype_name %]” [%+ to_identity %] 
+Użytkownik [% user.identity %] [%+ statuses.$action %] flagę „[% flagtype_name %]” [% to_identity %] dla: 
 [% END %]
 
 [% terms.Blad %] [%+ bugidsummary %]

@@ -61,9 +61,9 @@
 [% END %]
 
 [% IF product && !no_edit_product_link %]
-  &nbsp;&nbsp;<a title="Edytuj produkt „[% product.name FILTER html %]” 
+  &nbsp;&nbsp;<a title="Modyfikuj produkt „[% product.name FILTER html %]” 
          [%- classification_text %]"
-  href="editproducts.cgi?action=edit&amp;product=[% product.name FILTER url_quote %]">Edytuj produkt „
+  href="editproducts.cgi?action=edit&amp;product=[% product.name FILTER url_quote %]">Modyfikuj produkt „
         [% product.name FILTER html %]”</a>
 [% END %]
 
@@ -71,7 +71,7 @@
 [%# Edit other products (in a classification if specified): %]
 [% UNLESS no_edit_other_products_link %]
   &nbsp;&nbsp;<a href="editproducts.cgi?
-        [%- classification_url_part_start FILTER none %]">Edytuj inne produkty
+        [%- classification_url_part_start FILTER none %]">Modyfikuj inne produkty
           [% classification_text %]</a>
 
 [% END %]
@@ -79,7 +79,7 @@
 [% IF Param('useclassification') && classification
       && user.in_group('editclassifications') %]
   &nbsp;&nbsp;<a href="editclassifications.cgi?action=edit
-    [%- classification_url_part %]">Edytuj kategorię „
+    [%- classification_url_part %]">Modyfikuj kategorię „
     [%- classification.name FILTER html %]”</a>
 
 [% END %]

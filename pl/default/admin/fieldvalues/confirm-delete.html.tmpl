@@ -87,7 +87,7 @@
     [% IF value.bug_count %]
       <li>
         [% IF value.bug_count > 1 %]
-          Występują [% terms.bledy %] z tą wartością: [%+ value.bug_count FILTER html %].
+          Występują [% terms.bledy %] z tą wartością: [% value.bug_count FILTER html %].
           
         [% ELSE %]
           Występuje 1 [% terms.blad %] z tą wartością.

@@ -74,7 +74,7 @@
   <tr><td>
     
     ([% IF milestone.bug_count > 1 %])
-      Istnieją [% milestone.bug_count FILTER none %] otwarte [%+ terms.bledy %] dla tej wersji docelowej.
+      Istnieją [% milestone.bug_count FILTER none %] otwarte [% terms.bledy %] dla tej wersji docelowej.
     [% ELSE %]
       Istnieje 1 otwarty [% terms.blad %] dla tej wersji docelowej.
     [% END %]
@@ -87,7 +87,7 @@
 
 [% END %]
 
-<p>Czy na pewno chcesz usunąć tę wersję docelową?<p>
+<p>Czy na pewno chcesz usunąć tę wersję docelową?</p>
 
 <form method="post" action="editmilestones.cgi">
   <input type="submit" id="delete" value="Tak">

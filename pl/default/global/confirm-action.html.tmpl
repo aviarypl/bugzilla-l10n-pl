@@ -31,10 +31,10 @@
 
 <div class="throw_error">
   [% IF reason == "expired_token" %]
-    Twoje zmiany zostały odrzucone, ponieważ przed ich wysłaniem do
-    [% script_name FILTER html %] został przekroczony limit czasu
-    [% constants.MAX_TOKEN_AGE FILTER html %] dni. Być może twoja strona była
-    wyświetlona bardzo długo lub poprzednie zmiany zostały przypadkowo ponownie wysłane.
+    Twoje zmiany zostały odrzucone, ponieważ przed ich wysłaniem
+    do skryptu „[% script_name FILTER html %]” został przekroczony limit
+    czasu [% constants.MAX_TOKEN_AGE FILTER html %] dni. Być może twoja strona była
+    wyświetlana bardzo długo lub poprzednie zmiany zostały przypadkowo ponownie wysłane.
 
   [% ELSIF reason == "missing_token" %]
     Wygląda na to, że trafiłeś/trafiłaś tutaj z nieprawidłowej strony.
@@ -43,7 +43,7 @@
     odnośnik, który wykonał przekierowanie tutaj <b>bez twojej zgody</b>.
 
   [% ELSIF reason == "invalid_token" %]
-    Zmiany zostały wysłane do [% script_name FILTER html %] z nieprawidłowym
+    Zmiany zostały wysłane do skryptu „[% script_name FILTER html %]” z nieprawidłowym
     tokenem, który może wskazywać, że ktoś próbował cię wykorzystać np.
     poprzez kliknięcie na URL, który wykonał przekierowanie tutaj <b>bez twojej
     zgody</b>.

@@ -65,7 +65,7 @@
   <li>Więcej terminów <strong>zawężających</strong> wyszukiwanie zmniejszy
      liczbę wyników. Innymi słowy – [% terms.Bugzilla %] będzie przeszukiwała 
      [%+ terms.bledy %] w poszukiwaniu <em>wszystkich</em> twoich kryteriów, a nie
-     tylko [%+ terms.bledow %] spełniających <em>dowolne</em> z twoich kryteriów.</li>
+     tylko [% terms.bledow %] spełniających <em>dowolne</em> z twoich kryteriów.</li>
 
   <li>Mechanizm wyszukiwania <strong>nie rozróżnia</strong> wielkości znaków. Tak więc <kbd>tabela</kbd>,
     <kbd>Tabela</kbd> i <kbd>TABELA</kbd> są traktowane jako tożsame.</li>
@@ -75,7 +75,7 @@
     wyszukiwania słowa „<strong>cat</strong>” zostaną wyszukane także [% terms.bledy %]
     zawierające to słowo jako część innych słów np. [% terms.bledy %] zawierające
     słowa „<strong>cat</strong>ch” lub „certifi<strong>cat</strong>e”. W polach 
-    [% field_descs.longdesc FILTER html %] i [% field_descs.keywords FILTER html %]
+    [%+ field_descs.longdesc FILTER html %] i [% field_descs.keywords FILTER html %]
     nie będą wyszukiwane części słów. W tych polach będą wyszukiwane tylko
     całe słowa spełniające kryteria wyszukiwania.</li>
 
@@ -112,7 +112,7 @@
     <kbd>cf_pole_dodatkowe</kbd> może także
     odwoływać się jako <kbd>pole_dodatkowe</kbd>.
     Niemniej jeśli będzie to powodowało konflikt pomiędzy nazwą standardowego
-    pola używanego w [%+ terms.Bugzilli %], a nazwą pola dodatkowego,
+    pola używanego w [% terms.Bugzilli %], a nazwą pola dodatkowego,
     nazwa pola standardowego ma pierwszeństwo.</p>
 [% END %]
 
@@ -221,7 +221,7 @@
         typu rozwiązania lub nawet jego skrót, a [% terms.bledy %] z tym typem rozwiązania
         zostaną wyszukane. Na przykład,
         jeśli pierwszym słowem twojego wyszukiwania będzie <kbd>FIX</kbd>, zostaną wyszukane
-        wszystkie [%+ terms.bledy %] z rozwiązaniem <kbd>NAPRAWIONY</kbd>.
+        wszystkie [% terms.bledy %] z rozwiązaniem <kbd>NAPRAWIONY</kbd>.
     </tr>
     <tr>
       <td class="field_name">[% field_descs.priority FILTER html %]</td>

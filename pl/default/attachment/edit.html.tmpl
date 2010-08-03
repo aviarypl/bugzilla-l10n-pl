@@ -235,7 +235,7 @@
               var patchviewerinstalled = 1;
               document.write('<iframe id="viewDiffFrame" style="height: 400px; width: 100%; display: none;"><\/iframe>');
 [% END %]
-              document.write('<button type="button" id="editButton" onclick="editAsComment(patchviewerinstalled);">Edytuj załącznik jako komentarz<\/button>');
+              document.write('<button type="button" id="editButton" onclick="editAsComment(patchviewerinstalled);">Edytowanie załącznik jako komentarz<\/button>');
               document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment(patchviewerinstalled);" style="display: none;">Cofnij edytowanie jako komentarz<\/button>');
               document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment(patchviewerinstalled);" style="display: none;">Przywróć edytowanie jako komentarz<\/button>');
 [% IF use_patchviewer %]

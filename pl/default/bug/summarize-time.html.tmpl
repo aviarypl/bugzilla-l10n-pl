@@ -46,7 +46,7 @@
   [% FOREACH workdata = part_list %]
     [%# parts contains date ranges (from, to). %]
     [% part = parts.shift %]
-    <div align="right">
+    <div align="center">
       <h4 style="padding-right: 2em; margin: 0;">
         [% IF part.0 or part.1 %]
           Od [% part.0 OR "Up" FILTER html %] do [% part.1 OR "now" FILTER html %]

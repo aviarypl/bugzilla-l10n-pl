@@ -270,7 +270,7 @@
   [% IF Param('usestatuswhiteboard') %]
     <tr>
       <td align="right">
-        <b>Tablica statusu:</b>
+        <b>Tablica:</b>
       </td>
       <td colspan="7">
         <input name="status_whiteboard" 
@@ -352,8 +352,8 @@
   </table>
 
   [% IF foundinactive %]
-    <p style="font-size:smaller">(Uwaga: Można nie dodawać [% terms.bledow %] do [% FILTER inactive %]nieaktywnych
-    grup[% END %] tylko je usunąć.)</p>
+    <p style="font-size:smaller">(Uwaga: Nie można dodawać [% terms.bledow %] do [% FILTER inactive %]nieaktywnych
+    grup[% END %], można tylko je usunąć.)</p>
   [% END %]
 
 [% END %]

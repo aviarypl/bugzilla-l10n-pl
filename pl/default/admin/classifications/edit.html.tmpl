@@ -22,7 +22,7 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edycja kategorii"
+  title = "Modyfikacja kategorii"
 %]
 
 <form method=post action="editclassifications.cgi">
@@ -51,7 +51,7 @@
     <tr valign=top>
       <th align="right">
         <a href="editproducts.cgi?classification=[% classification.name FILTER url_quote %]">
-        Edytuj produkty</a>:
+        Modyfikuj produkty</a>:
       </th>
       <td>
         [% IF classification.products.size > 0 %]

@@ -70,18 +70,18 @@
       [% END %]
     </table>
 
-    <p>Zgłoś ten problem do [%+ Param("maintainer") FILTER html %].</p>
+    <p>Zgłoś ten problem do [% Param("maintainer") FILTER html %].</p>
   </div>
 [% ELSE %]
   <div class="throw_error">
     Prawdopodobnie trafiłeś/trafiłaś tutaj z niewłaściwej strony. Brak ważnego tokena
     dla czynności <em>[% expected_action FILTER html %]</em> podczas przetwarzania 
-    skryptu „[% script_name FILTER html%]”. Możliwe przyczyny to:<br>
+    skryptu „[% script_name FILTER html %]”. Możliwe przyczyny to:<br>
     <ul>
       <li>w przeglądarce, po zatwierdzeniu zmian w formularzu, został użyty przycisk „Wstecz” –
       jest to nieszkodliwe, ale niezalecane postępowanie,</li>
       <li>adres URL został wpisany bezpośrednio do paska adresu przeglądarki – 
-     (generalnie bezpieczna sytuacja),</li>
+     generalnie bezpieczna sytuacja,</li>
       <li>został użyty odnośnik, który przekierował na tę stronę <strong>bez zgody użytkownika</strong> –
       to działanie może być niebezpieczne.</li>
     </ul>

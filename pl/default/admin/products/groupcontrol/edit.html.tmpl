@@ -24,7 +24,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% title = BLOCK %]
-    Edycja relacji grupa/produkt dla produktu „[% product.name FILTER html %]”
+    Modyfikowanie relacji grupa/produkt dla produktu „[% product.name FILTER html %]”
 [% END %]
 [% PROCESS global/header.html.tmpl 
    title = title 
@@ -41,10 +41,10 @@
       <th>Zgłaszanie<br>[% terms.bledow %]</th>
       <th>Uprawnienia<br>członków</th>
       <th>Dodatkowe<br>uprawnienia</th>
-      <th>Edycja<br>produktów</th>
-      <th>Edycja<br>komponentów</th>
+      <th>Modyfikowanie<br>produktów</th>
+      <th>Modyfikowanie<br>komponentów</th>
       <th>Potwierdzanie<br>[% terms.bledow %]</th>
-      <th>Edycja<br>[% terms.bledow %]</th>
+      <th>Modyfikowanie<br>[% terms.bledow %]</th>
       <th>[% terms.Bledy %]</th>
     </tr>
     [% FOREACH group = product.group_controls(1).values.sort("name") %]
@@ -156,11 +156,11 @@ dla tego produktu będą mogli zgłaszać jedynie użytkownicy będący
 członkami grup, które mają przydzielone uprawnienie Zgłaszanie [% terms.bledow %].
 </p>
 <p>
-Jeśli grupa ma zaznaczone uprawnienie <b>Edycja produktów</b>, użytkownicy niebędący
+Jeśli grupa ma zaznaczone uprawnienie <b>Modyfikowanie produktów</b>, użytkownicy niebędący
 członkami grup, które mają prawo edycji, będą mogli ten produkt jedynie
 przeglądać. TYLKO użytkownicy, którzy są członkami grup mających prawo edycji
-(mają przydzielone uprawnienie Edycja produktów) będą mieli prawo jego edycji. Jest to dodatkowe
-ograniczenie tego, co może być edytowane przez użytkownika.
+(mają przydzielone uprawnienie Modyfikowanie produktów) będą mieli prawo jego edycji. Jest to dodatkowe
+ograniczenie tego, co może być modyfikowane przez użytkownika.
 </p>
 <p>
 Poniższe ustawienia pozwalają ustalić uprawnienia <b>dla poszczególnych produktów</b>.
@@ -168,7 +168,7 @@ Jest to wygodny sposób przyznania praw użytkownikom tylko do pewnych produktó
 bez konieczności przyznawania globalnych uprawnień, które dotyczą wszystkich produktów.
 </p>
 <p>
-Członkowie grupy, która ma przydzielone uprawnienie <b>Edycja komponentów</b> mogą modyfikować
+Członkowie grupy, która ma przydzielone uprawnienie <b>Modyfikowanie komponentów</b> mogą modyfikować
 wszystkie własności tego produktu włącznie z komponentami, wersjami docelowymi i wersjami.
 </p>
 <p>
@@ -176,7 +176,7 @@ Członkowie grupy, która ma przydzielone uprawnienie <b>Potwierdzanie [% terms.
 [% terms.bledy %] w tym produkcie.
 </p>
 <p>
-Członkowie grupy, która ma przydzielone uprawnienie <b>Edycja [% terms.bledow %]</b> mogą modyfikować
+Członkowie grupy, która ma przydzielone uprawnienie <b>Modyfikowanie [% terms.bledow %]</b> mogą modyfikować
 wszystkie pola [% terms.bledow %] w tym produkcie.
 </p>
 <p>
@@ -230,7 +230,7 @@ odpowiednio do poniższych definicji.
     </td>
     <td>
       [% terms.Bledy %] dotyczące tego produktu mogą być umieszczane w tej grupie przez 
-      każdego z uprawnieniami do edycji [% terms.bledu %], nawet jeśli nie jest członkiem
+      każdego z uprawnieniami do modyfikowania [% terms.bledu %], nawet jeśli nie jest członkiem
       tej grupy.
     </td>
   </tr>
@@ -243,7 +243,7 @@ odpowiednio do poniższych definicji.
     </td>
     <td>
       [% terms.Bledy %] dotyczące tego produktu mogą być umieszczane w tej grupie przez każdego
-      z uprawnieniami do edycji [% terms.bledu %], nawet jeśli nie jest członkiem tej grupy.&nbsp;
+      z uprawnieniami do modyfikowania [% terms.bledu %], nawet jeśli nie jest członkiem tej grupy.&nbsp;
       [% terms.Bledy %] zgłaszane przez innych użytkowników są domyślnie umieszczane w tej grupie.
     </td>
   </tr>

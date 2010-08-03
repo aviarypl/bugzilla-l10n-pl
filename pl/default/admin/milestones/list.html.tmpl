@@ -33,7 +33,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Edycja wersji docelowych produktu
+[% title = BLOCK %]Modyfikowanie wersji docelowych produktu
                    „[% product.name FILTER html %]”[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -88,6 +88,8 @@
      contentlink => undef
    } 
 %] 
+
+[% Hook.process('before_table') %]
 
 [% PROCESS admin/table.html.tmpl
      columns = columns

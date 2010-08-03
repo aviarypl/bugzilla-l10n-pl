@@ -37,7 +37,7 @@
 [% END %]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edycja produktu $classification_title"
+  title = "Modyfikowanie produktów $classification_title"
 %]
 
 [% edit_contentlink = BLOCK %]
@@ -102,6 +102,8 @@
        contentlink => delete_contentlink
      })
 %]
+
+[% Hook.process('before_table') %]
 
 [% PROCESS admin/table.html.tmpl
      columns = columns

@@ -31,20 +31,20 @@
 
 <p>
 [% IF comp && !no_edit_component_link %]
-  <a title="Edycja komponentu „[% comp.name FILTER html %]”"
+  <a title="Modyfikowanie komponentu „[% comp.name FILTER html %]”"
   href="editcomponents.cgi?action=edit&amp;product=
   [%- product.name FILTER url_quote %]&amp;component=[% comp.name FILTER url_quote %]">
-   Edytuj komponent „[% comp.name FILTER html %]”</a> 
+   Modyfikuj komponent „[% comp.name FILTER html %]”</a> 
   &nbsp;&nbsp;
 [% END %]
 
 [% IF !no_edit_other_components_link %]
- <a title="Wybierz komponent produktu „[% product.name FILTER html %]” do edycji"
+ <a title="Wybierz komponent produktu „[% product.name FILTER html %]” do modyfikowania"
   href="editcomponents.cgi?product=
-  [%- product.name FILTER url_quote %]">Edytuj inne komponenty produktu „[% product.name FILTER html %]”</a> 
+  [%- product.name FILTER url_quote %]">Modyfikuj inne komponenty produktu „[% product.name FILTER html %]”</a> 
   &nbsp;&nbsp; 
 [% END %]
- <a title="Edytuj produkt „[% product.name FILTER html %]”"
+ <a title="Modyfikuj produkt „[% product.name FILTER html %]”"
   href="editproducts.cgi?action=edit&amp;product=
-  [%- product.name FILTER url_quote %]">Edytuj produkt „[% product.name FILTER html %]”</a>
+  [%- product.name FILTER url_quote %]">Modyfikuj produkt „[% product.name FILTER html %]”</a>
 </p>

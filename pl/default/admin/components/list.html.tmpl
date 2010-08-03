@@ -30,7 +30,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-[% title = BLOCK %]Edycja komponentu produktu
+[% title = BLOCK %]Modyfikowanie komponentów produktu
                    „[% product.name FILTER html %]”[% END %]
 [% PROCESS global/header.html.tmpl
   title = title
@@ -104,6 +104,8 @@
      }
   %]
 [% END %]
+
+[% Hook.process('before_table') %]
 
 [% PROCESS admin/table.html.tmpl
      columns = columns

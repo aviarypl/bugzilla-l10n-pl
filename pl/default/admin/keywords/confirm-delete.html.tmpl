@@ -35,7 +35,7 @@
   [% IF keyword.bug_count == 1 %]
     Istnieje jeden [% terms.blad %] z tym słowem kluczowym.
   [% ELSIF keyword.bug_count > 1 %]
-    Istnieją [%+ terms.bledy %] z tym słowem kluczowym:
+    Istnieją [% terms.bledy %] z tym słowem kluczowym:
     [% keyword.bug_count FILTER html %].
   [% END %]
   

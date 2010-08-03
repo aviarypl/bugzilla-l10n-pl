@@ -728,11 +728,10 @@
           <label for="cclist_accessible">Obserwatorzy</label>
         </div>
         <p class="instructions">
-          Odpowiedzialny
-          [% IF (Param('useqacontact')) %]
-             i specjalista QA
+          Odpowiedzialny może[% IF (Param('useqacontact')) %],
+             podobnie jak specjalista QA,
           [% END %]
-          mogą zawsze widzieć [% terms.blad %] i ta sekcja nie ma na to
+          zawsze widzieć [% terms.blad %] i ta sekcja nie ma na to
           wpływu chyba, że [% terms.blad %] jest ograniczony do
           co najmniej jednej grupy.
         </p>

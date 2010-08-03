@@ -197,9 +197,9 @@
             <a href="buglist.cgi?emaillongdesc1=1&amp;emailtype1=exact&amp;email1=
                [%- otheruser.login FILTER url_quote %]">skomentował
             [% IF longdescs == 1 %]
-              [% terms.blad %] jeden raz
+              [%+ terms.blad %] jeden raz
             [% ELSE %]
-              [% terms.bledy %] [%+ longdescs %] razy
+              [%+ terms.bledy %] [%+ longdescs %] razy
             [% END %]</a>.
             Usunięcie konta użytkownika spowoduje niespójność
             w bazie danych w wyniku czego
@@ -291,7 +291,7 @@
             [% IF flags.requestee == 1 %]
               flagi 
             [% ELSE %]
-              [% flags.requestee %] flag
+              [%+ flags.requestee %] flag
             [% END %]</a>.
             Usunięcie konta użytkownika spowoduje, że
             [% IF flags.requestee == 1 %]
@@ -308,7 +308,7 @@
             [% IF namedqueries == 1 %]
               zapisane wyszukiwanie [% 'shared' IF namedquery_group_map %].
             [% ELSE %]
-              zapisane wyszukiwania [%+ namedqueries FILTER html %]. 
+              zapisane wyszukiwania [% namedqueries FILTER html %]. 
             [% END %].
             [% IF namedqueries == 1 %]
               To wyszukiwanie zostanie usunięte razem z kontem użytkownika

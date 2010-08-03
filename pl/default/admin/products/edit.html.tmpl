@@ -27,7 +27,7 @@
   #                                                  the product is in
   #%]
 
-[% title = BLOCK %]Edycja produktu „[% product.name FILTER html %]”[% END %]
+[% title = BLOCK %]Modyfikowanie produktu „[% product.name FILTER html %]”[% END %]
 
 [% PROCESS global/header.html.tmpl
   title = title
@@ -49,7 +49,7 @@
     <tr>
       <th align="right" valign="top">
         <a href="editcomponents.cgi?product=[% product.name FILTER url_quote %]">
-        Edytuj komponenty:
+        Modyfikuj komponenty:
         </a>
       </th>
       <td>
@@ -70,7 +70,7 @@
     </tr>
     <tr>
       <th align="right" valign="top">
-        <a href="editversions.cgi?product=[% product.name FILTER url_quote %]">Edytuj
+        <a href="editversions.cgi?product=[% product.name FILTER url_quote %]">Modyfikuj
 wersje:</a>
       </th>
       <td>
@@ -88,7 +88,7 @@ wersje:</a>
       <tr>
         <th align="right" valign="top">
           <a href="editmilestones.cgi?product=[% product.name FILTER url_quote %]">
-          Edytuj wersje docelowe:</a>
+          Modyfikuj wersje docelowe:</a>
         </th>
         <td>
           [%- IF product.milestones.size -%]
@@ -106,7 +106,7 @@ wersje:</a>
       <th align="right" valign="top">
         <a href="editproducts.cgi?action=editgroupcontrols&product=
           [%- product.name FILTER url_quote %]">
-          Edytuj relacje grupa/produkt:
+          Modyfikuj relacje grupa/produkt:
         </a>
       </th>
       <td>
@@ -116,11 +116,11 @@ wersje:</a>
             [% IF g.group.isactive %]
               [% group_control.${g.membercontrol} FILTER html %]/
               [% group_control.${g.othercontrol} FILTER html %]
-              [% IF g.entry %], ENTRY[% END %]
-              [% IF g.canedit %], CANEDIT[% END %]
-              [% IF g.editcomponents %], editcomponents[% END %]
-              [% IF g.canconfirm %], canconfirm[% END %]
-              [% IF g.editbugs %], editbugs[% END %]
+              [% IF g.entry %], Zgłaszanie [% terms.bledow %][% END %]
+              [% IF g.canedit %], Modyfikowanie produktów[% END %]
+              [% IF g.editcomponents %], Modyfikowanie komponentów[% END %]
+              [% IF g.canconfirm %], Potwierdzanie [% terms.bledow %][% END %]
+              [% IF g.editbugs %], Modyfikowanie [% terms.bledow %][% END %]
             [% ELSE %]
               WYŁĄCZONO
             [% END %]

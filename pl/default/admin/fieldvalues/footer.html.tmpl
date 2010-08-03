@@ -39,11 +39,11 @@
 [% END %]
 
 [% IF value.defined && !no_edit_link %]
-  <a title="Edycja wartości „[% value.name FILTER html %]” dla pola „
+  <a title="Modyfikowanie wartości „[% value.name FILTER html %]” dla pola „
          [%- field.name FILTER html %]”"
   href="editvalues.cgi?action=edit&amp;field=
         [%- field.name FILTER url_quote %]&amp;value=
-        [%- value.name FILTER url_quote %]">Edytuj wartość
+        [%- value.name FILTER url_quote %]">Modyfikuj wartość
         „[% value.name FILTER html %]”</a>
 [% END %]
 

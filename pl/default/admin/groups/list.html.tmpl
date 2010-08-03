@@ -35,7 +35,7 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-  title = "Edycja grup"
+  title = "Modyfikowanie grup"
   subheader = "Na tej stronie można określić grupy, do których można przypisać użytkowników."
   doc_section = "groups.html"
 %]
@@ -90,6 +90,64 @@
        }
      }
    } 
+%]
+
+[% overrides.description = { 
+	 'description' => { 
+       "Administrators" => { 
+         override_content => 1  
+         content => "Administrowanie" 
+       }
+       "Can configure whine reports for other users" => { 
+         override_content => 1  
+         content => "Konfigurowanie raportów powiadomień dla innych użytkowników" 
+       }
+       "User can configure whine reports for self" => { 
+         override_content => 1  
+         content => "Konfigurowanie raportów powiadomień dla samego siebie" 
+       }
+       "Can perform actions as other users" => { 
+         override_content => 1  
+         content => "Przejmowanie tożsamości innych użytkowników" 
+       }
+       "Can not be impersonated by other users" => { 
+         override_content => 1  
+         content => "Ochrona przed przejęciem tożsamości" 
+       }
+       "Can confirm a bug or mark it a duplicate" => { 
+         override_content => 1  
+         content => "Potwierdzanie $terms.bledow lub oznaczanie ich jako duplikaty" 
+       }
+       "Can create and destroy groups" => { 
+         override_content => 1  
+         content => "Tworzenie i usuwanie grup" 
+       }
+       "Can edit all bug fields" => { 
+         override_content => 1  
+         content => "Modyfikowanie wszystkich pól $terms.bledu" 
+       }
+       "Can create, destroy, and edit classifications" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i modyfikowanie kategorii" 
+       }
+       "Can create, destroy, and edit components" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i modyfikowanie komponentów" 
+       }
+       "Can create, destroy, and edit keywords" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i modyfikowanie słów kluczowych" 
+       }
+       "Can edit or disable users" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i modyfikowanie kont użytkowników" 
+       }
+       "Can change Parameters" => { 
+         override_content => 1  
+         content => "Zmiana parametrów" 
+       }
+     }
+   }
 %]
 
 [% FOREACH group IN ["chartgroup", "insidergroup", "timetrackinggroup", "querysharegroup"] %]
@@ -150,7 +208,7 @@ zgłoszenie [% terms.bledu %] będzie wyświetlane jedynie dla członków danej 
   <strong>RegExp użytkownika</strong> (opcjonalne) –
 jeśli jest podane, nastąpi automatyczne udzielenie członkostwa w tej grupie
 każdemu, kogo adres e-mail pasuje do tego wyrażenia. Należy pamiętać o końcowym „$”.
-Przykład: „@mycompany\.com$”
+Przykład: „@mojafirma\.com$”
 </p>
 
 <p>

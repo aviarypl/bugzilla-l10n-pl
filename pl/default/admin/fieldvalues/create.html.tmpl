@@ -61,15 +61,15 @@
         <th>&nbsp;</th>
         <td>
           Atrybuty otwarty/zamknięty mogą być określone tylko teraz, podczas tworzenia
-          statusu. Nie mogą być później edytowane.
+          statusu. Nie mogą być później modyfikowane.
         </td>
       </tr>
     [% END %]
     [% IF field.value_field %]
       <tr>
         <th align="right">
-          <label for="visibility_value_id">Wyświetlany jest tylko, gdy
-           „[%+ field.value_field.description FILTER html %]” jest ustawiony na:
+          <label for="visibility_value_id">Wyświetlana jest tylko, gdy
+           „[% field.value_field.description FILTER html %]” przyjmuje wartość:
           </label>
         </th>
         <td>
