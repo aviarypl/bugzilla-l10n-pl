@@ -1,4 +1,4 @@
-[%# 3.6.1PLRC@aviary.pl %]
+[%# 3.6.1PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -85,8 +85,9 @@
 [% diffspl = diffspl | replace('patch', 'łatką') %]
 [% diffspl = diffspl | replace('mime type', ' typ mime') %]
 [% diffspl = diffspl | replace('       Hours Worked', '  Godziny przeprac.') %]
-[% diffspl = diffspl | replace('    Estimated Hours', 'Szacunek początkowy') %]
+[% diffspl = diffspl | replace('   Estimated Hours', '  Szac. początkowy') %]
 [% diffspl = diffspl | replace('         Deadline', 'Termin ostateczny') %]
+[% diffspl = diffspl | replace('    Remaining Hours', '  Godziny pozostałe') %]
 [% diffspl = diffspl | replace('Status Whiteboard', '          Tablica') %]
 [% diffspl = diffspl | replace('  See Also', 'Zobacz też') %]
 [% diffspl = diffspl | replace('All', 'Wszystkie') %]
