@@ -176,7 +176,7 @@ które nie są ograniczone do grupy.
   </p>
 [% ELSE %]
   [% FOREACH request = requests %]
-    [% IF request.$group_field != group_value %]
+    [% IF request.$group_field != group_value || loop.first %]
       [% group_value = request.$group_field %]
       [% PROCESS display_buglist UNLESS loop.first %]
       [% PROCESS start_new_table %]

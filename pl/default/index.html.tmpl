@@ -104,7 +104,7 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
       <p>Nie można utworzyć lokalnego pliku XML „[% release.xml_file FILTER html %]”.
       Sprawdź, czy serwer WWW może zapisywać do tego katalogu i czy sieć jest dostępna.
       Jeśli korzystasz z serwera proxy, określ poprawnie parametr
-      <a href="editparams.cgi?section=core#proxy_url">proxy_url</a>.</p>
+      <a href="editparams.cgi?section=advanced#proxy_url">proxy_url</a>.</p>
     [% ELSIF release.error == "no_update" %]
       <p>Nie można zaktualizować lokalnego pliku XML „[% release.xml_file FILTER html %]”
       Sprawdź, czy serwer sieciowy może zapisywać do tego pliku.</p>
@@ -117,7 +117,7 @@ YAHOO.util.Event.onDOMReady(onLoadActions);
     [% ELSIF release.error == "unknown_parameter" %]
       <p>Parametr „[% Param("upgrade_notification") FILTER html %]” nie jest poprawnym parametrem powiadamiania.
       Sprawdź ten parametr na stronie 
-      <a href="editparams.cgi?section=core#upgrade_notification">parametrów</a>.</p>
+      <a href="editparams.cgi?section=general#upgrade_notification">parametrów</a>.</p>
     [% END %]
   </div>
 [% END %]

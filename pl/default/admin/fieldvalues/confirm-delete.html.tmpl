@@ -66,7 +66,7 @@
 
 [% IF value.is_default || value.bug_count || (value_count == 1)
       || value.controls_visibility_of_fields.size
-      || value.controlled_values.size 
+      || value.controlled_values_array.size
 %]
 
   <p>Wartość „[% value.name FILTER html %]” nie może zostać usunięta
@@ -125,7 +125,7 @@
       </li>
     [% END %]
 
-    [% IF value.controlled_values.size %]
+    [% IF value.controlled_values_array.size %]
       <li>Ta wartość nadzoruje wyświetlanie następujących wartości w
         innych polach:<br>
        [% FOREACH field_name = value.controlled_values.keys %]

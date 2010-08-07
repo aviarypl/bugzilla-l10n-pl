@@ -147,10 +147,6 @@
   [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
     [% terms.Bledy %] na tej liście są posortowane według trafności.
     Na początku listy znajdują się [% terms.bledy %] najbliższe parametrom wyszukiwania.
-    [% IF bugs.size == constants.FULLTEXT_BUGLIST_LIMIT %]
-      Wyświetlane jest wyłącznie pierwsze 
-      [%+ constants.FULLTEXT_BUGLIST_LIMIT FILTER html %] [%+ terms.bledow %].
-    [% END %]
 
   [% ELSIF message_tag == "change_columns" %]
     [% title = "Zmiana kolumn" %]
