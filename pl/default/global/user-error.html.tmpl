@@ -1489,19 +1489,19 @@
     [% END %]
 
   [% ELSIF error == "sudo_invalid_cookie" %]
-    [% title = "Invalid Sudo Cookie" %]
-    Your sudo cookie is invalid. Either it expired or you didn't start
-    a sudo session correctly. Refresh the page or load another page
-    to continue what you are doing as yourself.
+    [% title = "Nieprawidłowe ciasteczko sesji sudo" %]
+    Twoje ciasteczko sesji sudo jest nieprawidłowe - wygasło lub sesja sudo
+    nie została prawidłowo rozpoczęta. Aby kontynuować pracę używając własnej tożsamości, odśwież tę stonę
+    lub przejdź na inną.
 
   [% ELSIF error == "sudo_illegal_action" %]
-    [% title = "Impersonation Not Authorized" %]
+    [% title = "Brak uprawnień do przejęcia tożsamości" %]
     [% IF NOT sudoer.in_group("bz_sudoers") %]
-      You are not allowed to impersonate users.
+      Nie masz uprawnień do przejęcia tożsamości innych użytkowników.
     [% ELSIF target_user AND target_user.in_group("bz_sudo_protect") %]
-      You are not allowed to impersonate [% target_user.identity FILTER html %].
+      Nie masz uprawnień do przejęcia tożsamości użytkownika [% target_user.identity FILTER html %].
     [% ELSE %]
-      The user you tried to impersonate doesn't exist.
+      Próbowano przejąć tożsamość nieistniejącego użytkownika.
     [% END %]
 
   [% ELSIF error == "sudo_in_progress" %]
