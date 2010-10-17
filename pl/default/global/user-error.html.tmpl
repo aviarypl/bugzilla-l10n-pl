@@ -251,9 +251,17 @@
     <code>[% url FILTER html %]</code> nie jest prawidłowym adresem URL dla [% terms.bledu %].
     [% IF reason == 'http' %]
       Adresy URL muszą zaczynać się od „http” lub „https”.
+    [% ELSIF reason == 'path_only' %]
+      Należy podać pełny adres URL.
     [% ELSIF reason == 'show_bug' %]
-      Adres URL [% terms.bledu %] powinien wskazywać na plik <code>show_bug.cgi</code>
-      znajdujący się w instalacji [% terms.Bugzilli %].
+      Adres URL [% terms.bledu %] powinien wskazywać na:
+      <ul>
+        <li>plik <code>show_bug.cgi</code>
+      znajdujący się w instalacji [% terms.Bugzilli %]</li>
+        <li>błąd zamieszczony w serwisie launchpad.net,</li>
+        <li>zgłoszenie zamieszczone w serwisie code.google.com,</li>
+        <li>błąd zamieszczony w serwisie b[% %]ugs.debian.org.</li>
+      </ul>
     [% ELSIF reason == 'id' %]
       Pod tym adresem URL nie ma [% terms.bledu %] o takim numerze.
     [% END %]
@@ -573,7 +581,7 @@
   [% ELSIF error == "file_too_large" %]
     [% title = "Plik jest zbyt duży" %]
     Plik załącznika ma [% filesize FILTER html %] kilobajtów (KB).
-    Załączniki, które nie są łatkami, nie mogą być większe
+    Załączniki nie mogą być większe
     niż [% Param('maxattachmentsize') %] KB. <br>
     Zaleca się umieszczenie załącznika na zewnętrznym serwerze
     [% IF Param("allow_attach_url") %]
@@ -1288,6 +1296,12 @@
   [% ELSIF error == "passwords_dont_match" %]
     [% title = "Niezgodne hasła" %]
     Podane hasła nie są identyczne.
+  [% ELSIF error == "password_current_too_short" %]
+    [% title = "Wymagane nowe hasło" %]
+    Obecne hasło jest zbyt krótkie. Nie może mieć mniej niż 
+    [%+ constants.USER_PASSWORD_MIN_LENGTH FILTER html %] znaków.
+    Należy <a href="token.cgi?a=reqpw&loginname=[% locked_user.email FILTER html %]">
+    poprosić o zmianę hasła</a> aby się zalogować.
 
   [% ELSIF error == "password_too_short" %]
     [% title = "Zbyt krótkie hasło" %]

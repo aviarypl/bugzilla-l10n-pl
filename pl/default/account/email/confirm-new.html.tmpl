@@ -27,11 +27,11 @@
            title = title
            onload = "document.forms['confirm_account_form'].realname.focus();" %]
 
-<div>
+<p>
   Aby utworzyć konto, należy wybrać hasło i wpisać je do poniższego formularza.
   Twój adres e-mail oraz imię i nazwisko – jeśli zostało podane – będą widoczne
   po dokonaniu zmian.
-</div>
+</p>
 
 <form id="confirm_account_form" method="post" action="token.cgi">
   <input type="hidden" name="t" value="[% token FILTER html %]">
@@ -47,7 +47,10 @@
     </tr>
     <tr>
       <th align="right"><label for="passwd1">Hasło</label>:</th>
-      <td><input type="password" id="passwd1" name="passwd1" value=""></td>
+      <td>
+        <input type="password" id="passwd1" name="passwd1" value="">
+        (minimum [% constants.USER_PASSWORD_MIN_LENGTH FILTER none %] znaków)
+      </td>
     </tr>
     <tr>
       <th align="right"><label for="passwd2">Potwierdzenie hasła</label>:</th>
