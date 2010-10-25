@@ -1,0 +1,61 @@
+[%# 3.7.3+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Emmanuel Seyman <eseyman@linagora.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS "global/field-descs.none.tmpl" %]
+From: [% Param("mailfrom") %]
+To: [% email %][% Param("emailsuffix") %]
+Subject: Przypomnienie o [% terms.bledach %] w systemie [% terms.Bugzilla %].
+X-Bugzilla-Type: whine
+
+[Ta wiadomość została wygenerowana automatycznie.]
+
+W systemie śledzenia [% terms.bledow %] [%+ terms.Bugzilla %] ([% urlbase %]) jest co najmniej jeden [% terms.blad %] przypisany do Ciebie, który wymaga uwagi.
+
+Wszystkie te [% terms.bledy %] mają status [% display_value("bug_status", "CONFIRMED") %] 
+i nikt się nimi nie zajmował od co najmniej
+[% Param("whinedays") %] dni.
+Należy przejrzeć ww. [% terms.bledy %] i podjąć decyzję co do ich dalszego losu.
+
+Możliwe decyzje:
+
+(1) Ten [% terms.blad %] jest prosty do rozwiązania (np. jest [% display_value("resolution", "INVALID") %]), więc można go wyeliminować natychmiast.
+(2) Ten [% terms.blad %] nie należy do Ciebie, więc trzeba go do kogoś przypisać.
+    (Podpowiedź: Jeśli nie wiesz komu przypisać ten [% terms.blad %], wybierz odpowiedni Komponent i użyj funkcji „Przywróć domyślną osobę odpowiedzialną”.)
+(3) Jeśli [% terms.blad %] jest przypisany do Ciebie, lecz nie możesz rozwiązać go w tej chwili, zaakceptuj [% terms.blad %] ustawiając status na [% display_value("bug_status", "IN_PROGRESS") %].
+
+Pełną listę [% terms.bledow %] ze statusem [% display_value("bug_status", "CONFIRMED") %] można uzyskać pod adresem:
+
+ [% urlbase %]buglist.cgi?bug_status=CONFIRMED&assigned_to=[% email %]
+
+lub można użyć zwykłej strony zapytań:
+
+[%+ urlbase %]query.cgi
+
+Poniżej dołączono poszczególne adresy URL do wszystkich Twoich [% terms.bledow %] ze statusem [% display_value("bug_status", "CONFIRMED") %], którymi nikt się nie zajmował od co najmniej [% Param("whinedays") %] dni.
+
+Wiadomość tę będziesz otrzymywać codziennie do czasu podjęcia kroków w celu rozwiązania tych [% terms.bledow %].
+
+[% FOREACH bug = bugs %]
+ [%+ bug.summary %]
+    -> [% urlbase %]show_bug.cgi?id=[% bug.id %]
+[% END %]

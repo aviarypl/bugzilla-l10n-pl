@@ -1,0 +1,44 @@
+[%# 3.7.3+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Reguły administracyjne"
+   desc = "Ustawienia reguł dla kont"
+%]
+
+[% param_descs = {
+  allowbugdeletion => "Jeśli ten parametr zostanie włączony, na stronach modyfikowania produktów i komponentów, " _
+                      "podczas usuwania produktu lub komponentu, będzie można usuwać wszystkie powiązane " _
+                      "${terms.bledy}. Ponieważ ten parametr ma ogromny wpływ na inne elementy, należy " _
+                      "go włączyć przed rozpoczęciem jakiejkolwiek operacji usuwania.",
+
+  allowemailchange => "Włączenie tego parametru umożliwi użytkownikom, z poziomu ich ustawień, zmianę swojego " _
+                      "adresu e-mail. Zmiana adresu potwierdzana jest poprzez oba adresy, a zatem włączenie tego " _
+                      "parametru nie pozwoli używać nieprawidłowych adresów.",
+
+  allowuserdeletion => "Jeśli ten parametr zostanie włączony, na stronach modyfikowania użytkowników, administrator będzie mógł " _
+                       "usuwać konta użytkowników. Jeśli usunięcie konta spowoduje niespójność danych, zostanie wyświetlone " _
+                       "ostrzeżenie. Ponieważ ten parametr ma ogromny wpływ na inne elementy, należy go włączyć przed " _
+                       "rozpoczęciem jakiejkolwiek operacji usuwania." }
+%]

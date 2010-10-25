@@ -1,0 +1,51 @@
+[%# 3.7.3+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # token: random string used to authenticate the transaction.
+  # expiration_ts: expiration date of the token.
+  # email: email address of the new account.
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+From: [% Param('mailfrom') %]
+To: [% email %]
+Subject: [% terms.Bugzilla %] – Potwierdzenie utworzenia konta
+X-Bugzilla-Type: admin
+
+[%+ terms.Bugzilla %] otrzymała prośbę o utworzenie konta z Twoim adresem e-mail ([% email %]) jako loginem.
+
+Aby potwierdzić utworzenie konta z tym adresem e-mail, należy otworzyć poniższy odnośnik przed [% expiration_ts FILTER time("%d.%m.%Y %H:%M %Z") %]:
+
+[%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=request_new_account
+
+Jeśli ta wiadomość dotarła do Ciebie po [% expiration_ts FILTER time("%d.%m.%Y %H:%M %Z") %] lub chcesz utworzyć konto z innym adresem e-mail, musisz ponownie przejść przez proces tworzenia konta, otwierając odnośnik:
+
+[%+ urlbase %]createaccount.cgi
+
+[% IF Param('createemailregexp') == '.*' && Param('emailsuffix') == '' %]
+
+[%+ terms.Bugzilla %] jest otwartym systemem śledzenia [% terms.bledow %]. Wszelkie treści publikowane w związku z [% terms.bledami %], włącznie z adresami e-mail, będą ogólnie dostępne. By zapobiec otrzymywaniu niechcianych wiadomości, zalecamy użycie drugorzędnego konta lub konta utworzonego w jednym z serwisów sieciowych, takich jak Gmail, Yahoo, Hotmail lub podobne serwisy.
+[% END %]
+
+Jeśli nie chcesz utworzyć konta lub jeśli ta prośba została wysłana w wyniku pomyłki, nie podejmuj działania lub kliknij następujący odnośnik:
+
+[%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=cancel_new_account
+
+Jeśli powyższy odnośnik nie działa lub masz inne problemy związane z Twoim kontem, nawiąż kontakt z zespołem administracyjnym, wysyłając wiadomość na adres: [% Param('maintainer') %].

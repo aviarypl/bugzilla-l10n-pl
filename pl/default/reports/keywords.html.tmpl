@@ -1,0 +1,89 @@
+[%# 3.7.3+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  # Contributor(s): David D. Kilzer <ddkilzer@kilzer.net>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # keywords: array keyword objects. May be empty. Each has has four members:
+  #   id: id of the keyword
+  #   name: the name of the keyword
+  #   description: keyword description. Can contain some limited HTML code.
+  #   bug_count: number of bugs with that keyword
+  # caneditkeywords: boolean. True if this user can edit keywords
+ %]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% PROCESS global/header.html.tmpl
+  title = "Opisy słów kluczowych $terms.Bugzilli"
+%]
+
+[% FOREACH keyword = keywords %]
+  [% IF loop.index % 50 == 0 %]
+    [% IF loop.index != 0 %]
+       </table>
+    [% END %]
+
+    <table border="1" cellpadding="4" cellspacing="0">
+      <tr bgcolor="#6666FF">
+        <th align="left">Nazwa</th>
+        <th align="left">Opis</th>
+        <th align="left">Otwarte [% terms.bledy %]</th>
+        <th align="left">Wszystkie [% terms.bledy %]</th>
+      </tr>
+  [% END %]
+
+  <tr id="[% keyword.name FILTER html %]">
+    <th>
+        [% keyword.name FILTER html %]
+    </th>
+    <td>[% keyword.description FILTER html_light %]</td>
+    <td align="center">
+      [% IF keyword.bug_count > 0 %]
+        <a href="buglist.cgi?keywords=[% keyword.name FILTER url_quote %]&amp;resolution=---">
+          Szukaj</a>
+      [% ELSE %]
+        brak
+      [% END %]
+    </td>
+    <td align="right">
+      [% IF keyword.bug_count > 0 %]
+        <a href="buglist.cgi?keywords=[% keyword.name FILTER url_quote %]">
+          [% keyword.bug_count %]</a>
+      [% ELSE %]
+        brak
+      [% END %]
+    </td>
+  </tr>
+[% END %]
+
+[% IF keywords.size > 0 %]
+  </table>
+[% END %]
+
+[% IF caneditkeywords %]
+  <p>
+    <a href="editkeywords.cgi">Modyfikuj słowa kluczowe</a>
+  </p>
+[% END %]
+
+[% PROCESS global/footer.html.tmpl %]

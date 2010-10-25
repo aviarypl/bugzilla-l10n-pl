@@ -1,0 +1,274 @@
+[%# 3.7.3+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Everything Solved, Inc.
+  # Portions created by the Initial Developer are Copyright (C) 2009
+  # the Initial Developer. All Rights Reserved.
+  #
+  # Contributor(s):
+  #   Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS "global/field-descs.none.tmpl" %]
+
+[% INCLUDE global/header.html.tmpl
+   title  = "Wyszukiwanie w $terms.Bugzilli",
+   style_urls = ['skins/standard/page.css']         
+   onload = 'document.forms[\'f\'].quicksearch.focus()'
+ %]
+
+[% USE Bugzilla %]
+
+<p>Wprowadź szukane wyrażenie lub jego fragment:</p>
+
+<form name="f" action="buglist.cgi" method="get"
+      onsubmit="if (this.quicksearch.value == '')
+                { alert('Najpierw wprowadź szukane wyrażenie.');
+                  return false; } return true;">
+  <input type="text" size="40" name="quicksearch">
+  <input type="submit" value="Szukaj" id="find">
+</form>
+
+<h2>Podstawy</h2>
+
+<ul class="qs_help">
+  <li>Wystarczy wprowadzić słowo lub kilka słów do pola wyszukiwania i
+    [%+ terms.Bugzilla %] będzie przeszukiwała pola
+    [%+ field_descs.product FILTER html %],
+    [%+ field_descs.component FILTER html %], 
+    [%+ IF use_keywords %][%+ field_descs.keywords FILTER html %],[% END %]
+    [%+ IF Param('usebugaliases') %][% field_descs.alias FILTER html %],[% END %]
+    [%+ field_descs.short_desc FILTER html %], 
+    [%+ IF Param('usestatuswhiteboard') %][% field_descs.status_whiteboard FILTER html %][% END %]
+    i [% field_descs.longdesc FILTER html %] w poszukiwaniu wprowadzonego słowa/słów.</li>
+
+  <li>Wprowadzenie w pole wyszukiwania <strong>numeru</strong> [% terms.bledu %] spowoduje
+    otwarcie [% terms.bledu %] o takim numerze. 
+    [% IF Param('usebugaliases') %]
+      Także wpisanie <strong>aliasu</strong> [% terms.bledu %]
+      spowoduje bezpośrednie przeniesienie do tego [% terms.bledu %].
+    [% END %]
+  </li>
+
+  <li>Więcej terminów <strong>zawężających</strong> wyszukiwanie zmniejszy
+     liczbę wyników. Innymi słowy – [% terms.Bugzilla %] będzie przeszukiwała 
+     [%+ terms.bledy %] w poszukiwaniu <em>wszystkich</em> twoich kryteriów, a nie
+     tylko [% terms.bledow %] spełniających <em>dowolne</em> z twoich kryteriów.</li>
+
+  <li>Mechanizm wyszukiwania <strong>nie rozróżnia</strong> wielkości znaków. Tak więc <kbd>tabela</kbd>,
+    <kbd>Tabela</kbd> i <kbd>TABELA</kbd> są traktowane jako tożsame.</li>
+
+  <li>[% terms.Bugzilla %] nie wyszukuje tylko podanego słowa, ale także
+    wszystkie słowa, które <strong>zawierają</strong> ten ciąg znaków. Na przykład podczas
+    wyszukiwania słowa „<strong>cat</strong>” zostaną wyszukane także [% terms.bledy %]
+    zawierające to słowo jako część innych słów np. [% terms.bledy %] zawierające
+    słowa „<strong>cat</strong>ch” lub „certifi<strong>cat</strong>e”. W polach 
+    [%+ field_descs.longdesc FILTER html %] i [% field_descs.keywords FILTER html %]
+    nie będą wyszukiwane części słów. W tych polach będą wyszukiwane tylko
+    całe słowa spełniające kryteria wyszukiwania.</li>
+
+  <li>Domyślnie przeszukiwane są tylko <strong>otwarte</strong> [% terms.bledy %].
+    Jeśli chcesz dowiedzieć się, jak przeszukiwać także zamknięte [% terms.bledy %],
+    przejdź do sekcji <a href="#shortcuts">Skróty zaawansowane</a>.</li>
+
+  <li>Jeśli chcesz przeszukiwać <strong>konkretne pola</strong>, musisz podać
+    kryteria w następujący sposób: <kbd>pole:wartość</kbd>, gdzie <kbd>pole</kbd> 
+    jest jedną z <a href="#fields">nazw pól</a> wymienionych poniżej, a
+    <kbd>wartość</kbd> jest wartością, którą chcesz znaleźć w tym polu.
+    Można podać wiele <kbd>wartości</kbd> oddzielając je przecinkami. Zostanie to
+    zinterpretowane jako lista wartości i [% terms.bledy %], które spełniają
+    <em>dowolną</em> z tych wartości zostaną wyszukane.</li>
+</ul>
+
+<p>Możesz także zapoznać się z sekcją <a href="#advanced">Funkcje
+  zaawansowane</a>.</p>
+
+<h2><a name="fields"></a>Wykaz pól, które można przeszukiwać</h2>
+
+<p>Do przeszukiwania można wybrać dowolne z pól, podając w polu szukania
+  np. <kbd>pole:wartość</kbd>. Można także skrócić nazwę przeszukiwanego pola
+  do długości, która będzie oznaczała tylko nazwę jednego pola. Na przykład
+  parametr wyszukiwania <kbd>stat:VERIFIED</kbd> będzie szukał [%+ terms.bledow %]
+  o statusie <kbd>ZWERYFIKOWANY</kbd>. Niektóre pola mają złożoną nazwę, wówczas można
+  do ich wyszukiwania użyć dowolnego członu nazwy.</p>
+
+[% IF Bugzilla.active_custom_fields.size %]
+  [% SET first_field = Bugzilla.active_custom_fields.0 %]
+  <p>Pola dodatkowe mogą być używane i ich nazwy skracane. Bazą
+    skrótu może być tylko część nazwy występująca <em>po</em>
+    <kbd>cf_</kbd>. Na przykład 
+    <kbd>cf_pole_dodatkowe</kbd> może także
+    odwoływać się jako <kbd>pole_dodatkowe</kbd>.
+    Niemniej jeśli będzie to powodowało konflikt pomiędzy nazwą standardowego
+    pola używanego w [% terms.Bugzilli %], a nazwą pola dodatkowego,
+    nazwa pola standardowego ma pierwszeństwo.</p>
+[% END %]
+
+[% SET field_table = {} %]
+[% FOREACH field = quicksearch_field_names.keys %]
+  [% description = field_descs.$field %]
+  [% field_table.$description = quicksearch_field_names.${field} %]
+[% END %]
+
+
+<table cellspacing="0" cellpadding="0" border="0" class="qs_fields">
+  <thead>
+    <tr>
+      <th class="field_name">Pole</th>
+      <th class="field_nickname">Nazwa pola używana jako parametr wyszukiwania</th>
+    </tr>
+  </thead>
+  <tbody>
+    [% FOREACH desc = field_table.keys.sort %]
+      <tr>
+        <td class="field_name">[% desc FILTER html %]</td>
+        <td class="field_nickname">
+          [% FOREACH nickname = field_table.$desc %]
+            <kbd>[% nickname FILTER html %]</kbd>
+            [% ",&nbsp; " UNLESS loop.last %]
+          [% END %]
+      </tr>
+    [% END %]
+  </tbody>
+</table>
+
+<h2><a name="advanced"></a>Funkcje zaawansowane</h2>
+
+<ul class="qs_help">
+  <li>Jeśli chcesz wyszukać <strong>frazę</strong> lub coś, co zawiera
+    spacje, możesz ująć to w cudzysłów np.
+    <kbd>"to jest fraza"</kbd>. Cudzysłowów można użyć także do wyszukiwania
+    znaków, które użyte bez cudzysłowów byłyby interpretowane przez szybkie wyszukiwanie.
+    Na przykład użycie parametru <kbd>"to|rzecz"</kbd> spowoduje wyszukanie dokładnie frazy
+    <em>to|rzecz</em>.</li>
+
+  <li>W wyszukiwaniach można używać operatorów <strong>AND</strong>,
+    <strong>NOT</strong>, i <strong>OR</strong>. 
+
+    Można także użyć znaków <kbd>-</kbd> w znaczeniu „NOT” i <kbd>|</kbd> w znaczeniu „OR”.
+    Nie ma specjalnego znaku dla „AND”, ponieważ domyślnie każdy wyszukiwany
+    termin jest oddzielany spacją połączoną przez „AND”.
+    Przykłady:
+    <ul>
+      <li>
+        <strong>NOT</strong>:<br>
+        Użyj <kbd><strong>-</strong><em>summary:pasek</em></kbd>, by wykluczyć 
+        [%+ terms.bledy %] zawierające w opisie słowo <kbd>pasek</kbd>.<br>
+         Parametr <kbd><em>NOT summary:pasek</em></kbd> ma takie samo działanie.
+      </li>
+      <li>
+        <strong>AND</strong>:<br>
+        Parametr <kbd><em>pasek narzędzi</em></kbd> spowoduje wyszukiwanie [% terms.bledow %]
+        zawierających oba słowa <kbd>pasek</kbd> i <kbd>narzędzi</kbd>.<br>
+        Parametr <kbd><em>pasek AND narzędzi</em></kbd> ma takie samo działanie.
+      </li>
+      <li>
+        <strong>OR</strong>:<br>
+        Parametr <kbd><em>pasek<strong>|</strong>narzędzi</em></kbd> będzie wyszukiwał 
+        [% terms.bledy %] zawierające <kbd>pasek</kbd> lub <kbd>narzędzi</kbd>.<br>
+        Parametr <kbd><em>pasek OR narzędzi</em></kbd> ma takie samo działanie.<br>
+      </li>
+    </ul>
+
+    <p>OR ma wyższy priorytet niż AND; AND jest operacją najwyższego poziomu.
+      Przykład:</p>
+    <p>Parametr wyszukiwania <em><kbd>url|pasek adresu|pole -aktywne</kbd></em> oznacza
+      (<kbd>url</kbd> OR <kbd>adresu</kbd>) AND (<kbd>pasek</kbd> OR 
+      <kbd>pole</kbd>) AND (NOT <kbd>aktywne</kbd>).</p>
+  </li>
+</ul>
+
+<h2><a name="shortcuts"></a>Skróty zaawansowane</h2>
+
+<p>Oprócz używania <a href="#fields">nazw pól</a> do przeszukiwania
+  niektórych pól można użyć jako „skrótów” pewne znaki
+  lub słowa:</p>
+
+<table cellspacing="0" cellpadding="0" border="0" class="qs_fields">
+  <thead>
+    <tr>
+      <th class="field_name">Pole</th>
+      <th class="field_nickname">Skróty</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="field_name">[% field_descs.bug_status FILTER html %]</td>
+      <td class="field_nickname">
+        Podaj jako <strong>pierwsze słowo</strong> wyszukiwania nazwę dowolnego
+        statusu lub nawet jego skrót, a [% terms.bledy %] z tym statusem
+        zostaną wyszukane. Skrót <strong><kbd>ALL</kbd></strong>
+        oznacza „wszystkie statusy”, zaś <strong><kbd>OPEN</kbd></strong>
+        „wszystkie [% terms.bledy %] o otwartych statusach”.
+      </td>
+    </tr>
+    <tr>
+      <td class="field_name">[% field_descs.resolution FILTER html %]</td>
+      <td class="field_nickname">
+        Podaj jako <strong>pierwsze słowo</strong> wyszukiwania np. nazwę dowolnego
+        typu rozwiązania lub nawet jego skrót, a [% terms.bledy %] z tym typem rozwiązania
+        zostaną wyszukane. Na przykład,
+        jeśli pierwszym słowem twojego wyszukiwania będzie <kbd>FIX</kbd>, zostaną wyszukane
+        wszystkie [% terms.bledy %] z rozwiązaniem <kbd>NAPRAWIONY</kbd>.
+    </tr>
+    <tr>
+      <td class="field_name">[% field_descs.priority FILTER html %]</td>
+      <td class="field_nickname"><strong>P1</strong> – jako słowo umieszczone gdziekolwiek w
+        parametrze wyszukiwania – oznacza „znajdź [% terms.bledy %] z najwyższym priorytetem”, 
+        <strong>P2</strong> oznacza priorytet drugiego stopnia itp.
+        <p>Parametr wyszukiwania <strong>P1-P3</strong> będzie powodował wyszukiwanie [% terms.bledow %]
+        w każdym z trzech priorytetów mieszczących się w tym zakresie itp.</p>
+      </td>
+    </tr>
+    <tr>
+      <td class="field_name">[% field_descs.assigned_to FILTER html %]</td>
+      <td class="field_nickname"><strong>@</strong><em>wartość</em></td>
+    </tr>
+    <tr>
+      <td class="field_name">[% field_descs.product FILTER html %] lub
+        [%+ field_descs.component FILTER html %]</td>
+      <td class="field_nickname"><strong>:</strong><em>wartość</em></td>
+    </tr>
+    [% IF use_keywords %]
+      <tr>
+        <td class="field_name">[% field_descs.keywords FILTER html %]</td>
+        <td class="field_nickname"><strong>!</strong><em>wartość</em></td>
+      </tr>
+    [% END %]
+    <tr>
+      [% SET key = "flagtypes.name" %]
+      <td class="field_name">[% field_descs.$key FILTER html %]</td>
+      <td class="field_nickname">
+        <em>nazwa_flagi</em><strong>?</strong><em>adresat_prośby</em>
+      </td>
+    </tr>
+    <tr>
+      <td class="field_name">[% field_descs.longdesc FILTER html %]
+        lub [% field_descs.short_desc FILTER html %]</td>
+      <td class="field_nickname">
+        <strong>#</strong><em>wartość</em>
+      </td>
+    </tr>
+    [% IF Param('usestatuswhiteboard') %]
+      <tr>
+        <td class="field_name">[% field_descs.short_desc FILTER html %]
+          lub [% field_descs.status_whiteboard FILTER html %]</td>
+        <td class="field_nickname"><strong>[</strong><em>wartość</em></td>
+      </tr>
+    [% END %]
+  </tbody>
+</table>
+
+[% PROCESS global/footer.html.tmpl %]

@@ -1,0 +1,42 @@
+[%# 3.7.3+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 2005 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): A. Karl Kornel <karl@kornel.name>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+Content-Type: text/plain
+From: [% Param('mailfrom') %]
+To: [% user.email %]
+Subject: [[% terms.Bugzilla %]] – Użyto tożsamości Twojego konta [% user.login %]
+X-Bugzilla-Type: admin
+
+    Użytkownik [% sudoer.identity %] użył funkcji „sudo” do pracy w [% terms.Bugzilli %] za pomocą Twojego konta.
+
+[% IF reason %]
+    Użytkownik [% sudoer.identity %] podał następujący powód:
+
+[% reason FILTER wrap_comment %]
+[% ELSE %]
+    Użytkownik [% sudoer.identity %] nie podał powodu użycia funkcji „sudo”.
+[% END %]
+
+    Jeśli masz wątpliwości, skontaktuj się z administratorem [% Param("maintainer") %]. Więcej informacji o funkcji „sudo” można znaleźć pod adresem <[% urlbase %]page.cgi?id=sudo.html>.

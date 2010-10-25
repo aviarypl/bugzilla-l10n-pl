@@ -1,0 +1,106 @@
+[%# 3.7.3+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 2005 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): A. Karl Kornel <karl@kornel.name>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+  
+[% PROCESS global/variables.none.tmpl %]
+
+[% PROCESS global/header.html.tmpl
+   title = "Sesja sudo"
+   style_urls = ['skins/standard/admin.css']
+   doc_section = "useradmin.html#impersonatingusers"
+ %]
+ 
+[% DEFAULT target_login = "" %]
+
+<p>
+  Funkcja <b>sudo</b> w [% terms.Bugzilli %] umożliwia chwilowe przyjęcie tożsamości 
+  innego użytkownika. Podczas sesji sudo wszystkie czynności wykonywane są
+  tak jakby były wykonywane przez użytkownika, którego tożsamość została
+  przyjęta.
+</p>
+
+<p class="areyoureallyreallysure">
+  Funkcja ta ma bardzo duże możliwości. Podczas korzystania z niej, należy zachować szczególną ostrożność.
+  Wykonywane czynności mogą być zapisywane w dzienniku zdarzeń ze szczególną dokładnością.
+</p>
+
+<form action="relogin.cgi" method="POST">
+  <p>
+    Aby rozpocząć,
+    [% IF Param('usemenuforusers') %]
+      wybierz 
+    [% ELSE %]
+      podaj login 
+    [% END %]
+    <label for="target_login">użytkownika, którego tożsamość będzie przyjęta</label>:
+    [% INCLUDE global/userselect.html.tmpl
+       id => "target_login"
+       name => "target_login"
+       value => target_login_default
+       accesskey => "u"
+       size => 30
+    %]
+  </p>
+  
+  [% IF !Param('usemenuforusers') %]
+    <p>
+      Login użytkownika musi być podany dokładnie. Nie będą wyświetlane żadne podpowiedzi.
+    </p>
+  [% END %]
+  
+  <p>
+    Poświęć chwilę na wyjaśnienie <label for="reason">powodów użycia tej 
+    funkcji.<br>
+    <input type="text" id="reason" name="reason" size="80" maxlength="200"
+           value="[% reason_default FILTER html %]">
+  </p>
+  
+  <p>
+    Wprowadzona wiadomość zostanie wysłana do użytkownika, którego tożsamość
+    zostanie użyta. Można nie podawać żadnej informacji, ale użytkownik ten, i tak
+    będzie wiedział o przejęciu jego tożsamości.
+  </p>
+  
+  [% IF user.authorizer.can_login %]
+    <p>
+      Podaj swoje <label for="Bugzilla_password">hasło [% terms.Bugzilli %]</label>:
+      <input type="hidden" name="Bugzilla_login" value="
+      [%- user.login FILTER html %]">
+      <input type="password" id="Bugzilla_password" name="Bugzilla_password" size="20">
+      <br>
+    Uwierzytelnianie jest wykonywane z dwóch powodów. Po pierwsze, by
+    zredukować ryzyko, że ktoś dokona ogromnych szkód, używając pozostawionej
+    przez ciebie sesji, po drugie, by skłonić cię do zastanowienia, czy naprawdę
+    potrzebujesz użyć tej funkcji.
+    </p>
+  [% END %]
+  
+  <p>
+    Aby rozpocząć sesję, naciśnij przycisk:
+    <input type="submit" value="Rozpocznij sesję">
+    <input type="hidden" name="action" value="begin-sudo">
+    <input type="hidden" name="token" value="[% token FILTER html %]">
+  </p>
+
+</form>
+
+[% PROCESS global/footer.html.tmpl %]
