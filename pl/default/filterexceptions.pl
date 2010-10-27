@@ -529,4 +529,8 @@
   'group.id',
 ],
 
+'config.rdf.tmpl' => [
+  'escaped_urlbase',
+],
+
 );

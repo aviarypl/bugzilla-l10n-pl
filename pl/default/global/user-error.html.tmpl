@@ -444,7 +444,7 @@
   
   [% ELSIF error == "entry_access_denied" %]
     [% title = "Brak dostępu" %]
-    [% admindocslinks = {'groups.html' => 'Group Security'} %]
+    [% admindocslinks = {'groups.html' => 'Grupy zabezpieczeń'} %]
     Produkt <em>[% product FILTER html %]</em> nie istnieje
     lub nie masz uprawnień dostępu do [% terms.bledow %] w tym
     produkcie.
@@ -1531,7 +1531,7 @@
   [% ELSIF error == "sudo_invalid_cookie" %]
     [% title = "Nieprawidłowe ciasteczko sesji sudo" %]
     Twoje ciasteczko sesji sudo jest nieprawidłowe - wygasło lub sesja sudo
-    nie została prawidłowo rozpoczęta. Aby kontynuować pracę używając własnej tożsamości, odśwież tę stonę
+    nie została prawidłowo rozpoczęta. Aby kontynuować pracę używając własnej tożsamości, odśwież tę stronę
     lub przejdź na inną.
 
   [% ELSIF error == "sudo_illegal_action" %]
