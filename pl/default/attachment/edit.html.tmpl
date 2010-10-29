@@ -125,7 +125,7 @@
               <label for="ispatch">Łatka</label>
             [% ELSE %]
               <span class="label">To jest łatka:</span>
-              [%+ attachment.ispatch ? "yes" : "no" %]
+              [%+ attachment.ispatch ? "tak" : "nie" %]
             [% END %]
           </div>
         [% END %]
@@ -138,7 +138,7 @@
             <label for="isobsolete">Zdezaktualizowany</label>
           [% ELSE %]
             <span class="label">Jest zdezaktualizowany:</span>
-            [%+ attachment.isobsolete ? "yes" : "no" %]
+            [%+ attachment.isobsolete ? "tak" : "nie" %]
           [% END %]
         </div>
 
@@ -153,7 +153,7 @@
               </label>
             [% ELSE %]
               <span class="label">Jest prywatny:</span>
-              [%+ attachment.isprivate ? "yes" : "no" %]
+              [%+ attachment.isprivate ? "tak" : "nie" %]
             [% END %]
           </div>
         [% END %]
