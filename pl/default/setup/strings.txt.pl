@@ -32,9 +32,9 @@
 %strings = (
     any  => 'dowolna',
     apachectl_failed => <<END,
-tlumWARNING: We could not check the configuration of Apache. This sometimes
-happens when you are not running checksetup.pl as ##root##. To see the
-problem we ran into, run: ##command##
+OSTRZEZENIE: Nie mozna bylo sprawdzic konfiguracji Apache. To sie czasami zdarza,
+gdy skrypt checksetup.pl zostal uruchomiony z innego konta niz ##root##. Aby zobaczyc
+znalezione bledy, wykonaj polecenie: ##command##
 END
     blacklisted => 'zablokowana',
     checking_for => 'Sprawdzanie',
@@ -64,7 +64,7 @@ END
     feature_inbound_email     => 'E-mail przychodzacy',
     feature_jobqueue          => 'Kolejkowanie poczty',
     feature_jsonrpc           => 'Interfejs JSON-RPC',
-    feature_jsonrpc_faster    => 'tlumMake JSON-RPC Faster',
+    feature_jsonrpc_faster    => 'Przyspiesza interfejs JSON-RPC',
     feature_new_charts        => 'Nowe wykresy',
     feature_old_charts        => 'Stare wykresy',
     feature_mod_perl          => 'mod_perl',
@@ -73,8 +73,8 @@ END
     feature_smtp_auth         => 'Uwierzytelnianie SMTP',
     feature_updates           => 'Automatyczne powiadomienia o aktualizacji',
     feature_xmlrpc            => 'Interfejs XML-RPC',
-    file_remove => 'tlumRemoving ##name##...',
-    file_rename => 'tlumRenaming ##from## to ##to##...',
+    file_remove => 'Usuwanie ##name##...',
+    file_rename => 'Zmienianie nazwy ##from## na ##to##…',
     header => "* To jest Bugzilla ##bz_ver## wraz z Perl ##perl_ver##\n"
             . "* Uruchomiono na ##os_name## ##os_ver##",
      install_all => <<EOT,
@@ -93,7 +93,7 @@ dla kolumny wymagajacej naprawienia ##column##:
 
 EOT
     install_module => 'Instalowanie modulu ##module## wersja ##version##...',
-    installation_failed => 'tlum*** Installation aborted. Read the messages above. ***',
+    installation_failed => '*** Instalacja zostala przerwana. Prosze przeczytac powyzsze komunikaty bledow. ***',
     max_allowed_packet => <<EOT,
 OSTRZEZENIE: Nalezy ustawic parametr max_allowed_packet w swojej konfiguracji bazy danych MySQL
 przynajmniej na wartosc ##needed##. Obecna wartosc to ##current##.
@@ -107,14 +107,15 @@ EOT
 # Bugzilla::Install::Requirements to match the box formatting.
     modules_message_apache => <<END,
 ***********************************************************************
-* tlumAPACHE MODULES                                                      *
+* MODULY APACHE                                                       *
 ***********************************************************************
-* Normally, when Bugzilla is upgraded, all Bugzilla users have to     *
-* clear their browser cache or Bugzilla will break. If you enable     *
-* certain modules in your Apache configuration (usually called        *
-* httpd.conf or apache2.conf) then your users will not have to clear  *
-* their caches when you upgrade Bugzilla. The modules you need to     *
-* enable are:                                                         *
+* Zwykle po przeprowadzeniu aktualizacji wszyscy uzytkownicy          *
+* Bugzilli musza wyczyscic pamiec podreczna przegladarki, gdyz w      *
+* przeciwnym wypadku Bugzilla moze ulec awarii. Jesli w pliku         *
+* konfiguracyjnym (httpd.conf lub apache2.conf) serwera Apache        *
+* zostana wlaczone odpowiednie moduly, to uzytkownicy nie beda        *
+* zmuszeni do czyszczenia pamieci podrecznej przegladarki po          *
+* aktualizacji Bugzilli. Nalezy wlaczyc nastepujace moduly:           *
 *                                                                     *
 END
     modules_message_db => <<EOT,

@@ -18,6 +18,8 @@
   #
   # Contributor(s): Gervase Markham <gerv@gerv.net>
   #                 Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [%# This file describes both bug fields and search fields. %]
@@ -34,165 +36,161 @@
 ##############
 
 alias =>
-  "A short, unique name assigned to $terms.abug in order to assist with
-   looking it up and referring to it in other places in ${terms.Bugzilla}.",
+  "Krótka, unikalna nazwa przypisana do $terms.bledu w celu jego łatwiejszego
+   odnalezienia i odnoszenia się do niego w innych miejscach ${terms.Bugzilli}.",
 
 assigned_to =>
-  "The person in charge of resolving the ${terms.bug}.",
+  "Osoba odpowiedzialna za rozwiązanie danego ${terms.bledu}.",
 
 blocked =>
-  "This $terms.bug must be resolved before the $terms.bugs listed in this
-   field can be resolved.",
+  "Ten $terms.blad musi zostać rozwiązany zanim będzie możliwe rozwiązanie $terms.bledow
+   wymienionych w tym polu.",
 
 bug_file_loc =>
-  "$terms.Bugs can have a URL associated with them - for example, a"
-  _ " pointer to a web site where the problem is seen.",
+  "Z $terms.bledami mogą być skojarzone adresy URL - np. odnośnik"
+  _ " do strony, gdzie problem jest widoczny.",
 
 bug_id =>
-  "The numeric id of $terms.abug, unique within this entire installation"
-  _ " of ${terms.Bugzilla}.",
+  "Numeryczny identyfikator $terms.bledu, unikalny w danej instalacji"
+  _ " ${terms.Bugzilli}.",
 
 bug_severity =>
-  "How severe the $terms.bug is, or whether it's an enhancement.",
+  "Dotkliwość ${terms.bledu}.",
 
 bug_status =>
-  "$terms.Abug may be in any of a number of states.",
+  "Określa ogólny status ${terms.bledu}.",
 
 cc =>
-  "Users who may not have a direct role to play on this $terms.bug, but who
-   are interested in its progress.",
+  "Użytkownicy, którzy nie mają przypisanej roli w $terms.bledzie, ale są
+   zainteresowani zagadnieniem, jakie on porusza.",
 
 classification => 
-  "$terms.Bugs are categorised into Classifications, Products and"
-  _ " Components. classifications is the top-level categorisation.",   
+  "$terms.Bledy zaszeregowywane są do kategorii, produktów i komponentów."
+  _ " Kategoria to zaszeregowanie najwyższego poziomu.",   
 
 component => 
-  "Components are second-level categories; each belongs to a"
-  _ " particular Product. Select a Product to narrow down this list.",
+  "Komponenty to zaszeregowanie drugiego poziomu. Każdy z nich należy"
+  _ " do danego produktu. Wybór produktu pozwala zawęzić tę listę.",
 
 creation_ts =>
-  "When the $terms.bug was filed.",
+  "Data zgłoszenia ${terms.bledu}.",
 
 deadline =>
-  "The date that this $terms.bug must be resolved by, entered in YYYY-MM-DD
-   format.",
+  "Termin ostatecznego rozwiązania $terms.bledu, wprowadzany w formacie RRRR-MM-DD.",
 
 delta_ts =>
-  "When this $terms.bug was last updated.",
+  "Data ostatniej modyfikacji ${terms.bledu}.",
 
 dependson =>
-  "The $terms.bugs listed here must be resolved before this $terms.bug
-   can be resolved.",
+  "$terms.Bledy wyszczególnione w tym polu muszą zostać rozwiązane zanim będzie możliwe
+   rozwiązanie tego ${terms.bledu}.",
 
 estimated_time =>
-  "The amount of time that has been estimated it will take to resolve
-   this ${terms.bug}.",
+  "Szacunkowy czas potrzebny na rozwiązanie
+    tego ${terms.bledu}.",
 
 keywords =>
-   "You can add keywords from a defined list to $terms.bugs, in order"
-   _ " to tag and group them.",
+   "Ze zdefiniowanej listy można do $terms.bledow dodawać słowa"
+   _ " kluczowe, by przypisywać im etykiety i je grupować.",
 
 longdesc =>
-  "$terms.Bugs have comments added to them by $terms.Bugzilla users."
-  _ "You can search for some text in those comments.",
+  "$terms.Bledy zawierają także komentarze dodane do nich przez użytkowników ${terms.Bugzilli}."
+  _ " Można przeszukiwać teksty tych komentarzy.",
 
 op_sys =>
-  "The operating system the $terms.bug was observed on.",
+  "System operacyjny, na którym zaobserwowano ${terms.blad}.",
 
 percentage_complete =>
-  "How close to 100% done this $terms.bug is, by comparing its
-   $field_descs.work_time to its ${field_descs.estimated_time}.",
+  "Stopień zaawansowania prac nad rozwiązaniem $terms.bledu wyrażony w procentach, a obliczony
+   poprzez porównanie wartości pola $field_descs.work_time i ${field_descs.estimated_time}.",
 
 priority =>
-  "Engineers prioritize their $terms.bugs using this field.",
+  "To pole służy do określenia priorytetu ${terms.bledu}.",
 
 # Note that this has extra text added below if useclassification is on.
 product =>
-  "$terms.Bugs are categorised into Products and Components.",
+  "$terms.Bledy zaszeregowywane są wg produktów i komponentów.",
 
 qa_contact =>
-  "The person responsible for confirming this $terms.bug if it is"
-  _ " unconfirmed, and for verifying the fix once the $terms.bug"
-  _ " has been resolved.",
+  "Osoba odpowiedzialna za potwierdzenie $terms.bledu, gdy ma on status niepotwierdzony"
+  _ " oraz weryfikację rozwiązania ${terms.bledu}.",
 
 remaining_time =>
-  "The number of hours of work left on this $terms.bug, calculated by
-   subtracting the $field_descs.work_time from the 
+  "Liczba roboczogodzin pozostałych do zakończenia prac nad tym $terms.bledem, obliczona poprzez
+   odjęcie wartości pola $field_descs.work_time od wartości pola
    ${field_descs.estimated_time}.",
 
 rep_platform => 
-  "The hardware platform the $terms.bug was observed on.",
+  "Typ komputera, na którym zaobserwowano ${terms.blad}.",
 
 reporter =>
-  "The person who filed this ${terms.bug}.",
+  "Osoba zgłaszająca ${terms.blad}.",
 
 resolution =>
-  "If $terms.abug is in a resolved state, then one of these reasons"
-  _ " will be given for its resolution.",
+  "Jeśli $terms.blad ma status „ROZWIĄZANY”, zostanie dodane"
+  _ " jedno z tych rozwiązań.",
 
 see_also =>
-  "This allows you to refer to $terms.bugs in other installations.
-   You can enter a URL to $terms.abug in the 'Add $terms.Bug URLs'
-   field to note that that $terms.bug is related to this one. You can
-   enter multiple URLs at once by separating them with a comma.
+  "Odwoływanie się do $terms.bledow w innych instalacjach.
+   W celu poinformowania, że dany $terms.blad jest spokrewniony z $terms.bledem
+   znajdującym się w innej instalacji, w polu „Dodaj URL $terms.bledu” można podać adres URL
+   spokrewnionego ${terms.bledu}. Można podać wiele adresów URL oddzielając je przecinkami.
 
-   <p>You should normally use this field to refer to $terms.bugs in
-     <em>other</em> installations. For $terms.bugs in this
-     installation, it is better to use the $field_descs.dependson and 
-     $field_descs.blocked fields.</p>",
+   <p>Zazwyczaj powinno się używać tego pola, by odnieść się do $terms.bledow w 
+     <em>innych</em> instalacjach. Dla $terms.bledow w tej 
+     instalacji, lepszym rozwiązaniem jest użycie pól „$field_descs.dependson” 
+     i „$field_descs.blocked”.</p>",
 
 short_desc =>
-  "The $terms.bug summary is a short sentence which succinctly"
-  _ " describes what the $terms.bug is about.",
+  "Krótkie zdanie zwięźle opisujące"
+  _ "  ${terms.blad}.",
 
 status_whiteboard =>
-  "Each $terms.bug has a free-form single line text entry box for"
-  _ " adding tags and status information.",
+  "Na każdej stronie zgłoszenia $terms.bledu znajduje się pole tekstowe"
+  _ " do wpisywania etykiet i statusu informacji.",
 
 target_milestone =>
-   "The $field_descs.target_milestone field is used to define when the"
-   _ " engineer the $terms.bug is assigned to expects to fix it.",
+   "Pole „$field_descs.target_milestone” używane jest do określenia kiedy osoba,"
+   _ " do której $terms.blad jest przypisany spodziewa się jego rozwiązania.",
 
 version =>
-  "The version field defines the version of the software the"
-  _ " $terms.bug was found in.",
+  "Pole „Wersja” określa wersję oprogramowania, w którym"
+  _ " znaleziono ${terms.blad}.",
 
 votes =>
-  "Some $terms.bugs can be voted for, and you can limit your search to"
-  _ " $terms.bugs with more than a certain number of votes.",
+  "Na niektóre $terms.bledy można głosować. To pole umożliwia zawężenie"
+  _ " wyszukiwania do $terms.bledow z więcej niż jednym głosem.",
 
 work_time =>
-  "The total amount of time spent on this $terms.bug so far.",
+  "Całkowity czas poświęcony pracy nad rozwiązaniem tego ${terms.bledu}.",
 
 ##########################
 # Search-specific fields #
 ##########################
 
 chfield =>
-  "You can search for specific types of change - this field defines"
-  _" which field you are interested in changes for.",
+  "Można wyszukiwać także wg określonych typów zmian ${terms.bledu}. Za pomocą"
+  _" tego pola można określić, które pola należy wziąć pod uwagę.",
 
 # Duplicated to chfieldto below, also.
 chfieldfrom =>
-  "Specify the start and end dates either in YYYY-MM-DD format
-   optionally followed by HH:mm, in 24 hour clock), or in relative
-   dates such as 1h, 2d, 3w, 4m, 5y, which respectively mean one hour,
-   two days, three weeks, four months, or five years ago. 0d is last
-   midnight, and 0h, 0w, 0m, 0y is the beginning of this hour, week,
-   month, or year.",
+  "Proszę podać datę rozpoczęcia i zakończenia w formacie RRRR-MM-DD, (opcjonalnie z godziną w
+   formacie HH:mm, w układzie 24 godzinnym) albo relatywne daty, jak np. 1h, 2d, 3w, 4m, 5y,
+   które oznaczają odpowiednio: 1 godzinę, 2 dni, 3 tygodnie, 4 miesiące i 5 lat temu.
+   0d oznacza ostatnią północ, a 0h, 0w, 0m, 0y - początek tej godziny, tygodnia, miesiąca lub roku.",
 
 chfieldvalue =>
-  "The value the field defined above changed to during that time.",
+  "W tym czasie została zmieniona wartość wybranego pola.",
 
 content =>
-  "This is a field available in searches that does a Google-like
-   'full-text' search on the $field_descs.short_desc and
-   $field_descs.longdesc fields.",
+  "Pole to jest dostępne podczas wyszukiwania pełnotekstowego
+   w polach $field_descs.short_desc oraz
+   ${field_descs.longdesc}.",
 
 # Duplicated to email2 below, also.
 email1 =>
-  "Every $terms.bug has people associated with it in different"
-  _ " roles. Here, you can search on what people are in what role.",
+  "Z każdym $terms.bledem skojarzone są osoby pełniące różne role."
+  _ " Tutaj można wyszukać te osoby i pełnione przez nich role.",
 
 } %]
 
@@ -202,9 +200,9 @@ email1 =>
 [% help_html.deadlineto = help_html.deadline %]
 
 [% help_all_note = BLOCK %]
-  <strong>Note:</strong> When searching, selecting the option "All"
-  only finds [% terms.bugs %] whose value for this field is literally
-  the word "All".
+  <strong>Uwaga:</strong> Wybranie opcji <em>[% display_value("rep_platform", "All") FILTER html %]</em> podczas wyszukiwania,
+  spowoduje, że wyszukane będą jedynie [% terms.bledy %]
+  z ustawioną wartością <em>[% display_value("rep_platform", "All") FILTER html %]</em>.
 [% END %]
 [% FOREACH all_field = ['op_sys', 'rep_platform'] %]
   [% help_html.$all_field = help_html.$all_field _ ' ' _ help_all_note %]
@@ -212,7 +210,7 @@ email1 =>
 
 [% IF Param('useclassification') %]
   [% help_html.product = help_html.product 
-      _ " Select a Classification to narrow down this list." %]
+      _ " Wybór kategorii pozwala zawęzić tę listę." %]
 [% END %]
 
 [% FOREACH help_field = bug_fields.keys %]
@@ -224,14 +222,13 @@ email1 =>
       [% field_types.$field_type FILTER html %]
     [%- END %]
     [% help_html.${help_field} = 
-      "A custom $field_type_desc field in this installation"
-      _ " of ${terms.Bugzilla}." %]
+      "Pole dodatkowe $field_type_desc dostępne w tej instalacji"
+      _ " ${terms.Bugzilli}." %]
   [% END %]
 
   [%# Add help for the search types, for query.cgi. %]
   [% type_desc = BLOCK %]
-    The type of [% field_descs.${help_field} FILTER html %] search you 
-    would like.
+    Metoda przeszukiwania pola [% field_descs.${help_field} FILTER html %]
   [% END %]
   [% SET type_name = help_field _ '_type' %]
   [% help_html.$type_name = type_desc %]

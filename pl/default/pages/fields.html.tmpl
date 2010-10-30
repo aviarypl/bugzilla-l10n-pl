@@ -28,8 +28,7 @@
   style_urls = ['skins/standard/page.css']
 %]
 
-<p>This page describes the various fields that you see 
-  on [% terms.abug %].</p>
+<p>Opis pól widocznych na stronach [% terms.bledow %].</p>
 
 <table class="field_value_explanation">
   <thead>
@@ -44,18 +43,18 @@
   </tr>
 
   <tr>
-    <td>The [% field_descs.bug_status FILTER html %] field indicates the 
-      current state of a [% terms.bug %]. Only certain status transitions
-      are allowed.</td>
+    <td>W polu [% field_descs.bug_status FILTER html %] określa się ogólny status [% terms.bledu %]. 
+      Tylko niektóre przejścia pomiędzy różnymi wartościami tego pola
+      są dozwolone.</td>
 
-    <td>The [% field_descs.resolution FILTER html %] field indicates what
-      happened to this [%+ terms.bug %].</td>
+    <td>W polu [% field_descs.resolution FILTER html %] określa się, co stało się z danym
+      [%+ terms.bledem %].</td>
   </tr>
   </thead>
 
   <tbody>
   <tr class="header_row">
-    <td colspan="2">Open [% terms.Bugs %]</td>
+    <td colspan="2">Otwarte [% terms.bledy %]</td>
   </tr>
   <tr>
     <td>
@@ -64,12 +63,12 @@
           [% display_value("bug_status", "UNCONFIRMED") FILTER html %]
         </dt>
         <dd>
-          This [% terms.bug %] has recently been added to the database. 
-          Nobody has confirmed that this [% terms.bug %] is valid. Users
-          who have the "canconfirm" permission set may confirm
-          this [% terms.bug %], changing its state to 
+          Ten [% terms.blad %] został niedawno dodany do bazy [% terms.bledow %]. 
+          Nikt nie potwierdził, czy dany [% terms.blad %] występuje. Użytkownicy,
+          którzy mają uprawnienie „Potwierdzanie [% terms.bledow %]”, mogą potwierdzić [% terms.blad %],
+          zmieniając jego status na 
           <b>[% display_value("bug_status", "CONFIRMED") FILTER html %]</b>. 
-          Or, it may be directly resolved and marked
+          Ewentualnie może on być bezpośrednio rozwiązany i oznaczony jako
           <b>[% display_value("bug_status", "RESOLVED") FILTER html %]</b>.
         </dd>
 
@@ -77,35 +76,34 @@
           [% display_value("bug_status", "CONFIRMED") FILTER html %]
         </dt>
         <dd>
-          This [% terms.bug %] is valid and has recently been filed.
-          [%+ terms.Bugs %] in this state become 
-          <b>[% display_value("bug_status", "IN_PROGRESS") FILTER html %]</b>
-          when somebody is working on them, or become resolved and marked
-          <b>[% display_value("bug_status", "RESOLVED") FILTER html %]</b>.
+          Ten [% terms.blad %] został niedawno zgłoszony i jest potwierdzony.
+          Taki [% terms.blad %] może zostać przypisany i zmienić status na
+          <b>[% display_value("bug_status", "IN_PROGRESS") FILTER html %]</b>, albo zostać
+          rozwiązany ze zmianą statusu na <b>[% display_value("bug_status", "RESOLVED") FILTER html %]</b>.
         </dd>
 
         <dt>
           [% display_value("bug_status", "IN_PROGRESS") FILTER html %]
         </dt>
         <dd>
-          This [% terms.bug %] is not yet resolved, but is assigned to the
-          proper person who is working on the [% terms.bug %]. From here,
-          [%+ terms.bugs %] can be given to another person and become
-          <b>[% display_value("bug_status", "CONFIRMED") FILTER html %]</b>, or
-          resolved and become 
+          Ten [% terms.blad %] nie został jeszcze rozwiązany, lecz został już przypisany
+          do właściwej osoby. Taki [% terms.blad %] może zostać przypisany innej osobie
+          i zmienić status na 
+          <b>[% display_value("bug_status", "CONFIRMED") FILTER html %]</b>, albo zostać
+          rozwiązany ze zmianą statusu na 
           <b>[% display_value("bug_status", "RESOLVED") FILTER html %]</b>.
         </dd>
       </dl>
     </td>
 
     <td>
-      No resolution yet. All [% terms.bugs %] which are in one of
-      these "open" states have no resolution set.
+          Brak jeszcze rozwiązania. Dla [% terms.bledow %] o „otwartych” statusach,
+          pole rozwiązanie jest puste.
     </td>
   </tr>
 
   <tr class="header_row">
-    <td colspan="2">Closed [% terms.Bugs %]</td>
+    <td colspan="2">Zamknięte [% terms.bledy %]</td>
   </tr>
 
   <tr>
@@ -115,9 +113,9 @@
           [% display_value("bug_status", "RESOLVED") FILTER html %]
         </dt>
         <dd>
-          A resolution has been performed, and it is awaiting verification by
-          QA. From here [% terms.bugs %] are either reopened and given some
-          open status, or are verified by QA and marked
+          Rozwiązanie [% terms.bledu %] zostało znalezione i czeka na weryfikację
+          przez specjalistę QA. Taki [% terms.blad %] może zostać powtórnie otwarty lub 
+          oznaczony jako
           <b>[% display_value("bug_status", "VERIFIED") FILTER html %]</b>.
         </dd>
 
@@ -125,9 +123,8 @@
           [% display_value("bug_status", "VERIFIED") FILTER html %]
         </dt>
         <dd>
-          QA has looked at the [% terms.bug %] and the resolution and
-          agrees that the appropriate resolution has been taken. This is
-          the final status for [% terms.bugs %].
+          Specjalista QA zapoznał się z proponowanym rozwiązaniem [% terms.bledu %] i uznał,
+          że jest ono wystarczające. Jest to ostateczny status [% terms.bledu %].
         </dd>
       </dl>
     </td>
@@ -138,44 +135,44 @@
           [% display_value("resolution", "FIXED") FILTER html %]
         </dt>
         <dd>
-          A fix for this [% terms.bug %] is checked into the tree and 
-          tested.
+          Rozwiązanie takiego [% terms.bledu %] zostało przetestowane i wysłane do
+          repozytorium.
         </dd>
 
         <dt>
           [% display_value("resolution", "INVALID") FILTER html %]
         </dt>
         <dd>
-          The problem described is not [% terms.abug %].
+          Problem opisany w zgłoszeniu nie jest [% terms.bledem %].
         </dd>
 
         <dt>
           [% display_value("resolution", "WONTFIX") FILTER html %]
         </dt>
         <dd>
-          The problem described is [% terms.abug %] which will never be 
-          fixed.
+          Problem opisany w zgłoszeniu [% terms.bledu %] nigdy nie zostanie
+          naprawiony.
         </dd>
 
         <dt>
          [% display_value("resolution", "DUPLICATE") FILTER html %]
         </dt>
         <dd>
-          The problem is a duplicate of an existing [% terms.bug %].
-          When [% terms.abug %] is marked as a
+          Zgłoszenie [% terms.bledu %] jest duplikatem istniejącego zgłoszenia.
+          Po oznaczeniu [% terms.bledu %] jako
           <b>[% display_value("resolution", "DUPLICATE") FILTER html %]</b>,
-          you will see which [% terms.bug %] it is a duplicate of,
-          next to the resolution.
+          przy polu rozwiązanie, podawany jest numeru [% terms.bledu %], którego
+          duplikatem jest ten [% terms.blad %].
         </dd>
 
         <dt>
           [% display_value("resolution", "WORKSFORME") FILTER html %]
         </dt>
         <dd>
-          All attempts at reproducing this [% terms.bug %] were futile, 
-          and reading the code produces no clues as to why the described
-          behavior would occur. If more information appears later,
-          the [% terms.bug %] can be reopened.
+          Próby powtórzenia [% terms.bledu %] zakończyły się fiaskiem, a kod źródłowy nie
+          pozwala znaleźć powodu zaobserwowanego zachowania.
+          Jeśli w późniejszym okresie pojawią się dodatkowe informacje, należy zmienić
+          status [% terms.bledu %].
         </dd>
       </dl>
     </td>
@@ -183,7 +180,7 @@
   </tbody>
 </table>
 
-<h2>Other Fields</h2>
+<h2>Pozostałe pola</h2>
 
 [% PROCESS "bug/field-help.none.tmpl" %]
 

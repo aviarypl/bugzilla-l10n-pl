@@ -148,9 +148,9 @@
     [% END %]
 
   [% ELSIF error == "extension_disabled" %]
-    [% title = "tlumExtension Disabled" %]
-    You cannot access this page because the extension '[% name FILTER html %]'
-    is disabled.
+    [% title = "Rozszerzenie jest wyłączone" %]
+    Brak dostępu do żądanej strony, ponieważ rozszerzenie „[% name FILTER html %]”
+    jest wyłączone.
 
   [% ELSIF error == "extension_must_be_subclass" %]
     <code>[% package FILTER html %]</code> z 
@@ -354,8 +354,8 @@
     Wymagany jest poprawny identyfikator sentencji.
 
   [% ELSIF error == "object_dep_sort_loop" %]
-    tlumThere is a loop in VALIDATOR_DEPENDENCIES involving
-    '[%+ field FILTER html %]'. Here are the fields we considered:
+    Wykryto pętlę w VALIDATOR_DEPENDENCIES dotyczącą pól
+    „[%+ field FILTER html %]”. Sprawdzono pola:
     [%+ considered.join(', ') FILTER html %].
 
   [% ELSIF error == "param_invalid" %]
@@ -531,7 +531,7 @@
   </tr>
 </table>
 
-<p>tlumTraceback:</p>
+<p>Śledzenie wywołań:</p>
 <pre>[% traceback FILTER html_linebreak %]</pre>
 
 [% IF variables %]

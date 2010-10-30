@@ -632,12 +632,12 @@
     lub poprosić administratora o dodanie tej osoby do grupy.
 
   [% ELSIF error == "flag_status_invalid" %]
-    [% title = "tlumFlag Status Invalid" %]
-    The flag status <em>[% status FILTER html %]</em>
+    [% title = "Nieprawidłowy status flagi" %]
+    Status <em>[% status FILTER html %]</em>
     [% IF id %]
-      for flag ID #[% id FILTER html %]
+      flagi o ID #[% id FILTER html %]
     [% END %]
-    is invalid.
+    jest nieprawidłowy.
 
   [% ELSIF error == "flag_type_cc_list_invalid" %]
     [% title = "Nieprawidłowa lista obserwatorów flagi" %]
@@ -993,19 +993,19 @@
     [% END %]
 
   [% ELSIF error == "json_rpc_get_method_required" %]
-    tlumWhen using JSON-RPC over GET, you must specify a 'method'
-    parameter. See the documentation at
+    Korzystając z JSON-RPC używając metody GET, należy podać parametr „method”.
+    Więcej szczegółów znajdziesz w dokumentacji
     [%+ docs_urlbase FILTER html %]api/Bugzilla/WebService/Server/JSONRPC.html
 
   [% ELSIF error == "json_rpc_invalid_params" %]
-    Could not parse the 'params' argument as valid JSON.
-    Error: [% err_msg FILTER html %]
-    Value: [% params FILTER html %]
+    Nie można przetworzyć argumentu „params” jako prawidłowego zapytania JSON.
+    Błąd: [% err_msg FILTER html %]
+    Wartość: [% params FILTER html %]
 
   [% ELSIF error == "json_rpc_invalid_callback" %]
-    You cannot use '[% callback FILTER html %]' as your 'callback' parameter.
-    For security reasons, only letters, numbers, and the following
-    characters are allowed in the 'callback' parameter: <code>[]._</code>
+    Nie można użyć  „[% callback FILTER html %]” jako parametru typu „callback”.
+    Ze względów bezpieczeństwa tylko litery, liczby oraz następujące 
+    znaki specjalne są dopuszczone do wykorzystania jako parametr „callback”: <code>[]._</code>
 
   [% ELSIF error == "json_rpc_post_only" %]
     Z powodów bezpieczeństwa korzystając z JSON-RPC możesz używać tylko
@@ -1186,8 +1186,8 @@
     [% END %]
 
   [% ELSIF error == "multiple_alias_not_allowed" %]
-    tlumYou cannot set aliases when modifying multiple [% terms.bugs %]
-    at once.
+    Nie można zmienić aliasu podczas modyfikacji wielu [% terms.bledow %]
+    jednocześnie.
 
   [% ELSIF error == "need_quip" %]
     [% title = "Wymagana sentencja" %]
@@ -1447,22 +1447,21 @@
     W ostateczności można zgadywać.
 
   [% ELSIF error == "relationship_loop_single" %]
-    [% title = "tlumRelationship Loop Detected" %]
-    [% field_descs.$field_name FILTER html %]
-    for [% terms.bug %] [%+ bug_id FILTER html %]
-    has a circular dependency on [% terms.bug %] [%+ dep_id FILTER html %].
+    [% title = "Wykryto pętlę zależności" %]
+    Pole [% field_descs.$field_name FILTER html %]
+    [%+ terms.bledu %] [%+ bug_id FILTER html %]
+    ma cykliczną zależność od [% terms.bledu %] [%+ dep_id FILTER html %].
 
   [% ELSIF error == "request_queue_group_invalid" %]
-    The group field <em>[% group FILTER html %]</em> is invalid.
+    Grupa <em>[% group FILTER html %]</em> jest nieprawidłowa.
 
   [% ELSIF error == "require_new_password" %]
     [% title = "Wymagane nowe hasło" %]
     Nie można zmienić hasła bez podania nowego hasła.
 
   [% ELSIF error == "required_field" %]
-    [% title = "tlumField Must Be Set" %]
-    A value must be set for the '[% field_descs.${field.name} FILTER html %]'
-    field.
+    [% title = "Wymagana wartość" %]
+    Wymagane jest podanie wartości dla pola „[% field_descs.${field.name} FILTER html %]”.
 
   [% ELSIF error == "require_summary" %]
     [% title = "Wymagany krótki opis" %]
@@ -1579,9 +1578,9 @@
 
   [% ELSIF error == "unknown_action" %]
     [% IF action %]
-       tlumUnknown action [% action FILTER html %]!
+       Nieznana czynność [% action FILTER html %]!
     [% ELSE %]
-       I could not figure out what you wanted to do.
+       Wykonano nieznaną czynność. Nie można określić, co chcesz zrobić.
     [% END %]
 
   [% ELSIF error == "unknown_keyword" %]
@@ -1783,7 +1782,7 @@
   [% ELSIF class == "Bugzilla::Product" %]
     produkt
   [% ELSIF class == "Bugzilla::Search::Recent" %]
-    tlumrecent search
+    ostatnie wyszukiwanie
   [% ELSIF class == "Bugzilla::Search::Saved" %]
     zapisane wyszukiwanie
   [% ELSIF ( matches = class.match('^Bugzilla::Field::Choice::(.+)') ) %]

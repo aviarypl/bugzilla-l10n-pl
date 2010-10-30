@@ -525,7 +525,7 @@ TUI_hide_default('expert_fields');
 
   [% IF feature_enabled('jsonrpc') AND !cloned_bug_id %]
     <tr id="possible_duplicates_container" class="bz_default_hidden">
-      <th>tlumPossible<br>Duplicates:</th>
+      <th>Potencjalne<br>duplikaty:</th>
       <td colspan="3">
         <div id="possible_duplicates"></div>
         <script type="text/javascript">
@@ -540,16 +540,16 @@ TUI_hide_default('expert_fields');
               { key: "update_token", label: '',
                 formatter: YAHOO.bugzilla.dupTable.formatCcButton }
           ];
-          YAHOO.bugzilla.dupTable.addCcMessage = "Add Me to the CC List";
+          YAHOO.bugzilla.dupTable.addCcMessage = "Dodaj mnie";
           YAHOO.bugzilla.dupTable.init({
             container: 'possible_duplicates',
             columns: dt_columns,
             product_name: '[% product.name FILTER js %]',
             summary_field: 'short_desc',
             options: {
-              MSG_LOADING: 'Searching for possible duplicates...',
-              MSG_EMPTY:   'No possible duplicates found.',
-              SUMMARY:     'Possible Duplicates'
+              MSG_LOADING: 'Wyszukiwanie potencjalnych duplikatów…',
+              MSG_EMPTY:   'Nie znaleziono.',
+              SUMMARY:     'Potencjalne duplikaty'
             }
           });
         </script>

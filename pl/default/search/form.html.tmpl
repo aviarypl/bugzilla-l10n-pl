@@ -197,14 +197,13 @@ TUI_hide_default('information_query');
 <div id="detailed_information" class="bz_section_title">
   <div id="information_query_controller" class="arrow">&#9660;</div>
   <a href="javascript:TUI_toggle_class('information_query')">
-    tlumDetailed [% terms.Bug %] Information
-  </a>
-  <span class="section_help">tlumNarrow results by the following fields: 
-    [%+ field_descs.longdesc FILTER html %]s, [%+ field_descs.bug_file_loc FILTER html %], 
+    Szczegóły [% terms.bledu %]</a>
+  <span class="section_help">Zawęź wyszukiwanie do następujących pól: 
+    [%+ field_descs.longdesc FILTER html %], [%+ field_descs.bug_file_loc FILTER html %], 
     [% IF Param('usestatuswhiteboard') %] [%+ field_descs.status_whiteboard FILTER html %], [%+ END %]
     [% IF use_keywords %] [%+ field_descs.keywords FILTER html %], [%+ END %]
     [% IF user.is_timetracker %] [%+ field_descs.deadline FILTER html %], [%+ END %]
-    tlum[% terms.Bug %] Numbers, [%+ field_descs.version FILTER html %], 
+    Numer [% terms.bledu %], [%+ field_descs.version FILTER html %], 
     [% IF Param('usetargetmilestone') %] [%+ field_descs.target_milestone FILTER html %], [%+ END %]
     [% field_descs.bug_severity FILTER html %], [%+ field_descs.priority FILTER html %], [%+ field_descs.rep_platform FILTER html %], 
     [%+ field_descs.op_sys FILTER html %]
@@ -255,17 +254,17 @@ TUI_hide_default('information_query');
   [% END %]
 
   <div class="search_field_row">
-    <span class="field_label"><label for="bug_id">[% terms.Bugs %] numbered</label></span>
+    <span class="field_label"><label for="bug_id">[% terms.Bledy %] o nr</label></span>
     <div id="bug_id_container" >
       <input type="text" name="bug_id" id="bug_id"
            value="[% default.bug_id.0 FILTER html %]" size="20">
-           <div class="field_help">tlum(comma-separated list)</div>
+           <div class="field_help">(wartości oddz. przecinkami)</div>
     </div>
-    should be 
+    powinny 
     <select name="bug_id_type" id="bug_id_type">
-      <option value="anyexact"[% " selected" IF default.bug_id_type.0 == "anyexact" %]>tlumonly included in</option>
-      <option value="nowords"[% " selected" IF default.bug_id_type.0 == "nowords" %]>tlumexcluded from</option>
-    </select> the results
+      <option value="anyexact"[% " selected" IF default.bug_id_type.0 == "anyexact" %]>znaleźć się na liście</option>
+      <option value="nowords"[% " selected" IF default.bug_id_type.0 == "nowords" %]>być wykluczone z listy</option>
+    </select> wyników
   </div>
 
   [% Hook.process('after_freetext_fields') %]
@@ -315,28 +314,28 @@ TUI_hide_default('information_query');
 [%# tlumskroty*** Email Numbering *** %]
   <div class="bz_section_title" id="people_filter">
     <div id="people_query_controller" class="arrow">&#9660;</div>
-    <a href="javascript:TUI_toggle_class('people_query')">Search By People</a>
-    <span>Narrow results to a role (i.e. [% field_descs.assigned_to FILTER html %],
+    <a href="javascript:TUI_toggle_class('people_query')">Wyszukiwanie wg osób</a>
+    <span>Zawęź wyszukiwanie według roli osoby przypisanej do danego [% terms.bledu %] np. Odpowiedzialny,
       [%+ field_descs.reporter FILTER html %], [% field_descs.commenter FILTER html %],
-      etc.) a person has on [% terms.abug %]
+      itp.
     </span>
   </div>
   <div id="people_filter_section" class="bz_search_section people_query">
   [% FOREACH n = [1, 2, 3] %]
     <div class="search_email_fields">
-      Any of:
+      Nazwa:
       [% PROCESS role_types field = { count => n, name => "emailassigned_to",
-                  label=> "the ${terms.Bug} ${field_descs.assigned_to}" } %]
+                  label=> "odpowiedzialnego za $terms.blad" } %]
       [% PROCESS role_types field = { count => n, name => "emailreporter",
-                  label=> "the ${field_descs.reporter}" } %]    
+                  label=> "zgłaszającego" } %]    
       [% IF Param('useqacontact') %]
           [% PROCESS role_types field = { count => n, name => "emailqa_contact", 
-                  label=> "the ${field_descs.qa_contact}" } %]
+                  label=> "specjalisty QA" } %]
       [% END %]
       [% PROCESS role_types field = { count => n, name => "emailcc", 
-                  label=> "a ${field_descs.cc} list member" } %]
+                  label=> "obserwatora" } %]
       [% PROCESS role_types field = { count => n, name => "emaillongdesc", 
-                  label=> " a ${field_descs.commenter}" } %]
+                  label=> "komentującego" } %]
       <select name="emailtype[% n %]">
       [% FOREACH qv = [
         { name => "substring", description => "zawiera" },
@@ -370,12 +369,12 @@ TUI_hide_default('information_query');
 
 <div class="bz_section_title" id="history_filter">
   <div id="history_query_controller" class="arrow">&#9660;</div>
-  <a href="javascript:TUI_toggle_class('history_query')" >Search By Change History</a>
-  <span>Narrow results to how fields have changed during a specific time period</span>
+  <a href="javascript:TUI_toggle_class('history_query')" >Wyszukiwanie  wg historii zmian</a>
+  <span>Zawęź wyszukiwanie do pól zmienionych w określonym przedziale czasu</span>
 </div>
 <ul class="bug_changes bz_search_section history_query" id="history_filter_section" >
   <li>
-    <label for="chfield">where ANY of the fields:</label>
+    <label for="chfield">w których zmieniono pole/pola:</label>
     [%# Create array, so we can sort it by description #%]
     [% chfields = [] %]
     [% FOREACH field = chfield %]
@@ -396,21 +395,21 @@ TUI_hide_default('information_query');
   </li>
   <li>
 
-    <label for="chfieldfrom">tlumbetween:</label>
+    <label for="chfieldfrom">pomiędzy:</label>
     <input name="chfieldfrom" id="chfieldfrom" size="10" 
            value="[% default.chfieldfrom.0 FILTER html %]" onchange="updateCalendarFromField(this)"> 
            <button type="button" class="calendar_button"
                           id="button_calendar_chfieldfrom"
-                          onclick="showCalendar('chfieldfrom')">tlum<span>Calendar</span></button>
-           and 
+                          onclick="showCalendar('chfieldfrom')"><span>Kalendarz</span></button>
+           a 
            <div id="con_calendar_chfieldfrom"></div>
           <input name="chfieldto" size="10" id="chfieldto" 
           value="[% default.chfieldto.0 FILTER html %]" onchange="updateCalendarFromField(this)">
           <button type="button" class="calendar_button"
                          id="button_calendar_chfieldto"
-                         onclick="showCalendar('chfieldto')">tlum<span>Calendar</span></button>
+                         onclick="showCalendar('chfieldto')"><span>Kalendarz</span></button>
           <div id="con_calendar_chfieldto"></div>
-    tlum(YYYY-MM-DD or relative dates)
+    (RRRR-MM-DD lub relatywne daty)
     <script type="text/javascript">
       createCalendar('chfieldfrom');
       createCalendar('chfieldto');

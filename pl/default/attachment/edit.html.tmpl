@@ -69,7 +69,7 @@
             [% attachment.description FILTER html %]
           </span>
           [% IF can_edit %]
-            <span class="bz_edit">(<a href="javascript:toggle_attachment_details_visibility()">tlumedit</a>)</span>
+            <span class="bz_edit">(<a href="javascript:toggle_attachment_details_visibility()">zmień</a>)</span>
           [% END %]
         </div>
         [% IF NOT attachment.isurl %]
@@ -78,17 +78,17 @@
             [% IF attachment.datasize %]
               [%+ attachment.datasize FILTER unitconvert %]
             [% ELSE %]
-              <em>tlumdeleted</em>
-            [% END %]tlum, created by  [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %]
+              <em>usunięty</em>
+            [% END %], utworzony przez  [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %]
             [% IF attachment.isprivate %]
-              <span class="bz_private">tlumOnly visible to <strong>[% Param('insidergroup') FILTER html %]</strong></span>
+              <span class="bz_private">Widoczny tylko dla członków grupy <strong>[% Param('insidergroup') FILTER html %]</strong></span>
             [% END %]
           </div>
         [% END %]
       </div>
       <div id="attachment_information_edit">
         <span class="bz_hide">
-          (<a href="javascript:toggle_attachment_details_visibility();">hide</a>)
+          (<a href="javascript:toggle_attachment_details_visibility();">ukryj</a>)
         </span>
         <div id="attachment_description">
           <label for="description">Opis:</label>
@@ -124,7 +124,7 @@
           </div>
           
           <div id="attachment_creator">
-            <span class="label">Creator:</span>
+            <span class="label">Twórca:</span>
             [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %]
           </div>
 
@@ -148,7 +148,7 @@
             <div id="attachment_isobsolete">
               <input type="checkbox" id="isobsolete" name="isobsolete" value="1"                     
                      [%+ 'checked="checked"' IF attachment.isobsolete %]>
-                <label for="isobsolete">obsolete</label>
+                <label for="isobsolete">zdezaktualizowany</label>
             </div>
 
         [% IF user.is_insider %]
@@ -161,7 +161,7 @@
               </label>
             [% ELSE %]
               <span class="label">Jest prywatny:</span>
-              [%+ attachment.isprivate ? "yes" : "no" %]
+              [%+ attachment.isprivate ? "tak" : "nie" %]
             [% END %]
           </div>
         [% END %]
@@ -248,7 +248,7 @@
       <div id="attachment_comments_and_flags">
         [% IF user.id %]
           <div id="smallCommentFrame" >
-            <label for="comment">Comment (on the [% terms.bug %]):</label>
+            <label for="comment">Komentarz (w [% terms.bledzie %]):</label>
             [% classNames = 'block' %]
             [% classNames = "$classes bz_private" IF attachment.isprivate %]
             [% INCLUDE global/textarea.html.tmpl
@@ -274,7 +274,7 @@
         </div>
         [% IF user.id %]       
           <div id="update_container">
-            <input type="submit" value="Submit" id="update">
+            <input type="submit" value="Zapisz" id="update">
           </div>
         [% END %]        
       </div>        

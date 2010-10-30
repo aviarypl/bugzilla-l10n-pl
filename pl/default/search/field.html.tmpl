@@ -18,6 +18,7 @@
   # Contributor(s): Guy Pyrzak <guy.pyrzak@gmail.com>
   #                 Reed Loden <reed@reedloden.com>
   #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 [%# INTERFACE:
   #   field: a Bugzilla::Field object
@@ -78,7 +79,7 @@
       tag_name = "span"
       editable = 1
     %]
-    from <input name="[% field.name FILTER html %]from" 
+    Pomiędzy <input name="[% field.name FILTER html %]from" 
                 id="[% field.name FILTER html %]" 
                 size="10" maxlength="10"
                 value="[% value.0 FILTER html %]" 
@@ -89,16 +90,16 @@
            <span>Calendar</span>
          </button>
          <span id="con_calendar_[% field.name FILTER html %]"></span>               
-    to <input name="[% field.name FILTER html %]to" 
+    a <input name="[% field.name FILTER html %]to" 
               id="[% field.name FILTER html %]to" size="10" maxlength="10"
               value="[% value.1 FILTER html %]" 
               onchange="updateCalendarFromField(this);[% onchange FILTER html %]">
        <button type="button" class="calendar_button"
                       id="button_calendar_[% field.name FILTER html %]to"
                       onclick="showCalendar('[% field.name FILTER js %]to')">
-         <span>Calendar</span>
+         <span>Kalendarz</span>
        </button>
-    <small>(YYYY-MM-DD or relative dates)</small>
+    <small>(RRRR-MM-DD lub relatywne daty)</small>
     
     <span id="con_calendar_[% field.name FILTER html %]to"></span>
     <script type="text/javascript">
