@@ -152,6 +152,7 @@ EOT
     module_not_found => "nie znaleziono",
     module_ok => 'ok',
     module_unknown_version => "znaleziono nieznana wersje",
+    no_such_module => "W repozytorium CPAN nie znaleziono modulu Perl o nazwie ##module##.",
     ppm_repo_add => <<EOT,
 ***********************************************************************
 * Informacja dla uzytkownikow systemu Windows                         *

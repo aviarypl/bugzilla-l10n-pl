@@ -19,12 +19,644 @@
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
+[% SET title = "$terms.Bugzilla 4.0 Release Notes" %]
 [% INCLUDE global/header.html.tmpl 
-  title = "$terms.Bugzilla 3.6 Release Notes" 
+  title = title
   style_urls = ['skins/standard/page.css'] 
 %]
 
-<h2>Table of Contents</h2>
+<h1>[% title FILTER html %]</h1>
+
+<ul class="bz_toc">
+  <li><a href="#v40_introduction">Introduction</a></li>
+  <li><a href="#v40_req">Minimum Requirements</a></li>
+  <li><a href="#v40_feat">New Features and Improvements</a></li>
+  <li><a href="#v40_issues">Outstanding Issues</a></li>
+  <li><a href="#v40_upgrading">Notes On Upgrading From a Previous Version</a></li>
+  <li><a href="#v40_code_changes">Code Changes Which May Affect 
+    Customizations and Extensions</a></li>
+  <li><a href="#v40_previous">Release Notes for Previous Versions</a></li>
+</ul>
+
+<h2 id="v40_introduction">Introduction</h2>
+
+<p>This is [% terms.Bugzilla %] 4.0! Since 3.6 (our previous major
+  release) we've come a long way, and we've come even further compared to
+  3.0 in 2007! Since [% terms.Bugzilla %] 3.0, almost every major user
+  interface in [% terms.Bugzilla %] has been redesigned, the WebServices have
+  evolved enormously, there's a great new Extensions system, and there
+  are hundreds of other new features. With the major redesigns that come
+  particularly in this release compared to 3.6, we felt that it was time to
+  call this release 4.0.</p>
+
+<p>It's not just major WebService and UI enhancements that are new in
+  [%+ terms.Bugzilla %] 4.0&mdash;there are many other exciting new features,
+  including automatic duplicate detection, enhanced custom field
+  functionality, autocomplete for users, search improvements, and much
+  more. Overall, 4.0 is far and away the best version of [% terms.Bugzilla %]
+  we've ever released.</p>
+
+<p>If you're upgrading, make sure to read <a href="#v40_upgrading">Notes
+  On Upgrading From a Previous Version</a>. If you are upgrading from a release
+  before 3.6, make sure to read the release notes for all the 
+  <a href="#v40_previous">previous versions</a> in between your version
+  and this one, <strong>particularly the Upgrading section of each
+  version's release notes</strong>.</p>
+
+<p>We would like to thank
+  <a href="http://www.itasoftware.com/">ITA Software</a>,
+  the <a href="http://www.ibm.com/linux/ltc/">IBM Linux Technology Center</a>,
+  and <a href="http://www.redhat.com/">Red Hat</a> for funding the development
+  of certain features and improvements in this release of
+  [%+ terms.Bugzilla %].</p>
+
+<h2 id="v40_req">Minimum Requirements</h2>
+
+<p>Any requirements that are new since 3.6.3 will look like
+  <span class="req_new">this</span>.</p>
+
+<ul>
+  <li><a href="#v40_req_perl">Perl</a></li>
+  <li><a href="#v40_req_mysql">For MySQL Users</a></li>
+  <li><a href="#v40_req_pg">For PostgreSQL Users</a></li>
+  <li><a href="#v40_req_oracle">For Oracle Users</a></li>
+  <li><a href="#v40_req_modules">Required Perl Modules</a></li>
+  <li><a href="#v40_req_optional_mod">Optional Perl Modules</a></li>
+  <li><a href="#v40_req_apache">Optional Apache Modules</a></li>
+</ul>
+
+
+<h3 id="v40_req_perl">Perl</h3>
+
+<p>Perl v5.8.1</p>
+
+[% INCLUDE db_req db='mysql' %]
+
+[% INCLUDE db_req db='pg' %]
+
+[% INCLUDE db_req db='oracle' %]
+
+<h3 id="v40_req_modules">Required Perl Modules</h3>
+
+[% INCLUDE req_table reqs = REQUIRED_MODULES
+                     new = ['List-MoreUtils']
+                     updated = ['Email-MIME', 'CGI.pm'] %]
+
+<h3 id="v40_req_optional_mod">Optional Perl Modules</h3>
+
+<p>The following perl modules, if installed, enable various
+  features of [% terms.Bugzilla %]:</p>
+
+[% INCLUDE req_table reqs = OPTIONAL_MODULES
+                     new  = ['JSON-XS']
+                     updated = []
+                     include_feature = 1 %]
+
+<h3 id="v40_req_apache">Optional Apache Modules</h3>
+
+<p>If you are using Apache as your webserver, [% terms.Bugzilla %] can
+  now take advantage of some Apache features if you have the below Apache
+  modules installed and enabled. Currently,
+  <a href="#v40_feat_js_css_update">certain [% terms.Bugzilla %] features</a>
+  are enabled only if you have all of the following modules installed
+  and enabled:</p>
+
+<ul>
+  <li>mod_headers</li>
+  <li>mod_expires</li>
+  <li>mod_env</li>
+</ul>
+
+<p>On most systems (but not on Windows), <kbd>checksetup.pl</kbd> is able to
+  tell whether or not you have these modules installed, and it will tell
+  you.</p>
+
+<h2 id="v40_feat">New Features and Improvements</h2>
+
+<ul>
+  <li><a href="#v40_feat_dup">Automatic Duplicate Detection When Filing
+    Bugs</a></li>
+  <li><a href="#v40_feat_search_ui">New Advanced Search UI</a></li>
+  <li><a href="#v40_feat_attach_ui">New Attachment Details UI</a></li>
+  <li><a href="#v40_feat_autocomplete">Autocomplete for Users and
+    Keywords</a></li>
+  <li><a href="#v40_feat_ui">General Usability Improvements</a></li>
+  <li><a href="#v40_feat_workflow">New Default Status Workflow</a></li>
+  <li><a href="#v40_feat_lists">"Last Search" Now Remembers Multiple
+    Searches</a></li>
+  <li><a href="#v40_feat_jsonp">Cross-Domain WebServices with JSONP</a></li>
+  <li><a href="#v40_feat_ws">Major WebService Enhancements</a></li>
+  <li><a href="#v40_feat_mandatory">Mandatory Custom Fields</a></li>
+  <li><a href="#v40_feat_vot_ext">Voting Is Now An Extension</a></li>
+  <li><a href="#v40_feat_js_css_update">Users Get New CSS and Javascript
+    Automatically</a></li>
+  <li><a href="#v40_feat_hooks">Many New Hooks</a></li>
+  <li><a href="#v40_feat_apache_config">New Apache Configuration</a></li>
+  <li><a href="#v40_feat_other">Other Enhancements and Changes</a></li>
+</ul>
+
+<h3 id="v40_feat_dup">Automatic Duplicate Detection When Filing
+  Bugs</h3>
+
+<p>When filing a bug, as soon as you start typing in the summary
+  field, [% terms.Bugzilla %] will suggest possible duplicates of the
+  bug you are filing.</p>
+
+<p>In order for this feature to work, all pre-requisites for JSON-RPC
+  support must be installed on your [% terms.Bugzilla %]. It will be
+  much faster on installations that run under mod_perl than it will
+  be on other installations.</p>
+
+<p>This automatic duplicate detection does not currently work for installations
+  running on PostgreSQL.</p>
+
+<h3 id="v40_feat_search_ui">New Advanced Search UI</h3>
+
+<p>Thanks to the UI work of <a href="http://guy-pyrzak.blogspot.com/">Guy
+  Pyrzak</a>, the Advanced Search UI has been completely redesigned.
+  It is now much simpler, and far more approachable for new users, while
+  still retaining all of the features that power users are used to.</p>
+
+<h3 id="v40_feat_attach_ui">New Attachment Details UI</h3>
+
+<p>The UI used for editing attachment details has been completely
+  redesigned, allowing for a normally-size comment box to be used
+  when commenting on attachments, and allowing nearly the entire screen
+  width to be used when doing code reviews or editing an attachment as
+  a comment.</p>
+
+<p>Thanks to <a href="http://guy-pyrzak.blogspot.com/">Guy Pyrzak</a> for
+  his excellent work on this UI redesign.</p>
+
+<h3 id="v40_feat_autocomplete">Autocomplete for Users and Keywords</h3>
+
+<p>Once you type at least three characters in any field that can contain a user
+  (including the the CC,
+  QA Contact, or
+  Assignee fields), a list will appear
+  containing all of the users whose real names or usernames match what you are
+  typing. Your [% terms.Bugzilla %] must have all of the optional Perl
+  modules required for JSON-RPC support installed, though, in order for
+  this feature to work. Also, this feature will be <strong>much</strong>
+  faster on installations that run under mod_perl than it will be on
+  other installations.</p>
+
+<p>There is also a similar autocomplete for the Keywords field. The
+  Keywords autocomplete does not require JSON-RPC.</p>
+
+<h3 id="v40_feat_ui">General Usability Improvements</h3>
+
+<p>In addition to the enhancements listed above, there have been
+  <strong>many</strong> improvements made across the [% terms.Bugzilla %]
+  user interface. For a list of specific enhancements that were significant,
+  see the <a href="#v40_feat_other">Other Enhancements and Changes</a>
+  section.</p>
+
+<h3 id="v40_feat_workflow">New Default Status Workflow</h3>
+
+<p>For new installations of [% terms.Bugzilla %], the default set of
+  statuses will now be:</p>
+
+<ul>
+  <li>UNCONFIRMED</li>
+  <li>CONFIRMED</li>
+  <li>IN_PROGRESS</li>
+  <li>RESOLVED</li>
+  <li>VERIFIED</li>
+</ul>
+
+<p>And the UNCONFIRMED status will be enabled by default in all products.</p>
+
+<p>On upgrade, existing installations will not be affected--you will retain
+  your existing status workflow. However, we strongly recommend that you
+  update your existing workflow to the new one, using a special tool
+  we've included, <kbd>contrib/convert-workflow.pl</kbd>, which you
+  can run after you use <kbd>checksetup.pl</kbd> to upgrade. The
+  <kbd>whineatnews.pl</kbd> and <kbd>bugzilla-submit</kbd> scripts
+  will probably not work properly if you continue to use the old workflow
+  (though most other parts of [% terms.Bugzilla %] will still function
+  normally).</p>
+
+<p>For more information about the workflow and our rationale for changing
+  it, see the
+  <a href="http://bugzillaupdate.wordpress.com/2010/07/06/bugzilla-4-0-has-a-new-default-status-workflow/">blog
+  post about it</a> and the
+  <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=486292">bug
+  where the change was made</a>.</p>
+
+<h3 id="v40_feat_lists">"Last Search" Now Remembers Multiple Searches</h3>
+
+<p>At the top of every bug in [% terms.Bugzilla %], there are
+  links that look like: "First", "Last", "Prev", "Next", and
+  "Show last search results". In earlier versions of [% terms.Bugzilla %],
+  if you did two separate searches in separate windows, these links would
+  only work for the <em>last</em> search you did. Now, [% terms.Bugzilla %]
+  will "remember" which search result you came from and give you the right
+  "last search results" or "next bug" from <em>that</em> list, instead of
+  always using your most recent search.</p>
+
+<p>There are still some situations where [% terms.Bugzilla %] will have to
+  "guess" which search you are trying to navigate through, but it does its
+  best to get it right.</p>
+
+<h3 id="v40_feat_jsonp">Cross-Domain WebServices with JSONP</h3>
+
+<p>[% terms.Bugzilla %] now supports making WebService calls from
+  another domain, inside of a web browser, thanks to support for
+  <a href="http://bob.pythonmac.org/archives/2005/12/05/remote-json-jsonp/">JSONP</a>.
+  This will allow for web "mash-ups" to use [% terms.Bugzilla %] data.
+  When using JSONP, you may only call functions that <em>get</em> data, 
+  you may not call functions that <em>change</em> data.</p>
+
+<p>For more details, see the
+  <a href="[% docs_urlbase FILTER html %]api/Bugzilla/WebService/Server/JSONRPC.html#JSONP">JSONP
+  section</a> of the JSON-RPC WebService documentation.</p>
+
+<h3 id="v40_feat_ws">Major WebService Enhancements</h3>
+
+<p>The WebService has been expanded considerably. The WebService should now be
+  able to do everything with bugs that you can do via the
+  web interface, including updating bugs, adding attachments,
+  and getting attachment data. For specifics, see the
+  <a href="#v40_feat_ws_changes">WebService Changes</a> section of these
+  release notes.</p>
+
+<h3 id="v40_feat_mandatory">Mandatory Custom Fields</h3>
+
+<p>You can now specify that certain custom fields are "mandatory",
+  meaning that they must have a value when a bug is filed,
+  and they can never be empty after that.</p>
+
+<h3 id="v40_feat_vot_ext">Voting Is Now An Extension</h3>
+
+<p>All of the code for voting in [% terms.Bugzilla %] has been moved
+  into an extension, called "Voting", in the <kbd>extensions/Voting/</kbd>
+  directory. To enable it, you must remove the <kbd>disabled</kbd> file
+  from that directory, and run checksetup.pl.</p>
+
+<p>In a future version of [% terms.Bugzilla %], the Voting extension will
+  be moved outside of the [% terms.Bugzilla %] core code, so we are looking
+  for somebody who has an interest in the Voting system and would like to
+  maintain it as a separate extension. There are many enhancement requests
+  that have been made against the Voting system, and the best way for those
+  to get addressed is for somebody to step up and offer to maintain the
+  system outside of [% terms.Bugzilla %]'s core code.</p>
+
+<h3 id="v40_feat_js_css_update">Users Get New CSS and Javascript
+  Automatically</h3>
+  
+<p>In past versions of [% terms.Bugzilla %], if you changed
+  [%+ terms.Bugzilla %]'s CSS or Javascript files, then every user of
+  [%+ terms.Bugzilla %] would have to clear their cache in order to get
+  the updated files. Now, if you are using Apache as your webserver and
+  you have the <a href="#v40_req_apache">optional Apache modules</a>
+  installed, users will automatically get every new version of
+  [%+ terms.Bugzilla %]'s Javascript and CSS without having to clear
+  their caches.</p>
+
+<p>This feature also gives a slight performance speedup to
+  [%+ terms.Bugzilla %] in some cases, and so we recommend that all
+  administrators install the optional Apache modules if possible.</p>
+
+<h3 id="v40_feat_hooks">Many New Hooks</h3>
+
+<p>Many new code hooks have been added for use by Extensions,
+  in [% terms.Bugzilla %] 4.0. Now Extensions can access and modify
+  nearly every part of [% terms.Bugzilla %].</p>
+
+<h3 id="v40_feat_apache_config">New Apache Configuration</h3>
+
+<p>(Note: If your [% terms.Bugzilla %] runs under mod_perl or runs on some
+  other webserver than Apache, this section does not apply to you.)</p>
+
+<p>The Apache configuration used for [% terms.Bugzilla %] has changed.
+  In particular, a different AllowOverride statement is required.
+  See the
+  <a href="[% docs_urlbase FILTER html %]configuration.html#http-apache">Configuration</a>
+  section of the [% terms.Bugzilla %] Guide for details.</p>
+
+<h3 id="v40_feat_other">Other Enhancements and Changes</h3>
+
+<h4>Enhancements for Users</h4>
+
+<ul>
+  <li>Now, everywhere in [% terms.Bugzilla %] where you can enter a date,
+    there is a Calendar widget where you can select the date on a
+    calendar.</li>
+  <li>The big icons on the front page have been replaced with much nicer
+    icons, thanks to Jon Pink of <a href="http://www.jpink.co.uk/">J.&nbsp;Pink&nbsp;Design</a>!</li>
+  <li><strong>Bugs:</strong> When filing bugs,
+    you will now be warned if you forgot to fill in any mandatory fields,
+    <em>before</em> the page is submitted.</li>
+  <li><strong>Bugs:</strong> When filing a bug,
+    you can hover your mouse over any of the field labels on the page
+    to get a brief description of what that field is and what its purpose
+    is.</li>
+  <li><strong>Bugs:</strong> When adding Hours Worked to a bug,
+    you are no longer required to comment.</li>
+  <li><strong>Bugs:</strong> There is now a user preference
+    for whether the comment box appears above or below the existing
+    comments.</li>
+  <li><strong>Bugs:</strong> [% terms.Bugzilla %] will now
+    send an email for every comment that you mark or un-mark as being
+    private. (Previous versions of [% terms.Bugzilla %] did not send emails
+    to users about this change.) The state of comments being made private
+    is also now stored in a bug's history.</li>
+  <li><strong>Bugs:</strong> The box to "Add Bug URLs"
+    in the See Also field is now hidden behind an "(add)" link that you
+    have to click to see the box.</li>
+  
+  <li><strong>Searches:</strong> You can now properly search for field values
+    that have commas in their name, when using the Advanced Search form.</li>
+  <li><strong>Searches:</strong> The "URL" field can now be shown as a column
+    in search results.</li>
+  <li><strong>Searches:</strong> When viewing a search result, you can now
+    click on the Summary of the bug in order to go to the
+    bug-view page, in addition to being able to click on the
+    bug ID.</li>
+  <li><strong>Searches:</strong> When doing a search using the "quicksearch"
+    box in the header or footer, the box will still contain what you searched
+    for when viewing the search results page.</li>
+  <li><strong>Searches:</strong> Multi-select custom fields can now be
+    shown as columns in the search results.</li>
+  <li><strong>Searches:</strong> When using the Boolean Charts (now called
+    "Custom Search"), if you specify both a criterion for an attachment
+    and a criteron for a flag, then only bugs that have
+    attachments with that flag will be found.</li>
+  <li><strong>Searches:</strong> If you hover your mouse over the field labels
+    on the Advanced Search page, you will get a description of what that
+    field is.</li>
+  <li><strong>Searches:</strong> When searching via a saved search, if you
+    accidentally click on "Forget Search", there is a link to undo it.</li>
+  <li><strong>Searches:</strong> When using the Boolean Charts (now called
+    "Custom Search"), you can search for values "greater than or equal to"
+    or "less than or equal to" some value.</li>
+  
+  <li><strong>Flags:</strong> If you hover your mouse over the name of
+    a flag setter when viewing a bug, you can see that
+    flag setter's full name and complete username.</li>
+  <li><strong>Flags:</strong> When setting a flag on a bug,
+    the box for entering a requestee does not appear until you set the flag
+    to "?", now.</li>
+  <li><strong>Flags:</strong> On the "My Requests" page, bugs
+    that are restricted to certain groups now properly have the "padlock"
+    icon shown next to them to indicate that they may contain confidential
+    information.</li>
+  
+  <li>When using the Reports interface, you can now choose many more fields
+    as the X, Y, or Z axis of a report, including custom fields.</li>
+  <li>[% terms.Bugzilla %] now prevents
+    Internet Explorer 8 and later from attempting to render
+    <kbd>text/plain</kbd> attachments as HTML.</li>
+  <li>If you receive a Whine mail that is empty, there will now be a brief
+    message explaining that your search found no results.</li>
+  <li>The <a href="page.cgi?id=fields.html">Field Help Page</a> now
+    contains a description of every single field that can be on
+    [%+ terms.abug %] in [% terms.Bugzilla %].</li>
+</ul>
+
+<h4>Enhancements for Administrators and Developers</h4>
+
+<ul>
+  <li>The system for moving bugs between installations has been
+    moved into an extension called <kbd>OldBugMove</kbd>. This system was used
+    by very few [% terms.Bugzilla %] installations--if you aren't certain
+    whether or not you are using it, you're not using it. To enable the system,
+    you have to remove the file <kbd>extensions/OldBugMove/disabled</kbd>
+    and then run checksetup.pl. In a future version of [% terms.Bugzilla %],
+    this extension may be moved outside of the core [% terms.Bugzilla %] code,
+    so if you are interested in maintaining it, please let us know.</li>
+  <li><strong>Custom Fields: </strong> "Bug ID" custom fields can
+    now represent relationships between bugs, similarly to how the
+    [%+ field_descs.blocked FILTER html %] and
+    [%+ field_descs.dependson FILTER html %] fields work now.</li>
+  <li><strong>Custom Fields:</strong> You can now restrict the visibility
+    of custom fields and their values to a specific Component or
+    Classification.</li>
+  <li>The "keyword cache" has been removed. When you edit keywords, you no
+    longer will have to "rebuild the keyword cache" after you are done.</li>
+  <li>Running <kbd>./collectstats.pl --regenerate</kbd> will now take
+    minutes or hours, instead of days.</li>
+  <li>When using <kbd>email_in.pl</kbd>, there are two new switches,
+    <kbd>--default</kbd> and <kbd>--override</kbd>, which allow you to
+    specify certain default values or override specified values for
+    <kbd>@field</kbd> values sent in emails. (This also allows you to specify
+    defaults for everything so that people do not have to specify any field
+    values when filing a bug via email.)</li>
+  <li><strong>Installation:</strong> If you are using a localized version of
+    [%+ terms.Bugzilla %] and your terminal does not understand Unicode,
+    <kbd>checksetup.pl</kbd> will now attempt to output its messages in your
+    terminal's character set.</li>
+  <li><strong>Installation:</strong> [% terms.Bugzilla %] no longer needs empty
+    "placeholder" CSS in the <kbd>skins/custom</kbd> directory and other
+    directories. When you update, <kbd>checksetup.pl</kbd> will remove these.
+    This also significantly reduces the number of HTTP requests required to
+    load a page for the first time in [% terms.Bugzilla %].</li>
+  <li><strong>Installation:</strong> For Windows users, [% terms.Bugzilla %]
+    now supports Strawberry Perl fully.</li>
+  <li><strong>Installation:</strong> Now, whenever <kbd>checksetup.pl</kbd>
+    throws an error, it will be printed in the color red, to make it
+    obvious that something is wrong.</li>
+  <li><strong>Installation:</strong> Some actions of checksetup.pl were
+    silent, in the past. Now, checksetup.pl will print a message for
+    almost anything it does.</li>
+  <li><strong>Installation:</strong> The process of adding foreign keys
+    to a table is now much faster. This will particularly improve the speed
+    of upgrading from [% terms.Bugzilla %] 3.4 or earlier.</li>
+  <li>If you are using <kbd>jobqueue.pl</kbd> and email gets heavily delayed
+    for some reason, those emails will now have a Date header reflecting the
+    time they were <em>supposed</em> to be sent, instead of when they actually
+    <em>were</em> sent.</li>
+  <li><kbd>./jobqueue.pl install</kbd> now works on SuSE Linux.</li>
+  <li>[% terms.Bugzilla %] now runs much better in Apache's suexec mode
+    than it used to. As part of this, <kbd>checksetup.pl</kbd> sets
+    much stricter permissions on all the files in [% terms.Bugzilla %]
+    than it used to. In particular, any files that [% terms.Bugzilla %]
+    does not know about will not be readable by the webserver.</li>
+  <li>The <kbd>sendmailnow</kbd> parameter has been removed, as it was
+    not necessary for any modern version of Sendmail or other Mail Transfer
+    Agent.</li>
+  <li>When editing a user via the Users administration panel, you can now
+    see if they are a Default CC on any component.</li>
+  <li>For new installations of [% terms.Bugzilla %], all users will be
+    able to see and use the Whining system by default.</li>
+  <li>When you are using SSL with [% terms.Bugzilla %], you can now
+    turn on the <kbd>strict_transport_security</kbd> parameter to
+    send the
+    <a href="https://developer.mozilla.org/en/Security/HTTP_Strict_Transport_Security">Strict-Transport-Security</a>
+    header with every HTTPS connection, for additional security.</li>
+  <li>New code hooks (see their documentation in
+    <a href="[% docs_urlbase FILTER html %]api/Bugzilla/Hook.html">Bugzilla::Hook</a>):
+    bug_check_can_change_field, search_operator_field_override,
+    bugmail_relationships, object_columns, object_update_columns,
+    and object_validators. The colchange_columns hook has been removed,
+    as it is no longer necessary (buglist_columns will be used for data
+    about which columns can be on the buglist).</li>
+  <li>When [% terms.Bugzilla %] throws certain types of errors, it will
+    now include a "traceback" of where exactly the error occurred in the
+    code, to help administrators and developers debug problems.</li>
+  <li>There is now a test, <kbd>xt/search.t</kbd>, that assures that all
+    of the functionality of <kbd>Bugzilla::Search</kbd> is working properly.
+    If you customize the search functionality of [% terms.Bugzilla %],
+    you may wish to run this test to assure that your changes are correct.
+    You can see more information about running this test by doing
+    <kbd>perldoc xt/search.t</kbd> at the command line.</li>
+</ul>
+
+<h4 id="v40_feat_ws_changes">WebService Changes</h4>
+
+<ul>
+  <li>You can now call some JSON-RPC methods using HTTP GET, in addition to
+    using HTTP POST. See the 
+    <a href="[% docs_urlbase FILTER html %]api/Bugzilla/WebService/Server/JSONRPC.html#Connecting_via_GET">JSON-RPC
+    documentation</a> for details.</li>
+  <li>You can now update existing bugs using the
+    <a href="[% docs_urlbase FILTER html %]api/Bugzilla/WebService/Bug.html#update">B[% %]ug.update</a>
+    function.</li>
+  <li>You can now add attachments to bugs using the
+    <a href="[% docs_urlbase FILTER html %]api/Bugzilla/WebService/Bug.html#add_attachment">B[% %]ug.add_attachment</a>
+    function.</li>
+  <li>The <kbd>B[% %]ug.get</kbd> function now returns all of a bug's
+    information other than comments and attachments.</li>
+  <li><kbd>B[% %]ug.get</kbd> no longer returns the <kbd>internals</kbd> hash.</li>
+  <li>The <kbd>B[% %]ug.attachments</kbd> function now also returns attachment
+    data.</li>
+  <li>The following functions now support the <kbd>include_fields</kbd>
+    and <kbd>exclude_fields</kbd> arguments: <kbd>B[% %]ug.get</kbd>,
+    <kbd>B[% %]ug.search</kbd>, and <kbd>B[% %]ug.attachments</kbd>. Also,
+    server-side performance of the WebService is actually increased when
+    using these arguments, now, as [% terms.Bugzilla %] will no longer
+    get data from the database for fields you haven't asked for.</li>
+  <li>You can now mark the initial description of a bug as
+    private when filing a bug via the <kbd>B[% %]ug.create</kbd>
+    function.</li>
+  <li>You can now specify groups to put a bug in, in the
+    <a href="[% docs_urlbase FILTER html %]api/Bugzilla/WebService/Bug.html#create">B[% %]ug.create</a>
+    function. (This also means that you can specify groups when filing
+    [%+ terms.abug %] via email_in.pl.)</li>
+  <li>The <kbd>User.get</kbd> function now accepts <kbd>groups</kbd>
+    and <kbd>group_ids</kbd> arguments, to limit the returned values to
+    only users in the specified groups.</li>
+  <li>There is a new, undocumented B[% %]ug.possible_duplicates
+    function that helps implement the automatic duplicate detection
+    system. Because this function is not documented, its API may change
+    between releases of [% terms.Bugzilla %].</li>
+  <li>You can no longer search using the <kbd>votes</kbd> argument in
+    <kbd>B[% %]ug.search</kbd>.</li>
+  <li><kbd>B[% %]ug.attachments</kbd> now returns the attachment's description
+    using the name "summary" instead of the name "description", to be
+    consistent with the fact that bug summaries are called
+    "summary". The value is still <em>also</em> returned as "description",
+    for backwards compatibility, but this backwards compatibility will go
+    away in [% terms.Bugzilla %] 5.0.</li>
+  <li>In the return values of various <kbd>B[% %]ug</kbd> functions, the author
+    of comments, bugs, and attachments is now called "creator",
+    instead of sometimes being called "reporter", "author", or "attacher".
+    The old names are retained for backwards-compatibility, and will stay
+    around until [% terms.Bugzilla %] 5.0.</li>
+</ul>
+
+<h2 id="v40_issues">Outstanding Issues</h2>
+
+<ul>
+  <li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=423439">
+    Bug 423439</a>: Tabs in comments will be converted
+    to four spaces, due to a b<!-- -->ug in Perl as of Perl 5.8.8.</li>
+  <li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=89822">
+    Bug 89822</a>: When changing multiple bugs at 
+    the same time, there is no "mid-air collision" protection.</li>
+  <li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=276230">
+    Bug 276230</a>: The support for restricting access to 
+    particular Categories of New Charts is not complete. You should treat 
+    the 'chartgroup' Param as the only access mechanism available.<br>
+    However, charts migrated from Old Charts will be restricted to 
+    the groups that are marked MANDATORY for the corresponding Product.
+    There is currently no way to change this restriction, and the 
+    groupings will not be updated if the group configuration
+    for the Product changes.</li>
+</ul>
+
+<h2 id="v40_upgrading">Notes On Upgrading From a Previous Version</h2>
+
+<h3>New .htaccess file</h3>
+
+<p>In previous versions of [% terms.Bugzilla %], there was a file
+  in [% terms.Bugzilla %]'s root directory called ".htaccess" that was
+  generated by <kbd>checksetup.pl</kbd>. This file is now shipped with
+  [%+ terms.Bugzilla %] instead of being generated during installation.</p>
+
+<p>If you update via CVS or bzr, you will get a message that your existing
+  .htaccess file conflicts with the new one. You must
+  <strong>remove your existing .htaccess file</strong> and use the new one
+  instead. Continuing to use your old .htaccess file will cause certain new
+  features of [% terms.Bugzilla %] to not work properly, and may also lead
+  to security issues for your system in the future.</p>
+
+<h2 id="v40_code_changes">Code Changes Which May Affect Customizations and
+  Extensions</h2>
+
+<ul>
+  <li>In Extensions, if you want to serve files to the user via the web,
+    they must now be in a <kbd>web/</kbd> subdirectory of your Extension.
+    (For example, <kbd>extensions/Foo/web/</kbd>). <kbd>checksetup.pl</kbd>
+    sets permissions on extensions much more strictly now, and files in
+    other locations (such as your base <kbd>extensions/Foo/</kbd> directory)
+    will no longer be available to [% terms.Bugzilla %] users via the web
+    under certain configurations.</li>
+  <li>Previous versions of [% terms.Bugzilla %] used to allow putting a
+    single file into the "skins" directory and having that be an entire
+    skin. That is no longer allowed, and on upgrade, <kbd>checksetup.pl</kbd>
+    will convert any such skins into a directory with a single
+    <kbd>global.css</kbd> file in them.</li>
+  <li>When updating bugs, you should now use
+    <code>$bug-&gt;set_all</code> instead of using the individual
+    <kbd>set_</kbd> methods. In particular, <kbd>set_all</kbd> is now the
+    <em>only</em> way to set the product of a bug. See
+    <kbd>process_bug.cgi</kbd> for an example of how <kbd>set_all</kbd>
+    should be used.</li>
+  <li>You should not insert &lt;script&gt; tags and &lt;link&gt; CSS tags
+    into HTML anymore, in Extensions or in your customizations. Instead,
+    you should push new values into the <kbd>style_urls</kbd> or
+    <kbd>javascript_urls</kbd> parameters. If you have to insert manual
+    tags for some reason, be sure to call "FILTER mtime" on the URL. (Search
+    for other uses of "FILTER mtime" in the templates to see how it is
+    used.)</li>
+  <li>When calling <kbd>Bugzilla::BugMail::Send</kbd>, the "changer"
+    argument must now be a <kbd>Bugzilla::User</kbd> object, not just
+    a login name. The "owner" and "qacontact" arguments are still
+    just login names.</li>
+  <li>When creating a new subclass of Bugzilla::Object, you should no
+    longer use <kbd>UPDATE_VALIDATORS</kbd>. Also, in most cases you will
+    no longer need to override <kbd>run_create_validators</kbd>. Instead,
+    there is a new constant called
+    <a href="[% docs_urlbase FILTER html %]api/Bugzilla/Object.html#VALIDATOR_DEPENDENCIES">VALIDATOR_DEPENDENCIES</a>,
+    that specifies that certain fields have to be validated before other fields.
+    Then, all validators receive each already-validated value in a hash
+    as their fourth argument, so each validator can know the other values
+    that were passed in, while an object is being created. For an example of
+    how to use <kbd>VALIDATOR_DEPENDENCIES</kbd>, see
+    <kbd>Bugzilla/Field.pm</kbd>.</li>
+  <li>In previous versions of [% terms.Bugzilla %], you had to call
+    <code>Bugzilla-&gt;template_inner("")</code> after any time
+    that you called <kbd>template_inner</kbd> for a specific language.
+    It is no longer necessary to do this second <kbd>template_inner</kbd>
+    call.</li>
+  <li><kbd>post_bug.cgi</kbd> and <kbd>Bugzilla::Bug-&gt;create</kbd> now take
+    the <em>names</em> of groups instead of group ids.</li>
+  <li>Bugzilla::Bugmail now uses Bugzilla::Bug objects internally instead of
+    a lot of direct SQL.</li>
+  <li>For sending changes about bugs, there is now a method
+    called <kbd>send_changes</kbd> that you can call on Bugzilla::Bug
+    objects. For an example of its use, see <kbd>process_bug.cgi</kbd>.</li>
+  <li>The <kbd>Bugzilla::Search</kbd> class has been refactored, and should
+    now be easier to customize.</li>
+  <li>The <kbd>Bugzilla::Util::lsearch</kbd> function is gone. Use
+    <kbd>firstidx</kbd> from <kbd>List::MoreUtils</kbd>, instead.</li>
+  <li>[% terms.Bugzilla %] now includes YUI 2.8.2.</li>
+</ul>
+
+
+<h1 id="v40_previous">[% terms.Bugzilla %] 3.6 Release Notes</h1>
 
 <ul class="bz_toc">
   <li><a href="#v36_introduction">Introduction</a></li>
@@ -75,48 +707,48 @@
   <li>[% terms.Bugzilla %] installations running on older versions of IIS
     will no longer experience the "Undef to trick_taint" errors that would
     sometimes occur.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=521416">[% terms.Bug %] 521416</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=521416">Bug 521416</a>)
   </li>
   <li>Email notifications were missing the dates that comments were made.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=578003">[% terms.Bug %] 578003</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=578003">Bug 578003</a>)
   </li>
   <li>Putting a phrase in quotes in the Quicksearch box now works properly,
     again.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=578494">[% terms.Bug %] 578494</a>
-    and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=553884">[% terms.Bug %] 553884</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=578494">Bug 578494</a>
+    and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=553884">Bug 553884</a>)
   </li>
   <li>Quicksearch was usually (incorrectly) being limited to 200 results.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=581622">[% terms.Bug %] 581622</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=581622">Bug 581622</a>)
   </li>
   <li>On Windows, <kbd>install-module.pl</kbd> can now properly install
     DateTime and certain other Perl modules that didn't install properly
     before.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=576105">[% terms.Bug %] 576105</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=576105">Bug 576105</a>)
   </li>
   <li>Searching "keywords" for "contains none of the words" or "does not
     match regular expression" now works properly.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=562014">[% terms.Bug %] 562014</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=562014">Bug 562014</a>)
   </li>
   <li>Doing <kbd>collectstats.pl --regenerate</kbd> now works on installations
     using PostgreSQL.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=577058">[% terms.Bug %] 577058</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=577058">Bug 577058</a>)
   </li>
   <li>The "Field Values" administrative control panel was sometimes denying
     admins the ability to delete field values when there was no reason
     to deny the deletion.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=577054">[% terms.Bug %] 577054</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=577054">Bug 577054</a>)
   </li>
   <li>Eliminate the "uninitialized value" warnings that would happen when
     editing a product's components.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=576911">[% terms.Bug %] 576911</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=576911">Bug 576911</a>)
   </li>
   <li>The updating of bugs_fulltext that happens during 
     <kbd>checksetup.pl</kbd> for upgrades to 3.6 should now be MUCH faster.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=577754">[% terms.Bug %] 577754</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=577754">Bug 577754</a>)
   </li>
   <li><kbd>email_in.pl</kbd> was not allowing the setting of time-tracking
     fields via inbound emails.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=583622">[% terms.Bug %] 583622</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=583622">Bug 583622</a>)
   </li>
 </ul>
 
@@ -179,26 +811,264 @@
 
 <p>Perl v5.8.1</p>
 
-[% INCLUDE db_req db='mysql' %]
-
-[% INCLUDE db_req db='pg' %]
-
-[% INCLUDE db_req db='oracle' %]
+<h3 id="v36_req_mysql">For MySQL Users</h3> 
+ 
+  <ul> 
+    <li>MySQL
+       v4.1.2
+       </li> 
+    <li><strong>perl module:</strong> 
+      DBD::mysql v4.00</li> 
+  </ul>
+  
+<h3 id="v36_req_pg">For PostgreSQL Users</h3> 
+ 
+  <ul> 
+    <li>PostgreSQL
+       v8.00.0000
+       </li> 
+    <li><strong>perl module:</strong> 
+      DBD::Pg v1.45</li> 
+  </ul> 
+<h3 id="v36_req_oracle">For Oracle Users</h3> 
+ 
+  <ul> 
+    <li>Oracle
+       v10.02.0
+       </li> 
+    <li><strong>perl module:</strong> 
+      DBD::Oracle v1.19</li> 
+  </ul> 
 
 <h3 id="v36_req_modules">Required Perl Modules</h3>
 
-[% INCLUDE req_table reqs = REQUIRED_MODULES
-                     new = [] updated = [] %]
+<table class="req_table" border="0" cellspacing="0" cellpadding="0"> 
+    <tr> 
+      <th>Module</th> <th>Version</th> 
+    </tr> 
+      <tr> 
+        <td >CGI</td> 
+        <td >3.21
+        </td> 
+      </tr> 
+      <tr> 
+        <td >Digest::SHA</td> 
+        <td > 
+            (Any)
+        </td> 
+      </tr> 
+      <tr> 
+        <td >Date::Format</td> 
+        <td >2.21
+        </td> 
+      </tr> 
+      <tr> 
+        <td >DateTime</td> 
+        <td >0.28
+        </td> 
+      </tr> 
+      <tr> 
+        <td >DateTime::TimeZone</td> 
+        <td >0.71
+        </td> 
+      </tr> 
+      <tr> 
+        <td >DBI</td> 
+        <td >1.41
+        </td> 
+      </tr> 
+      <tr> 
+        <td >Template</td> 
+        <td >2.22
+        </td> 
+      </tr> 
+      <tr> 
+        <td >Email::Send</td> 
+        <td >2.00
+        </td> 
+      </tr> 
+      <tr> 
+        <td >Email::MIME</td> 
+        <td >1.861
+        </td> 
+      </tr> 
+      <tr> 
+        <td >Email::MIME::Encodings</td> 
+        <td >1.313
+        </td> 
+      </tr> 
+      <tr> 
+        <td >Email::MIME::Modifier</td> 
+        <td >1.442
+        </td> 
+      </tr> 
+      <tr> 
+        <td >URI</td> 
+        <td > 
+            (Any)
+        </td> 
+      </tr> 
+</table> 
 
 <h3 id="v36_req_optional_mod">Optional Perl Modules</h3>
 
 <p>The following perl modules, if installed, enable various
   features of [% terms.Bugzilla %]:</p>
 
-[% INCLUDE req_table reqs = OPTIONAL_MODULES
-                     new  = ['JSON-RPC', 'Test-Taint']
-                     updated = ['Chart']
-                     include_feature = 1 %]
+<table class="req_table" border="0" cellspacing="0" cellpadding="0"> 
+    <tr> 
+      <th>Module</th> <th>Version</th> 
+        <th>Enables Feature</th> 
+    </tr> 
+      <tr> 
+        <td >GD</td> 
+        <td >1.20
+        </td> 
+          <td>Graphical Reports, New Charts, Old Charts</td> 
+      </tr> 
+      <tr> 
+        <td >Chart::Lines</td> 
+        <td  class="req_new">2.1
+        </td> 
+          <td>New Charts, Old Charts</td> 
+      </tr> 
+      <tr> 
+        <td >Template::Plugin::GD::Image</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>Graphical Reports</td> 
+      </tr> 
+      <tr> 
+        <td >GD::Text</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>Graphical Reports</td> 
+      </tr> 
+      <tr> 
+        <td >GD::Graph</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>Graphical Reports</td> 
+      </tr> 
+      <tr> 
+        <td >XML::Twig</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>Move Bugs Between Installations,
+          Automatic Update Notifications</td> 
+      </tr> 
+      <tr> 
+        <td >MIME::Parser</td> 
+        <td >5.406
+        </td> 
+          <td>Move Bugs Between Installations</td> 
+      </tr> 
+      <tr> 
+        <td >LWP::UserAgent</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>Automatic Update Notifications</td> 
+      </tr> 
+      <tr> 
+        <td >PatchReader</td> 
+        <td >0.9.4
+        </td> 
+          <td>Patch Viewer</td> 
+      </tr> 
+      <tr> 
+        <td >Net::LDAP</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>LDAP Authentication</td> 
+      </tr> 
+      <tr> 
+        <td >Authen::SASL</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>SMTP Authentication</td> 
+      </tr> 
+      <tr> 
+        <td >Authen::Radius</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>RADIUS Authentication</td> 
+      </tr> 
+      <tr> 
+        <td >SOAP::Lite</td> 
+        <td >0.710.06
+        </td> 
+          <td>XML-RPC Interface</td> 
+      </tr> 
+      <tr> 
+        <td  class="req_new">JSON::RPC</td> 
+        <td  class="req_new"> 
+            (Any)
+        </td> 
+          <td>JSON-RPC Interface</td> 
+      </tr> 
+      <tr> 
+        <td  class="req_new">Test::Taint</td> 
+        <td  class="req_new"> 
+            (Any)
+        </td> 
+          <td>JSON-RPC Interface, XML-RPC Interface</td> 
+      </tr> 
+      <tr> 
+        <td >HTML::Parser</td> 
+        <td >3.40
+        </td> 
+          <td>More HTML in Product/Group Descriptions</td> 
+      </tr> 
+      <tr> 
+        <td >HTML::Scrubber</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>More HTML in Product/Group Descriptions</td> 
+      </tr> 
+      <tr> 
+        <td >Email::MIME::Attachment::Stripper</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>Inbound Email</td> 
+      </tr> 
+      <tr> 
+        <td >Email::Reply</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>Inbound Email</td> 
+      </tr> 
+      <tr> 
+        <td >TheSchwartz</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>Mail Queueing</td> 
+      </tr> 
+      <tr> 
+        <td >Daemon::Generic</td> 
+        <td > 
+            (Any)
+        </td> 
+          <td>Mail Queueing</td> 
+      </tr> 
+      <tr> 
+        <td >mod_perl2</td> 
+        <td >1.999022
+        </td> 
+          <td>mod_perl</td> 
+      </tr> 
+</table> 
 
 <h2 id="v36_feat">New Features and Improvements</h2>
 
@@ -310,8 +1180,8 @@
 <h3 id="v36_email_attachments">Send Attachments by Email</h3>
 
 <p>The <a href="[% docs_urlbase FILTER html %]api/email_in.html">email_in</a>
-  script now supports attaching multiple attachments to bug
-  by email, both when filing and when updating bug.</p>
+  script now supports attaching multiple attachments to a bug
+  by email, both when filing and when updating a bug.</p>
 
 <h3 id="v36_feat_jsonrpc">JSON-RPC Interface</h3>
 
@@ -360,21 +1230,21 @@
 <h4>Enhancements for Users</h4>
 
 <ul>
-  <li><b>Bug Filing:</b> When filing bug,
+  <li><b>Bug Filing:</b> When filing a bug,
     [%+ terms.Bugzilla %] now visually indicates which fields are
     mandatory.</li>
   <li><b>Bug Filing:</b> "Bookmarkable templates" now
     support the "alias" and "estimated hours" fields.</li>
   
   <li><b>Bug Editing:</b> In previous versions of
-    [%+ terms.Bugzilla %], if you added a private comment to bug,
+    [%+ terms.Bugzilla %], if you added a private comment to a bug,
     then <em>none</em> of the changes that you made at that time were
     sent to users who couldn't see the private comment. Now, for users
     who can't see private comments, public changes are sent, but the private
     comment is excluded from their email notification.</li>
   <li><b>Bug Editing:</b> The controls for groups now
     appear to the right of the attachment and time-tracking tables,
-    when editing bug.</li>
+    when editing a bug.</li>
   <li><b>Bug Editing:</b> The "Collapse All Comments"
     and "Expand All Comments" links now appear to the right of the
     comment list instead of above it.</li>
@@ -427,7 +1297,7 @@
     using Classifications, the Product drop-down will be grouped by
     Classification.</li>
 
-  <li><b>Inbound Email:</b> When filing bug by email, if the
+  <li><b>Inbound Email:</b> When filing a bug by email, if the
     product that you are filing the bug into has some groups
     set as Default for you, the bug will now be placed into those
     groups automatically.</li>
@@ -469,7 +1339,7 @@
     show up, you should edit your status workflow appropriately
     (possibly by removing or disabling the REOPENED status).</li>
   <li>You can now "disable" field values so that they don't show
-    up as choices on bug unless they are already set as
+    up as choices on a bug unless they are already set as
     the value for that bug. This doesn't work for the
     per-product field values (component, target_milestone, and version)
     yet, though.</li>
@@ -575,7 +1445,7 @@
     which allows getting information about attachments.</li>
   <li>New Method:
     <a href="[% docs_urlbase FILTER html %]api/Bugzilla/WebService/Bug.html#fields">B[% %]ug.fields</a>,
-    which gets information about all the fields that bug can have
+    which gets information about all the fields that a bug can have
     in [% terms.Bugzilla %], include custom fields and legal values for
     all fields. The <kbd>B[% %]ug.legal_values</kbd> method is now deprecated.</li>
   <li>In the <kbd>B[% %]ug.add_comment</kbd> method, the "private" parameter
@@ -649,7 +1519,7 @@
     <a href="[% docs_urlbase FILTER html %]api/Bugzilla/Comment.html">Bugzilla::Comment</a>
     object instead of just being hashes.</li>
   <li>In previous versions of [% terms.Bugzilla %], the template for displaying
-    bug required a lot of extra variables that are now global
+    a bug required a lot of extra variables that are now global
     template variables instead.</li>
   <li>You can now check if optional modules are installed by using
     <kbd>Bugzilla-&gt;feature</kbd> in Perl code or
@@ -811,7 +1681,7 @@
     was leading to a "Suspicious Action" warning.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=514378">Bug 514378</a>)
   </li>
-  <li>The XML format of bug accidentally contained the
+  <li>The XML format of a bug accidentally contained the
     word-wrapped content of comments instead of the unwrapped content.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=509152">Bug 509152</a>)
   </li>
@@ -1124,7 +1994,7 @@
   You can click "Show Advanced Fields" to show all the fields, if you want
   them. [%+ terms.Bugzilla %] remembers whether you last used the "Advanced"
   or "Simple" version of the bug-entry form, and will display the
-  same version to you again next time you file bug.</p>
+  same version to you again next time you file a bug.</p>
 
 <h3 id="v34_feat_index">New Home Page</h3>
 
@@ -1139,7 +2009,7 @@
   stored in [% terms.Bugzilla %] are now displayed only if you are logged in.
   If you are logged out, only the part before the "@" of the email address is
   displayed. This includes bug lists, viewing bugs, the
-  XML format of bug, and any other place in the web interface that
+  XML format of a bug, and any other place in the web interface that
   an email address could appear.</p>
 
 <p>Email addresses are not filtered out of bug comments.
@@ -1159,7 +2029,7 @@
   would wait for the emails to be sent before continuing.</p>
 
 <p>Now [% terms.Bugzilla %] is capable of queueing emails to be sent
-  while bug is being updated, and sending them in the
+  while a bug is being updated, and sending them in the
   background. This requires the administrator to run a daemon
   that comes with [% terms.Bugzilla %], named
   <a href="[% docs_urlbase FILTER html %]api/jobqueue.html">jobqueue.pl</a>,
@@ -1255,7 +2125,7 @@
 <ul>
   <li>You can now log in from every page, using the login form that appears
     in the header or footer when you click "Log In".</li>
-  <li>When viewing bug, obsolete attachments are now
+  <li>When viewing a bug, obsolete attachments are now
     hidden from the attachment list by default. You can show them
     by clicking "Show Obsolete" at the bottom of the attachment list.</li>
   <li>In the Email Preferences, you can now choose to get email when
@@ -1272,10 +2142,10 @@
     field to see its full value.</li>
   <li>When logging out, users are now redirected to the main page of
     [%+ terms.Bugzilla %] instead of an empty page.</li>
-  <li>When editing bug, text fields (except the comment box) now
+  <li>When editing a bug, text fields (except the comment box) now
     grow longer when you widen your browser window.</li>
   <li>When viewing bug, the Depends On and Blocks list will
-    display bug's alias if it has one, instead of its id.
+    display a bug's alias if it has one, instead of its id.
     Also, closed bugs will be sorted to the end of the list.</li>
 
   <li>If you use the time-tracking features of [% terms.Bugzilla %], and
@@ -1287,7 +2157,7 @@
 
   <li>When viewing an attachment's details page while you are logged-out,
     flags are no longer shown as editable.</li>
-  <li>Cloning bug will now retain the "Blocks" and "Depends On"
+  <li>Cloning a bug will now retain the "Blocks" and "Depends On"
     fields from the bug being cloned.</li>
   <li>Bugmail for new bugs will now indicate
     what security groups the bug has been restricted to.</li>
@@ -1526,7 +2396,7 @@
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=477513">Bug 477513</a>)</li>
   <li>[% terms.Bugzilla %] clients like Mylyn can now update bugs
     again (the bug XML format now contains a "token" element that
-    can be used when updating bug).
+    can be used when updating a bug).
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=476678">Bug 476678</a>)</li>
   <li>For installations using the <code>shadowdb</code> parameter, 
     [%+ terms.Bugzilla %] was accidentally writing to the "tokens" table
@@ -1558,9 +2428,9 @@
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=347707">Bug 347707</a>)</li>
 
   <li>If you were using the <code>usemenuforusers</code> parameter,
-    and bug was assigned to (or had a QA Contact of) a disabled
+    and a bug was assigned to (or had a QA Contact of) a disabled
     user, that field would be reset to the first user in the list when
-    updating bug.
+    updating a bug.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=465589">Bug 465589</a>)</li>
 
   <li>If you were using the <code>PROJECT</code> environment variable
@@ -1887,14 +2757,14 @@
 
 <ul>
   <li><strong>Bugs</strong>: You can now reassign
-    bug at the same time as you are changing its status.</li>
-  <li><strong>Bugs</strong>: When entering bug, 
+    a bug at the same time as you are changing its status.</li>
+  <li><strong>Bugs</strong>: When entering a bug, 
     you will now see the description of a component when you select it.</li>
   <li><strong>Bugs</strong>: The bug view now 
     contains some <a href="http://microformats.org/about/">Microformats</a>,
     most notably for users' names and email addresses.</li>
   <li><strong>Bugs</strong>: You can now remove a QA Contact
-    from bug simply by clearing the QA Contact field.</li>
+    from a bug simply by clearing the QA Contact field.</li>
   <li><strong>Bugs</strong>: There is now a user preference 
     that will allow you to exclude the quoted text when replying 
     to comments.</li>
@@ -1910,7 +2780,7 @@
     is on.</li>
 
   <li><strong>Search</strong>: You can now reverse the sort of 
-    bug list by clicking on a column header again.</li>
+    a bug list by clicking on a column header again.</li>
   <li><strong>Search</strong>: Atom feeds of bug lists now
     contain more fields.</li>
   <li><strong>Search</strong>: QuickSearch now supports searching flags
@@ -1943,7 +2813,7 @@
     to you. In other words, you can "redirect" requests and maintain the
     original requester.</li>
   <li><strong>Flags</strong>: Emails about flags now will thread properly
-    in email clients to be a part of bug's thread.</li>
+    in email clients to be a part of a bug's thread.</li>
   <li>When using <kbd>email_in.pl</kbd>, you can now add users to the CC
     list by just using <kbd>@cc</kbd> as the field name.</li>
   <li>Many pages (particularly administrative pages) now contain links to
@@ -2021,7 +2891,7 @@
     By default, it only outputs anything if there's an error, so it's
     ideal for administrators who want to run it nightly in a cron job.</li>
   <li>The <kbd>strict_isolation</kbd> parameter now prevents you from setting
-    users who cannot see bug as a CC, Assignee, or QA
+    users who cannot see a bug as a CC, Assignee, or QA
     Contact. Previously it only prevented you from adding users who
     could not <em>edit</em> the bug.</li>
   <li>Extensions can now add their own headers to the HTML &lt;head&gt;
@@ -2331,7 +3201,7 @@
 
 <ul>
   <li>For users of Firefox 2, the <code>show_bug.cgi</code> user interface
-    should no longer "collapse" after you modify bug.
+    should no longer "collapse" after you modify a bug.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=370739">Bug 370739</a>)</li>
   <li>If you can bless a group, and you share a saved search with that
     group, it will no longer automatically appear in all of that group's
@@ -2351,7 +3221,7 @@
     There should now be no remaining signficant problems with running
     [%+ terms.Bugzilla %] under mod_perl.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=370398">Bug 370398</a>)</li>
-  <li>If moving bug between products would remove groups
+  <li>If moving a bug between products would remove groups
     from the bug, you are now warned.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=303183">Bug 303183</a>)</li>
   <li>On IIS, whenever [% terms.Bugzilla %] threw a warning, it would
@@ -2359,7 +3229,7 @@
     unless you have a file in the <code>data</code> directory called
     <code>errorlog</code>, in which case warnings will be printed there.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=390148">Bug 390148</a>)</li>
-  <li>If you used <kbd>email_in.pl</kbd> to edit bug that was
+  <li>If you used <kbd>email_in.pl</kbd> to edit a bug that was
     protected by groups, all of the groups would be cleared.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=385453">Bug 385453</a>)</li>
   <li>PostgreSQL users: New Charts were failing to collect data over time.
@@ -2717,7 +3587,7 @@
 
 <h3 id="v30_feat_sbu">Unchangeable Fields Appear Unchangeable</h3>
 
-<p>As long as you are logged in, when viewing bug, if you 
+<p>As long as you are logged in, when viewing a bug, if you 
   cannot change a field, it will not look like you can change it. That 
   is, the value will just appear as plain text.</p>
 
@@ -2739,12 +3609,12 @@
 <h3 id="v30_feat_df">No More Double-Filed Bugs</h3>
 
 <p>Users of [% terms.Bugzilla %] will sometimes accidentally submit 
-  bug twice, either by going back in their web browser, 
+  a bug twice, either by going back in their web browser, 
   or just by refreshing a page. In the past, this could file the same 
   bug twice (or even three times) in a row, irritating 
   developers and confusing users.</p>
 
-<p>Now, if you try to submit bug twice from the same screen 
+<p>Now, if you try to submit a bug twice from the same screen 
   (by going back or by refreshing the page), [% terms.Bugzilla %] will warn 
   you about what you're doing, before it actually submits the duplicate
   bug.</p>
@@ -2770,7 +3640,7 @@
   is a comma-separated list of [% terms.Bugzilla %] users who will
   get all bug notifications generated by [% terms.Bugzilla %].</p>
 
-<p>Group controls still apply, though, so users who can't see bug
+<p>Group controls still apply, though, so users who can't see a bug
   still won't get notifications about that bug.</p>
 
 <h3 id="v30_feat_utf8">Improved UTF-8 Support</h3>
@@ -2825,9 +3695,9 @@
   <li>By default, comment fields will zoom large when you are typing in them,
     and become small when you move out of them. You can disable this
     in your user preferences.</li>
-  <li>You can hide obsolete attachments on bug by clicking
+  <li>You can hide obsolete attachments on a bug by clicking
     &quot;Hide Obsolete&quot; at the bottom of the attachment table.</li>
-  <li>If bug has flags set, and you move it to a different 
+  <li>If a bug has flags set, and you move it to a different 
     product that has flags with the same name, the flags will be 
     preserved.</li>
   <li>You now can't request a flag to be set by somebody who can't set it
@@ -2845,7 +3715,7 @@
     were watching and what role they had.</li>
   <li>If you hover your mouse over a full URL (like 
     <code>http://bugs.mycompany.com/show_bug.cgi?id=1212</code>) that 
-    links to bug, you will see the title of the 
+    links to a bug, you will see the title of the 
     bug. Of course, this only works for bugs in your
     [%+ terms.Bugzilla %] installation.</li>
   <li>If your installation has user watching enabled, you will now see
@@ -2855,14 +3725,14 @@
   <li>When a user creates their own account in [% terms.Bugzilla %], the 
     account is now not actually created until they verify their email
     address by clicking on a link that is emailed to them.</li>
-  <li>You can change bug's resolution without reopening it.</li>
-  <li>When you view the dependency tree on bug, resolved 
+  <li>You can change a bug's resolution without reopening it.</li>
+  <li>When you view the dependency tree on a bug, resolved 
     bugs will be hidden by default. (In previous versions,
     resolved bugs were shown by default.)</li>
   <li>When viewing bug activity, fields that hold bug 
     numbers (such as &quot;Blocks&quot;) will have the bug numbers
     displayed as links to those bugs.</li>
-  <li>When viewing the &quot;Keywords&quot; field in bug list,
+  <li>When viewing the &quot;Keywords&quot; field in a bug list,
     it will be sorted alphabetically, so you can sanely sort a list on
     that field.</li>
   <li>In most places, the Version field is now sorted using a version-sort
@@ -3089,7 +3959,7 @@
   Its code is now in various modules. Each function went to the module
   that was appropriate for it.</p>
 
-<p>Usually we filed bug in 
+<p>Usually we filed a bug in 
   <a href="https://bugzilla.mozilla.org">bugzilla.mozilla.org</a> for
   each function we moved. You can search there for the old name of
   the function, and that should get you the information about what
@@ -3179,7 +4049,7 @@ sub y { $var++ }</pre>
     <kbd>Bugzilla::Mailer</kbd></li>
   <li>The <kbd>CheckCanChangeField()</kbd> subroutine in 
     <kbd>process_bug.cgi</kbd> has been moved to <kbd>Bugzilla::Bug</kbd>,
-    and is now a method of bug object.</li>
+    and is now a method of a bug object.</li>
   <li>The code that used to be in the <kbd>global/banner.html.tmpl</kbd>
     template is now in <kbd>global/header.html.tmpl</kbd>. The banner
     still exists, but the file is empty.</li>
@@ -3196,7 +4066,7 @@ sub y { $var++ }</pre>
 
 [% BLOCK db_req %]
   [% SET m = DB_MODULE.$db %]
-  <h3 id="v36_req_[% db FILTER html %]">For [% m.name FILTER html %] Users</h3>
+  <h3 id="v40_req_[% db FILTER html %]">For [% m.name FILTER html %] Users</h3>
 
   <ul>
     <li>[% m.name FILTER html %]

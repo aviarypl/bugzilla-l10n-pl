@@ -30,6 +30,7 @@
                                    style_urls = ['skins/standard/global.css'] %]
 
 <div class="throw_error">
+<!--reason=[%reason FILTER html %]-->
   [% IF reason == "expired_token" %]
     Twoje zmiany zostały odrzucone, ponieważ przed ich wysłaniem
     do skryptu „[% script_name FILTER html %]” został przekroczony limit

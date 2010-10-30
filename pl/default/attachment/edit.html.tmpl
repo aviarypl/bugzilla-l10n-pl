@@ -204,6 +204,7 @@
             minrows = 10
             cols    = 80
             wrap    = 'soft'
+			disabled = 'disabled'
             defaultcontent = (attachment.contenttype.match('^text\/')) ?
                                attachment.data.replace('(.*\n|.+)', '>$1') : undef
           %]
@@ -224,6 +225,10 @@
               document.write('<button type="button" id="editButton" onclick="editAsComment(patchviewerinstalled);">Edytowanie załącznik jako komentarz<\/button>');
               document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment(patchviewerinstalled);" class="bz_default_hidden">Cofnij edytowanie jako komentarz<\/button>');
               document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment(patchviewerinstalled);" class="bz_default_hidden">Przywróć edytowanie jako komentarz<\/button>');
+              var editFrame = document.getElementById('editFrame');
+              if (editFrame) {
+                editFrame.disabled = false;
+              }
                 [% END %]
                 [% IF use_patchviewer %]
               document.write('<button type="button" id="viewDiffButton" onclick="viewDiff(attachment_id, patchviewerinstalled);">Wyświetl załącznik jako różnice<\/button>');
