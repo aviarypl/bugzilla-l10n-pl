@@ -35,6 +35,8 @@
     header = header 
     style_urls = ["skins/standard/summarize-time.css"]
     doc_section = "timetracking.html"
+    yui = ['calendar']
+    javascript_urls = [ "js/util.js", "js/field.js" ]
     %]
 
 [% INCLUDE query_form %]
@@ -283,11 +285,23 @@
              for="start_date"><u>P</u>oczątek </label></b>: 
 </td><td colspan="3">
   <input type="text" id="start_date" name="start_date" size="11"
-  align="right" value="[% start_date FILTER html %]" maxlength="10">
+         align="right" value="[% start_date FILTER html %]" maxlength="10"
+         onchange="updateCalendarFromField(this)">
+  <button type="button" class="calendar_button"
+    id="button_calendar_start_date"
+    onclick="showCalendar('start_date')"><span>Kalendarz</span>
+  </button>
+  <div id="con_calendar_start_date"></div>
   &nbsp;
   <b> i <label accesskey="e" for="end_date">koni<u>e</u>c</label></b>: 
   <input type="text" name="end_date" size="11" id="end_date"
-  align="right" value ="[% end_date FILTER html %]" maxlength="10"> okresu.
+         align="right" value ="[% end_date FILTER html %]" maxlength="10"
+         onchange="updateCalendarFromField(this)">
+  <button type="button" class="calendar_button"
+    id="button_calendar_end_date"
+    onclick="showCalendar('end_date')"><span>Kalendarz</span>
+  </button>
+  <div id="con_calendar_end_date"></div>
 </td><td align="right">
   <input type="submit" id="summarize" value="Sumuj">
 </td></tr>
@@ -331,7 +345,9 @@
 </form>
 <script type="text/javascript">
 <!--
-   document.forms['summary'].start_date.focus()
+  createCalendar('start_date');
+  createCalendar('end_date');
+  document.forms['summary'].start_date.focus();
 //--></script>
 <hr noshade size=1>
 [% END %]
