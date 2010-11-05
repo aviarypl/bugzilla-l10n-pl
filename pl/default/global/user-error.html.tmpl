@@ -885,7 +885,7 @@
 
   [% ELSIF error == "invalid_datasets" %]
     [% title = "Nieprawidłowe zestawy danych" %]
-    Nieprawidłowe zestawy danych <em>[% datasets FILTER html %]</em>. Dozwolone są tylko
+    Nieprawidłowe zestawy danych <em>[% datasets.join(":") FILTER html %]</em>. Dozwolone są tylko
     cyfry, litery i dwukropki.
 
   [% ELSIF error == "invalid_format" %]
@@ -1490,7 +1490,7 @@
   [% ELSIF error == "sudo_invalid_cookie" %]
     [% title = "Nieprawidłowe ciasteczko sesji sudo" %]
     Twoje ciasteczko sesji sudo jest nieprawidłowe - wygasło lub sesja sudo
-    nie została prawidłowo rozpoczęta. Aby kontynuować pracę używając własnej tożsamości, odśwież tę stonę
+    nie została prawidłowo rozpoczęta. Aby kontynuować pracę używając własnej tożsamości, odśwież tę stronę
     lub przejdź na inną.
 
   [% ELSIF error == "sudo_illegal_action" %]
