@@ -1,0 +1,56 @@
+[%# 3.7.3+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # Contributor(s): Shane H. W. Travis <travis@sedsystems.ca>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# Remember to PROCESS rather than INCLUDE this template. %]
+
+[% PROCESS global/variables.none.tmpl %]
+
+[% setting_descs = { 
+   "comment_sort_order"               => "Komentarze na stronach $terms.bledow wyświetlaj w kolejności",
+   "csv_colsepchar"                   => "Separator pól w plikach CSV",
+   "display_quips"                    => "Wyświetlanie sentencji na górze każdej listy $terms.bledow",
+   "zoom_textareas"                   => "Powiększanie aktywnego pola tekstowego (wymaga JavaScriptu)",
+   "newest_to_oldest"                 => "od najnowszego do najstarszego",
+   "newest_to_oldest_desc_first"      => "od najnowszego do najstarszego (opis na górze)",
+   "off"                              => "wyłączone",
+   "oldest_to_newest"                 => "od najstarszego do najnowszego",
+   "on"                               => "włączone",
+   "per_bug_queries"                  => "Etykiety $terms.bledow",
+   "post_bug_submit_action"           => "Po zmianie $terms.bledu",
+   "next_bug"                         => "pokaż następny $terms.blad na liście",
+   "same_bug"                         => "pokaż uaktualniony $terms.blad",
+   "standard"                         => "Klasyczny",
+   "skin"                             => "Wygląd $terms.Bugzilli (motyw)",
+   "nothing"                          => "nie rób nic",
+   "state_addselfcc"                  => "Dodawaj mnie do obserwatorów $terms.bledow, które zmieniam",
+   "always"                           => "zawsze",
+   "never"                            => "nigdy",
+   "cc_unless_role"                   => "tylko, gdy nie mam w nich przypisanej żadnej roli",
+   "lang"                             => "Język używany w wiadomościach e-mail",
+   "quote_replies"                    => "Po kliknięciu odnośnika „odpowiedz”",
+   "quoted_reply"                     => "cytuj cały komentarz",
+   "simple_reply"                     => "odnoś się tylko do numeru komentarza",
+   "comment_box_position"             => "Umiejscowienie pola Dodatkowe komentarze",
+   "before_comments"                  => "nad innymi komentarzami",
+   "after_comments"                   => "pod innymi komentarzami",
+   "timezone"                         => "Strefa czasowa używana do wyświetlania dat i czasu",
+   "local"                            => "taka sama, jak serwera",
+                   } 
+%]
+
+[% Hook.process('settings') %]
