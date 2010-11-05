@@ -62,6 +62,51 @@
 
 <h2 id="v36_point">Updates in this 3.6.x Release</h2>
 
+<h3>3.6.3</h3>
+
+<p>This release fixes various important security issues. See the
+  <a href="http://www.bugzilla.org/security/3.2.8/">Security Advisory</a>
+  for details.</p>
+
+<p>In addition, the following important fixes/changes have been made in
+  this release:</p>
+
+<ul>
+  <li>Clicking the "Submit only my new comment" button on the mid-air
+    collision page will no longer result in a "Form field longdesclength
+    was not defined" error.
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=591218">Bug 591218</a>)
+  </li>
+  <li>Saving a search with either of the deadline fields set to "Now" would
+    cause that deadline field to be removed from the saved search.
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=590144">Bug 590144</a>)
+  </li>
+  <li>Searching for bugs "with at least X votes" was instead
+    returning bugs with <em>exactly</em> that many votes.
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=584414">Bug 584414</a>)
+  </li>
+  <li>Typing something like "P1-5" in the quicksearch box should have
+    been searching the Priority field,
+    but it was not.
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=585028">Bug 585028</a>)
+  </li>
+  <li>Users who had passwords less than 6 characters long couldn't log in.
+    Such users could only exist before 3.6, so it looked like after upgrading
+    to 3.6, certain users couldn't log in.
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=575947">Bug 575947</a>)
+  </li>
+  <li>Loading <a href="config.cgi?ctype=rdf">config.cgi?ctype=rdf</a> should
+    now be faster, particularly on installations that have many flags.
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=553266">Bug 553266</a>
+    and <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=605693">Bug 605693</a>)
+  </li>
+  <li>Non-english templates were not being precompiled by checksetup.pl,
+    leading to reduced performance for localized [% terms.Bugzilla %]
+    installations.
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=605425">Bug 605425</a>)
+  </li>
+</ul>
+
 <h3>3.6.2</h3>
 
 <p>This release fixes various security issues. See the
@@ -310,8 +355,8 @@
 <h3 id="v36_email_attachments">Send Attachments by Email</h3>
 
 <p>The <a href="[% docs_urlbase FILTER html %]api/email_in.html">email_in</a>
-  script now supports attaching multiple attachments to bug
-  by email, both when filing and when updating bug.</p>
+  script now supports attaching multiple attachments to a bug
+  by email, both when filing and when updating a bug.</p>
 
 <h3 id="v36_feat_jsonrpc">JSON-RPC Interface</h3>
 
@@ -360,21 +405,21 @@
 <h4>Enhancements for Users</h4>
 
 <ul>
-  <li><b>Bug Filing:</b> When filing bug,
+  <li><b>Bug Filing:</b> When filing a bug,
     [%+ terms.Bugzilla %] now visually indicates which fields are
     mandatory.</li>
   <li><b>Bug Filing:</b> "Bookmarkable templates" now
     support the "alias" and "estimated hours" fields.</li>
   
   <li><b>Bug Editing:</b> In previous versions of
-    [%+ terms.Bugzilla %], if you added a private comment to bug,
+    [%+ terms.Bugzilla %], if you added a private comment to a bug,
     then <em>none</em> of the changes that you made at that time were
     sent to users who couldn't see the private comment. Now, for users
     who can't see private comments, public changes are sent, but the private
     comment is excluded from their email notification.</li>
   <li><b>Bug Editing:</b> The controls for groups now
     appear to the right of the attachment and time-tracking tables,
-    when editing bug.</li>
+    when editing a bug.</li>
   <li><b>Bug Editing:</b> The "Collapse All Comments"
     and "Expand All Comments" links now appear to the right of the
     comment list instead of above it.</li>
@@ -427,7 +472,7 @@
     using Classifications, the Product drop-down will be grouped by
     Classification.</li>
 
-  <li><b>Inbound Email:</b> When filing bug by email, if the
+  <li><b>Inbound Email:</b> When filing a bug by email, if the
     product that you are filing the bug into has some groups
     set as Default for you, the bug will now be placed into those
     groups automatically.</li>
@@ -469,7 +514,7 @@
     show up, you should edit your status workflow appropriately
     (possibly by removing or disabling the REOPENED status).</li>
   <li>You can now "disable" field values so that they don't show
-    up as choices on bug unless they are already set as
+    up as choices on a bug unless they are already set as
     the value for that bug. This doesn't work for the
     per-product field values (component, target_milestone, and version)
     yet, though.</li>
@@ -575,7 +620,7 @@
     which allows getting information about attachments.</li>
   <li>New Method:
     <a href="[% docs_urlbase FILTER html %]api/Bugzilla/WebService/Bug.html#fields">B[% %]ug.fields</a>,
-    which gets information about all the fields that bug can have
+    which gets information about all the fields that a bug can have
     in [% terms.Bugzilla %], include custom fields and legal values for
     all fields. The <kbd>B[% %]ug.legal_values</kbd> method is now deprecated.</li>
   <li>In the <kbd>B[% %]ug.add_comment</kbd> method, the "private" parameter
@@ -649,7 +694,7 @@
     <a href="[% docs_urlbase FILTER html %]api/Bugzilla/Comment.html">Bugzilla::Comment</a>
     object instead of just being hashes.</li>
   <li>In previous versions of [% terms.Bugzilla %], the template for displaying
-    bug required a lot of extra variables that are now global
+    a bug required a lot of extra variables that are now global
     template variables instead.</li>
   <li>You can now check if optional modules are installed by using
     <kbd>Bugzilla-&gt;feature</kbd> in Perl code or
@@ -811,7 +856,7 @@
     was leading to a "Suspicious Action" warning.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=514378">Bug 514378</a>)
   </li>
-  <li>The XML format of bug accidentally contained the
+  <li>The XML format of a bug accidentally contained the
     word-wrapped content of comments instead of the unwrapped content.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=509152">Bug 509152</a>)
   </li>
@@ -1124,7 +1169,7 @@
   You can click "Show Advanced Fields" to show all the fields, if you want
   them. [%+ terms.Bugzilla %] remembers whether you last used the "Advanced"
   or "Simple" version of the bug-entry form, and will display the
-  same version to you again next time you file bug.</p>
+  same version to you again next time you file a bug.</p>
 
 <h3 id="v34_feat_index">New Home Page</h3>
 
@@ -1139,7 +1184,7 @@
   stored in [% terms.Bugzilla %] are now displayed only if you are logged in.
   If you are logged out, only the part before the "@" of the email address is
   displayed. This includes bug lists, viewing bugs, the
-  XML format of bug, and any other place in the web interface that
+  XML format of a bug, and any other place in the web interface that
   an email address could appear.</p>
 
 <p>Email addresses are not filtered out of bug comments.
@@ -1159,7 +1204,7 @@
   would wait for the emails to be sent before continuing.</p>
 
 <p>Now [% terms.Bugzilla %] is capable of queueing emails to be sent
-  while bug is being updated, and sending them in the
+  while a bug is being updated, and sending them in the
   background. This requires the administrator to run a daemon
   that comes with [% terms.Bugzilla %], named
   <a href="[% docs_urlbase FILTER html %]api/jobqueue.html">jobqueue.pl</a>,
@@ -1255,7 +1300,7 @@
 <ul>
   <li>You can now log in from every page, using the login form that appears
     in the header or footer when you click "Log In".</li>
-  <li>When viewing bug, obsolete attachments are now
+  <li>When viewing a bug, obsolete attachments are now
     hidden from the attachment list by default. You can show them
     by clicking "Show Obsolete" at the bottom of the attachment list.</li>
   <li>In the Email Preferences, you can now choose to get email when
@@ -1272,10 +1317,10 @@
     field to see its full value.</li>
   <li>When logging out, users are now redirected to the main page of
     [%+ terms.Bugzilla %] instead of an empty page.</li>
-  <li>When editing bug, text fields (except the comment box) now
+  <li>When editing a bug, text fields (except the comment box) now
     grow longer when you widen your browser window.</li>
   <li>When viewing bug, the Depends On and Blocks list will
-    display bug's alias if it has one, instead of its id.
+    display a bug's alias if it has one, instead of its id.
     Also, closed bugs will be sorted to the end of the list.</li>
 
   <li>If you use the time-tracking features of [% terms.Bugzilla %], and
@@ -1287,7 +1332,7 @@
 
   <li>When viewing an attachment's details page while you are logged-out,
     flags are no longer shown as editable.</li>
-  <li>Cloning bug will now retain the "Blocks" and "Depends On"
+  <li>Cloning a bug will now retain the "Blocks" and "Depends On"
     fields from the bug being cloned.</li>
   <li>Bugmail for new bugs will now indicate
     what security groups the bug has been restricted to.</li>
@@ -1526,7 +1571,7 @@
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=477513">Bug 477513</a>)</li>
   <li>[% terms.Bugzilla %] clients like Mylyn can now update bugs
     again (the bug XML format now contains a "token" element that
-    can be used when updating bug).
+    can be used when updating a bug).
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=476678">Bug 476678</a>)</li>
   <li>For installations using the <code>shadowdb</code> parameter, 
     [%+ terms.Bugzilla %] was accidentally writing to the "tokens" table
@@ -1558,9 +1603,9 @@
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=347707">Bug 347707</a>)</li>
 
   <li>If you were using the <code>usemenuforusers</code> parameter,
-    and bug was assigned to (or had a QA Contact of) a disabled
+    and a bug was assigned to (or had a QA Contact of) a disabled
     user, that field would be reset to the first user in the list when
-    updating bug.
+    updating a bug.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=465589">Bug 465589</a>)</li>
 
   <li>If you were using the <code>PROJECT</code> environment variable
@@ -1887,14 +1932,14 @@
 
 <ul>
   <li><strong>Bugs</strong>: You can now reassign
-    bug at the same time as you are changing its status.</li>
-  <li><strong>Bugs</strong>: When entering bug, 
+    a bug at the same time as you are changing its status.</li>
+  <li><strong>Bugs</strong>: When entering a bug, 
     you will now see the description of a component when you select it.</li>
   <li><strong>Bugs</strong>: The bug view now 
     contains some <a href="http://microformats.org/about/">Microformats</a>,
     most notably for users' names and email addresses.</li>
   <li><strong>Bugs</strong>: You can now remove a QA Contact
-    from bug simply by clearing the QA Contact field.</li>
+    from a bug simply by clearing the QA Contact field.</li>
   <li><strong>Bugs</strong>: There is now a user preference 
     that will allow you to exclude the quoted text when replying 
     to comments.</li>
@@ -1910,7 +1955,7 @@
     is on.</li>
 
   <li><strong>Search</strong>: You can now reverse the sort of 
-    bug list by clicking on a column header again.</li>
+    a bug list by clicking on a column header again.</li>
   <li><strong>Search</strong>: Atom feeds of bug lists now
     contain more fields.</li>
   <li><strong>Search</strong>: QuickSearch now supports searching flags
@@ -1943,7 +1988,7 @@
     to you. In other words, you can "redirect" requests and maintain the
     original requester.</li>
   <li><strong>Flags</strong>: Emails about flags now will thread properly
-    in email clients to be a part of bug's thread.</li>
+    in email clients to be a part of a bug's thread.</li>
   <li>When using <kbd>email_in.pl</kbd>, you can now add users to the CC
     list by just using <kbd>@cc</kbd> as the field name.</li>
   <li>Many pages (particularly administrative pages) now contain links to
@@ -2021,7 +2066,7 @@
     By default, it only outputs anything if there's an error, so it's
     ideal for administrators who want to run it nightly in a cron job.</li>
   <li>The <kbd>strict_isolation</kbd> parameter now prevents you from setting
-    users who cannot see bug as a CC, Assignee, or QA
+    users who cannot see a bug as a CC, Assignee, or QA
     Contact. Previously it only prevented you from adding users who
     could not <em>edit</em> the bug.</li>
   <li>Extensions can now add their own headers to the HTML &lt;head&gt;
@@ -2331,7 +2376,7 @@
 
 <ul>
   <li>For users of Firefox 2, the <code>show_bug.cgi</code> user interface
-    should no longer "collapse" after you modify bug.
+    should no longer "collapse" after you modify a bug.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=370739">Bug 370739</a>)</li>
   <li>If you can bless a group, and you share a saved search with that
     group, it will no longer automatically appear in all of that group's
@@ -2351,7 +2396,7 @@
     There should now be no remaining signficant problems with running
     [%+ terms.Bugzilla %] under mod_perl.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=370398">Bug 370398</a>)</li>
-  <li>If moving bug between products would remove groups
+  <li>If moving a bug between products would remove groups
     from the bug, you are now warned.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=303183">Bug 303183</a>)</li>
   <li>On IIS, whenever [% terms.Bugzilla %] threw a warning, it would
@@ -2359,7 +2404,7 @@
     unless you have a file in the <code>data</code> directory called
     <code>errorlog</code>, in which case warnings will be printed there.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=390148">Bug 390148</a>)</li>
-  <li>If you used <kbd>email_in.pl</kbd> to edit bug that was
+  <li>If you used <kbd>email_in.pl</kbd> to edit a bug that was
     protected by groups, all of the groups would be cleared.
     (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=385453">Bug 385453</a>)</li>
   <li>PostgreSQL users: New Charts were failing to collect data over time.
@@ -2717,7 +2762,7 @@
 
 <h3 id="v30_feat_sbu">Unchangeable Fields Appear Unchangeable</h3>
 
-<p>As long as you are logged in, when viewing bug, if you 
+<p>As long as you are logged in, when viewing a bug, if you 
   cannot change a field, it will not look like you can change it. That 
   is, the value will just appear as plain text.</p>
 
@@ -2739,12 +2784,12 @@
 <h3 id="v30_feat_df">No More Double-Filed Bugs</h3>
 
 <p>Users of [% terms.Bugzilla %] will sometimes accidentally submit 
-  bug twice, either by going back in their web browser, 
+  a bug twice, either by going back in their web browser, 
   or just by refreshing a page. In the past, this could file the same 
   bug twice (or even three times) in a row, irritating 
   developers and confusing users.</p>
 
-<p>Now, if you try to submit bug twice from the same screen 
+<p>Now, if you try to submit a bug twice from the same screen 
   (by going back or by refreshing the page), [% terms.Bugzilla %] will warn 
   you about what you're doing, before it actually submits the duplicate
   bug.</p>
@@ -2770,7 +2815,7 @@
   is a comma-separated list of [% terms.Bugzilla %] users who will
   get all bug notifications generated by [% terms.Bugzilla %].</p>
 
-<p>Group controls still apply, though, so users who can't see bug
+<p>Group controls still apply, though, so users who can't see a bug
   still won't get notifications about that bug.</p>
 
 <h3 id="v30_feat_utf8">Improved UTF-8 Support</h3>
@@ -2825,9 +2870,9 @@
   <li>By default, comment fields will zoom large when you are typing in them,
     and become small when you move out of them. You can disable this
     in your user preferences.</li>
-  <li>You can hide obsolete attachments on bug by clicking
+  <li>You can hide obsolete attachments on a bug by clicking
     &quot;Hide Obsolete&quot; at the bottom of the attachment table.</li>
-  <li>If bug has flags set, and you move it to a different 
+  <li>If a bug has flags set, and you move it to a different 
     product that has flags with the same name, the flags will be 
     preserved.</li>
   <li>You now can't request a flag to be set by somebody who can't set it
@@ -2845,7 +2890,7 @@
     were watching and what role they had.</li>
   <li>If you hover your mouse over a full URL (like 
     <code>http://bugs.mycompany.com/show_bug.cgi?id=1212</code>) that 
-    links to bug, you will see the title of the 
+    links to a bug, you will see the title of the 
     bug. Of course, this only works for bugs in your
     [%+ terms.Bugzilla %] installation.</li>
   <li>If your installation has user watching enabled, you will now see
@@ -2855,14 +2900,14 @@
   <li>When a user creates their own account in [% terms.Bugzilla %], the 
     account is now not actually created until they verify their email
     address by clicking on a link that is emailed to them.</li>
-  <li>You can change bug's resolution without reopening it.</li>
-  <li>When you view the dependency tree on bug, resolved 
+  <li>You can change a bug's resolution without reopening it.</li>
+  <li>When you view the dependency tree on a bug, resolved 
     bugs will be hidden by default. (In previous versions,
     resolved bugs were shown by default.)</li>
   <li>When viewing bug activity, fields that hold bug 
     numbers (such as &quot;Blocks&quot;) will have the bug numbers
     displayed as links to those bugs.</li>
-  <li>When viewing the &quot;Keywords&quot; field in bug list,
+  <li>When viewing the &quot;Keywords&quot; field in a bug list,
     it will be sorted alphabetically, so you can sanely sort a list on
     that field.</li>
   <li>In most places, the Version field is now sorted using a version-sort
@@ -3089,7 +3134,7 @@
   Its code is now in various modules. Each function went to the module
   that was appropriate for it.</p>
 
-<p>Usually we filed bug in 
+<p>Usually we filed a bug in 
   <a href="https://bugzilla.mozilla.org">bugzilla.mozilla.org</a> for
   each function we moved. You can search there for the old name of
   the function, and that should get you the information about what
@@ -3179,7 +3224,7 @@ sub y { $var++ }</pre>
     <kbd>Bugzilla::Mailer</kbd></li>
   <li>The <kbd>CheckCanChangeField()</kbd> subroutine in 
     <kbd>process_bug.cgi</kbd> has been moved to <kbd>Bugzilla::Bug</kbd>,
-    and is now a method of bug object.</li>
+    and is now a method of a bug object.</li>
   <li>The code that used to be in the <kbd>global/banner.html.tmpl</kbd>
     template is now in <kbd>global/header.html.tmpl</kbd>. The banner
     still exists, but the file is empty.</li>
