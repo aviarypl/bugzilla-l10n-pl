@@ -28,7 +28,7 @@
 %]
   
 <tr>
-  <th align="right">Maximum votes per person:</th>
+  <th align="right">Maksymalna liczba głosów do dyspozycji użytkownika:</th>
   <td><input size="5" maxlength="5" name="votesperuser" id="votesperuser"
              value="[% product.votesperuser FILTER html %]">
   </td>
@@ -36,7 +36,7 @@
 
 <tr>
   <th align="right">
-    Maximum votes a person can put on a single [% terms.bug %]:
+    Maks. liczba głosów jaką użytkownik może oddać na [% terms.blad %]:
   </th>
   <td><input size="5" maxlength="5" name="maxvotesperbug" id="maxvotesperbug"
              value="[% product.maxvotesperbug FILTER html %]">
@@ -46,13 +46,13 @@
 <tr id="votes_to_confirm_container"
     [%- ' class="bz_default_hidden"' IF !product.allows_unconfirmed %]>
   <th align="right">
-    Confirm [% terms.abug %] if it gets this many votes:
+    Automatycznie potwierdź [% terms.bledy %] jeśli osiągną następującą liczbę głosów:
   </th>
   <td>
     <input size="3" maxlength="5" name="votestoconfirm" id="votestoconfirm"
            value="[% product.votestoconfirm FILTER html %]">
-    <br>(Setting this to 0 disables auto-confirming [% terms.bugs %]
-    by vote.)
+    <br>(Wartość 0 tego parametru spowoduje wyłączenie automatycznego potwierdzania [% terms.bledow %]
+    przez głosowanie.)
     <script type="text/javascript">
         YAHOO.util.Event.addListener('allows_unconfirmed', 'change',
             function() { bz_toggleClass('votes_to_confirm_container',

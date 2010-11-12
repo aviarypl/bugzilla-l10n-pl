@@ -23,19 +23,19 @@
 
 [% IF votes %]
   <li>
-    [% otheruser.login FILTER html %] has voted on
+    Użytkownik [% otheruser.login FILTER html %] głosował na
     [% IF votes == 1 %]
-      [%+ terms.abug %]
+      [%+ terms.blad %]
     [% ELSE %]
-      [%+ votes %] [%+ terms.bugs %]
+      [%+ votes %] [%+ terms.bledy %]
     [% END %].
 
-    If you delete the user account,
+    Usunięcie konta użytkownika spowoduje, że 
     [% IF votes == 1 %]
-      this vote
+      głos ten zostanie usunięty
     [% ELSE %]
-      these votes
+      te głosy zostaną usunięte
     [% END %]
-    will be deleted along with the user account.
+    razem z kontem użytkownika.
   </li>
 [% END %]

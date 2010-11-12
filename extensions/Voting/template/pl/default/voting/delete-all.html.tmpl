@@ -28,26 +28,26 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-           title = "Remove your votes?"
+           title = "Usuwanie oddanych głosów"
  %]
 
 <p>
-  You are about to remove all of your [% terms.bug %] votes. Are you sure you wish to
-  remove your vote from every [% terms.bug %] you've voted on?
+  Zamierzasz usunąć wszystkie swoje głosy oddane na [% terms.bledy %]. Czy na pewno chcesz
+  usunąć swój głos z każdego [% terms.bledu %], na który zagłosowałeś/zagłosowałaś?
 </p>
 
 <form action="page.cgi?id=voting/user.html" method="post">
     <input type="hidden" name="action" value="vote">
   <p>
     <input type="radio" name="delete_all_votes" value="1">
-    Yes, delete all my votes
+    Usuń wszystkie moje głosy
   </p>
   <p>
     <input type="radio" name="delete_all_votes" value="0" checked="checked">
-    No, go back and review my votes
+    Wróć i wyświetl moje głosy
   </p>
   <p>
-    <input type="submit" id="vote" value="Submit">
+    <input type="submit" id="vote" value="Wyślij">
   </p>
 </form>
 

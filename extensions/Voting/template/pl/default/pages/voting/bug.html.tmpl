@@ -32,15 +32,15 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% PROCESS global/header.html.tmpl
-           title = "Show Votes"
-           subheader = "$terms.Bug $bug.id" FILTER bug_link(bug)
+           title = "Oddane głosy"
+           subheader = "$terms.Blad $bug.id" FILTER bug_link(bug)
  %]
 
 [% total = 0 %]
 <table cellspacing="4">
   <tr>
-    <th>Who</th>
-    <th>Number of votes</th>
+    <th>Głosujący</th>
+    <th>Liczba głosów</th>
   </tr>
 
   [% FOREACH voter = users %]
@@ -59,6 +59,6 @@
   [% END %]
 </table>
 
-<p>Total votes: [% total FILTER html %]</p>
+<p>Suma głosów: [% total FILTER html %]</p>
 
 [% PROCESS global/footer.html.tmpl %]

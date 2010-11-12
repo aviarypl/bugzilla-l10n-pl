@@ -22,7 +22,7 @@
   #%]
 
 [% IF error == "voting_no_open_bug_status" %]
-    [% title = "$terms.Bug Cannot Be Confirmed" %]
-    There is no valid transition from
-    [%+ display_value("bug_status", "UNCONFIRMED") FILTER html %] to an open state
+    [% title = "Nie można potwierdzić $terms.bledu" %]
+    To nie jest prawidłowe przekształcenie z
+    [%+ display_value("bug_status", "UNCONFIRMED") FILTER html %] na status otwarty.
 [% END %]

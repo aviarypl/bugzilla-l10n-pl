@@ -27,32 +27,32 @@
     Only use non-negative numbers for your [% terms.bug %] votes.
 
 [% ELSIF error == "voting_product_illegal_votes" %]
-    [% title = "Votes Must Be Non-negative" %]
-    [% admindocslinks = {'voting.html' => 'Setting up the voting feature'} %]
-    '[% votes FILTER html %]' is an invalid value for the
+    [% title = "Głosy muszą mieć wartość dodatnią" %]
+    [% admindocslinks = {'voting.html' => 'Ustawianie funkcji głosowania'} %]
+    Wartość „[% votes FILTER html %]” jest nieprawidłową wartością dla pola
     <em>
     [% IF field == "votesperuser" %]
-      Votes Per User
+      Głosów na użytkownika,
     [% ELSIF field == "maxvotesperbug" %]
-      Maximum Votes Per [% terms.Bug %]
+      Maksymalna liczba głosów na [% terms.blad %],
     [% ELSIF field == "votestoconfirm" %]
-      Votes To Confirm
+      Wymagana liczba głosów do potwierdzenia,
     [% END %]
-    </em> field, which should contain a non-negative number.
+    </em> które powinno zawierać dodatnie wartości liczbowe.
 
 [% ELSIF error == "voting_too_many_votes_for_bug" %]
-    [% title = "Illegal Vote" %]
-    [% admindocslinks = {'voting.html' => 'Setting up the voting feature'} %]
-    You may only use at most [% max FILTER html %] votes for a single
-    [%+ terms.bug %] in the
-    <tt>[% product FILTER html %]</tt> product, but you are trying to
-    use [% votes FILTER html %].
+    [% title = "Nieprawidłowe głosowanie" %]
+    [% admindocslinks = {'voting.html' => 'Ustawianie funkcji głosowania'} %]
+    Można oddać najwyżej [% max FILTER html %] głosów na pojedynczy
+    [%+ terms.blad %] w produkcie
+    <tt>[% product FILTER html %]</tt>, a próbowano oddać
+    [%+ votes FILTER html %] głosów.
 
 [% ELSIF error == "voting_too_many_votes_for_product" %]
-    [% title = "Illegal Vote" %]
-    [% admindocslinks = {'voting.html' => 'Setting up the voting feature'} %]
-    You tried to use [% votes FILTER html %] votes in the
-    <tt>[% product FILTER html %]</tt> product, which exceeds the maximum of
-    [%+ max FILTER html %] votes for this product.
+    [% title = "Nieprawidłowe głosowanie" %]
+    [% admindocslinks = {'voting.html' => 'Ustawianie funkcji głosowania'} %]
+    Próbowano oddać [% votes FILTER html %] głosów w produkcie
+    <tt>[% product FILTER html %]</tt>. Dopuszczalna liczba głosów dla tego produktu to:
+    [%+ max FILTER html %].
 
 [% END %]

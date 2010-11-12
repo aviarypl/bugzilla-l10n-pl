@@ -20,22 +20,22 @@
   #%]
 
 [% IF san_tag == "voting_cache_rebuild_fix" %]
-    <a href="sanitycheck.cgi?rebuild_vote_cache=1">Click here to
-    rebuild the vote cache</a>
+    <a href="sanitycheck.cgi?rebuild_vote_cache=1">Kliknij tutaj, by
+    odbudować bufor głosowania</a>
 
 [% ELSIF san_tag == "voting_cache_alert" %]
-    Bad vote cache for [% PROCESS bug_link bug_id = id %]
+    Nieprawidłowy bufor głosowania dla [% PROCESS bug_link bug_id = id %]
 
 [% ELSIF san_tag == "voting_count_start" %]
-    Checking cached vote counts.
+    Test zbuforowanej liczby głosów.
 
 [% ELSIF san_tag == "voting_count_alert" %]
-    Bad vote sum for [% terms.bug %] [%+ id FILTER html %].
+    Nieprawidłowa suma głosów dla [% terms.bledu %] [%+ id FILTER html %].
 
 [% ELSIF san_tag == "voting_cache_rebuild_start" %]
-    OK, now rebuilding vote cache.
+    Odbudowywanie bufora głosowania…
 
 [% ELSIF san_tag == "voting_cache_rebuild_end" %]
-    Vote cache has been rebuilt
+    Bufor głosowania został odbudowany.
 
 [% END %]

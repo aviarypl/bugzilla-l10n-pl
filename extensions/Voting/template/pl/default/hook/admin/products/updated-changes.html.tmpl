@@ -25,8 +25,8 @@
 
 [% IF changes.votesperuser.defined %]
   <p>
-  Updated votes per user from
-  [%+ changes.votesperuser.0 FILTER html %] to
+  Zaktualizowano liczbę głosów użytkownika z
+  [%+ changes.votesperuser.0 FILTER html %] na
   [%+ product.votesperuser FILTER html %].
   </p>
   [% checkvotes = 1 %]
@@ -34,8 +34,8 @@
 
 [% IF changes.maxvotesperbug.defined %]
   <p>
-  Updated maximum votes per [% terms.bug %] from
-  [%+ changes.maxvotesperbug.0 FILTER html %] to
+  Zaktualizowano maksymalną liczbę głosów na [% terms.blad %] z 
+  [%+ changes.maxvotesperbug.0 FILTER html %] na
   [%+ product.maxvotesperbug FILTER html %].
   </p>
   [% checkvotes = 1 %]
@@ -43,8 +43,8 @@
 
 [% IF changes.votestoconfirm.defined %]
   <p>
-  Updated number of votes needed to confirm a [% terms.bug %] from
-  [%+ changes.votestoconfirm.0 FILTER html %] to
+  Zaktualizowano liczbę głosów wymaganą do potwierdzenia [% terms.bledu %] z
+  [%+ changes.votestoconfirm.0 FILTER html %] na
   [%+ product.votestoconfirm FILTER html %].
   </p>
   [% checkvotes = 1 %]
@@ -57,34 +57,34 @@
 [% IF checkvotes %]
   <hr>
 
-  <p>Checking existing votes in this product for anybody who now
-  has too many votes for [% terms.abug %]...<br>
+  <p>Sprawdzanie istniejących głosów w tym produkcie w poszukiwaniu użytkowników, którzy
+  oddali zbyt dużo głosów na [% terms.blad %]…<br>
   [% IF changes.too_many_votes.size %]
     [% FOREACH detail = changes.too_many_votes %]
-      &rarr;removed votes for [% terms.bug %] <a href="show_bug.cgi?id=
+      &rarr;usunięto głosy oddane na [% terms.blad %] <a href="show_bug.cgi?id=
      [%- detail.id FILTER url_quote %]">
-     [%- detail.id FILTER html %]</a> from [% detail.name FILTER html %]<br>
+     [%- detail.id FILTER html %]</a> przez [% detail.name FILTER html %]<br>
     [% END %]
   [% ELSE %]
-    &rarr;there were none.
+    &rarr;nie znaleziono.
   [% END %]
   </p>
 
-  <p>Checking existing votes in this product for anybody
-  who now has too many total votes...<br>
+  <p>Sprawdzanie istniejących głosów w tym produkcie w poszukiwaniu użytkowników, którzy
+  oddali za dużo głosów…<br>
   [% IF changes.too_many_total_votes.size %]
     [% FOREACH detail = changes.too_many_total_votes %]
-      &rarr;removed votes for [% terms.bug %] <a href="show_bug.cgi?id=
+      &rarr;usunięto głosy oddane na [% terms.blad %] <a href="show_bug.cgi?id=
      [%- detail.id FILTER url_quote %]">
-     [%- detail.id FILTER html %]</a> from [% detail.name FILTER html %]<br>
+     [%- detail.id FILTER html %]</a> przez [% detail.name FILTER html %]<br>
     [% END %]
   [% ELSE %]
-    &rarr;there were none.
+    &rarr;nie znaleziono.
   [% END %]
   </p>
 
-  <p>Checking unconfirmed [% terms.bugs %] in this product for any which now have
-  sufficient votes...<br>
+  <p>Wyszukiwanie niepotwierdzonych [% terms.bledow %] w tym produkcie w poszukiwaniu tych,
+  które po zmianach ustawień głosowania mają wystarczającą liczbę głosów do potwierdzenia…<br>
   [% IF changes.confirmed_bugs.size %]
     [% FOREACH id = changes.confirmed_bugs %]
 
@@ -98,7 +98,7 @@
       %]
     [% END %]
   [% ELSE %]
-    &rarr;there were none.
+    &rarr;nie znaleziono.
   [% END %]
   </p>
 

@@ -23,50 +23,48 @@
   #%]
 
 [% PROCESS global/variables.none.tmpl %]
-[% INCLUDE global/header.html.tmpl title = "Voting" %]
+[% INCLUDE global/header.html.tmpl title = "Głosowanie" %]
 
-<p>[% terms.Bugzilla %] has a "voting" feature. Each product allows users to 
-have a certain number of votes. (Some products may not allow any, which means 
-you can't vote on things in those products at all.) With your vote, you 
-indicate which [% terms.bugs %] you think are the most important and 
-would like to see fixed. Note that voting is nowhere near as effective 
-as providing a fix yourself.</p>
+<p>[% terms.Bugzilla %] wyposażona jest w funkcję „głosowania”. W każdym
+produkcie użytkownik ma możliwość oddania określoną liczbę głosów. Jeśli w jakimś
+produkcie wartość tę określono jako 0, użytkownik nie ma możliwości głosowania na
+[%+ terms.bledy %] tego produktu. Oddając głos na dany [% terms.blad %], użytkownik
+wskazuje, iż właśnie ten powinien być rozwiązany w pierwszej kolejności.</p>
 
-<p>Depending on how the administrator has configured the relevant product,
-you may be able to vote for the same [% terms.bug %] more than once.
-Remember that you have a limited number of votes. When weighted voting 
-is allowed and a limited number of votes are available to you, you will 
-have to decide whether you want to distribute your votes among a large 
-number of [% terms.bugs %] indicating your minimal interest or focus on 
-a few [% terms.bugs %] indicating your strong support for them.
-</p>
+<p>W zależności od tego, jak administrator skonfigurował dany produkt, użytkownik
+może mieć możliwość oddania na [% terms.blad %] więcej niż jednego głosu. Należy jednak pamiętać, 
+że liczba głosów, jaką posiada użytkownik, jest ograniczona. Gdy jest dozwolone
+oddawanie wielu głosów i użytkownik dysponuje odpowiednią liczbą głosów,
+będzie musiał zdecydować, czy oddać swoje głosy na dużą liczbę [% terms.bledow %]
+wskazując na swoje minimalne zainteresowanie tymi [% terms.bledami %], czy
+skoncentrować się na kilku [% terms.bledach %] udzielając im dużego poparcia.</p>
 
-<p>To look at votes:</p>
+<p>Aby zobaczyć głosy</p>
 
 <ul>
-  <li>Go to the query page. Do a normal query, but enter 1 in the "At least
-  ___ votes" field. This will show you items that match your query that
-  have at least one vote.</li>
+  <li>należy wejść na stronę wyszukiwania i wykonać standardowe wyszukiwanie, ale w pole
+  „Co najmniej ___ głosów” należy wpisać 1. Dzięki temu można zobaczyć 
+  [% terms.bledy %], na które ktoś oddał przynajmniej jeden głos.</li>
 </ul>
 
-<p>To vote for [% terms.abug %]:</p>
+<p>Aby zagłosować na [% terms.blad %], należy:</p>
 
 <ul>
-  <li>Bring up the [% terms.bug %] in question.</li>
+  <li>otworzyć stronę odpowiedniego [% terms.bledu %],</li>
 
-  <li>Click on the "(vote)" link that appears on the right of the "Importance"
-  fields. (If no such link appears, then voting may not be allowed in
-  this [% terms.bug %]'s product.)</li>
+  <li>kliknąć odnośnik (głosuj) znajdujący się po prawej stronie pola „Ważność”.
+  Jeśli nie ma takiego odnośnika, głosowanie na [% terms.bledy %] w tym produkcie
+  może być niedozwolone,</li>
 
-  <li>Indicate how many votes you want to give this [% terms.bug %]. This page 
-  also displays how many votes you've given to other [% terms.bugs %], so you 
-  may rebalance your votes as necessary.</li>
+  <li>wpisać liczbę głosów, która ma być oddana na [% terms.blad %]. Na tej stronie
+  można również zobaczyć głosy oddane przez użytkownika na inne [% terms.bledy %]
+  i - jeśli potrzeba - powtórnie rozdysponować głosy.</li>
 </ul>
 
-<p>You will automatically get email notifying you of any changes that occur
-on [% terms.bugs %] you vote for.</p>
+<p>Użytkownik zostanie poinformowany poprzez e-mail o wszystkich zmianach w 
+[% terms.bledach %], na które zagłosował.</p>
 
-<p>You may review your votes at any time by clicking on the "<a href=
-"page.cgi?id=voting/user.html">My Votes</a>" link in the page footer.</p>
+<p>W każdej chwili można przejrzeć swoje głosy, klikając odnośnik „<a href=
+"page.cgi?id=voting/user.html">Moje głosy</a>” znajdujący się w stopce każdej strony.</p>
 
 [% INCLUDE global/footer.html.tmpl %]
