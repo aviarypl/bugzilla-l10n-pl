@@ -1,4 +1,4 @@
-# 3.4.9PLRC@aviary.pl
+# 3.4.9PL@aviary.pl
 # -*- Mode: perl; indent-tabs-mode: nil -*-
 #
 # The contents of this file are subject to the Mozilla Public
