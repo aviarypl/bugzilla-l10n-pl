@@ -27,7 +27,7 @@
 [% IF oldbugmove_user_is_mover(user) %]
   <p>
     <input type="submit" id="oldbugmove" name="oldbugmove"
-           value="Move [% terms.Bugs FILTER html %] to 
+           value="Przenieś [% terms.bledy FILTER html %] do 
                   [%= Param('move-to-url') FILTER html %]">
   </p>
 [% END %]

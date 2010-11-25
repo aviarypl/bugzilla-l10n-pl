@@ -23,16 +23,16 @@
   #%]
 
 [% IF    san_tag == "example_check_au_user" %]
-  <em>EXAMPLE PLUGIN</em> - Checking for non-Australian users.
+  <em>PRZYKŁADOWY PLUGIN</em> - Sprawdzam użytkowników nie będących Australijczykami.
 [% ELSIF san_tag == "example_check_au_user_alert" %]
-  User &lt;[% login FILTER html %]&gt; isn't Australian.
+  Użytkownik &lt;[% login FILTER html %]&gt; nie jest Australijczykiem.
   [% IF user.in_group('editusers') %]
-    <a href="editusers.cgi?id=[% userid FILTER none %]">Edit this user</a>.
+    <a href="editusers.cgi?id=[% userid FILTER none %]">Edytuj użytkownika</a>.
   [% END %]
 [% ELSIF san_tag == "example_check_au_user_prompt" %]
-  <a href="sanitycheck.cgi?example_repair_au_user=1">Fix these users</a>.
+  <a href="sanitycheck.cgi?example_repair_au_user=1">Zmień narodowość użytkowników</a>.
 [% ELSIF san_tag == "example_repair_au_user_start" %]
-  <em>EXAMPLE PLUGIN</em> - OK, would now make users Australian.
+  <em>PRZYKŁADOWY PLUGIN</em> - OK, zmieniam narodowość użytkowników.
 [% ELSIF san_tag == "example_repair_au_user_end" %]
-  <em>EXAMPLE PLUGIN</em> - Users would now be Australian.
+  <em>PRZYKŁADOWY PLUGIN</em> - Użytkownicy zostali Australijczykami.
 [% END %]

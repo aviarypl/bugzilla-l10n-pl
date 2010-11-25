@@ -24,9 +24,9 @@
 [% IF comment.type == constants.CMT_MOVED_TO %]
 [% comment.body %]
 
-[%+ terms.Bug %] moved to [% Param("move-to-url") %].
-If the move succeeded, [% comment.extra_data FILTER email %] will receive a mail
-containing the number of the new [% terms.bug %] in the other database.
-If all went well, please paste in a link to the new [% terms.bug %]. 
-Otherwise, reopen this [% terms.bug %].
+[%+ terms.Blad %] został przeniesiony do [% Param("move-to-url") %].
+Jeśli przenoszenie zakończy się prawidłowo, [% comment.extra_data FILTER email %] otrzyma powiadomienie zawierające
+numer nowego [% terms.bledu %] w innej bazie danych.
+Jeśli wszystko zakończyło się pomyślnie, wklej odnośnik do nowego [% terms.bledu %]. 
+Jeśli nie, otwórz ponownie ten [% terms.blad %].
 [% END %]

@@ -23,10 +23,10 @@
   #%]
 
 [% PROCESS global/header.html.tmpl
-    title = "Example Page" 
+    title = "Przykładowa strona" 
 %]
 
-<p>Here's what you passed me:</p>
+<p>Wpisano następujący tekst:</p>
 [% USE Dumper %]
 <pre>
   [% Dumper.dump_html(cgi_variables) %]

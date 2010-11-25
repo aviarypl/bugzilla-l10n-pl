@@ -22,11 +22,10 @@
   #%]
 
 [% IF error == "oldbugmove_no_delete_moved" %]
-    As long as the OldBugMove extension is active, you cannot
-    delete the [%+ display_value("resolution", "MOVED") FILTER html %]
-    resolution.
+    Usunięcie rozwiązania [%+ display_value("resolution", "MOVED") FILTER html %]
+	jest niedozwolone gdyż rozszerzenie OldBugMove jest włączone.
 [% ELSIF error == "oldbugmove_no_manual_move" %]
-    You cannot set the resolution of [% terms.abug %] to 
-    [%+ display_value("resolution", "MOVED") FILTER html %] without
-    moving the [% terms.bug %].
+    [% terms.Blad %] nie może posiadać rozwiązania
+    [%+ display_value("resolution", "MOVED") FILTER html %] bez jego
+    przeniesienia.
 [% END %]
