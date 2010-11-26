@@ -40,8 +40,9 @@
   header = header
   subheader = subheader
   doc_section = "attachments.html"
-  javascript_urls = ['js/attachment.js']
+  javascript_urls = ['js/attachment.js', 'js/field.js']
   style_urls = ['skins/standard/attachment.css']
+  yui = [ 'autocomplete' ]
   bodyclasses = "no_javascript"
 %]
 
@@ -208,7 +209,7 @@
             defaultcontent = (attachment.contenttype.match('^text\/')) ?
                                attachment.data.replace('(.*\n|.+)', '>$1') : undef
           %]
-          <iframe id="viewFrame" src="attachment.cgi?id=[% attachment.id %]" style="height: 400px; width: 100%;">
+            <iframe id="viewFrame" src="attachment.cgi?id=[% attachment.id %]">
             <b>Nie można wyświetlić załącznika podczas przeglądania jego szczegółów, ponieważ twoja przeglądarka nie obsługuje elementu IFRAME.
             <a href="attachment.cgi?id=[% attachment.id %]">Zobacz załącznik na osobnej stronie</a>.</b>
           </iframe>

@@ -39,12 +39,11 @@ var queryform = "queryform"
 
 [% PROCESS global/header.html.tmpl
   title = "Wyszukiwanie $terms.bledow"
-  onload = "doOnSelectProduct(0); enableHelp();"
+  onload = "doOnSelectProduct(0);"
   javascript = js_data
   yui = [ 'autocomplete', 'calendar' ]
-  javascript_urls = [ "js/productform.js", "js/util.js",
-                      "js/help.js" , "js/TUI.js", "js/field.js"]
-  style_urls = [ "skins/standard/help.css" , "skins/standard/search_form.css" ]
+  javascript_urls = [ "js/productform.js", "js/util.js", "js/TUI.js", "js/field.js"]
+  style_urls = [ "skins/standard/search_form.css" ]
   doc_section = "query.html"
   style = "dl.bug_changes dt {
              margin-top: 15px;
@@ -55,19 +54,7 @@ var queryform = "queryform"
 
 [% button_name = "Szukaj" %]
 
-[%# The decent help requires Javascript %]
-<script type="text/javascript"> <!--
-[% IF NOT cgi.param("help") %]
-  document.write("<p><a href='query.cgi?help=1&amp;format=advanced'>Pomoc<\/a> <small>(nastąpi odświeżenie strony)</small>.<\/p>");
-[% ELSE %]
-  [% PROCESS "bug/field-help.none.tmpl" %]
-  if (generateHelp())
-    document.write("<p>By uzyskać pomoc umieść kursor nad elementem strony.<\/p>");
-  else
-    document.write("<p>Zainicjowanie pomocy się nie powiodło. Pomoc jest niedostępna.<\/p>");
-[% END %]
-// -->
-</script>
+<p id="search_help">By uzyskać pomoc umieść kursor nad elementem strony.</p>
 
 <form method="post" action="buglist.cgi" name="queryform" id="queryform">
 
