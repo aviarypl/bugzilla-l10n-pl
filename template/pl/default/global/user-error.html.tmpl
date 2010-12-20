@@ -690,10 +690,10 @@
 
   [% ELSIF error == "freetext_too_long" %]
     [% title = "Za długi tekst" %]
-    Wprowadzony tekst zawiera [% text.length FILTER html %] znaków.
+    Tekst wprowadzony do pola <em>[% field_descs.$field FILTER html %]</em> 
+    zawiera [% text.length FILTER html %] znaków.
     Dopuszczalna liczba to [% constants.MAX_FREETEXT_LENGTH FILTER none %]
-    znaków:
-    <p><em>[% text FILTER html %]</em></p>
+    znaków.
 
   [% ELSIF error == "group_cannot_delete" %]
     [% title = "Nie można usunąć grupy" %]
@@ -1293,7 +1293,9 @@
       Popełniono błąd w nazwie lub użytkownik nie ma jeszcze zarejestrowanego
       konta w [% terms.Bugzilli %].
     [% END %]
-
+	[% IF class == "Bugzilla::Keyword" %]
+	  Wszystkie istniejące słowa kluczowe są dostępne na <a href="describekeywords.cgi">tej liście</a>.
+	[% END %]
   [% ELSIF error == "old_password_incorrect" %]
     [% title = "Nieprawidłowe poprzednie hasło" %]
     Nie podano prawidłowego poprzedniego hasła.
