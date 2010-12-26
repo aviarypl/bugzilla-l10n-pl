@@ -36,8 +36,8 @@
       if (bz_isValueInArray(bless_groups, group.value)) {
         YAHOO.util.Dom.removeClass(checkbox.parentNode, "bz_default_hidden");
       } else {
-        checkbox.disabled = true;
         YAHOO.util.Dom.addClass(checkbox.parentNode, "bz_default_hidden");
+        checkbox.checked = false;
       }
     } //-->
   </script>

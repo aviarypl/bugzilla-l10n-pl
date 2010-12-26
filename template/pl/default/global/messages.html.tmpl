@@ -286,7 +286,7 @@
   [% ELSIF message_tag == "field_value_created" %]
     [% title = "Utworzono nową wartość pola" %]
     Wartość <em>[% value.name FILTER html %]</em> została dodana jako
-    prawidłowy wybór dla pola <em>[% field_descs.${field.name} FILTER html %]</em>
+    prawidłowy wybór dla pola <em>[% field.description FILTER html %]</em>
     (<em>[% field.name FILTER html %]</em>).
     [% IF field.name == "bug_status" %]
       Przejdź na <a href="editworkflow.cgi">stronę zmian statusów [% terms.bledow %]</a>,

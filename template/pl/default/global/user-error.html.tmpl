@@ -1312,6 +1312,14 @@
     [% title = "Niezgodne hasła" %]
     Podane hasła nie są identyczne.
 
+  [% ELSIF error == "password_current_too_short" %]
+    [% title = "New Password Required" %]
+    Your password is currently less than
+    [%+ constants.USER_PASSWORD_MIN_LENGTH FILTER html %] characters long,
+    which is the new minimum length required for passwords.
+    You must <a href="token.cgi?a=reqpw&loginname=[% locked_user.email FILTER html %]">
+    request a new password</a> in order to log in again.
+
   [% ELSIF error == "password_too_short" %]
     [% title = "Zbyt krótkie hasło" %]
     Hasło nie może mieć mniej niż
@@ -1426,7 +1434,7 @@
     [% title = "Nieznane pole szybkiego wyszukiwania" %]
     Jest problem z twoim wyszukiwaniem:
     [% FOREACH field = unknown %]
-      <p> <code>[% field FILTER html %]</code> nie jest poprawną nazwą pola.</p>
+      <p><code>[% field FILTER html %]</code> nie jest poprawną nazwą pola.</p>
     [% END %]
     [% FOREACH field = ambiguous.keys %]
       <p><code>[% field FILTER html %]</code> pasuje do więcej niż jednego pola:

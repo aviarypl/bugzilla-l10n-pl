@@ -62,7 +62,7 @@
     <h2>[%+ query.title FILTER html %]</h2>
 
   <table width="100%">
-    <tr>
+      <tr>
       <th align="left">ID</th>
       <th align="left">Waga</th>
       <th align="left">Prio</th>
@@ -84,10 +84,10 @@
         <td align="left">[% display_value("bug_status", bug.bug_status) FILTER html %]</td>
         <td align="left">[% display_value("resolution", bug.resolution) FILTER html %]</td>
         <td align="left">[% bug.short_desc FILTER html %]</td>
-      </tr>
-    [% END %]
-  </table>
-[% END %]
+        </tr>
+      [% END %]
+    </table>
+  [% END %]
 [% ELSE %]
 <h3>Nie znaleziono $terms.bledow spełniających podane kryteria wyszukiwania.</h3>
 [% END %]
