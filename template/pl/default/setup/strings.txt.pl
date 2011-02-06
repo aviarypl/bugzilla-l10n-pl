@@ -70,6 +70,7 @@ END
     feature_mod_perl          => 'mod_perl',
     feature_moving            => 'Przenoszenie bledow pomiedzy instalacjami',
     feature_patch_viewer      => 'Przegladarka latek',
+    feature_rand_security     => 'Zwiekszenie bezpieczenstwa generowanych ciasteczek i tokenow',
     feature_smtp_auth         => 'Uwierzytelnianie SMTP',
     feature_updates           => 'Automatyczne powiadomienia o aktualizacji',
     feature_xmlrpc            => 'Interfejs XML-RPC',

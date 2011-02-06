@@ -533,7 +533,8 @@ TUI_hide_default('expert_fields');
               { key: "id", label: "[% field_descs.bug_id FILTER js %]",
                 formatter: YAHOO.bugzilla.dupTable.formatBugLink },
               { key: "summary", 
-                label: "[% field_descs.short_desc FILTER js %]" },
+                label: "[% field_descs.short_desc FILTER js %]",
+                formatter: "text" },
               { key: "status",
                 label: "[% field_descs.bug_status FILTER js %]",
                 formatter: YAHOO.bugzilla.dupTable.formatStatus },
@@ -589,9 +590,10 @@ TUI_hide_default('expert_fields');
       <td colspan="3">
         &nbsp;&nbsp;
         <input type="checkbox" id="comment_is_private" name="comment_is_private"
-          [% ' checked="checked"' IF comment_is_private %]>
+          [% ' checked="checked"' IF comment_is_private %]
+               onClick="updateCommentTagControl(this, 'comment')">
         <label for="comment_is_private">
-          Opis prywatny (widoczny tylko dla członków grupy 
+          Opis i nowe załączniki prywatne (widoczne tylko dla członków grupy 
           <strong>[% Param('insidergroup') FILTER html %]</strong>)
         </label>
       </td>

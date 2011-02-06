@@ -37,7 +37,8 @@
     [% errortext FILTER html %]: [% INCLUDE bug_list badbugs = badbugs %]
 
   [% ELSIF san_tag == "bug_check_repair" %]
-    <a href="sanitycheck.cgi?[% param FILTER url_quote %]=1">[% text FILTER html %]</a>.
+    <a href="sanitycheck.cgi?[% param FILTER url_quote %]=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER url_quote %]">[% text FILTER html %]</a>.
 
   [% ELSIF san_tag == "bug_check_creation_date" %]
     Test [% terms.bledow %] bez daty utworzenia (są niewidoczne).
@@ -139,11 +140,13 @@
     [% END %]
 
   [% ELSIF san_tag == "cross_check_attachment_has_references" %]
-    <a href="sanitycheck.cgi?remove_invalid_attach_references=1">Usuń
+    <a href="sanitycheck.cgi?remove_invalid_attach_references=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER url_quote %]">Usuń
     nieprawidłowe odniesienia do nieistniejących załączników</a>
 
   [% ELSIF san_tag == "cross_check_bug_has_references" %]
-    <a href="sanitycheck.cgi?remove_invalid_bug_references=1">Usuń
+    <a href="sanitycheck.cgi?remove_invalid_bug_references=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER url_quote %]">Usuń
     nieprawidłowe odniesienia do nieistniejących [% terms.bledow %]</a>
 
   [% ELSIF san_tag == "double_cross_check_to" %]
@@ -189,7 +192,8 @@
     [%+ PROCESS bug_link bug_id = bug_id %].
 
   [% ELSIF san_tag == "flag_fix" %]
-    <a href="sanitycheck.cgi?remove_invalid_flags=1">Kliknij
+    <a href="sanitycheck.cgi?remove_invalid_flags=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER url_quote %]">Kliknij
     tutaj, by usunąć nieprawidłową flagę</a>
 
   [% ELSIF san_tag == "group_control_map_entries_creation" %]
@@ -253,7 +257,8 @@
     co najmniej pół godziny: [% INCLUDE bug_list badbugs = badbugs %]
 
   [% ELSIF san_tag == "unsent_bugmail_fix" %]
-    <a href="sanitycheck.cgi?rescanallBugMail=1">Wyślij te wiadomości</a>
+    <a href="sanitycheck.cgi?rescanallBugMail=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER url_quote %]">Wyślij te wiadomości</a>
 
   [% ELSIF san_tag == "whines_obsolete_target_deletion_start" %]
     Usuwanie nieistniejących użytkowników/grupy z przypomnień…
@@ -271,7 +276,8 @@
     [% END %]
 
   [% ELSIF san_tag == "whines_obsolete_target_fix" %]
-    <a href="sanitycheck.cgi?remove_old_whine_targets=1">Kliknij tutaj, by
+    <a href="sanitycheck.cgi?remove_old_whine_targets=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER url_quote %]">Kliknij tutaj, by
     usunąć starych użytkowników/grupy</a>
 
   [% ELSE %]

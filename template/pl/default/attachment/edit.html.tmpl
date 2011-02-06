@@ -186,7 +186,7 @@
           </a>
           </div>
       [% ELSIF !Param("allow_attachment_display") %]
-          <div id="view_disabled" >
+          <div id="view_disabled">
           <p><b>
             Nie można wyświetlić załącznika w twojej przeglądarce z powodu ograniczeń
             bezpieczeństwa włączonych przez [% terms.Bugzille %].
@@ -223,7 +223,7 @@
                   document.write('<iframe id="viewDiffFrame" class="bz_default_hidden"><\/iframe>');
                 [% END %]
                 [% IF user.id %]
-              document.write('<button type="button" id="editButton" onclick="editAsComment(patchviewerinstalled);">Edytowanie załącznik jako komentarz<\/button>');
+              document.write('<button type="button" id="editButton" onclick="editAsComment(patchviewerinstalled);">Edytuj załącznik jako komentarz<\/button>');
               document.write('<button type="button" id="undoEditButton" onclick="undoEditAsComment(patchviewerinstalled);" class="bz_default_hidden">Cofnij edytowanie jako komentarz<\/button>');
               document.write('<button type="button" id="redoEditButton" onclick="redoEditAsComment(patchviewerinstalled);" class="bz_default_hidden">Przywróć edytowanie jako komentarz<\/button>');
               var editFrame = document.getElementById('editFrame');
