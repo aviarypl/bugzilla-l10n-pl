@@ -1,4 +1,4 @@
-# 3.6.4PLRC@aviary.pl 
+# 3.6.4PL@aviary.pl 
 # The contents of this file are subject to the Mozilla Public
 # License Version 1.1 (the "License"); you may not use this file
 # except in compliance with the License. You may obtain a copy of
@@ -64,7 +64,7 @@ END
     feature_mod_perl          => 'mod_perl',
     feature_moving            => 'Przenoszenie bledow pomiedzy instalacjami',
     feature_patch_viewer      => 'Przegladarka latek',
-    feature_rand_security     => 'Zwiekszenie bezpieczenstwa generowanych ciasteczek i tokenow',
+    feature_rand_security     => 'Zwieksza bezpieczenstwo ciasteczek i tokenow',
     feature_smtp_auth         => 'Uwierzytelnianie SMTP',
     feature_updates           => 'Automatyczne powiadomienia o aktualizacji',
     feature_xmlrpc            => 'Interfejs XML-RPC',
