@@ -1593,11 +1593,6 @@
        Wykonano nieznaną czynność. Nie można określić, co chcesz zrobić.
     [% END %]
 
-  [% ELSIF error == "unknown_keyword" %]
-    [% title = "Nieznane słowo kluczowe" %]
-    <code>[% keyword FILTER html %]</code> nie jest istniejącym słowem kluczowym.
-    Wszystkie istniejące słowa kluczowe są dostępne na <a href="describekeywords.cgi">tej liście</a>.
-
   [% ELSIF error == "unknown_tab" %]
     [% title = "Nieznana etykieta" %]
     <code>[% current_tab_name FILTER html %]</code> nie jest nazwą istniejącej etykiety.
@@ -1789,6 +1784,8 @@
     pole
   [% ELSIF class == "Bugzilla::Group" %]
     grupa
+  [% ELSIF class == "Bugzilla::Keyword" %]
+    słowo kluczowe
   [% ELSIF class == "Bugzilla::Product" %]
     produkt
   [% ELSIF class == "Bugzilla::Search::Recent" %]
