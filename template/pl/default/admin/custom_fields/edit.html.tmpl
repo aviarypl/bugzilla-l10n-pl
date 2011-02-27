@@ -89,18 +89,17 @@
     <tr>
       [% IF field.type == constants.FIELD_TYPE_BUG_ID %]
         <th class="narrow_label">
-          <label for="reverse_desc">Opis współzależności:</label>
+          <label for="reverse_desc">Opis o odwróconej zależności:</label>
         </th>
         <td>
           <input type="text" id="reverse_desc" name="reverse_desc" size="40"
                  value="[% field.reverse_desc FILTER html %]">
           <br/>
-          Powyższy opis będzie określać listę [% terms.bledow %], które są powiązane 
-	      z polem [% field_types.${constants.FIELD_TYPE_BUG_ID} FILTER html %].
-          Przykładowo jeśli pole zostanie opisane jako "Jest duplikatem",
-		  to opis współzależności powinien zostać określony jako 
-          "Duplikaty tego [% terms.bledu %]".
-          Pozostaw puste aby wyłączyć wyświetlanie listy.
+          Użyj tej etykiety dla listy [% terms.bledow %], które są powiązane 
+          z [%+ terms.bledem %] zawierającym pole [%+ field_types.${constants.FIELD_TYPE_BUG_ID} FILTER html %].
+          Przykładowo jeśli opisem jest: „Jest duplikatem”, to opis o odwróconej zależności
+          powinien mieć postać: „Duplikaty tego [% terms.bledu %]”. 
+          Pozostaw puste, aby wyłączyć wyświetlanie listy dla tego pola.
         </td>
       [% ELSE %]
         <td colspan="2">&nbsp;</td>
@@ -117,7 +116,7 @@
             <option value="[% sel_field.id FILTER html %]"
              [% ' selected="selected"' 
                 IF sel_field.id == field.visibility_field.id %]>
-              [% sel_field.description FILTER html %]
+              [% field_descs.${sel_field.name} FILTER html %]
               ([% sel_field.name FILTER html %])
             </option>
           [% END %]
@@ -160,7 +159,7 @@
               <option value="[% sel_field.id FILTER html %]"
                [% ' selected="selected"' 
                   IF sel_field.id == field.value_field.id %]>
-                [% sel_field.description FILTER html %]
+                [% field_descs.${sel_field.name} FILTER html %]
                 ([% sel_field.name FILTER html %])
               </option>
             [% END %]

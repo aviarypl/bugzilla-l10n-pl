@@ -306,7 +306,7 @@
 
   [% ELSIF error == "comment_too_long" %]
     [% title = "Zbyt długi komentarz" %]
-    Komentarz nie może być dłuższy niż 
+    Komentarz nie może zawierać więcej niż
     [%+ constants.MAX_COMMENT_LENGTH FILTER html %] znaków.
 
   [% ELSIF error == "auth_classification_not_enabled" %]
@@ -361,8 +361,8 @@
 
   [% ELSIF error == "component_name_too_long" %]
     [% title = "Nazwa komponentu jest zbyt długa" %]
-    Nazwa komponentu nie może być dłuższa niż [% constants.MAX_COMPONENT_SIZE FILTER html %]
-    znaków. „[% name FILTER html %]” zawiera więcej niż ([% name.size %] znaków).
+    Nazwa komponentu nie może zawierać więcej niż [% constants.MAX_COMPONENT_SIZE FILTER html %]
+    znaków. „[% name FILTER html %]” zawiera więcej niż ([% name.length %] znaków).
 
   [% ELSIF error == "component_need_initialowner" %]
     [% title = "Komponent musi mieć domyślną osobę odpowiedzialną" %]
@@ -375,7 +375,7 @@
   [% ELSIF error == "customfield_not_obsolete" %]
     [% title = "Pole dodatkowe nie jest zdezaktualizowane" %]
     Pole dodatkowe „[% name FILTER html %]” nie jest zdezaktualizowane.
-    Przed usunięciem, należy je zdezaktualizować.
+    Przed usunięciem należy je zdezaktualizować.
 
   [% ELSIF error == "customfield_has_activity" %]
     [% title = "Pole dodatkowe jest aktywne" %]
@@ -993,7 +993,7 @@
     [% END %]
 
   [% ELSIF error == "json_rpc_get_method_required" %]
-    Korzystając z JSON-RPC używając metody GET, należy podać parametr „method”.
+    Gdy używasz JSON-RPC korzystając z metody GET, należy podać parametr „method”.
     Więcej szczegółów znajdziesz w dokumentacji
     [%+ docs_urlbase FILTER html %]api/Bugzilla/WebService/Server/JSONRPC.html
 
@@ -1008,8 +1008,8 @@
     znaki specjalne są dopuszczone do wykorzystania jako parametr „callback”: <code>[]._</code>
 
   [% ELSIF error == "json_rpc_post_only" %]
-    Z powodów bezpieczeństwa korzystając z JSON-RPC możesz używać tylko
-    metody POST protokołu HTTP.
+    Z powodów bezpieczeństwa musisz użyć HTTP POST, by wywołać
+    metodę „[% method FILTER html %]”.
 
   [% ELSIF error == "keyword_already_exists" %]
     [% title = "Słowo kluczowe już istnieje" %]
@@ -1273,8 +1273,8 @@
 
   [% ELSIF error == "object_not_specified" %]
     [% type = BLOCK %][% INCLUDE object_name class = class %][% END %]
-    [% title = BLOCK %]Nie określono [% type FILTER html %] 
-    [% END %]
+    [% title = BLOCK %][% type FILTER ucfirst FILTER html %] 
+    Nie określono[% END %]
     Należy wybrać/podać [% type FILTER html %].
 
   [% ELSIF error == "object_does_not_exist" %]
@@ -1427,8 +1427,8 @@
 
   [% ELSIF error == "query_name_too_long" %]
     [% title = "Zbyt długa nazwa wyszukiwania" %]
-    Nazwa wyszukiwania nie może być dłuższa niż [% constants.MAX_LEN_QUERY_NAME FILTER html %]
-    znaki.	
+    Nazwa wyszukiwania nie może zawierać więcej niż [% constants.MAX_LEN_QUERY_NAME FILTER html %]
+    znaków.	
 
   [% ELSIF error == "quicksearch_unknown_field" %]
     [% title = "Nieznane pole szybkiego wyszukiwania" %]
@@ -1510,6 +1510,7 @@
     <a href="http://www.mozilla.org">Zachęcamy do darmowego pobrania</a>.
 
   [% ELSIF error == "still_unresolved_bugs" %]
+    [% title = "Nierozwiązane zależności" %]
     [% IF dependency_count == 1 %]
       [% terms.Blad %]# <a href="show_bug.cgi?id=[% dependencies.0.bug_id FILTER none %]">[% dependencies.0.bug_id FILTER none %]</a>
       nadal ma [% dependencies.0.dependencies FILTER html %] 
@@ -1531,11 +1532,13 @@
         zależności</a>)<br>
       [% END %]
     [% END %]
+    Należy je rozwiązać lub usunąć z pola „Zależy od” przed zmianą 
+    statusu [% terms.bledu %] na [% display_value("resolution", "FIXED") FILTER html %].
 
   [% ELSIF error == "sudo_invalid_cookie" %]
     [% title = "Nieprawidłowe ciasteczko sesji sudo" %]
     Twoje ciasteczko sesji sudo jest nieprawidłowe - wygasło lub sesja sudo
-    nie została prawidłowo rozpoczęta. Aby kontynuować pracę używając własnej tożsamości, odśwież tę stronę
+    nie została prawidłowo rozpoczęta. Aby kontynuować pracę, używając własnej tożsamości, odśwież tę stronę
     lub przejdź na inną.
 
   [% ELSIF error == "sudo_illegal_action" %]
@@ -1584,7 +1587,7 @@
     [% ELSIF type == "account" %]
       konta
     [% END %]
-    w zbyt krótkim odstępie czasu od poprzedniej próby. Proszę poczekać chwilę i spróbować ponownie.
+    w zbyt krótkim odstępie czasu od poprzedniej próby. Proszę odczekać chwilę i spróbować ponownie.
 
   [% ELSIF error == "unknown_action" %]
     [% IF action %]
@@ -1695,10 +1698,10 @@
     [% error_message = Hook.process("errors") %]
 
     [% IF not error_message %]
-      [% title = "Opis błędu nie został znaleziony" %]
-      Opis błędu użytkownika <code>[% error FILTER html %]</code> nie został
-      znaleziony. Proszę wysłać wiadomość do [% Param("maintainer") %] opisującą
-      kroki, które doprowadziły do wyświetlenia tej wiadomości.
+      [% title = "Nie znaleziono opisu błędu" %]
+      Nie znaleziono opisu błędu użytkownika <code>[% error FILTER html %]</code>.
+      Proszę wysłać wiadomość do [% Param("maintainer") %] opisującą kroki, które
+      doprowadziły do wyświetlenia tej wiadomości.
     [% ELSE %]
       [% error_message FILTER none %]
     [% END %]

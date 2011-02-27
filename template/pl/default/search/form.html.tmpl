@@ -197,8 +197,8 @@ TUI_hide_default('information_query');
 <div id="detailed_information" class="bz_section_title">
   <div id="information_query_controller" class="arrow">&#9660;</div>
   <a href="javascript:TUI_toggle_class('information_query')">
-    Szczegóły [% terms.bledu %]</a>
-  <span class="section_help">Zawęź wyszukiwanie do następujących pól: 
+    Informacje szczegółowe</a>
+  <span class="section_help">Zawęź wyszukiwanie do pól: 
     [%+ field_descs.longdesc FILTER html %], [%+ field_descs.bug_file_loc FILTER html %], 
     [% IF Param('usestatuswhiteboard') %] [%+ field_descs.status_whiteboard FILTER html %], [%+ END %]
     [% IF use_keywords %] [%+ field_descs.keywords FILTER html %], [%+ END %]
@@ -314,7 +314,7 @@ TUI_hide_default('information_query');
 [%# tlumskroty*** Email Numbering *** %]
   <div class="bz_section_title" id="people_filter">
     <div id="people_query_controller" class="arrow">&#9660;</div>
-    <a href="javascript:TUI_toggle_class('people_query')">Osoby</a>
+    <a href="javascript:TUI_toggle_class('people_query')">Szukaj wg osób</a>
     <span>Zawęź wyszukiwanie według roli osoby przypisanej do danego [% terms.bledu %] np. Odpowiedzialny,
       [%+ field_descs.reporter FILTER html %], [% field_descs.commenter FILTER html %],
       itp.
@@ -369,12 +369,12 @@ TUI_hide_default('information_query');
 
 <div class="bz_section_title" id="history_filter">
   <div id="history_query_controller" class="arrow">&#9660;</div>
-  <a href="javascript:TUI_toggle_class('history_query')" >Historia zmian</a>
+  <a href="javascript:TUI_toggle_class('history_query')" >Szukaj wg historii zmian</a>
   <span>Zawęź wyszukiwanie do pól zmienionych w określonym przedziale czasu</span>
 </div>
 <ul class="bug_changes bz_search_section history_query" id="history_filter_section" >
   <li>
-    <label for="chfield">w których zmieniono pole/pola:</label>
+    <label for="chfield">Pole:</label>
     [%# Create array, so we can sort it by description #%]
     [% chfields = [] %]
     [% FOREACH field = chfield %]
@@ -389,13 +389,13 @@ TUI_hide_default('information_query');
     </select>
   </li>
   <li>
-    <label for="chfieldvalue">[% search_descs.changedto FILTER html %]:</label>
+    <label for="chfieldvalue">Nowa wartość:</label>
     <input name="chfieldvalue" id="chfieldvalue"
            size="20" value="[% default.chfieldvalue.0 FILTER html %]">
   </li>
   <li>
 
-    <label for="chfieldfrom">pomiędzy:</label>
+    <label for="chfieldfrom">Pomiędzy:</label>
     <input name="chfieldfrom" id="chfieldfrom" size="10" 
            value="[% default.chfieldfrom.0 FILTER html %]" onchange="updateCalendarFromField(this)"> 
            <button type="button" class="calendar_button"

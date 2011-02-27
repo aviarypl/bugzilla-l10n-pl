@@ -23,7 +23,7 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
-Standardowe szablony prowadzą do tego katalogu. Można wczytać je
+Standardowe szablony należy umieszczać w tym katalogu. Można wczytywać je
 używając kodu:
 
 use B[% %]ugzilla::Error;
@@ -31,11 +31,11 @@ my $template = B[% %]ugzilla->template;
 $template->process('[% name FILTER lower %]/nazwa-szablonu.html.tmpl')
   or ThrowTemplateError($template->error());
 
-Ten kod pokazuje, jak wczytać plik o nazwie nazwa-szablonu.html.tmpl znajdujący się
-w tym katalogu.
+Ten kod pokazuje, jak wczytać plik o nazwie nazwa-szablonu.html.tmpl 
+znajdujący się w tym katalogu.
 
-Należy zwrócić baczną uwagę, by pełna ścieżka do twojego szablonu nigdy nie
+Należy zwrócić baczną uwagę, by pełna ścieżka do szablonu nigdy nie
 kolidowała z szablonem istniejącym w [% terms.Bugzilli %], innym
-rozszerzeniu lub twój inny szablon nie zastępował tego szablonu. Katalog
+rozszerzeniu lub inny szablon nie zastępował tego szablonu. Katalog
 „[% name FILTER lower %]” został specjalnie stworzony po to, by umieszczać
-w nim właśnie takie szablony. Zapobiegnie to powstawaniu konfliktów.
+w nim właśnie takie szablony i dzięki temu uniknąć powstawania konfliktów.

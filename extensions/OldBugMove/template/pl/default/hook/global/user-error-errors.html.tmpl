@@ -23,9 +23,9 @@
 
 [% IF error == "oldbugmove_no_delete_moved" %]
     Usunięcie rozwiązania [%+ display_value("resolution", "MOVED") FILTER html %]
-	jest niedozwolone gdyż rozszerzenie OldBugMove jest włączone.
+	jest niedozwolone, ponieważ jest włączone rozszerzenie OldBugMove. 
 [% ELSIF error == "oldbugmove_no_manual_move" %]
-    [% terms.Blad %] nie może posiadać rozwiązania
+    Nie można określić rozwiązania [% terms.bledu %] jako 
     [%+ display_value("resolution", "MOVED") FILTER html %] bez jego
     przeniesienia.
 [% END %]

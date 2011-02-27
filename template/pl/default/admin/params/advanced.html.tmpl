@@ -33,7 +33,7 @@
   wraz z odpowiedziami HTTP. Zwiększa to bezpieczeństwo połączeń SSL
   SSL poprzez wymuszenie na przeglądarce korzystania tylko z zabezpieczonych połączeń
   z daną domeną i nie akceptowanie nieprawidłowego certyfikatu.
-  Funkcja ta powinna być używana tylko wóczas, gdy parametr <code>ssl_redirect</code> jest włączony, 
+  Funkcja ta powinna być używana tylko wówczas, gdy parametr <code>ssl_redirect</code> jest włączony,
   [%+ terms.Bugzilla %] jest jedynym uruchomionym serwisem w danej domenie
   (np. <code>urlbase</code> ma postać
   <code>http://bugzilla.domena.com/</code>) oraz nie jest planowane wyłączenie parametru
@@ -50,7 +50,7 @@
       include_subdomains – wysyłanie nagłówków Strict-Transport-Security jest
       włączone, ale wraz z flagą <code>includeSubDomains</code>, która będzie powodowała
       zmianę zabezpieczeń dla wszystkich subdomen. Jest to szczególnie przydatne w
-      połączeniu z parametrem <code>attachment_base</code>, który jest obecny,
+      połączeniu z parametrem <code>attachment_base</code>, który jest obecny
       jako subdomena głównej domeny [% terms.Bugzilli %].
     </li>
   </ul>
@@ -67,7 +67,7 @@
   inbound_proxies =>
     "Jeśli ruch przychodzący do $terms.Bugzilli odbywa się przez proxy,"
     _ " $terms.Bugzilla rozpoznaje adres IP każdego użytkownika jako adres"
-    _ " proxy. Jeśli w tym parametrze zostaną wprowadzone, oddzielone"
+    _ " proxy. Jeśli w tym parametrze zostaną wprowadzone oddzielone"
     _ " przecinkami adresy IP, każdy nagłówek <code>X-Forwarded-For</code>"
     _ " wysłany z tych IP będzie traktowany jako zaufany, a wartość tego"
     _ " nagłówka używana jako adres IP użytkownika.",

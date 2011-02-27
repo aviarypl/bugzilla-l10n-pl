@@ -22,7 +22,7 @@
 
 
 %strings = (
-  feature_example_acme => 'Przykładowe rozszerzenie: Funkcja ABC',
+  feature_example_acme => 'Przykladowe rozszerzenie: Funkcja ABC',
 );
 
 1;
