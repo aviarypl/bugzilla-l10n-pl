@@ -29,6 +29,7 @@
   [% IF user.in_group('editusers') %]
     <a href="editusers.cgi?id=[% userid FILTER none %]">Edytuj użytkownika</a>.
   [% END %]
+[% ELSIF san_tag == "example_check_au_user_prompt" %]
   <a href="sanitycheck.cgi?example_repair_au_user=1&amp;token=
      [%- issue_hash_token(['sanitycheck']) FILTER url_quote %]">Zmień narodowość użytkowników</a>.
 [% ELSIF san_tag == "example_repair_au_user_start" %]

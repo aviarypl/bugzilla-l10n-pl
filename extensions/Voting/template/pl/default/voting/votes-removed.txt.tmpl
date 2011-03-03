@@ -30,12 +30,12 @@ X-Bugzilla-Type: voteremoved
 
 Usunięto część lub wszystkie Twoje głosy z [% terms.bledu %] [%+ bugid %].
 
-Oddałeś/oddałaś [% votesold FILTER html %] [%+ IF votesold %]&nbsp;[% PROCESS ODMIEN c=votesold o1="głos" o2="głosy" o3="głosów" %] [% END %] na ten [% terms.blad %], ale [% votesremoved FILTER html %] zostały usunięte.
+Oddałeś/oddałaś [% votesold FILTER html %] [%+ IF votesold %] [% PROCESS ODMIEN c=votesold o1="głos" o2="głosy" o3="głosów" %] [% END %] na ten [% terms.blad %], ale [% votesremoved FILTER html %] [%+ PROCESS ODMIEN c=votesremoved o1="został usunięty" o2="zostały usunięte" o3="zostało usuniętych" %].
 
 [% IF votesnew %]
-[% PROCESS ODMIEN c=votesnew o1="Pozostał 1 głos" o2="Pozostały $votesnew głosy" o3="Pozostało $votesnew głosów" %] na ten [% terms.blad %].
+[% PROCESS ODMIEN c=votesnew o1="Pozostawiono 1 głos" o2="Pozostawiono $votesnew głosy" o3="Pozostawiono $votesnew głosów" %].
 [% ELSE %]
-Nie masz więcej głosów, by głosować na ten [% terms.blad %].
+Usunięto wszystkie głosy z tego [% terms.bledu %].
 [% END %]
 
 Powód:

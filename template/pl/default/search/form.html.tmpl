@@ -206,7 +206,7 @@ TUI_hide_default('information_query');
     Numer [% terms.bledu %], [%+ field_descs.version FILTER html %], 
     [% IF Param('usetargetmilestone') %] [%+ field_descs.target_milestone FILTER html %], [%+ END %]
     [% field_descs.bug_severity FILTER html %], [%+ field_descs.priority FILTER html %], [%+ field_descs.rep_platform FILTER html %], 
-    [%+ field_descs.op_sys FILTER html %]
+    [%+ field_descs.op_sys FILTER html %].
   </span>
 </div>
 [%# tlumskroty*** Comment URL Whiteboard Keywords *** %]
@@ -370,11 +370,11 @@ TUI_hide_default('information_query');
 <div class="bz_section_title" id="history_filter">
   <div id="history_query_controller" class="arrow">&#9660;</div>
   <a href="javascript:TUI_toggle_class('history_query')" >Szukaj wg historii zmian</a>
-  <span>Zawęź wyszukiwanie do pól zmienionych w określonym przedziale czasu</span>
+  <span>Zawęź wyszukiwanie do pól zmienionych w określonym przedziale czasu.</span>
 </div>
 <ul class="bug_changes bz_search_section history_query" id="history_filter_section" >
   <li>
-    <label for="chfield">Pole:</label>
+    <label for="chfield">Jeśli któreś z pól:</label>
     [%# Create array, so we can sort it by description #%]
     [% chfields = [] %]
     [% FOREACH field = chfield %]
@@ -389,13 +389,13 @@ TUI_hide_default('information_query');
     </select>
   </li>
   <li>
-    <label for="chfieldvalue">Nowa wartość:</label>
+    <label for="chfieldvalue">zmieniono na:</label>
     <input name="chfieldvalue" id="chfieldvalue"
            size="20" value="[% default.chfieldvalue.0 FILTER html %]">
   </li>
   <li>
 
-    <label for="chfieldfrom">Pomiędzy:</label>
+    <label for="chfieldfrom">pomiędzy:</label>
     <input name="chfieldfrom" id="chfieldfrom" size="10" 
            value="[% default.chfieldfrom.0 FILTER html %]" onchange="updateCalendarFromField(this)"> 
            <button type="button" class="calendar_button"
