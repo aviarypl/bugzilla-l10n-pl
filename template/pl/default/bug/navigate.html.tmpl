@@ -48,7 +48,7 @@
   [% SET this_bug_idx = lsearch(last_bug_list, bug.id) %]
   <b>Lista [% terms.bledow %]:</b>
 
-  ([% this_bug_idx + 1 %] of [% last_bug_list.size %])
+  ([% this_bug_idx + 1 %] z [% last_bug_list.size %])
 
   <a href="show_bug.cgi?id=
            [%- last_bug_list.first FILTER url_quote %]&amp;list_id=

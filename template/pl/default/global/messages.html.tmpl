@@ -142,7 +142,7 @@
   [% ELSIF message_tag == "buglist_query_gone" %]
     [% title = "Usuwanie wyszukiwania" %]
     [% link  = "Wróć do strony wyszukiwania." %]
-    Wyszukiwanie <code<b>[% namedcmd FILTER html %]</b></code zostało usunięte.
+    Wyszukiwanie <code<b>[% namedcmd FILTER html %]</b></code> zostało usunięte.
 
   [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
     [% terms.Bledy %] na tej liście są posortowane według trafności.
@@ -485,7 +485,7 @@
 
   [% ELSIF message_tag == "migrate_component_created" %]
     Utworzono komponent: [% comp.name FILTER html %]
-    (in [% product.name FILTER html %])
+    (w [% product.name FILTER html %])
 
   [% ELSIF message_tag == "migrate_creating_bugs" %]
     Tworzenie [% terms.bledow %]…
@@ -508,7 +508,7 @@
 
   [% ELSIF message_tag == "migrate_translating_bugs" %]
     Konwertowanie wartości [% terms.bledu %] na format właściwy
-    dla [%+ terms.Bugzilli %]…
+    dla [% terms.Bugzilli %]…
 
   [% ELSIF message_tag == "migrate_user_created" %]
     Utworzono użytkownika: [% created.email FILTER html %]
@@ -775,7 +775,7 @@
       wykres trzeba będzie poczekać [%+ series.frequency * 2 %] dni.
 
   [% ELSIF message_tag == "series_deleted" %]
-    [% title = "Series Deleted" %]
+    [% title = "Usunięto serie" %]
     Serie <em>[% series.category FILTER html %] /
       [%+ series.subcategory FILTER html %] /
       [%+ series.name FILTER html %]</em>

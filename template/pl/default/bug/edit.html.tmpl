@@ -701,7 +701,7 @@
     [% IF emitted_description %]
       [% IF NOT inallgroups %]
         <p class="instructions">Tylko członkowie grupy mogą zmieniać widzialność
-          [% terms.bledu %] dla tej grupy.</p>
+          [%+ terms.bledu %] dla tej grupy.</p>
       [% END %]
     [% END %]
 
@@ -742,7 +742,7 @@
              podobnie jak specjalista QA,
           [% END %]
           zawsze widzieć [% terms.blad %] i ta sekcja nie ma na to
-          wpływu chyba, że [% terms.blad %] jest ograniczony do
+          wpływu, chyba że [% terms.blad %] jest ograniczony do
           co najmniej jednej grupy.
         </p>
       </div>

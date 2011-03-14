@@ -142,7 +142,7 @@
   [% FOREACH type = flag_types %]
     [% FOREACH flag = type.flags %]
       [% IF !flag_no_header AND !header_displayed %]
-        <p><b>Flags:</b></p>
+        <p><b>Flagi:</b></p>
         [% header_displayed = 1 %]
       [% END %]
       [% IF flag.setter.name %]

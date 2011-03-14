@@ -228,7 +228,7 @@
     [% title = "Nieprawidłowa nazwa funkcji" %]
     [% feature FILTER html %] nie jest prawidłową nazwą funkcji.
     Poprawne nazwy możesz zobaczyć w <code>OPTIONAL_MODULES</code> pliku 
-    <code>Bugzilla::Install::Requirements</code> for valid names.
+    <code>Bugzilla::Install::Requirements</code>.
 
   [% ELSIF error == "invalid_flag_association" %]
     [% title = "Nieprawidłowe przypisanie flag" %]
@@ -424,14 +424,14 @@
   [% ELSIF error == "setting_name_invalid" %]
     Nazwa opcji <em>[% name FILTER html %]</em> nie jest prawidłowa.
     Musi ona zaczynać się od litery i zawierać wyłącznie
-    litery, cyfry oraz symbole „_”, „-”', „.” i „:”.
+    litery, cyfry oraz symbole „_”, „-”, „.” i „:”.
 
   [% ELSIF error == "setting_subclass_invalid" %]
     Nie ma takiej subklasy ustawień, jak
     <code>[% subclass FILTER html %]</code>.
 
   [% ELSIF error == "setting_value_invalid" %]
-    Wartość "<code>[% value FILTER html %]</code>" nie znajduje się na liście
+    Wartość <code>[% value FILTER html %]</code> nie znajduje się na liście
     dopuszczalnych wartości <em>[% name FILTER html %]</em>.
 
   [% ELSIF error == "token_generation_error" %]

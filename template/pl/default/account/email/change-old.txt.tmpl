@@ -43,5 +43,5 @@ Jeśli nie jesteś osobą, która wysłała tę prośbę lub chcesz prośbę anu
 
 [%+ urlbase %]token.cgi?t=[% token FILTER url_quote %]&a=cxlem
 
-W przypadku braku reakcji i gdy [% newemailaddress %] potwierdzi tę prośbę, zmiana zostanie dokonana po [% constants.MAX_TOKEN_AGE %] 
-dniach ([% expiration_ts FILTER time("%d.%m.%Y o godzinie %H:%M %Z") %]).
+W przypadku braku reakcji i gdy [% newemailaddress %] potwierdzi tę prośbę, 
+zmiana zostanie dokonana po [% constants.MAX_TOKEN_AGE %] dniach ([% expiration_ts FILTER time("%d.%m.%Y o godzinie %H:%M %Z") %]).

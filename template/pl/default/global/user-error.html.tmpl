@@ -82,8 +82,8 @@
 
   [% ELSIF error == "account_locked" %]
     [% title = "Konto zablokowane" %]
-    Twój adres IP ([% ip_addr FILTER html %]) został zablokowany dla
-    konta do [% unlock_at FILTER time %], ponieważ została
+    Twój adres IP ([% ip_addr FILTER html %]) został zablokowany
+    do [% unlock_at FILTER time %], ponieważ została
     przekroczona maksymalna dozwolona liczba prób logowania.
 
   [% ELSIF error == "alias_has_comma_or_space" %]
@@ -181,7 +181,7 @@
     [% ELSIF object == "flagtypes" %]
       flag
     [% ELSIF object == "group_access" %]
-      dostępu grup
+      dostępu do grup zabezpieczeń
     [% ELSIF object == "groups" %]
       grup
     [% ELSIF object == "keywords" %]
@@ -207,8 +207,8 @@
     [% ELSIF object == "timetracking_summaries" %]
       raportów śledzenia czasu
     [% ELSIF object == "user" %]  
-      użytkownik [% IF userid %] z ID „[% userid FILTER html %]”
-      [% ELSE %]określony przez ciebie [% END %]
+      użytkownika [% IF userid %] z ID „[% userid FILTER html %]”
+      [% ELSE %]określonego przez ciebie [% END %]
     [% ELSIF object == "users" %]
       użytkowników
     [% ELSIF object == "versions" %]
@@ -299,7 +299,7 @@
       <b>komentarz</b>, gdy jest zmieniany status [% terms.bledu %] z
       [%+ old.name FILTER html %] na [% new.name FILTER html %].
     [% ELSIF new %]
-      dotyczący tej zmiany.
+      opis [% terms.bledu %].
     [% ELSE %]
       <b>komentarz</b> dotyczący tej zmiany.
     [% END %]
@@ -355,8 +355,8 @@
 
   [% ELSIF error == "component_has_bugs" %]
     [% title = BLOCK %]Komponent ma przypisane [% terms.bledy %][% END %]
-    Jest otwartych [% nb FILTER html %] [%+ terms.bledow %] dla tego komponentu!
-    Przed usunięciem komponentu, należy przepisać te [% terms.bledy %] do
+    Znaleziono [% nb FILTER html %] [%+ PROCESS ODMIEN c=nb o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %]!
+    Przed usunięciem komponentu, należy przepisać [% PROCESS ODMIEN c=nb o1="ten $terms.blad" o2="te $terms.bledy" o3="te $terms.bledy" %] do
     innego komponentu.
 
   [% ELSIF error == "component_name_too_long" %]
@@ -726,7 +726,7 @@
     Grupa „[% name FILTER html %]” jest używana przez 
     „[% groups.join("' i '") FILTER html %]” [% param FILTER html %].
     Aby usunąć tę grupę, należy najpierw zmienić 
-    [%+ param FILTER html %], aby [% attr FILTER html %] wskazywał na inną grupę.
+    [%+ param FILTER html %], aby [% attr FILTER html %] na inną grupę.
 
 
   [% ELSIF error == "group_invalid_removal" %]
@@ -986,9 +986,8 @@
       # being locked out.
       #%]
     [% IF remaining <=  2 %]
-      Jeśli nie wprowadzono poprawnego hasła, po 
-      [%+ remaining FILTER html %] próbach konto
-      zostanie zablokowane przez
+      Jeśli nie zostanie wprowadzone prawidłowe hasło w [% remaining FILTER html %] [%+ PROCESS ODMIEN c=remaining o1="ostatniej próbie" o2="kolejnych próbach" o3="kolejnych próbach" %], to konto
+      zostanie zablokowane na
       [%+ constants.LOGIN_LOCKOUT_INTERVAL FILTER html %] minut.
     [% END %]
 
@@ -1273,8 +1272,8 @@
 
   [% ELSIF error == "object_not_specified" %]
     [% type = BLOCK %][% INCLUDE object_name class = class %][% END %]
-    [% title = BLOCK %][% type FILTER ucfirst FILTER html %] 
-    Nie określono[% END %]
+    [% title = BLOCK %]Nie określono [% type FILTER ucfirst FILTER html %] 
+    [% END %]
     Należy wybrać/podać [% type FILTER html %].
 
   [% ELSIF error == "object_does_not_exist" %]
@@ -1296,6 +1295,7 @@
 	[% IF class == "Bugzilla::Keyword" %]
 	  Wszystkie istniejące słowa kluczowe są dostępne na <a href="describekeywords.cgi">tej liście</a>.
 	[% END %]
+	
   [% ELSIF error == "old_password_incorrect" %]
     [% title = "Nieprawidłowe poprzednie hasło" %]
     Nie podano prawidłowego poprzedniego hasła.
@@ -1313,12 +1313,12 @@
     Podane hasła nie są identyczne.
 
   [% ELSIF error == "password_current_too_short" %]
-    [% title = "New Password Required" %]
-    Your password is currently less than
-    [%+ constants.USER_PASSWORD_MIN_LENGTH FILTER html %] characters long,
-    which is the new minimum length required for passwords.
-    You must <a href="token.cgi?a=reqpw&loginname=[% locked_user.email FILTER html %]">
-    request a new password</a> in order to log in again.
+    [% title = "Wymagana zmiana hasła" %]
+    Konfiguracja minimalnej długości hasła została zmieniona.
+    Hasło nie może mieć mniej niż
+    [%+ constants.USER_PASSWORD_MIN_LENGTH FILTER html %] znaków.
+    Należy <a href="token.cgi?a=reqpw&loginname=[% locked_user.email FILTER html %]">
+    zmienić hasło</a> aby się zalogować.
 
   [% ELSIF error == "password_too_short" %]
     [% title = "Zbyt krótkie hasło" %]
@@ -1632,12 +1632,12 @@
     Z tego powodu nie jest możliwe usunięcie tego konta.
 
   [% ELSIF error == "user_access_by_id_denied" %]
-    [% title = "Dostęp użytkowników przez ID jest zabroniony" %]
+    [% title = "Dostęp do użytkowników przez określenie ID jest zabronione" %]
     Wylogowani użytkownicy nie mogą używać argumentu „ids”, by uzyskać
     dostęp do informacji o użytkowniku.
 
   [% ELSIF error == "user_access_by_match_denied" %]
-    [% title = "User-Matching Denied" %]
+    [% title = "Dopasowywanie nazw użytkowników jest zabronione" %]
     Wylogowani użytkownicy nie mogą używać argumentu „match”, by uzyskać
     dostęp do informacji o użytkowniku.
 
@@ -1648,7 +1648,7 @@
 
   [% ELSIF error == "user_match_failed" %]
     [% title = "Nic nie znaleziono" %]
-    Nie ma użytkownika o identyfikatorze <tt>[% name FILTER html %]</tt> lub 
+    Nie ma użytkownika o nazwie <tt>[% name FILTER html %]</tt> lub 
     nie masz uprawnień do oglądania jego danych.
 
   [% ELSIF error == "user_match_too_many" %]

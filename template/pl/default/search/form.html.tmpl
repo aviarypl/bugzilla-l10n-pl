@@ -156,7 +156,7 @@ TUI_hide_default('information_query');
       [% END %]
   </div>
 
-[%# tlumskroty*** Classification Product Component *** %]
+[%# *** Classification Product Component *** %]
   
 [% Hook.process('before_selects_top') %]
 [% IF Param('useclassification') %]
@@ -209,7 +209,7 @@ TUI_hide_default('information_query');
     [%+ field_descs.op_sys FILTER html %].
   </span>
 </div>
-[%# tlumskroty*** Comment URL Whiteboard Keywords *** %]
+[%# *** Comment URL Whiteboard Keywords *** %]
 <div id="detailed_information_section" class="bz_search_section information_query">
   [% SET freetext_fields = [
 
@@ -269,7 +269,7 @@ TUI_hide_default('information_query');
 
   [% Hook.process('after_freetext_fields') %]
   
-  [%# tlumskroty*** Status Resolution Severity Priority Hardware OS *** %]
+  [%# *** Status Resolution Severity Priority Hardware OS *** %]
 
   <div>
     [% Hook.process('before_selects_bottom') %]
@@ -294,7 +294,7 @@ TUI_hide_default('information_query');
     %]
     [% INCLUDE "search/field.html.tmpl" 
          field => bug_fields.priority
-         accesskey => "i"
+         accesskey => "w"
          value => default.priority
     %]    
     [% INCLUDE "search/field.html.tmpl" 
@@ -311,7 +311,7 @@ TUI_hide_default('information_query');
   </div>
 </div>
 
-[%# tlumskroty*** Email Numbering *** %]
+[%# *** Email Numbering *** %]
   <div class="bz_section_title" id="people_filter">
     <div id="people_query_controller" class="arrow">&#9660;</div>
     <a href="javascript:TUI_toggle_class('people_query')">Szukaj wg osób</a>
@@ -365,11 +365,11 @@ TUI_hide_default('information_query');
   [% END %]
    [% Hook.process('email_numbering_end') %]
    </div>
-[%# tlumskroty*** Bug Changes *** %]
+[%# *** Bug Changes *** %]
 
 <div class="bz_section_title" id="history_filter">
   <div id="history_query_controller" class="arrow">&#9660;</div>
-  <a href="javascript:TUI_toggle_class('history_query')" >Szukaj wg historii zmian</a>
+  <a href="javascript:TUI_toggle_class('history_query')">Szukaj wg historii zmian</a>
   <span>Zawęź wyszukiwanie do pól zmienionych w określonym przedziale czasu.</span>
 </div>
 <ul class="bug_changes bz_search_section history_query" id="history_filter_section" >
