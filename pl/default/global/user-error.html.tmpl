@@ -1280,6 +1280,9 @@
       Popełniono błąd w nazwie lub użytkownik nie ma jeszcze zarejestrowanego
       konta w [% terms.Bugzilli %].
     [% END %]
+	[% IF class == "Bugzilla::Keyword" %]
+	  Wszystkie istniejące słowa kluczowe są dostępne na <a href="describekeywords.cgi">tej liście</a>.
+	[% END %]
 
   [% ELSIF error == "old_password_incorrect" %]
     [% title = "Nieprawidłowe poprzednie hasło" %]
@@ -1798,6 +1801,8 @@
     pole
   [% ELSIF class == "Bugzilla::Group" %]
     grupa
+  [% ELSIF class == "Bugzilla::Keyword" %]
+    słowo kluczowe
   [% ELSIF class == "Bugzilla::Product" %]
     produkt
   [% ELSIF class == "Bugzilla::Search::Saved" %]
