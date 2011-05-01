@@ -31,9 +31,13 @@
 
 [% PROCESS global/variables.none.tmpl %]
 
+[% subheader = BLOCK %]
+[% "$terms.Blad $bug.id" FILTER bug_link(bug) FILTER none %] - [% bug.short_desc FILTER html %]
+[% END %]
+
 [% PROCESS global/header.html.tmpl
            title = "Oddane głosy"
-           subheader = "$terms.Blad $bug.id" FILTER bug_link(bug)
+           subheader = subheader
  %]
 
 [% total = 0 %]

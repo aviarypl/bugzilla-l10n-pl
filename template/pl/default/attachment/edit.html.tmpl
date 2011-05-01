@@ -75,13 +75,13 @@
         </div>
         [% IF NOT attachment.isurl %]
           <div class="details">
-            [% attachment.filename FILTER html %] ([% attachment.contenttype FILTER html %]) 
+            [% attachment.filename FILTER html %] ([% attachment.contenttype FILTER html %]),
             [% IF attachment.datasize %]
               [%+ attachment.datasize FILTER unitconvert %]
             [% ELSE %]
               <em>usunięty</em>
             [% END %], utworzony przez  [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %]
-            [% IF attachment.isprivate %]
+            [% IF attachment.isprivate %];
               <span class="bz_private">Widoczny tylko dla członków grupy <strong>[% Param('insidergroup') FILTER html %]</strong></span>
             [% END %]
           </div>
