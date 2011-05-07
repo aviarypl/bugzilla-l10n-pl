@@ -1,4 +1,4 @@
-[%# 3.4.10PL@aviary.pl %]
+[%# 3.4.10+PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -59,6 +59,17 @@
   Foundation</a>.</p>
 
 <h2><a name="v34_point"></a>Updates In This 3.4.x Release</h2>
+
+<h3>3.4.11</h3>
+
+<p>Some users may have experienced difficulty updating to 3.4.10 due
+  to an error about "Math::Random::Secure::irand". Updating to 3.4.11
+  should work--<kbd>Math::Random::Secure</kbd> is no longer used by
+  the 3.4.x releases of [% terms.Bugzilla %]. (However, this series
+  is still secure--this is not a regression in [% terms.Bugzilla %]'s
+  security.) See 
+  <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=646578">Bug
+  646578</a> for details.</p>
 
 <h3>3.4.10</h3>
 
