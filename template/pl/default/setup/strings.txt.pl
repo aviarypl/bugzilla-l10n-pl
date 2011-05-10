@@ -41,13 +41,13 @@ NALEZY URUCHOMIC JEDNO Z NASTEPUJACYCH POLECEN (w zaleznosci od uzywanej bazy da
 EOT
     commands_optional => 'POLECENIA DO ZAINSTALOWANIA OPCJONALNYCH MODULOW:',
     commands_required => <<EOT,
-POLECENIA DO ZAINSTALOWANIA WYMAGANYCH MODULOW (*Musisz* uruchomic wszystkie te polecenia
-i nastepnie ponownie uruchomic skrypt checksetup.pl):
+POLECENIA DO ZAINSTALOWANIA WYMAGANYCH MODULOW (*Musisz* uruchomic wszystkie
+te polecenia i nastepnie ponownie uruchomic skrypt checksetup.pl):
 EOT
     done => 'zakonczono.',
     header => "* To jest Bugzilla ##bz_ver## wraz z Perl ##perl_ver##\n"
             . "* Uruchomiono na ##os_name## ##os_ver##",
-     install_all => <<EOT,
+    install_all => <<EOT,
 
 Aby sprobowac automatycznie zainstalowac wszystkie wymagane i opcjonalne moduly
 za pomoca jednego polecenia, wykonaj:
@@ -58,8 +58,8 @@ EOT
     install_data_too_long => <<EOT,
 OSTRZEZENIE: Niektore dane zawarte w kolumnie ##table##.##column## sa dluzsze niz
 dozwolony nowy limit wynoszacy ##max_length## znakow. Dane wymagajace poprawienia
-zostaly wyswietlone ponizej w nastepujacej kolejnosci: najpierw dla kolumny ##id_column## i nastepnie
-dla kolumny wymagajacej naprawienia ##column##:
+zostaly wyswietlone ponizej w nastepujacej kolejnosci: najpierw dla kolumny ##id_column##
+i nastepnie dla kolumny wymagajacej naprawienia ##column##:
 
 EOT
     install_module => 'Instalowanie modulu ##module## wersja ##version##...',

@@ -328,9 +328,9 @@
     Wymagany jest poprawny identyfikator sentencji.
 
   [% ELSIF error == "no_manual_moved" %]
-    Nie można ustawić rozwiązania [% terms.bledu %] na [%
-    get_resolution("MOVED") FILTER html %] bez
-    przeniesienia [% terms.bledu %].
+    Nie można określić rozwiązania [% terms.bledu %] jako 
+    [%+ get_resolution("MOVED") FILTER html %] bez jego
+    przeniesienia.
 
   [% ELSIF error == "no_open_bug_status" %]
     [% title = "Nie można potwierdzić $terms.bledu" %]
@@ -409,14 +409,14 @@
   [% ELSIF error == "setting_name_invalid" %]
     Nazwa opcji <em>[% name FILTER html %]</em> nie jest prawidłowa.
     Musi ona zaczynać się od litery i zawierać wyłącznie
-    litery, cyfry oraz symbole „_”, „-”', „.” i „:”.
+    litery, cyfry oraz symbole „_”, „-”, „.” i „:”.
 
   [% ELSIF error == "setting_subclass_invalid" %]
     Nie ma takiej subklasy ustawień, jak
     <code>[% subclass FILTER html %]</code>.
 
   [% ELSIF error == "setting_value_invalid" %]
-    Wartość "<code>[% value FILTER html %]</code>" nie znajduje się na liście
+    Wartość <code>[% value FILTER html %]</code> nie znajduje się na liście
     dopuszczalnych wartości <em>[% name FILTER html %]</em>.
 
   [% ELSIF error == "soap_not_installed" %]

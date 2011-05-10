@@ -170,7 +170,7 @@
     [% ELSIF object == "flagtypes" %]
       flag
     [% ELSIF object == "group_access" %]
-      dostępu grup
+      dostępu do grup zabezpieczeń
     [% ELSIF object == "groups" %]
       grup
     [% ELSIF object == "keywords" %]
@@ -196,8 +196,8 @@
     [% ELSIF object == "timetracking_summaries" %]
       raportów śledzenia czasu
     [% ELSIF object == "user" %]  
-      użytkownik [% IF userid %] z ID „[% userid FILTER html %]”
-      [% ELSE %]określony przez ciebie [% END %]
+      użytkownika [% IF userid %] z ID „[% userid FILTER html %]”
+      [% ELSE %]określonego przez ciebie [% END %]
     [% ELSIF object == "users" %]
       użytkowników
     [% ELSIF object == "versions" %]
@@ -275,14 +275,14 @@
       <b>komentarz</b>, gdy jest zmieniany status [% terms.bledu %] z
       [%+ old.name FILTER html %] na [% new.name FILTER html %].
     [% ELSIF new %]
-      dotyczący tej zmiany.
+      opis [% terms.bledu %].
     [% ELSE %]
       <b>komentarz</b> dotyczący tej zmiany.
     [% END %]
 
   [% ELSIF error == "comment_too_long" %]
     [% title = "Zbyt długi komentarz" %]
-    Komentarz nie może być dłuższy niż 65,535 znaków.
+    Komentarz nie może zawierać więcej niż 65,535 znaków.
 
   [% ELSIF error == "auth_classification_not_enabled" %]
     [% title = "Kategorie nie zostały włączone" %]
@@ -330,13 +330,13 @@
 
   [% ELSIF error == "component_has_bugs" %]
     [% title = BLOCK %]Komponent ma przypisane [% terms.bledy %][% END %]
-    Jest otwartych [% nb FILTER html %] [%+ terms.bledow %] dla tego komponentu!
-    Przed usunięciem komponentu, należy przepisać te [% terms.bledy %] do
+    Znaleziono [% nb FILTER html %] [%+ PROCESS ODMIEN c=nb o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %]!
+    Przed usunięciem komponentu, należy przepisać [% PROCESS ODMIEN c=nb o1="ten $terms.blad" o2="te $terms.bledy" o3="te $terms.bledy" %] do
     innego komponentu.
 
   [% ELSIF error == "component_name_too_long" %]
     [% title = "Nazwa komponentu jest zbyt długa" %]
-    Nazwa komponentu nie może być dłuższa niż [% constants.MAX_COMPONENT_SIZE FILTER html %]
+    Nazwa komponentu nie może zawierać więcej niż [% constants.MAX_COMPONENT_SIZE FILTER html %]
     znaków. „[% name FILTER html %]” zawiera więcej niż ([% name.size %] znaków).
 
   [% ELSIF error == "component_need_initialowner" %]
@@ -1397,7 +1397,7 @@
 
   [% ELSIF error == "query_name_too_long" %]
     [% title = "Zbyt długa nazwa wyszukiwania" %]
-    Nazwa wyszukiwania nie może być dłuższa niż [% constants.MAX_LEN_QUERY_NAME FILTER html %]
+    Nazwa wyszukiwania nie może zawierać więcej niż [% constants.MAX_LEN_QUERY_NAME FILTER html %]
     znaki.	
 
   [% ELSIF error == "quicksearch_unknown_field" %]
@@ -1490,7 +1490,7 @@
   [% ELSIF error == "sudo_invalid_cookie" %]
     [% title = "Nieprawidłowe ciasteczko sesji sudo" %]
     Twoje ciasteczko sesji sudo jest nieprawidłowe - wygasło lub sesja sudo
-    nie została prawidłowo rozpoczęta. Aby kontynuować pracę używając własnej tożsamości, odśwież tę stronę
+    nie została prawidłowo rozpoczęta. Aby kontynuować pracę, używając własnej tożsamości, odśwież tę stronę
     lub przejdź na inną.
 
   [% ELSIF error == "sudo_illegal_action" %]
@@ -1529,15 +1529,15 @@
   [% ELSIF error == "too_many_votes_for_bug" %]
     [% title = "Nieprawidłowe głosowanie" %]
     [% admindocslinks = {'voting.html' => 'Ustawienia funkcji głosowania'} %]
-    Można oddać najwyżej [% max FILTER html %] głosów na pojedynczy
+    Można oddać najwyżej [% max FILTER html %] [%+ PROCESS ODMIEN c=max o1="głos" o2="głosy" o3="głosów" %] na pojedynczy
     [%+ terms.blad %] w produkcie
     <tt>[% product FILTER html %]</tt>, a próbowano oddać
-    [%+ votes FILTER html %] głosów.
+    [%+ votes FILTER html %] [%+ PROCESS ODMIEN c=votes o1="głos" o2="głosy" o3="głosów" %].
 
   [% ELSIF error == "too_many_votes_for_product" %]
     [% title = "Nieprawidłowe głosowanie" %]
     [% admindocslinks = {'voting.html' => 'Ustawienia funkcji głosowania'} %]
-    Próbowano oddać [% votes FILTER html %] głosów w produkcie
+    Próbowano oddać [% votes FILTER html %] [%+ PROCESS ODMIEN c=votes o1="głos" o2="głosy" o3="głosów" %] w produkcie
     <tt>[% product FILTER html %]</tt>. Dopuszczalna liczba głosów dla tego produktu to:
     [%+ max FILTER html %].
 
@@ -1554,7 +1554,7 @@
     [% ELSIF type == "account" %]
       konta
     [% END %]
-    w zbyt krótkim odstępie czasu od poprzedniej próby. Proszę poczekać chwilę i spróbować ponownie.
+    w zbyt krótkim odstępie czasu od poprzedniej próby. Proszę odczekać chwilę i spróbować ponownie.
 
   [% ELSIF error == "unknown_keyword" %]
     [% title = "Nieznane słowo kluczowe" %]
@@ -1601,12 +1601,12 @@
     Z tego powodu nie jest możliwe usunięcie tego konta.
 
   [% ELSIF error == "user_access_by_id_denied" %]
-    [% title = "Dostęp użytkowników przez ID jest zabroniony" %]
+    [% title = "Dostęp do użytkowników przez określenie ID jest zabronione" %]
     Wylogowani użytkownicy nie mogą używać argumentu „ids”, by uzyskać
     dostęp do informacji o użytkowniku.
 
   [% ELSIF error == "user_access_by_match_denied" %]
-    [% title = "User-Matching Denied" %]
+    [% title = "Dopasowywanie nazw użytkowników jest zabronione" %]
     Wylogowani użytkownicy nie mogą używać argumentu „match”, by uzyskać
     dostęp do informacji o użytkowniku.
 
@@ -1617,7 +1617,7 @@
 
   [% ELSIF error == "user_match_failed" %]
     [% title = "Nic nie znaleziono" %]
-    Nie ma użytkownika o identyfikatorze <tt>[% name FILTER html %]</tt> lub 
+    Nie ma użytkownika o nazwie <tt>[% name FILTER html %]</tt> lub 
     nie masz uprawnień do oglądania jego danych.
 
 
@@ -1667,10 +1667,10 @@
     [% error_message = Hook.process("errors") %]
 
     [% IF not error_message %]
-      [% title = "Opis błędu nie został znaleziony" %]
-      Opis błędu użytkownika <code>[% error FILTER html %]</code> nie został
-      znaleziony. Proszę wysłać wiadomość do [% Param("maintainer") %] opisującą
-      kroki, które doprowadziły do wyświetlenia tej wiadomości.
+      [% title = "Nie znaleziono opisu błędu" %]
+      Nie znaleziono opisu błędu użytkownika <code>[% error FILTER html %]</code>.
+      Proszę wysłać wiadomość do [% Param("maintainer") %] opisującą kroki, które
+      doprowadziły do wyświetlenia tej wiadomości.
     [% ELSE %]
       [% error_message FILTER none %]
     [% END %]

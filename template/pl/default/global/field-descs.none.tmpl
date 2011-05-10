@@ -27,7 +27,7 @@
 [% PROCESS global/variables.none.tmpl %]
 
 [% field_descs = { "[Bug creation]"          => "[Zgłaszanie $terms.bledu]",
-                   "actual_time"             => "Aktualny czas"
+                   "actual_time"             => "Aktualny czas",
                    "alias"                   => "Alias",
                    "assigned_to"             => "Przypisany do",
                    "attach_data.thedata"     => "Dane załącznika",
@@ -54,6 +54,7 @@
                    "component"               => "Komponent",
                    "content"                 => "Zawartość",
                    "creation_ts"             => "Data utworzenia",
+				   "days_elapsed"            => "Dni od zmiany $terms.bledu",
                    "deadline"                => "Termin ostateczny",
                    "delta_ts"                => "Zmieniono",
                    "dependson"               => "Zależy od",
@@ -88,7 +89,8 @@
                    "target_milestone"        => "Wersja docelowa",
                    "version"                 => "Wersja",
                    "votes"                   => "Głosy",
-                   "work_time"               => "Godziny przepracowane"} %]
+                   "work_time"               => "Godziny przepracowane", 
+} %]
 
 [%# Also include any custom fields or fields which don't have a
     Description here, by copying their Description from the
@@ -144,7 +146,8 @@
                     "REOPENED"    => "PONOWNIE OTWARTY",
                     "RESOLVED"    => "ROZWIĄZANY",
                     "VERIFIED"    => "ZWERYFIKOWANY",
-                    "CLOSED"      => "ZAMKNIĘTY" } %]
+                    "CLOSED"      => "ZAMKNIĘTY",
+				} %]
 
 [% MACRO get_status(status) GET status_descs.$status || status %]
 
@@ -155,7 +158,8 @@
                         "WORKSFORME" => "U MNIE DZIAŁA",
                         "MOVED"      => "PRZENIESIONY",
                         "---"        => "---",
-                        " "          => " " } %]
+                        " "          => " ",
+					} %]
 
 [% MACRO get_resolution(res) GET resolution_descs.$res || res %]
 	
@@ -165,17 +169,20 @@
                       "normal"      => "Normalny",
                       "minor"       => "Drobny",
                       "trivial"     => "Błahy",
-                      "enhancement" => "Propozycja" } %]
+                      "enhancement" => "Propozycja",
+				  } %]
 
 [% MACRO get_severity(sev) GET severity_descs.$sev || sev %]
 	
 [% os_descs = { "All"   => "Wszystkie",
-                "Other" => "Inny" } %]
+                "Other" => "Inny",
+			} %]
 
 [% MACRO get_os(os) GET os_descs.$os || os %]
 
 [% platform_descs = { "All"   => "Wszystkie",
-                      "Other" => "Inna" } %]
+                      "Other" => "Inna",
+				  } %]
 
 [% MACRO get_platform(plat) GET platform_descs.$plat || plat %]
 	
@@ -192,25 +199,26 @@
                     "wildcard"               => "wieloznacznik",
                     "search"                 => "wyszukiwanie",
                     "authenticated sessions" => "sesje uwierzytelnione",
-                    "always"                 => "zawsze"
-                    "disabled"               => "wyłączone"} %]
+                    "always"                 => "zawsze",
+                    "disabled"               => "wyłączone"
+				} %]
 
 [% MACRO get_choice(ch) GET choice_descs.$ch || ch %]
 
 [% permissions_descs = {
-    "Administrators"                                  => "Administrowanie"
-    "Can configure whine reports for other users"     => "Konfigurowanie raportów powiadomień dla innych użytkowników"
-    "User can configure whine reports for self"       => "Konfigurowanie raportów powiadomień dla samego siebie"
-    "Can perform actions as other users"              => "Przejmowanie tożsamości innych użytkowników"
-    "Can not be impersonated by other users"          => "Ochrona przed przejęciem tożsamości"
-    "Can confirm a bug or mark it a duplicate"        => "Potwierdzanie $terms.bledow lub oznaczanie ich jako duplikaty"
-    "Can create and destroy groups"                   => "Tworzenie i usuwanie grup"
-    "Can edit all bug fields"                         => "Modyfikowanie wszystkich pól $terms.bledu"
-    "Can create, destroy, and edit classifications"   => "Tworzenie, usuwanie i modyfikowanie kategorii"
-    "Can create, destroy, and edit components"        => "Tworzenie, usuwanie i modyfikowanie komponentów"
-    "Can create, destroy, and edit keywords"          => "Tworzenie, usuwanie i modyfikowanie słów kluczowych"
-    "Can edit or disable users"                       => "Tworzenie, usuwanie i modyfikowanie kont użytkowników"
-    "Can change Parameters"                           => "Zmiana parametrów"
+    "Administrators"                                  => "Administrowanie",
+    "Can configure whine reports for other users"     => "Konfigurowanie raportów powiadomień dla innych użytkowników",
+    "User can configure whine reports for self"       => "Konfigurowanie raportów powiadomień dla samego siebie",
+    "Can perform actions as other users"              => "Przejmowanie tożsamości innych użytkowników",
+    "Can not be impersonated by other users"          => "Ochrona przed przejęciem tożsamości",
+    "Can confirm a bug or mark it a duplicate"        => "Potwierdzanie $terms.bledow lub oznaczanie ich jako duplikaty",
+    "Can create and destroy groups"                   => "Tworzenie i usuwanie grup",
+    "Can edit all bug fields"                         => "Modyfikowanie wszystkich pól $terms.bledu",
+    "Can create, destroy, and edit classifications"   => "Tworzenie, usuwanie i modyfikowanie kategorii",
+    "Can create, destroy, and edit components"        => "Tworzenie, usuwanie i modyfikowanie komponentów",
+    "Can create, destroy, and edit keywords"          => "Tworzenie, usuwanie i modyfikowanie słów kluczowych",
+    "Can edit or disable users"                       => "Tworzenie, usuwanie i modyfikowanie kont użytkowników",
+    "Can change Parameters"                           => "Zmiana parametrów",
 } %]
 
 [% MACRO get_permissions(perm) GET permissions_descs.$perm || perm %]
