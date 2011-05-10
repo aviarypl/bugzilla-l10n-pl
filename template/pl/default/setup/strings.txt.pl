@@ -34,7 +34,8 @@
     apachectl_failed => <<END,
 OSTRZEZENIE: Nie mozna bylo sprawdzic konfiguracji Apache. To sie czasami 
 zdarza, gdy skrypt checksetup.pl zostal uruchomiony z innego konta niz ##root##.
-Aby zobaczyc znalezione bledy, wykonaj polecenie: ##command##
+Aby zobaczyc znalezione bledy, wykonaj polecenie: 
+##command##
 END
     blacklisted => 'zablokowana',
     checking_for => 'Sprawdzanie',
