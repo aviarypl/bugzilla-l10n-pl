@@ -71,7 +71,7 @@ END
 
     header => "* To jest Bugzilla ##bz_ver## wraz z Perl ##perl_ver##\n"
             . "* Uruchomiono na ##os_name## ##os_ver##",
-     install_all => <<EOT,
+    install_all => <<EOT,
 
 Aby sprobowac automatycznie zainstalowac wszystkie wymagane i opcjonalne moduly
 za pomoca jednego polecenia, wykonaj:

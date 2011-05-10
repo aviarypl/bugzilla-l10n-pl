@@ -369,9 +369,9 @@
     Wymagany jest poprawny identyfikator sentencji.
 
   [% ELSIF error == "no_manual_moved" %]
-    Nie można ustawić rozwiązania [% terms.bledu %] na [%
-    display_value("resolution", "MOVED") FILTER html %] bez
-    przeniesienia [% terms.bledu %].
+    Nie można określić rozwiązania [% terms.bledu %] jako
+    [%+ display_value("resolution", "MOVED") FILTER html %] bez jego
+    przeniesienia.
 
   [% ELSIF error == "no_open_bug_status" %]
     [% title = "Nie można potwierdzić $terms.bledu" %]

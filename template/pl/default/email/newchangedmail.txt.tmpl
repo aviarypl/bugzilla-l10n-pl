@@ -58,6 +58,7 @@
 [% diffspl = diffspl | replace('      CC Accessible', 'Dostęp Obserwatorzy') %]
 [% diffspl = diffspl | replace('           Reporter', '        Zgłaszający') %]
 [% diffspl = diffspl | replace('         Accessible', '             Dostęp') %]
+[% diffspl = diffspl | replace('     Ever Confirmed', ' Kiedykolwiek potw.') %]
 [% diffspl = diffspl | replace('UNCONFIRMED', 'NIEPOTWIERDZONY') %]
 [% diffspl = diffspl | replace('NEW', 'NOWY') %]
 [% diffspl = diffspl | replace('ASSIGNED', 'PRZYPISANY') %]
@@ -163,8 +164,8 @@ Obserwujesz osobę, która zgłosiła ten [% terms.blad %].
     [% CASE constants.REL_QA %]
 Obserwujesz specjalistę QA tego [% terms.bledu %].
     [% CASE constants.REL_CC %]
-Obserwujesz kogoś z listy obserwatorów tego [% terms.bledu %].
+Obserwujesz osobę z listy obserwatorów tego [% terms.bledu %].
     [% CASE constants.REL_VOTER %]
-Obserwujesz kogoś, kto głosował na ten [% terms.blad %].
+Obserwujesz osobę, która głosowała na ten [% terms.blad %]
   [% END %]
 [% END %]

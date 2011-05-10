@@ -306,7 +306,7 @@
 
   [% ELSIF error == "comment_too_long" %]
     [% title = "Zbyt długi komentarz" %]
-    Komentarz nie może być dłuższy niż 
+    Komentarz nie może zawierać więcej niż
     [%+ constants.MAX_COMMENT_LENGTH FILTER html %] znaków.
 
   [% ELSIF error == "auth_classification_not_enabled" %]
@@ -361,7 +361,7 @@
 
   [% ELSIF error == "component_name_too_long" %]
     [% title = "Nazwa komponentu jest zbyt długa" %]
-    Nazwa komponentu nie może być dłuższa niż [% constants.MAX_COMPONENT_SIZE FILTER html %]
+    Nazwa komponentu nie może zawierać więcej niż [% constants.MAX_COMPONENT_SIZE FILTER html %]
     znaków. „[% name FILTER html %]” zawiera więcej niż ([% name.size %] znaków).
 
   [% ELSIF error == "component_need_initialowner" %]
@@ -988,8 +988,8 @@
     [% END %]
 
   [% ELSIF error == "json_rpc_post_only" %]
-    Z powodów bezpieczeństwa korzystając z JSON-RPC możesz używać tylko
-    metody POST protokołu HTTP.
+    Z powodów bezpieczeństwa musisz użyć HTTP POST, by wywołać
+    metodę „[% method FILTER html %]”.
 
   [% ELSIF error == "keyword_already_exists" %]
     [% title = "Słowo kluczowe już istnieje" %]
@@ -1438,14 +1438,14 @@
 
   [% ELSIF error == "query_name_too_long" %]
     [% title = "Zbyt długa nazwa wyszukiwania" %]
-    Nazwa wyszukiwania nie może być dłuższa niż [% constants.MAX_LEN_QUERY_NAME FILTER html %]
+    Nazwa wyszukiwania nie może zawierać więcej niż [% constants.MAX_LEN_QUERY_NAME FILTER html %]
     znaki.	
 
   [% ELSIF error == "quicksearch_unknown_field" %]
     [% title = "Nieznane pole szybkiego wyszukiwania" %]
     Jest problem z twoim wyszukiwaniem:
     [% FOREACH field = unknown %]
-      <p> <code>[% field FILTER html %]</code> nie jest poprawną nazwą pola.</p>
+      <p><code>[% field FILTER html %]</code> nie jest poprawną nazwą pola.</p>
     [% END %]
     [% FOREACH field = ambiguous.keys %]
       <p><code>[% field FILTER html %]</code> pasuje do więcej niż jednego pola:
@@ -1533,7 +1533,7 @@
   [% ELSIF error == "sudo_invalid_cookie" %]
     [% title = "Nieprawidłowe ciasteczko sesji sudo" %]
     Twoje ciasteczko sesji sudo jest nieprawidłowe - wygasło lub sesja sudo
-    nie została prawidłowo rozpoczęta. Aby kontynuować pracę używając własnej tożsamości, odśwież tę stronę
+    nie została prawidłowo rozpoczęta. Aby kontynuować pracę, używając własnej tożsamości, odśwież tę stronę
     lub przejdź na inną.
 
   [% ELSIF error == "sudo_illegal_action" %]
@@ -1597,7 +1597,7 @@
     [% ELSIF type == "account" %]
       konta
     [% END %]
-    w zbyt krótkim odstępie czasu od poprzedniej próby. Proszę poczekać chwilę i spróbować ponownie.
+    w zbyt krótkim odstępie czasu od poprzedniej próby. Proszę odczekać chwilę i spróbować ponownie.
 
   [% ELSIF error == "unknown_keyword" %]
     [% title = "Nieznane słowo kluczowe" %]
@@ -1711,10 +1711,10 @@
     [% error_message = Hook.process("errors") %]
 
     [% IF not error_message %]
-      [% title = "Opis błędu nie został znaleziony" %]
-      Opis błędu użytkownika <code>[% error FILTER html %]</code> nie został
-      znaleziony. Proszę wysłać wiadomość do [% Param("maintainer") %] opisującą
-      kroki, które doprowadziły do wyświetlenia tej wiadomości.
+      [% title = "Nie znaleziono opisu błędu" %]
+      Nie znaleziono opisu błędu użytkownika <code>[% error FILTER html %]</code>.
+      Proszę wysłać wiadomość do [% Param("maintainer") %] opisującą kroki, które
+      doprowadziły do wyświetlenia tej wiadomości.
     [% ELSE %]
       [% error_message FILTER none %]
     [% END %]
