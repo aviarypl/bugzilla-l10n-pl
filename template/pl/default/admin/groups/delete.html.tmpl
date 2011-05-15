@@ -55,7 +55,7 @@
 <form method="post" action="editgroups.cgi">
   [% IF group.members_non_inherited.size %]
     <p><b>Użytkownicy należący do tej grupy: [% group.members_non_inherited.size FILTER html %].
-      Nie można usunąć grupy dopóki są w niej
+      Nie można usunąć grupy, dopóki są w niej
       użytkownicy.</b>
 
     <br><a href="editusers.cgi?action=list&amp;groupid=
@@ -75,7 +75,7 @@
 
   [% IF group.bugs.size %]
     <p><b>Tylko dla tej grupy są widoczne zgłoszenia [% terms.bledow %]: 
-     [% group.bugs.size FILTER html %]. Nie można usunąć grupy dopóki 
+     [% group.bugs.size FILTER html %]. Nie można usunąć grupy, dopóki 
      [%+ terms.bledy %] używają tej grupy.</b>
 
     <br><a href="buglist.cgi?field0-0-0=bug_group&amp;type0-0-0=equals&amp;value0-0-0=
@@ -84,7 +84,7 @@
     <label><input type="checkbox" name="removebugs">Usuń
     wszystkie [% terms.bledy %] z tej grupy</label></p>
 
-    <p><b>Uwaga:</b> Zaznaczając tę funkcję można spowodować ujawnienie poufnych 
+    <p><b>Uwaga:</b> Zaznaczając tę funkcję, można spowodować ujawnienie poufnych 
     [% terms.bledow %]. <b>Zdecydowanie</b> zaleca się przejrzenie 
     [% terms.bledow %] w tej grupie przed zaznaczeniem
     funkcji.</p>
@@ -139,8 +139,8 @@
   [% END %]
   
   [% IF group.flag_types.size %]
-    <p><b>Ta grupa określa kto może zmieniać niektóre flagi.
-    Nie można usunąć grupy dopóki istnieją flagi z niej korzystające.</b>
+    <p><b>Ta grupa określa, kto może zmieniać niektóre flagi.
+    Nie można usunąć grupy, dopóki istnieją flagi z niej korzystające.</b>
 
     <br><a href="editflagtypes.cgi?action=list&amp;group=
                  [%- group.id FILTER url_quote %]">Wyświetl
