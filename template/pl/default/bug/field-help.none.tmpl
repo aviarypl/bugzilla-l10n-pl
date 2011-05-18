@@ -43,7 +43,7 @@ assigned_to =>
   "Osoba odpowiedzialna za rozwiązanie danego ${terms.bledu}.",
 
 blocked =>
-  "Ten $terms.blad musi zostać rozwiązany zanim będzie możliwe rozwiązanie $terms.bledow
+  "Ten $terms.blad musi zostać rozwiązany, zanim będzie możliwe rozwiązanie $terms.bledow
    wymienionych w tym polu.",
 
 bug_file_loc =>
@@ -82,7 +82,7 @@ delta_ts =>
   "Data ostatniej modyfikacji ${terms.bledu}.",
 
 dependson =>
-  "$terms.Bledy wyszczególnione w tym polu muszą zostać rozwiązane zanim będzie możliwe
+  "$terms.Bledy wyszczególnione w tym polu muszą zostać rozwiązane, zanim będzie możliwe
    rozwiązanie tego ${terms.bledu}.",
 
 estimated_time =>
@@ -112,7 +112,7 @@ product =>
   "$terms.Bledy zaszeregowywane są wg produktów i komponentów.",
 
 qa_contact =>
-  "Osoba odpowiedzialna za potwierdzenie $terms.bledu, gdy ma on status niepotwierdzony"
+  "Osoba odpowiedzialna za potwierdzenie $terms.bledu, gdy ma on status niepotwierdzony,"
   _ " oraz weryfikację rozwiązania ${terms.bledu}.",
 
 remaining_time =>
@@ -134,11 +134,11 @@ see_also =>
   "Odwoływanie się do $terms.bledow w innych instalacjach.
    W celu poinformowania, że dany $terms.blad jest spokrewniony z $terms.bledem
    znajdującym się w innej instalacji, w polu „Dodaj URL $terms.bledu” można podać adres URL
-   spokrewnionego ${terms.bledu}. Można podać wiele adresów URL oddzielając je przecinkami.
+   spokrewnionego ${terms.bledu}. Można podać wiele adresów URL, oddzielając je przecinkami.
 
    <p>Zazwyczaj powinno się używać tego pola, by odnieść się do $terms.bledow w 
      <em>innych</em> instalacjach. Dla $terms.bledow w tej 
-     instalacji, lepszym rozwiązaniem jest użycie pól „$field_descs.dependson” 
+     instalacji lepszym rozwiązaniem jest użycie pól „$field_descs.dependson” 
      i „$field_descs.blocked”.</p>",
 
 short_desc =>
@@ -150,8 +150,8 @@ status_whiteboard =>
   _ " do wpisywania etykiet i statusu informacji.",
 
 target_milestone =>
-   "Pole „$field_descs.target_milestone” używane jest do określenia kiedy osoba,"
-   _ " do której $terms.blad jest przypisany spodziewa się jego rozwiązania.",
+   "Pole „$field_descs.target_milestone” używane jest do określenia, kiedy osoba,"
+   _ " do której $terms.blad jest przypisany, spodziewa się jego rozwiązania.",
 
 version =>
   "W polu „Wersja” określana jest wersja oprogramowania, w którym" 
@@ -200,7 +200,7 @@ email1 =>
 [% help_html.deadlineto = help_html.deadline %]
 
 [% help_all_note = BLOCK %]
-  <strong>Uwaga:</strong> Wybranie opcji <em>[% display_value("rep_platform", "All") FILTER html %]</em> podczas wyszukiwania,
+  <strong>Uwaga:</strong> Wybranie opcji <em>[% display_value("rep_platform", "All") FILTER html %]</em> podczas wyszukiwania
   spowoduje, że wyszukane będą jedynie [% terms.bledy %]
   z ustawioną wartością <em>[% display_value("rep_platform", "All") FILTER html %]</em>.
 [% END %]
