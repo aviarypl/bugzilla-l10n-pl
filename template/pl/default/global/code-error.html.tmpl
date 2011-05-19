@@ -61,7 +61,7 @@
       [%+ Param('emailregexpdesc') %]
     [% END %]
     Nie może też zawierać żadnego z poniższych znaków specjalnych:
-    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt>, ani białych znaków.
+    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt> ani białych znaków.
 
   [% ELSIF error == "authres_unhandled" %]
     Wartość zwracana przez [% value FILTER html %] nie została obsłużona 
@@ -282,7 +282,7 @@
     Nie ma flagi z identyfikatorem <em>[% id FILTER html %]</em>.
 
   [% ELSIF error == "flag_type_target_type_invalid" %]
-    Docelowy element nie był ani <em>[% terms.bledem %]</em>, ani <em>załącznikiem</em>
+    Docelowy element nie był ani <em>[% terms.bledem %]</em>, ani <em>załącznikiem</em>,
     lecz <em>[% target_type FILTER html %]</em>.
   
   [% ELSIF error == "invalid_field_name" %]
@@ -460,7 +460,7 @@
     Załącznik #[% attach_id FILTER html %] musi być łatką (patchem).
 
   [% ELSIF error == "not_in_transaction" %]
-    Podjęto próbę zakończenia nie rozpoczętej wcześniej transakcji.
+    Podjęto próbę zakończenia nierozpoczętej wcześniej transakcji.
 
   [% ELSIF error == "comma_operator_deprecated" %]
     [% title = "Błąd wewnętrzny generatora zapytań SQL" %]
@@ -478,7 +478,7 @@
       Wystąpił błąd wewnętrzny, lecz nie można określić,
       co oznacza kod błędu: <code>[% error FILTER html %]</code>.
 
-      Jeśli jesteś zwykłym użytkownikiem [% terms.Bugzilli %] zapisz tę stronę
+      Jeśli jesteś zwykłym użytkownikiem [% terms.Bugzilli %], zapisz tę stronę
       i wyślij ją do [% Param('maintainer') %].
     [% ELSE %]
       [% error_message FILTER none %]
