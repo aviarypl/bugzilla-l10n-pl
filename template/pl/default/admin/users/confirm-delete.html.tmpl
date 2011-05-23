@@ -99,7 +99,7 @@
   </p>
   <p>
     [% IF user.in_group("editcomponents", component.product_id) %]
-      Można je zmienić korzystając z odnośników powyżej,
+      Można je zmienić, korzystając z odnośników powyżej,
     [% ELSE %]
       Teraz możesz
     [% END %]
@@ -123,7 +123,7 @@
               [%+ attachments %] załączniki
             [% END %]</a>.
             Usunięcie konta użytkownika spowoduje niespójność
-            w bazie danych w wyniku czego
+            w bazie danych, w wyniku czego
             [% IF attachments == 1 %]
               ten załącznik nie będzie wyświetlany
             [% ELSE %]
@@ -143,7 +143,7 @@
               [%+ reporter %] [%+ terms.bledy %]
             [% END %]</a>.
             Usunięcie konta użytkownika spowoduje niespójność
-            w bazie danych w wyniku czego
+            w bazie danych, w wyniku czego
             [% IF reporter == 1 %]
               ten [% terms.blad %] nie będzie wyświetlany
             [% ELSE %]
@@ -161,7 +161,7 @@
               zmian w [% terms.bledach %]
             [% END %].
             Usunięcie konta użytkownika spowoduje niespójność
-            w bazie danych w wyniku czego
+            w bazie danych, w wyniku czego
             [% IF bugs_activity == 1 %]
               ta zmiana nie będzie wyświetlana 
             [% ELSE %]
@@ -182,7 +182,7 @@
               [%+ flags.setter %] flagi
             [% END %]</a>.
             Usunięcie konta użytkownika spowoduje niespójność
-            w bazie danych w wyniku czego
+            w bazie danych, w wyniku czego
             [% IF flags.setter == 1 %]
               ta flaga nie będzie wyświetlana poprawnie
             [% ELSE %]
@@ -202,7 +202,7 @@
               [%+ terms.bledy %] [%+ longdescs %] razy
             [% END %]</a>.
             Usunięcie konta użytkownika spowoduje niespójność
-            w bazie danych w wyniku czego
+            w bazie danych, w wyniku czego
             [% IF longdescs == 1 %]
               ten komentarz nie będzie więcej widoczny
             [% ELSE %]

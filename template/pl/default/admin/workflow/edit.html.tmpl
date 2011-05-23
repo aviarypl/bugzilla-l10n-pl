@@ -40,7 +40,7 @@
   Aby zapewnić kompatybilność ze starszymi wersjami [% terms.Bugzilli %], ponowne otwarcie 
   [% terms.bledu %] – jeśli cykl zmian na to zezwala – spowoduje wyświetlenie tylko jednego
   statusu: [% display_value("bug_status", "UNCONFIRMED") FILTER html %] lub [%+ display_value("bug_status", "REOPENED") FILTER html %].
-  Decyzja, który status zostanie wyświetlony zależy od tego, czy [% terms.blad %] był kiedykolwiek
+  Decyzja, który status zostanie wyświetlony, zależy od tego, czy [% terms.blad %] był kiedykolwiek
   potwierdzany, czy nie. Dobrym rozwiązaniem jest zezwolić na zmianę obu statusów i
   pozostawić [% terms.Bugzilli %] wybór jednego z nich.
 </p>
@@ -75,7 +75,7 @@
           [% checked = workflow.${status.id}.${new_status.id}.defined ? 1 : 0 %]
           [% mandatory = (status.id && new_status.name == Param("duplicate_or_move_bug_status")) ? 1 : 0 %]
           <td align="center" class="checkbox-cell[% " checked" IF checked || mandatory %]"
-              title="Z [% status.name FILTER html %] Na [% new_status.name FILTER html %]">
+              title="Z [% display_value("bug_status", status.name) FILTER html %] na [% display_value("bug_status", new_status.name) FILTER html %]">
             <input type="checkbox" name="w_[% status.id %]_[% new_status.id %]"
                    id="w_[% status.id %]_[% new_status.id %]" onclick="toggle_cell(this)"
                    [%+ "checked='checked'" IF checked || mandatory %]
@@ -96,7 +96,7 @@
   Wszystkie zmiany statusu tego [% terms.bledu %] muszą być potem poprawne, dlatego nie można
   ich modyfikować powyżej.
   <br>
-  Można zmienić to ustawienie przechodząc na stronę
+  Można zmienić to ustawienie, przechodząc na stronę
   <a href="editparams.cgi?section=bugchange#duplicate_or_move_bug_status">Parametry</a>
   i zmodyfikować parametr <i>duplicate_or_move_bug_status</i>.
 </p>

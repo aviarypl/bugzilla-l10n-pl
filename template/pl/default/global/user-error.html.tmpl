@@ -88,7 +88,7 @@
 
   [% ELSIF error == "alias_has_comma_or_space" %]
     [% title = "Nieprawidłowe znaki w aliasie" %]
-    Alias, który podano <em>[% alias FILTER html %]</em>
+    Alias, który podano <em>[% alias FILTER html %]</em>,
     zawiera przecinki lub spacje. Aliasy nie mogą zawierać tych
     znaków, ponieważ są one używane jako separatory aliasów na liście.
     Proszę wybrać inną nazwę bez przecinków i spacji.
@@ -337,7 +337,7 @@
 
   [% ELSIF error == "classification_has_products" %]
      W tej kategorii nadal istnieją produkty. Przed
-     usunięciem kategorii, należy przepisać te produkty do
+     usunięciem kategorii należy przepisać te produkty do
      innej kategorii.
 
   [% ELSIF error == "component_already_exists" %]
@@ -356,7 +356,7 @@
   [% ELSIF error == "component_has_bugs" %]
     [% title = BLOCK %]Komponent ma przypisane [% terms.bledy %][% END %]
     Znaleziono [% nb FILTER html %] [%+ PROCESS ODMIEN c=nb o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %]!
-    Przed usunięciem komponentu, należy przepisać [% PROCESS ODMIEN c=nb o1="ten $terms.blad" o2="te $terms.bledy" o3="te $terms.bledy" %] do
+    Przed usunięciem komponentu należy przepisać [% PROCESS ODMIEN c=nb o1="ten $terms.blad" o2="te $terms.bledy" o3="te $terms.bledy" %] do
     innego komponentu.
 
   [% ELSIF error == "component_name_too_long" %]
@@ -532,7 +532,7 @@
     Wartość „[% value.name FILTER html %]” jest domyślna dla pola
     „[% field.description FILTER html %]” i nie może być usunięta.
     [% IF user.in_group('tweakparams') %]
-      Przed usunięciem, należy <a href="editparams.cgi?section=bugfields#
+      Przed usunięciem należy <a href="editparams.cgi?section=bugfields#
       [%- param_name FILTER url_quote %]">zmienić</a> wartość domyślną.
     [% END %]
 
@@ -612,7 +612,7 @@
     [%+ bug_id FILTER html -%]
     [% IF attach_id && attach_id > 0 %], załączniku [% attach_id FILTER html %][% END %],
     lecz dostęp do tego [% terms.bledu %] został ograniczony wyłącznie do określonych grup.
-    Osoba, którą poproszono o zweryfikowanie flagi nie należy do żadnej z tych grup.
+    Osoba, którą poproszono o zweryfikowanie flagi, nie należy do żadnej z tych grup.
     Proszę poprosić kogoś innego o dokonanie weryfikacji lub umożliwić dostęp do
     tego [% terms.bledu %] dla obserwatorów i dodać tę osobę do listy obserwatorów.
 
@@ -628,7 +628,7 @@
     [%+ terms.bledzie %] [%+ bug_id FILTER html %],
     załączniku [% attach_id FILTER html %], lecz dostęp do tego załącznika mają wyłącznie
     osoby należące do grupy [% Param("insidergroup") FILTER html %]. Osoba, którą poproszono o
-    zweryfikowanie flagi nie należy do niej. Proszę poprosić kogoś innego o dokonanie weryfikacji
+    zweryfikowanie flagi, nie należy do niej. Proszę poprosić kogoś innego o dokonanie weryfikacji
     lub poprosić administratora o dodanie tej osoby do grupy.
 
   [% ELSIF error == "flag_type_cc_list_invalid" %]
@@ -693,7 +693,7 @@
     w bazie danych znajdują się 
     <a href="editgroups.cgi?action=del&amp;group=
              [%- group.id FILTER url_quote %]">rekordy</a>
-    odnoszące się do tej grupy. Przed usunięciem grupy, należy usunąć
+    odnoszące się do tej grupy. Przed usunięciem grupy należy usunąć
     wszystkie odniesienia do niej.
 
   [% ELSIF error == "group_change_denied" %]
@@ -1018,7 +1018,7 @@
 
   [% ELSIF error == "login_required_for_pronoun" %]
     [% title = "Wymagana nazwa użytkownika" %]
-    Nie można użyć %user% nie będąc zalogowanym, ponieważ zmienna %user% odnosi się
+    Nie można użyć %user%, nie będąc zalogowanym, ponieważ zmienna %user% odnosi się
     do nieznanej w tym momencie nazwy użytkownika.
 
   [% ELSIF error == "login_required" %]
@@ -1370,7 +1370,7 @@
     [% admindocslinks = {'products.html' => 'Administracja produktami',
                          'milestones.html' => 'O wersjach docelowych'} %]
     Należy <a href="editmilestones.cgi?action=add&amp;product=[% product FILTER url_quote %]">
-    utworzyć wersję docelową „[% milestone FILTER html %]”</a> zanim będzie
+    utworzyć wersję docelową „[% milestone FILTER html %]”</a>, zanim będzie
     można ją uczynić domyślną wersją docelową dla produktu „[% product FILTER html %]”.
 
   [% ELSIF error == "product_admin_denied" %]
@@ -1549,11 +1549,11 @@
   [% ELSIF error == "sudo_in_progress" %]
     [% title = "Sesja sudo jest aktywna" %]
     Trwa sesja sudo z tożsamością [% target FILTER html %].  
-    Przed rozpoczęciem nowej sesji, należy zakończyć (odnośnik w stopce) trwającą sesję.
+    Przed rozpoczęciem nowej sesji należy zakończyć (odnośnik w stopce) trwającą sesję.
 
   [% ELSIF error == "sudo_password_required" %]
     [% title = "Wymagane hasło" %]
-    Aby rozpocząć sesję sudo wymagane jest podanie hasła do [% terms.Bugzilli %].
+    Aby rozpocząć sesję sudo, wymagane jest podanie hasła do [% terms.Bugzilli %].
     Proszę <a href="relogin.cgi?action=prepare-sudo&target_login=
     [%- target_login FILTER html %]&reason=
     [%- reason FILTER html %]">się cofnąć</a> i podać hasło.

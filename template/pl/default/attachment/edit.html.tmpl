@@ -148,7 +148,7 @@
                    [%+ IF !can_edit %]class="bz_hidden_option"[% END %]
                    [%+ 'checked="checked"' IF attachment.isprivate %]>
             [% IF can_edit %]
-              <label for="isprivate">prywatny (widoczny tylko dla członków grupy 
+              <label for="isprivate">Prywatny (widoczny tylko dla członków grupy 
                 <strong>[% Param('insidergroup') FILTER html %]</strong>)
               </label>
             [% ELSE %]
