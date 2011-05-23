@@ -70,7 +70,7 @@
     Zbiór sentencji można powiększyć. Napisz coś ciekawego, zabawnego
     lub nudnego, lecz nie obscenicznego lub obraźliwego i naciśnij przycisk.
     [% IF Param("quip_list_entry_control") == "moderated" AND !user.in_group('admin') %]
-      Sentencja, zanim zostanie użyta musi zostać zatwierdzona.
+      Sentencja, zanim zostanie użyta, musi zostać zatwierdzona.
     [% END %]
   </p>
 
@@ -164,7 +164,7 @@
   [% END %]
 [% ELSE %]
   <p>
-    Ci, którzy lubią mądrość w dużej ilości mogą
+    Ci, którzy lubią mądrość w dużej ilości, mogą
     <a href="quips.cgi?action=show">obejrzeć
     [% IF user.in_group('admin') %]
       lub modyfikować

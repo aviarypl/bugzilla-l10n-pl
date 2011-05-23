@@ -93,7 +93,7 @@
               <td class="groupname">
                 <label for="group_[% group.id %]">
                   <strong>[% group.name FILTER html %]:</strong>
-                  [%+  get_permissions(group.description) FILTER html_light %]
+                  [%+ get_permissions(group.description) FILTER html_light %]
                 </label>
               </td>
             </tr>

@@ -224,7 +224,7 @@
           [% IF (Param("insidergroup") && user.in_group(Param("insidergroup"))) %]
             <input type="checkbox" id="isprivate" name="isprivate" value="1"
                    [% " checked" IF attachment.isprivate %]>
-            <label for="isprivate">prywatny (widoczny tylko dla członków grupy 
+            <label for="isprivate">Prywatny (widoczny tylko dla członków grupy 
                 <strong>[% Param('insidergroup') FILTER html %]</strong>)</label><br>
           [% END %]
           <br>

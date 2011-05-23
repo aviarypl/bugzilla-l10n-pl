@@ -69,7 +69,7 @@
         [% IF workflow.${status.id}.${new_status.id}.defined %]
           <td align="center" class="checkbox-cell
               [% " checked" IF workflow.${status.id}.${new_status.id} %]"
-              title="Z [% status.name FILTER html %] Na [% new_status.name FILTER html %]">
+            title="Z [% get_status(status.name) FILTER html %] na [% get_status(new_status.name) FILTER html %]">
             <input type="checkbox" name="c_[% status.id %]_[% new_status.id %]"
                    id="c_[% status.id %]_[% new_status.id %]" onclick="toggle_cell(this)"
               [% " checked='checked'" IF workflow.${status.id}.${new_status.id} %]>

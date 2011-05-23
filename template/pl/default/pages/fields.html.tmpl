@@ -75,7 +75,7 @@ Pola <b>Status</b> oraz <b>Rozwiązanie</b> umożliwiają śledzenie cyklu
           Ten [% terms.blad %] został niedawno dodany do listy [% terms.bledow %],
           które powinny być rozwiązane. [% terms.Blad %] o tym statusie może zostać
           zaakceptowany ze zmianą statusu na <b>[% get_status("ASSIGNED") FILTER html %]</b>,
-          przypisany do kogoś innego z pozostawieniem statusu <b>[% get_status("NEW") FILTER html %]</b>,
+          przypisany do kogoś innego z pozostawieniem statusu <b>[% get_status("NEW") FILTER html %]</b>
           albo rozwiązany ze statusem <b>[% get_status("RESOLVED") FILTER html %]</b>.
         </dd>
 
@@ -85,7 +85,7 @@ Pola <b>Status</b> oraz <b>Rozwiązanie</b> umożliwiają śledzenie cyklu
         <dd>
           Ten [% terms.blad %] nie został jeszcze rozwiązany, lecz został już przypisany
           do właściwej osoby. Taki [% terms.blad %] może zostać przypisany innej osobie
-          i zmienić status na <b>[% get_status("NEW") FILTER html %]</b>, albo zostać
+          i zmienić status na <b>[% get_status("NEW") FILTER html %]</b> albo zostać
           rozwiązany ze zmianą statusu na <b>[% get_status("RESOLVED") FILTER html  %]</b>.
         </dd>
 
@@ -108,7 +108,7 @@ Pola <b>Status</b> oraz <b>Rozwiązanie</b> umożliwiają śledzenie cyklu
     <td>
       <dl>
         <dd>
-          Brak jeszcze rozwiązania. Dla [% terms.bledow %] o „otwartych” statusach,
+          Brak jeszcze rozwiązania. Dla [% terms.bledow %] o „otwartych” statusach
           pole rozwiązanie jest puste. Pozostałe [% terms.bledy %] muszą być oznaczone
           którymś z poniższych rozwiązań.
         </dd>
@@ -323,11 +323,11 @@ pamiętać o odpowiednim ustawieniu pola statusu.
   <p>Odwoływanie się do [% terms.bledow %] w innych instalacjach.
     W celu poinformowania, że dany [% terms.blad %] jest spokrewniony z [% terms.bledem %]
     znajdującym się w innej instalacji, w polu „Dodaj URL [% terms.bledu %]” można podać adres URL
-    spokrewnionego [% terms.bledu %]. Można podać wiele adresów URL oddzielając je przecinkami.</p>
+    spokrewnionego [% terms.bledu %]. Można podać wiele adresów URL, oddzielając je przecinkami.</p>
 
   <p>Zazwyczaj powinno się używać tego pola, by odnieść się do [% terms.bledow %] w 
     <em>innych</em> instalacjach. Dla [% terms.bledow %] w tej 
-    instalacji, lepszym rozwiązaniem jest użycie pól „Zależy od” i „Blokuje”.
+    instalacji lepszym rozwiązaniem jest użycie pól „Zależy od” i „Blokuje”.
     </p>
 [% END %]
 

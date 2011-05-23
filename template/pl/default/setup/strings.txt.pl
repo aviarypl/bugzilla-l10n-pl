@@ -78,7 +78,7 @@ EOT
 ***********************************************************************
 * DOSTEP DO BAZY DANYCH                                               *
 ***********************************************************************
-* Aby uzyskac dostep do twojej bazy danych Bugzilla wymaga, aby       *
+* Aby uzyskac dostep do twojej bazy danych, Bugzilla wymaga, aby      *
 * dla uruchomionej bazy byl prawidlowo zainstalowany modul "DBD".     *
 * Zobacz ponizej poprawne polecenia do uruchomienia instalacji modulu *
 * odpowiedniego dla twojej bazy danych.                               *
@@ -88,7 +88,7 @@ EOT
 * OPCJONALNE MODULY                                                   *
 ***********************************************************************
 * Niektore moduly Perla nie sa wymagane do prawidlowego dzialania     *
-* Bugzilli, ale instalujac najnowsza wersje uzyskasz dostep do        *
+* Bugzilli, ale, instalujac najnowsza wersje, uzyskasz dostep do      *
 * dodatkowych funkcji.                                                *
 *                                                                     *
 * Ponizej znajduje sie lista niezainstalowanych opcjonalnych modulow  *

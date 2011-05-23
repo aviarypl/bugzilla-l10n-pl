@@ -480,7 +480,7 @@
     [% url = "index.cgi?GoAheadAndLogIn=1" %]
     [% link = "Zaloguj ponownie" %]
     <b>Brak danych o twoim loginie</b>.
-    Ciasteczko, w którym były przechowywane informacje o danych logowania zostało usunięte.
+    Ciasteczko, w którym były przechowywane informacje o danych logowania, zostało usunięte.
     Przy następnej próbie logowania trzeba będzie podać wymagane informacje.
 
   [% ELSIF message_tag == "login_changed" %]
@@ -641,7 +641,7 @@
   [% ELSIF message_tag == "install_urlbase_default" %]
     Teraz po instalacji [% terms.Bugzilli %], nalezy przejsc na strone
     "Parametry" (odnosnik znajduje sie w stopce konta administratora),
-    by sprawdzic czy ustawienia sa zgodne z zalozeniami, wlacznie ze
+    by sprawdzic, czy ustawienia sa zgodne z zalozeniami, wlacznie ze
     sprawdzeniem poprawnosci adresu bazowego.
 
   [% ELSIF message_tag == "install_reset_password" %]
@@ -655,9 +655,9 @@
     UWAGA! Nie podano wartosci dla parametru "webservergroup" w pliku
     localconfig. Oznacza to, ze pewne pliki i katalogi, ktore musza byc
     dostepne dla zapisu przez uzytkownika i serwer www oraz inne pliki (w tym
-    plik localconfig, ktory zawiera haslo bazy danych) musza byc dostepne do
-    zapisu dla wszystkich. Oznacza to, ze _ktokolwiek_ kto ma dostep do
-    tego komputera moze dowolnie manipulowac przy tej instalacji [%+ terms.Bugzilli %]
+    plik localconfig, ktory zawiera haslo bazy danych), musza byc dostepne do
+    zapisu dla wszystkich. Oznacza to, ze _ktokolwiek_, kto ma dostep do
+    tego komputera, moze dowolnie manipulowac przy tej instalacji [%+ terms.Bugzilli %]
     i uruchomic dowolny kod Perl jako uzytkownik serwera www.
 
     Naprawde nalezy zmienic te opcje.
@@ -667,7 +667,7 @@
     Uwaga: Podano wartosc parametru "webservergroup" w pliku 
     localconfig, lecz skrypt ten nie jest uruchomiony przez a) uzytkownika [% constants.ROOT_USER FILTER html %]; 
     lub b) czlonka tej grupy. Moze to spowodowac problemy z uprawnieniami i zmniejszenie 
-    poziomu bezpieczenstwa. W przypadku problemow z praca skryptow [% terms.Bugzilli %],
+    poziomu bezpieczenstwa. W przypadku problemow z praca skryptow [% terms.Bugzilli %]
     nalezy zalogowac sie jako [% constants.ROOT_USER FILTER html %] i uruchomic ten skrypt ponownie, 
     zostac czlonkiem tej grupy lub usunac parametr "webservergroup".
 
@@ -682,7 +682,7 @@
     [% title = "Utworzono produkt" %]
     Produkt <em>[% product.name FILTER html %]</em> został utworzony. Należy
     <a href="editcomponents.cgi?action=add&product=[% product.name FILTER url_quote %]">
-    dodać co najmniej jeden komponent</a> zanim ktokolwiek będzie mógł zgłaszać [% terms.bledy %] w tym produkcie.
+    dodać co najmniej jeden komponent</a>, zanim ktokolwiek będzie mógł zgłaszać [% terms.bledy %] w tym produkcie.
 
   [% ELSIF message_tag == "product_deleted" %]
     [% title = "Usunięto produkt" %]
@@ -721,12 +721,12 @@
   [% ELSIF message_tag == "sudo_started" %]
     [% title = "Rozpoczęto sesję sudo" %]
       Rozpoczęto sesję sudo. Przez następne 6 godzin lub do czasu zakończenia
-      sesji, wszystko, co zrobisz – robisz na konto użytkownika,
+      sesji wszystko, co zrobisz – robisz na konto użytkownika,
       którego tożsamość została przejęta ([% target FILTER html %]).
   
   [% ELSIF message_tag == "sudo_ended" %]
     [% title = "Zakończono sesję sudo" %]
-      Zakończono sesję sudo. Od tego momentu wszystko co robisz – robisz
+      Zakończono sesję sudo. Od tego momentu wszystko, co robisz – robisz
       na własne konto.
 
   [% ELSIF message_tag == "series_created" %]
@@ -785,7 +785,7 @@
     [%# Give sensible error if error functions are used incorrectly.
       #%]        
     Nieprawidłowo korzystasz z funkcji przekazywania wiadomości. Został
-    podany ciąg znaków „[% message_tag %]”. Prawidłowo, należy podać
+    podany ciąg znaków „[% message_tag %]”. Prawidłowo należy podać
     go jako znacznik i zdefiniować wewnątrz pliku messages.html.tmpl.<br>
     <br>
     Jeśli jesteś zwykłym użytkownikiem [% terms.Bugzilli %] oglądającym tę wiadomość,
