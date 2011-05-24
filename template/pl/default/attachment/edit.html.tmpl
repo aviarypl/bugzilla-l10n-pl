@@ -1,4 +1,4 @@
-[%# 4.0.1PLRC@aviary.pl %]
+[%# 4.0.1PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -80,9 +80,9 @@
               [%+ attachment.datasize FILTER unitconvert %]
             [% ELSE %]
               <em>usunięty</em>
-            [% END %], utworzony przez  [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %]
-            [% IF attachment.isprivate %];
-              <span class="bz_private">Widoczny tylko dla członków grupy <strong>[% Param('insidergroup') FILTER html %]</strong></span>
+            [% END %], utworzony przez [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %]
+            [% IF attachment.isprivate %].
+              <span class="bz_private">Widoczny tylko dla członków grupy <strong>[% Param('insidergroup') FILTER html %]</strong>.</span>
             [% END %]
           </div>
         [% END %]
@@ -157,7 +157,7 @@
             <input type="checkbox" id="isprivate" name="isprivate" value="1"
                    [%+ 'checked="checked"' IF attachment.isprivate %]>
             [% IF can_edit %]
-              <label for="isprivate">prywatny (widoczny tylko dla członków grupy 
+              <label for="isprivate">Prywatny (widoczny tylko dla członków grupy 
                 <strong>[% Param('insidergroup') FILTER html %]</strong>)
               </label>
             [% ELSE %]
@@ -211,7 +211,7 @@
           %]
             <iframe id="viewFrame" src="attachment.cgi?id=[% attachment.id %]">
             <b>Nie można wyświetlić załącznika podczas przeglądania jego szczegółów, ponieważ twoja przeglądarka nie obsługuje elementu IFRAME.
-            <a href="attachment.cgi?id=[% attachment.id %]">Zobacz załącznik na osobnej stronie</a>.</b>
+            <a href="attachment.cgi?id=[% attachment.id %]">Wyświetl załącznik na osobnej stronie</a>.</b>
           </iframe>
           <script type="text/javascript">
             <!--
