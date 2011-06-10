@@ -1,0 +1,56 @@
+[%# 4.1.2+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Emmanuel Seyman <eseyman@linagora.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS global/variables.none.tmpl %]
+
+From: [% Param('mailfrom') %]
+To: [% to %]
+Subject: [% terms.Blad %] [%+ bugid %] – Usunięto część lub wszystkie Twoje głosy.
+X-Bugzilla-Type: voteremoved
+
+Usunięto część lub wszystkie Twoje głosy z [% terms.bledu %] [%+ bugid %].
+
+Oddałeś/oddałaś [% votesold FILTER html %] [%+ IF votesold %] [% PROCESS ODMIEN c=votesold o1="głos" o2="głosy" o3="głosów" %] [% END %] na ten [% terms.blad %], ale [% votesremoved FILTER html %] [%+ PROCESS ODMIEN c=votesremoved o1="został usunięty" o2="zostały usunięte" o3="zostało usuniętych" %].
+
+[% IF votesnew %]
+[% PROCESS ODMIEN c=votesnew o1="Pozostawiono 1 głos" o2="Pozostawiono $votesnew głosy" o3="Pozostawiono $votesnew głosów" %].
+[% ELSE %]
+Usunięto wszystkie głosy z tego [% terms.bledu %].
+[% END %]
+
+Powód:
+[% IF reason == "votes_bug_moved" %]
+  Ten [% terms.blad %] został przeniesiony do innego produktu.
+
+[% ELSIF reason == "votes_too_many_per_bug" %]
+  Zasady głosowania na ten produkt zostały zmienione.
+  Oddałeś/oddałaś za dużo głosów na jeden [% terms.blad %].
+
+[% ELSIF reason == "votes_too_many_per_user" %]
+  Zasady głosowania na ten produkt zostały zmienione. Oddałeś/oddałaś za dużo głosów, więc wszystkie zostały usunięte.
+[% END %]
+
+
+
+[% urlbase %]show_bug.cgi?id=[% bugid %]
+

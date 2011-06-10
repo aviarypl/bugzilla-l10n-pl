@@ -1,0 +1,104 @@
+[%# 4.1.2+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gavin Shelley <bugzilla@chimpychompy.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # product: object; Bugzilla::Product object representing the product to
+  #               which the version belongs.
+  # version: object; Bugzilla::Version object representing the
+  #                    version the user wants to delete.
+  #%]
+
+[% title = BLOCK %]Usuwanie wersji produktu „[% product.name FILTER html %]”
+  [% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+%]
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr bgcolor="#6666FF">
+  <th valign="top" align="left">Pole</th>
+  <th valign="top" align="left">Wartość</th>
+</tr>
+<tr>
+  <td valign="top">Wersja:</td>
+  <td valign="top">[% version.name FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">Produkt:</td>
+  <td valign="top">[% product.name FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">[% terms.Bledy %]:</td>
+  <td valign="top">
+[% IF version.bug_count %]
+  <a title="Lista [% terms.bledow %] dla wersji 
+           „[%- version.name FILTER html %]”"
+     href="buglist.cgi?version=[% version.name FILTER uri %]&amp;product=
+          [%- product.name FILTER uri %]">
+          [%- version.bug_count FILTER none %]</a>
+[% ELSE %]
+  Brak
+[% END %]
+  </td>
+</tr>
+</table>
+
+<h2>Potwierdzenie</h2>
+
+[% IF version.bug_count %]
+  <p>
+  W tej wersji nadal
+  [% IF version.bug_count > 1 %] 
+    znajdują się [% terms.bledy %]: [% version.bug_count FILTER none %]
+  [% ELSE %]
+    znajduje się [% version.bug_count FILTER none %] [%+ terms.blad %]
+  [% END %].
+
+  Należy przenieść 
+
+  [% IF version.bug_count > 1 %]
+     te [% terms.bledy %] 
+  [% ELSE %]
+     ten [% terms.blad %]
+  [% END %]
+  do innej wersji, a potem ponownie spróbować usunąć tę wersję.
+  </p>
+[% ELSE %]
+
+  <p>Czy na pewno chcesz usunąć tę wersję?</p>
+  
+  <form method="post" action="editversions.cgi">
+    <input type="submit" id="delete" value="Tak">
+    <input type="hidden" name="action" value="delete">
+    <input type="hidden" name="product" value="[% product.name FILTER html %]">
+    <input type="hidden" name="version" value="[% version.name FILTER html %]">
+    <input type="hidden" name="token" value="[% token FILTER html %]">
+  </form>
+
+[% END %]
+
+[% PROCESS admin/versions/footer.html.tmpl %]
+
+[% PROCESS global/footer.html.tmpl %] 

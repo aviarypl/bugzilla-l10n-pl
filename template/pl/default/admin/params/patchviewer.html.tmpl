@@ -1,0 +1,66 @@
+[%# 4.1.2+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Przeglądarka łatek"
+   desc = "Ustawienia programów uruchamianych razem z PatchViewerem."
+%]
+
+[% param_descs = {
+  cvsroot => "Repozytorium <a href=\"http://www.cvshome.org\">CVS</a>, które będzie " _
+             "używane przez większość użytkowników systemu podczas wykonywania polecenia <code>cvs diff</code>. " _
+             "Przeglądarka łatek użyje tych danych (funkcja <strong>Diff</strong> dla łatek), by dowiedzieć się, gdzie " _
+             "znajduje się baza łatek, nawet gdy użytkownicy wykonali polecenie <code>cvs diff</code> z różnych miejsc " _
+             "w strukturze katalogów. Jeśli repozytorium CVS jest " _
+             "zdalne i wymaga hasła, należy upewnić się, że użytkownik " _
+             "$terms.Bugzilli zalogował się do repozytorium lub określić hasło " _
+             "<a href=\"http://www.cvshome.org/docs/manual/cvs_2.html#SEC26\"> jako " _
+             "część adresu repozytorium CVS</a>.) Puste pole oznacza brak " _
+             "repozytorium CVS.",
+
+  cvsroot_get => "Repozytorium CVS, z którego będą pobierane łatki. " _
+                 "Niektóre instalacje wykonują lokalne kopie repozytorium CVS na serwerze, gdzie zainstalowana " _
+                 "jest $terms.Bugzilla lub umieszczają repozytorium na tym samym serwerze. " _
+                 "Wówczas repozytorium dostępne jest w lokalnym systemie plików, co oznacza szybszy dostęp do niego. " _
+                 "W razie wątpliwości, należy tutaj ustawić wartość taką, jak " _
+                 "dla parametru <code>cvsroot</code> – pustą, jeśli <code>cvsroot</code> jest pusty.",
+
+  bonsai_url => "Adres URL serwera <a href=\"http://www.mozilla.org/bonsai.html\">Bonsai</a> " _
+                "zawierającego informacje o repozytorium CVS. " _
+                "Przeglądarka łatek użyje tych danych do tworzenia odnośników do " _
+                "<code>bonsai blame</code> dla każdego fragmentu łatki. Do tego adresu zostanie dodany " _
+                "<code>/cvsblame.cgi?…</code>. W razie wątpliwości proszę pozostawić wartość pustą.",
+
+  lxr_url => "Adres URL serwera <a href=\"http://sourceforge.net/projects/lxr\">LXR</a>, " _
+             "który indeksuje repozytorium CVS. Przeglądarka łatek użyje tych danych " _
+             "do tworzenia odnośników do LXR dla każdego pliku w łatce. " _
+             "W razie wątpliwości proszę pozostawić wartość pustą.",
+
+  lxr_root => "Niektóre instalacje LXR nie indeksują repozytorium CVS od głównego katalogu – " _
+              "np. LXR <a href=\"http://lxr.mozilla.org/mozilla\">Mozilli</a> " _
+              "rozpoczyna indeksowanie od katalogu <code>mozilla/</code>. Oznacza to, że " _
+              "adresy URL są relatywne do tej ścieżki. " _
+              "Jeśli wystąpi taka sytuacja, należy wpisać tutaj indeksowany katalog. " _
+              "W razie wątpliwości proszę pozostawić wartość pustą." }
+%]

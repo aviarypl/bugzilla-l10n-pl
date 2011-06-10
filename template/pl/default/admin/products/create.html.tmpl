@@ -1,0 +1,71 @@
+[%# 4.1.2+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # Contributor(s): Gabriel S. Oliveira <gabriel@async.com.br>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # classification: Bugzilla::Classification object; If classifications
+  #                         are enabled, then this is 
+  #                         the currently selected classification
+  #
+  #%]
+
+[% title = BLOCK %]Dodawanie produktu[% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+  style_urls = ['skins/standard/admin.css']
+  javascript_urls = ['js/util.js']
+%]
+
+[% DEFAULT
+  product.is_active = 1,
+  version = "Nieokreślona",
+  product.defaultmilestone = constants.DEFAULT_MILESTONE
+  product.allows_unconfirmed = 1
+%]
+
+<form method="post" action="editproducts.cgi">
+  <table border="0" cellpadding="4" cellspacing="0">
+
+    [% PROCESS "admin/products/edit-common.html.tmpl" %]
+
+    <tr>
+      <th align="right">Wersja:</th>
+      <td><input size="64" maxlength="255" name="version" 
+                value="[% version FILTER html %]">
+      </td>
+    </tr>
+    <tr>
+      <th align="right">Zestawy danych dla produktu:</th>
+      <td>
+        <input type="checkbox" name="createseries" value="1" checked="checked">
+      </td>
+    </tr>
+  </table>
+
+  <input type="submit" id="add-product" value="Dodaj">
+  <input type="hidden" name="action" value="new">
+  <input type="hidden" name="token" value="[% token FILTER html %]">
+  <input type="hidden" name="classification"
+        value="[% classification.name FILTER html %]">
+</form>
+
+[% PROCESS "admin/products/footer.html.tmpl"
+   no_add_product_link = 1 
+   no_edit_product_link = 1 %]
+
+[% PROCESS global/footer.html.tmpl %]

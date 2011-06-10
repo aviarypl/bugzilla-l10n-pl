@@ -1,0 +1,69 @@
+[%# 4.1.2+PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # Contributor(s): Alexander Eiser <alexe@ed.ca>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # field: object; the field object that you are trying to delete.
+  # token: string; the delete_field token required to complete deletion.
+  #%]
+
+[% PROCESS "global/field-descs.none.tmpl" %]
+
+[% title = BLOCK %]
+  Usuwanie pola dodatkowego „[% field.name FILTER html %]” ([% field.description FILTER html %])
+[% END %]
+
+[% PROCESS global/header.html.tmpl
+           title = title
+           doc_section = "custom-fields.html#delete-custom-fields"
+%]
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr bgcolor="#6666FF">
+  <th valign="top" align="left">Pole</th>
+  <th valign="top" align="left">Wartość</th>
+</tr>
+<tr>
+  <td valign="top">Pole dodatkowe:</td>
+  <td valign="top">[% field.name FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">Opis:</td>
+  <td valign="top">[% field.description FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">Typ:</td>
+  <td valign="top">[% field_types.${field.type} FILTER html %]</td>
+</tr>
+</table>
+
+<h2>Potwierdzenie</h2>
+
+<p>
+  Czy na pewno chcesz usunąć to pole z bazy danych?<br>
+  <em><small>Ta czynność będzie wykonana poprawnie tylko, jeśli pole jest zdezaktualizowane
+  i nie było nigdy używane w [% terms.bledach FILTER html %].</small></em>
+</p>
+
+<a href="editfields.cgi?action=delete&amp;name=[% field.name FILTER html %]&amp;token=[% token FILTER html %]">
+  Usuń pole „[% field.description FILTER html %]”</a>
+
+<p>
+  <a href="editfields.cgi">Lista pól dodatkowych</a>
+</p>
+
+[% PROCESS global/footer.html.tmpl %]
