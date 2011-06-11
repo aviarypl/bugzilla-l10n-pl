@@ -1,4 +1,4 @@
-[%# 4.0.1PL@aviary.pl %]
+[%# 4.0.1+PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -1105,13 +1105,19 @@
 
     [%# For logged-out users %]
     [% ELSE %]
-      <table><tr><td><fieldset>
-        <legend>Informacja</legend>
-        Musisz
-        <a href="show_bug.cgi?id=
-                 [%- bug.bug_id %]&amp;GoAheadAndLogIn=1">zalogować się</a>,
-         by móc komentować lub dokonywać zmian w tym [% terms.bledzie %].
-      </fieldset></table><tr></td>
+      <table>
+        <tr>
+          <td>
+            <fieldset>
+              <legend>Informacja</legend>
+              Musisz
+              <a href="show_bug.cgi?id=
+                      [%- bug.bug_id %]&amp;GoAheadAndLogIn=1">zalogować się</a>,
+              by móc komentować lub dokonywać zmian w tym [% terms.bledzie %].
+			</fieldset>
+          </td>
+        </tr> 
+      </table>
     [% END %]
   </div>
 [% END %]

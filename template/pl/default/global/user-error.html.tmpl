@@ -1,4 +1,4 @@
-[%# 4.0.1PL@aviary.pl %]
+[%# 4.0.1+PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -741,6 +741,12 @@
     produkcie „[% product FILTER html %]” nie można ograniczać do
     tej grupy.
 
+  [% ELSIF error == "group_restriction_not_allowed" %]
+    [% title = "Nie można zmienić grupy" %]
+    Próbujesz ograniczyć [% terms.blad %] do grupy „[% name FILTER html %]”,
+    jednak grupa nie istnieje lub nie masz uprawnień do ograniczania
+    [%+ terms.bledow %] do tej grupy w produkcie „[% product.name FILTER html %]”.
+
   [% ELSIF error == "group_not_specified" %]
     [% title = "Nie podano grupy" %]
     Nie podano żadnej grupy.
@@ -1317,7 +1323,7 @@
     Konfiguracja minimalnej długości hasła została zmieniona.
     Hasło nie może mieć mniej niż
     [%+ constants.USER_PASSWORD_MIN_LENGTH FILTER html %] znaków.
-    Należy <a href="token.cgi?a=reqpw&loginname=[% locked_user.email FILTER html %]">
+    Należy <a href="token.cgi?a=reqpw&amp;loginname=[% locked_user.email FILTER url_quote %]">
     zmienić hasło</a> aby się zalogować.
 
   [% ELSIF error == "password_too_short" %]
@@ -1559,16 +1565,16 @@
   [% ELSIF error == "sudo_password_required" %]
     [% title = "Wymagane hasło" %]
     Aby rozpocząć sesję sudo, wymagane jest podanie hasła do [% terms.Bugzilli %].
-    Proszę <a href="relogin.cgi?action=prepare-sudo&target_login=
-    [%- target_login FILTER html %]&reason=
-    [%- reason FILTER html %]">się cofnąć</a> i podać hasło.
+    Proszę <a href="relogin.cgi?action=prepare-sudo&amp;target_login=
+    [%- target_login FILTER url_quote %]&amp;reason=
+    [%- reason FILTER url_quote %]">się cofnąć</a> i podać hasło.
     
   [% ELSIF error == "sudo_preparation_required" %]
     [% title = "Wymagane przygotowanie" %]
     Nie można bezpośrednio rozpocząć sesji sudo. Proszę 
-    <a href="relogin.cgi?action=prepare-sudo&target_login=
-    [%- target_login FILTER html %]&reason=
-    [%- reason FILTER html %]">rozpocząć sesję w normalny sposób</a>.
+    <a href="relogin.cgi?action=prepare-sudo&amp;target_login=
+    [%- target_login FILTER url_quote %]&amp;reason=
+    [%- reason FILTER url_quote %]">rozpocząć sesję w normalny sposób</a>.
 
   [% ELSIF error == "sudo_protected" %]
     [% title = "Chroniony użytkownik" %]
@@ -1756,7 +1762,7 @@
                   
     [% FOREACH q = Bugzilla.user.queries %]
       [% IF q.name == namedcmd %]
-        lub <a href="query.cgi?[% q.url FILTER html %]">dokonać modyfikacji</a>
+        lub <a href="query.cgi?[% q.url FILTER url_quote %]">dokonać modyfikacji</a>
       [% END %]
     [% END %]
     
