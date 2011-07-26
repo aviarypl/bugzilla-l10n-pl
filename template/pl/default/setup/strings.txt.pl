@@ -79,7 +79,7 @@ END
     db_table_new   => "Dodawanie tabeli ##table##...",
     db_table_setup => "Tworzenie tabel...",
     done => 'zakonczono.',
-    enter_or_ctrl_c => "Nacisnij Enter aby kontynuowac lub Ctrl-C aby zakonczyc...",
+    enter_or_ctrl_c => "Nacisnij Enter, aby kontynuowac lub Ctrl-C, aby zakonczyc...",
     error_localconfig_read => <<'END',
 
 Podczas odczytu pliku ##localconfig## wystapil blad. Komunikat bledu:
@@ -139,7 +139,7 @@ EOT
     install_module => 'Instalowanie modulu ##module## wersja ##version##...',
     installation_failed => '*** Instalacja zostala przerwana. Prosze przeczytac powyzsze komunikaty bledow. ***',
     install_no_compiler => <<END,
-BLAD: Korzystanie ze skryptu install-module.pl wymaga wczesniejszej instalacji kompilatora takiego jak
+BLAD: Korzystanie ze skryptu install-module.pl wymaga wczesniejszej instalacji kompilatora, takiego jak
 gcc.
 END
     install_no_make => <<END,
@@ -162,13 +162,13 @@ W przypadku korzystania z serwera www Apache, Bugzilla moze utworzyc odpowiednie
 .htaccess, ktore uniemozliwia odczyt z sieci pliku localconfig oraz innych poufnych
 informacji.
 
-Wartosc 1 oznacza, ze checksetup.pl utworzy pliki .htaccess jesli nie  
+Wartosc 1 oznacza, ze checksetup.pl utworzy pliki .htaccess, jesli nie  
 istnieja.
 
 Wartosc 0 oznacza, ze checksetup.pl nie bedzie tworzyl plikow .htaccess.
 END
     localconfig_cvsbin => <<'END',
-Podaj sciezke do pliku wykonywalnego cvs jesli chcesz wykorzystywac funkcje 
+Podaj sciezke do pliku wykonywalnego cvs, jesli chcesz wykorzystywac funkcje 
 integracji systemu kontroli wersji CVS z Patch Viewerem.
 
 END
@@ -238,18 +238,18 @@ END
 Wartosc klucza prywatnego wykorzystywana jest przez instalacje do generowania
 oraz walidacji zaszyfrowanych tokenow. Sa one wykorzystywane do zabezpieczenia
 instalacji Bugzilli przed atakami roznego typu. Domyslnie generowany jest
-losowy ciag znakow. Bardzo wane jest, aby chronic wartosc tego klucza oraz aby
+losowy ciag znakow. Bardzo wazne jest, aby chronic wartosc tego klucza oraz aby
 byl to dlugi ciag znakow.
 END
     localconfig_use_suexec => <<'END',
 Ustaw wartosc 1 jesli Bugzilla jest uruchomiona w srodowisku SuexecUserGroup serwera Apache.
 
-W przypadku gdy do zarzadzania serwerem www wykorzystywany jest panel administracyjny (cPanel, 
+W przypadku, gdy do zarzadzania serwerem www wykorzystywany jest panel administracyjny (cPanel, 
 Plesk lub podobny), badz Bugzilla uruchomiona jest w srodowisku hostingu wspoldzielonego, wtedy 
 z bardzo duza pewnoscia mozna stwierdzic, ze bedzie uruchamiana w srodowisku SuexecUserGroup
 Apache.
 
-Ustawienie jest ignorowane gdy wykorzystywany jest system Windows.
+Ustawienie jest ignorowane, gdy wykorzystywany jest system Windows.
 
 Wartosc 0 oznacza, ze skrypt checksetup.pl nada prawidlowe uprawnienia dla plikow
 w standardowym srodowisku serwera www. 
@@ -266,7 +266,7 @@ zwykle "www-data".
 W przypadku wlaczenia ponizszego parametru use_suexec, wpis ten bedzie okreslal
 grupe zabezpieczen, z poziomu ktorej beda wykonywane pliki cgi.
 
-Ustawienie jest ignorowane gdy wykorzystywany jest system Windows.
+Ustawienie jest ignorowane, gdy wykorzystywany jest system Windows.
 
 W przypadku braku dostepu do grupy zabezpieczen, z poziomu ktorej beda
 wykonywane skrypty, nalezy wpisac wartosc "". W takim wypadku instalacja Bugzilli
@@ -354,9 +354,9 @@ OSTRZEZENIE: Nastapi konwersja tabel na format UTF-8. Pozwala to na prawidlowe
 		 przechowywanie i sortowanie znakow narodowych. Jednakze, jesli w bazie danych
 		 znajduja sie dane niesformatowane jako UTF-8, to zostana one
 		 ***USUNIETE***. Nalezy przerwac dzialanie skryptu checksetup.pl kombinacja
-		 klawiszy Ctrl-C jesli w bazie znajduja sie dane zapisane w formacie
+		 klawiszy Ctrl-C, jesli w bazie znajduja sie dane zapisane w formacie
 		 innym niz UTF-8 lub gdy nie jestesmy tego pewni. Nastepnie nalezy uruchomic
-		 skrypt contrib/recode.pl aby przekonwertowac dane na format UTF-8. Zaleca
+		 skrypt contrib/recode.pl, aby przekonwertowac dane na format UTF-8. Zaleca
 		 sie wykonanie kopii zapasowej bazy danych, gdyz konwersja moze dotyczyc tabel
 		 innych niz Bugzilli.
 		 
@@ -376,12 +376,12 @@ END
     <p>
       <b>Nie wolno</b> uruchamiać tego skryptu za pomocą przeglądarki.
       Instalacja lub aktualizacja Bugzilli musi być wykonana
-      z linii poleceń (np. <tt>bash</tt> czy poprzez sesję <tt>ssh</tt> dla Linuksa
+      z linii poleceń (np. <tt>bash</tt> lub poprzez sesję <tt>ssh</tt> dla Linuksa
       lub <tt>cmd.exe</tt> dla Windows), zgodnie z podanymi instrukcjami.
     </p>
 
     <p>
-      Wiecej informacji o procesie instalacji Bugzilli znajduje się w
+      Więcej informacji o procesie instalacji Bugzilli znajduje się w
       <a href="http://www.bugzilla.org/docs/">dokumentacji</a>
       dostępnej na oficjalnej stronie internetowej Bugzilli.
     </p>
@@ -433,7 +433,7 @@ END
     update_summary_truncate_comment => 
         "Krótki opis był dłuższy niż 255"
         . " znaków i został skrócony podczas aktualizacji."
-        . " Oryginalna treść była następująca:\n\n##summary##",
+        . " Pierwotna treść była następująca:\n\n##summary##",
 
 		update_summary_truncated => <<'END',
 OSTRZEZENIE: Krotkie opisy niektorych bledow byly dluzsze niz 255 znakow. Zostaly one

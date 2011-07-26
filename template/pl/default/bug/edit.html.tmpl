@@ -470,7 +470,7 @@
               [% INCLUDE global/user.html.tmpl who = bug.assigned_to %]
               (<a href="#" id="bz_assignee_edit_action">zmień</a>)
               [% IF bug.assigned_to.id != user.id %]
-                (<a title="Przepisz [% terms.blad %] na mnie" 
+                (<a title="Przepisz [% terms.blad %] na siebie" 
                     href="#" id="bz_assignee_take_action">przepisz</a>)
               [% END %]
             </span>
@@ -796,7 +796,7 @@
                    IF user.settings.state_addselfcc.value == 'always'
                       || (!has_role
                           && user.settings.state_addselfcc.value == 'cc_unless_role') %]>
-            <label for="addselfcc">Dodaj mnie</label>
+            <label for="addselfcc">Dodaj siebie</label>
             <br> 
           [% END %]
         [% END %]
@@ -849,7 +849,7 @@
                 [% IF bug.user.canedit %]
                   Usuń wybranych
                 [% ELSE %]
-                  Usuń mnie
+                  Usuń siebie
                 [% END %]
               </label>
               <br>

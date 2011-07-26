@@ -39,7 +39,7 @@
 [% END %]
 
 -- [%# Protect the trailing space of the signature marker %]
-Otrzymujesz tę wiadomość ponieważ:
+Otrzymujesz tę wiadomość, ponieważ:
 [% SET reason_lines = [] %]
 [% FOREACH reason = reasons %]
   [% reason_lines.push(reason_descs.$reason) IF reason_descs.$reason %]

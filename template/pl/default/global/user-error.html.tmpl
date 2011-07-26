@@ -653,12 +653,12 @@
   [% ELSIF error == "flag_type_cannot_deactivate" %]
     [% title = "Flaga nie może zostać zdezaktywowana" %]
     Flaga „[% flagtype.name FILTER html %]” jest wykorzystywana przez
-    produkty do których nie masz uprawnień dostępu, dlatego jej dezaktywacja jest niemożliwa.
+    produkty, do których nie masz uprawnień dostępu, dlatego jej dezaktywacja jest niemożliwa.
 
   [% ELSIF error == "flag_type_cannot_delete" %]
     [% title = "Flaga nie może zostać usunięta" %]
     Flaga „[% flagtype.name FILTER html %]” jest wykorzystywana przez
-    produkty do których nie masz uprawnień dostępu, dlatego jej dezaktywacja jest niemożliwa.
+    produkty, do których nie masz uprawnień dostępu, dlatego jej dezaktywacja jest niemożliwa.
 
   [% ELSIF error == "flag_type_cc_list_invalid" %]
     [% title = "Nieprawidłowa lista obserwatorów flagi" %]
@@ -683,7 +683,7 @@
   [% ELSIF error == "flag_type_not_editable" %]
     [% title = "Flaga nie może być modyfikowana" %]
     Nie posiadasz uprawnień do modyfikacji flagi „[% flagtype.name FILTER html %]”,
-    gdyż jest ona wykorzystywana przez produkty do których nie posiadasz uprawnień administracyjnych.
+    gdyż jest ona wykorzystywana przez produkty, do których nie posiadasz uprawnień administracyjnych.
 
   [% ELSIF error == "flag_type_not_multiplicable" %]
     [% docslinks = {'flags-overview.html' => 'Ogólne informacje o flagach',
@@ -765,6 +765,7 @@
     grupy o ID [% group_id FILTER html %], ale [% terms.bledow %] w
     produkcie „[% product FILTER html %]” nie można ograniczać do
     tej grupy.
+
   [% ELSIF error == "group_restriction_not_allowed" %]
     [% title = "Nie można zmienić grupy" %]
     Próbujesz ograniczyć [% terms.blad %] do grupy „[% name FILTER html %]”,
