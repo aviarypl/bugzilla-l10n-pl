@@ -29,7 +29,7 @@
 <p>Wpisano następujący tekst:</p>
 [% USE Dumper %]
 <pre>
-  [% Dumper.dump_html(cgi_variables) %]
+  [% Dumper.dump_html(cgi_variables) FILTER none %]
 </pre>
 
 [% PROCESS global/footer.html.tmpl %]

@@ -27,7 +27,7 @@
     [% IF votes == 1 %]
       [%+ terms.blad %]
     [% ELSE %]
-      [%+ votes %] [%+ terms.bledy %]
+      [%+ votes FILTER html %] [%+ terms.bledy %]
     [% END %].
 
     Usunięcie konta użytkownika spowoduje, że 

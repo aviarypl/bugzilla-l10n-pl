@@ -62,6 +62,8 @@
               Nowe hasło zostało ustanowione.
             [% ELSIF field == 'disabledtext' %]
               Wyjaśnienie powodu wyłączenia konta zostało zmodyfikowane.
+            [% ELSIF field == 'is_enabled' %]
+              Konto zostało [% otheruser.is_enabled ? 'włączone' : 'wyłączone' %].
             [% ELSIF field == 'extern_id' %]
               Nazwa użytkownika w zewnętrznym systemie uwierzytelniania została zmodyfikowana.
             [% ELSIF field == 'disable_mail' %]

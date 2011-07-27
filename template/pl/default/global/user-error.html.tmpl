@@ -219,6 +219,8 @@
       wersji
     [% ELSIF object == "workflow" %]
       zmian statusu [% terms.bledow %]
+    [% ELSE %]
+      [%+ Hook.process('auth_failure_object') %]
     [% END %].
 
     [% Hook.process("auth_failure") %]
@@ -623,7 +625,8 @@
     [%+ bug_id FILTER html -%]
     [% IF attach_id && attach_id > 0 %], załączniku [% attach_id FILTER html %][% END %],
     lecz dostęp do tego [% terms.bledu %] został ograniczony wyłącznie do określonych grup.
-    Osoba, którą poproszono o zweryfikowanie flagi, nie należy do żadnej z tych grup.
+    Osoba, którą poproszono o zweryfikowanie flagi, 
+    nie należy do żadnej z tych grup.
     Proszę poprosić kogoś innego o dokonanie weryfikacji lub umożliwić dostęp do
     tego [% terms.bledu %] dla obserwatorów i dodać tę osobę do listy obserwatorów.
 
@@ -1807,4 +1810,5 @@
     [% SET field_name = matches.0 %]
     [% field_descs.$field_name FILTER html %]
   [% END %]
+  [% Hook.process('end_object_name', 'global/user-error.html.tmpl') %]
 [% END %]
