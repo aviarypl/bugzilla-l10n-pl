@@ -111,6 +111,11 @@
     Alias [% terms.bledu %] nie może być dłuższy niż 20 znaków.
     Proszę wybrać krótszą nazwę.
 
+  [% ELSIF error == "attachment_bug_id_mismatch" %]
+    [% title = "Nieprawidłowa operacja" %]
+    Próbowano wykonać działanie na załącznikach pochodzących z różnych [% terms.bledow %],
+    jednak wszystkie muszą należeć do jednego [% terms.bledu %].
+
   [% ELSIF error == "auth_cant_create_account" %]
     [% title = "Nie można utworzyć konta" %]
     Ta witryna korzysta z metod weryfikacji użytkownika, które
@@ -706,12 +711,6 @@
     odnoszące się do tej grupy. Przed usunięciem grupy należy usunąć
     wszystkie odniesienia do niej.
 
-  [% ELSIF error == "group_change_denied" %]
-    [% title = "Nie można dodać/usunąć tej grupy" %]
-    Próbujesz dodać lub usunąć grupę o ID [% group_id FILTER html %]
-    z [% terms.bledu %] [%+ bug.id FILTER html %], ale nie masz
-    uprawnień do wykonania tej operacji.
-
   [% ELSIF error == "group_exists" %]
     [% title = "Grupa już istnieje" %]
     Grupa o nazwie [% name FILTER html %] już istnieje.
@@ -733,19 +732,13 @@
 
   [% ELSIF error == "group_invalid_removal" %]
     Próbujesz usunąć [% terms.blad %] [%+ bug.id FILTER html %]
-    z grupy o ID [% group_id FILTER html %], ale [% terms.bledy %] w 
-    produkcie „[% product FILTER html %]” nie mogą być usuwane z tej
-    grupy.
-    
-  [% ELSIF error == "group_invalid_restriction" %]
-    Próbujesz ograniczyć [% terms.blad %] [%+ bug.id FILTER html %] do
-    grupy o ID [% group_id FILTER html %], ale [% terms.bledow %] w
-    produkcie „[% product FILTER html %]” nie można ograniczać do
-    tej grupy.
+    z grupy „[% name FILTER html %]”, jednak grupa nie istnieje lub nie masz uprawnień do usuwania 
+    [%+ terms.bledow %] z grupy 
+    produktu „[% product FILTER html %]”.
 
   [% ELSIF error == "group_restriction_not_allowed" %]
     [% title = "Nie można zmienić grupy" %]
-    Próbujesz ograniczyć [% terms.blad %] do grupy „[% name FILTER html %]”,
+    Próbujesz ograniczyć [% bug_id ? "$terms.blad $bug_id" : terms.blad FILTER html %] do grupy „[% name FILTER html %]”,
     jednak grupa nie istnieje lub nie masz uprawnień do ograniczania
     [%+ terms.bledow %] do tej grupy w produkcie „[% product.name FILTER html %]”.
 
