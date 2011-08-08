@@ -175,7 +175,7 @@
     Wymagane pole [% field FILTER html %] nie zostało wypełnione.
 
   [% ELSIF error == "inactive_group" %]
-    Próba dodania [% terms.bledu %] do grupy „[% name FILTER html %]”, 
+    Próba dodania [% terms.bledu %] do grupy o ID <em>[% group_id FILTER html %]</em>, 
     która nie jest używana dla [% terms.bledow %].
 
   [% ELSIF error == "invalid_attach_id_to_obsolete" %]

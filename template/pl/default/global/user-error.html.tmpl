@@ -104,6 +104,11 @@
     Alias [% terms.bledu %] nie może być dłuższy niż 20 znaków.
     Proszę wybrać krótszą nazwę.
 
+  [% ELSIF error == "attachment_bug_id_mismatch" %]
+    [% title = "Nieprawidłowa operacja" %]
+    Próbowano wykonać działanie na załącznikach pochodzących z różnych [% terms.bledow %],
+    jednak wszystkie muszą należeć do jednego [% terms.bledu %].
+
   [% ELSIF error == "auth_cant_create_account" %]
     [% title = "Nie można utworzyć konta" %]
     Ta witryna korzysta z metod weryfikacji użytkownika, które

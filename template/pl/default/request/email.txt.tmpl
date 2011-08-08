@@ -50,7 +50,7 @@ From: [% Param('mailfrom') %]
 To: [% to %]
 Subject: Użytkownik [% subject_status %] flagę „[% flag.type.name %]” dla: [[% terms.Blad %] [%+ bug.bug_id %]] [% bug.short_desc %]
 [%- IF attachment %] :
-  [Załącznik [% attachment.id %]] [% attachment.description %][% END %]
+  [Załącznik [% attachment.id %]] [% attachment.description FILTER clean_text %][% END %]
 X-Bugzilla-Type: request
 [%+ threadingmarker %]
 

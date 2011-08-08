@@ -251,10 +251,6 @@
 ],
 
 'global/site-navigation.html.tmpl' => [
-  'bug_list.first', 
-  'bug_list.$prev_bug', 
-  'bug_list.$next_bug', 
-  'bug_list.last', 
   'bug.bug_id', 
   'bug.votes', 
 ],
@@ -299,13 +295,6 @@
   '" size=\"$size\"" IF size',
   '" maxlength=\"$maxlength\"" IF maxlength',
   '" spellcheck=\"$spellcheck\"" IF spellcheck',
-],
-
-'bug/navigate.html.tmpl' => [
-  'bug_list.first', 
-  'bug_list.last', 
-  'bug_list.$prev_bug', 
-  'bug_list.$next_bug', 
 ],
 
 'bug/show-multiple.html.tmpl' => [
