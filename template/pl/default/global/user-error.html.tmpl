@@ -912,7 +912,8 @@
     [% title = "Nieprawidłowa wartość typu zawartości" %]
     Typ zawartości <em>[% contenttype FILTER html %]</em> jest nieprawidłowy.
     Prawidłowe typy mają postać <em>foo/bar</em>, gdzie <em>foo</em>
-    jest jednym z <em>[% constants.LEGAL_CONTENT_TYPES.join(', ') FILTER html %]</em>.
+    jest jednym z <em>[% constants.LEGAL_CONTENT_TYPES.join(', ') FILTER html %]</em>,
+    a <em>bar</em> nie może zawierać znaków specjalnych (takich jak "=", "?", ...).
     
   [% ELSIF error == "invalid_context" %]
     [% title = "Nieprawidłowy kontekst" %]
@@ -1772,6 +1773,10 @@
     załącznik
   [% ELSIF class == "Bugzilla::User" %]
     użytkownika
+  [% ELSIF class == "Bugzilla::Classification" %]
+    kategoria
+  [% ELSIF class == "Bugzilla::Product" %]
+    produkt
   [% ELSIF class == "Bugzilla::Component" %]
     komponent
   [% ELSIF class == "Bugzilla::Version" %]
@@ -1790,8 +1795,6 @@
     grupa
   [% ELSIF class == "Bugzilla::Keyword" %]
     słowo kluczowe
-  [% ELSIF class == "Bugzilla::Product" %]
-    produkt
   [% ELSIF class == "Bugzilla::Search::Recent" %]
     ostatnie wyszukiwanie
   [% ELSIF class == "Bugzilla::Search::Saved" %]

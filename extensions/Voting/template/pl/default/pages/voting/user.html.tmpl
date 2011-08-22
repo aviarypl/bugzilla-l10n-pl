@@ -121,7 +121,7 @@
                   <input type="checkbox" name="[% bug.id FILTER html %]" value="1"
                     [% " checked" IF bug.count %] id="bug_[% bug.id FILTER html %]">
                 [% ELSE %]
-                  <input name="[% bug.id FILTER html %]" value="[% bug.count %]"
+                  <input name="[% bug.id FILTER html %]" value="[% bug.count FILTER html %]"
                          size="2" id="bug_[% bug.id FILTER html %]">
                 [% END %]
               [% ELSE %]
