@@ -1775,6 +1775,10 @@
     załącznik
   [% ELSIF class == "Bugzilla::User" %]
     użytkownika
+  [% ELSIF class == "Bugzilla::Classification" %]
+    kategoria
+  [% ELSIF class == "Bugzilla::Product" %]
+    produkt
   [% ELSIF class == "Bugzilla::Component" %]
     komponent
   [% ELSIF class == "Bugzilla::Version" %]
@@ -1793,8 +1797,6 @@
     grupa
   [% ELSIF class == "Bugzilla::Keyword" %]
     słowo kluczowe
-  [% ELSIF class == "Bugzilla::Product" %]
-    produkt
   [% ELSIF class == "Bugzilla::Search::Recent" %]
     ostatnie wyszukiwanie
   [% ELSIF class == "Bugzilla::Search::Saved" %]
