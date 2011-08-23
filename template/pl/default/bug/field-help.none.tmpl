@@ -22,11 +22,13 @@
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
-[%# This file describes both bug fields and search fields. %]
+[%# This file describes both bug fields and search fields.
+  # As calling this template once per label is very expensive,
+  # it is called only by Template.pm. %]
 
-[% PROCESS "global/field-descs.none.tmpl" %]
+[% RETURN UNLESS in_template_var %]
 
-[% help_html = {
+[% vars.help_html = {
 
 # Note that all these keys here are in alphabetical order, though
 # search-specific fields are at the bottom.
@@ -102,7 +104,7 @@ op_sys =>
 
 percentage_complete =>
   "Stopień zaawansowania prac nad rozwiązaniem $terms.bledu wyrażony w procentach, a obliczony
-   poprzez porównanie wartości pola $field_descs.work_time i ${field_descs.estimated_time}.",
+   poprzez porównanie wartości pola $vars.field_descs.work_time i ${vars.field_descs.estimated_time}.",
 
 priority =>
   "To pole służy do określenia priorytetu ${terms.bledu}.",
@@ -117,8 +119,8 @@ qa_contact =>
 
 remaining_time =>
   "Liczba roboczogodzin pozostałych do zakończenia prac nad tym $terms.bledem, obliczona poprzez
-   odjęcie wartości pola $field_descs.work_time od wartości pola
-   ${field_descs.estimated_time}.",
+   odjęcie wartości pola $vars.field_descs.work_time od wartości pola
+   ${vars.field_descs.estimated_time}.",
 
 rep_platform => 
   "Typ komputera, na którym zaobserwowano ${terms.blad}.",
@@ -138,8 +140,8 @@ see_also =>
 
    <p>Zazwyczaj powinno się używać tego pola, by odnieść się do $terms.bledow w 
      <em>innych</em> instalacjach. Dla $terms.bledow w tej 
-     instalacji lepszym rozwiązaniem jest użycie pól „$field_descs.dependson” 
-     i „$field_descs.blocked”.</p>",
+     instalacji lepszym rozwiązaniem jest użycie pól „$vars.field_descs.dependson” 
+     i „$vars.field_descs.blocked”.</p>",
 
 short_desc =>
   "Krótkie zdanie zwięźle opisujące"
@@ -150,7 +152,7 @@ status_whiteboard =>
   _ " do wpisywania etykiet i statusu informacji.",
 
 target_milestone =>
-   "Pole „$field_descs.target_milestone” używane jest do określenia, kiedy osoba,"
+   "Pole „$vars.field_descs.target_milestone” używane jest do określenia, kiedy osoba,"
    _ " do której $terms.blad jest przypisany, spodziewa się jego rozwiązania.",
 
 version =>
@@ -184,8 +186,8 @@ chfieldvalue =>
 
 content =>
   "Pole to jest dostępne podczas wyszukiwania pełnotekstowego
-   w polach $field_descs.short_desc oraz
-   ${field_descs.longdesc}.",
+   w polach $vars.field_descs.short_desc oraz
+   ${vars.field_descs.longdesc}.",
 
 # Duplicated to email2 below, also.
 email1 =>
@@ -194,44 +196,44 @@ email1 =>
 
 } %]
 
-[% help_html.email2 = help_html.email1 %]
-[% help_html.chfieldto = help_html.chfieldfrom %]
-[% help_html.deadlinefrom = help_html.deadline %]
-[% help_html.deadlineto = help_html.deadline %]
+[% vars.help_html.email2 = vars.help_html.email1 %]
+[% vars.help_html.chfieldto = vars.help_html.chfieldfrom %]
+[% vars.help_html.deadlinefrom = vars.help_html.deadline %]
+[% vars.help_html.deadlineto = vars.help_html.deadline %]
 
 [% help_all_note = BLOCK %]
-  <strong>Uwaga:</strong> Wybranie opcji <em>[% display_value("rep_platform", "All") FILTER html %]</em> podczas wyszukiwania
+  <strong>Uwaga:</strong> Wybranie opcji <em>Wszystkie</em> podczas wyszukiwania
   spowoduje, że wyszukane będą jedynie [% terms.bledy %]
-  z ustawioną wartością <em>[% display_value("rep_platform", "All") FILTER html %]</em>.
+  z ustawioną wartością <em>Wszystkie</em>.
 [% END %]
 [% FOREACH all_field = ['op_sys', 'rep_platform'] %]
-  [% help_html.$all_field = help_html.$all_field _ ' ' _ help_all_note %]
+  [% vars.help_html.$all_field = vars.help_html.$all_field _ ' ' _ help_all_note %]
 [% END %]
 
 [% IF Param('useclassification') %]
-  [% help_html.product = help_html.product 
+  [% vars.help_html.product = vars.help_html.product 
       _ " Wybór kategorii pozwala zawęzić tę listę." %]
 [% END %]
 
 [% FOREACH help_field = bug_fields.keys %]
 
   [%# Add help for custom fields. %]
-  [% IF !help_html.${help_field}.defined %]
+  [% IF !vars.help_html.${help_field}.defined %]
     [% SET field_type = bug_fields.${help_field}.type %]
     [% field_type_desc = BLOCK -%]
       [% field_types.$field_type FILTER html %]
     [%- END %]
-    [% help_html.${help_field} = 
+    [% vars.help_html.${help_field} = 
       "Pole dodatkowe $field_type_desc dostępne w tej instalacji"
       _ " ${terms.Bugzilli}." %]
   [% END %]
 
   [%# Add help for the search types, for query.cgi. %]
   [% type_desc = BLOCK %]
-    Metoda przeszukiwania pola [% field_descs.${help_field} FILTER html %]
+    Metoda przeszukiwania pola [% vars.field_descs.${help_field} FILTER html %]
   [% END %]
   [% SET type_name = help_field _ '_type' %]
-  [% help_html.$type_name = type_desc %]
+  [% vars.help_html.$type_name = type_desc %]
 [% END %]
 
 [% Hook.process("end") %]

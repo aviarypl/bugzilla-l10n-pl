@@ -58,10 +58,6 @@
   'type.id', 
 ],
 
-'search/boolean-charts.html.tmpl' => [
-  '"id=\"$id\"" IF id'
-],
-
 'search/form.html.tmpl' => [
   'qv.name',
   'qv.description',

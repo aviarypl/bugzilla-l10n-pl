@@ -153,6 +153,8 @@
          IF !vars.field_descs.${bz_field.name}.defined %]
     [% END %]
   [% END %]
+
+  [% PROCESS "bug/field-help.none.tmpl" %]
 [% END %]
 
 [% Hook.process("end") %]

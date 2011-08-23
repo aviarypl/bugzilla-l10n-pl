@@ -74,6 +74,8 @@
   <script type="text/javascript">
     TUI_alternates['custom_search_query'] = '&#9658;';
     TUI_hide_default('custom_search_query');
+    TUI_alternates['custom_search_advanced'] = "Wyświetl opcje zaawansowane";
+    TUI_hide_default('custom_search_advanced');
   </script>
   <script type="text/javascript" src="js/custom-search.js"></script>
 </div>
@@ -85,7 +87,8 @@
   
   [% IF !top_level_any_shown %]
     [% INCLUDE any_all_select
-      name = "j_top" id = "j_top" selected = default.j_top.0 %]
+      name = "j_top" selected = default.j_top.0
+      with_advanced_link = 1 %]
     [% top_level_any_shown = 1 %]
   [% END %]
 
@@ -99,22 +102,26 @@
     
     [% IF previous_condition.f == "OP" %]
       [% INCLUDE any_all_select
-        name = "j" _ (cond_num - 1) id = "j" _ (cond_num - 1)
+        name = "j" _ (cond_num - 1) 
         selected = previous_condition.j %]
     [% END %]
 
     [% IF with_buttons %]
-      <button id="op_button" type="button" 
+      <button id="op_button" type="button" class="custom_search_advanced"
               title="Nowa grupa kryteriów wyszukiwania, uwzględniająca ten rząd"
               onclick="custom_search_open_paren()">(</button>
     [% END %]
 
     [% UNLESS condition.f == "CP" %]
-      <span class="custom_search_not_container" 
+      [%# This only gets hidden via custom_search_advanced if it isn't set. %]
+      <span id="custom_search_not_container_[% cond_num FILTER html %]"
+            class="custom_search_not_container
+                   [%- ' custom_search_advanced' UNLESS condition.n %]"
             title="Wyszukaj wyrażenia nie spełniające kryteriów">
         <input type="checkbox" id="n[% cond_num FILTER html %]"
                class="custom_search_form_field"
                name="n[% cond_num FILTER html %]" value="1"
+               onclick="custom_search_not_changed([% cond_num FILTER js %])"
                [% ' checked="checked"' IF condition.n %]>
         <label for="n[% cond_num FILTER html %]">Not (negacja)</label>
       </span>
@@ -166,10 +173,16 @@
 
 [% BLOCK any_all_select %]
   <div class="any_all_select">
-    <select name="[% name FILTER html %]" [% "id=\"$id\"" IF id %]>
+    <select name="[% name FILTER html %]" id="[% name FILTER html %]">
       <option value="AND">Zawiera wszystkie następujące wyrażenia:</option>
       <option value="OR" [% ' selected="selected"' IF selected == "OR" %]>
         Zawiera dowolne z następujących wyrażeń:</option>
     </select>
+    [% IF with_advanced_link %]
+      <a id="custom_search_advanced_controller"
+         href="javascript:TUI_toggle_class('custom_search_advanced')">
+        Ukryj opcje zaawansowane
+      </a>
+    [% END %]
   </div>
 [% END %]
