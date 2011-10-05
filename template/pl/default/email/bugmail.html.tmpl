@@ -42,7 +42,7 @@
         </div>
       [% END %]
       </p>
-      
+      <hr>
       <span>Otrzymujesz tę wiadomość, ponieważ:</span>
       
       <ul>
@@ -62,39 +62,42 @@
 
 [% BLOCK generate_diffs %]
   
-  [% "${terms.Blad} ${bug.id}" FILTER bug_link(bug, full_url => 1) FILTER none %]
-
+  [% SET in_table = 0 %]
   [% last_changer = "" %]
-  <table border="1" cellspacing="0" cellpadding="2">
     [% FOREACH change = diffs %]
       [% IF !isnew && change.who.login != last_changer %]
         [% last_changer = change.who.login %]
+        [% IF in_table == 1 %]		
+          [% in_table %]
+		  </table>		
+          [% SET in_table = 0 %]
+        [% END %]		  
         [% IF change.blocker %]
-          <tr>
-            <td colspan="3">
               [% "${terms.Blad} ${bug.id}" FILTER bug_link(bug, full_url => 1) FILTER none  %] zależy 
               od [% "${terms.bledu} ${change.blocker.id}" 
                   FILTER bug_link(change.blocker, full_url => 1) FILTER none %],
               który zmienił stan.
-          </td>
-          </tr>
         [% ELSE %]
-          <tr>
-            <td colspan="3">
               [% INCLUDE global/user.html.tmpl who = change.who %]
-              zmienił:
-            </td>
-          </tr>
+              zmienił [% "${terms.Blad} ${bug.id}" FILTER bug_link(bug, full_url => 1) FILTER none %]
         [% END %]
-        <tr>
+        <br>
+          [% IF in_table == 0 %]
+             <table border="1" cellspacing="0" cellpadding="8">
+             [% SET in_table = 1 %]
+          [% END %]
+          <tr>
           <th></th>
           <th>Usunięto</th>
-          <th>Dodano</th>
-        </tr>
+          <th>Dodano</th>		  
+          </tr>
       [% END %]
-
+	  
       [% PROCESS "email/bugmail-common.txt.tmpl" %]
-
+      [% IF in_table == 0 %]
+         <table border="1" cellspacing="0" cellpadding="8">
+         [% SET in_table = 1 %]
+      [% END %]		 
       [% IF isnew %]
         <tr>
           <th>[% field_label FILTER html %]</th>

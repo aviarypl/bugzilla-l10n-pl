@@ -26,15 +26,16 @@
   #%]
 
 <tr>
-  <td valign="top">Komponent:</td>
-  <td><input size="64" maxlength="64" name="component"
+  <th class="field_label"><label for="component">Komponent:</label></th>
+  <td><input size="64" maxlength="64" name="component" id="component"
              value="[%- comp.name FILTER html %]"></td>
 </tr>
 <tr>
-  <td valign="top">Opis:</td>
+  <th class="field_label"><label for="[% desc_name FILTER html %]">Opis:</label></th>
   <td>
     [% INCLUDE global/textarea.html.tmpl
       name           = 'description'
+      id             = 'description'
       minrows        = 4
       cols           = 64
       wrap           = 'virtual'
@@ -43,7 +44,7 @@
   </td>
 </tr>
 <tr>
-  <td valign="top"><label for="initialowner">Domyślny odpowiedzialny:</label></td>
+  <th class="field_label"><label for="initialowner">Domyślny odpowiedzialny:</label></th>
   <td>
     [% INCLUDE global/userselect.html.tmpl
        name => "initialowner"
@@ -55,7 +56,7 @@
 </tr>
 [% IF Param('useqacontact') %]
   <tr>
-    <td valign="top"><label for="initialqacontact">Domyślny specjalista QA:</label></td>
+    <th class="field_label"><label for="initialqacontact">Domyślny specjalista QA:</label></th>
     <td>
       [% INCLUDE global/userselect.html.tmpl
          name => "initialqacontact"
@@ -69,7 +70,7 @@
 [% END %]
 <tr>
   <td valign="top">
-    <label for="initialcc">Domyślni obserwatorzy:</label>
+  <th class="field_label"><label for="initialcc">Domyślni obserwatorzy:</label></th>
   </td>
   <td>
     [% INCLUDE global/userselect.html.tmpl

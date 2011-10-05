@@ -59,8 +59,8 @@
 
   <p>Sprawdzanie istniejących głosów w tym produkcie w poszukiwaniu użytkowników, którzy
   oddali zbyt dużo głosów na [% terms.blad %]…<br>
-  [% IF changes.too_many_votes.size %]
-    [% FOREACH detail = changes.too_many_votes %]
+  [% IF changes._too_many_votes.size %]
+    [% FOREACH detail = changes._too_many_votes %]
       &rarr;usunięto głosy oddane na [% terms.blad %] <a href="show_bug.cgi?id=
      [%- detail.id FILTER uri %]">
      [%- detail.id FILTER html %]</a> przez [% detail.name FILTER html %]<br>
@@ -72,8 +72,8 @@
 
   <p>Sprawdzanie istniejących głosów w tym produkcie w poszukiwaniu użytkowników, którzy
   oddali za dużo głosów…<br>
-  [% IF changes.too_many_total_votes.size %]
-    [% FOREACH detail = changes.too_many_total_votes %]
+  [% IF changes._too_many_total_votes.size %]
+    [% FOREACH detail = changes._too_many_total_votes %]
       &rarr;usunięto głosy oddane na [% terms.blad %] <a href="show_bug.cgi?id=
      [%- detail.id FILTER uri %]">
      [%- detail.id FILTER html %]</a> przez [% detail.name FILTER html %]<br>
@@ -85,15 +85,15 @@
 
   <p>Wyszukiwanie niepotwierdzonych [% terms.bledow %] w tym produkcie w poszukiwaniu tych,
   które po zmianach ustawień głosowania mają wystarczającą liczbę głosów do potwierdzenia…<br>
-  [% IF changes.confirmed_bugs.size %]
-    [% FOREACH id = changes.confirmed_bugs %]
+  [% IF changes._confirmed_bugs.size %]
+    [% FOREACH id = changes._confirmed_bugs %]
 
       [%# This is INCLUDED instead of PROCESSED to avoid variables getting
           overwritten, which happens otherwise %]
       [% INCLUDE bug/process/results.html.tmpl
         type = 'votes'
         header_done = 1
-        sent_bugmail = changes.confirmed_bugs_sent_bugmail.$id
+        sent_bugmail = changes._confirmed_bugs_sent_bugmail.$id
         id = id
       %]
     [% END %]

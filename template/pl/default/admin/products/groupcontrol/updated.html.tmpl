@@ -29,16 +29,16 @@
   title = title
 %]
 <p>
-[% IF changes.group_controls.now_na.size %]
-  [% FOREACH g = changes.group_controls.now_na %]
+[% IF changes._group_controls.now_na.size %]
+  [% FOREACH g = changes._group_controls.now_na %]
     Usuwanie [% terms.bledow %] z grupy „[% g.name FILTER html %]”, która
     nie ma już zastosowania dla tego produktu<p>
     Usunięte [% terms.bledy %]: [% g.bug_count FILTER html %]<p>
   [% END %]
 [% END %]
 
-[% IF changes.group_controls.now_mandatory.size %]
-  [% FOREACH g = changes.group_controls.now_mandatory %]
+[% IF changes._group_controls.now_mandatory.size %]
+  [% FOREACH g = changes._group_controls.now_mandatory %]
     Dodawanie [% terms.bledow %] do grupy „[% g.name FILTER html %]”, która
     jest ponownie obligatoryjna dla tego produktu<p>
     Dodane [% terms.bledy %]: [% g.bug_count FILTER html %]<p>

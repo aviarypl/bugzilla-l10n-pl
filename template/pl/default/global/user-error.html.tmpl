@@ -597,6 +597,10 @@
     [% title = "Nie określono pliku" %]
     Nie określono pliku do załączenia.
 
+  [% ELSIF error == "filename_not_specified" %]
+    [% title = "Nie podano nazwy" %]
+    Należy podać nazwę załącznika.
+
   [% ELSIF error == "file_too_large" %]
     [% title = "Plik jest zbyt duży" %]
     [%# Convert maxlocalattachment from Mb to Kb %]
@@ -922,7 +926,8 @@
     [% title = "Nieprawidłowa wartość typu zawartości" %]
     Typ zawartości <em>[% contenttype FILTER html %]</em> jest nieprawidłowy.
     Prawidłowe typy mają postać <em>foo/bar</em>, gdzie <em>foo</em>
-    jest jednym z <em>[% constants.LEGAL_CONTENT_TYPES.join(', ') FILTER html %]</em>.
+    jest jednym z <em>[% constants.LEGAL_CONTENT_TYPES.join(', ') FILTER html %]</em>,
+    a <em>bar</em> nie może zawierać znaków specjalnych (takich jak "=", "?", ...).
     
   [% ELSIF error == "invalid_context" %]
     [% title = "Nieprawidłowy kontekst" %]

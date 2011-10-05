@@ -41,17 +41,17 @@
   <table border="0" cellpadding="4" cellspacing="0">
 
     <tr>
-      <th valign="top"><label for="milestone">Wersja docelowa:</label></th>
+      <th class="field_label"><label for="milestone">Wersja docelowa:</label></th>
       <td><input id="milestone" size="20" maxlength="20" name="milestone" value="
       [%- milestone.name FILTER html %]"></td>
     </tr>
     <tr>
-      <th align="right"><label for="sortkey">Klucz sortowania:</label></th>
+      <th class="field_label"><label for="sortkey">Klucz sortowania:</label></th>
       <td><input id="sortkey" size="20" maxlength="20" name="sortkey" value="
       [%- milestone.sortkey FILTER html %]"></td>
     </tr>
     <tr>
-      <th><label for="isactive">Otwarta dla zgłaszania [% terms.bledow %]:</label></th>
+      <th class="field_label"><label for="isactive">Otwarta dla zgłaszania [% terms.bledow %]:</label></th>
       <td><input id="isactive" name="isactive" type="checkbox" value="1"
                  [% 'checked="checked"' IF milestone.isactive %]></td>
     </tr>
