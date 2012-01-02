@@ -1,4 +1,4 @@
-[%# 4.0.2+PL@aviary.pl %]
+[%# 4.0.3PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -132,7 +132,7 @@
 
   [% ELSIF error == "db_rename_conflict" %]
     Konflikt nazw: Nie można zmienić nazwy [% old FILTER html %] na
-    [% new FILTER html %], ponieważ [% new FILTER html %] już istnieje.
+    [%+ new FILTER html %], ponieważ [% new FILTER html %] już istnieje.
 
   [% ELSIF error == "cookies_need_value" %]
     Wszystkie ciasteczka muszą mieć ustawioną wartość.
@@ -252,7 +252,7 @@
     Załącznik [% attach_id FILTER html %] ([% description FILTER html %]) 
     jest dołączony do [% terms.bledu %] [%+ attach_bug_id FILTER html %], 
     lecz próbowano oznaczyć go jako zdezaktualizowany podczas dodawania nowego załącznika do
-    [% terms.bledu %] [%+ my_bug_id FILTER html %].
+    [%+ terms.bledu %] [%+ my_bug_id FILTER html %].
 
   [% ELSIF error == "feature_disabled" %]
     Funkcja [% install_string("feature_$feature") FILTER html %] jest
@@ -339,7 +339,7 @@
   [% ELSIF error == "mail_send_error" %]
     Błąd podczas wysyłania poczty od „[% mail.header('From') FILTER html %]”
     do „[% mail.header('To') FILTER html %]”:
-    [% msg FILTER html %]
+    [%+ msg FILTER html %]
 
   [% ELSIF error == "missing_bug_id" %]
     Nie podano identyfikatora [% terms.bledu %].
@@ -355,7 +355,7 @@
 
   [% ELSIF error == "object_dep_sort_loop" %]
     Wykryto pętlę w VALIDATOR_DEPENDENCIES dotyczącą pól
-    „[%+ field FILTER html %]”. Sprawdzono pola:
+    „[% field FILTER html %]”. Sprawdzono pola:
     [%+ considered.join(', ') FILTER html %].
 
   [% ELSIF error == "param_invalid" %]

@@ -1,4 +1,4 @@
-[%# 4.0.2+PL@aviary.pl %]
+[%# 4.0.3PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -646,7 +646,7 @@
   [% ELSIF message_tag == "install_fk_invalid" %]
     Blad: Nieprawidlowe wartosci dla kolumn tabeli [% column FILTER html %] w [% table FILTER html %].
     (Te wartosci nie istnieja w tabeli [% foreign_table FILTER html %] w kolumnie
-    [% foreign_column FILTER html %].)
+    [%+ foreign_column FILTER html %].)
 
     Przed kontynuacja wykonywania skryptu checksetup, nalezy te wartosci naprawic,
     usuwajac te wiersze z bazy danych lub zmieniajac wartosci
@@ -824,6 +824,10 @@
     [% ELSE %]
       Nie dokonano zmian w wersji <em>[% version.name FILTER html %]</em>.
     [% END %]
+
+  [% ELSIF message_tag == "whine_query_failed" %]
+    Wyszukiwanie <code>[% query_name FILTER html %]</code> użytkownika [% author.login FILTER html %]
+    zakończyło się błędem: [% reason FILTER html %]
 
   [% ELSIF message_tag == "workflow_updated" %]
     Wykaz zmian statusów został zaktualizowany.
