@@ -1,0 +1,62 @@
+[%# 4.2rc1PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "LDAP"
+   desc = "Przed wybraniem metody uwierzytelniania LDAP, należy najpierw skonfigurować poniższe parametry."
+%]
+
+[% param_descs = {
+  LDAPserver => "Nazwa i opcjonalnie port serwera LDAP " _
+                "(np. ldap.firma.com lub ldap.firma.com:numer_portu). " _
+                "Można także użyć składni URI, np. "_
+                "ldaps://ldap.firma.com (dla bezpiecznego połączenia) lub " _
+                "ldapi://%2fvar%2flib%2fgniazdo_ldap (dla lokalnego połączenia " _
+                "opartego na gniazdach). Nazwy serwerów lub adresy URI mogą być " _
+                "rozdzielane przecinkami. Próba połączenia będzie wykonywana kolejno z każdym " _ 
+                "serwerem, aż do jego nawiązania.",
+
+  LDAPstarttls => "Ten parametr określa, czy wymagać szyfrowanej komunikacji po " _
+                 "uzyskaniu połączenia LDAP z serwerem.",
+
+  LDAPbinddn => "Jeśli serwer LDAP wymaga użycia binddn i hasła " _
+                "zamiast anonimowego wiązania, należy podać je w tym miejscu " _
+                "(np. cn=default,cn=użytkownik:hasło). Należy pozostawić puste " _
+                "pole dla normalnych anonimowych wiązań.",
+
+  LDAPBaseDN => "Podstawowa nazwa wyróżniająca (BaseDN) dla uwierzytelniania użytkowników " _
+                "(np. ou=Pracownicy,o=Firma).",
+
+  LDAPuidattribute => "Nazwa atrybutu zawierającego nazwę logowania użytkownika.",
+
+  LDAPmailattribute => "Nazwa atrybutu użytkownika z katalogu LDAP, który zawiera " _
+                       "adres e-mail. Adres ten będzie użyty jako nazwa użytkownika " _
+                       "${terms.Bugzilli}. Jeśli parametr ten będzie pusty, " _
+                       "zostanie użyta nazwa użytkownika LDAP. "_
+                       "W takim przypadku przydatne może być ustawienie " _
+                       "parametru <tt>emailsuffix</tt>.",
+
+  LDAPfilter => "Filtr LDAP, który będzie użyty razem z <tt>LDAPuidattribute</tt> " _
+                "(operacja AND) do uzyskania listy uprawnionych użytkowników." }
+%]

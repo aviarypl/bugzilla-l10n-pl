@@ -1,0 +1,163 @@
+[%# 4.2rc1PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # Contributor(s): Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # value: Bugzilla::Field::Choice; The field value being deleted.
+  # value_count: number; The number of values available for this field.
+  # field: object; the field the value is being deleted from.
+  #%]
+
+[% title = BLOCK %]
+  Usuwanie wartości „[% value.name FILTER html %]” z pola
+  „[% field.description FILTER html %]” ([% field.name FILTER html %])
+[% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+  style_urls = ['skins/standard/admin.css']
+%]
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr bgcolor="#6666FF">
+  <th valign="top" align="left">Pole</th>
+  <th valign="top" align="left">Wartość</th>
+</tr>
+<tr>
+  <td valign="top">Nazwa pola:</td>
+  <td valign="top">[% field.description FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">Wartość pola:</td>
+  <td valign="top">[% value.name FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">[% terms.Bledy %]:</td>
+  <td valign="top">
+[% IF value.bug_count %]
+  <a title="Lista [% terms.bledow %], dla których 
+            „[%- field.description FILTER html %]” ma wartość
+            „[%- value.name FILTER html %]”"
+     href="buglist.cgi?[% field.name FILTER uri %]=
+           [%- value.name FILTER uri %]">
+   [%- value.bug_count FILTER html %]</a>
+[% ELSE %]
+  Brak
+[% END %]
+  </td>
+</tr>
+</table>
+
+<h2>Potwierdzenie</h2>
+
+[% IF value.is_default || value.bug_count || (value_count == 1)
+      || value.controls_visibility_of_fields.size
+      || value.controlled_values_array.size 
+%]
+
+  <p>Wartość „[% value.name FILTER html %]” nie może zostać usunięta
+    z pola „[% field.description FILTER html %]” z następujących powodów:</p>
+
+  <ul class="warningmessages">
+    [% IF value.is_default %]
+      <li>„[% value.name FILTER html %]” jest domyślną wartością dla
+        pola „[% field.description FILTER html %]”.
+        [% IF user.in_group('tweakparams') %]
+          Najpierw należy <a href="editparams.cgi?section=bugfields">zmienić
+          domyślną wartość</a> dla tego pola, a dopiero potem usunąć
+          bieżącą wartość.
+        [% END %]
+      </li>
+    [% END %]
+
+    [% IF value.bug_count %]
+      <li>
+        [% IF value.bug_count > 1 %]
+          Występują [% terms.bledy %] z tą wartością: [% value.bug_count FILTER html %].
+          
+        [% ELSE %]
+          Występuje 1 [% terms.blad %] z tą wartością.
+        [% END %]
+        Musisz zmienić wartość pola
+          <a title="Lista [% terms.bledow %], gdzie
+	„[%- field.description FILTER html %]” ma wartość
+	„[%- value.name FILTER html %]”"
+             href="buglist.cgi?[% field.name FILTER uri %]=
+                   [%- value.name FILTER uri %]">
+            [% IF value.bug_count > 1 %]
+              tych [% terms.bledow %]</a>
+            [% ELSE %]
+              tego [% terms.bledu %]</a>
+            [% END %]
+          
+          na inną wartość, a dopiero potem usunąć bieżącą wartość.
+      </li>
+    [% END %]
+
+    [% IF value_count == 1 %]
+      <li>„[% value.name FILTER html %]” jest ostatnią wartością dla
+        „[%- field.description FILTER html %]”, więc nie może zostać usunięta.
+      </li>
+    [% END %]
+
+    [% IF value.controls_visibility_of_fields.size %]
+      <li>Ta wartość nadzoruje wyświetlanie następujących pól:<br>
+        [% FOREACH field = value.controls_visibility_of_fields %]
+          <a href="editfields.cgi?action=edit&name=
+                   [%- field.name FILTER uri %]">
+            [%- field.description FILTER html %] 
+            ([% field.name FILTER html %])</a><br>
+        [% END %]
+      </li>
+    [% END %]
+
+    [% IF value.controlled_values_array.size %]
+      <li>Ta wartość nadzoruje wyświetlanie następujących wartości w
+        innych polach:<br>
+       [% FOREACH field_name = value.controlled_values.keys %]
+         [% FOREACH controlled = value.controlled_values.${field_name} %]
+           <a href="editvalues.cgi?action=edit&field=
+                    [%- controlled.field.name FILTER uri %]&value=
+                    [%- controlled.name FILTER uri %]">
+             [% controlled.field.description FILTER html %]
+             ([% controlled.field.name FILTER html %]):
+             [%+ controlled.name FILTER html %]</a><br>
+         [% END %]
+       [% END %]
+      </li>
+    [% END %]
+  </ul>
+
+[% ELSE %]
+
+  <p>Czy na pewno chcesz usunąć tę wartość?</p>
+
+  <form method="post" action="editvalues.cgi">
+    <input type="submit" value="Tak" id="delete">
+    <input type="hidden" name="action" value="delete">
+    <input type="hidden" name="field" value="[% field.name FILTER html %]">
+    <input type="hidden" name="value" value="[% value.name FILTER html %]">
+    <input type="hidden" name="token" value="[% token FILTER html %]">
+  </form>
+
+[% END %]
+
+[% PROCESS admin/fieldvalues/footer.html.tmpl
+  no_edit_link = 1
+ +%]
+
+[% PROCESS global/footer.html.tmpl %] 

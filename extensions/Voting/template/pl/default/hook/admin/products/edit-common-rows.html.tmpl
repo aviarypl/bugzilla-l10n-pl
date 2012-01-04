@@ -1,0 +1,63 @@
+[%# 4.2rc1PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Everything Solved, Inc.
+  # Portions created by the Initial Developer are Copyright (C) 2010
+  # the Initial Developer. All Rights Reserved.
+  #
+  # Contributor(s): 
+  #   Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% DEFAULT 
+  product.maxvotesperbug = constants.DEFAULT_VOTES_PER_BUG
+  product.votesperuser = 0
+  product.votestoconfirm = 0
+%]
+  
+<tr>
+  <th align="right">Maksymalna liczba głosów do dyspozycji użytkownika:</th>
+  <td><input size="5" maxlength="5" name="votesperuser" id="votesperuser"
+             value="[% product.votesperuser FILTER html %]">
+  </td>
+</tr>
+
+<tr>
+  <th align="right">
+    Maks. liczba głosów, jaką użytkownik może oddać na [% terms.blad %]:
+  </th>
+  <td><input size="5" maxlength="5" name="maxvotesperbug" id="maxvotesperbug"
+             value="[% product.maxvotesperbug FILTER html %]">
+  </td>
+</tr>
+
+<tr id="votes_to_confirm_container"
+    [%- ' class="bz_default_hidden"' IF !product.allows_unconfirmed %]>
+  <th align="right">
+    Automatycznie potwierdzaj [% terms.bledy %], jeśli osiągną następującą liczbę głosów:
+  </th>
+  <td>
+    <input size="3" maxlength="5" name="votestoconfirm" id="votestoconfirm"
+           value="[% product.votestoconfirm FILTER html %]">
+    <br>(Wartość 0 spowoduje wyłączenie automatycznego potwierdzania [% terms.bledow %]
+    przez głosowanie.)
+    <script type="text/javascript">
+        YAHOO.util.Event.addListener('allows_unconfirmed', 'change',
+            function() { bz_toggleClass('votes_to_confirm_container',
+                                        'bz_default_hidden'); });
+    </script>
+  </td>
+</tr>
+

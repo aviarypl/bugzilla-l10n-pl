@@ -1,0 +1,67 @@
+[%# 4.2rc1PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Frédéric Buclin.
+  # Portions created by Frédéric Buclin are Copyright (C) 2008
+  # Frédéric Buclin. All Rights Reserved.
+  #
+  # Contributor(s): Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # script_name: the script generating this warning.
+  # token: a valid token for the current action.
+  # reason: reason of the failure.
+  #%]
+
+[% PROCESS global/header.html.tmpl title = "Podejrzane działania"
+                                   style_urls = ['skins/standard/global.css'] %]
+
+<div class="throw_error">
+<!--reason=[%reason FILTER html %]-->
+  [% IF reason == "expired_token" %]
+    Twoje zmiany zostały odrzucone, ponieważ przed ich wysłaniem
+    do skryptu „[% script_name FILTER html %]” został przekroczony limit
+    czasu [% constants.MAX_TOKEN_AGE FILTER html %] dni. Być może twoja strona była
+    wyświetlana bardzo długo lub poprzednie zmiany zostały przypadkowo ponownie wysłane.
+
+  [% ELSIF reason == "missing_token" %]
+    Wygląda na to, że trafiłeś/trafiłaś tutaj z nieprawidłowej strony.
+    Jednym z powodów może być to, że adres URL został wprowadzony bezpośrednio do paska adresu
+    przeglądarki (generalnie bezpieczna sytuacja). Inny możliwy powód – został kliknięty
+    odnośnik, który wykonał przekierowanie tutaj <b>bez twojej zgody</b>.
+
+  [% ELSIF reason == "invalid_token" %]
+    Zmiany zostały wysłane do skryptu „[% script_name FILTER html %]” z nieprawidłowym
+    tokenem, który może wskazywać, że ktoś próbował cię wykorzystać np.
+    poprzez kliknięcie na URL, który wykonał przekierowanie tutaj <b>bez twojej
+    zgody</b>.
+  [% END %]
+  <p>
+    Czy na pewno chcesz wysłać te zmiany?
+  </p>
+</div>
+
+<form name="check" id="check" method="post" action="[% script_name FILTER html %]">
+  [% PROCESS "global/hidden-fields.html.tmpl"
+             exclude="^(Bugzilla_login|Bugzilla_password|token)$" %]
+  <input type="hidden" name="token" value="[% token FILTER html %]">
+  <input type="submit" id="confirm" value="Tak">
+</form>
+
+<p><a href="index.cgi">Nie, odrzuć te zmiany</a> (nastąpi przekierowanie 
+do strony głównej).</p>
+
+[% PROCESS global/footer.html.tmpl %]

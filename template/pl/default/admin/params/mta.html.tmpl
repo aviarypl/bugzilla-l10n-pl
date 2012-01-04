@@ -1,0 +1,83 @@
+[%# 4.2rc1PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Wiadomości e-mail"
+   desc = "Określenie sposobów dostarczania wiadomości wychodzących."
+%]
+
+[% param_descs = {
+  mail_delivery_method => "Ten parametr określa, czy i jak są wysyłane wiadomości e-mail.<br>
+                           <ul>
+                             <li>
+                               <strong>Sendmail</strong>, <strong>SMTP</strong> i <strong>Qmail</strong> to programy
+                               dostarczające pocztę (MTA). Aby użyć Sendmail na platformie Windows, zainstaluj Sendmail lub jego odpowiednik
+                               przeznaczony dla tego systemu.
+                             </li>
+                             <li>
+                               <strong>Test</strong> – wartość przydatna do testowania instalacji.
+                               Wszystkie wiadomości zapisywane są do pliku 
+                               <code>data/mailer.testfile</code>, a nie wysyłane.
+                             </li>
+                             <li>
+                               <strong>Nigdy</strong> – wartość ta wyłącza całkowicie wysyłanie wiadomości. $terms.Bugzilla będzie
+                               działać tak, jakby poczta była wysyłana, lecz nic nie będzie wysłane lub
+                               zapisywane.
+                             </li>
+                           </ul>",
+
+  mailfrom => "Adres e-mail demona ${terms.Bugzilli}. Niektóre serwery pocztowe wymagają, " _
+              "aby ten adres był ważnym adresem e-mail.",
+
+  use_mailer_queue => "W dużych instalacjach $terms.Bugzilli aktualizacja"
+    _ " $terms.bledow może trwać długo, ponieważ wszystkie e-maile są wysyłane przez"
+    _ " $terms.Bugzille natychmiast. Jeśli ten parametr zostanie włączony, wszystkie"
+    _ " maile będą ustawiane w kolejce i wysyłane w tle. Funkcja ta wymaga, aby"
+    _ " były zainstalowane pewne moduły Perl (wyszczególnione przez skrypt"
+    _ " <kbd>checksetup.pl</kbd>) i uruchomiony demon <code>jobqueue.pl</code>."
+    _ " W przeciwnym razie maile nie będą wysyłane. Ma to wpływ nie"
+    _ " tylko na aktualizacje $terms.bledow, ale na wszystkie maile"
+    _ " wysyłane przez ${terms.Bugzille}.",
+
+  smtpserver => "Adres serwera SMTP (w przypadku korzystania z dostarczania SMTP).",
+
+  smtp_username => "Nazwa użytkownika serwera SMTP używana do uwierzytelniania SMTP. " _
+                   "Jeśli serwer SMTP nie wymaga uwierzytelniania, należy to pole pozostawić puste.",
+
+  smtp_password => "Hasło do serwera SMTP używane do uwierzytelniania SMTP. " _
+                   "Jeśli parametr <code>smtp_username</code> jest pusty, należy pole to pozostawić puste.",
+
+  smtp_debug => "Jeśli ten parametr jest włączony, do pliku dziennika błędów serwera WWW zapisywane będą "_
+                " szczegółowe informacje dotyczące komunikacji $terms.Bugzilli z serwerem SMTP." _
+                " Informacje te mogą być użyte do diagnozowania problemów z wysyłaniem " _
+                " wiadomości e-mail.",
+
+  whinedays => "Liczba dni, po których zostanie wysłane przypomnienie do osoby odpowiedzialnej za " _
+               "rozwiązanie $terms.bledu o statusie – POTWIERDZONY. " _
+               "<br> Wartość 0 wyłącza przypominanie.",
+
+  globalwatchers => "Rozdzielona przecinkami lista nazw użytkowników, którzy będą otrzymywać " _
+                    "kopię każdej wiadomości wysyłanej przez system." }
+
+%]

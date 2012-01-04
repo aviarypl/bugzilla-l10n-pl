@@ -1,0 +1,239 @@
+[%# 4.2rc1PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #                 Max Kanat-Alexander <mkanat@bugzilla.org>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# This file describes both bug fields and search fields.
+  # As calling this template once per label is very expensive,
+  # it is called only by Template.pm. %]
+
+[% RETURN UNLESS in_template_var %]
+
+[% vars.help_html = {
+
+# Note that all these keys here are in alphabetical order, though
+# search-specific fields are at the bottom.
+
+##############
+# Bug Fields #
+##############
+
+alias =>
+  "Krótka, unikalna nazwa przypisana do $terms.bledu w celu jego łatwiejszego
+   odnalezienia i odnoszenia się do niego w innych miejscach ${terms.Bugzilli}.",
+
+assigned_to =>
+  "Osoba odpowiedzialna za rozwiązanie danego ${terms.bledu}.",
+
+blocked =>
+  "Ten $terms.blad musi zostać rozwiązany, zanim będzie możliwe rozwiązanie $terms.bledow
+   wymienionych w tym polu.",
+
+bug_file_loc =>
+  "Z $terms.bledami mogą być skojarzone adresy URL - np. odnośnik"
+  _ " do strony, gdzie problem jest widoczny.",
+
+bug_id =>
+  "Numeryczny identyfikator $terms.bledu, unikalny w danej instalacji"
+  _ " ${terms.Bugzilli}.",
+
+bug_severity =>
+  "Dotkliwość ${terms.bledu}.",
+
+bug_status =>
+  "Określa ogólny status ${terms.bledu}.",
+
+cc =>
+  "Użytkownicy, którzy nie mają przypisanej roli w $terms.bledzie, ale są
+   zainteresowani zagadnieniem, jakie on porusza.",
+
+classification => 
+  "$terms.Bledy zaszeregowywane są do kategorii, produktów i komponentów."
+  _ " Kategoria to zaszeregowanie najwyższego poziomu.",   
+
+component => 
+  "Komponenty to zaszeregowanie drugiego poziomu. Każdy z nich należy"
+  _ " do danego produktu. Wybór produktu pozwala zawęzić tę listę.",
+
+creation_ts =>
+  "Data zgłoszenia ${terms.bledu}.",
+
+deadline =>
+  "Termin ostatecznego rozwiązania $terms.bledu, wprowadzany w formacie RRRR-MM-DD.",
+
+delta_ts =>
+  "Data ostatniej modyfikacji ${terms.bledu}.",
+
+dependson =>
+  "$terms.Bledy wyszczególnione w tym polu muszą zostać rozwiązane, zanim będzie możliwe
+   rozwiązanie tego ${terms.bledu}.",
+
+estimated_time =>
+  "Szacunkowy czas potrzebny na rozwiązanie
+    tego ${terms.bledu}.",
+
+keywords =>
+   "Ze zdefiniowanej listy można do $terms.bledow dodawać słowa"
+   _ " kluczowe, by przypisywać im etykiety i je grupować.",
+
+longdesc =>
+  "$terms.Bledy zawierają także komentarze dodane do nich przez użytkowników ${terms.Bugzilli}."
+  _ " Można przeszukiwać teksty tych komentarzy.",
+
+op_sys =>
+  "System operacyjny, na którym zaobserwowano ${terms.blad}.",
+
+percentage_complete =>
+  "Stopień zaawansowania prac nad rozwiązaniem $terms.bledu wyrażony w procentach, a obliczony
+   poprzez porównanie wartości pola $vars.field_descs.work_time i ${vars.field_descs.estimated_time}.",
+
+priority =>
+  "To pole służy do określenia priorytetu ${terms.bledu}.",
+
+# Note that this has extra text added below if useclassification is on.
+product =>
+  "$terms.Bledy zaszeregowywane są wg produktów i komponentów.",
+
+qa_contact =>
+  "Osoba odpowiedzialna za potwierdzenie $terms.bledu, gdy ma on status niepotwierdzony,"
+  _ " oraz weryfikację rozwiązania ${terms.bledu}.",
+
+remaining_time =>
+  "Liczba roboczogodzin pozostałych do zakończenia prac nad tym $terms.bledem, obliczona poprzez
+   odjęcie wartości pola $vars.field_descs.work_time od wartości pola
+   ${vars.field_descs.estimated_time}.",
+
+rep_platform => 
+  "Typ komputera, na którym zaobserwowano ${terms.blad}.",
+
+reporter =>
+  "Osoba zgłaszająca ${terms.blad}.",
+
+resolution =>
+  "Jeśli $terms.blad ma status „ROZWIĄZANY”, zostanie dodane"
+  _ " jedno z tych rozwiązań.",
+
+see_also =>
+  "Odwoływanie się do $terms.bledow w innych instalacjach.
+   W celu poinformowania, że dany $terms.blad jest spokrewniony z $terms.bledem
+   znajdującym się w innej instalacji, w polu „Dodaj URL $terms.bledu” można podać adres URL
+   spokrewnionego ${terms.bledu}. Można podać wiele adresów URL, oddzielając je przecinkami.
+
+   <p>Zazwyczaj powinno się używać tego pola, by odnieść się do $terms.bledow w 
+     <em>innych</em> instalacjach. Dla $terms.bledow w tej 
+     instalacji lepszym rozwiązaniem jest użycie pól „$vars.field_descs.dependson” 
+     i „$vars.field_descs.blocked”.</p>",
+
+short_desc =>
+  "Krótkie zdanie zwięźle opisujące"
+  _ "  ${terms.blad}.",
+
+status_whiteboard =>
+  "Na każdej stronie zgłoszenia $terms.bledu znajduje się pole tekstowe"
+  _ " do wpisywania etykiet i statusu informacji.",
+
+target_milestone =>
+   "Pole „$vars.field_descs.target_milestone” używane jest do określenia, kiedy osoba,"
+   _ " do której $terms.blad jest przypisany, spodziewa się jego rozwiązania.",
+
+version =>
+  "W polu „Wersja” określana jest wersja oprogramowania, w którym" 
+  _ " znaleziono ${terms.blad}.",
+
+votes =>
+  "Na niektóre $terms.bledy można głosować. To pole umożliwia zawężenie"
+  _ " wyszukiwania do $terms.bledow z więcej niż jednym głosem.",
+
+work_time =>
+  "Całkowity czas poświęcony pracy nad rozwiązaniem tego ${terms.bledu}.",
+
+##########################
+# Search-specific fields #
+##########################
+
+chfield =>
+  "Można wyszukiwać także wg określonych typów zmian ${terms.bledu}. Za pomocą"
+  _" tego pola można określić, które pola należy wziąć pod uwagę.",
+
+# Duplicated to chfieldto below, also.
+chfieldfrom =>
+  "Proszę podać datę rozpoczęcia i zakończenia w formacie RRRR-MM-DD, (opcjonalnie z godziną w
+   formacie HH:mm, w układzie 24 godzinnym) albo relatywne daty, jak np. 1h, 2d, 3w, 4m, 5y,
+   które oznaczają odpowiednio: 1 godzinę, 2 dni, 3 tygodnie, 4 miesiące i 5 lat temu.
+   0d oznacza ostatnią północ, a 0h, 0w, 0m, 0y - początek tej godziny, tygodnia, miesiąca lub roku.",
+
+chfieldvalue =>
+  "W tym czasie została zmieniona wartość wybranego pola.",
+
+content =>
+  "Pole to jest dostępne podczas wyszukiwania pełnotekstowego
+   w polach $vars.field_descs.short_desc oraz
+   ${vars.field_descs.longdesc}.",
+
+# Duplicated to email2 below, also.
+email1 =>
+  "Z każdym $terms.bledem skojarzone są osoby pełniące różne role."
+  _ " Tutaj można wyszukać te osoby i pełnione przez nich role.",
+
+} %]
+
+[% vars.help_html.email2 = vars.help_html.email1 %]
+[% vars.help_html.chfieldto = vars.help_html.chfieldfrom %]
+[% vars.help_html.deadlinefrom = vars.help_html.deadline %]
+[% vars.help_html.deadlineto = vars.help_html.deadline %]
+
+[% help_all_note = BLOCK %]
+  <strong>Uwaga:</strong> Wybranie opcji <em>Wszystkie</em> podczas wyszukiwania
+  spowoduje, że wyszukane będą jedynie [% terms.bledy %]
+  z ustawioną wartością <em>Wszystkie</em>.
+[% END %]
+[% FOREACH all_field = ['op_sys', 'rep_platform'] %]
+  [% vars.help_html.$all_field = vars.help_html.$all_field _ ' ' _ help_all_note %]
+[% END %]
+
+[% IF Param('useclassification') %]
+  [% vars.help_html.product = vars.help_html.product 
+      _ " Wybór kategorii pozwala zawęzić tę listę." %]
+[% END %]
+
+[% FOREACH help_field = bug_fields.keys %]
+
+  [%# Add help for custom fields. %]
+  [% IF !vars.help_html.${help_field}.defined %]
+    [% SET field_type = bug_fields.${help_field}.type %]
+    [% field_type_desc = BLOCK -%]
+      [% field_types.$field_type FILTER html %]
+    [%- END %]
+    [% vars.help_html.${help_field} = 
+      "Pole dodatkowe $field_type_desc dostępne w tej instalacji"
+      _ " ${terms.Bugzilli}." %]
+  [% END %]
+
+  [%# Add help for the search types, for query.cgi. %]
+  [% type_desc = BLOCK %]
+    Metoda przeszukiwania pola [% vars.field_descs.${help_field} FILTER html %]
+  [% END %]
+  [% SET type_name = help_field _ '_type' %]
+  [% vars.help_html.$type_name = type_desc %]
+[% END %]
+
+[% Hook.process("end") %]

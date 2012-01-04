@@ -1,0 +1,232 @@
+[%# 4.2rc1PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@syndicomm.com>
+  #                 Joel Peshkin <bugreport@peshkin.net>
+  #                 Jacob Steenhagen <jake@bugzilla.org>
+  #                 Vlad Dascalu <jocuri@softhome.net>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # groups: array with group objects having the properties:
+  #   - id: number. The ID of the group.
+  #   - name: string. The name of the group.
+  #   - description: string. The description of the group.
+  #   - userregexp: string. The user regexp for the given group.
+  #   - isactive: boolean int. Specifies if the group is active or not.
+  #   - isbuggroup: boolean int. Specifies if it can be used for bugs.
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = "Modyfikowanie grup"
+  subheader = "Na tej stronie można określić grupy, do których można przypisać użytkowników."
+  doc_section = "groups.html"
+%]
+
+[% edit_contentlink = "editgroups.cgi?action=changeform&amp;group=%%id%%" %]
+[% del_contentlink = "editgroups.cgi?action=del&amp;group=%%id%%" %]
+
+[% columns =
+  [{name               => 'name'
+    heading            => 'Nazwa'
+    contentlink        => edit_contentlink
+   }
+   {name               => 'description'
+    heading            => 'Opis'
+    allow_html_content => 1
+   }
+   {name               => 'userregexp'
+    heading            => 'RegExp użytkownika'
+   }
+   {name               => 'is_active_bug_group'
+    heading            => "Używana dla $terms.bledow"
+    align              => 'center'
+   }
+   {name               => 'type'
+    heading            => 'Typ'
+    align              => 'center'
+   }
+   {name               => 'action'
+    heading            => 'Czynność'
+   }
+  ]
+%]
+
+[% overrides.is_active_bug_group = {
+     'is_active_bug_group' => {
+       "0" => {
+          override_content => 1
+          content => "&nbsp;"
+       }
+       "1" => {
+          override_content => 1
+          content => "X"
+       }
+     }
+   }
+
+   overrides.userregexp = {
+     'userregexp' => {
+       "" => {
+         override_content => 1
+         content => "&nbsp;"
+       }
+     }
+   } 
+%]
+
+[% overrides.description = { 
+	 'description' => { 
+       "Administrators" => { 
+         override_content => 1  
+         content => "Administrowanie" 
+       }
+       "Can configure whine reports for other users" => { 
+         override_content => 1  
+         content => "Konfigurowanie raportów powiadomień dla innych użytkowników" 
+       }
+       "Can moderate quips" => { 
+         override_content => 1  
+         content => "Zatwierdzanie sentencji" 
+       }
+       "User can configure whine reports for self" => { 
+         override_content => 1  
+         content => "Konfigurowanie raportów powiadomień dla samego siebie" 
+       }
+       "Can perform actions as other users" => { 
+         override_content => 1  
+         content => "Przejmowanie tożsamości innych użytkowników" 
+       }
+       "Can not be impersonated by other users" => { 
+         override_content => 1  
+         content => "Ochrona przed przejęciem tożsamości" 
+       }
+       "Can confirm a bug or mark it a duplicate" => { 
+         override_content => 1  
+         content => "Potwierdzanie $terms.bledow lub oznaczanie ich jako duplikaty" 
+       }
+       "Can create and destroy groups" => { 
+         override_content => 1  
+         content => "Tworzenie i usuwanie grup" 
+       }
+       "Can edit all bug fields" => { 
+         override_content => 1  
+         content => "Modyfikowanie wszystkich pól $terms.bledu" 
+       }
+       "Can create, destroy, and edit classifications" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i modyfikowanie kategorii" 
+       }
+       "Can create, destroy, and edit components" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i modyfikowanie komponentów" 
+       }
+       "Can create, destroy, and edit keywords" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i modyfikowanie słów kluczowych" 
+       }
+       "Can edit or disable users" => { 
+         override_content => 1  
+         content => "Tworzenie, usuwanie i modyfikowanie kont użytkowników" 
+       }
+       "Can change Parameters" => { 
+         override_content => 1  
+         content => "Zmiana parametrów" 
+       }
+     }
+   }
+%]
+
+[% FOREACH group IN ["chartgroup", "insidergroup", "timetrackinggroup", "querysharegroup"] %]
+  [% special_group = Param(group) %]
+
+  [% IF special_group %]
+    [% overrides.action.name.$special_group = {
+         override_content => 1
+         content => "(używana jako „$group”)"
+       }
+    %]
+  [% END %]
+[% END %]
+
+[% overrides.action.isbuggroup = {
+     "1" => {
+         override_content => 1
+         content => "Usuń"
+         override_contentlink => 1
+         contentlink => del_contentlink
+     }
+   }
+
+   overrides.type.isbuggroup = {
+     "0" => {
+         override_content => 1
+         content => "systemowa"
+     }
+     "1" => {
+         override_content => 1
+         content => "użytkownika"
+     }
+   }
+%] 
+
+[% PROCESS admin/table.html.tmpl
+  columns = columns
+  data    = groups
+  overrides = overrides
+%]
+
+<p><a href="editgroups.cgi?action=add">Dodaj nową grupę</a></p>
+
+<p>
+  <strong>Nazwa</strong> – element używany z funkcją B<!-- blah -->ugzilla → user → in_group()
+w każdym ze zmodyfikowanych przez użytkownika plików <tt>cgi</tt> podczas używania danej grupy.
+Może być ona także używana przez osoby wysyłające [% terms.bledy %] za pomocą e-maili,
+by przypisać [% terms.blad %] do określonego zestawu grup.
+</p>
+
+<p>
+  <strong>Opis</strong> – element widoczny dla członków grupy. Wyświetlany w zgłoszeniach [% terms.bledu %]
+przy polach wyboru ograniczenia dostępu do zgłoszenia. Członkowie grupy mogą określić, czy
+zgłoszenie [% terms.bledu %] będzie wyświetlane jedynie dla członków danej grupy.
+</p>
+
+<p>
+  <strong>RegExp użytkownika</strong> (opcjonalne) –
+jeśli jest podane, nastąpi automatyczne udzielenie członkostwa w tej grupie
+każdemu, kogo adres e-mail pasuje do tego wyrażenia. Należy pamiętać o końcowym „$”.
+Przykład: „@mojafirma\.com$”
+</p>
+
+<p>
+  <strong>Używana dla [% terms.bledow %]</strong> – flaga określająca, czy grupa
+może być używana dla [% terms.bledow %]. Jeśli zostanie ona usunięta,
+nie będzie możliwe dodawanie nowych [% terms.bledow %] do tej grupy.
+Niemniej, [% terms.bledy %] będące już w grupie pozostaną w niej.
+Jest to mniej drastyczny sposób na powstrzymanie wzrostu grupy
+niż jej usunięcie. Jest także sposobem utrzymania list użytkowników bez
+zaśmiecania list grup używanych do ograniczeń [% terms.bledow %].
+</p>
+
+<p>
+  <strong>Typ</strong> – pole określa rodzaj grupy.
+</p>
+
+[% PROCESS global/footer.html.tmpl %]

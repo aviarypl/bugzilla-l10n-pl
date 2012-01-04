@@ -1,0 +1,213 @@
+[%# 4.2rc1PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Gervase Markham <gerv@gerv.net>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # queryshare_groups: list of groups the user may share queries with
+  #                    (id, name).
+  # bless_group_ids: list of group ids the user may bless.
+  #%]
+
+[% IF user.can_bless %]
+  <script type="text/javascript"><!--
+    function update_checkbox(group) {
+      var bless_groups = [[% bless_group_ids.join(",") FILTER js %]];
+      var checkbox = document.getElementById(group.name.replace(/share_(\d+)/, "force_$1"));
+
+      if (bz_isValueInArray(bless_groups, group.value)) {
+        YAHOO.util.Dom.removeClass(checkbox.parentNode, "bz_default_hidden");
+      } else {
+        YAHOO.util.Dom.addClass(checkbox.parentNode, "bz_default_hidden");
+        checkbox.checked = false;
+      }
+    } //-->
+  </script>
+[% END %]
+
+<p>Zapisane wyszukiwania:</p>
+
+<blockquote>
+  <table border="1" cellpadding="3">  
+    <tr>
+      <th>
+        Wyszukiwanie
+      </th>
+      <th>
+        Uruchamianie
+      </th>
+      <th>
+        Modyfikowanie
+      </th>
+      <th>
+        Usuwanie
+      </th>
+      <th>
+        Wyświetlanie
+        w stopce
+      </th>
+      [% may_share = user.in_group(Param('querysharegroup')) && queryshare_groups.size %]
+      [% IF may_share %]
+        <th>
+          Udostępnianie grupie
+        </th>
+      [% END %]
+    </tr>
+    <tr>
+      <td>Moje [% terms.bledy %]</td>
+      <td>
+        [% filtered_username = user.login FILTER uri %]
+        <a href="[% Param('mybugstemplate').replace('%userid%', filtered_username) %]">Uruchom</a>
+      </td>
+      <td>
+        &nbsp;
+      </td>
+      <td>
+        &nbsp;
+      </td>
+      <td align="center">
+        <input type="checkbox" 
+               name="showmybugslink"
+               value="1"
+               [% " checked" IF user.showmybugslink %]>
+      </td>
+      [% IF may_share %]
+        <td>
+          &mdash;
+        </td>
+      [% END %]
+    </tr>
+    [% FOREACH q = user.queries %]
+      <tr>
+        <td>[% q.name FILTER html %]</td>
+        <td>
+          <a href="buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=[% q.name FILTER uri %]
+                   [% IF q.shared_with_group.id %]&amp;sharer_id=[% user.id FILTER uri %][% END %]">Uruchom</a>
+        </td>
+        <td>
+          <a href="query.cgi?[% q.edit_link FILTER html %]&amp;known_name=
+                   [% q.name FILTER uri %]">Modyfikuj</a>
+        </td>
+        <td>
+          [% IF q.used_in_whine %]
+            Najpierw usuń z <a href="editwhines.cgi">przypominania</a>
+          [% ELSE %]
+            <a href="buglist.cgi?cmdtype=dorem&amp;remaction=forget&amp;namedcmd=
+                     [% q.name FILTER uri %]&amp;token=
+                     [% issue_hash_token([q.id, q.name]) FILTER uri %]">Usuń</a>
+          [% END %]
+        </td>
+        <td align="center">
+          <input type="checkbox" 
+                 name="link_in_footer_[% q.id FILTER html %]"
+                 value="1"
+                 alt="[% q.name FILTER html %]"
+                 [% " checked" IF q.link_in_footer %]>
+        </td>
+        [% IF may_share %]
+          <td>
+            <select name="share_[% q.id FILTER html %]"
+              [% IF user.can_bless %] onchange="update_checkbox(this);"[% END %]>
+              <option value="">Nie udostępniaj</option>
+              [% FOREACH group = queryshare_groups %]
+                <option value="[% group.id %]"
+                        [% ' selected="selected"' 
+                           IF q.shared_with_group.id == group.id %]
+                >[% group.name FILTER html %]</option>
+              [% END %]
+            </select>
+            <br>
+            [% IF user.can_bless %]
+              <span [% IF !bless_group_ids.grep("^$q.shared_with_group.id\$").0
+                     %]class="bz_default_hidden"[% END %]>
+                <input type="checkbox" id="force_[% q.id FILTER html %]"
+                       name="force_[% q.id FILTER html %]" value="1">
+                <label for="force_[% q.id FILTER html %]">Wyświetlaj w stopce</label>
+              </span>
+            [% END %]
+            [% IF q.shared_with_users %]
+              (udostępnione [% q.shared_with_users FILTER html %]
+              [%+ q.shared_with_users > 1 ? "użytkownikom" : "użytkownikowi" %])
+            [% END %]
+          </td>
+        [% END %]
+      </tr>
+    [% END %]
+  </table>
+[% IF user.can_bless %]
+  <p>Dla każdego wyszukiwania, które ma zaznaczoną funkcję wyświetlania w stopce, z chwilą
+     naciśnięcia przycisku „Zapisz zmiany”, do stopki strony każdego użytkownika będącego
+     w danym momencie członkiem grupy zostanie dodany odnośnik.</p> 
+[% END %]
+</blockquote>
+
+[% IF user.queries_available.size %]
+<p>Możesz użyć wyszukiwania zapisane i udostępnione przez innych:</p>
+
+  <table border="1" cellpadding="3">  
+    <tr>
+      <th>
+        Wyszukiwanie
+      </th>
+      <th>
+        Udostępnione przez
+      </th>
+      <th>
+        Udostępnione dla
+      </th>
+      <th>
+        Uruchamianie
+      </th>
+      <th>
+        Modyfikowanie
+      </th>
+      <th>
+        Wyświetlanie
+        w stopce
+      </th>
+    </tr>
+    [% FOREACH q = user.queries_available %]
+      <tr>
+        <td>[% q.name FILTER html %]</td>
+        <td>[% q.user.identity FILTER html %]</td>
+        <td>[% q.shared_with_group.name FILTER html %]</td>
+        <td>
+          <a href="buglist.cgi?cmdtype=dorem&amp;remaction=run&amp;namedcmd=
+                   [% q.name FILTER uri %]&amp;sharer_id=
+                   [% q.user.id FILTER uri %]">Uruchom</a>
+        </td>
+        <td>
+          <a href="query.cgi?[% q.edit_link FILTER html %]&amp;known_name=
+                   [% q.name FILTER uri %]">Modyfikuj</a>
+        </td>
+        <td align="center">
+          <input type="checkbox" 
+                 name="link_in_footer_[% q.id FILTER html %]"
+                 value="1"
+                 alt="[% q.name FILTER html %]"
+                 [% " checked" IF q.link_in_footer %]>
+        </td>
+      </tr>
+    [% END %]
+  </table>
+[% ELSE %]
+  <p>Nie ma wyszukiwań udostępnianych ci przez innych użytkowników.</p>
+[% END %]

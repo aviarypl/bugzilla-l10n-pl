@@ -1,0 +1,80 @@
+[%# 4.2rc1PL@aviary.pl %]
+[%# The contents of this file are subject to the Mozilla Public
+  # License Version 1.1 (the "License"); you may not use this file
+  # except in compliance with the License. You may obtain a copy of
+  # the License at http://www.mozilla.org/MPL/
+  #
+  # Software distributed under the License is distributed on an "AS
+  # IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
+  # implied. See the License for the specific language governing
+  # rights and limitations under the License.
+  #
+  # The Original Code is the Bugzilla Bug Tracking System.
+  #
+  # The Initial Developer of the Original Code is Netscape Communications
+  # Corporation. Portions created by Netscape are
+  # Copyright (C) 1998 Netscape Communications Corporation. All
+  # Rights Reserved.
+  #
+  # Contributor(s): Dave Miller <justdave@bugzilla.org>
+  #                 Frédéric Buclin <LpSolit@gmail.com>
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Załączniki"
+   desc = "Ustawienia dotyczące załączników."
+%]
+
+[% param_descs = {
+  allow_attachment_display =>
+    "Jeśli parametr ten jest włączony i przeglądarka użytkowników obsługuje typ MIME,"
+    _ " będą oni mogli oglądać załączniki z poziomu swojej przeglądarki."
+    _ " Jeśli parametr ten jest wyłączony, użytkownicy muszą pobrać załączniki,"
+    _ " nawet jeśli przeglądarka może je wyświetlać."
+    _ "<p>Jest to zabezpieczenie dla instalacji, w których niezaufani użytkownicy"
+    _ " mogą przesyłać załączniki mogące potencjalnie wyrządzić szkody po ich"
+    _ " wyświetleniu w przeglądarce.</p>"
+    _ "<p>Jeśli ten parametr został włączony, jest wysoce zalecane włączenie znajdującego"
+    _ " się poniżej parametru <tt>attachment_base</tt>.",
+
+  attachment_base => 
+    "Gdy parametr <tt>allow_attachment_display</tt> jest włączony, istnieje "
+    _ " możliwość, że złośliwy załącznik wykradnie ciasteczko lub"
+    _ " wykona atak na $terms.Bugzille, używając twojej tożsamości."
+    _ "<p>By tego uniknąć, możesz dodatkowo zabezpieczyć załączniki"
+    _ " ustawiając dla $terms.Bugzilli ten parametr na alternatywny URL,"
+    _ " inny niż <tt>urlbase</tt>, czy <tt>sslbase</tt>."
+    _ " Jest to inna nazwa domeny, która określa dokładnie taką samą"
+    _ " instalację ${terms.Bugzilli}.</p>"
+    _ "<p>Jeśli parametr"
+    _ " <a href=\"editparams.cgi?section=core#cookiedomain\">"
+    _ " <tt>cookiedomain</tt></a> jest zdefiniowany, należy ustawić <tt>attachment_base</tt>,"
+    _ " by używał domeny, która <em>nie</em> będzie pasowała do"
+    _ " <tt>cookiedomain</tt>.</p>"
+    _ "<p>W celu dodatkowych zabezpieczeń można do adresu URL wstawić <tt>%bugid%</tt>,"
+    _ " który w momencie otwierania załącznika zostanie zamieniony na ID"
+    _ " $terms.bledu, do którego załącznik jest dołączony. Będzie to ograniczało"
+    _ " dostęp załącznika tylko do innych załączników dołączonych do tego samego"
+    _ " ${terms.bledu}. Pamiętaj, że wszystkie nazwy domen, "
+    _ " takie jak <tt>1234.twoja.domena.com</tt>, muszą wskazywać na tę samą"
+    _ " instalację ${terms.Bugzilli}.",
+
+  allow_attachment_deletion => "Jeśli parametr ten jest włączony, administratorzy będą mogli " _
+                               "usuwać zawartość załączników.",
+
+  maxattachmentsize => "Maksymalny rozmiar załączników (w kilobajtach), które będą " _
+                       "przechowywane w bazie danych. Jeśli rozmiar załącznika ${terms.bledu} będzie większy niż podana tutaj wartość, " _
+                       "to $terms.Bugzilla sprawdzi wartość parametru " _
+                       "<a href='#maxlocalattachment'><tt>maxlocalattachment</tt></a>, " _
+                       "aby określić, czy plik może być przechowany lokalnie. " _
+                       "Załącznik zostanie odrzucony w przypadku, gdy przekracza rozmiar " _
+					   "określony przez obydwa parametry. " _
+                       "Wartość zero obu parametrów oznacza, że załączniki nie będą akceptowane.",
+
+  maxlocalattachment => "Maksymalny rozmiar załączników (w megabajtach), " _
+                        "które będą przechowywane na serwerze. " _
+                        "Wartość zero oznacza, że załączniki nie będą przechowywane w lokalnym " _
+                        "systemie plików serwera."}
+%]
