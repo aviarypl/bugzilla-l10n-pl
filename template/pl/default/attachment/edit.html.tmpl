@@ -1,4 +1,4 @@
-[%# 4.0.3PL@aviary.pl %]
+[%# 4.0.3+PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -209,6 +209,17 @@
             defaultcontent = (attachment.contenttype.match('^text\/')) ?
                                attachment.data.replace('(.*\n|.+)', '>$1') : undef
           %]
+            [% IF attachment.contenttype == "text/html" %]
+              [%# For security reasons (clickjacking, embedded scripts), we never
+                # render HTML pages from here. The source code is displayed instead. %]
+              [% INCLUDE global/textarea.html.tmpl
+                 id      = 'viewFrame'
+                 minrows = 10
+                 cols    = 80
+                 defaultcontent = attachment.data
+                 readonly = 'readonly'
+              %]
+            [% ELSE %]
             <iframe id="viewFrame" src="attachment.cgi?id=[% attachment.id %]">
             <b>Nie można wyświetlić załącznika podczas przeglądania jego szczegółów, ponieważ twoja przeglądarka nie obsługuje elementu IFRAME.
             <a href="attachment.cgi?id=[% attachment.id %]">Wyświetl załącznik na osobnej stronie</a>.</b>
