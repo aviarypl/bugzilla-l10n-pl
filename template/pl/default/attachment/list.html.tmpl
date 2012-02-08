@@ -1,4 +1,4 @@
-[%# 4.2rc1PL@aviary.pl %]
+[%# 4.2rc1+PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -22,7 +22,7 @@
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
-[% RETURN UNLESS attachments.size || Param("maxattachmentsize") %]
+[% RETURN UNLESS attachments.size || Param("maxattachmentsize") || Param("maxlocalattachment") %]
 
 <script type="text/javascript">
 <!--
@@ -163,7 +163,7 @@ function toggle_display(link) {
           [% END %]
         </span>
       [% END %]
-      [% IF Param("maxattachmentsize") %]
+      [% IF Param("maxattachmentsize") || Param("maxlocalattachment") %]
       <a href="attachment.cgi?bugid=[% bugid %]&amp;action=enter">Dodaj załącznik</a>
       <small>(łatka, obrazek itp.)</small>
       [% END %]

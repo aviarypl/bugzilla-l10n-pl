@@ -1,4 +1,4 @@
-[%# 4.2rc1PL@aviary.pl %]
+[%# 4.2rc1+PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -67,7 +67,7 @@
         [% IF ids.size %]
             zależy od 
         [% ELSE %]
-            nie zależy od żadnego [% terms.bledu %].
+            nie zależy od żadnego [% IF hide_resolved %]otwartego [% END %][% terms.bledu %].
         [% END %]
 
     [% IF ids.size %]
@@ -84,7 +84,7 @@
         [% IF ids.size %] 
             blokuje 
         [% ELSE %]
-            nie blokuje żadnych [% terms.bledow %].
+            nie blokuje żadnych [% IF hide_resolved %]otwartych [% END %][% terms.bledow %].
         [% END %]
     [% IF ids.size %]
         [%+ (ids.size == 1) ? "jeden" : ids.size %]

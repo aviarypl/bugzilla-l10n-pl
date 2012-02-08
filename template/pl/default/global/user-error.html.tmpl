@@ -1,4 +1,4 @@
-[%# 4.2rc1PL@aviary.pl %]
+[%# 4.2rc1+PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -841,13 +841,13 @@
     Podany adres e-mail (<b>[% addr FILTER html %]</b>)
     nie spełnia warunków poprawności adresu e-mail.
     [% IF default %]
-      Poprawny adres musi zawierać dokładnie jeden znak „@”
-      oraz co najmniej jedną kropkę po znaku @.
+      Prawidłowy adres e-mail musi zawierać dokładnie jeden znak „@”
+      oraz co najmniej jeden znak „.” po @.
     [% ELSE %]
-      [%+ Param('emailregexpdesc') %]
+      [%+ Param('emailregexpdesc') FILTER html_light %]
     [% END %]
-    Adres nie może również zawierać żadnego z tych znaków:
-    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt> oraz białych spacji.
+    Adres nie może też zawierać znaków niedozwolonych ani żadnego z poniższych znaków specjalnych:
+    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt> oraz białych znaków.
     
   [% ELSIF error == "illegal_frequency" %]
     [% title = "Za często generowane serie" %]
@@ -1011,6 +1011,11 @@
     Gdy używasz JSON-RPC, korzystając z metody GET, należy podać parametr „method”.
     Więcej szczegółów znajdziesz w dokumentacji
     [%+ docs_urlbase FILTER html %]api/Bugzilla/WebService/Server/JSONRPC.html
+
+  [% ELSIF error == "json_rpc_illegal_content_type" %]
+    Gdy używasz JSON-RPC, korzystając z metody POST, nie można wysyłać danych jako
+    [%+ content_type FILTER html %]. Dozwolone typy zawartości to application/json oraz
+    application/json-rpc.
 
   [% ELSIF error == "json_rpc_invalid_params" %]
     Nie można przetworzyć argumentu „params” jako prawidłowego zapytania JSON.

@@ -1,4 +1,4 @@
-[%# 4.2rc1PL@aviary.pl %]
+[%# 4.2rc1+PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -793,7 +793,7 @@
                    IF user.settings.state_addselfcc.value == 'always'
                       || (!has_role
                           && user.settings.state_addselfcc.value == 'cc_unless_role') %]>
-            <label for="addselfcc">Dodaj siebie</label>
+            <label for="addselfcc">Dodaj mnie</label>
             <br> 
           [% END %]
         [% END %]
@@ -846,7 +846,7 @@
                 [% IF bug.user.canedit %]
                   Usuń wybranych
                 [% ELSE %]
-                  Usuń siebie
+                  Usuń mnie
                 [% END %]
               </label>
               <br>

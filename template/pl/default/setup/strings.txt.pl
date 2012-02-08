@@ -1,4 +1,4 @@
-# 4.2rc1PL@aviary.pl 
+# 4.2rc1+PL@aviary.pl 
 # The contents of this file are subject to the Mozilla Public
 # License Version 1.1 (the "License"); you may not use this file
 # except in compliance with the License. You may obtain a copy of
@@ -111,7 +111,6 @@ END
     feature_mod_perl          => 'mod_perl',
     feature_moving            => 'Przenoszenie bledow pomiedzy instalacjami',
     feature_patch_viewer      => 'Przegladarka latek',
-    feature_rand_security     => 'Zwieksza bezpieczenstwo ciasteczek i tokenow',
     feature_smtp_auth         => 'Uwierzytelnianie SMTP',
     feature_updates           => 'Automatyczne powiadomienia o aktualizacji',
     feature_xmlrpc            => 'Interfejs XML-RPC',
@@ -147,10 +146,14 @@ BLAD: Korzystanie ze skryptu install-module.pl wymaga wczesniejszej instalacji p
 END
     lc_new_vars => <<'END',
 Ta wersja Bugzilli zawiera zmienne, ktore mozna zmienic lub dostosowac do wymagan
-lokalnej instalacji. Prosze zmodyfikowac plik ##localconfig## i uruchomic skrypt checksetup.pl.
+lokalnej instalacji. Do pliku ##localconfig## dodano nastepujace nowe zmienne 
+od ostatniego uruchomienia skryptu checksetup.pl:  
 
-Do pliku ##localconfig## dodano nastepujace nowe zmienne od ostatniego uruchomienia 
-skryptu checksetup.pl:  ##new_vars##
+
+##new_vars##
+
+
+Prosze zmodyfikowac plik ##localconfig## i uruchomic skrypt checksetup.pl.
 END
     lc_old_vars => <<'END',
 Nastepujace zmienne nie sa juz wykorzystywane w pliku ##localconfig##, wiec
