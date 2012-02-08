@@ -55,13 +55,13 @@
     adres e-mail (<b>[% addr FILTER html %]</b>), który nie spełnia wymogów
     testu poprawności składni.
     [% IF default %]
-      Prawidłowy adres e-mail musi zawierać dokładnie jeden znak „@”,
-      i przynajmniej jeden znak „.” po @.
+      Prawidłowy adres e-mail musi zawierać dokładnie jeden znak „@”
+      oraz co najmniej jeden znak „.” po @.
     [% ELSE %]
       [%+ Param('emailregexpdesc') FILTER html_light %]
     [% END %]
-    Nie może też zawierać żadnego z poniższych znaków specjalnych:
-    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt> ani białych znaków.
+    Adres nie może też zawierać znaków niedozwolonych ani żadnego z poniższych znaków specjalnych:
+    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt> oraz białych znaków.
 
   [% ELSIF error == "authres_unhandled" %]
     Wartość zwracana przez [% value FILTER html %] nie została obsłużona 

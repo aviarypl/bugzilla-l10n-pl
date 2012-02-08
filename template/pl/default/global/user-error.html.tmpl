@@ -822,13 +822,13 @@
     Podany adres e-mail (<b>[% addr FILTER html %]</b>)
     nie spełnia warunków poprawności adresu e-mail.
     [% IF default %]
-      Poprawny adres musi zawierać dokładnie jeden znak „@”
-      oraz co najmniej jedną kropkę po znaku @.
+      Prawidłowy adres e-mail musi zawierać dokładnie jeden znak „@”
+      oraz co najmniej jeden znak „.” po @.
     [% ELSE %]
       [%+ Param('emailregexpdesc') FILTER html_light %]
     [% END %]
-    Adres nie może również zawierać żadnego z tych znaków:
-    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt> oraz białych spacji.
+    Adres nie może też zawierać znaków niedozwolonych ani żadnego z poniższych znaków specjalnych:
+    <tt>\ ( ) &amp; &lt; &gt; , ; : &quot; [ ]</tt> oraz białych znaków.
     
   [% ELSIF error == "illegal_frequency" %]
     [% title = "Za często generowane serie" %]

@@ -33,7 +33,7 @@
 [% diffspl = diffspl | replace('from', 'od') %]
 [% diffspl = diffspl | replace('Old Value', 'Usunięto ') %]
 [% diffspl = diffspl | replace('New Value', 'Dodano') %]
-[% diffspl = diffspl | replace(' Bug ', 'Błąd ') %]
+[% diffspl = diffspl | replace('Bug', 'Błąd') %]
 [% diffspl = diffspl | replace(' depends on bug', ' zależy od błędu') %]
 [% diffspl = diffspl | replace('which', 'który') %]
 [% diffspl = diffspl | replace('state', 'stan') %]
