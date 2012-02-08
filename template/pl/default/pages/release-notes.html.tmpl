@@ -1,4 +1,4 @@
-[%# 3.6.7PL@aviary.pl %]
+[%# 3.6.7+PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -61,6 +61,22 @@
   [%+ terms.Bugzilla %].</p>
 
 <h2 id="v36_point">Updates in this 3.6.x Release</h2>
+
+<h3>3.6.8</h3>
+
+<p>This release fixes two security issues. See the
+  <a href="http://www.bugzilla.org/security/3.4.13/">Security Advisory</a>
+  for details.</p>
+
+<p>In addition, the following important fix has been made in this
+  release:</p>
+
+<ul>
+  <li>Previously, WebServices would only work with <kdb>JSON::RPC</kdb> 0.96 or 
+  older due to newer versions being incompatible. <kdb>JSON::RPC</kdb> 1.x is now 
+  supported as well.
+  (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=706753">Bug 706753</a>)</li>
+</ul>
 
 <h3>3.6.7</h3>
 
@@ -132,19 +148,19 @@
   </li>
   <li>When replying to a comment with a link like "attachment 1234 [details]",
     the "[details]" link will no longer be duplicated in your reply.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=474766">[% terms.Bug %] 474766</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=474766">Bug 474766</a>)
   </li>
   <li>Using Quicksearch no longer requires that the <kbd>List::MoreUtils</kbd>
     module be installed.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=611129">[% terms.Bug %] 611129</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=611129">Bug 611129</a>)
   </li>
   <li>When using <a href="config.cgi?ctype=rdf">config.cgi?ctype=rdf</a>,
     information about products now includes <kbd>allows_unconfirmed</kbd>.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=610217">[% terms.Bug %] 610217</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=610217">Bug 610217</a>)
   </li>
   <li>When using tabular reports, any value whose name started with a period
     or an underscore wasn't being displayed.
-    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=617684">[% terms.Bug %] 617684</a>)
+    (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=617684">Bug 617684</a>)
   </li>
 </ul>
 
