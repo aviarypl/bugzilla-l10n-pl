@@ -1,4 +1,4 @@
-[%# 4.2rc1+PL@aviary.pl %]
+[%# 4.2rc2PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -79,7 +79,8 @@
         <a href="editcomponents.cgi">komponenty</a>, <a href="editversions.cgi">wersje</a>
         i <a href="editmilestones.cgi">wersje docelowe</a>.</dd>
 
-        [% class = user.in_group('editcomponents') ? "" : "forbidden" %]
+        [% class = (user.in_group('editcomponents')
+                   || user.get_products_by_permission('editcomponents').size) ? "" : "forbidden" %]
         <dt id="flags" class="[% class %]"><a href="editflagtypes.cgi">Flagi</a></dt>
         <dd class="[% class %]">Flaga jest atrybutem [% terms.bledow %] i załączników
         posiadającym własne cztery stany: zatwierdzona, odrzucona, prośba i nie zdefiniowano.
