@@ -1,4 +1,4 @@
-[%# 4.2rc2PL@aviary.pl %]
+[%# 4.2rc2+PL@aviary.pl %]
 [%# The contents of this file are subject to the Mozilla Public
   # License Version 1.1 (the "License"); you may not use this file
   # except in compliance with the License. You may obtain a copy of
@@ -1689,6 +1689,11 @@
     Wartość „[% value FILTER html %]” nie jest prawidłową wartością dla pola
     &lt;[% type FILTER html %]&gt;. Więcej szczegółów uzyskasz w
     specyfikacji XML-RPC.
+
+  [% ELSIF error == "xmlrpc_illegal_content_type" %]
+    Typ zawartości <em>[% contenttype FILTER html %]</em> jest nieprawidłowy.
+    Gdy używasz XML-RPC, prawidłowe typy to text/xml 
+    oraz application/xml.
 
   [% ELSIF error == "zero_length_file" %]
     [% title = "Plik jest pusty" %]
