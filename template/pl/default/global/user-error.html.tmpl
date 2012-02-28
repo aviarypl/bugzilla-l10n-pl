@@ -684,7 +684,7 @@
   [% ELSIF error == "flag_type_description_invalid" %]
     [% title = "Nieprawidłowy opis flagi" %]
     [% admindocslinks = {'flags-overview.html#flags-admin'  => 'Administracja flagami'} %]
-    Opis nie może zawierać więcej niż 32 tys. znaków.
+    Należy podać opis flagi.
 
   [% ELSIF error == "flag_type_name_invalid" %]
     [% title = "Nieprawidłowa nazwa flagi" %]
@@ -1563,7 +1563,7 @@
     Aby rozpocząć sesję sudo, wymagane jest podanie hasła do [% terms.Bugzilli %].
     Proszę <a href="relogin.cgi?action=prepare-sudo&amp;target_login=
     [%- target_login FILTER uri %]&amp;reason=
-    [%- reason FILTER html %]">się cofnąć</a> i podać hasło.
+    [%- reason FILTER uri %]">się cofnąć</a> i podać hasło.
     
   [% ELSIF error == "sudo_preparation_required" %]
     [% title = "Wymagane przygotowanie" %]

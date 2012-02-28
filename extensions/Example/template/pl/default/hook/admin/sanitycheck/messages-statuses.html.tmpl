@@ -31,7 +31,7 @@
   [% END %]
 [% ELSIF san_tag == "example_check_au_user_prompt" %]
   <a href="sanitycheck.cgi?example_repair_au_user=1&amp;token=
-     [%- issue_hash_token(['sanitycheck']) FILTER url_quote %]">Zmień narodowość użytkowników</a>.
+     [%- issue_hash_token(['sanitycheck']) FILTER uri %]">Zmień narodowość użytkowników</a>.
 [% ELSIF san_tag == "example_repair_au_user_start" %]
   <em>PRZYKŁADOWE ROZSZERZENIE</em> - OK, zmiana narodowości użytkowników na
 Australijczyków.

@@ -83,7 +83,7 @@
         [% END %]
         [% IF groups_removed_from.size %]
           <li>
-            Konto zostało usunięte z grup[% 'y' IF groups_removed_to.size == 1 %]
+            Konto zostało usunięte z grup[% 'y' IF groups_removed_from.size == 1 %]
             [%+ groups_removed_from.join(', ') FILTER html %].
           </li>
         [% END %]
@@ -95,7 +95,7 @@
         [% END %]
         [% IF groups_denied_rights_to_bless.size %]
           <li>
-            Odebrano prawo do modyfikacji członkostwa grup[% 'y' IF groups_granted_denied_to_bless.size == 1 %]
+            Odebrano prawo do modyfikacji członkostwa grup[% 'y' IF groups_denied_rights_to_bless.size == 1 %]
             [%+ groups_denied_rights_to_bless.join(', ') FILTER html %].
           </li>
         [% END %]
@@ -145,7 +145,7 @@
 
   [% ELSIF message_tag == "buglist_query_gone" %]
     [% title = "Usuwanie wyszukiwania" %]
-    [% link  = "Wróć do strony wyszukiwania." %]
+    [% link  = "Przywróć wyszukiwanie" %]
     Wyszukiwanie <code<b>[% namedcmd FILTER html %]</b></code> zostało usunięte.
 
   [% ELSIF message_tag == "buglist_sorted_by_relevance" %]
