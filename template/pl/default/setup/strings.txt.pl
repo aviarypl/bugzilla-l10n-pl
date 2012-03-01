@@ -1,4 +1,4 @@
-# 4.2rc2+PL@aviary.pl 
+# 4.2PL@aviary.pl 
 # The contents of this file are subject to the Mozilla Public
 # License Version 1.1 (the "License"); you may not use this file
 # except in compliance with the License. You may obtain a copy of
@@ -192,13 +192,13 @@ END
 Nazwa DNS lub adres IP komputera, na ktorym jest uruchomiony serwer baz danych.
 END
     localconfig_db_name => <<'END',
-Nazwa bazy danych. W przypadku Oracje jest to SID bazy. W przypadku SQLite
+Nazwa bazy danych. W przypadku Oracle jest to SID bazy. W przypadku SQLite
 jest to nazwa (lub sciezka do) pliku DB.
 END
     localconfig_db_pass => <<'END',
 Haslo dostepu do bazy danych. Zaleca sie, aby bylo to haslo zdefiniowane dla 
 uzytkownika bazy danych bugzilli.
-W przypadku, gdy hasło zawiera znak apostrofu (') lub odwrotny ukosnik (\), 
+W przypadku, gdy haslo zawiera znak apostrofu (') lub odwrotny ukosnik (\), 
 nalezy poprzedzic je znakiem '\', np. (\') lub (\\).
 (Prosciej jest jednak nie uzywac tych znakow.)
 
