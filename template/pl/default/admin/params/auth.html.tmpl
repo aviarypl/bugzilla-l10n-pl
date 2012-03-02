@@ -1,0 +1,131 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Uwierzytelnianie użytkowników"
+   desc = "Ustawienia zasad uwierzytelniania użytkowników."
+%]
+
+[% param_descs = {
+  auth_env_id => "Jest to zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
+                 "do przechowywania niepowtarzalnego identyfikatora każdego użytkownika. " _
+                 "Niepodanie wartości będzie oznaczało, że system nie będzie korzystał ze zmiennej " _
+                 "i/lub takiej metody uwierzytelniania.",
+
+  auth_env_email => "Jest to zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
+                    "do przechowywania adresu e-mail użytkownika. Wypełnienie tego pola jest niezbędne, " _
+                    "by korzystać z uwierzytelniania za pomocą środowiska. Nie należy podawać żadnej " _
+                    "wartości, jeśli nie zamierzasz używać takiej metody uwierzytelniania.",
+
+  auth_env_realname => "Jest to zmienna środowiskowa używana przez zewnętrzny system uwierzytelniania " _
+                       "do przechowywania imienia i nazwiska użytkownika. Niepodanie wartości " _
+                       "będzie oznaczało, że system nie będzie korzystał ze zmiennej i/lub takiej metody " _
+                       "uwierzytelniania.",
+
+  user_info_class => "Są to mechanizmy używane do pobierania informacji logowania użytkownika.
+                      Można wybrać więcej niż jedną opcję. Jeśli pobranie danych nie powiedzie
+                      się za pomocą jednej metody, będzie podejmowana próba za pomocą kolejnej.
+                      Dostępne typy:
+                      <dl>
+                        <dt>CGI</dt>
+                        <dd>
+                          Pytanie o nazwę użytkownika i hasło za pomocą formularzy i CGI.
+                        </dd>
+                        <dt>Env</dt>
+                        <dd>
+                          Informacje o uwierzytelnionych użytkownikach przekazywane są 
+                          poprzez zmienne środowiskowe.
+                        </dd>
+                      </dl>",
+
+  user_verify_class => "Są to mechanizmy używane do uwierzytelniania użytkownika na podstawie informacji
+                        zebranych przez user_info_class.
+                        Można wybrać więcej niż jedną opcję. Jeśli użytkownik nie zostanie znaleziony
+                        za pomocą jednej metody, będzie podejmowana próba za pomocą kolejnej.
+                        Dostępne typy:
+                        <dl>
+                          <dt>DB</dt>
+                          <dd>
+                            Wbudowane uwierzytelnianie ${terms.Bugzilli}. Najczęściej używana opcja.
+                          </dd>
+                          <dt>RADIUS</dt>
+                          <dd>
+                            Uwierzytelnianie za pomocą serwera RADIUS.
+                            Więcej informacji
+                            można uzyskać w dokumentacji ${terms.Bugzilli}.
+                            Użycie tej metody wymaga ustawienia
+                            <a href=\"?section=radius\">dodatkowych
+                            parametrów</a>.
+                          </dd>
+                          <dt>LDAP</dt>
+                          <dd>
+                            Uwierzytelnianie LDAP za pomocą serwera LDAP. 
+                            Więcej informacji można znaleźć w dokumentacji
+                            ${terms.Bugzilli}. Użycie tej metody wymaga ustawienia
+                            <a href=\"?section=ldap\">dodatkowych
+                            parametrów</a>.
+                          </dd>
+                        </dl>",
+
+  rememberlogin => "Określenie metody zarządzania ciasteczkami z danymi sesji:
+                    <ul>
+                      <li>
+                        <strong>włączone</strong> – ciasteczka sesji nigdy nie wygasają (wymagane jest tylko jedno
+                        logowanie użytkownika za pomocą danej przeglądarki),
+                      </li>
+                      <li>
+                        <strong>wyłączone</strong> – ciasteczka wygasają wraz z zamknięciem sesji (użytkownik
+                        musi zalogować się podczas każdej sesji przeglądarki),
+                      </li>
+                      <li>
+                        <strong>domyślnie włączone/domyślnie wyłączone</strong> – domyślne działania jak opisane wyżej, ale
+                        dodatkowo użytkownik może zdecydować, czy jego sesja ma być zapamiętana.
+                      </li>
+                    </ul>",
+
+  requirelogin => "Włączenie tego parametru wymusi konieczność logowania, by uzyskać " _
+                  "dostęp poza stronę główną. Dostęp do danych będą mieli tylko " _
+                  "zalogowani użytkownicy.",
+
+  emailregexp => "Parametr ten określa wyrażenie regularne kontrolujące poprawny adres e-mail, " _
+                 "natomiast jego wartość domyślna określa wszystkie poprawne adresy e-mail. " _
+    "tlumUse <tt>.*</tt> to accept any email address following the " _
+    "<a href='http://tools.ietf.org/html/rfc2822#section-3.4.1'>RFC 2822</a> " _
+    "specification. Another popular value to put here is <tt>^[^@]+$</tt>, " _
+    "which means 'local usernames, no @ allowed.'" _
+                 "Często stosowana wartość to <tt>^[^@]+$</tt>, która oznacza " _
+                 "„lokalne nazwy użytkowników, bez znaku @”.",
+
+  emailregexpdesc => "Pole to służy do opisania słowami adresów e-mail dozwolonych przez " _
+                     "wartość parametru <tt>emailregexp</tt>.",
+
+  emailsuffix => "Jest to ciąg znaków dołączany do każdego adresu e-mail podczas wysyłania poczty. " _
+                 "Funkcja ta jest przydatna, jeżeli parametr <tt>emailregexp</tt> zostanie zmieniony " _
+                 "na zezwalający tylko na lokalne nazwy użytkowników. W takim przypadku poczta będzie " _
+                 "dostarczana pod wszystkie adresy w formie nazwa_użytkownika@lokalna.nazwa.hosta.",
+
+  createemailregexp => "Parametr ten określa wyrażenie regularne kontrolujące adresy e-mail osób, " _
+                       "które mogą dokonać samodzielnej rejestracji za pomocą funkcji „Nowe konto”. " _
+                       "Domyślna wartość (.*) zezwala na rejestrację z dowolnego konta e-mail. " _
+                       "Jeśli żaden parametr nie zostanie podany, możliwość samodzielnej rejestracji " _
+                       "będzie wyłączona, a wszystkie konta będą musiały być tworzone przez administratora.",
+  password_complexity =>
+    "Parametr ten określa, czy hasła muszą spełniać wymagania dotyczące złożoności. We wszystkich przypadkach hasła nie " _
+    "mogą być krótsze niż ${constants.USER_PASSWORD_MIN_LENGTH} znaków." _
+    "<ul><li><strong>no_constraints</strong> - wyłączone,</li>" _
+    "<li><strong>mixed_letters</strong> - hasła muszą zawierać przynajmniej jedną WIELKĄ literę oraz jedną małą " _
+    "literę,</li>" _
+    "<li><strong>letters_numbers</strong> - hasła muszą zawierać przynajmniej jedną WIELKĄ literę, jedną " _
+    "małą literę oraz cyfrę,</li>" _
+    "<li><strong>letters_numbers_specialchars</strong> - hasła muszą zawierać przynajmniej jedną " _
+    "WIELKĄ literę, jedną małą literę, cyfrę oraz znak specjalny.</li></ul>"
+  }
+%]

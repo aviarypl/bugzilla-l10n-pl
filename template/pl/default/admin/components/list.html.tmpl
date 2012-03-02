@@ -1,0 +1,121 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # showbugcounts: if defined, then bug counts should be included in the table
+  # product: object; Bugzilla::Product object representing the product to
+  #               which the component belongs.
+  #%]
+
+[% title = BLOCK %]Modyfikowanie komponentów produktu
+                   „[% product.name FILTER html %]”[% END %]
+[% PROCESS global/header.html.tmpl
+  title = title
+%]
+
+[% edit_contentlink = BLOCK %]editcomponents.cgi?action=edit&amp;product=
+  [%- product.name FILTER uri %]&amp;component=%%name%%[% END %]
+[% delete_contentlink = BLOCK %]editcomponents.cgi?action=del&amp;product=
+  [%- product.name FILTER uri %]&amp;component=%%name%%[% END %]
+[% bug_count_contentlink = BLOCK %]buglist.cgi?component=%%name%%&amp;product=
+  [%- product.name FILTER uri %][% END %]
+
+
+[% columns = [
+     { 
+       name => "name"
+       heading => "Wybierz komponent"
+       contentlink => edit_contentlink
+     },
+     { 
+       name => "description"
+       heading => "Opis" 
+       allow_html_content => 1
+     },
+     { 
+       name => "initialowner"
+       heading => "Domyślny odpowiedzialny"
+     },
+     {
+       name => "isactive"
+       heading => "Włączony"
+       yesno_field => 1
+     },
+   ]
+%]
+
+[% IF Param('useqacontact') %]
+
+  [% columns.push({
+       name => 'initialqacontact'
+       heading => 'Specjalista QA'
+     }) %]
+
+[% END %]
+
+[% IF showbugcounts %]
+
+  [% columns.push({
+       name => 'bug_count'
+       heading => "$terms.Bledy"
+       align => "center"
+       contentlink => bug_count_contentlink
+     }) %]
+
+[% END %]
+
+[% columns.push({
+     heading => "Czynność"
+     content => "Usuń"
+     contentlink => delete_contentlink
+   }) %]
+
+[%# Overrides the initialowner and the initialqacontact with right values %]
+[% overrides.initialowner = {} %]
+[% overrides.initialqacontact = {} %]
+
+[%# "component" is a reserved word in Template Toolkit. %]
+[% FOREACH my_component = product.components %]
+  [% overrides.initialowner.name.${my_component.name} = {
+       override_content => 1
+       content => my_component.default_assignee.login
+     }
+  %]
+  [% overrides.initialqacontact.name.${my_component.name} = {
+       override_content => 1
+       content => my_component.default_qa_contact.login
+     }
+  %]
+[% END %]
+
+[% Hook.process('before_table') %]
+
+[% PROCESS admin/table.html.tmpl
+     columns = columns
+     data = product.components
+     overrides = overrides
+%]
+
+<p><a href="editcomponents.cgi?action=add&amp;product=[% product.name FILTER uri %]">Dodaj
+    nowy komponent do produktu „[% product.name FILTER html %]”</a></p>
+
+[% IF ! showbugcounts %]
+
+  <p><a href="editcomponents.cgi?product=[% product.name FILTER uri %]&amp;showbugcounts=1">
+      Wyświetl kolumnę z liczbą [% terms.bledow %]</a> <small>(odświeża stronę – wolne)</small></p>
+
+[% END %]
+
+[% PROCESS admin/components/footer.html.tmpl
+  no_edit_other_components_link = 1
+ %]
+
+[% PROCESS global/footer.html.tmpl %]

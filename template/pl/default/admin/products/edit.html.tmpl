@@ -1,0 +1,143 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # product: Bugzilla::Product object; The product
+  #
+  # (classification fields available if Param('useclassification') is enabled:)
+  #
+  # classification: Bugzilla::Classification object; The classification 
+  #                                                  the product is in
+  #%]
+
+[% title = BLOCK %]Modyfikowanie produktu „[% product.name FILTER html %]”[% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+  style_urls = ['skins/standard/admin.css']
+  javascript_urls = ['js/util.js']
+%]
+
+[% group_control = {${constants.CONTROLMAPNA}        => 'Niedostępna',
+                    ${constants.CONTROLMAPSHOWN}     => 'Widoczna',
+                    ${constants.CONTROLMAPDEFAULT}   => 'Domyślna',
+                    ${constants.CONTROLMAPMANDATORY} => 'Obligatoryjna'}
+ %]
+
+<form method="post" action="editproducts.cgi">
+  <table border="0" cellpadding="4" cellspacing="0">
+
+    [% PROCESS "admin/products/edit-common.html.tmpl" %]
+
+    <tr>
+      <th align="right" valign="top">
+        <a href="editcomponents.cgi?product=[% product.name FILTER uri %]">
+        Modyfikuj komponenty:
+        </a>
+      </th>
+      <td>
+        [% IF product.components.size -%]
+          [% FOREACH component = product.components %]
+            <b>[% component.name FILTER html %]:</b>&nbsp;
+            [% IF component.description %]
+              [% component.description FILTER html_light %]
+            [% ELSE %]
+              <font color="red">brak opisu</font>
+            [% END %]
+            <br>
+          [% END %]
+        [% ELSE %]
+          <font color="red">brak</font>
+        [% END %]
+      </td>
+    </tr>
+    <tr>
+      <th align="right" valign="top">
+        <a href="editversions.cgi?product=[% product.name FILTER uri %]">Modyfikuj
+wersje:</a>
+      </th>
+      <td>
+        [%- IF product.versions.size -%]
+          [% FOREACH v = product.versions %]
+            [% v.name FILTER html %]
+            <br>
+          [% END %]
+        [% ELSE %]
+          <font color="red">brak</font>
+        [% END %]
+      </td>
+    </tr>
+    [% IF Param('usetargetmilestone') %]
+      <tr>
+        <th align="right" valign="top">
+          <a href="editmilestones.cgi?product=[% product.name FILTER uri %]">
+          Modyfikuj wersje docelowe:</a>
+        </th>
+        <td>
+          [%- IF product.milestones.size -%]
+            [%- FOREACH m = product.milestones -%]
+              [% m.name FILTER html %]
+            <br>
+            [% END %]
+          [% ELSE %]
+            <font color="red">brak</font>
+          [% END %]
+        </td>
+      </tr>
+    [% END %]
+    <tr>
+      <th align="right" valign="top">
+        <a href="editproducts.cgi?action=editgroupcontrols&product=
+          [%- product.name FILTER uri %]">
+          Modyfikuj relacje grupa/produkt:
+        </a>
+      </th>
+      <td>
+        [% IF product.group_controls.size %]
+          [% FOREACH g = product.group_controls.values.sort("name") %]
+            <b>[% g.group.name FILTER html %]:</b>&nbsp;
+            [% IF g.group.isactive %]
+              [% group_control.${g.membercontrol} FILTER html %]/
+              [% group_control.${g.othercontrol} FILTER html %]
+              [% IF g.entry %], Zgłaszanie [% terms.bledow %][% END %]
+              [% IF g.canedit %], Modyfikowanie produktów[% END %]
+              [% IF g.editcomponents %], Modyfikowanie komponentów[% END %]
+              [% IF g.canconfirm %], Potwierdzanie [% terms.bledow %][% END %]
+              [% IF g.editbugs %], Modyfikowanie [% terms.bledow %][% END %]
+            [% ELSE %]
+              WYŁĄCZONO
+            [% END %]
+            <br>
+          [% END %]
+        [% ELSE %]
+          brak grup
+        [% END %]
+      </td>
+    </tr>
+    <tr>
+      <th align="right">Liczba [% terms.bledow %]:</th>
+      <td><a href="buglist.cgi?product=[% product.name FILTER uri %]">
+            [% product.bug_count FILTER html %]</a></td>
+    </tr>
+  </table>
+  
+  <input type="hidden" name="product_old_name" 
+        value="[% product.name FILTER html %]">
+  <input type="hidden" name="action" value="update">
+  <input type="hidden" name="token" value="[% token FILTER html %]">
+  <input type="submit" id="update-product" value="Zapisz zmiany">
+</form>
+  
+[% PROCESS "admin/products/footer.html.tmpl"
+   no_add_product_link = 1 
+   no_edit_product_link = 1 %]
+
+[% PROCESS global/footer.html.tmpl %]

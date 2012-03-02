@@ -1,0 +1,92 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # abuser: identity of the user who created the (invalid?) token.
+  # token_action: the action the token was supposed to serve.
+  # expected_action: the action the user was going to do.
+  # script_name: the script generating this warning.
+  # alternate_script: the suggested script to redirect the user to
+  #                   if he declines submission.
+  #%]
+
+[% PROCESS "global/field-descs.none.tmpl" %]
+
+[% PROCESS global/header.html.tmpl title = "Podejrzana czynność"
+                                   style_urls = ['skins/standard/global.css'] %]
+
+[% IF abuser %]
+  <div class="throw_error">
+    <p>Podczas wyświetlania formularza administracyjnego [% terms.Bugzilli %] generowany
+    jest losowy token, który jest umieszczany w bazie danych i w formularzu. Ma to na celu
+    zapewnienie, że zmiany administracyjne wykonywane są tylko z formularzy wygenerowanych
+    przez [% terms.Bugzille %]. Niestety w tym przypadku token zawarty w formularzu jest
+    nieprawidłowy. Wszystko wskazuje na to, że trafiłeś/trafiłaś tutaj z nieprawidłowej strony.
+    Użyto następującego tokena:</p>
+
+    <table border="0" cellpadding="5" cellspacing="0">
+      [% IF token_action != expected_action %]
+        <tr>
+          <th>Zapisana&nbsp;czynność:</th>
+          <td>[% token_action FILTER html %]</td>
+        </tr>
+        <tr>
+          <th>&nbsp;</th>
+          <td>
+            Czynność ta nie odpowiada spodziewanej czynności ([% expected_action FILTER html %]).
+          </td>
+        </tr>
+      [% END %]
+
+      [% IF abuser != user.identity %]
+        <tr>
+          <th>Wygenerowano&nbsp;przez:</th>
+          <td>[% abuser FILTER html %]</td>
+        </tr>
+        <tr>
+          <th>&nbsp;</th>
+          <td>
+            Token ten nie został wygenerowany przez ciebie. Istnieje prawdopodobieństwo,
+            że ktoś próbuje cię oszukać!
+          </td>
+        </tr>
+      [% END %]
+    </table>
+
+    <p>Zgłoś ten problem do [% Param("maintainer") FILTER html %].</p>
+  </div>
+[% ELSE %]
+  <div class="throw_error">
+    Prawdopodobnie trafiłeś/trafiłaś tutaj z niewłaściwej strony. Brak ważnego tokena
+    dla czynności <em>[% expected_action FILTER html %]</em> podczas przetwarzania 
+    skryptu „[% script_name FILTER html %]”. Możliwe przyczyny to:<br>
+    <ul>
+      <li>w przeglądarce, po zatwierdzeniu zmian w formularzu, został użyty przycisk „Wstecz” –
+      jest to nieszkodliwe, ale niezalecane postępowanie,</li>
+      <li>adres URL został wpisany bezpośrednio do paska adresu przeglądarki – 
+     generalnie bezpieczna sytuacja,</li>
+      <li>został użyty odnośnik, który przekierował na tę stronę <strong>bez zgody użytkownika</strong> –
+      to działanie może być niebezpieczne.</li>
+    </ul>
+    Czy chcesz mimo wszystko zatwierdzić te zmiany? Może to mieć niespodziewane 
+    i niepożądane rezultaty.
+  </div>
+
+  <form name="check" id="check" method="post" action="[% script_name FILTER html %]">
+    [% PROCESS "global/hidden-fields.html.tmpl"
+               exclude="^(Bugzilla_login|Bugzilla_password)$" %]
+    <input type="submit" id="confirm" value="Zatwierdź zmiany">
+  </form>
+  <p>Odrzuć zmiany i wróć do <a href="[% alternate_script FILTER html %]">
+    [%- alternate_script FILTER html %]</a>.</p>
+[% END %]
+
+[% PROCESS global/footer.html.tmpl %]

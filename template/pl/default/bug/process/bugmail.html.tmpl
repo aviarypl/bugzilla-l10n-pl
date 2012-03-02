@@ -1,0 +1,48 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # mailing_bugid: The bug ID that email is being sent for.
+  # sent_bugmail: The results of Bugzilla::BugMail::Send().
+  #%]
+
+<dl>
+[% PROCESS emails
+   description = "Powiadomienie wysłano do"
+   names = sent_bugmail.sent
+%]
+
+[% PROCESS emails
+   description = "Z wyłączeniem"
+   names = sent_bugmail.excluded
+%]
+</dl>
+
+[%############################################################################%]
+[%# Block for a set of email addresses                                       #%]
+[%############################################################################%]
+
+[% BLOCK emails %]
+  <dt>[% description FILTER html %]:</dt>
+  <dd>
+  [% IF user.can_see_bug(mailing_bugid) %]
+    [% IF names.size > 0 %]
+      [%+ FOREACH name = names %]
+        <code>[% name FILTER html %]</code>[% ", " UNLESS loop.last() %]
+      [% END %]
+    [% ELSE %]
+      nikogo
+    [% END %]
+  [% ELSE %]
+    (lista adresów e-mail jest niedostępna)
+  [% END %]
+  </dd>
+[% END %]

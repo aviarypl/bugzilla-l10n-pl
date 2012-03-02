@@ -1,0 +1,41 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Grafy zależności"
+   desc = "Dodatkowe ustawienia dla rysowania grafów zależności."
+%]
+
+[% param_descs = {
+  webdotbase => "Możliwe jest wyświetlanie grafów zależności ${terms.bledow}.
+                 W tym parametrze można określić jedną z następujących wartości:
+                 <ul>
+                   <li>
+                     pełna ścieżka do narzędzia <code>dot</code> (część pakietu 
+                     <a href=\"http://www.graphviz.org\">GraphViz</a>) – grafy będą 
+                     generowane lokalnie,
+                   </li>
+                   <li>
+                     przedrostek adresu URL wskazujący na instalację pakietu 
+                     <a href=\"http://www.research.att.com/~north/cgi-bin/webdot.cgi\">webdot</a>
+                      – grafy będą generowane zdalnie,
+                   </li>
+                   <li>
+                     nie określać żadnej wartości – nastąpi wyłączenie rysowania grafów.
+                   </li>
+                 </ul>
+                 Domyślną wartością jest publicznie dostępny serwer webdot. W razie zmiany
+                 tego parametru należy upewnić się, że serwer webdot może odczytywać pliki
+                 z katalogu webdot na tym serwerze. W przypadku serwera Apache należy
+                 zmodyfikować plik <code>.htaccess</code>. Dla innych serwerów prawdopodobnie trzeba
+                 wykonać inne czynności. W razie utraty pliku <code>.htaccess</code> należy ponownie
+                 uruchomić skrypt <kbd>checksetup.pl</kbd>."}
+%]

@@ -1,0 +1,46 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Zasady modyfikowania $terms.bledow"
+   desc = "Ustawienia zasad modyfikowania ${terms.bledow}."
+%]
+
+[% PROCESS "global/field-descs.none.tmpl" %]
+
+[% accept_status = display_value('bug_status', 'IN_PROGRESS') FILTER html %]
+
+[% param_descs = {
+  duplicate_or_move_bug_status => "Gdy $terms.blad zostanie oznaczony jako duplikat innego $terms.bledu lub przeniesiony " _
+                                  "do innej instalacji, $terms.Bugzilla zmieni jego status na tutaj określony."
+
+  letsubmitterchoosepriority => "Gdy ten parametr jest włączony, użytkownicy będą mogli określić " _
+                                "priorytet podczas zgłaszania ${terms.bledu}. W razie jego wyłączenia " _
+                                "wszystkie $terms.bledy będą dodawane z domyślnym " _
+                                "priorytetem określonym poniżej.",
+
+  letsubmitterchoosemilestone => "Gdy ten parametr jest włączony, użytkownicy będą mogli określić " _
+                                "wersję docelową podczas zgłaszania ${terms.bledu}. W razie jego wyłączenia " _
+                                "wszystkie $terms.bledy będą dodawane z domyślną " _
+                                "wersją docelową określoną dla tego produktu.",
+
+  musthavemilestoneonaccept => "Ten parametr określa, czy ustawienie wersji docelowej jest wymagane do ZAAKCEPTOWANIA " _
+                               "${terms.bledu} (w przypadku korzystania z wersji docelowych).",
+
+  commentonchange_resolution => "Gdy ten parametr jest włączony, użytkownik będzie musiał wpisać krótki " _
+                                "komentarz, jeśli zmienił dane dotyczące rozwiązania ${terms.bledu}.",
+
+  commentonduplicate => "Gdy ten parametr jest włączony, użytkownik będzie musiał wpisać krótki komentarz, " _
+                        "gdy oznaczy $terms.blad jako duplikat.",
+
+  noresolveonopenblockers => "Gdy ten parametr zostanie włączony, nie będzie możliwości rozwiązywania $terms.bledow " _
+                             "jako naprawionych, jeżeli mają one nierozwiązane zależności." }
+%]

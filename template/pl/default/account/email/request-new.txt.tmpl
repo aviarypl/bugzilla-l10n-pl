@@ -1,0 +1,42 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # token: random string used to authenticate the transaction.
+  # expiration_ts: expiration date of the token.
+  # email: email address of the new account.
+  #%]
+
+From: [% Param('mailfrom') %]
+To: [% email %]
+Subject: [% terms.Bugzilla %] – Potwierdzenie utworzenia konta
+X-Bugzilla-Type: admin
+
+[%+ terms.Bugzilla %] otrzymała prośbę o utworzenie konta z Twoim adresem e-mail ([% email %]) jako loginem.
+
+Aby potwierdzić utworzenie konta z tym adresem e-mail, należy otworzyć poniższy odnośnik przed [% expiration_ts FILTER time("%d.%m.%Y %H:%M %Z") %]:
+
+[%+ urlbase %]token.cgi?t=[% token FILTER uri %]&a=request_new_account
+
+Jeśli ta wiadomość dotarła do Ciebie po [% expiration_ts FILTER time("%d.%m.%Y %H:%M %Z") %] lub chcesz utworzyć konto z innym adresem e-mail, musisz ponownie przejść przez proces tworzenia konta, otwierając odnośnik:
+
+[%+ urlbase %]createaccount.cgi
+
+[% IF Param('createemailregexp') == '.*' && Param('emailsuffix') == '' %]
+
+[%+ terms.Bugzilla %] jest otwartym systemem śledzenia [% terms.bledow %]. Wszelkie treści publikowane w związku z [% terms.bledami %], włącznie z adresami e-mail, będą ogólnie dostępne. By zapobiec otrzymywaniu niechcianych wiadomości, zalecamy użycie drugorzędnego konta lub konta utworzonego w jednym z serwisów sieciowych, takich jak Gmail, Yahoo, Hotmail lub podobne serwisy.
+[% END %]
+
+Jeśli nie chcesz utworzyć konta lub jeśli ta prośba została wysłana w wyniku pomyłki, nie podejmuj działania lub kliknij następujący odnośnik:
+
+[%+ urlbase %]token.cgi?t=[% token FILTER uri %]&a=cancel_new_account
+
+Jeśli powyższy odnośnik nie działa lub masz inne problemy związane z Twoim kontem, nawiąż kontakt z zespołem administracyjnym, wysyłając wiadomość na adres: [% Param('maintainer') %].

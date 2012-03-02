@@ -1,0 +1,65 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% title = "Modyfikowanie serii" %]
+[% subheader = BLOCK %]
+  [% default.category FILTER html %] / 
+  [%+ default.subcategory FILTER html %] /
+  [%+ default.name FILTER html %]
+[% END %]
+
+[% PROCESS global/header.html.tmpl %]
+
+[% IF changes_saved %]
+  <p>
+    <font color="red">
+      Seria została zaktualizowana.
+    </font>
+  </p>
+[% END %]
+
+<form method="get" action="chart.cgi" name="chartform">
+  
+  [% PROCESS reports/series.html.tmpl 
+     button_name = "Zmień zestaw danych" %]
+  <input type="hidden" name="action" value="alter">
+  <input type="hidden" name="token"
+         value="[% issue_hash_token([default.id, default.name]) FILTER html %]">
+  
+  [% IF default.series_id %]
+    <input type="hidden" name="series_id" value="[% default.series_id %]">
+  [% END %]
+</form>
+
+<p>
+  <b>Twórca</b>: 
+  [% IF default.creator %]
+    <a href="mailto:[% default.creator.email FILTER html %]">
+    [% default.creator.email FILTER html %]</a>
+  [% ELSE %]
+    (automatycznie utworzona przez [% terms.Bugzille %])
+  [% END %]
+</p>
+
+<p>Uwaga: Jeszcze nie ma możliwości modyfikowania wyszukiwania związanego z tym zestawem danych.
+</p>
+
+<p>
+  <a href="query.cgi?[% default.query FILTER html %]">
+    Parametry wyszukiwania serii</a> |
+  <a href="buglist.cgi?cmdtype=dorem&amp;namedcmd=
+    [% default.category FILTER uri %]-
+    [% default.subcategory FILTER uri %]-
+    [% default.name FILTER uri %]&amp;remaction=runseries&amp;series_id=
+    [% default.series_id %]">Wyniki wyszukiwania serii</a>
+</p>
+
+[% PROCESS global/footer.html.tmpl %]

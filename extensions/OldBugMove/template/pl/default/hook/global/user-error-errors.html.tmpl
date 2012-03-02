@@ -1,0 +1,19 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% IF error == "oldbugmove_no_delete_moved" %]
+    Usunięcie rozwiązania [%+ display_value("resolution", "MOVED") FILTER html %]
+	jest niedozwolone, ponieważ jest włączone rozszerzenie OldBugMove. 
+[% ELSIF error == "oldbugmove_no_manual_move" %]
+    Nie można określić rozwiązania [% terms.bledu %] jako 
+    [%+ display_value("resolution", "MOVED") FILTER html %] bez jego
+    przeniesienia.
+[% END %]

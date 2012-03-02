@@ -1,0 +1,162 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # added_quip: string. Defined if the CGI added a quip data before
+  #                displaying anything; if defined, its value is that quip.
+  # show_quips: boolean. True if we are showing the entire quip list.
+  # quips: list of strings. Defined if and only if show_quips is true.
+  #                List of all quips.
+  #%]
+
+[% PROCESS global/header.html.tmpl
+           title = "Sentencje $terms.Bugzilli"
+           header = "Dodawanie własnych mądrości"
+ %]
+
+[% IF added_quip %]
+  <p>
+    <font color="red">
+      Sentencja „<tt>[% added_quip FILTER html %]</tt>” została dodana.
+      [% IF Param("quip_list_entry_control") == "moderated" AND !user.in_group('bz_quip_moderators') %]
+        Zostanie wykorzystana po jej zatwierdzeniu.
+      [% END %]
+    </font>
+  </p>
+[% END %]
+
+[% IF deleted_quip %]
+  <p>
+    <font color="red">
+      Sentencja „<tt>[% deleted_quip FILTER html %]</tt>” została usunięta.
+    </font>
+  </p>
+[% END %]
+
+[% IF approved or unapproved %]
+  <p>[% approved.size %] sentencji zatwierdzonych, [% unapproved.size %] niezatwierdzonych</p>
+[% END %]
+
+
+<p>
+  [% terms.Bugzilla %] wyświetla losowo wybraną sentencję na każdej stronie z
+  listą [% terms.bledow %].
+</p>
+
+[% IF Param("quip_list_entry_control") != "closed" %]
+  <p>
+    Zbiór sentencji można powiększyć. Napisz coś ciekawego, zabawnego
+    lub nudnego, lecz nie obscenicznego lub obraźliwego i naciśnij przycisk.
+    [% IF Param("quip_list_entry_control") == "moderated" AND !user.in_group('bz_quip_moderators') %]
+      Sentencja, zanim zostanie użyta, musi zostać zatwierdzona.
+    [% END %]
+  </p>
+
+  <form method="post" action="quips.cgi">
+    <input type="hidden" name="action" value="add">
+    <input type="hidden" name="token"
+           value="[% issue_hash_token(['create-quips']) FILTER html %]">
+    <input size="80" name="quip">
+    <p>
+      <input type="submit" id="add" value="Dodaj sentencję">
+    </p>
+  </form>
+[% ELSE %]
+  <p>Obecnie nowe sentencje nie mogą być dodawane.
+  </p>
+[% END %]
+
+[% IF show_quips %]
+  [% IF !user.in_group('bz_quip_moderators') %]
+    <h2>
+      Istniejące sentencje:
+    </h2>
+    <ul>
+      [% FOREACH quipid = quipids %]
+        [% NEXT IF NOT quips.$quipid.approved %]
+        <li>[% quips.$quipid.quip FILTER html %]</li>
+      [% END %]
+    </ul>
+  [% ELSE %]
+    <h2>Modyfikowanie istniejących sentencji</h2>
+    <p>
+      <strong>Uwaga:</strong> Będą wyświetlane tylko zatwierdzone sentencje.
+      Jeśli parametr „quip_list_entry_control” ma wartość „otwarte”,
+      nowe sentencje będą akceptowane automatycznie.
+    </p>
+    <form name="editform" method="post" action="quips.cgi">
+      <input type="hidden" name="action" value="approve">
+      <input type="hidden" name="token"
+             value="[% issue_hash_token(['approve-quips']) FILTER html %]">
+      <table border="1">
+        <thead><tr>
+          <th>Sentencja</th>
+          <th>Autor</th>
+          <th>Czynność</th>
+          <th>Zatwierdzona</th>
+        </tr></thead><tbody>
+        [% FOREACH quipid = quipids %]
+          <tr>
+            <td>[% quips.$quipid.quip FILTER html %]</td>
+            <td>
+              [% userid = quips.$quipid.userid  %]
+              [% users.$userid FILTER html      %]
+              [% "Nieznany" IF NOT users.$userid %]
+            </td>
+            <td>
+              <a href="quips.cgi?action=delete&amp;quipid=[% quipid FILTER uri %]&amp;token=
+                 [%- issue_hash_token(['quips', quipid]) FILTER uri %]">
+                Usuń
+              </a>
+            </td>
+            <td>
+              <input type="hidden" name="defined_quipid_[% quipid FILTER html %]"
+                     id="defined_quipid_[% quipid FILTER html %]"
+                     value="1">
+              <input type="checkbox" name="quipid_[% quipid FILTER html %]"
+                     id="quipid_[% quipid FILTER html %]"
+                     [%- ' checked="checked"' IF quips.$quipid.approved %]>
+            </td>
+          </tr>
+        [% END %]
+        </tbody>
+      </table>
+      <script type="text/javascript"><!--
+        var numelements = document.forms.editform.elements.length;
+        function SetCheckboxes(value) {
+          var item;
+          for (var i=0 ; i<numelements ; i++) {
+            item = document.forms.editform.elements[i];
+            item.checked = value;
+          }
+        }
+        document.write(' <input type="button" name="uncheck_all" '
+                      +'value="Odznacz wszystkie" onclick="SetCheckboxes(false);">');
+        document.write(' <input type="button" name="check_all" '
+                      +'value="Zaznacz wszystkie" onclick="SetCheckboxes(true);">');
+        //--></script>
+
+      <input type="submit" id="update" value="Zapisz zmiany">
+    </form>
+    <br>
+  [% END %]
+[% ELSE %]
+  <p>
+    Ci, którzy lubią mądrość w dużej ilości, mogą
+    <a href="quips.cgi?action=show">obejrzeć
+    [% IF user.in_group('bz_quip_moderators') %]
+      lub modyfikować
+    [% END %]
+    całą listę</a>.
+  </p>
+[% END %]
+
+[% PROCESS global/footer.html.tmpl %]

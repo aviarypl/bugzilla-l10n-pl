@@ -1,0 +1,46 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% IF error == "voting_must_be_nonnegative" %]
+    [% title = "Głosy muszą mieć wartość dodatnią" %]
+    [% admindocslinks = {'voting.html' => 'Ustawianie funkcji głosowania'} %]
+    Głosując na [% terms.blad %], należy wprowadzać tylko dodatnie wartości liczbowe.
+
+[% ELSIF error == "voting_product_illegal_votes" %]
+    [% title = "Głosy muszą mieć wartość dodatnią" %]
+    [% admindocslinks = {'voting.html' => 'Ustawianie funkcji głosowania'} %]
+    Wartość „[% votes FILTER html %]” jest nieprawidłową wartością dla pola
+    <em>
+    [% IF field == "votesperuser" %]
+      Głosów na użytkownika,
+    [% ELSIF field == "maxvotesperbug" %]
+      Maksymalna liczba głosów na [% terms.blad %],
+    [% ELSIF field == "votestoconfirm" %]
+      Wymagana liczba głosów do potwierdzenia,
+    [% END %]
+    </em> które powinno zawierać dodatnie wartości liczbowe.
+
+[% ELSIF error == "voting_too_many_votes_for_bug" %]
+    [% title = "Nieprawidłowe głosowanie" %]
+    [% admindocslinks = {'voting.html' => 'Ustawianie funkcji głosowania'} %]
+    Można oddać najwyżej [% max FILTER html %] [%+ PROCESS ODMIEN c=max o1="głos" o2="głosy" o3="głosów" %] na pojedynczy
+    [%+ terms.blad %] w produkcie
+    <tt>[% product FILTER html %]</tt>, a próbowano oddać
+    [%+ votes FILTER html %] [%+ PROCESS ODMIEN c=votes o1="głos" o2="głosy" o3="głosów" %].
+
+[% ELSIF error == "voting_too_many_votes_for_product" %]
+    [% title = "Nieprawidłowe głosowanie" %]
+    [% admindocslinks = {'voting.html' => 'Ustawianie funkcji głosowania'} %]
+    Próbowano oddać [% votes FILTER html %] [%+ PROCESS ODMIEN c=votes o1="głos" o2="głosy" o3="głosów" %] w produkcie
+    <tt>[% product FILTER html %]</tt>. Dopuszczalna liczba głosów dla tego produktu to:
+    [%+ max FILTER html %].
+
+[% END %]

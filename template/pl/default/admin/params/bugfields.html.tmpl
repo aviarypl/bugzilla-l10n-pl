@@ -1,0 +1,49 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Pola $terms.bledu"
+   desc = "Wybór wyświetlanych pól."
+%]
+
+[% param_descs = {
+  useclassification => "Gdy ten parametr zostanie włączony, będzie można powiązać każdy produkt z " _
+                       "określoną kategorią. Aby móc modyfikować kategorie, należy mieć " _
+                       "uprawnienie <code>editclassification</code>.",
+
+  usetargetmilestone => "Parametr ten określa, czy będzie używane pole <strong>Wersja docelowa</strong>.",
+
+  useqacontact => "Parametr ten określa, czy będzie używane pole <strong>Specjalista QA</strong>.",
+
+  usestatuswhiteboard => "Parametr ten określa, czy będzie używane pole <strong>Tablica</strong>.",
+
+  use_see_also => 
+    "Parametr ten określa, czy będzie można używać funkcji <strong>Zobacz też</strong>. Umożliwia ona odnoszenie się do"
+    _ " $terms.bledow w innych instalacjach. Nawet jeśli funkcja zostanie wyłączona,"
+    _ " $terms.bledy z już określonymi relacjami (URL-mi) $terms.bledu, będą"
+    _ " nadal wyświetlane i mogą być usuwane.",
+
+  defaultpriority => "Domyślny priorytet tworzonych ${terms.bledow}.",
+
+  defaultseverity => "Domyślna waga tworzonych ${terms.bledow}.",
+
+  defaultplatform => "Domyślnie wybrana platforma w formularzu zgłaszania ${terms.bledow}. " _
+                     "<br> " _
+                     "Można nie określać tego parametru, " _
+                     "wówczas zostanie użyty system operacyjny " _
+                     "zgłaszany przez przeglądarkę.",
+
+  defaultopsys => "Domyślnie wybrany system operacyjny w formularzu zgłaszania ${terms.bledow}. " _
+                  "<br> " _
+                  "Można nie określać tego parametru, " _
+                  "wówczas zostanie użyty system operacyjny " _
+                  "zgłaszany przez przeglądarkę." }
+%]

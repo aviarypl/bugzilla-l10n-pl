@@ -1,0 +1,51 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% DEFAULT 
+  product.maxvotesperbug = constants.DEFAULT_VOTES_PER_BUG
+  product.votesperuser = 0
+  product.votestoconfirm = 0
+%]
+  
+<tr>
+  <th align="right">Maksymalna liczba głosów do dyspozycji użytkownika:</th>
+  <td><input size="5" maxlength="5" name="votesperuser" id="votesperuser"
+             value="[% product.votesperuser FILTER html %]">
+  </td>
+</tr>
+
+<tr>
+  <th align="right">
+    Maks. liczba głosów, jaką użytkownik może oddać na [% terms.blad %]:
+  </th>
+  <td><input size="5" maxlength="5" name="maxvotesperbug" id="maxvotesperbug"
+             value="[% product.maxvotesperbug FILTER html %]">
+  </td>
+</tr>
+
+<tr id="votes_to_confirm_container"
+    [%- ' class="bz_default_hidden"' IF !product.allows_unconfirmed %]>
+  <th align="right">
+    Automatycznie potwierdzaj [% terms.bledy %], jeśli osiągną następującą liczbę głosów:
+  </th>
+  <td>
+    <input size="3" maxlength="5" name="votestoconfirm" id="votestoconfirm"
+           value="[% product.votestoconfirm FILTER html %]">
+    <br>(Wartość 0 spowoduje wyłączenie automatycznego potwierdzania [% terms.bledow %]
+    przez głosowanie.)
+    <script type="text/javascript">
+        YAHOO.util.Event.addListener('allows_unconfirmed', 'change',
+            function() { bz_toggleClass('votes_to_confirm_container',
+                                        'bz_default_hidden'); });
+    </script>
+  </td>
+</tr>
+

@@ -1,0 +1,109 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% filtered_summary = bugsummary FILTER html %]
+[% header = BLOCK %]Wszystkie załączniki do 
+  [%+ "$terms.bledu $bug.id" FILTER bug_link(bug) FILTER none %][% END %]
+
+[% title = BLOCK %]
+  Wszystkie załączniki do [% terms.bledu %] [%+ bug.bug_id FILTER html %]
+[% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+  header = header
+  subheader = filtered_summary
+  style_urls = ['skins/standard/attachment.css']
+%]
+[% IF hide_obsolete %]
+  <div id="hidden_obsolete_message">
+    Załączniki zdezaktualizowane zostały ukryte. Aby wyświetlić wszystkie załączniki,
+    <a href="attachment.cgi?bugid=[% bug.id FILTER html %]&amp;action=viewall">kliknij tutaj</a>.
+  </div>
+[% END %]
+<br>
+
+[% FOREACH a = attachments %]
+
+  <div align="center">
+  <table class="attachment_info" cellspacing="0" cellpadding="4" border="1" width="75%">
+    <tr>
+      <td valign="top" bgcolor="#cccccc" colspan="6">
+        <big><b>Załącznik #[% a.id %]</b></big>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top">
+        [% a.description FILTER html FILTER obsolete(a.isobsolete) %]
+      </td>
+
+      <td valign="top">
+        [% IF a.ispatch %]
+          <i>łatka</i>
+        [% ELSE %]
+          [% a.contenttype FILTER html %]
+        [% END %]
+      </td>
+
+      <td valign="top">[% a.attached FILTER time %]</td>
+      <td valign="top">[% a.datasize FILTER unitconvert %]</td>
+
+      <td valign="top">
+        [% IF a.flags.size == 0 %]
+          <i>brak flag</i>
+        [% ELSE %]
+          [% FOREACH flag = a.flags %]
+            [% flag.setter.nick FILTER html %]:
+            [%+ flag.type.name FILTER html %][% flag.status %]
+            [% IF flag.status == "?" && flag.requestee %]
+              ([% flag.requestee.nick FILTER html %])
+            [% END %]
+            [% ", " IF !loop.last %]
+          [% END %]
+        [% END %]
+      </td>
+
+      <td valign="top">
+        <a href="attachment.cgi?id=[% a.id %]&amp;action=edit">Szczegóły</a>
+      </td>
+    </tr>
+  </table>
+
+  [% IF a.is_viewable %]
+    [% IF a.contenttype == "text/html" %]
+      [%# For security reasons (clickjacking, embedded scripts), we never
+        # render HTML pages from here. The source code is displayed instead. %]
+      [% INCLUDE global/textarea.html.tmpl
+         minrows = 10
+         cols    = 80
+         defaultcontent = a.data
+         readonly = 'readonly'
+         classes = 'viewall_frame'
+      %]
+    [% ELSE %]
+      <iframe src="attachment.cgi?id=[% a.id %]" class="viewall_frame">
+      <b>Nie można wyświetlić załącznika, ponieważ twoja przeglądarka nie obsługuje elementu IFRAME.
+      <a href="attachment.cgi?id=[% a.id %]">Wyświetl załącznik na osobnej stronie</a>.</b>
+    </iframe>
+    [% END %]
+  [% ELSE %]
+    <p><b>
+      Nie można wyświetlić załącznika, ponieważ jego typ MIME to nie text/*, image/* lub application/vnd.mozilla.*.
+      <a href="attachment.cgi?id=[% a.id %]">Pobierz załącznik</a>
+    </b></p>
+  [% END %]
+  </div>
+
+  <br><br>
+
+[% END %]
+
+[% PROCESS global/footer.html.tmpl %]

@@ -1,0 +1,32 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% INCLUDE global/header.html.tmpl title = "Tworzenie odnośników w tekście" %]
+
+<p>
+  Tekst, który będzie umieszczony w formularzu, zostanie przetworzony w taki sposób,
+  w jaki [% terms.Bugzilla %] standardowo przetwarza komentarze. Wszystkie
+  poprawne numery [% terms.bledow %], adresy URL, adresy e-mail itp. zostaną zamienione
+  na odpowiednie odnośniki języka HTML.
+</p>
+
+<form action="page.cgi" method="post">
+  [% INCLUDE global/textarea.html.tmpl
+    name    = 'text'
+    minrows = 20
+    cols    = constants.COMMENT_COLS
+  %]
+  <br>
+  <input type="hidden" name="id" value="linked.html">
+  <input type="submit" id="linkify" value="Dodaj odnośniki">
+</form>
+
+[% INCLUDE global/footer.html.tmpl %]

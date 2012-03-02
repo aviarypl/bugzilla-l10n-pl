@@ -1,0 +1,56 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% INCLUDE global/header.html.tmpl title = "Głosowanie" %]
+
+<p>[% terms.Bugzilla %] wyposażona jest w funkcję „głosowania”. W każdym
+produkcie użytkownik ma możliwość oddania określonej liczby głosów. Jeśli w jakimś
+produkcie wartość tę określono jako 0, użytkownik nie ma możliwości głosowania na
+[%+ terms.bledy %] tego produktu. Oddając głos na dany [% terms.blad %], użytkownik
+wskazuje, iż właśnie ten powinien być rozwiązany w pierwszej kolejności.</p>
+
+<p>W zależności od tego, jak administrator skonfigurował dany produkt, użytkownik
+może mieć możliwość oddania na [% terms.blad %] więcej niż jednego głosu. Należy jednak pamiętać, 
+że liczba głosów, jaką posiada użytkownik, jest ograniczona. Gdy jest dozwolone
+oddawanie wielu głosów i użytkownik dysponuje odpowiednią liczbą głosów,
+będzie musiał zdecydować, czy oddać swoje głosy na dużą liczbę [% terms.bledow %],
+wskazując na swoje minimalne zainteresowanie tymi [% terms.bledami %], czy
+skoncentrować się na kilku [% terms.bledach %], udzielając im dużego poparcia.</p>
+
+<p>Aby zobaczyć głosy</p>
+
+<ul>
+  <li>należy wejść na stronę wyszukiwania i wykonać standardowe wyszukiwanie, ale w pole
+  „Tylko [% terms.bledy %] z liczbą głosów co najmniej: ___” należy wpisać 1. Dzięki temu można zobaczyć 
+  [% terms.bledy %], na które ktoś oddał przynajmniej jeden głos.</li>
+</ul>
+
+<p>Aby zagłosować na [% terms.blad %], należy:</p>
+
+<ul>
+  <li>otworzyć stronę odpowiedniego [% terms.bledu %],</li>
+
+  <li>kliknąć odnośnik (głosuj) znajdujący się po prawej stronie pola „Ważność”.
+  Jeśli nie ma takiego odnośnika, głosowanie na [% terms.bledy %] w tym produkcie
+  może być niedozwolone,</li>
+
+  <li>wpisać liczbę głosów, która ma być oddana na [% terms.blad %]. Na tej stronie
+  można również zobaczyć głosy oddane przez użytkownika na inne [% terms.bledy %]
+  i - jeśli potrzeba - powtórnie rozdysponować głosy.</li>
+</ul>
+
+<p>Użytkownik zostanie poinformowany poprzez e-mail o wszystkich zmianach w 
+[% terms.bledach %], na które zagłosował.</p>
+
+<p>W każdej chwili można przejrzeć swoje głosy, klikając odnośnik (głosuj) lub
+przejść na stronę „<a href="page.cgi?id=voting/user.html">Zmiana liczby głosów</a>”.</p>
+
+[% INCLUDE global/footer.html.tmpl %]

@@ -1,0 +1,47 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "RADIUS"
+   desc = "Przed wybraniem metody uwierzytelniania RADIUS należy najpierw skonfigurować poniższe parametry."
+%]
+
+[% param_descs = {
+  RADIUS_server => "Nazwa i opcjonalnie port serwera RADIUS " _
+                   "(np. <code>radius.firma.com</code> lub " _
+                   "<code>radius.firma.com:numer_portu</code>).<br>" _
+                   "Wymagane, tylko jeśli parametr " _
+                   "<a href=\"?section=auth#user_verify_class_desc\">" _
+                   "<code>user_verify_class</code></a> zawiera " _
+                   "<code>RADIUS</code>.",
+
+  RADIUS_secret => "Hasło serwera RADIUS.<br>" _
+                   "Wymagane, tylko jeśli parametr " _
+                   "<a href=\"?section=auth#user_verify_class_desc\"> " _
+                   "<code>user_verify_class</code></a> zawiera " _
+                   "<code>RADIUS</code>.",
+
+  RADIUS_NAS_IP => "Atrybut NAS-IP-Address używany podczas wymiany " _
+                   "danych z serwerem RADIUS. Jeśli atrybutu nie " _
+                   "określono, zostanie użyty adres <code>127.0.0.1</code>.<br>" _
+                   "Przydatny, tylko jeśli parametr " _
+                   "<a href=\"?section=auth#user_verify_class_desc\"> " _
+                   "<code>user_verify_class</code></a> " _
+                   "zawiera <code>RADIUS</code>.",
+
+  RADIUS_email_suffix => "Sufiks dołączany do nazwy użytkownika serwera RADIUS potrzebny, " _
+                         "by sformułować adres e-mail.<br>" _
+                         "Przydatny, tylko jeśli parametr " _
+                         "<a href=\"?section=auth#user_verify_class_desc\"> " _
+                         "<code>user_verify_class</code></a> " _
+                         "zawiera <code>RADIUS</code>.",
+  }
+%]

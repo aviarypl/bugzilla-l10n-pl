@@ -1,0 +1,49 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # value: string; the value being inserted/edited.
+  # field: object; the field which the value belongs/belonged to.
+  #
+  # no_XXX_link: boolean; if defined, then don't show the corresponding
+  #                       link. Supported parameters are:
+  #
+  # no_edit_link
+  # no_edit_other_link
+  # no_add_link
+  #%]
+
+<hr>
+
+<p>
+
+[% UNLESS no_add_link %]
+  <a title="Dodawanie wartości do pola „[% field.description FILTER html %]”"
+     href="editvalues.cgi?action=add&amp;field=
+          [%- field.name FILTER uri %]">Dodaj wartość</a>&nbsp;&nbsp;
+[% END %]
+
+[% IF value.defined && !no_edit_link %]
+  <a title="Modyfikowanie wartości „[% value.name FILTER html %]” dla pola „
+         [%- field.name FILTER html %]”"
+  href="editvalues.cgi?action=edit&amp;field=
+        [%- field.name FILTER uri %]&amp;value=
+        [%- value.name FILTER uri %]">Modyfikuj wartość
+        „[% value.name FILTER html %]”</a>
+[% END %]
+
+[% UNLESS no_edit_other_link %]
+   <a href="editvalues.cgi?field=
+        [%- field.name FILTER uri %]">Inne wartości dla pola „[% field.description FILTER html %]”</a>
+
+[% END %]
+
+</p>

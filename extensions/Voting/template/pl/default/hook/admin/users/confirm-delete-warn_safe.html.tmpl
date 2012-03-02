@@ -1,0 +1,29 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% IF votes %]
+  <li>
+    Użytkownik [% otheruser.login FILTER html %] głosował na
+    [% IF votes == 1 %]
+      [%+ terms.blad %]
+    [% ELSE %]
+      [%+ votes FILTER html %] [%+ terms.bledy %]
+    [% END %].
+
+    Usunięcie konta użytkownika spowoduje, że 
+    [% IF votes == 1 %]
+      głos ten zostanie usunięty
+    [% ELSE %]
+      te głosy zostaną usunięte
+    [% END %]
+    razem z kontem użytkownika.
+  </li>
+[% END %]

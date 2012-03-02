@@ -1,0 +1,77 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # This template has no interface. It's a list of the available report
+  # types in Bugzilla.
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = "Raporty i wykresy"
+  doc_section = "reporting.html"
+  style_urls = ['skins/standard/reports.css']
+%]
+
+<p>
+  [% terms.Bugzilla %] umożliwia przeglądanie i śledzenie stanu bazy [% terms.bledow %] na
+  wiele różnorodnych sposobów.
+</p>
+
+<h2>Stan aktualny</h2>
+
+<ul>
+  <li id="report_search">
+    <strong><a href="query.cgi">Wyszukiwanie</a></strong> –
+    wyszukiwanie [% terms.bledow %].
+  </li>
+  <li id="report_tabular">
+    <strong>
+      <a href="query.cgi?format=report-table">Raporty tabelaryczne</a>
+    </strong> –
+    tabele z liczbą [% terms.bledow %]. Jedno, dwu lub trójwymiarowe, jako HTML lub CSV.
+  </li>
+  [% IF feature_enabled('graphical_reports') %]
+    <li id="report_graphical">
+      <strong>
+      <a href="query.cgi?format=report-graph">Raporty graficzne</a>
+    </strong> –
+    wykresy liniowe, słupkowe i kołowe.
+    </li>
+  [% END %]
+  <li id="report_duplicates">
+    <strong><a href="duplicates.cgi">Duplikaty</a></strong> -
+    lista najczęściej zgłaszanych [% terms.bledow %].
+  </li>
+  [% Hook.process('current_state') %]
+</ul>
+
+[% IF feature_enabled('new_charts') OR feature_enabled('old_charts') %]
+<h2>Zmiany w czasie</h2>
+
+  <ul>
+    [% IF feature_enabled('old_charts') %]
+      <li id="old_charts">
+    <strong><a href="reports.cgi">Stare wykresy</a></strong> – 
+    wyświetlanie na tle czasu statusu i/lub sposobu rozwiązania [% terms.bledow %].
+      </li>
+    [% END %]
+    [% IF feature_enabled('new_charts') AND user.in_group(Param("chartgroup")) %]
+      <li id="new_charts">
+      <strong><a href="chart.cgi">Nowe wykresy</a></strong> – 
+      wyświetlanie na tle czasu wykresów dla wyników dowolnego wyszukiwania.
+      </li>
+    [% END %]
+  </ul>
+[% END %]
+
+[% Hook.process('end') %]
+
+[% PROCESS global/footer.html.tmpl %]

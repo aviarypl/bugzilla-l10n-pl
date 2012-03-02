@@ -1,0 +1,71 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% 
+   title = "Zaawansowane"
+   desc = "Ustawienia zaawansowane."
+%]
+
+[% sts_desc = BLOCK %]
+  Włącza w połączeniach SSL funkcję wysyłania nagłówka 
+  <a href="http://en.wikipedia.org/wiki/Strict_Transport_Security">Strict-Transport-Security</a>
+  wraz z odpowiedziami HTTP. Zwiększa to bezpieczeństwo połączeń SSL
+  poprzez wymuszenie na przeglądarce korzystania tylko z zabezpieczonych połączeń
+  z daną domeną i nieakceptowanie nieprawidłowego certyfikatu.
+  Funkcja ta powinna być używana tylko wówczas, gdy parametr <code>ssl_redirect</code> jest włączony,
+  [%+ terms.Bugzilla %] jest jedynym uruchomionym serwisem w danej domenie
+  (np. <code>urlbase</code> ma postać
+  <code>http://bugzilla.domena.com/</code>) oraz nie jest planowane wyłączenie parametru
+  <code>ssl_redirect</code>.
+  <ul>
+    <li>
+      <strong>wyłączone</strong> – nagłówki Strict-Transport-Security nie będą wysyłane.
+    </li>
+    <li>
+      <strong>this_domain_only</strong> – wysyłanie nagłówków Strict-Transport-Security jest włączone,
+      ale tylko dla obecnej domeny.
+    </li>
+    <li>
+      <strong>include_subdomains</strong> – wysyłanie nagłówków Strict-Transport-Security jest
+      włączone, ale wraz z flagą <code>includeSubDomains</code>, która będzie powodowała
+      zmianę zabezpieczeń dla wszystkich subdomen. Jest to szczególnie przydatne w
+      połączeniu z parametrem <code>attachment_base</code>, który jest obecny
+      jako subdomena głównej domeny [% terms.Bugzilli %].
+    </li>
+  </ul>
+[% END %]
+
+[% param_descs = {
+  cookiedomain => 
+    "Jeśli twoja witryna ma adres „www.foo.com”, ustawienie tego"
+    _ " parametru jako <code>.foo.com</code> umożliwi adresowi <code>bar.foo.com</code>"
+    _ " dostęp do ciasteczek ${terms.Bugzilli}. Jest to przydatne, jeśli masz więcej"
+    _ " niż jedną nazwę hosta wskazującą na ten sam serwer WWW i"
+    _ " chcesz im udostępnić ciasteczko ${terms.Bugzilli}.",
+
+  inbound_proxies =>
+    "Jeśli ruch przychodzący do $terms.Bugzilli odbywa się przez proxy,"
+    _ " $terms.Bugzilla rozpoznaje adres IP każdego użytkownika jako adres"
+    _ " proxy. Jeśli w tym parametrze zostaną wprowadzone oddzielone"
+    _ " przecinkami adresy IP, każdy nagłówek <code>X-Forwarded-For</code>"
+    _ " wysłany z tych IP będzie traktowany jako zaufany, a wartość tego"
+    _ " nagłówka używana jako adres IP użytkownika.",
+
+  proxy_url => 
+    "$terms.Bugzilla może łączyć się z siecią, aby pobierać informacje o"
+    _ " nowych wydaniach. Zobacz parametr <tt>upgrade_notification</tt>."
+    _ " Jeśli twój serwer $terms.Bugzilli znajduje się za serwerem proxy i"
+    _ " nie może uzyskać dostępu do zmiennej środowiskowej HTTP_PROXY, należy"
+    _ " tutaj wprowadzić adres serwera proxy. Jeśli wymagane jest uwierzytelnianie,"
+    _ " należy użyć składni <code>http://użytkownik:hasło@proxy_url/</code>.",
+
+  strict_transport_security => sts_desc,
+} %]

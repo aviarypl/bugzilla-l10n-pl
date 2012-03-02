@@ -1,0 +1,27 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+Standardowe szablony należy umieszczać w tym katalogu. Można wczytywać je,
+używając kodu:
+
+use B[% %]ugzilla::Error;
+my $template = B[% %]ugzilla->template;
+$template->process('[% name FILTER lower %]/nazwa-szablonu.html.tmpl')
+  or ThrowTemplateError($template->error());
+
+Ten kod pokazuje, jak wczytać plik o nazwie nazwa-szablonu.html.tmpl 
+znajdujący się w tym katalogu.
+
+Należy zwrócić baczną uwagę, by pełna ścieżka do szablonu nigdy nie
+kolidowała z szablonem istniejącym w [% terms.Bugzilli %], innym
+rozszerzeniu lub inny szablon nie zastępował tego szablonu. Katalog
+„[% name FILTER lower %]” został specjalnie stworzony po to, by umieszczać
+w nim właśnie takie szablony i dzięki temu uniknąć powstawania konfliktów.

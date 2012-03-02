@@ -1,0 +1,22 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS global/header.html.tmpl
+    title = "Przykładowa strona" 
+%]
+
+<p>Wpisano następujący tekst:</p>
+[% USE Dumper %]
+<pre>
+  [% Dumper.dump_html(cgi_variables) FILTER none %]
+</pre>
+
+[% PROCESS global/footer.html.tmpl %]

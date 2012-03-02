@@ -1,0 +1,36 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # debug: boolean. True if we want the search displayed while we wait.
+  # query: string. The SQL query which makes the buglist.
+  #%]
+
+<html>
+  <head>
+    <title>[% terms.Bugzilla %] przetwarza wyszukiwanie</title>
+  </head>
+  <body>
+    <h1 style="margin-top: 20%; text-align: center;">Proszę czekać…</h1>
+
+    [% IF debug %]
+      <p>
+        [% FOREACH debugline = debugdata %]
+          <code>[% debugline FILTER html %]</code><br>
+        [% END %]
+      </p>
+      <p>
+        <code>[% query FILTER html %]</code>
+      </p>
+    [% END %]
+
+  </body>
+</html>

@@ -1,0 +1,62 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # field: object; the field object that you are trying to delete.
+  # token: string; the delete_field token required to complete deletion.
+  #%]
+
+[% PROCESS "global/field-descs.none.tmpl" %]
+
+[% title = BLOCK %]
+  Usuwanie pola dodatkowego „[% field.name FILTER html %]” ([% field.description FILTER html %])
+[% END %]
+
+[% PROCESS global/header.html.tmpl
+           title = title
+           doc_section = "custom-fields.html#delete-custom-fields"
+%]
+
+<table border="1" cellpadding="4" cellspacing="0">
+<tr bgcolor="#6666FF">
+  <th valign="top" align="left">Pole</th>
+  <th valign="top" align="left">Wartość</th>
+</tr>
+<tr>
+  <td valign="top">Pole dodatkowe:</td>
+  <td valign="top">[% field.name FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">Opis:</td>
+  <td valign="top">[% field.description FILTER html %]</td>
+</tr>
+<tr>
+  <td valign="top">Typ:</td>
+  <td valign="top">[% field_types.${field.type} FILTER html %]</td>
+</tr>
+</table>
+
+<h2>Potwierdzenie</h2>
+
+<p>
+  Czy na pewno chcesz usunąć to pole z bazy danych?<br>
+  <em><small>Ta czynność będzie wykonana poprawnie tylko, jeśli pole jest zdezaktualizowane
+  i nie było nigdy używane w [% terms.bledach FILTER html %].</small></em>
+</p>
+
+<a href="editfields.cgi?action=delete&amp;name=[% field.name FILTER html %]&amp;token=[% token FILTER html %]">
+  Usuń pole „[% field.description FILTER html %]”</a>
+
+<p>
+  <a href="editfields.cgi">Lista pól dodatkowych</a>
+</p>
+
+[% PROCESS global/footer.html.tmpl %]

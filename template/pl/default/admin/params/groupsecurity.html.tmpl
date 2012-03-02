@@ -1,0 +1,46 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Grupy zabezpieczeń"
+   desc = "Określa sposób użycia grup zabezpieczeń."
+%]
+
+[% param_descs = {
+  makeproductgroups => "Gdy ten parametr jest włączony, dla każdego nowego produktu zostanie utworzona grupa dla $terms.bledow, " _
+                       "a jej członkowie będą mogli przeszukiwać ${terms.bledy}.",
+
+  chartgroup => "Grupa, której członkowie mogą korzystać z funkcji <strong>Nowe wykresy</strong>. " _
+                "Przed udostępnieniem tej funkcji administrator powinien zapewnić, że publicznie " _
+                "dostępne kategorie i serie danych nie mogą zostać użyte do ujawnienia poufnych informacji. " _
+                "Brak grupy uniemożliwi wszystkim użytkownikom skorzystanie z funkcji <strong>Nowe wykresy</strong>.",
+
+  insidergroup => "Grupa, której członkowie mogą widzieć/zmieniać prywatne " _
+                  "komentarze i załączniki.",
+
+  timetrackinggroup => "Grupa, której członkowie mogą widzieć/zmieniać informacje " _
+                       "o śledzeniu czasu pracy.",
+
+  querysharegroup => "Grupa, której członkowie mogą udostępniać swoje " _
+                     "zapisane wyszukiwania.",
+
+  usevisibilitygroups => "Ogranicz możliwość podglądu innych użytkowników do " _
+                         "członków danej grupy.",
+  
+  strict_isolation => "Nie zezwalaj użytkownikom na przypisywanie " _
+                      "do specjalistów QA, " _
+                      "dodawanie do list obserwatorów " _
+                      "lub dodawanie/usuwanie zależności " _
+                      "obejmujących każdy $terms.blad będący w produkcie, którego "_
+                      "użytkownik nie może modyfikować.",
+
+ }
+%]

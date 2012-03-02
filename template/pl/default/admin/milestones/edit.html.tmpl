@@ -1,0 +1,56 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # product: object; Bugzilla::Product object representing the product to
+  #               which the milestone belongs.
+  # milestone: object; Bugzilla::Milestone object representing the
+  #                    milestone the user wants to edit.
+  #%]
+
+[% title = BLOCK %]Modyfikowanie wersji docelowej „[% milestone.name FILTER html %]” produktu 
+                   „[%- product.name FILTER html %]”[% END %]
+[% PROCESS global/header.html.tmpl
+  title = title
+  onload = "document.forms['f'].milestone.select()"
+%]
+
+<form name="f" method="post" action="editmilestones.cgi">
+  <table border="0" cellpadding="4" cellspacing="0">
+
+    <tr>
+      <th class="field_label"><label for="milestone">Wersja docelowa:</label></th>
+      <td><input id="milestone" size="20" maxlength="20" name="milestone" value="
+      [%- milestone.name FILTER html %]"></td>
+    </tr>
+    <tr>
+      <th class="field_label"><label for="sortkey">Klucz sortowania:</label></th>
+      <td><input id="sortkey" size="20" maxlength="20" name="sortkey" value="
+      [%- milestone.sortkey FILTER html %]"></td>
+    </tr>
+    <tr>
+      <th class="field_label"><label for="isactive">Otwarta dla zgłaszania [% terms.bledow %]:</label></th>
+      <td><input id="isactive" name="isactive" type="checkbox" value="1"
+                 [% 'checked="checked"' IF milestone.isactive %]></td>
+    </tr>
+  </table>
+
+  <input type="hidden" name="milestoneold" value="[% milestone.name FILTER html %]">
+  <input type="hidden" name="action" value="update">
+  <input type="hidden" name="product" value="[% product.name FILTER html %]">
+  <input type="submit" id="update" value="Zapisz zmiany">
+  <input type="hidden" name="token" value="[% token FILTER html %]">
+</form>
+
+[% PROCESS admin/milestones/footer.html.tmpl
+  no_edit_milestone_link = 1 %]
+
+[% PROCESS global/footer.html.tmpl %]

@@ -1,0 +1,67 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Wartości domyślne zapytań"
+   desc = "Wartości domyślne zapytań i list ${terms.bledow}."
+%]
+
+[% param_descs = {
+  quip_list_entry_control => "Ten parametr określa zasady dodawania sentencji do zbioru:
+                              <ul>
+                                <li>
+                                  <strong>otwarte</strong> - użytkownicy mogą dowolnie dodawać sentencje, a
+                                  wpisy te będą natychmiast dostępne do wyświetlania,
+                                </li>
+                                <li>
+                                  <strong>moderowane</strong> - można dodawać sentencje, ale zanim będą 
+                                  wyświetlane, muszą być zatwierdzone przez administratora,
+                                </li>
+                                <li>
+                                  <strong>zamknięte</strong> - nie można dodawać nowych sentencji.
+                                </li>
+                              </ul>",
+
+  mostfreqthreshold => "Liczba duplikatów $terms.bledu, po której osiągnięciu zostanie on umieszczony na liście " _
+                       "<a href=\"duplicates.cgi\">najczęściej zgłaszanych $terms.bledow</a>. " _
+                       "W przypadku dużej bazy i długiego czasu wczytywania strony z listą należy " _
+                       "zwiększyć tę wartość.",
+
+  mybugstemplate => "Adres URL wyświetlający listę <strong>Moje $terms.bledy</strong>. " _
+                    "Zmienna %userid% będzie zamieniona na nazwę użytkownika.",
+
+  defaultquery => "Domyślne zapytanie po otwarciu strony zaawansowanego wyszukiwania. " _
+                  "Zapytanie w trudno czytelnym formacie parametrów URL. Przepraszamy.",
+
+  search_allow_no_criteria =>
+    "Ten parametr określa, czy zezwolić na wyszukiwanie " _
+    "$terms.bledow z pustym polem <strong>Słowa</strong>. " _
+    "Jeśli jest wyłączony, to należy podać przynajmniej jedno kryterium wyszukiwania, aby otrzymać " _
+    "wynikową listę ${terms.bledow}. " _
+    "Jeśli jest włączony, to użytkownik może wyszukać wszystkie widoczne dla niego $terms.bledy, " _
+    "bez podawania jakiegokolwiek kryterium wyszukiwania. " _
+    "Włączanie tego parametru jest niezalecane w dużych instalacjach.",
+
+
+  default_search_limit =>
+    "Domyślnie, ze względów wydajnościowych, $terms.Bugzilla ogranicza liczbę wyświetlanych wyników"
+    _ " wyszukiwania za pomocą interfejsu graficznego do wartości podanej poniżej "
+    _ " (ograniczenie dotyczy tylko wyników przedstawionych jako HTML - nie dotyczy CSV,"
+    _ " XML i pozostałych formatów danych). Użytkownicy mają możliwość wyświetlenia pełnych wyników wyszukiwania po"
+    _ " kliknięciu na odpowiedni odnośnik."
+    _ "<p>Zwykle wartość tego parametru nie powinna być zmieniana - wartość domyślna"
+    _ " powinna być odpowiednia dla większości typowych instalacji.</p>",
+
+  max_search_results =>
+    "Ten parametr określa <strong>maksymalną</strong> liczbę zwracanych wyników"
+    _ "  wyszukiwania. Ograniczenie to nie dotyczy raportów tabelarycznych i graficznych.",
+
+} %]

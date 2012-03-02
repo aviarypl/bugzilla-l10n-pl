@@ -1,0 +1,177 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # release: a hash containing data about new releases, if any.
+  #%]
+
+[% PROCESS global/header.html.tmpl
+   title = "$terms.Bugzilla – Strona główna"
+   header = "Strona główna" 
+   header_addl_info = "wersja $constants.BUGZILLA_VERSION (4.3 PL)"
+   style_urls = [ 'skins/standard/index.css' ]
+%]
+
+
+<script type="text/javascript">
+<!--
+function onLoadActions() {
+  quicksearchHelpText('quicksearch_main', 'show');
+  if( window.external.AddSearchProvider ){
+    YAHOO.util.Dom.removeClass('quicksearch_plugin', 'bz_default_hidden');
+  }
+  document.getElementById('quicksearch_top').focus();
+}
+var quicksearch_message = "Wprowadź numer [% terms.bledu %] lub szukane wyrażenie";
+
+function checkQuicksearch( form ) {
+  if (form.quicksearch.value == '' || form.quicksearch.value == quicksearch_message ) { 
+    alert('Wprowadź najpierw szukane wyrażenia.');
+    return false; 
+  }
+  return true;         
+}
+
+function quicksearchHelpText(el_id, action){
+  var el = document.getElementById(el_id);
+  if ( action == "show") {
+    if( el.value == "" ) {
+      el.value = quicksearch_message
+      YAHOO.util.Dom.addClass(el, "quicksearch_help_text");
+    }
+  } else {
+    if( el.value == quicksearch_message ) {
+      el.value = "";
+      YAHOO.util.Dom.removeClass(el, "quicksearch_help_text");
+    }
+  }
+}
+YAHOO.util.Event.onDOMReady(onLoadActions);
+//-->
+</script>
+
+[% IF release %]
+  <div id="new_release">
+    [% IF release.data %]
+      [% IF release.deprecated %]
+        <p>[% terms.Bugzilla %] [%+ release.deprecated FILTER html %] nie jest już obsługiwana.
+        Ze względów bezpieczeństwa systemu radzimy zaktualizować wersję
+        do najnowszej.</p>
+      [% END %]
+
+      <p>Nowa wersja [% terms.Bugzilli %] ([% release.data.latest_ver FILTER html %])
+      jest dostępna pod adresem
+      <a href="[% release.data.url FILTER html %]">[% release.data.url FILTER html %]</a>.<br>
+      Data wydania: [% release.data.date FILTER html %]</p>
+
+      <p class="notice">Ta wiadomość jest wyświetlana jedynie zalogowanym użytkownikom z uprawnieniami administratora.
+      Sposób sprawdzania nowych wersji można skonfigurować na stronie
+      <a href="editparams.cgi?section=general#upgrade_notification_desc">parametrów</a>.</p>
+    [% ELSIF release.error == "cannot_download" %]
+      <p>Nie można pobrać zdalnego pliku XML <a href="[% constants.REMOTE_FILE FILTER html %]">
+      [%~ constants.REMOTE_FILE FILTER html %]</a>
+      (przyczyna: [% release.reason FILTER html %]).<br>
+      Zdalny serwer nie odpowiada lub sieć nie jest dostępna.
+      Jeśli korzystasz z serwera proxy, określ poprawnie parametr
+      <a href="editparams.cgi?section=advanced#proxy_url_desc">proxy_url</a>.</p>
+    [% ELSIF release.error == "no_write" %]
+      <p>Nie można utworzyć lokalnego pliku XML „[% constants.LOCAL_FILE FILTER html %]”
+      (przyczyna: [% release.reason FILTER html %]).<br>
+      Sprawdź, czy serwer sieciowy może zapisywać do tego katalogu.</p>
+    [% ELSIF release.error == "no_update" %]
+      <p>Nie można zaktualizować lokalnego pliku XML „[% constants.LOCAL_FILE FILTER html %]”
+      Sprawdź, czy serwer sieciowy może zapisywać do tego pliku.</p>
+    [% ELSIF release.error == "no_access" %]
+      <p>Nie można odczytać lokalnego pliku XML „[% constants.LOCAL_FILE FILTER html %]”.
+      Sprawdź, czy ten plik ma odpowiednie uprawnienia.</p>
+    [% ELSIF release.error == "corrupted" %]
+      <p>Lokalny plik XML „[% constants.LOCAL_FILE FILTER html %]” ma błędny format XML.
+      Usuń plik i otwórz tę stronę ponownie.</p>
+    [% ELSIF release.error == "unknown_parameter" %]
+      <p>Parametr „[% Param("upgrade_notification") FILTER html %]” nie jest poprawnym parametrem powiadamiania.
+      Sprawdź ten parametr na stronie 
+      <a href="editparams.cgi?section=general#upgrade_notification_desc">parametrów</a>.</p>
+    [% END %]
+  </div>
+[% END %]
+
+<div id="page-index">
+  <table>
+    <tr>
+      <td>
+        <h1 id="welcome"> Witamy w [% terms.Bugzilli %]</h1>
+        <div class="intro">[% Hook.process('intro') %]</div>
+
+        <div class="bz_common_actions">
+          <ul>
+            <li>
+        <a id="enter_bug" href="enter_bug.cgi"><span>Zgłoś [% terms.blad %]
+         </span></a>
+            </li>
+            <li>  
+        <a id="query" href="query.cgi"><span>Szukaj</span></a>
+            </li>
+            <li>
+     
+        <a id="account"
+          [% IF user.id %]
+            href="userprefs.cgi"><span>Preferencje</span></a>
+          [% ELSIF Param('createemailregexp')
+                   && user.authorizer.user_can_create_account 
+          %]
+            href="createaccount.cgi"><span>Nowe konto</span></a>
+          [% ELSE %]
+            href="?GoAheadAndLogIn=1"><span>Zaloguj się</span></a>
+          [% END %]
+            </li>
+          </ul>
+        </div>
+
+        <form id="quicksearchForm" name="quicksearchForm" action="buglist.cgi"
+              onsubmit="return checkQuicksearch(this);">
+          <div>
+            <input id="quicksearch_main" type="text" name="quicksearch"
+              title="Szybkie szukanie" 
+              onfocus="quicksearchHelpText(this.id, 'hide');"
+              onblur="quicksearchHelpText(this.id, 'show');"
+            >
+            <input id="find" type="submit" value="Szybkie szukanie">
+            <ul class="additional_links" id="quicksearch_links">
+              <li>
+                <a href="page.cgi?id=quicksearch.html">Wyszukiwanie – pomoc</a>
+              </li>
+              <li class="bz_default_hidden" id="quicksearch_plugin">
+                |
+                <a href="javascript:window.external.AddSearchProvider('[% urlbase FILTER html %]search_plugin.cgi')">
+                 Zainstaluj wtyczkę wyszukiwarki
+                </a>
+              </li>
+            </ul>
+            <ul class="additional_links">
+              <li>
+                <a href="[% docs_urlbase FILTER html %]using.html">
+                  Podręcznik użytkownika</a>
+              </li>
+              <li>
+                |
+                <a href="page.cgi?id=release-notes.html">Informacje o wydaniu</a>
+              </li>
+              [% Hook.process('additional_links') %]
+            </ul>
+          </div>
+        </form>
+        <div class="outro">[% Hook.process('outro') %]</div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+[% PROCESS global/footer.html.tmpl %]

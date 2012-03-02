@@ -1,0 +1,33 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Dopasowywanie nazw użytkowników"
+   desc = "Ustawienia zasad dopasowywania nazw użytkowników."
+%]
+
+[% param_descs = {
+  usemenuforusers => "Jeśli ten parametr jest włączony, kiedy zajdzie potrzeba " _
+                     "wybrania użytkownika, zamiast pola tekstowego zostanie wyświetlona " _
+                     "lista użytkowników. Parametru tego nie należy włączać w instalacjach " _
+                     "z dużą liczbą użytkowników.",
+
+  ajax_user_autocompletion => "Jeśli ten parametr jest włączony, wyświetlana jest lista dopasowanych nazw " _
+                              "użytkowników podczas ich wprowadzania do określonych pól.", 
+
+  maxusermatches => "Ograniczenie liczby wyszukiwanych nazw użytkowników.<br> " _
+                    "Wartość <strong>1</strong> oznacza, że w razie niejasności w dopasowaniu podanej nazwy, żadne " _
+                    "nazwy użytkowników nie będą wyświetlane. Wartość przydatna dla celów zachowania poufności.<br> " _
+                    "Wartość <strong>0</strong> oznacza brak ograniczenia.",
+
+  confirmuniqueusermatch => "Ten parametr określa, czy wyświetlać okno potwierdzenia, gdy tylko jeden użytkownik " _
+                            "spełnia warunki wyszukiwania." }
+%]

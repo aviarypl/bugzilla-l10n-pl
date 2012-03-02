@@ -1,0 +1,29 @@
+[%# 4.3PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS global/header.html.tmpl title = "Sprawdzanie spójności danych"
+                                   style_urls = ['skins/standard/admin.css'] %]
+
+<div>
+  <p>
+    [% terms.Bugzilla %] sprawdza spójność bazy danych.
+    Operacja ta może potrwać kilka minut.
+  </p>
+
+  <p>
+    Błędy, jeśli są, będą <span class="alert">w ten sposób wyróżnione</span>. W zależności
+    od znalezionych błędów, odnośniki będą wyświetlane w sposób ułatwiający naprawę tych
+    błędów. Po dokonaniu naprawy, skrypt zostanie automatycznie ponownie uruchomiony.
+    Powtórne wykonanie skryptu może zająć więcej czasu niż za pierwszym razem.
+  </p>
+</div>
+
+<hr>
