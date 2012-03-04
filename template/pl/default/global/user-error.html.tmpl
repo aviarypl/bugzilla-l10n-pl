@@ -1688,7 +1688,7 @@
   [% ELSIF error == "xmlrpc_illegal_content_type" %]
     Typ zawartości <em>[% content_type FILTER html %]</em> jest nieprawidłowy.
     Gdy używasz XML-RPC, prawidłowe typy 
-    to [% constants.XMLRPC_CONTENT_TYPE_WHITELIST.join(', ') %].
+    to [% constants.XMLRPC_CONTENT_TYPE_WHITELIST.join(', ') FILTER html %].
 
   [% ELSIF error == "zero_length_file" %]
     [% title = "Plik jest pusty" %]
