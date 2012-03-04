@@ -255,6 +255,7 @@
         <li>bilet zamieszczony w instalacji Trac.</li>
         <li>błąd zamieszczony w instalacji MantisBT.</li>
         <li>błąd zamieszczony w serwisie sourceforge.net.</li>
+        [% Hook.process('bug_url_invalid_tracker') %]
       </ul>
     [% ELSIF reason == 'id' %]
       Pod tym adresem URL nie ma [% terms.bledu %] o takim numerze.
