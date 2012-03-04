@@ -1685,6 +1685,11 @@
     &lt;[% type FILTER html %]&gt;. Więcej szczegółów uzyskasz w
     specyfikacji XML-RPC.
 
+  [% ELSIF error == "xmlrpc_illegal_content_type" %]
+    Typ zawartości <em>[% content_type FILTER html %]</em> jest nieprawidłowy.
+    Gdy używasz XML-RPC, prawidłowe typy 
+    to [% constants.XMLRPC_CONTENT_TYPE_WHITELIST.join(', ') %].
+
   [% ELSIF error == "zero_length_file" %]
     [% title = "Plik jest pusty" %]
     Wysyłany plik załącznika jest pusty, nie istnieje lub nie masz uprawnień
