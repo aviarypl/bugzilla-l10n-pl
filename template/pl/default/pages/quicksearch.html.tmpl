@@ -43,11 +43,11 @@
 
 <ul>
   <li><a href="#basics">Podstawy</a></li>
-  <li><a href="#basic_examples">Examples of Simple Queries</a></li>
+  <li><a href="#basic_examples">Przykłady nieskomplikowanych wyrażeń</a></li>
   <li><a href="#fields">Wykaz pól, które można przeszukiwać</a></li>
   <li><a href="#advanced_features">Funkcje zaawansowane</a></li>
   <li><a href="#shortcuts">Skróty zaawansowane</a></li>
-  <li><a href="#advanced_examples">Examples of Complex Queries</a></li>
+  <li><a href="#advanced_examples">Przykłady skomplikowanych wyrażeń</a></li>
 </ul>
 
 <h2 id="basics">Podstawy</h2>
@@ -101,30 +101,28 @@
     <em>dowolną</em> z tych wartości, zostaną wyszukane.</li>
 </ul>
 
-<h2 id="basic_examples">Examples of Simple Queries</h2>
+<h2 id="basic_examples">Przykłady nieskomplikowanych wyrażeń</h2>
 
-<p>Here are some examples of how to write some simple queries.
-  <a href="#advanced_examples">Examples for more complex queries</a> can be
-  found lower in this page.</p>
+<p>Poniżej znajduje się kilka wskazówek, w jaki sposób można pisać proste wyrażenia. W dalszej części strony
+  można znaleźć <a href="#advanced_examples">bardziej skomplikowane przykłady</a>.</p>
 
 <ul class="qs_help">
-  <li>All open [% terms.bugs %] where userA@company.com is in the CC list
-    (no need to mention open [% terms.bugs %], this is the default):<br>
-    <kbd>cc:userA@company.com</kbd></li>
-  <li>All unconfirmed [% terms.bugs %] in product productA (putting the
-    [%+ terms.bug %] status at the first position make it being automagically
-    considered as [% terms.abug %] status):<br>
-    <kbd>UNCONFIRMED product:productA</kbd>
-  <li>All open and closed [% terms.bugs %] reported by userB@company.com
-    (we must specify ALL as the first word, else only open [% terms.bugs %]
-    are taken into account):<br>
-    <kbd>ALL reporter:userB@company.com</kbd>
-  <li>All open [% terms.bugs %] with severity blocker or critical with the
-    target milestone set to 2.5:<br>
+  <li>Wszystkie otwarte [% terms.bledy %], gdzie użytkownikA@firma.com znajduje się na Liście obserwatorów
+    (otwarte [% terms.bledy %] przeszukiwane są domyślnie):<br>
+    <kbd>cc:użytkownikA@firma.com</kbd></li>
+  <li>Wszystkie niepotwierdzone [% terms.bledy %] produktu produktA (podaj jako pierwsze słowo wyszukiwania nazwę dowolnego statusu, 
+    a [% terms.bledy %] z tym statusem zostaną automatycznie wyszukane):<br>
+    <kbd>UNCONFIRMED product:produktA</kbd>
+  <li>Wszystkie otwarte i zamknięte [% terms.bledy %] zgłoszone przez użytkownikB@firma.com
+    (skrót ALL oznacza „wszystkie statusy”, w przeciwnym wypadku wyszukiwane są tylko
+    otwarte [% terms.bledy %]):<br>
+    <kbd>ALL reporter:użytkownikB@firma.com</kbd>
+  <li>Wszystkie otwarte [% terms.bledy %] o wadze [% terms.bledu %] blokujący lub krytyczny
+    oraz wersją docelową 2.5:<br>
     <kbd>severity:blocker,critical milestone:2.5</kbd>
-  <li>All open [% terms.bugs %] in the component Research & Development
-    with priority P1 or P2 (we must use quotes for the component as its name
-    contains whitespaces):<br>
+  <li>Wszystkie otwarte [% terms.bledy %] w komponencie Research & Development
+    o priorytecie P1 lub P2 (z uwagi na występujące spacje w nazwie komponentu musi być
+    ona pisana w cudzysłowie):<br>
     <kbd>component:"Research & Development" priority:P1,P2</kbd></li>
 </ul>
 
@@ -181,14 +179,13 @@
 
 <ul class="qs_help">
   <li>Jeśli chcesz wyszukać <strong>frazę</strong> lub coś, co zawiera
-    spacje, przecinki, dwukropki, cudzysłowy musisz ująć to w cudzysłów np.
+    spacje, przecinki, dwukropki, cudzysłowy musisz ująć to w cudzysłów, np.
     <kbd>"tak, to jest fraza"</kbd>. Cudzysłowu należy użyć także do wyszukiwania
     znaków, które użyte bez cudzysłowów byłyby interpretowane przez szybkie wyszukiwanie.
     Na przykład użycie parametru <kbd>"to|tamto"</kbd> spowoduje wyszukanie dokładnie frazy
-    <em>to|tamto</em> and would not be parsed as <kbd>"this OR that"</kbd>.
-    Also, <kbd>"-field:value"</kbd> would search for the literal phrase
-    <em>-field:value</em> and would not be parsed as
-    <kbd>"NOT field:value"</kbd>.</li>
+    <em>to|tamto</em>, a nie frazy <kbd>"to OR tamto"</kbd>.
+    Także <kbd>"-pole:wartość"</kbd> spowoduje wyszukiwanie dokładnie frazy
+    <em>-pole:wartość</em>, a nie parametru <kbd>"NOT pole:wartość"</kbd>.</li>
 
   <li>W wyszukiwaniach można używać operatorów <strong>AND</strong>,
     <strong>NOT</strong> i <strong>OR</strong>. 
@@ -218,11 +215,11 @@
       </li>
     </ul>
 
-    <p>You cannot use | nor OR to enumerate possible values for a given field.
-      You must use commas instead. So <kbd>field:value1,value2</kbd> does what
-      you expect, but <kbd>field:value1|value2</kbd> would be treated as
-      <kbd>field:value1 OR value2</kbd>, which means value2 is not bound to
-      the given field.</p>
+    <p>Nie jest możliwe użycie | ani OR do określenia występujących wartości danego pola.
+      W tym celu należy używać przecinków. Parametr <kbd>pole:wartość1,wartość2</kbd> zawiera
+      możliwe wartości, lecz <kbd>pole:wartość1|wartość2</kbd> zostanie zinterpretowane jako
+      parametr <kbd>pole:wartość1 OR wartość2</kbd>, co oznacza, że wartość2 nie jest przypisana 
+      do danego pola.</p>
 
     <p>OR ma wyższy priorytet niż AND; AND jest operacją najwyższego poziomu.
       Przykład:</p>
@@ -313,29 +310,29 @@
   </tbody>
 </table>
 
-<h2 id="advanced_examples">Examples of Complex Queries</h2>
+<h2 id="advanced_examples">Przykłady skomplikowanych wyrażeń</h2>
 
-<p>It is pretty easy to write rather complex queries without too much effort.
-  For very complex queries, you have to use the
-  <a href="query.cgi?format=advanced">Advanced Search</a> form.</p>
+<p>Budowanie zaawansowanych wyrażeń za pomocą operatorów nie jest zbyt trudnym zadaniem.
+  Bardziej rozbudowane zapytania lepiej tworzyć jednak za pomocą formularza dostępnego na stronie
+  <a href="query.cgi?format=advanced">Wyszukiwanie zaawansowane</a>.</p>
 
 <ul class="qs_help">
-  <li>All [% terms.bugs %] reported by userA@company.com or assigned to him
-    (the initial @ is a shortcut for the assignee, see the
-    <a href="#shortcuts">Advanced Shortcuts</a> section above):<br>
-    <kbd>ALL @userA@company.com OR reporter:userA@company.com</kbd></li>
-  <li>All open [% terms.bugs %] in product productA with either severity
-    blocker, critical or major, or with priority P1, or with the blocker+
-    flag set, and which are neither assigned to userB@company.com nor to
-    userC@company.com (we make the assumption that there are only two users
-    matching userB and userC, else we would write the whole login name):<br>
-    <kbd>:productA sev:blocker,critical,major OR pri:P1 OR flag:blocker+ -assign:userB,userC</kbd></li>
-  <li>All FIXED [% terms.bugs %] with the blocker+ flag set, but without
-    the approval+ nor approval? flags set:<br>
+  <li>Wszystkie [% terms.bledy %] zgłoszone przez użytkownikA@firma.com lub przypisane do niego
+    (znak @ jest skrótem dla wartości pola Przypisany do, patrz
+    <a href="#shortcuts">Skróty zaawansowane</a> powyżej):<br>
+    <kbd>ALL @użytkownikA@firma.com OR reporter:użytkownikA@firma.com</kbd></li>
+  <li>Wszystkie otwarte [% terms.bledy %] w produkcie produktA o wadze błędu
+    blokujący, krytyczny lub poważny lub o ważności P1 lub o ustawionej fladze blocker+,
+    a które nie są przypisane do użytkownikB@firma.com ani do
+    użytkownikC@firma.com (zakładamy, że istnieje tylko dwóch użytkowników pasujących do wartości
+    użytkownikB oraz użytkownikC, w przeciwnym wypadku należałoby podać pełen login):<br>
+    <kbd>:produktA sev:blocker,critical,major OR pri:P1 OR flag:blocker+ -assign:użytkownikB,użytkownikC</kbd></li>
+  <li>Wszystkie ROZWIĄZANE [% terms.bledy %] z ustawioną flagą blocker+, ale bez zatwierdzonych flag
+    approval+ lub approval?:<br>
     <kbd>FIXED flag:blocker+ -flag:approval+ -flag:approval?</kbd></li>
-  <li>[% terms.Bugs %] with <em>That's a "unusual" issue</em> in the
-    [%+ terms.bug %] summary (double quotes are escaped using <em>\"</em>):<br>
-    <kbd>summary:"That's a \"unusual\" issue"</kbd></li>
+  <li>[% terms.Bledy %] z wyrażeniem <em>To bardzo "niezwykłe" zgłoszenie</em> 
+    w polu Krótki opis [%+ terms.bledu %] (znaki cudzysłowu są poprzedzane znakiem <em>\"</em>):<br>
+    <kbd>summary:"To bardzo \"niezwykłe\" zgłoszenie"</kbd></li>
 </ul>
 
 [% PROCESS global/footer.html.tmpl %]
