@@ -1440,25 +1440,26 @@
     Nazwa wyszukiwania nie może zawierać więcej niż [% constants.MAX_LEN_QUERY_NAME FILTER html %]
     znaków.	
   [% ELSIF error == "quicksearch_invalid_query" %]
-    [% title = "Invalid Query" %]
-    Your query is invalid.
+    [% title = "Nieprawidłowe wyszukiwanie" %]
+    Wyszukiwanie jest nieprawidłowe.
     [% IF operators %]
-      The [% operators.shift FILTER html %] operator cannot be followed by
+      Po operatorze [% operators.shift FILTER html %] nie może wystąpić operator
       [%+ operators.shift FILTER html %].
     [% ELSE %]
-      A query cannot start with AND or OR, nor can it end with AND, OR or NOT.
-      They are reserved operators and must be quoted if you want to look for
-      these strings.
+      Wyszukiwanie nie może rozpoczynać się od AND lub OR, ani być zakończone AND, OR lub NOT.
+      Są to zastrzeżone operatory logiczne i, w przypadku konieczności ich wyszukania, 
+      muszą być umieszczone w cudzysłowie.
     [% END %]
 
   [% ELSIF error == "quicksearch_unbalanced_quotes" %]
-    [% title = "Badly Formatted Query" %]
-    [% terms.Bugzilla %] is unable to parse your query correctly:
+    [% title = "Nieprawidłowa składnia wyszukiwania" %]
+    [% terms.Bugzilla %] nie może wykonać wyszukiwania:
     <em>[% string FILTER html %]</em>.<br>
-    If you use quotes to enclose strings, make sure both quotes are present.
-    If you really want to look for a quote in a string, type \" instead of ".
-    For instance, <em>"I'm so \"special\", really"</em> (with quotes) will be
-    interpreted as <em>I'm so "special", really</em>.
+    W przypadku korzystania ze znaków cudzysłowu podczas wyszukiwania należy upewnić się, że cudzysłowowi
+    otwierającemu towarzyszy cudzysłów zamykający.
+    W przypadku wyszukiwania znaku cudzysłowu należy wprowadzić \" zamiast ",
+    np. <em>"Jest \"cudnie\""</em> (ze znakami cudzysłowu) 
+    zostanie zinterpretowane jako <em>Jest "cudnie"</em>.
 
   [% ELSIF error == "quicksearch_unknown_field" %]
     [% title = "Nieznane pole szybkiego wyszukiwania" %]
