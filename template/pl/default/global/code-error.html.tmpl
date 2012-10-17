@@ -466,6 +466,10 @@
   [% ELSIF error == "invalid_post_bug_submit_action" %]
     Błędne ustawienie dla post_bug_submit_action
 
+  [% ELSIF error == "search_field_operator_unsupported" %]
+    [% terms.Bugzilla %] nie obsługuje wykorzystywania operatora wyszukiwania
+    „[% operator FILTER html %]”.
+
   [% ELSE %]
     [%# Try to find hooked error messages %]
     [% error_message = Hook.process("errors") %]
