@@ -9,8 +9,6 @@
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
-[% PROCESS 'global/field-descs.none.tmpl' %]
-
 [% filtered_desc = blocked_tree.$bugid.short_desc FILTER html %]
 [% PROCESS global/header.html.tmpl
    title           = "Drzewo zależności dla $terms.bledu $bugid"

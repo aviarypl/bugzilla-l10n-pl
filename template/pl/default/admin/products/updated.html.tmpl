@@ -29,8 +29,6 @@
   style_urls = ['skins/standard/admin.css']
 %]
 
-[% PROCESS "global/field-descs.none.tmpl" %]
-
 [% IF changes.name.defined %]
   <p>
   Zaktualizowano nazwę produktu z „[% changes.name.0 FILTER html %]” na

@@ -9,8 +9,6 @@
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
-[% PROCESS "global/field-descs.none.tmpl" %]
-
 [% PROCESS bug/time.html.tmpl %]
 
   <script type="text/javascript">
@@ -175,7 +173,6 @@
         [% IF bug.alias != "" %]
           (<span id="alias_nonedit_display">[% bug.alias FILTER html %]</span>) 
         [% END %]
-      [% END %]
       <span id="short_desc_nonedit_display">[% bug.short_desc FILTER quoteUrls(bug) %]</span>
       [% IF bug.check_can_change_field('short_desc', 0, 1) || 
             bug.check_can_change_field('alias', 0, 1)  %]
