@@ -1429,6 +1429,27 @@
     [% title = "Zbyt długa nazwa wyszukiwania" %]
     Nazwa wyszukiwania nie może zawierać więcej niż [% constants.MAX_LEN_QUERY_NAME FILTER html %]
     znaków.	
+  [% ELSIF error == "quicksearch_invalid_query" %]
+    [% title = "Nieprawidłowe wyszukiwanie" %]
+    Wyszukiwanie jest nieprawidłowe.
+    [% IF operators %]
+      Po operatorze [% operators.shift FILTER html %] nie może wystąpić operator
+      [%+ operators.shift FILTER html %].
+    [% ELSE %]
+      Wyszukiwanie nie może rozpoczynać się od AND lub OR, ani być zakończone AND, OR lub NOT.
+      Są to zastrzeżone operatory logiczne i, w przypadku konieczności ich wyszukania, 
+      muszą być umieszczone w cudzysłowie.
+    [% END %]
+
+  [% ELSIF error == "quicksearch_unbalanced_quotes" %]
+    [% title = "Nieprawidłowa składnia wyszukiwania" %]
+    [% terms.Bugzilla %] nie może wykonać wyszukiwania:
+    <em>[% string FILTER html %]</em>.<br>
+    W przypadku korzystania ze znaków cudzysłowu podczas wyszukiwania należy upewnić się, że cudzysłowowi
+    otwierającemu towarzyszy cudzysłów zamykający.
+    W przypadku wyszukiwania znaku cudzysłowu należy wprowadzić \" zamiast ",
+    np. <em>"Jest \"cudnie\""</em> (ze znakami cudzysłowu) 
+    zostanie zinterpretowane jako <em>Jest "cudnie"</em>.
 
   [% ELSIF error == "quicksearch_unknown_field" %]
     [% title = "Nieznane pole szybkiego wyszukiwania" %]
