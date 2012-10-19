@@ -17,6 +17,7 @@
       <base href="[% urlbase FILTER html %]" />
     </head>
     <body>
+      [% Hook.process('start') %]
       [% PROCESS generate_diffs %]
       <p>
       [% FOREACH comment = new_comments.reverse %]
