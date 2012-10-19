@@ -54,6 +54,7 @@ function toggle_display(link) {
 
   [% count = 0 %]
   [% obsolete_attachments = 0 %]
+  [% user_cache = template_cache.users %]
 
   [% FOREACH attachment = attachments %]
     [% count = count + 1 %]
@@ -92,7 +93,14 @@ function toggle_display(link) {
                title="Przejdź do komentarza powiązanego z załącznikiem">
               [%- attachment.attached FILTER time %]</a>,
 
-            [% INCLUDE global/user.html.tmpl who = attachment.attacher %]
+            [%# No need to recreate the exact same template if we already have it. %]
+            [% attacher_id = attachment.attacher.id %]
+            [% UNLESS user_cache.$attacher_id %]
+              [% user_cache.$attacher_id = BLOCK %]
+                [% INCLUDE global/user.html.tmpl who = attachment.attacher %]
+              [% END %]
+            [% END %]
+            [% user_cache.$attacher_id FILTER none %]
           </span>
         </td>
 
