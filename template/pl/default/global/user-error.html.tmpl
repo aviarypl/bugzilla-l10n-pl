@@ -1170,7 +1170,7 @@
     [% title = "Brak wyszukiwania" %]
     [% docslinks = {'query.html' => "Wyszukiwanie $terms.bledow",
                     'query.html#list'  => "Listy $terms.bledow"} %]
-    Wyszukiwanie o nazwie <em>[% queryname FILTER html %]</em>
+    Wyszukiwanie o nazwie <em>[% name FILTER html %]</em>
     [% IF sharer_id && sharer_id != user.id %]
       nie jest dla ciebie udostępnione.
     [% ELSE %]
