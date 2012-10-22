@@ -34,7 +34,13 @@
 
 
 [% js_data = BLOCK %]
-var queryform = "queryform"
+var queryform = "queryform";
+function remove_token() {
+  if (queryform.token) {
+    var asDefault = document.getElementById('remasdefault');
+    queryform.token.disabled = !asDefault.checked;
+  }
+}
 [% END %]
 
 [% PROCESS global/header.html.tmpl
@@ -56,7 +62,8 @@ var queryform = "queryform"
 
 <p id="search_help">By uzyskać pomoc, umieść kursor nad elementem strony.</p>
 
-<form method="post" action="buglist.cgi" name="queryform" id="queryform">
+<form method="post" action="buglist.cgi" name="queryform" id="queryform"
+      onsubmit="remove_token()">
 
 [% PROCESS search/form.html.tmpl %]
 
