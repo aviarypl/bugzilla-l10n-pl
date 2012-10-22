@@ -117,6 +117,7 @@
       Jeśli masz konto, ale nie pamiętasz hasła, poniżej podaj swój login
       i wyślij prośbę o zmianę hasła.<br>
       <input size="35" name="loginname">
+      <input type="hidden" id="token" name="token" value="[% issue_hash_token(['reqpw']) FILTER html %]">
       <input type="submit" id="request" value="Resetuj hasło">
     </form>
   [% END %]
