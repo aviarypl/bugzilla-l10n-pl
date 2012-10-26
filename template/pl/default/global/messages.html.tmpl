@@ -848,17 +848,6 @@
       Ciasteczko przechowujące informacje logowania zostało usunięte.
     [% END %]
 
-  [% ELSIF message_tag == "tag_updated" %]
-    [% title = "Etykieta zaktualizowana" %]
-    Etykieta „<a href="buglist.cgi?tag=[% tag FILTER uri %]">[% tag FILTER html %]</a>” została
-    [% IF action == "add" %]
-      dodana do
-    [% ELSE %]
-      usunięta z
-    [% END %]
-    [%+ buglist.size > 1 ? terms.bledow : terms.bledu %]
-    [%+ buglist.join(", ") FILTER html %].
-
   [% ELSIF message_tag == "term" %]
     [% terms.$term FILTER html %]
 
