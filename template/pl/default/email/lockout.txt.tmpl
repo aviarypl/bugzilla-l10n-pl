@@ -11,10 +11,10 @@
 
 From: [% Param('mailfrom') %]
 To: [% Param('maintainer') %]
-Subject: [[% terms.Bugzilla %]] – odmowa dostępu do konta: [% locked_user.login %] ([% attempts.0.ip_addr %])
+Subject: [[% terms.Bugzilla %]] – odmowa dostępu do konta: [% locked_user.login %] ([% address %])
 X-Bugzilla-Type: admin
 
-Ten adres IP [% attempts.0.ip_addr %] został zablokowany z powodu zbyt dużej liczby prób logowania ([%- constants.MAX_LOGIN_ATTEMPTS +%]) na konto [% locked_user.login %]. 
+Ten adres IP [% address %] został zablokowany z powodu zbyt dużej liczby prób logowania ([%- constants.MAX_LOGIN_ATTEMPTS +%]) na konto [% locked_user.login %]. 
 
 Liczba prób logowania:
 
