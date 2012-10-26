@@ -91,6 +91,14 @@
     <p>
       Jeśli nie masz konta w [% terms.Bugzilli %], możesz je
       <a href="createaccount.cgi">założyć</a>.
+      [% IF Param("requirelogin") %]
+        A user account is required because this [% terms.Bugzilla %]
+        installation is only accessible to authenticated users.
+      [% ELSIF target.match("_bug\.cgi$") %]
+        A user account is required to file a new [% terms.bug %] or to comment
+        into existing ones so that you can be contacted if more information is
+        needed.
+      [% END %]
     </p>
   [% END %]
 

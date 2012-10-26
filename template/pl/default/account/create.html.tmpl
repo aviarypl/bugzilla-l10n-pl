@@ -39,11 +39,20 @@
   <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
 </p>
 
+<p>
+  A user account is required to report new [% terms.bugs %] or to comment into
+  existing ones, as you may be contacted for more information if needed.
+  This also lets other users clearly identify who is the author of comments
+  or changes made into [% terms.bugs %]. <b>Note that your email address will
+  <u>never</u> be displayed to logged out users. Only registered users will be
+  able to see it.</b>
+</p>
+
 [% IF Param('createemailregexp') == '.*' && Param('emailsuffix') == '' %]
 <p>
   [% terms.Bugzilla %] jest otwartym systemem śledzenia [% terms.bledow %].
   Wszelkie treści publikowane w związku z [% terms.bledami %], włącznie z adresami e-mail,
-  będą ogólnie dostępne. By zapobiec otrzymywaniu niechcianych wiadomości, <b>zalecamy</b> użycie
+  będą dostępne dla zarejestrowanych użytkowników. By zapobiec otrzymywaniu niechcianych wiadomości, <b>zalecamy</b> użycie
   drugorzędnego konta lub konta utworzonego w jednym z serwisów sieciowych, takich jak
   Gmail, Yahoo, Hotmail lub podobne serwisy.
 </p>
