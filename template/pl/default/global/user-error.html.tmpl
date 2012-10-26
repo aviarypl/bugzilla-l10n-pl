@@ -243,7 +243,9 @@
       Adresy URL muszą zaczynać się od „http” lub „https”.
     [% ELSIF reason == 'path_only' %]
       Należy podać pełny adres URL.
-    [% ELSIF reason == 'show_bug' %]
+    [% ELSIF reason == 'id' %]
+      Pod tym adresem URL nie ma [% terms.bledu %] o takim numerze.
+    [% ELSE %]
       Adres URL [% terms.bledu %] powinien wskazywać na:
       <ul>
         <li>plik <code>show_bug.cgi</code>
@@ -258,8 +260,6 @@
         <li>zgłoszenie zamieszczone w serwisie github.com.</li>
         [% Hook.process('bug_url_invalid_tracker') %]
       </ul>
-    [% ELSIF reason == 'id' %]
-      Pod tym adresem URL nie ma [% terms.bledu %] o takim numerze.
     [% END %]
 
   [% ELSIF error == "bug_url_too_long" %]
