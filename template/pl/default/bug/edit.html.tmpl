@@ -185,13 +185,11 @@
       <table id="summary"> 
           <tr>
           [% IF bug.check_can_change_field('alias', 0, 1) %]
+            [% INCLUDE "bug/field-label.html.tmpl"
+               field = bug_fields.alias
+               editable = 1
+            %]
             <td>
-              <label 
-                for="alias" 
-                title="Nazwa
-                       [%+ terms.bledu %], która może być używana zamiast jego numeru 
-                       [%%] np. podczas dodawania do listy zależności"
-                >Alias</label>:</td><td>
           [% ELSIF bug.alias %]
             <td colspan="2">(
           [% ELSE %]
@@ -207,9 +205,11 @@
         </tr>
         [%# *** Summary *** %]
         <tr>
-          <td>
-            <label accesskey="k" for="short_desc"><u>K</u>rótki opis</label>:
-          </td>
+          [% INCLUDE "bug/field-label.html.tmpl"
+            field = bug_fields.short_desc
+            editable = 1
+            accesskey = "k"
+          %]
           <td>
             [% PROCESS input inputname => "short_desc" size => "80" colspan => 2
                              maxlength => 255 spellcheck => "true" no_td => 1 %]
