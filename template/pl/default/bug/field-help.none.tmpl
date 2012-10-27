@@ -213,13 +213,17 @@ email1 =>
 
   [%# Add help for custom fields. %]
   [% IF !vars.help_html.${help_field}.defined %]
-    [% SET field_type = bug_fields.${help_field}.type %]
-    [% field_type_desc = BLOCK -%]
-      [% field_types.$field_type FILTER html %]
-    [%- END %]
-    [% vars.help_html.${help_field} = 
-      "Pole dodatkowe $field_type_desc dostępne w tej instalacji"
-      _ " ${terms.Bugzilli}." %]
+    [% IF bug_fields.${help_field}.long_desc %]
+      [% vars.help_html.${help_field} = bug_fields.${help_field}.long_desc %]
+    [% ELSE %]
+      [% SET field_type = bug_fields.${help_field}.type %]
+      [% field_type_desc = BLOCK -%]
+        [% field_types.$field_type FILTER html %]
+      [%- END %]
+      [% vars.help_html.${help_field} =
+        "Pole dodatkowe $field_type_desc dostępne w tej instalacji"
+        _ " ${terms.Bugzilli}." %]
+    [% END %]
   [% END %]
 
   [%# Add help for the search types, for query.cgi. %]
