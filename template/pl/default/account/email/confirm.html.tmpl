@@ -17,7 +17,7 @@
 [% PROCESS global/header.html.tmpl %]
 
 <p>
-  Aby zmienić adres e-mail, należy podać poprzedni adres:
+  Aby zmienić adres e-mail, należy podać hasło:
 </p>
 
 <form method="post" action="token.cgi">
@@ -25,8 +25,8 @@
   <input type="hidden" name="a" value="chgem">
   <table>
     <tr>
-      <th align="right">Poprzedni adres e-mail:</th>
-      <td><input type="text" name="email" size="36"></td>
+      <th align="right">Hasło:</th>
+      <td><input type="password" name="password" size="36"></td>
     </tr>
     <tr>
       <th align="right">&nbsp;</th>
