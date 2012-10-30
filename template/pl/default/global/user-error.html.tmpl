@@ -431,10 +431,6 @@
     [% title = "Zmiana adresu w toku" %]
     Zmiana adresu e-mail w toku. Proszę sprawdzić swoją pocztę.
 
-  [% ELSIF error == "email_confirmation_failed" %]
-    [% title = "Nieudane potwierdzenie adresu e-mail" %]
-    Nie udało się potwierdzić adresu e-mail.
-
   [% ELSIF error == "email_no_text_plain" %]
     Wiadomość nie zawierała żadnego tekstu. [% terms.Bugzilla %] nie
     obsługuje poczty w formacie HTML i poczty HTML z załącznikami.
