@@ -82,11 +82,27 @@
     [% END %] 
   </h3>
   [% IF ids.size %]
-    ([% IF maxdepth -%]Do głębokości [% maxdepth %] [%+ (maxdepth > 1) ? "poziomów" : "poziomu" %] | [% END -%]
-    <a href="buglist.cgi?bug_id=[% ids.join(",") %]">wyświetl jako listę [% terms.bledow %] </a>
-    [% IF user.in_group('editbugs') && ids.size > 1 %]
-      | <a href="buglist.cgi?bug_id=[% ids.join(",") %]&amp;tweak=1">zmień kilka jednocześnie</a>
-    [% END %])
+    [%# 27 chars is the length of buglist.cgi?tweak=&bug_id=" %]
+    [% use_post = (ids.join(",").length > constants.CGI_URI_LIMIT - 27 ) ? 1 : 0 %]
+    [% IF use_post %]
+      <form action="buglist.cgi" method="post">
+      <input type="hidden" name="bug_id" value="[% ids.join(",") %]">
+    [% END %]
+
+    [% IF maxdepth -%]Do głębokości [% maxdepth %] [%+ (maxdepth > 1) ? "poziomów" : "poziomu" %] | [% END -%]
+    [% IF use_post %]
+      <button>wyświetl jako listę [% terms.bledow %]</button>
+      [% IF user.in_group('editbugs') && ids.size > 1 %]
+        | <button type="submit" name="tweak" value="1">zmień kilka jednocześnie</button>
+      [% END %]
+      </form>
+    [% ELSE %]
+      <a href="buglist.cgi?bug_id=[% ids.join(",") %]">wyświetl jako listę [% terms.bledow %]</a>
+      [% IF user.in_group('editbugs') && ids.size > 1 %]
+        | <a href="buglist.cgi?bug_id=[% ids.join(",") %]&amp;tweak=1">zmień kilka jednocześnie</a>
+      [% END %]
+    [% END %]
+
     <ul class="tree">
       [% INCLUDE display_tree tree=$tree_name %]
     </ul>
