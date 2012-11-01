@@ -63,7 +63,7 @@
             [%+ attachment.datasize FILTER unitconvert %]
           [% ELSE %]
             <em>usunięty</em>
-          [% END %], utworzony przez [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %]
+          [% END %], utworzony [%+ attachment.attached FILTER time %] przez [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %]
           [% IF attachment.isprivate %]. 
             <span class="bz_private">Widoczny tylko dla członków grupy <strong>[% Param('insidergroup') FILTER html %]</strong>.</span>
           [% END %]
@@ -103,6 +103,11 @@
           <div id="attachment_creator">
             <span class="label">Twórca:</span>
             [%+ INCLUDE global/user.html.tmpl who = attachment.attacher %]
+          </div>
+
+          <div id="attachment_created">
+            <span class="label">Utworzony:</span>
+            [%+ attachment.attached FILTER time %]
           </div>
 
           <div id="attachment_size">
