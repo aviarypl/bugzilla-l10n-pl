@@ -65,7 +65,8 @@
         
 [% IF userdefaultquery %]
   <p>
-    <a href="query.cgi?nukedefaultquery=1">
+    <a href="query.cgi?nukedefaultquery=1&amp;token=
+       [%- issue_hash_token(['nukedefaultquery']) FILTER uri %]">
       Przywróć ustawienia domyślnego wyszukiwania systemowego</a>
   </p>
 [% END %]
