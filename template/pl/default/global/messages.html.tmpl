@@ -44,9 +44,9 @@
             [% ELSIF field == 'cryptpassword' %]
               Nowe hasło zostało ustanowione.
             [% ELSIF field == 'disabledtext' %]
-              Wyjaśnienie powodu wyłączenia konta zostało zmodyfikowane.
+              Wyjaśnienie powodu wyłączenia możliwości zalogowania się zostało zmodyfikowane.
             [% ELSIF field == 'is_enabled' %]
-              Konto zostało [% otheruser.is_enabled ? 'włączone' : 'wyłączone' %].
+              Możliwość zalogowania się dla tego konta została [% otheruser.is_enabled ? 'włączona' : 'wyłączona' %].
             [% ELSIF field == 'extern_id' %]
               Nazwa użytkownika w zewnętrznym systemie uwierzytelniania została zmodyfikowana.
             [% ELSIF field == 'disable_mail' %]
@@ -94,7 +94,7 @@
     Konto [% otheruser.login FILTER html %] zostało usunięte.
 
   [% ELSIF message_tag == "account_disabled" %]
-    Konto [% account FILTER html %] jest wyłączone.
+    Możliwość zalogowania się dla konta [% account FILTER html %] jest wyłączona.
     Nie można zmienić jego hasła.
 
   [% ELSIF message_tag == "attachment_creation_failed" %]
