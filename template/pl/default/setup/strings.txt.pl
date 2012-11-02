@@ -105,6 +105,7 @@ END
     feature_updates           => 'Automatyczne powiadomienia o aktualizacji',
     feature_xmlrpc            => 'Interfejs XML-RPC',
     feature_detect_charset    => 'Automatyczne wykrywanie strony kodowej zalacznikow tekstowych',
+    feature_typesniffer       => 'Automatyczne wykrywanie typu MIME zalacznikow',
 
     file_remove => 'Usuwanie ##name##...',
     file_rename => 'Zmienianie nazwy ##from## na ##to##…',
