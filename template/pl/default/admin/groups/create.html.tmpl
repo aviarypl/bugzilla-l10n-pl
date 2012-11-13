@@ -77,11 +77,17 @@ każdemu, kogo adres e-mail pasuje do tego wyrażenia.</p>
   komentarzach do [% terms.bledow %] obok nazwy autora komentarza.
 </p>
 
-<p>Domyślnie nowa grupa będzie skojarzona z istniejącymi 
-produktami. Odznaczając funkcję „Dodaj grupę dla wszystkich 
-istniejących produktów”, można temu zapobiec i grupa będzie 
-widoczna jedynie, gdy zostanie dodana do produktu.</p>
-
+[% IF Param("makeproductgroups") %]
+  <p>Domyślnie nowa grupa będzie skojarzona z istniejącymi 
+  produktami. Odznaczając funkcję „Dodaj grupę do wszystkich 
+  istniejących produktów”, można temu zapobiec i grupa będzie 
+  widoczna jedynie, gdy zostanie dodana do produktu.</p>
+[% ELSE %]
+  <p>Po zaznaczeniu funkcji „Dodaj grupę do wszystkich 
+  istniejących produktów” nowa grupa będzie skojarzona z istniejącymi 
+  produktami. Pozostawiając tę funkcję odznaczoną można temu zapobiec i grupa będzie 
+  widoczna jedynie, gdy zostanie dodana do produktu.</p>
+[% END %]
 <p><a href="./">Strona główna [% terms.bledow %]</a>&nbsp;&nbsp;
 
 <a href="editgroups.cgi">Lista grup</a></p>
