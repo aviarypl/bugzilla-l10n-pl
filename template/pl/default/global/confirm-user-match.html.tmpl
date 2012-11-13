@@ -197,7 +197,7 @@
   [% ELSIF field_labels.$field_name %]
     [% field_labels.$field_name FILTER html %]
   [% ELSIF field_name.match("^requestee") %]
-    Poproszono o ustawienie flagi <code>[% fields.${field_name}.flag_type.name %]</code>
+    Poproszono o ustawienie flagi <code>[% fields.${field_name}.flag_type.name FILTER html %]</code>
   [% ELSE %]
     [% field_name FILTER html %]
   [% END %]
