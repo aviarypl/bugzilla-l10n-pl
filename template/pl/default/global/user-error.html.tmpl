@@ -1474,6 +1474,14 @@
     Aby przepisać [% terms.blad %], należy podać adres nowej osoby 
     odpowiedzialnej za rozwiązanie [% terms.bledu %].
 
+  [% ELSIF error == "report_name_missing" %]
+    [% title = "No Report Name Specified" %]
+    You must enter a name for your report.
+
+  [% ELSIF error == "report_access_denied" %]
+    [% title = "Report Access Denied" %]
+    You cannot access this report.
+
   [% ELSIF error == "require_component" %]
     [% title = "Wymagany komponent" %]
     Aby zgłosić ten [% terms.blad %], należy najpierw wybrać komponent.
