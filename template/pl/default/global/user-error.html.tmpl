@@ -79,7 +79,11 @@
 
   [% ELSIF error == "alias_in_use" %]
     [% title = "Alias jest już używany" %]
-    [% terms.Blad %] [%+ bug_id FILTER bug_link(bug_id) FILTER none %]
+    [% IF user.can_see_bug(bug_id) %]
+      [% terms.Blad %] [%+ bug_id FILTER bug_link(bug_id) FILTER none %]
+    [% ELSE %]
+      Inny [% terms.blad %]
+    [% END %]
     używa już nazwy <em>[% alias FILTER html %]</em> jako aliasu.
     Proszę wybrać inną nazwę.
 
