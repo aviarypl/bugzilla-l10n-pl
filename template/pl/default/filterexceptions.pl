@@ -107,7 +107,6 @@
   'other_format.name', 
   'sizeurl', 
   'switchbase',
-  'format',
   'cumulate',
 ],
 

@@ -172,7 +172,7 @@
       <a href="query.cgi?[% switchbase %]&amp;format=report-table">Modyfikuj raport</a>
     [% ELSE %]
       <a href="query.cgi?[% switchbase %]&amp;chart_format=
-        [% format %]&amp;format=report-graph&amp;cumulate=[% cumulate %]">
+        [% format FILTER uri %]&amp;format=report-graph&amp;cumulate=[% cumulate %]">
         Modyfikuj raport
       </a>
     [% END %]
