@@ -245,8 +245,7 @@
     w [% constants.bz_locations.localconfig FILTER html %].
 
   [% ELSIF error == "mismatched_bug_ids_on_obsolete" %]
-    Załącznik [% attach_id FILTER html %] ([% description FILTER html %]) 
-    jest dołączony do [% terms.bledu %] [%+ attach_bug_id FILTER html %], 
+    Załącznik [% attach_id FILTER html %] jest dołączony do innego [% terms.bledu %], 
     lecz próbowano oznaczyć go jako zdezaktualizowany podczas dodawania nowego załącznika do
     [% terms.bledu %] [%+ my_bug_id FILTER html %].
 
