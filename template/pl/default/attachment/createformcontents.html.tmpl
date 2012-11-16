@@ -9,6 +9,8 @@
   # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
+[% max_local = Param('maxlocalattachment') * 1024 %]
+[% max_limit = Param('maxattachmentsize')> max_local ? Param('maxattachmentsize') : max_local %]
 <tr class="attachment_data">
   <th><label for="data">Plik</label>:</th>
   <td>
@@ -17,6 +19,7 @@
                                              javascript:TUI_toggle_class('attachment_data')"
     >wklej tekst jako załącznik</a>).<br>
     <input type="file" id="data" name="data" size="50" onchange="DataFieldHandler()">
+    <br><em>(Maksymalny rozmiar załączników: [% max_limit FILTER html %] KB)</em>
   </td>
 </tr>
 <tr class="attachment_text_field">
