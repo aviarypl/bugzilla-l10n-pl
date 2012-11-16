@@ -576,8 +576,8 @@
   [% ELSIF error == "fieldvalue_sortkey_invalid" %]
     [% title = "Nieprawidłowy klucz sortowanie pola" %]
     Klucz sortowania „[% sortkey FILTER html %]” dla
-    pola [% field.description FILTER html %] nie jest poprawną
-    (dodatnią) liczbą.
+    pola [% field.description FILTER html %] być liczbą 
+    z przedziału 0-[% constants.MAX_SMALLINT FILTER none %].
 
   [% ELSIF error == "fieldvalue_still_has_bugs" %]
     [% title = "Nie można usunąć tej wartości pola" %]
