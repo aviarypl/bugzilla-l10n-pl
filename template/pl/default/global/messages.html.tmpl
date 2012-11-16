@@ -202,7 +202,7 @@
         <li>Domyślna osoba odpowiedzialna została zmieniona na „[% comp.default_assignee.login FILTER html %]”</li>
       [% END %]
       [% IF changes.initialqacontact.defined %]
-        [% IF comp.default_qa_contact.id %]
+        [% IF comp.default_qa_contact %]
           <li>Domyślny specjalista QA został zmieniony na „[% comp.default_qa_contact.login FILTER html %]”</li>
         [% ELSE %]
           <li>Domyślny specjalista QA został usunięty</li>
