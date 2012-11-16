@@ -1811,7 +1811,7 @@
                   
     [% FOREACH q = Bugzilla.user.queries %]
       [% IF q.name == namedcmd %]
-        lub <a href="query.cgi?[% q.url FILTER uri %]">dokonać modyfikacji</a>
+        lub <a href="query.cgi?[% q.url FILTER html %]">dokonać modyfikacji</a>
       [% END %]
     [% END %]
     
