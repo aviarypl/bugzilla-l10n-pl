@@ -264,9 +264,9 @@
       %]
     </tr>
     <tr>
-      <td class="field_label">
-        <label for="version"><b>Wersja</b></label>:
-      </td>
+      <th class="field_label">
+        <label for="version">Wersja</label>:
+      </th>
 
       [% PROCESS select selname => "version" %]
     </tr>
@@ -274,9 +274,9 @@
     [%# PLATFORM #%]
     [%############%]    
     <tr>
-      <td class="field_label">
-        <label for="rep_platform" accesskey="h"><b>Platforma</b></label>:
-      </td>
+      <th class="field_label">
+        <label for="rep_platform" accesskey="h">Platforma</label>:
+      </th>
       <td class="field_value">
        [% INCLUDE bug/field.html.tmpl
             bug = bug, field = bug_fields.rep_platform,
@@ -302,9 +302,9 @@
 
 [% BLOCK section_status %]
   <tr>
-    <td class="field_label">
-      <b><a href="page.cgi?id=fields.html#status">Status</a></b>:
-    </td>
+    <th class="field_label">
+      <a href="page.cgi?id=fields.html#status">Status</a>:
+    </th>
     <td id="bz_field_status">
       <span id="static_bug_status">
         [% display_value("bug_status", bug.bug_status) FILTER html %]
@@ -333,10 +333,10 @@
  [%# Importance (priority and severity) #%]
  [%###############################################################%]
     <tr>
-      <td class="field_label">
+      <th class="field_label">
         <label for="priority" accesskey="w">
-          <b><a href="page.cgi?id=fields.html#importance"><u>W</u>ażność</a></b></label>:
-      </td>
+          <a href="page.cgi?id=fields.html#importance"><u>W</u>ażność</a></label>:
+      </th>
       <td>
        [% INCLUDE bug/field.html.tmpl
             bug = bug, field = bug_fields.priority,
@@ -352,11 +352,11 @@
 
     [% IF Param("usetargetmilestone") && bug.target_milestone %]
       <tr>
-        <td class="field_label">
+        <th class="field_label">
           <label for="target_milestone">
               <a href="page.cgi?id=fields.html#target_milestone">
             Wersja&nbsp;docelowa</a></label>:
-        </td>
+        </th>
         [% PROCESS select selname = "target_milestone" %]
       </tr>
     [% END %]
@@ -370,9 +370,9 @@
 [% BLOCK section_people %]
 
     <tr>
-      <td class="field_label">
-        <b><a href="page.cgi?id=fields.html#assigned_to">Przypisany do</a></b>:
-      </td>
+      <th class="field_label">
+        <a href="page.cgi?id=fields.html#assigned_to">Przypisany do</a>:
+      </th>
       <td>
         [% IF bug.check_can_change_field("assigned_to", 0, 1) %]
           <div id="bz_assignee_edit_container" class="bz_default_hidden">
@@ -419,9 +419,9 @@
 
     [% IF Param('useqacontact') %]
     <tr>
-      <td class="field_label">
-        <label for="qa_contact" accesskey="q"><b>Specjalista <u>Q</u>A</b></label>:
-      </td>
+      <th class="field_label">
+        <label for="qa_contact" accesskey="q">Specjalista <u>Q</u>A</label>:
+      </th>
       <td>
         [% IF bug.check_can_change_field("qa_contact", 0, 1) %]
           <div id="bz_qa_contact_edit_container" class="bz_default_hidden">
@@ -514,19 +514,19 @@
   
   [% IF Param('usestatuswhiteboard') %]
     <tr>
-      <td class="field_label">
-        <label for="status_whiteboard" accesskey="t"><b><u>T</u>ablica</b></label>:
-      </td>
+      <th class="field_label">
+        <label for="status_whiteboard" accesskey="t"><u>T</u>ablica</label>:
+      </th>
       [% PROCESS input inputname => "status_whiteboard" size => "40" colspan => 2 %]
     </tr>
   [% END %]
   
   [% IF use_keywords %]
     <tr>
-      <td class="field_label">
+      <th class="field_label">
         <label for="keywords" accesskey="s">
-          <b><a href="describekeywords.cgi"><u>S</u>łowa kluczowe</a></b></label>:
-      </td>
+          <a href="describekeywords.cgi"><u>S</u>łowa kluczowe</a></label>:
+      </th>
       <td class="field_value" colspan="2">
         [% INCLUDE bug/field.html.tmpl
            bug = bug, field = bug_fields.keywords, value = bug.keywords
@@ -554,9 +554,9 @@
 [% BLOCK section_duplicates %]
   [% RETURN UNLESS bug.duplicates.size %]
   <tr>
-    <td class="field_label">
+    <th class="field_label">
       <label for="duplicates">Duplicates</label>:
-    </td>
+    </th>
     <td class="field_value" colspan="2">
       <span id="duplicates">
         [% FOREACH dupe = bug.duplicates %]
@@ -698,18 +698,18 @@
 
 [% BLOCK section_dates %]
   <tr>
-    <td class="field_label">
-      <b>Zgłoszony</b>:
-    </td>
+    <th class="field_label">
+      Zgłoszony:
+    </th>
     <td>
      [% bug.creation_ts FILTER time %] przez [% INCLUDE global/user.html.tmpl who = bug.reporter %]
     </td>
   </tr>
   
   <tr>
-    <td class="field_label">
-      <b> Modyfikowany</b>:
-    </td>
+    <th class="field_label">
+      Modyfikowany:
+    </th>
     <td>
       [% bug.delta_ts FILTER time FILTER replace(':\d\d$', '') FILTER replace(':\d\d ', ' ')%] 
       (<a href="show_activity.cgi?id=[% bug.bug_id %]">historia</a>)
@@ -723,9 +723,9 @@
 [%############################################################################%]
 [% BLOCK section_cclist %]
     <tr>
-      <td class="field_label">
-        <label for="newcc" accesskey="o"><b><u>O</u>bserwatorzy</b>:</label>
-      </td>
+      <th class="field_label">
+        <label for="newcc" accesskey="o"><u>O</u>bserwatorzy:</label>
+      </th>
       <td>
         [% IF user.id %]
           [% IF NOT bug.cc || NOT bug.cc.contains(user.login) %]
@@ -845,9 +845,9 @@
   [% END %]
   [% IF show_bug_flags %]
     <tr>
-      <td class="field_label flags_label">
-        <label><b>Flagi:</b></label>
-      </td>
+      <th class="field_label flags_label">
+        <label>Flagi:</label>
+      </th>
       <td></td>
     </tr>
     <tr>
@@ -1067,9 +1067,9 @@
         <table id="bug_status_bottom"
                class="status" cellspacing="0" cellpadding="0">
           <tr>
-            <td class="field_label">
-              <b><a href="page.cgi?id=fields.html#status">Status</a></b>:
-            </td>
+            <th class="field_label">
+              <a href="page.cgi?id=fields.html#status">Status</a>:
+            </th>
             <td>
               [% PROCESS bug/knob.html.tmpl %]
             </td>
