@@ -17,9 +17,11 @@
 <html>
   <head>
     <title>[% terms.Bugzilla %] przetwarza wyszukiwanie</title>
+    <link href="[% 'skins/standard/global.css' FILTER mtime %]"
+          rel="stylesheet" type="text/css">
   </head>
   <body>
-    <h1 style="margin-top: 20%; text-align: center;">Proszę czekać…</h1>
+    <h1 style="margin-top: 20%; text-align: center; font-size: xx-large;">Proszę czekać…</h1>
 
     [% IF debug %]
       <p>[% query FILTER html %]</p>
