@@ -226,6 +226,11 @@
     [% title = "Usunięty załącznik" %]
     Żądany załącznik został usunięty.
 
+  [% ELSIF error == "bad_page_cgi_id" %]
+    [% title = "Nieprawidłowy identyfikator strony" %]
+    Identyfikator strony <code>[% page_id FILTER html %]</code> nie jest
+    prawidłowym identyfikatorem.
+
   [% ELSIF error == "bug_access_denied" %]
     [% title = "Brak dostępu" %]
     [% admindocslinks = {'groups.html' => 'Grupy zabezpieczeń'} %]
@@ -457,9 +462,23 @@
   [% ELSIF error == "extension_create_no_name" %]
     Musisz określić nazwę rozszerzenia jako argument do tego skryptu.
 
+  [% ELSIF error == "extension_disabled" %]
+    [% title = "Rozszerzenie jest wyłączone" %]
+    Brak dostępu do żądanej strony, ponieważ rozszerzenie „[% name FILTER html %]”
+    jest wyłączone.
+
   [% ELSIF error == "extension_first_letter_caps" %]
     Nazwa rozszerzenia musi zaczynać się dużą literą.
     (Podano „[% name FILTER html %]”.)
+
+  [% ELSIF error == "feature_disabled" %]
+    Funkcja [% install_string("feature_$feature") FILTER html %] jest
+    niedostępna w tej instalacji [% terms.Bugzilli %]. 
+    [% IF user.in_group('admin') %]
+      Jeśli chcesz włączyć tę funkcję, uruchom skrypt 
+      <kbd>checksetup.pl</kbd>, by zobaczyć, jak zainstalować niezbędne
+      dla tej funkcji elementy.
+    [% END %]
 
   [% ELSIF error == "field_already_exists" %]
     [% title = "Pole już istnieje" %]
@@ -611,6 +630,11 @@
     tego [% terms.bledu %].
     <br>Jeśli załącznik jest obrazkiem, należy skonwertować go do formatu
     JPG lub PNG i spróbować ponownie.
+
+  [% ELSIF error == "flag_requestee_disabled" %]
+    [% title = "Flaga, o którą nie można poprosić" %]
+    Nie można prosić określonej osoby o ustawienie flagi 
+    <em>[% type.name FILTER html %]</em>.
 
   [% ELSIF error == "flag_requestee_needs_privs" %]
     [% title = "Brak uprawnień" %]
@@ -935,6 +959,10 @@
     Nieprawidłowe zestawy danych <em>[% datasets.join(":") FILTER html %]</em>. Dozwolone są tylko
     cyfry, litery i dwukropki.
 
+  [% ELSIF error == "invalid_dimensions" %]
+    [% title = "Nieprawidłowe wymiary" %]
+    Podana wysokość lub szerokość nie jest poprawną dodatnią liczbą całkowitą.
+
   [% ELSIF error == "invalid_format" %]
     [% title = "Nieprawidłowy format" %]
     Format „[% format FILTER html %]” jest nieprawidłowy. Musi być jednym z
@@ -950,6 +978,9 @@
   [% ELSIF error == "invalid_group_name" %]
     [% title = "Nieprawidłowa nazwa grupy" %]
     Podana grupa „[% name FILTER html %]” nie jest prawidłowa.
+
+  [% ELSIF error == "invalid_keyword_id" %]
+    Nie znaleziono identyfikatora słowa kluczowego <em>[% id FILTER html %]</em>.
 
   [% ELSIF error == "invalid_maxrows" %]
     [% title = "Nieprawidłowa wartość „Maksymalna liczba wierszy”" %]
@@ -967,6 +998,16 @@
   [% ELSIF error == "invalid_regexp" %]
     [% title = "Nieprawidłowe wyrażenie regularne" %]
     Podane wyrażenie regularne nie jest prawidłowe.
+
+  [% ELSIF error == "invalid_user" %]
+    [% title = "Nieprawidłowy użytkownik" %]
+    Brak konta użytkownika
+    [% IF user_id %]
+      z ID <em>[% user_id FILTER html %]</em>.
+    [% ELSIF user_login %]
+      o nazwie <em>[% user_login FILTER html %]</em>.
+    [% ELSE %]
+    [% END %]
 
   [% ELSIF error == "invalid_user_group" %]
     [% title = "Nieprawidłowa grupa użytkowników" %]
@@ -1105,11 +1146,20 @@
     [% title = "Nieprawidłowe daty" %]
     Data początkowa ([% datefrom FILTER html %]) jest późniejsza
     niż końcowa ([% dateto FILTER html %]).
+
+  [% ELSIF error == "mismatched_bug_ids_on_obsolete" %]
+    Załącznik [% attach_id FILTER html %] ([% description FILTER html %]) 
+    jest dołączony do [% terms.bledu %] [%+ attach_bug_id FILTER html %], 
+    lecz próbowano oznaczyć go jako zdezaktualizowany podczas dodawania nowego załącznika do
+    [% terms.bledu %] [%+ my_bug_id FILTER html %].
     
   [% ELSIF error == "missing_attachment_description" %]
     [% title = "Brakujący opis załącznika" %]
     Należy podać opis załącznika.
-    
+  
+  [% ELSIF error == "missing_bug_id" %]
+    Nie podano identyfikatora [% terms.bledu %].
+ 
   [% ELSIF error == "missing_category" %]
     [% title = "Brakująca kategoria" %]
     Nie podano kategorii dla tej serii.
@@ -1135,12 +1185,6 @@
      ale twoja przeglądarka podczas przysyłania pliku nie określiła typu zawartości.
      Musisz podać typ zawartości ręcznie.
                 
-  [% ELSIF error == "missing_content_type_method" %]
-    [% title = "Brak metody pozwalającej określić typ zawartości" %]
-    Wybierz metodę, która pozwoli określić typ załącznika.
-    Można wybrać spośród: <em>wykryj automatycznie</em>, <em>wybierz z listy</em> lub
-    <em>wprowadź ręcznie</em>.
-        
   [% ELSIF error == "missing_cookie" %]
     [% title = "Brak ciasteczka" %]
     Przepraszamy, ale wydaje się, że straciliśmy ciasteczko, w którym zapisano wyniki
@@ -1172,6 +1216,9 @@
     [% ELSE %]
       nie istnieje.
     [% END %]
+
+  [% ELSIF error == "need_quipid" %]
+    Wymagany jest poprawny identyfikator sentencji.
 
   [% ELSIF error == "missing_resolution" %]
     [% title = "Rozwiązanie wymagane" %]
@@ -1483,6 +1530,13 @@
     [% title = "Nieprawidłowe przypisanie" %]
     Aby przepisać [% terms.blad %], należy podać adres nowej osoby 
     odpowiedzialnej za rozwiązanie [% terms.bledu %].
+
+  [% ELSIF error == "report_axis_invalid" %]
+    <em>[% val FILTER html %]</em> nie jest prawidłową wartością dla pola
+    [%+ IF    fld == "x" %]osi poziomej
+    [%+ ELSIF fld == "y" %]osi pionowej
+    [%+ ELSIF fld == "z" %]wielokrotnych tabel/obrazków
+    [%+ ELSE %]osi raportów[% END %].
 
   [% ELSIF error == "report_name_missing" %]
     [% title = "No Report Name Specified" %]

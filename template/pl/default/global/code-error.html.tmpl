@@ -44,11 +44,6 @@
     Wartość zwracana przez [% value FILTER html %] nie została obsłużona 
     przez procedurę logowania.
 
-  [% ELSIF error == "bad_page_cgi_id" %]
-    [% title = "Nieprawidłowy identyfikator strony" %]
-    Identyfikator strony <code>[% page_id FILTER html %]</code> nie jest
-    prawidłowym identyfikatorem.
-
   [% ELSIF error == "bad_arg" %]
     Do funkcji <code>[% function FILTER html %]</code> został wysłany
     nieprawidłowy argument <code>[% argument FILTER html %]</code>.
@@ -129,11 +124,6 @@
       środowiskowej, która zawiera adres e-mail użytkownika.
     [% END %]
 
-  [% ELSIF error == "extension_disabled" %]
-    [% title = "Rozszerzenie jest wyłączone" %]
-    Brak dostępu do żądanej strony, ponieważ rozszerzenie „[% name FILTER html %]”
-    jest wyłączone.
-
   [% ELSIF error == "extension_must_be_subclass" %]
     <code>[% package FILTER html %]</code> z 
     <code>[% filename FILTER html %]</code> nie jest subklasą
@@ -180,27 +170,12 @@
     [% title = "Nie określono typu pola" %]
     Podczas tworzenia pola dodatkowego należy określić jego typ.
 
-  [% ELSIF error == "illegal_content_type_method" %]
-    Formularz wysyłania z jakiegoś powodu jest uszkodzony. Pole <em>Typ
-    zawartości</em>, które określa sposób określenia typu zawartości, powinno być
-    jedną z wartości <em>wykryj automatycznie</em>, <em>wybierz z listy</em>,
-    lub <em>wprowadź ręcznie</em>. Obecna wartość pola to
-    <em>[% contenttypemethod FILTER html %]</em>.
-
   [% ELSIF error == "illegal_field" %]
     Wymagane pole [% field FILTER html %] nie zostało wypełnione.
 
-  [% ELSIF error == "invalid_attach_id_to_obsolete" %]
-     Numer [% attach_id FILTER html %], podany jako jeden z identyfikatorów
-     załączników do oznaczenia jako zdezaktualizowany, jest nieprawidłowy.
-          
   [% ELSIF error == "invalid_customfield_type" %]
     [% title = "Nieprawidłowy typ pola" %]
     Typ <em>[% type FILTER html %]</em> nie jest poprawnym typem pola.
-
-  [% ELSIF error == "invalid_dimensions" %]
-    [% title = "Nieprawidłowe wymiary" %]
-    Podana wysokość lub szerokość nie jest poprawną dodatnią liczbą całkowitą.
 
   [% ELSIF error == "invalid_feature" %]
     [% title = "Nieprawidłowa nazwa funkcji" %]
@@ -230,36 +205,15 @@
     Brak grupy: [% group FILTER html %]. Proszę sprawdzić ustawienie $webservergroup
     w [% constants.bz_locations.localconfig FILTER html %].
 
-  [% ELSIF error == "mismatched_bug_ids_on_obsolete" %]
-    Załącznik [% attach_id FILTER html %] ([% description FILTER html %]) 
-    jest dołączony do [% terms.bledu %] [%+ attach_bug_id FILTER html %], 
-    lecz próbowano oznaczyć go jako zdezaktualizowany podczas dodawania nowego załącznika do
-    [% terms.bledu %] [%+ my_bug_id FILTER html %].
-
-  [% ELSIF error == "feature_disabled" %]
-    Funkcja [% install_string("feature_$feature") FILTER html %] jest
-    niedostępna w tej instalacji [% terms.Bugzilli %]. 
-    [% IF user.in_group('admin') %]
-      Jeśli chcesz włączyć tę funkcję, uruchom skrypt 
-      <kbd>checksetup.pl</kbd>, by zobaczyć, jak zainstalować niezbędne
-      dla tej funkcji elementy.
-    [% END %]
-
   [% ELSIF error == "flag_unexpected_object" %]
     [% title = "Nie rozpoznano obiektu" %]
     Dla obiektów typu [% caller FILTER html %] nie można ustawiać flag.
     Flagi mogą być ustawiane tylko dla [% terms.bledow %] i załączników.
 
-  [% ELSIF error == "flag_requestee_disabled" %]
-    [% title = "Flaga, o którą nie można poprosić" %]
-    Nie można prosić określonej osoby o ustawienie flagi 
-    <em>[% type.name FILTER html %]</em>.
-  
   [% ELSIF error == "flag_type_inactive" %]
     [% title = "Nieaktywne flagi" %]
     Flaga [% type FILTER html %] jest nieaktywna i nie może być używana
     do tworzenia nowych flag.
-
 
   [% ELSIF error == "flag_type_target_type_invalid" %]
     Docelowy element nie był ani <em>[% terms.bledem %]</em>, ani <em>załącznikiem</em>,
@@ -267,19 +221,6 @@
   
   [% ELSIF error == "invalid_field_name" %]
     Nie można użyć [% field FILTER html %] jako nazwy pola.
-
-  [% ELSIF error == "invalid_keyword_id" %]
-    Nie znaleziono identyfikatora słowa kluczowego <em>[% id FILTER html %]</em>.
-
-  [% ELSIF error == "invalid_user" %]
-    [% title = "Nieprawidłowy użytkownik" %]
-    Brak konta użytkownika
-    [% IF user_id %]
-      z ID <em>[% user_id FILTER html %]</em>.
-    [% ELSIF user_login %]
-      o nazwie <em>[% user_login FILTER html %]</em>.
-    [% ELSE %]
-    [% END %]
 
   [% ELSIF error == "jobqueue_insert_failed" %]
    [% title = "Uszkodzenie kolejkowania zadań" %]
@@ -321,18 +262,12 @@
     do „[% mail.header('To') FILTER html %]”:
     [% msg FILTER html %]
 
-  [% ELSIF error == "missing_bug_id" %]
-    Nie podano identyfikatora [% terms.bledu %].
-    
   [% ELSIF error == "missing_series_id" %]
     Przy dodawaniu serii do bazy danych nie został zwrócony identyfikator serii.
     Seria: [% series.category FILTER html %] / 
     [%+ series.subcategory FILTER html %] / 
     [%+ series.name FILTER html %].
     
-  [% ELSIF error == "need_quipid" %]
-    Wymagany jest poprawny identyfikator sentencji.
-
   [% ELSIF error == "object_dep_sort_loop" %]
     Wykryto pętlę w VALIDATOR_DEPENDENCIES dotyczącą pól
     „[%+ field FILTER html %]”. Sprawdzono pola:
@@ -389,13 +324,6 @@
   [% ELSIF error == "radius_preparation_error" %]
     Wystąpił błąd podczas przygotowywania żądania uwierzytelniania do serwera RADIUS:
     <code>[% errstr FILTER html %]</code>.
-
-  [% ELSIF error == "report_axis_invalid" %]
-    <em>[% val FILTER html %]</em> nie jest prawidłową wartością dla pola
-    [%+ IF    fld == "x" %]osi poziomej
-    [%+ ELSIF fld == "y" %]osi pionowej
-    [%+ ELSIF fld == "z" %]wielokrotnych tabel/obrazków
-    [%+ ELSE %]osi raportów[% END %].
 
   [% ELSIF error == "search_cp_without_op" %]
     Parametr wyszukiwania f[% id FILTER html %] jest nawiasem zamykającym („CP”), lecz nie poprzedza
