@@ -12,17 +12,10 @@
 [%# INTERFACE:
   # attachment: object of the attachment the user wants to delete.
   # reason: string; The reason provided by the user.
-  # date: the date when the request to delete the attachment was made.
   #%]
 
-Zawartość załącznika [% attachment.id %] usunął użytkownik
-    [%+ user.identity %]
-[% IF reason %]
-, podając następujący powód:
+Zawartość załącznika [% attachment.id %] została usunięta
+[%~ IF reason %] z następującego powodu:
 
 [%+ reason %]
-[% ELSE %]
-bez podania powodu.
 [% END %]
-
-Token użyty do usunięcia tego załącznika został wygenerowany [% date FILTER time %].
