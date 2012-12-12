@@ -134,10 +134,10 @@
       <td>
         [% IF saved_report_id %]
           <a href="report.cgi?action=del&amp;saved_report_id=[% saved_report_id FILTER uri %]&amp;token=
-                  [%~ issue_hash_token(['delete_report', saved_report_id]) FILTER uri %]">Forget this report</a>
+                  [%~ issue_hash_token(['delete_report', saved_report_id]) FILTER uri %]">Usuń raport</a>
         [% ELSE %]
           <form method="get" action="report.cgi">
-            <input type="submit" id="remember" value="Remember report"> as
+            <input type="submit" id="remember" value="Zapisz raport"> jako
             <input type="hidden" name="query" value="[% switchbase %]&amp;format=[% format FILTER uri %]&amp;action=wrap">
             <input type="hidden" name="action" value="add">
             <input type="hidden" name="token" value="[% issue_hash_token(['save_report']) FILTER html %]">

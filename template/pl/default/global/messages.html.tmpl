@@ -796,13 +796,13 @@
     dostępne do wyboru produkty.
 
   [% ELSIF message_tag == "report_created" %]
-    OK, you have a new saved report named <em>[% reportname FILTER html %]</em>.
+    Masz nowy raport o nazwie <code>[% reportname FILTER html %]</code>.
 
   [% ELSIF message_tag == "report_deleted" %]
-    OK, the <em>[% reportname FILTER html %]</em> report is gone.
+    Raport <code>[% reportname FILTER html %]</code> został usunięty.
 
   [% ELSIF message_tag == "report_updated" %]
-    The saved report <em>[% reportname FILTER html %]</em> has been updated.
+    Twój raport o nazwie <code>[% reportname FILTER html %]</code> został zaktualizowany.
 
   [% ELSIF message_tag == "remaining_time_zeroed" %]
     W związku z zamknięciem [% terms.bledu %] lub przeniesieniem z jednego statusu zamknięcia 

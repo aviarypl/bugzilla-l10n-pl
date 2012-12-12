@@ -18,7 +18,7 @@
 <!--
   /* Adds the reply text to the `comment' textarea */
   function replyToComment(id, real_id, name) {
-      var prefix = "(In reply to " + name + " from comment #" + id + ")\n";
+      var prefix = "(W odpowiedzi na komentarz #" + id + " dodany przez " + name + ")\n";
       var replytext = "";
       [% IF user.settings.quote_replies.value == 'quoted_reply' %]
         /* pre id="comment_name_N" */

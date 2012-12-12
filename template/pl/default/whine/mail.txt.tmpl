@@ -34,7 +34,7 @@
 [% IF queries.size %]
 [% FOREACH query=queries %]
 
-[%+ query.title +%] ([% query.bugs.size %] tlum [%+ terms.bugs %])
+[%+ query.title +%] ([% query.bugs.size %] [%+ PROCESS ODMIEN c=query.bugs.size o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %])
 [%+ "-" FILTER repeat(query.title.length) %]
 
  [% FOREACH bug=query.bugs %]

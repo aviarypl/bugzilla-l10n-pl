@@ -16,7 +16,7 @@
 [% PROCESS global/header.html.tmpl title = title %]
 [% FOREACH group = mandatory_groups %]
 <P>
-group '[% group.name FILTER html %]' impacts [% group.count %] 
+Grupa „[% group.name FILTER html %]” oddziałuje na [% group.count %] 
 [% PROCESS ODMIEN c=group.count o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %], 
 dla których jest ponownie obligatoryjna i zostanie dodana.
 [% END %]

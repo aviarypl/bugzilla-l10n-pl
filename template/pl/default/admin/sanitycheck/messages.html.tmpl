@@ -220,12 +220,13 @@
 
   [% ELSIF san_tag == "profile_login_start" %]
     Test danych logowania profili.
+	
   [% ELSIF san_tag == "product_alert" %]
-    tlumProduct <a href="editproducts.cgi?product=[% name FILTER html%]">
-    [%- name FILTER html %]</a> has no components or no versions.
+    Produkt <a href="editproducts.cgi?product=[% name FILTER html%]">
+    [%- name FILTER html %]</a> nie ma komponentów lub wersji.
 
   [% ELSIF san_tag == "product_check_start" %]
-    tlumChecking products with no components or versions.
+    Test produktów bez komponentów lub wersji.
 
   [% ELSIF san_tag == "profile_login_alert" %]
     Nieprawidłowy adres e-mail profilu, id=[% id FILTER html %],

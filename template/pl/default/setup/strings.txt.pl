@@ -101,7 +101,7 @@ END
     feature_moving            => 'Przenoszenie bledow pomiedzy instalacjami',
     feature_patch_viewer      => 'Przegladarka latek',
     feature_smtp_auth         => 'Uwierzytelnianie SMTP',
-    feature_smtp_ssl          => 'tlumSSL Support for SMTP',
+    feature_smtp_ssl          => 'Szyfrowanie SSL dla polaczen SMTP',
     feature_updates           => 'Automatyczne powiadomienia o aktualizacji',
     feature_xmlrpc            => 'Interfejs XML-RPC',
     feature_detect_charset    => 'Automatyczne wykrywanie strony kodowej zalacznikow tekstowych',

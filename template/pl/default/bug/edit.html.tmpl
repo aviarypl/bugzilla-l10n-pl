@@ -564,7 +564,7 @@
   [% RETURN UNLESS bug.duplicates.size %]
   <tr>
     <th class="field_label">
-      <label for="duplicates">Duplicates</label>:
+      <label for="duplicates">Duplikaty</label>:
     </th>
     <td class="field_value" colspan="2">
       <span id="duplicates">
@@ -573,7 +573,7 @@
         [% END %]
       </span>
       (<a href="buglist.cgi?bug_id=[% bug.duplicate_ids.join(",") FILTER html %]">
-       [%-%]tlumview as [% terms.bug %] list</a>)
+       [%-%]wyświetl jako listę [% terms.bledow %]</a>)
     </td>
   </tr>
 [% END %]
@@ -868,8 +868,8 @@
         [% END %]
         [% IF show_more_flags %]
           <span id="bz_flags_more_container" class="bz_default_hidden">
-            [% IF !bug_flags_set %]<em>tlumNone yet set</em>[% END %]
-            (<a href="#" id="bz_flags_more_action">[% IF !bug_flags_set %]set[% ELSE %]more[% END %] flags</a>)
+            [% IF !bug_flags_set %]<em>Brak flag</em>[% END %]
+            (<a href="#" id="bz_flags_more_action">[% IF !bug_flags_set %]ustaw flagi[% ELSE %]więcej flag[% END %]</a>)
           </span>
           <script type="text/javascript">
             YAHOO.util.Dom.removeClass('bz_flags_more_container', 'bz_default_hidden');

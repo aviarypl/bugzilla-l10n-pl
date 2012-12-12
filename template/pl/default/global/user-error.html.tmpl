@@ -369,9 +369,9 @@
     innego komponentu.
 
   [% ELSIF error == "component_is_last" %]
-    [% title = BLOCK %]tlumLast Component in this Product[% END %]
-    '[% comp.name FILTER html %]' is the last component of the
-    '[% comp.product.name FILTER html %]' product. You cannot delete it.
+    [% title = BLOCK %]Ostatni komponent w tym produkcie[% END %]
+    „[% comp.name FILTER html %]” jest ostatnim komponentem w produkcie
+    „[% comp.product.name FILTER html %]”. Nie można go usunąć.
 
   [% ELSIF error == "component_name_too_long" %]
     [% title = "Nazwa komponentu jest zbyt długa" %]
@@ -512,9 +512,9 @@
     Należy podać opis dla tego pola.
 
   [% ELSIF error == "field_long_desc_too_long" %]
-    [% title = "Long Description for Field too long" %]
-    The long description you have provided for this field is longer than 
-    [% constants.MAX_FIELD_LONG_DESC_LENGTH FILTER html %] characters.
+    [% title = "Szczegółowy opis pola jest zbyt długi" %]
+    Szczegółowy opis pola nie może być dłuższy niż
+    [%+ constants.MAX_FIELD_LONG_DESC_LENGTH FILTER html %] znaków.
 
   [% ELSIF error == "field_missing_name" %]
     [% title = "Brak nazwy pola" %]
@@ -1151,7 +1151,7 @@
     Załącznik [% attach_id FILTER html %] ([% description FILTER html %]) 
     jest dołączony do [% terms.bledu %] [%+ attach_bug_id FILTER html %], 
     lecz próbowano oznaczyć go jako zdezaktualizowany podczas dodawania nowego załącznika do
-    [% terms.bledu %] [%+ my_bug_id FILTER html %].
+    [%+ terms.bledu %] [%+ my_bug_id FILTER html %].
     
   [% ELSIF error == "missing_attachment_description" %]
     [% title = "Brakujący opis załącznika" %]
@@ -1521,10 +1521,9 @@
     [% END %]
 
   [% ELSIF error == "quip_too_long" %]
-    [% title = "Quip Too Long" %]
-    You entered a quip with a length of [% length FILTER none %] characters,
-    but the maximum allowed length is [% constants.MAX_QUIP_LENGTH FILTER none %]
-    characters.
+    [% title = "Zbyt długa sentencja" %]
+    Wprowadzona sentencja zawiera za dużo znaków ([% length FILTER none %]). 	
+    Nie może być dłuższa niż [% constants.MAX_QUIP_LENGTH FILTER none %] znaków.
 
   [% ELSIF error == "reassign_to_empty" %]
     [% title = "Nieprawidłowe przypisanie" %]
@@ -1539,12 +1538,12 @@
     [%+ ELSE %]osi raportów[% END %].
 
   [% ELSIF error == "report_name_missing" %]
-    [% title = "No Report Name Specified" %]
-    You must enter a name for your report.
+    [% title = "Brak nazwy raportu" %]
+    Należy podać nazwę dla tego raportu.
 
   [% ELSIF error == "report_access_denied" %]
-    [% title = "Report Access Denied" %]
-    You cannot access this report.
+    [% title = "Brak dostępu" %]
+    Nie masz uprawnień dostępu do tego raportu.
 
   [% ELSIF error == "require_component" %]
     [% title = "Wymagany komponent" %]
@@ -1709,9 +1708,9 @@
     możliwe było usunięcie tej wersji.
 
   [% ELSIF error == "version_is_last" %]
-    [% title = BLOCK %]tlumLast Version in this Product[% END %]
-    '[% version.name FILTER html %]' is the last version of the
-    '[% version.product.name FILTER html %]' product. You cannot delete it.
+    [% title = BLOCK %]Ostatnia wersja w tym produkcie[% END %]
+    „[% version.name FILTER html %]” jest ostatnią wersją w produkcie
+    „[% version.product.name FILTER html %]”. Nie można jej usunąć.
 
   [% ELSIF error == "users_deletion_disabled" %]
     [% title = "Usuwanie nie zostało uaktywnione" %]

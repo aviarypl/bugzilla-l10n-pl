@@ -46,7 +46,7 @@
 [% IF queries.size %]
   [% FOREACH query=queries %]
 
-    <h2>[%+ query.title FILTER html %] ([% query.bugs.size %] tlum [%+ terms.bugs %])</h2>
+    <h2>[%+ query.title FILTER html %] ([% query.bugs.size %] [%+ PROCESS ODMIEN c=query.bugs.size o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %])</h2>
 
   <table width="100%">
     <tr>
