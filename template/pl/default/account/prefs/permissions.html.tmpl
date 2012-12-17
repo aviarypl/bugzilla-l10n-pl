@@ -1,0 +1,88 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # has_bits: array of hashes. May be empty.
+  #           name => Names of the permissions the user has.
+  #           desc => Descriptions of the permissions the user has.
+  # set_bits: array of hashes. May be empty.
+  #           name => Names of the permissions the user can set for
+  #           other people.
+  #           desc => Descriptions of the permissions the user can set for
+  #           other people.
+  #%]
+
+<table align="center">
+  <tr>
+    <td>
+      [% IF has_bits.size %]
+        Obecnie masz następujące uprawnienia:
+        <table align="center">
+          [% FOREACH bit_description = has_bits %]
+            <tr>
+              <td>[% bit_description.name FILTER html %]</td>
+              <td>[% display_value("permissions", bit_description.desc) FILTER html_light %]</td>
+            </tr>
+          [% END %]
+        </table>
+
+        [% FOREACH privs = ["editcomponents", "canconfirm", "editbugs"] %]
+          [% SET products = ${"local_$privs"} %]
+          [% IF products && products.size %]
+            <br>
+            <p>
+			[% privsdesc = {
+               "editcomponents" => "Modyfikowanie komponentów",
+               "canconfirm"   => "Potwierdzanie $terms.bledow",
+               "editbugs"   => "Modyfikowanie $terms.bledow",
+               } 
+            %]
+              Masz także lokalne uprawnienia „[% privsdesc.$privs FILTER html %]”
+              dla następujących produktów:
+            </p>
+            <p>
+              [% FOREACH product = products %]
+                [% product.name FILTER html %]<br>
+              [% END %]
+            </p>
+          [% END %]
+        [% END %]
+
+      [% ELSE %]
+        Nie ma ustawionych uprawnień dla tego konta.
+      [% END %]
+
+      [% IF user.in_group('editusers') %]
+        <br>
+        Masz uprawnienia do modyfikowania uprawnień innych użytkowników. Możesz nadawać
+        lub odbierać uprawnienia wszystkim użytkownikom.
+      [% ELSIF set_bits.size %]
+        <br>
+        Możesz <a href="editusers.cgi">innym użytkownikom</a>
+        nadawać/odbierać następujące uprawnienia:
+          <table align="center">
+          [% FOREACH bit_description = set_bits %]
+            <tr>
+              <td>[% bit_description.name FILTER html %]</td>
+              <td>[% display_value("permissions", bit_description.desc) FILTER html_light %]</td>
+            </tr>
+          [% END %]
+          </table>
+      [% END %]
+
+      [% IF user.in_group('bz_sudoers') %]
+        <br>
+        Jesteś członkiem grupy <b>bz_sudoers</b>, co oznacza, że 
+        możesz <a href="relogin.cgi?action=prepare-sudo">przejąć tożsamość innego użytkownika</a>.
+      [% END %]
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,31 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Reguły administracyjne"
+   desc = "Ustawienia reguł dla kont."
+%]
+
+[% param_descs = {
+  allowbugdeletion => "Jeśli ten parametr zostanie włączony, na stronach modyfikowania produktów i komponentów, " _
+                      "podczas usuwania produktu lub komponentu, będzie można usuwać wszystkie powiązane " _
+                      "${terms.bledy}. Ponieważ ten parametr ma ogromny wpływ na inne elementy, należy " _
+                      "go włączyć przed rozpoczęciem jakiejkolwiek operacji usuwania.",
+
+  allowemailchange => "Włączenie tego parametru umożliwi użytkownikom, z poziomu ich ustawień, zmianę swojego " _
+                      "adresu e-mail. Zmiana adresu potwierdzana jest poprzez oba adresy, a zatem włączenie tego " _
+                      "parametru nie pozwoli używać nieprawidłowych adresów.",
+
+  allowuserdeletion => "Jeśli ten parametr zostanie włączony, na stronach modyfikowania użytkowników, administrator będzie mógł " _
+                       "usuwać konta użytkowników. Jeśli usunięcie konta spowoduje niespójność danych, zostanie wyświetlone " _
+                       "ostrzeżenie. Ponieważ ten parametr ma ogromny wpływ na inne elementy, należy go włączyć przed " _
+                       "rozpoczęciem jakiejkolwiek operacji usuwania." }
+%]

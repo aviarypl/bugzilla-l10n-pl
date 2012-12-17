@@ -1,0 +1,38 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% 
+   title = "Ustawienia wymagane"
+   desc = "Ustawienia, które są wymagane do poprawnego działania ${terms.Bugzilli}." 
+%]
+
+[% param_descs = {
+  urlbase => "Początkowa część adresu URL wszystkich adresów generowanych przez " _
+             "${terms.Bugzille}.",
+
+  sslbase => "Początkowa część adresu URL wszystkich adresów HTTPS " _
+             "(SSL) ${terms.Bugzilli}.",
+
+  ssl_redirect => 
+    "Włączenie tego parametru spowoduje komunikację z $terms.Bugzillaa za"
+    _ " pomocą protokołu SSL. Odbywa się to poprzez przekierowanie żądań"
+    _ " HTTP na HTTPS, używając parametru <tt>sslbase</tt>. Również odnośniki"
+    _ " w e-mailach wysyłane przez $terms.Bugzille będą miały postać <tt>sslbase</tt>"
+    _ " zamiast <tt>urlbase</tt>.",
+
+  cookiepath => "Ścieżka relatywna do głównego katalogu serwera WWW, do której ograniczone " _
+                "będą ciasteczka ${terms.Bugzilli}. Zwykle jest to część URI bazowego adresu URL, " _
+                "którego wartość powinna rozpoczynać się znakiem / (ukośnik). Np., jeśli " _
+                "$terms.Bugzilla znajduje się pod adresem „http://www.domena.com/bugzilla/”, " _
+                "należy ustawić tu wartość /bugzilla/. Wartość / pozwoli na odczyt " _
+                "ciasteczek $terms.Bugzilli wszystkim witrynom udostępnianym " _
+                "przez dany serwer WWW lub host wirtualny.",
+} %]

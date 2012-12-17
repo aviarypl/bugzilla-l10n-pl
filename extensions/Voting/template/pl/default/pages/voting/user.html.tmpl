@@ -1,0 +1,180 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # voting_user: hash containing a 'login' field
+  #
+  # products: list of hashes containing details of products relating to
+  #           voting: 
+  #            name: name of product
+  #            bugs: list of bugs the user has voted for
+  #            bug_ids: list of bug ids the user has voted for
+  #            onevoteonly: one or more votes allowed per bug?
+  #            total: users current vote count for the product
+  #            maxvotes: max votes allowed for a user in this product
+  #            maxperbug: max votes per bug allowed for a user in this product
+  #
+  # this_bug: Bugzilla::Bug; if the user is voting for a bug, this is the bug
+  #
+  # canedit: boolean; Should the votes be presented in a form, or readonly? 
+  #
+  # all_bug_ids: List of all bug ids the user has voted for, across all products
+  #%]
+
+[% IF !header_done %]
+  [% subheader = voting_user.login FILTER html %]
+  [% IF canedit %]
+    [% title = "Zmiana liczby głosów" %]
+    [% IF this_bug %]
+      [%# We .select and .focus the input so it works for textbox and 
+          checkbox %]
+      [% onload = "document.forms['voting_form'].bug_" _ this_bug.id _
+                  ".select();document.forms['voting_form'].bug_" _ this_bug.id _
+                  ".focus()" %]
+    [% END %]
+  [% ELSE %]
+    [% title = "Wyświetl głosy" %]
+  [% END %]
+  [% PROCESS global/header.html.tmpl
+             style_urls = [ "extensions/Voting/web/style.css" ] 
+  %]
+[% ELSE %]
+  <hr>
+[% END %]
+
+[% IF votes_recorded %]
+  <p>
+    <font color="red">
+      Zmiana głosów została zapisana.
+    </font>
+  </p>
+[% ELSE %]
+  <br>
+[% END %]
+
+[% IF products.size %]
+  <form name="voting_form" method="post" action="page.cgi?id=voting/user.html">
+    <input type="hidden" name="action" value="vote">
+    <input type="hidden" name="token" value="[% issue_hash_token(['vote']) FILTER html %]">
+    <table cellspacing="4">
+      <tr>
+        <td></td>
+        <th>Liczba głosów</th>
+        <th>Nr [% terms.bledu %]</th>
+        <th>Krótki opis</th>
+      </tr>
+
+      [% onevoteproduct = 0 %]
+      [% multivoteproduct = 0 %]
+      [% FOREACH product = products %]
+        [% IF product.onevoteonly %]
+          [% onevoteproduct = 1 %]
+        [% ELSE %]
+          [% multivoteproduct = 1 %]
+        [% END %]
+        <tr>
+          <th>[% product.name FILTER html %]</th>
+          <td colspan="2" >(<a href="buglist.cgi?bug_id=
+              [%- product.bug_ids.join(",") FILTER uri %]"><small>lista [% terms.bledow %]</small></a>)
+          </td>
+          <td>
+            [% IF product.maxperbug < product.maxvotes AND
+                  product.maxperbug > 1 %]
+              <font size="-1">
+                (Informacja: [% product.maxperbug FILTER html %] to maksymalna liczba głosów, jaką można
+                w tym produkcie oddać na jeden [% terms.blad %].)
+              </font>
+            [% END %]
+          </td>
+        </tr>
+
+        [% FOREACH bug = product.bugs %]
+          <tr [% IF bug.id == this_bug.id && canedit %] 
+            class="bz_bug_being_voted_on" [% END %]>
+            <td>
+              [% IF bug.id == this_bug.id && canedit %]
+                [% IF product.onevoteonly %]
+                  Zagłosuj na ten [% terms.blad %] &rarr;
+                [% ELSE %]
+                  Tutaj wprowadź nową liczbę głosów &rarr;
+                [% END %]
+              [%- END %]
+            </td>
+            <td align="right"><a name="vote_[% bug.id FILTER html %]">
+              [% IF canedit %]
+                [% IF product.onevoteonly %]
+                  <input type="checkbox" name="[% bug.id FILTER html %]" value="1"
+                    [% " checked" IF bug.count %] id="bug_[% bug.id FILTER html %]">
+                [% ELSE %]
+                  <input name="[% bug.id FILTER html %]" value="[% bug.count FILTER html %]"
+                         size="2" id="bug_[% bug.id FILTER html %]">
+                [% END %]
+              [% ELSE %]
+                [% bug.count FILTER html %]
+              [% END %]
+            </a></td>
+            <td align="center">
+              [% bug.id FILTER bug_link(bug) FILTER none %]
+            </td>
+            <td>
+              [% bug.summary FILTER html %]
+              (<a href="page.cgi?id=voting/bug.html&amp;bug_id=[% bug.id FILTER uri %]"><small>liczba głosów</small></a>)
+            </td>
+          </tr>
+        [% END %]
+
+        <tr>
+          <td></td>
+          <td colspan="3">Zużyto [% product.total FILTER html %]&nbsp;[% PROCESS ODMIEN c=product.total o1=" głos" o2=" głosy" o3=" głosów" %]
+            z [% product.maxvotes FILTER html %] dostępnych.
+            <br>
+            <br>
+          </td>
+        </tr>
+      [% END %]
+    </table>
+
+    [% IF canedit %]
+      <input type="submit" value="Zmień głosy" id="change">&nbsp;&nbsp;
+      <a href="buglist.cgi?bug_id=[% all_bug_ids.join(",") FILTER uri %]">Wyświetl wszystkie
+        jako listę [% terms.bledow %]</a>
+      <br>
+      <br>
+      Aby zmienić liczbę głosów, należy 
+      [% IF multivoteproduct %]
+        podać nową wartość (zero oznacza brak głosów)
+        [% " lub " IF onevoteproduct %]
+      [% END %]
+      [% IF onevoteproduct %]
+        zaznaczyć pole wyboru
+      [% END %]
+      i nacisnąć przycisk <b>Zmień głosy</b>.
+    [% ELSE %]
+       <a href="buglist.cgi?bug_id=[% all_bug_ids.join(",") FILTER uri %]">Wyświetl wszystkie
+        jako listę [% terms.bledow %]</a>
+    [% END %]
+  </form>
+[% ELSE %]
+  <p>
+    [% IF canedit %]
+    Aktualnie nie głosujesz
+    [% ELSE %]
+    Ten użytkownik aktualnie nie głosuje 
+    [% END %]
+    na żaden [% terms.blad %].
+  </p>
+[% END %]
+
+<p>
+  <a href="page.cgi?id=voting.html">Pomoc</a>.
+</p>
+
+[% PROCESS global/footer.html.tmpl %]

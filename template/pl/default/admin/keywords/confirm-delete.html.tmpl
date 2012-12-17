@@ -1,0 +1,42 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # keyword: A Bugzilla::Keyword object.
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = "Usuwanie słowa kluczowego"
+%]
+
+<p>
+  [% IF keyword.bug_count == 1 %]
+    Istnieje jeden [% terms.blad %] z tym słowem kluczowym.
+  [% ELSIF keyword.bug_count > 1 %]
+    Istnieją [% terms.bledy %] z tym słowem kluczowym:
+    [% keyword.bug_count FILTER html %].
+  [% END %]
+  
+  Czy <b>na pewno</b> chcesz usunąć
+  słowo kluczowe <code>[% keyword.name FILTER html %]</code>?
+</p>
+
+<form method="post" action="editkeywords.cgi">
+  <input type="hidden" name="id" value="[% keyword.id FILTER html %]">
+  <input type="hidden" name="action" value="delete">
+  <input type="hidden" name="token" value="[% token FILTER html %]">
+  <input type="submit" id="delete"
+         value="Tak">
+</form>
+
+<p><a href="editkeywords.cgi">Inne słowa kluczowe</a></p>
+
+[% PROCESS global/footer.html.tmpl %] 

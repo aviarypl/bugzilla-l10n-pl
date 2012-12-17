@@ -1,0 +1,32 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% IF san_tag == "voting_cache_rebuild_fix" %]
+    <a href="sanitycheck.cgi?rebuild_vote_cache=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER url_quote %]">Kliknij tutaj, by
+    odbudować bufor głosowania</a>
+
+[% ELSIF san_tag == "voting_cache_alert" %]
+    Nieprawidłowy bufor głosowania dla [% PROCESS bug_link bug_id = id %]
+
+[% ELSIF san_tag == "voting_count_start" %]
+    Test zbuforowanej liczby głosów.
+
+[% ELSIF san_tag == "voting_count_alert" %]
+    Nieprawidłowa suma głosów dla [% terms.bledu %] [%+ id FILTER html %].
+
+[% ELSIF san_tag == "voting_cache_rebuild_start" %]
+    Odbudowywanie bufora głosowania…
+
+[% ELSIF san_tag == "voting_cache_rebuild_end" %]
+    Bufor głosowania został odbudowany.
+
+[% END %]

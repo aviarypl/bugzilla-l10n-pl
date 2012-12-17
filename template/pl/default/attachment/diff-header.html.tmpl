@@ -1,0 +1,145 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# Define strings that will serve as the title and header of this page %]
+
+[% title = BLOCK %]
+  [% IF attachid %]
+Załącznik #[% attachid %] do [% terms.bledu %] #[% bugid %]
+  [% ELSE %]
+Różnica pomiędzy #[% oldid %] oraz #[% newid %] do [% terms.bledu %] #[% bugid %]
+  [% END %]
+[% END %]
+
+[% onload = 'restore_all(); document.checkboxform.restore_indicator.checked = true' %]
+
+[% BLOCK viewurl %]attachment.cgi?id=[% id %][% END %]
+[% BLOCK editurl %][% PROCESS viewurl %]&amp;action=edit[% END %]
+[% BLOCK diffurl %][% PROCESS viewurl %]&amp;action=diff[% END %]
+
+[% IF headers %]
+  [% header = BLOCK %]
+    [% IF attachid %]
+      Załącznik #[% attachid %]: [% description FILTER html %]
+    [% ELSE %]
+      Różnica pomiędzy 
+       #[% oldid %]: <a href="[% PROCESS diffurl id=oldid %]">[% old_desc FILTER html %]</a>
+      a 
+       #[% newid %]: <a href="[% PROCESS diffurl id=newid %]">[% new_desc FILTER html %]</a>
+    [% END %]
+    do <a href="show_bug.cgi?id=[% bugid %]">[% terms.bledu %] #[% bugid %]</a>
+  [% END %]
+  [% subheader = BLOCK %]
+    [% bugsummary FILTER html %]
+  [% END %]
+  [% PROCESS global/header.html.tmpl doc_section = "attachments.html#patchviewer"
+                                     javascript_urls = "js/attachment.js"
+                                     style_urls = ['skins/standard/attachment.css'] %]
+[% ELSE %]
+  <html>
+  <head>
+  <link href="[% 'skins/standard/attachment.css' FILTER mtime %]" 
+        rel="stylesheet" type="text/css">
+  <script src="[% 'js/attachment.js' FILTER mtime %]" 
+          type="text/javascript"></script>
+  </head>
+  <body onload="[% onload FILTER html %]">
+[% END %]
+  
+[%# If we have attachid, we are in diff, otherwise we're in interdiff %]
+[% IF attachid %]
+  [%# HEADER %]
+  [% IF headers %]
+    <a href="[% PROCESS viewurl id=attachid %]">Wyświetl</a>
+    | <a href="[% PROCESS editurl id=attachid %]">Szczegóły</a>
+    | <a href="[% PROCESS diffurl id=attachid %]&amp;context=[% context FILTER uri %]&amp;collapsed=[% collapsed FILTER uri %]&amp;headers=[% headers FILTER uri %]&amp;format=raw">Format&nbsp;zunifikowany</a>
+    | Wróć do [% "$terms.bledu $bugid" FILTER bug_link(bugid) FILTER none %]
+  [% END %]
+  [% IF other_patches.size > 0 %]
+    [% IF headers %] |[%END%]
+    Różnice pomiędzy
+    <form style="display: inline" action="attachment.cgi">
+      <select name="oldid">
+      [% FOREACH patch = other_patches %]
+        <option value="[% patch.id %]"
+        [% IF patch.selected %] selected[% END %]
+        >[% patch.desc FILTER html %]</option>
+      [% END %]
+      </select>
+      oraz tą łatką
+      <input type="submit" id="diff" value="Różnice">
+      <input type="hidden" name="action" value="interdiff">
+      <input type="hidden" name="newid" value="[% attachid %]">
+      <input type="hidden" name="headers" value="[% headers FILTER html %]">
+    </form>
+  [% END %]
+  <br>
+[% ELSE %]
+  [% IF headers %]
+    <a href="attachment.cgi?oldid=[% oldid %]&amp;newid=[% newid %]&amp;action=interdiff&amp;format=raw">Format&nbsp;zunifikowany</a>
+    | Wróć do [% "$terms.bledu $bugid" FILTER bug_link(bugid) FILTER none %]
+    |
+  [% END %]
+[% END %]
+  
+[%# Collapse / Expand %]
+<a href="#"
+   onmouseover="lastStatus = window.status; window.status='Zwiń wszystkie'; return true"
+   onmouseout="window.status = lastStatus; return true"
+   onclick="return collapse_all()">Zwiń wszystkie</a> | 
+<a href="#"
+   onmouseover="lastStatus = window.status; window.status='Rozwiń wszystkie'; return true"
+   onmouseout="window.status = lastStatus; return true"
+   onclick="return expand_all()">Rozwiń wszystkie</a>
+
+[% IF do_context %]
+  [%# only happens for normal viewing, not interdiff %]
+  | <span style='font-weight: bold'>Kontekst:</span>
+  [% IF context == "patch" %]
+    (<strong>Łatka</strong> / 
+  [% ELSE %]
+    (<a href="[% PROCESS diffurl id=attachid %]&amp;headers=[% headers FILTER uri %]">Łatka</a> / 
+  [% END %]
+  [% IF context == "file" %]
+    <strong>Plik</strong> /
+  [% ELSE %]
+    <a href="[% PROCESS diffurl id=attachid %]&amp;headers=[% headers FILTER uri %]&amp;context=file">Plik</a> / 
+  [% END %]
+
+  [% IF context == "patch" || context == "file" %]
+    [% context = 3 %]
+  [% END %]
+  [%# textbox for context %]
+  <form style="display: inline" action="attachment.cgi"><input type="hidden" name="action" value="diff"><input type="hidden" name="id" value="[% attachid %]"><input type="hidden" name="collapsed" value="[% collapsed FILTER html %]"><input type="hidden" name="headers" value="[% headers FILTER html %]"><input type="text" name="context" value="[% context FILTER html %]" size="3"></form>)
+[% END %]
+
+[% IF warning %]
+<h2 class="warning">Ostrzeżenie: 
+  [% IF warning == "interdiff1" %]
+  Z powodu niedoskonałości [% terms.Bugzilli %] wyświetlany diagram różnic pomiędzy dwoma
+  łatkami stworzonymi dla różnych zestawów plików może pokazywać niektóre dane w 
+  niewłaściwych miejscach.
+  [% END %]
+  [% IF warning == "interdiff2" %]
+  Z powodu niedoskonałości [% terms.Bugzilli %] wyświetlany diagram różnic pomiędzy dwoma
+  łatkami może być wyświetlany niepoprawnie w przypadku porównywania łatek stworzonych
+  dla różnych wersji plików.
+  [% END %]
+</h2>
+[% ELSE %]
+    <br><br>
+[% END %]
+ 
+[%# Restore Stuff %]
+<form name="checkboxform" action="attachment.cgi">
+<input type="checkbox" name="restore_indicator" style="display: none">
+
+

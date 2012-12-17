@@ -1,0 +1,38 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # comp: object; Bugzilla::Component object representing the component 
+  # product: object; Bugzilla::Product object representing the product to
+  #               which the component belongs.
+  #%]
+
+<hr>
+
+<p>
+[% IF comp && !no_edit_component_link %]
+  <a title="Modyfikowanie komponentu „[% comp.name FILTER html %]”"
+  href="editcomponents.cgi?action=edit&amp;product=
+  [%- product.name FILTER uri %]&amp;component=[% comp.name FILTER uri %]">
+   Modyfikuj komponent „[% comp.name FILTER html uri %]”</a> 
+  &nbsp;&nbsp;
+[% END %]
+
+[% IF !no_edit_other_components_link %]
+ <a title="Wybierz komponent produktu „[% product.name FILTER html %]” do modyfikowania"
+  href="editcomponents.cgi?product=
+  [%- product.name FILTER uri %]">Modyfikuj inne komponenty produktu „[% product.name FILTER html %]”</a> 
+  &nbsp;&nbsp; 
+[% END %]
+ <a title="Modyfikuj produkt „[% product.name FILTER html %]”"
+  href="editproducts.cgi?action=edit&amp;product=
+  [%- product.name FILTER uri %]">Modyfikuj produkt „[% product.name FILTER html %]”</a>
+</p>

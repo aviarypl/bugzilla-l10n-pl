@@ -1,0 +1,77 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% bugidsummary = bug.bug_id _ ': ' _ bug.short_desc %]
+[% attidsummary = attachment.id _ ': ' _ attachment.description %]
+[% flagtype_name = flag ? flag.type.name : old_flag.type.name %]
+[% statuses = { '+' => "zaakceptował" , '-' => 'odrzucił' , 'X' => "anulował" ,
+                '?' => "poprosił o" } %]
+
+[% to_identity = "" %]
+[% on_behalf_of = 0 %]
+[% action = flag.status || 'X' %]
+
+[% IF flag && flag.status == '?' %]
+  [% subject_status = "poprosił o" %]
+  [% IF flag.setter_id == user.id %]
+    [% to_identity = "użytkownika " _ flag.requestee.identity %]
+  [% ELSE %]
+    [% on_behalf_of = 1 %]
+    [% IF flag.requestee %][% to_identity = " do " _ flag.requestee.identity %][% END %]
+  [% END %]
+[% ELSE %]
+  [% IF old_flag && old_flag.status == '?' %]
+    [% to_identity = "poproszoną przez " _ old_flag.setter.identity %]
+  [% END %]
+  [% subject_status = statuses.$action %]
+[% END %]
+From: [% Param('mailfrom') %]
+To: [% to %]
+Subject: Użytkownik [% subject_status %] flagę „[% flagtype_name %]” dla: [[% terms.Blad %] [%+ bug.bug_id %]] [% bug.short_desc %]
+[%- IF attachment %] :
+  [Załącznik [% attachment.id %]] [% attachment.description FILTER clean_text %][% END %]
+Date: [% date %]
+X-Bugzilla-Type: request
+[%+ threadingmarker %]
+
+[%+ USE wrap -%]
+[%- FILTER bullet = wrap(80) -%]
+
+[% IF on_behalf_of %]
+Użytkownik [% user.identity %] ponownie przydzielił prośbę [% flag.setter.identity %] dotyczącą flagi „[% flagtype_name %]”
+[% to_identity %] dla:
+[% ELSE %]
+Użytkownik [% user.identity %] [%+ statuses.$action %] flagę „[% flagtype_name %]” [% to_identity %] dla: 
+[% END %]
+
+[% terms.Blad %] [%+ bugidsummary %]
+[% END %]
+[%+ urlbase %]show_bug.cgi?id=[% bug.bug_id %]
+[% IF attachment %]
+
+[% FILTER bullet = wrap(80) %]
+Załącznik [% attidsummary %]
+[%- END %]
+[%+ urlbase %]attachment.cgi?id=[% attachment.id %]&action=edit
+[%- END %]
+
+[%- Hook.process('after_summary') -%]
+
+[%- FILTER bullet = wrap(80) %]
+
+[% USE Bugzilla %]
+[%-# .defined is necessary to avoid a taint issue in Perl < 5.10.1, see bug 509794. %]
+[% IF Bugzilla.cgi.param("comment").defined && Bugzilla.cgi.param("comment").length > 0 %]
+------- Dodatkowe komentarze od [% user.identity %]
+[%+ Bugzilla.cgi.param("comment") %]
+[% END %]
+
+[%- END %]

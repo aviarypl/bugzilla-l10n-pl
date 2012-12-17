@@ -1,0 +1,161 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% INCLUDE global/header.html.tmpl title = "Zasady zgłaszania $terms.bledow" %] 
+
+  <p>Dobrze zgłoszone [% terms.bledy %] mają największe prawdopodobieństwo naprawy. 
+  Te wskazówki wyjaśniają, jak napisać poprawne zgłoszenie.
+
+<h3>Zasady</h3>
+
+  <ul>
+    <li>Bądź precyzyjny</li>
+    <li>Wyrażaj się jasno – wyjaśnij, jak inni mogą wywołać wystąpienie [% terms.bledu %]</li>
+    <li>Jeden [% terms.blad %], jedno zgłoszenie</li>
+    <li>Nie ma zbyt błahych [% terms.bledow %] do zgłaszania – 
+    mały [% terms.blad %] może ukrywać wielkie [% terms.bledy %]</li>
+    <li>Jasno oddzielaj fakty od przypuszczeń</li>
+  </ul>
+
+<h3>Czynności wstępne</h3>
+
+<ol>
+  <li>Spróbuj wywołać wystąpienie [% terms.bledu %], używając najnowszej wersji
+  programu, by sprawdzić, czy [% terms.blad %] nie został już naprawiony.
+  </li>
+
+  <li><a href="query.cgi?format=specific">Przeszukaj</a> 
+  [% terms.Bugzille %], by sprawdzić, czy twój [% terms.blad %] nie
+  był już zgłaszany.</li>
+</ol>
+
+<h3>Zgłaszanie nowego [% terms.bledu %]</h3>
+
+<p>Jeśli wystąpienie [% terms.bledu %] udało się wywołać w najnowszej wersji i
+nie ma wcześniejszych zgłoszeń to:</p>
+
+<ol>
+ <li>Z nagłówka lub stopki strony wybierz 
+ odnośnik „<a href="enter_bug.cgi">Nowy</a>”.</li>
+ <li>Zaznacz produkt, w którym [% terms.blad %] został znaleziony.</li>
+ <li>Wypełnij formularz. Poniżej znajduje się kilka przydatnych informacji:</li>
+</ol>
+
+  <blockquote>
+    <p><b>Komponent</b> – określa, w której części programu występuje [% terms.blad %].<br>
+    To pole jest wymagane.
+    Kliknij słowo „Komponent”, by zobaczyć opis każdego 
+    komponentu. Jeśli żaden nie wydaje ci się odpowiedni, poszukaj komponentu „Ogólny”.</p>
+
+    <p><b>OS</b> – określa, na jakim systemie operacyjnym (OS) [% terms.blad %] został wykryty.
+    (np. Linux, Windows XP, Mac OS X.)<br>
+    Jeśli wiesz, że ten [% terms.blad %] występuje na każdym systemie operacyjnym,
+    wybierz <em>[% display_value("op_sys", "All") FILTER html %]</em>. 
+    Jeśli twojego systemu operacyjnego nie ma na liście, wybierz <em>[% display_value("op_sys", "Other") FILTER html %]</em>.</p>
+
+    <p><b>Krótki opis</b> – krótki opis [% terms.bledu %], który powinien zamknąć się
+    maksymalnie w 60 znakach.<br>
+     Dobry krótki opis powinien <b>szybko i jednoznacznie identyfikować zgłoszenie
+    [%+ terms.bledu %]</b>. Powinien opisywać problem, a nie twoje sugerowane rozwiązanie.<br>
+    <ul>
+     <li>Dobrze: „<tt>Anulowanie kopiowania plików powoduje awarię 
+     menedżera plików</tt>”.</li>
+     <li>Źle: „<tt>Program ulega awarii</tt>”.</li>
+     <li>Źle: „<tt>Przeglądarka powinna pracować z moją witryną internetową</tt>”.</li>
+    </ul>
+    
+    <b>Opis</b> –
+    szczegóły zgłaszanego problemu zawierające:</p>
+
+    <blockquote>
+      <p><b>Ogólny opis</b> – nieco bardziej szczegółowe rozwinięcie zawartości
+      krótkiego opisu.</p>
+
+      <blockquote>
+<pre>
+Zaznaczenie myszą dowolnej strony powoduje awarię wersji przeznaczonej<br>dla Mac OS X w funkcji NSGetFactory.
+</pre>
+      </blockquote>
+
+      <p><b>Kroki do odtworzenia błędu</b> – możliwie nieskomplikowany opis czynności,
+      których powtórzenie pozwala na zaobserwowanie [% terms.bledu %]. Powinien zawierać
+      początkowe ustawienia wymagane do wystąpienia [% terms.bledu %].</p>
+
+      <blockquote>
+<pre>
+1) Otwórz dowolną stronę internetową. (Ja używałem domyślnej, przykładowej strony 
+resource:/res/samples/test0.html).
+
+2) Zaznacz stronę, używając myszy. Wykonuje się to w następujący sposób:
+– umieść wskaźnik myszy w lewym górnym narożniku strony przeglądarki,
+– przyciśnij i przytrzymaj lewy przycisk myszy i wykonaj ciągnięcie w
+  kierunku prawego dolnego narożnika.
+</pre>
+      </blockquote>
+
+      <p><b>Rzeczywisty rezultat</b> – co się stało po wykonaniu
+      tych czynności.</p>
+
+      <blockquote>
+<pre>
+Program wyłączył się z błędem. Poniżej zamieszczam zrzut stosu z MacsBug.
+</pre>
+      </blockquote>
+
+      <p><b>Oczekiwany rezultat</b> – co powinien wykonać program, gdyby ten [% terms.blad %]
+      nie występował.</p>
+
+      <blockquote>
+<pre>
+Okno powinno zostać przewinięte w dół. Przewinięta zawartość powinna zostać zaznaczona
+lub przynajmniej program nie powinien ulec awarii.
+</pre>
+      </blockquote>
+
+      <p><b>Wersja i platforma</b> – wersja oraz platforma, na której zaobserwowano 
+      [% terms.blad %].</p>
+
+      <blockquote>
+<pre>
+Wersja z 2006-08-10 dla Mac OS 10.4.3
+</pre>
+      </blockquote>
+
+      <p><b>Dodatkowe wersje i platformy</b> – czy [% terms.blad %]
+      występuje na innych platformach lub (jeśli dotyczy)
+      przeglądarkach.</p>
+
+      <blockquote>
+<pre>
+Nie występuje na Windows XP Home SP2, wersja z 2006-08-10
+</pre>
+      </blockquote>
+
+      <p><b>Dodatkowe informacje</b> – dodatkowe informacje, które mogą pomóc naprawić [% terms.blad %].
+      <br><br>Przykładowo dla [% terms.bledow %] powodujących awarię programu:</p>
+
+      <ul>
+        <li><b>Windows</b> – typ awarii i moduł, który spowodował awarię,
+        np. naruszenie zasad dostępu w apprunner.exe.</li>
+
+        <li><b>Mac OS X</b> – dołącz log z modułu zgłaszania awarii, który pojawia się po awarii.
+        Dołącz tylko fragment poniżej wątku, zwykle nazywa się on
+        „Wątek 0 uległ awarii”. Proszę nie podawać zawartości całego loga!</li>
+      </ul>
+    </blockquote>
+
+  <p>Sprawdź dokładnie swoje zgłoszenie, czy nie ma w nim błędów lub coś nie zostało
+  pominięte, i naciśnij przycisk „Wyślij”. Twoje zgłoszenie [% terms.bledu %] będzie teraz w 
+  bazie danych [% terms.Bugzilli %].<br>
+  </p>
+</blockquote>
+
+[% INCLUDE global/footer.html.tmpl %]

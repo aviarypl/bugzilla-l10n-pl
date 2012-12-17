@@ -1,0 +1,41 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # This template has no interface.
+  #%]
+
+[% PROCESS global/header.html.tmpl
+           title = "Usuwanie oddanych głosów"
+ %]
+
+<p>
+  Zamierzasz usunąć wszystkie swoje głosy oddane na [% terms.bledy %]. Czy na pewno chcesz
+  usunąć swój głos z każdego [% terms.bledu %], na który zagłosowałeś/zagłosowałaś?
+</p>
+
+<form action="page.cgi?id=voting/user.html" method="post">
+    <input type="hidden" name="action" value="vote">
+    <input type="hidden" name="token" value="[% issue_hash_token(['vote']) FILTER html %]">
+  <p>
+    <input type="radio" name="delete_all_votes" value="1">
+    Usuń wszystkie moje głosy
+  </p>
+  <p>
+    <input type="radio" name="delete_all_votes" value="0" checked="checked">
+    Wróć i wyświetl moje głosy
+  </p>
+  <p>
+    <input type="submit" id="vote" value="Wyślij">
+  </p>
+</form>
+
+[% PROCESS global/footer.html.tmpl %]

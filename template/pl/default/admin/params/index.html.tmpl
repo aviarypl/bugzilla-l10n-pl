@@ -1,0 +1,41 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+<p>
+  Wszystkie parametry i ustawienia wyświetlone są w sekcjach poniżej.
+  Jeśli nie możesz znaleźć parametru na tej stronie, najprawdopodobniej taki parametr nie istnieje.
+</p>
+
+<div align="center">
+  <table>
+    <tr>
+      <th>Parametr</th>
+      <th>Sekcja</th>
+    </tr>
+    [% FOREACH panel = panels %]
+      [% FOREACH param = panel.param_list.sort('name') %]
+        <tr>
+          <td>
+            <a href="editparams.cgi?section=
+              [%- panel.name FILTER uri %]#[% param.name FILTER uri %]_desc">
+              [% param.name FILTER html %]</a>
+          </td>    
+          <td>
+            [% panel.title FILTER html %]
+          </td>
+        </tr>
+      [% END %]
+      <tr>
+        <td>&nbsp;</td><td>&nbsp;</td>
+      </tr>
+    [% END %]
+  </table>
+</div>

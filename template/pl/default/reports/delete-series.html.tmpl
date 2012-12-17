@@ -1,0 +1,50 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% series_name = BLOCK %]
+  [% series.category FILTER html %] /
+  [%+ series.subcategory FILTER html %] /
+  [%+ series.name FILTER html %]
+[% END %]
+
+[% PROCESS global/header.html.tmpl title = "Usuwanie serii"
+                                   style_urls = ['skins/standard/admin.css'] %]
+
+<p>
+  Zamierzasz bezpowrotnie usunąć serie <b>[% series_name FILTER none %]</b>
+  z bazy danych. Wszystkie powiązane dane z tymi seriami zostaną całkowicie usunięte.
+</p>
+<p>
+  [% IF series.creator %]
+    Te serie zostały utworzone przez <a href="mailto:[% series.creator.email FILTER html %]">
+    [% series.creator.email FILTER html %]</a>
+  [% ELSE %]
+    Te serie zostały automatycznie utworzone przez [% terms.Bugzille %]
+  [% END %]
+
+  [% IF series.public %]
+    i są ogólnie dostępne.
+  [% ELSIF series.creator %]
+    i są widoczne tylko dla tego użytkownika.
+  [% ELSE %]
+    i nie mogą być wyświetlane przez wszystkich.
+  [% END %]
+</p>
+
+<p class="areyoureallyreallysure">Czy na pewno chcesz usunąć te serie?</p>
+
+<p>
+  <a href="chart.cgi?action=delete&amp;series_id=[% series.series_id FILTER html %]&amp;token=
+           [%- issue_hash_token([series.id, series.name]) FILTER uri %]">Tak</a> |
+  <a href="chart.cgi">Nie, wróć do strony wykresów</a>
+</p>
+
+[% PROCESS global/footer.html.tmpl %]

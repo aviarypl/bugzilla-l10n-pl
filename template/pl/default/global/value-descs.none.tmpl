@@ -1,0 +1,103 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# You can use this hash to localize (translate) the values displayed
+  # for drop-down and multiple-select fields. Lines starting with "#"
+  # are comments.
+  #%]
+[% value_descs = {
+  "bug_status" => {
+    "UNCONFIRMED" => "NIEPOTWIERDZONY",
+    "NEW"         => "NOWY",
+    "ASSIGNED"    => "PRZYPISANY",
+    "REOPENED"    => "PONOWNIE OTWARTY",
+    "RESOLVED"    => "ROZWIĄZANY",
+    "VERIFIED"    => "ZWERYFIKOWANY",
+    "CLOSED"      => "ZAMKNIĘTY",
+    "CONFIRMED"   => "POTWIERDZONY",
+    "IN_PROGRESS" => "W REALIZACJI",
+  },
+  
+  "resolution" => {
+    ""           => "---",
+    "FIXED"      => "NAPRAWIONY",
+    "INVALID"    => "NIEPRAWIDŁOWY",
+    "WONTFIX"    => "NIE DO NAPRAWY",
+    "DUPLICATE"  => "DUPLIKAT",
+    "WORKSFORME" => "U MNIE DZIAŁA",
+    "MOVED"      => "PRZENIESIONY",
+    " "          => " ",
+  },
+
+  "bug_severity" => {
+    "blocker"     => "Blokujący",
+    "critical"    => "Krytyczny",
+    "major"       => "Poważny",  
+    "normal"      => "Normalny", 
+    "minor"       => "Drobny",   
+    "trivial"     => "Błahy",    
+    "enhancement" => "Propozycja",  
+  },    
+
+  "priority" => {
+    "Highest"    => "Najwyższy",
+    "High"       => "Wysoki",
+    "Normal"     => "Normalny",  
+    "Low"        => "Niski", 
+    "Lowest"     => "Najniższy",   
+  },    
+                     
+  "rep_platform" => {
+    "All"   => "Wszystkie",
+    "Other" => "Inna",
+  },             
+  
+  "op_sys" => {
+    "All"   => "Wszystkie",
+    "Other" => "Inny",
+  },
+
+ "choice" => { 
+    "on"                     => "włączone",
+    "off"                    => "wyłączone",
+    "defaulton"              => "domyślnie włączone",
+    "defaultoff"             => "domyślnie wyłączone",
+    "Test"                   => "Test",
+    "None"                   => "Nigdy",
+    "never"                  => "nigdy",
+    "open"                   => "otwarte",
+    "moderated"              => "moderowane",
+    "closed"                 => "zamknięte",
+    "wildcard"               => "wieloznacznik",
+    "search"                 => "wyszukiwanie",
+    "authenticated sessions" => "sesje uwierzytelnione",
+    "always"                 => "zawsze",
+    "disabled"               => "wyłączone",
+  },
+
+  "permissions" => {
+    "Administrators"                                  => "Administrowanie",
+    "Can configure whine reports for other users"     => "Konfigurowanie raportów powiadomień dla innych użytkowników",
+    "User can configure whine reports for self"       => "Konfigurowanie raportów powiadomień dla samego siebie",
+    "Can moderate quips"                              => "Zatwierdzanie sentencji",
+    "Can perform actions as other users"              => "Przejmowanie tożsamości innych użytkowników",
+    "Can not be impersonated by other users"          => "Ochrona przed przejęciem tożsamości",
+    "Can confirm a bug or mark it a duplicate"        => "Potwierdzanie $terms.bledow lub oznaczanie ich jako duplikaty",
+    "Can create and destroy groups"                   => "Tworzenie i usuwanie grup",
+    "Can edit all bug fields"                         => "Modyfikowanie wszystkich pól $terms.bledu",
+    "Can create, destroy, and edit classifications"   => "Tworzenie, usuwanie i modyfikowanie kategorii",
+    "Can create, destroy, and edit components"        => "Tworzenie, usuwanie i modyfikowanie komponentów",
+    "Can create, destroy, and edit keywords"          => "Tworzenie, usuwanie i modyfikowanie słów kluczowych",
+    "Can edit or disable users"                       => "Tworzenie, usuwanie i modyfikowanie kont użytkowników",
+    "Can change Parameters"                           => "Zmiana parametrów",
+  },                                                
+
+} %]

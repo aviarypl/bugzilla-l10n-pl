@@ -1,0 +1,31 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% SET reason_descs = {
+  ${constants.REL_ASSIGNEE} => "${terms.Blad} jest przypisany do Ciebie.",
+  ${constants.REL_REPORTER} => "Zgłosiłeś/zgłosiłaś ten ${terms.blad}.",
+  ${constants.REL_QA}       => "Pełnisz rolę specjalisty QA dla tego ${terms.bledu}.",
+  ${constants.REL_CC}       => "Jesteś na liście obserwatorów tego ${terms.bledu}.",
+  ${constants.REL_GLOBAL_WATCHER} => "Obserwujesz wszystkie zmiany tego ${terms.bledu}.",
+} %]
+
+[% SET watch_reason_descs => {
+  ${constants.REL_ASSIGNEE} =>
+    "Obserwujesz osobę, do której przypisany jest ten ${terms.blad}.",
+  ${constants.REL_REPORTER} =>
+    "Obserwujesz osobę, która zgłosiła ten ${terms.blad}.",
+  ${constants.REL_QA}       =>
+    "Obserwujesz specjalistę QA tego ${terms.bledu}.",
+  ${constants.REL_CC}       =>
+    "Obserwujesz osobę z listy obserwatorów tego ${terms.bledu}.",
+} %]
+
+[% Hook.process('end') %]

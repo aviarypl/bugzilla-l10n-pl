@@ -1,0 +1,52 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% title = BLOCK %]Potwierdzenie usunięcia flagi „[% flag_type.name FILTER html %]”[% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = title
+  doc_section = "flags-overview.html#flags-delete"
+%]
+
+<p>
+  [% IF flag_type.flag_count %]
+    [% PROCESS ODMIEN c=flag_type.flag_count o1="Istnieje" o2="Istnieją" o3="Istnieje" %]&nbsp;[% flag_type.flag_count %]&nbsp;[% PROCESS ODMIEN c=flag_type.flag_count o1="wystąpienie" o2="wystąpienia" o3="wystąpień" %] flagi „[% flag_type.name FILTER html %]”.
+    W przypadku usunięcia tej flagi zostaną usunięte wszystkie jej wystąpienia.
+  [% END %]
+
+ Zamiast usuwania flagi można dokonać jej 
+   <a href="editflagtypes.cgi?action=deactivate&amp;id=[% flag_type.id %]&amp;token=
+           [%- token FILTER html %]">dezaktywacji</a>, która sprawi, że 
+   flaga [% IF flag_type.flag_count %] i jej stany [% END %] pozostanie w
+   bazie danych, ale nie będzie wyświetlana w interfejsie użytkownika.
+</p>
+
+<table>
+   <tr>
+      <td colspan="2">
+         Czy na pewno chcesz usunąć tę flagę?
+      </td>
+   </tr>
+   <tr>
+      <td>
+         <a href="editflagtypes.cgi?action=delete&amp;id=[% flag_type.id %]&amp;token=
+                 [%- token FILTER html %]">Tak
+         </a>
+      </td>
+      <td align="right">
+         <a href="editflagtypes.cgi">
+            Nie
+         </a>
+      </td>
+   </tr>
+</table>
+
+[% PROCESS global/footer.html.tmpl %]

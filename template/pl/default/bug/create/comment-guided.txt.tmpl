@@ -1,0 +1,37 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+[% USE Bugzilla %]
+[% cgi = Bugzilla.cgi %]
+User-Agent:       [%+ cgi.user_agent() %]
+Identyfikator kompilacji: [%+ cgi.param("buildid") %]
+
+[%+ cgi.param("comment") IF cgi.param("comment") %]
+
+[%+ IF cgi.param("reproducible") != "Wybierz…" -%]
+Powtarzalność: [%+ cgi.param("reproducible") %]
+[% END %]
+
+[% IF !(cgi.param("reproduce_steps").match('^1\.\s*2\.\s*3\.\s*$') || cgi.param("reproduce_steps").match('^\s*$')) %]
+Kroki do odtworzenia:
+[%+ cgi.param("reproduce_steps") %]
+[% END %]
+
+[% IF cgi.param("actual_results") -%]
+Rzeczywisty rezultat:  
+[%+ cgi.param("actual_results") %]
+[% END %]
+
+[% IF cgi.param("expected_results") %]
+Oczekiwany rezultat:  
+[%+ cgi.param("expected_results") %]
+[% END %]
+
+[%+ cgi.param("additional_info") %]

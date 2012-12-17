@@ -1,0 +1,54 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = "Usuwanie kategorii"
+%]
+
+<table border=1 cellpadding=4 cellspacing=0>
+<tr bgcolor="#6666ff">
+  <th valign="top" align="left">Pole</th>
+  <th valign="top" align="left">Wartość</th>
+
+</tr><tr>
+  <td valign="top">Kategoria:</td>
+  <td valign="top">[% classification.name FILTER html %]</td>
+
+</tr><tr>
+  <td valign="top">Opis:</td>
+  <td valign="top">
+    [% IF classification.description %]
+      [% classification.description FILTER html_light %]
+    [% ELSE %]
+      <font color="red">brak opisu</font>
+    [% END %]
+  </td>
+
+</tr><tr>
+  <td valign="top">Klucz sortowania:</td>
+  <td valign="top">[% classification.sortkey FILTER html %]</td>
+
+</tr>
+</table>
+
+<h2>Potwierdzenie</h2>
+
+<p>Czy na pewno chcesz usunąć tę kategorię?</p>
+<form method=post action="editclassifications.cgi">
+  <input type=submit value="Tak">
+  <input type=hidden name="action" value="delete">
+  <input type=hidden name="classification" value="[% classification.name FILTER html %]">
+  <input type="hidden" name="token" value="[% token FILTER html %]">
+</form>
+
+[% PROCESS admin/classifications/footer.html.tmpl %] 
+
+[% PROCESS global/footer.html.tmpl %] 

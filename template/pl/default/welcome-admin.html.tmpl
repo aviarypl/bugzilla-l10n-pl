@@ -1,0 +1,77 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # none
+  #%]
+
+[% title = BLOCK %]Witamy w [% terms.Bugzilli %][% END %]
+
+[% PROCESS global/header.html.tmpl
+   title = title
+   header_addl_info = "wersja $constants.BUGZILLA_VERSION (4.4rc1 PL)"
+   style_urls = [ 'skins/standard/index.css' ]
+%]
+
+<div id="welcome-admin">
+  <p>Witaj [% user.identity FILTER html %].</p>
+
+  <p>Widzisz tę stronę, ponieważ pewne podstawowe parametry nie zostały jeszcze ustawione.
+  Na tej stronie uzyskasz informacje o końcowych czynnościach wymaganych do poprawnego
+  skonfigurowania tej instalacji.</p>
+
+  <p>Jako administrator masz dostęp do wszystkich stron administracyjnych osiągalnych za
+  pomocą odnośnika <a href="admin.cgi">Administracja</a>, który dla administratorów jest
+  widoczny na dole i na górze tej i wszystkich innych stron. Używając go, odwiedź przynajmniej
+  stronę <a href="editparams.cgi">Parametry</a>, z poziomu której można określić wszystkie
+  najważniejsze parametry tej instalacji. Na tej stronie można między innymi określić:</p>
+
+  <ul>
+    <li><a href="editparams.cgi?section=core#urlbase_desc">urlbase</a> – podstawowy adres URL
+    wskazujący na tę instalację, który będzie również używany w wiadomościach wysyłanych
+    do użytkowników. Do czasu ustawienia tego parametru niniejsza strona będzie
+    wyświetlana jako startowa,</li>
+
+    <li><a href="editparams.cgi?section=core#cookiepath_desc">cookiepath</a> – ważny parametr
+    wykorzystywany przez przeglądarki do poprawnego zarządzania ciasteczkami,</li>
+
+    <li><a href="editparams.cgi?section=general#maintainer_desc">maintainer</a> – osoba odpowiedzialna
+    za wszystko, co dobre i złe będzie działo się z tą instalacją,</li>
+  </ul>
+
+  <p>Ważne są także następujące parametry:</p>
+
+  <ul>
+    <li><a href="editparams.cgi?section=auth#requirelogin_desc">requirelogin</a> – jeśli ten parametr jest
+    włączony, instalacja będzie zabezpieczona przed użytkownikami nieposiadającymi konta. Innymi słowy,
+    użytkownicy, by cokolwiek zobaczyć i dokonać jakichkolwiek zmian, będą musieli się zarejestrować i
+    zalogować. Funkcja przydatna, jeśli istnieje potrzeba zachowania poufności danych,</li>
+
+    <li><a href="editparams.cgi?section=auth#createemailregexp_desc">createemailregexp</a>
+    – parametr ten określa, którzy użytkownicy mają prawo założyć konto w tej instalacji.
+    Jeśli jest określony jako „.*” (wartość domyślna), każdy może utworzyć konto. Gdy
+    jest określony jako „@mojafirma.com”, tylko użytkownicy mający adres w domenie
+    @mojafirma.com będą mogli utworzyć konto. Jeśli żadna wartość nie zostanie podana,
+    konta będą mogły być zakładane tylko przez administratora. W przypadku, gdy instalacja ma
+    być instalacją prywatną, należy dla tego parametru ustawić wartość inną od domyślnej,</li>
+
+    <li><a href="editparams.cgi?section=mta#mail_delivery_method_desc">mail_delivery_method</a>
+    – parametr ten określa metodę używaną do wysyłania poczty np. Sendmail lub SMTP. Musi być
+    ustawiony poprawnie, by system mógł wysyłać wiadomości e-mail.</li>
+  </ul>
+
+  <p>
+    Po ustawieniu tych parametrów zalecamy przejrzenie innych parametrów [% terms.Bugzilli %],
+    aby je poznać i mieć rozeznanie, co jeszcze można i należy skonfigurować.
+  </p>
+</div>
+
+[% PROCESS global/footer.html.tmpl %]

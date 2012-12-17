@@ -1,0 +1,40 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "Kopia bazy danych"
+   desc = "Dodatkowa metoda zwiększająca wydajność operacji na bazie danych."
+%]
+
+[% param_descs = {
+  shadowdbhost => "Host dodatkowej bazy danych.",
+
+  shadowdbport => "Port dodatkowej bazy danych. Wartość ignorowana, jeśli " _
+                  "parametr <tt>shadowdbhost</tt> jest pusty. Uwaga: Jeśli hostem bazy jest " _
+                  "lokalny komputer, MySQL zignoruje ten parametr. W takim przypadku " _
+                  "należy poniżej określić gniazdo.",
+
+  shadowdbsock => "Gniazdo połączenia do dodatkowej bazy danych, jeśli znajduje się ona " _
+                  "na lokalnym komputerze. Parametr ten jest wymagany, ponieważ baza MySQL " _
+                  "ignoruje podany port i łączy się z lokalnym serwerem za pomocą domyślnej " _
+                  "ścieżki do gniazda (na komputerach z systemami UNIX). " _
+                  "Pozostawienie pustej wartości w przypadku posiadania bazy na lokalnym komputerze " _
+                  "(localhost) spowoduje, że parametr <tt>shadowdbport</tt> " _
+                  "zostanie zignorowany.",
+
+  shadowdb => "Nazwa dodatkowej bazy danych, której $terms.Bugzilla będzie " _
+              "używać jako kopii bazy do odczytu. Długie, blokujące połączenia " _
+              "i wyszukiwania będą wykonywane na tej bazie, a inni użytkownicy " _
+              "nie będą odczuwali żadnych opóźnień. Baza ta znajduje się na komputerze " _
+              "określonym dla parametru <tt>shadowdbhost</tt>. " _
+              "$terms.Bugzilla sama z siebie nie replikuje bazy. W przypadku korzystania z tej " _
+              "funkcji, należy samodzielnie zapewnić replikację bazy danych." }
+%]

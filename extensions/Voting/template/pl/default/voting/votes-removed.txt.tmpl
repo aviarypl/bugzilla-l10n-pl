@@ -1,0 +1,42 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+From: [% Param('mailfrom') %]
+To: [% to %]
+Subject: [% terms.Blad %] [%+ bugid %] – Usunięto część lub wszystkie Twoje głosy.
+X-Bugzilla-Type: voteremoved
+
+Usunięto część lub wszystkie Twoje głosy z [% terms.bledu %] [%+ bugid %].
+
+Oddałeś/oddałaś [% votesold FILTER html %] [%+ IF votesold %] [% PROCESS ODMIEN c=votesold o1="głos" o2="głosy" o3="głosów" %] [% END %] na ten [% terms.blad %], ale [% votesremoved FILTER html %] [%+ PROCESS ODMIEN c=votesremoved o1="został usunięty" o2="zostały usunięte" o3="zostało usuniętych" %].
+
+[% IF votesnew %]
+[% PROCESS ODMIEN c=votesnew o1="Pozostawiono 1 głos" o2="Pozostawiono $votesnew głosy" o3="Pozostawiono $votesnew głosów" %].
+[% ELSE %]
+Usunięto wszystkie głosy z tego [% terms.bledu %].
+[% END %]
+
+Powód:
+[% IF reason == "votes_bug_moved" %]
+  Ten [% terms.blad %] został przeniesiony do innego produktu.
+
+[% ELSIF reason == "votes_too_many_per_bug" %]
+  Zasady głosowania na ten produkt zostały zmienione.
+  Oddałeś/oddałaś za dużo głosów na jeden [% terms.blad %].
+
+[% ELSIF reason == "votes_too_many_per_user" %]
+  Zasady głosowania na ten produkt zostały zmienione. Oddałeś/oddałaś za dużo głosów, więc wszystkie zostały usunięte.
+[% END %]
+
+
+
+[% urlbase %]show_bug.cgi?id=[% bugid %]
+

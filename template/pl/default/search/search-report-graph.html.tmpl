@@ -1,0 +1,131 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # This template has no interface. However, to use it, you need to fulfill
+  # the interfaces of the templates it contains.
+  #%]
+
+[% js_data = BLOCK %]
+var queryform = "reportform"
+[% END %]
+
+[% PROCESS global/header.html.tmpl
+  title = "Generowanie raportu graficznego"
+  onload = "doOnSelectProduct(0); chartTypeChanged()"
+  yui = [ 'autocomplete', 'calendar' ]
+  javascript = js_data
+  javascript_urls = [ "js/util.js", "js/TUI.js", "js/field.js" ]
+  style_urls = [ "skins/standard/search_form.css" ]
+  doc_section = "reporting.html#reports"
+%]
+
+[% PROCESS "search/search-report-select.html.tmpl" %]
+
+<p>
+  Wybierz jedno lub kilka pól jako osie i następnie uzupełnij
+  zestaw [% terms.bledow %] za pomocą pozostałej części formularza.
+</p>
+
+<script type="text/javascript"><!--
+  [%# The Y-axis fields are not used for pie charts %]
+  function chartTypeChanged() {
+    // format[2] is the pie chart radio button
+    if (document.reportform.format[2].checked == true) {
+      document.reportform.y_axis_field.disabled = true;
+      document.reportform.cumulate[0].disabled = true;
+      document.reportform.cumulate[1].disabled = true;
+    } else {
+      document.reportform.y_axis_field.disabled = false;
+      document.reportform.cumulate[0].disabled = false;
+      document.reportform.cumulate[1].disabled = false;
+    }
+  }
+// -->
+</script>
+
+[% button_name = "Generuj raport" %]
+
+<form method="get" action="report.cgi" name="reportform" id="reportform">
+
+<table align="center">
+  <tr>
+    <td valign="middle">
+      <b>Oś pionowa</b><br>
+      <noscript><small>(oprócz wykresów kołowych)</small><br></noscript>
+      [% PROCESS select name = 'y_axis_field' %]<br>
+      <br>
+        <b>Rysowanie danych</b><br>
+        <input type="radio" name="cumulate" value="0"
+        [% " checked" IF default.cumulate.0 != "1" %]>
+        Osobno<br>
+        <input type="radio" name="cumulate" value="1"
+        [% " checked" IF default.cumulate.0 == "1" %]>
+        Składane
+    </td>
+    <td width="150" height="150">
+      <table border="1" width="100%" height="100%">
+        <tr>
+          <td align="center" valign="middle">
+            <b>Wiele wykresów</b><br>
+            [% PROCESS select name = 'z_axis_field' %]
+          </td>
+        </tr>
+      </table>
+    </td>
+    <td rowspan="2">
+      <b>Format</b><br>
+      [% chart_formats = [
+        { name => "line", description => "Wykres liniowy" },
+        { name => "bar",  description => "Wykres słupkowy" },
+        { name => "pie",  description => "Wykres kołowy" } ] %]
+      [% default.chart_format.0 = default.chart_format.0 || "bar" %]
+
+      [% FOREACH chart_format = chart_formats %]
+        <input type="radio" name="format"
+               value="[% chart_format.name FILTER html %]"
+               onchange="chartTypeChanged()"
+          [% " checked" IF default.chart_format.0 == chart_format.name %]>
+          [% chart_format.description FILTER html %]<br>
+      [% END %]
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    </td>
+    <td align="left">
+      <b>Oś pozioma</b>
+      [% PROCESS select name = 'x_axis_field' %]<br>
+      <label for="x_labels_vertical">Etykiety pionowo</label>
+      <input type="checkbox" name="x_labels_vertical" id="x_labels_vertical"
+             value="1"
+         [% " checked" IF default.x_labels_vertical.0 == "1" %]>
+     </td>
+    <td>
+    </td>
+  </tr>
+</table>
+
+<hr>
+
+[% PROCESS search/form.html.tmpl %]
+
+[% PROCESS "search/boolean-charts.html.tmpl" %]
+
+  <div id="knob">
+    <input type="submit" id="[% button_name FILTER css_class_quote %]"
+           value="[% button_name FILTER html %]">
+    <input type="hidden" name="action" value="wrap">
+  </div>
+</form>
+
+[% PROCESS global/footer.html.tmpl %]

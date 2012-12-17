@@ -1,0 +1,47 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% title = BLOCK %]
+  Potwierdzenie zmiany relacji grupa/produkt dla „[%- product.name FILTER html %]”
+[% END %]
+
+[% PROCESS global/header.html.tmpl title = title %]
+[% FOREACH group = mandatory_groups %]
+<P>
+Grupa „[% group.name FILTER html %]” oddziałuje na [% group.count %] 
+[% PROCESS ODMIEN c=group.count o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %], 
+dla których jest ponownie obligatoryjna i zostanie dodana.
+[% END %]
+
+[% FOREACH group = na_groups %]
+<P>
+Grupa „[% group.name FILTER html %]” oddziałuje na [% group.count %] 
+[% PROCESS ODMIEN c=group.count o1="$terms.blad" o2="$terms.bledy" o3="$terms.bledow" %], 
+dla których nie ma już zastosowania i zostanie usunięta.[% END %]
+<form action="editproducts.cgi" method="post" >
+
+  [% PROCESS "global/hidden-fields.html.tmpl" exclude="^Bugzilla_(login|password)$" %]
+
+  <br>
+     Aby dokonać zmian, łącznie ze zmianami wymienionymi powyżej, naciśnij
+     przycisk „Kontynuuj”. Jeśli nie chcesz dokonywać zmian, użyj
+     przycisku „Wróć”, by powrócić do poprzedniej strony.
+  <p>
+    <input type="hidden" name="confirmed" value="confirmed">
+    <input type="submit" id="update" value="Kontynuuj">
+  </p>
+
+</form>
+
+
+[% PROCESS global/footer.html.tmpl %]
+
+

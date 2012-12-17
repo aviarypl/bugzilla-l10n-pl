@@ -1,0 +1,34 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # url: URL to a pre-filled bug entry form.
+  # short_desc: Bug summary as entered in the form.
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = "Zakładki to twoi przyjaciele"
+  header = "Szablon został utworzony"
+%]
+
+<p>
+  Możesz dodać zakładkę do tego odnośnika:
+  „<a href="enter_bug.cgi?[% url FILTER html %]">
+  [% IF short_desc %]
+    [% short_desc FILTER html %]
+  [% ELSE %]
+    Szablon dodawania [% terms.bledu %]
+  [% END %]</a>”.
+  Ta zakładka spowoduje otworzenie strony <em>Zgłaszanie [% terms.bledu %]</em> z polami
+  wypełnionymi wartościami wprowadzonymi przed chwilą.
+</p>
+
+[% PROCESS global/footer.html.tmpl %]

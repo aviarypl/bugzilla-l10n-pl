@@ -1,0 +1,32 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% PROCESS global/header.html.tmpl
+   title = "Wybór załącznika",
+   onload = "document.forms['choose-id'].id.focus()"
+ %]
+
+<form name="choose-id" method="get" action="attachment.cgi">
+  <p>Dostęp do załącznika przez podanie jego ID:</p>
+  <p>ID załącznika: <input name="id" size="6">
+  <button name="action" value="edit" id="edit">Szczegóły</button>
+  <button name="action" value="view" id="view">Wyświetl</button>
+  </p>
+</form>
+
+<form method="get" action="show_bug.cgi">
+  <p>Dostęp do załącznika z listy załączników skojarzonych z [% terms.bledem %]:</p>
+  <p>ID [% terms.bledu %]: <input name="id" size="6">
+  <input type="submit" name="action" value="Wyświetl" id="action">
+  </p>
+</form>
+
+[% PROCESS global/footer.html.tmpl %]

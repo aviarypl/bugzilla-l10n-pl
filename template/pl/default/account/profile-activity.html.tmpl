@@ -1,0 +1,76 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # otheruser: Bugzilla User Object; The user whose profile activity
+  #                                  we are viewing.
+  #
+  # listselectionvalues: selection values to recreate the current user list.
+  #
+  # profile_changes: An array of hashes containing the following fields:
+  # 
+  #   who: string; login name of who made the change
+  #   activity_when: string; when the change was made
+  #   what: string; the description of the field which was changed
+  #   removed: string; the removed value (maybe empty string)
+  #   added: string; the added value (maybe empty string)
+  #%]
+
+[% title = BLOCK %]
+  Dziennik konta „[% otheruser.login FILTER html %]”
+[% END %]
+
+
+[% PROCESS global/header.html.tmpl
+  title = title
+%]
+
+[% PROCESS admin/users/listselectvars.html.tmpl
+  listselectionvalues = listselectionvalues
+%]
+
+[% columns =
+  [{name               => 'who'
+    heading            => 'Kto'
+   }
+   {name               => 'activity_when'
+    heading            => 'Kiedy'
+   }
+   {name               => 'what'
+    heading            => 'Co'
+    content_use_field  => 1
+   }
+   {name               => 'removed'
+    heading            => 'Usunięto'
+   }
+   {name               => 'added'
+    heading            => 'Dodano'
+   }
+  ]
+%]
+
+[% PROCESS admin/table.html.tmpl
+  columns = columns
+  data    = profile_changes
+%]
+
+<p><a href="editusers.cgi?action=edit&amp;userid=
+  [%- otheruser.id FILTER uri %]"
+  title="Edytowanie użytkownika „[% otheruser.login FILTER html %]”">Edytuj użytkownika</a>&nbsp;&nbsp; 
+  <a title="Wyszukiwanie użytkowników" href="editusers.cgi">Poszukaj innych użytkowników</a>&nbsp;&nbsp;
+  [% IF listselectionvalues.matchtype != 'exact' %]
+    <a title="Lista użytkowników"
+       href="editusers.cgi?action=list[% INCLUDE listselectionurlparams %]">Przejdź
+    do listy użytkowników</a>
+  [% END %]
+</p>
+
+[% PROCESS global/footer.html.tmpl %] 

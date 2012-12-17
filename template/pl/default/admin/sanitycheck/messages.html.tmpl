@@ -1,0 +1,315 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% san_message = BLOCK %]
+  [% IF san_tag == "checks_start" %]
+    Test spójności danych.
+
+  [% ELSIF san_tag == "checks_completed" %]
+    Test spójności danych został zakończony.
+
+  [% ELSIF san_tag == "attachment_reference_deletion_start" %]
+    Usuwanie wszystkich odniesień do usuniętych załączników…
+
+  [% ELSIF san_tag == "attachment_reference_deletion_end" %]
+    Wszystkie powiązania z usuniętymi załącznikami zostały usunięte.
+
+  [% ELSIF san_tag == "bug_check_alert" %]
+    [% errortext FILTER html %]: [% INCLUDE bug_list badbugs = badbugs %]
+
+  [% ELSIF san_tag == "bug_check_repair" %]
+    <a href="sanitycheck.cgi?[% param FILTER uri %]=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER uri %]">[% text FILTER html %]</a>.
+
+  [% ELSIF san_tag == "bug_check_creation_date" %]
+    Test [% terms.bledow %] bez daty utworzenia (są niewidoczne).
+
+  [% ELSIF san_tag == "bug_check_creation_date_error_text" %]
+    [% terms.Bledy %] bez daty utworzenia:
+
+  [% ELSIF san_tag == "bug_check_creation_date_repair_text" %]
+    Naprawianie brakujących dat utworzenia [% terms.bledow %]…
+
+  [% ELSIF san_tag == "bug_check_bugs_fulltext" %]
+    Test [% terms.bledow %] bez wpisów do wyszukiwania pełnotekstowego.
+
+  [% ELSIF san_tag == "bug_check_bugs_fulltext_error_text" %]
+    [% terms.Bledy %] bez wpisów do wyszukiwania pełnotekstowego:
+
+  [% ELSIF san_tag == "bug_check_bugs_fulltext_repair_text" %]
+    Naprawianie brakujących wpisów do wyszukiwania pełnotekstowego tych [% terms.bledow %]…
+
+  [% ELSIF san_tag == "bug_check_res_dupl" %]
+    Test rozwiązań/duplikatów
+
+  [% ELSIF san_tag == "bug_check_res_dupl_error_text" %]
+    [% terms.Bledy %] znalezione w tabeli duplikatów niezaznaczone jako duplikaty:
+
+  [% ELSIF san_tag == "bug_check_res_dupl_error_text2" %]
+    [% terms.Bledy %] znalezione z oznaczeniem „rozwiązane” duplikaty, ale niebędące w tabeli duplikatów:
+
+  [% ELSIF san_tag == "bug_check_status_res" %]
+    Test statusów/rozwiązań
+
+  [% ELSIF san_tag == "bug_check_status_res_error_text" %]
+    [% terms.Bledy %] z otwartym statusem i rozwiązaniem:
+
+  [% ELSIF san_tag == "bug_check_status_res_error_text2" %]
+    [% terms.Bledy %] ze statusem innym niż otwarty i bez rozwiązania:
+
+  [% ELSIF san_tag == "bug_check_status_everconfirmed" %]
+    Test statusów/kiedykolwiek potwierdzonych.
+
+  [% ELSIF san_tag == "bug_check_status_everconfirmed_error_text" %]
+    [% terms.Bledy %], które są NIEPOTWIERDZONE, ale mają ustawiony status „kiedykolwiek potwierdzony”:
+
+  [% ELSIF san_tag == "bug_check_status_everconfirmed_error_text2" %]
+    [% terms.Bledy %] z potwierdzonym statusem, ale nie mają ustawionego statusu „kiedykolwiek potwierdzony”:
+
+  [% ELSIF san_tag == "bug_check_control_values" %]
+    Test nieprawidłowych wartości w group_control_map.
+
+  [% ELSIF san_tag == "bug_check_control_values_alert" %]
+    Znaleziono [% entries FILTER html %] nieprawidłowe wpisy w group_control_map
+
+  [% ELSIF san_tag == "bug_check_control_values_violation" %]
+    Test [% terms.bledow %] naruszających relacje grupa/produkt.
+
+  [% ELSIF san_tag == "bug_check_control_values_error_text" %]
+    Grupy bez uprawnień do produktów:
+
+  [% ELSIF san_tag == "bug_check_control_values_repair_text" %]
+    Przypisz zagubione grupy do produktów, na które oddziałują
+    (ustaw wpis <code>Widoczna</code> dla pola Uprawnienia członków).
+
+  [% ELSIF san_tag == "bug_check_control_values_error_text2" %]
+    Istnieją zagubione grupy, które potrzebują swoich produktów.
+
+  [% ELSIF san_tag == "bug_creation_date_start" %]
+    Naprawianie brakującej daty utworzenia [% terms.bledu %]…
+
+  [% ELSIF san_tag == "bug_creation_date_fixed" %]
+    Naprawione [% terms.bledy %]: [%+ bug_count FILTER html %].
+
+  [% ELSIF san_tag == "bugs_fulltext_start" %]
+    Naprawianie [% terms.bledow %] wpisów dla wyszukiwania pełnotekstowego…
+
+  [% ELSIF san_tag == "bugs_fulltext_fixed" %]
+    Naprawione [% terms.bledy %]: [%+ bug_count FILTER html %].
+
+  [% ELSIF san_tag == "bug_reference_deletion_start" %]
+    Usuwanie wszystkich odniesień do usuniętych [% terms.bledow %]…
+
+  [% ELSIF san_tag == "bug_reference_deletion_end" %]
+    Wszystkie odniesienia do usuniętych [% terms.bledow %] zostały usunięte.
+
+  [% ELSIF san_tag == "cross_check_to" %]
+    Test odniesień do [% table FILTER html %].[% field FILTER html %] z:
+
+  [% ELSIF san_tag == "cross_check_from" %]
+    [% table FILTER html %].[% field FILTER html %]
+
+  [% ELSIF san_tag == "cross_check_alert" %]
+    Znaleziono nieprawidłową wartość „[% value FILTER html %]” w
+    [%+ table FILTER html %].[% field FILTER html %]
+    [% IF keyname %]
+      [% IF keyname == "bug_id" %]
+        ([% PROCESS bug_link bug_id = key %])
+      [% ELSE %]
+        ([% keyname FILTER html %] == „[% key FILTER html %]”)
+      [% END %]
+    [% END %]
+
+  [% ELSIF san_tag == "cross_check_attachment_has_references" %]
+    <a href="sanitycheck.cgi?remove_invalid_attach_references=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER uri %]">Usuń
+    nieprawidłowe odniesienia do nieistniejących załączników</a>
+
+  [% ELSIF san_tag == "cross_check_bug_has_references" %]
+    <a href="sanitycheck.cgi?remove_invalid_bug_references=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER uri %]">Usuń
+    nieprawidłowe odniesienia do nieistniejących [% terms.bledow %]</a>
+
+  [% ELSIF san_tag == "double_cross_check_to" %]
+    Test odniesień do [% table FILTER html %].[% field1 FILTER html %] /
+    [%+ table FILTER html %].[% field2 FILTER html %] z:
+
+  [% ELSIF san_tag == "double_cross_check_from" %]
+    [% table FILTER html %].[% field1 FILTER html %] /
+    [%+ table FILTER html %].[% field2 FILTER html %].
+
+  [% ELSIF san_tag == "double_cross_check_alert" %]
+    Znaleziono nieprawidłową wartość „[% value1 FILTER html %]”, „[% value2 FILTER html %]”
+    w [% table FILTER html %].[% field1 FILTER html %] /
+    [%+ table FILTER html %].[% field2 FILTER html %].
+    [% IF keyname %]
+      [% IF keyname == "bug_id" %]
+        ([% PROCESS bug_link bug_id = key %])
+      [% ELSE %]
+        ([% keyname FILTER html %] == '[% key FILTER html %]')
+      [% END %]
+    [% END %]
+
+  [% ELSIF san_tag == "everconfirmed_start" %]
+    Naprawianie kiedykolwiek potwierdzonych…
+
+  [% ELSIF san_tag == "everconfirmed_end" %]
+    Kiedykolwiek potwierdzone zostały naprawione.
+
+  [% ELSIF san_tag == "flag_check_start" %]
+    Test prawidłowości umieszczania flag w produkcie/komponencie.
+
+  [% ELSIF san_tag == "flag_deletion_start" %]
+    Usuwanie nieprawidłowych flag…
+
+  [% ELSIF san_tag == "flag_deletion_end" %]
+    Nieprawidłowe flagi zostały usunięte.
+
+  [% ELSIF san_tag == "flag_alert" %]
+    Nieprawidłowa flaga [% flag_id FILTER html %] dla
+    [% IF attach_id %]
+      załącznika [% attach_id FILTER html %] w
+    [% END %]
+    [%+ PROCESS bug_link bug_id = bug_id %].
+
+  [% ELSIF san_tag == "flag_fix" %]
+    <a href="sanitycheck.cgi?remove_invalid_flags=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER uri %]">Kliknij
+    tutaj, by usunąć nieprawidłową flagę</a>
+
+  [% ELSIF san_tag == "group_control_map_entries_creation" %]
+    Tworzenie wpisów kontrolnych <code>Widoczna</code> dla produktów/grup,
+    którym nie ustawiono tej właściwości.
+
+  [% ELSIF san_tag == "group_control_map_entries_update" %]
+    Zmiana ustawienia kontrolnego grupy <code>Niedostępna/<em>xxx</em></code>
+    dla grupy <em>[% group_name FILTER html %]</em> na
+    <code>Widoczna/<em>xxx</em></code> w produkcie
+    <em>[% product_name FILTER html %]</em>.
+
+  [% ELSIF san_tag == "group_control_map_entries_generation" %]
+    Generowanie ustawienia kontrolnego grupy <code>Widoczna/Niedostępna</code>
+    dla grupy <em>[% group_name FILTER html %]</em> w produkcie
+    <em>[% product_name FILTER html %]</em>.
+
+  [% ELSIF san_tag == "group_control_map_entries_repaired" %]
+    Naprawiono uszkodzone relacje grupa/produkt: [% counter FILTER html %].
+
+  [% ELSIF san_tag == "keyword_check_start" %]
+    Test tabeli słów kluczowych.
+
+  [% ELSIF san_tag == "keyword_check_alert" %]
+    Zduplikowane wpisy w definicjach słów kluczowych dla ID [% id FILTER html %].
+
+  [% ELSIF san_tag == "keyword_check_invalid_name" %]
+    Nieprawidłowa nazwa w definicjach słów kluczowych dla ID [% id FILTER html %].
+
+  [% ELSIF san_tag == "keyword_check_invalid_id" %]
+    Nieprawidłowy identyfikator w definicjach słów kluczowych dla nazwy [% id FILTER html %].
+
+  [% ELSIF san_tag == "keyword_check_duplicated_ids" %]
+    Znaleziono duplikaty identyfikatorów słów kluczowych w [% PROCESS bug_link bug_id = id %].
+
+  [% ELSIF san_tag == "profile_login_start" %]
+    Test danych logowania profili.
+	
+  [% ELSIF san_tag == "product_alert" %]
+    Produkt <a href="editproducts.cgi?product=[% name FILTER html%]">
+    [%- name FILTER html %]</a> nie ma komponentów lub wersji.
+
+  [% ELSIF san_tag == "product_check_start" %]
+    Test produktów bez komponentów lub wersji.
+
+  [% ELSIF san_tag == "profile_login_alert" %]
+    Nieprawidłowy adres e-mail profilu, id=[% id FILTER html %],
+    &lt;[% email FILTER html %]&gt;.
+
+  [% ELSIF san_tag == "repair_bugs" %]
+    Napraw te [% terms.bledy %].
+
+  [% ELSIF san_tag == "send_bugmail_start" %]
+    Próba wysłania niewysłanych wiadomości.
+
+  [% ELSIF san_tag == "send_bugmail_status" %]
+    Znaleziono [% bug_count FILTER html %] [%+ terms.bledow %] z
+    prawdopodobnie niewysłanymi wiadomościami.
+
+  [% ELSIF san_tag == "send_bugmail_end" %]
+    Wysłano niewysłane wiadomości.
+
+  [% ELSIF san_tag == "unsent_bugmail_check" %]
+    Test niewysłanych wiadomości.
+
+  [% ELSIF san_tag == "unsent_bugmail_alert" %]
+    [% terms.Bledy %], w których dokonano zmian, ale nie wysłano wiadomości przez
+    co najmniej pół godziny: [% INCLUDE bug_list badbugs = badbugs %]
+
+  [% ELSIF san_tag == "unsent_bugmail_fix" %]
+    <a href="sanitycheck.cgi?rescanallBugMail=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER uri %]">Wyślij te wiadomości</a>
+
+  [% ELSIF san_tag == "whines_obsolete_target_deletion_start" %]
+    Usuwanie nieistniejących użytkowników/grupy z przypomnień…
+
+  [% ELSIF san_tag == "whines_obsolete_target_deletion_end" %]
+    Usunięto z przypomnień nieistniejących użytkowników/grupy.
+
+  [% ELSIF san_tag == "whines_obsolete_target_start" %]
+    Test przypomnień z nieistniejącymi użytkownikami/grupami.
+
+  [% ELSIF san_tag == "whines_obsolete_target_alert" %]
+    [% FOREACH schedule = schedules %]
+      Nieistniejący [% (type == constants.MAILTO_USER) ? "użytkownik" : "grupa" FILTER html %]
+      [%+ schedule.1 FILTER html %] dla harmonogramu przypomnień [% schedule.0 FILTER html %]<br>
+    [% END %]
+
+  [% ELSIF san_tag == "whines_obsolete_target_fix" %]
+    <a href="sanitycheck.cgi?remove_old_whine_targets=1&amp;token=
+       [%- issue_hash_token(['sanitycheck']) FILTER uri %]">Kliknij tutaj, by
+    usunąć starych użytkowników/grupy</a>
+
+  [% ELSE %]
+    [% message = Hook.process("statuses") %]
+
+    [% IF message %]
+      [% message FILTER none %]
+    [% ELSE %]
+      Nie znaleziono informacji o statusie <code>[% san_tag FILTER html %]</code>.
+      Proszę wysłać e-maila do [% Param("maintainer") %], opisując
+      kroki, po wykonaniu których otrzymano tę wiadomość.
+    [% END %]
+
+  [% END %]
+[% END %]
+
+[% USE Bugzilla %]
+[% IF Bugzilla.usage_mode == constants.USAGE_MODE_CMDLINE %]
+  [% san_message FILTER none %]
+[% ELSE %]
+  [%# Avoid the txt filter in message.txt.tmpl. %]
+  [% san_message FILTER html %]
+[% END %]
+
+[% BLOCK bug_list %]
+  [% FOREACH bug_id = badbugs %]
+    [%# Do not use FILTER bug_link() here, because bug_link() calls get_text()
+     # which itself calls this template again, generating a recursion error.
+     # I doubt having a tooltip with the bug status and summary is so
+     # important here anyway, as you can click the "(as buglist)" link. %]
+    <a href="show_bug.cgi?id=[% bug_id FILTER uri %]">[% bug_id FILTER html %]</a>
+    [% ", " IF !loop.last %]
+  [% END %]
+  (<a href="buglist.cgi?bug_id=[% badbugs.join(",") FILTER uri %]">jako lista [% terms.bledow %]</a>).
+[% END %]
+
+[% BLOCK bug_link %]
+  <a href="show_bug.cgi?id=[% bug_id FILTER uri %]">[% terms.blad %] [%+ bug_id FILTER html %]</a>
+[% END %]

@@ -1,0 +1,49 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%
+   title = "LDAP"
+   desc = "Przed wybraniem metody uwierzytelniania LDAP, należy najpierw skonfigurować poniższe parametry."
+%]
+
+[% param_descs = {
+  LDAPserver => "Nazwa i opcjonalnie port serwera LDAP " _
+                "(np. ldap.firma.com lub ldap.firma.com:numer_portu). " _
+                "Można także użyć składni URI, np. "_
+                "ldaps://ldap.firma.com (dla bezpiecznego połączenia) lub " _
+                "ldapi://%2fvar%2flib%2fgniazdo_ldap (dla lokalnego połączenia " _
+                "opartego na gniazdach). Nazwy serwerów lub adresy URI mogą być " _
+                "rozdzielane przecinkami. Próba połączenia będzie wykonywana kolejno z każdym " _ 
+                "serwerem, aż do jego nawiązania.",
+
+  LDAPstarttls => "Ten parametr określa, czy wymagać szyfrowanej komunikacji po " _
+                 "uzyskaniu połączenia LDAP z serwerem.",
+
+  LDAPbinddn => "Jeśli serwer LDAP wymaga użycia binddn i hasła " _
+                "zamiast anonimowego wiązania, należy podać je w tym miejscu " _
+                "(np. cn=default,cn=użytkownik:hasło). Należy pozostawić puste " _
+                "pole dla normalnych anonimowych wiązań.",
+
+  LDAPBaseDN => "Podstawowa nazwa wyróżniająca (BaseDN) dla uwierzytelniania użytkowników " _
+                "(np. ou=Pracownicy,o=Firma).",
+
+  LDAPuidattribute => "Nazwa atrybutu zawierającego nazwę logowania użytkownika.",
+
+  LDAPmailattribute => "Nazwa atrybutu użytkownika z katalogu LDAP, który zawiera " _
+                       "adres e-mail. Adres ten będzie użyty jako nazwa użytkownika " _
+                       "${terms.Bugzilli}. Jeśli parametr ten będzie pusty, " _
+                       "zostanie użyta nazwa użytkownika LDAP. "_
+                       "W takim przypadku przydatne może być ustawienie " _
+                       "parametru <tt>emailsuffix</tt>.",
+
+  LDAPfilter => "Filtr LDAP, który będzie użyty razem z <tt>LDAPuidattribute</tt> " _
+                "(operacja AND) do uzyskania listy uprawnionych użytkowników." }
+%]

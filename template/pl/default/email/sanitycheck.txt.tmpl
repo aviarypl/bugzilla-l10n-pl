@@ -1,0 +1,26 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+From: [% Param('mailfrom') %]
+To: [% addressee %]
+Subject: [[% terms.Bugzilla %]] – Wyniki sprawdzenia instalacji
+X-Bugzilla-Type: sanitycheck
+
+[%+ urlbase %]sanitycheck.cgi
+
+Poniżej możesz zapoznać się z wynikami sprawdzenia instalacji.
+[% IF error_found %]
+Znaleziono kilka błędów.
+[% ELSE %]
+Nie znaleziono błędów.
+[% END %]
+
+[% output %]

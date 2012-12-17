@@ -1,0 +1,95 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # none
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = "Dodawanie grupy"
+  subheader = "Na tej stronie można zdefiniować nową grupę użytkowników."
+  doc_section = "groups.html#create-groups"
+%]
+
+<form method="post" action="editgroups.cgi">
+  <table border="1" cellpadding="4" cellspacing="0"><tr>
+    <th>Nazwa</th>
+    <th>Opis</th>
+    <th>RegExp użytkowników</th>
+    <th>Używana dla [% terms.bledow %]</th>
+  </tr><tr>
+    <td><input size="20" name="name"></td>
+    <td><input size="40" name="desc"></td>
+    <td><input size="30" name="regexp"></td>
+    <td><input type="checkbox" name="isactive" value="1" checked></td>
+  </tr>
+  <tr>
+    <th>Adres URL ikony:</th>
+    <td colspan="3"><input type="text" size="70" maxlength="255" id="icon_url" name="icon_url"></td>
+  </tr>
+  [% Hook.process('field') %]
+  </table>
+
+  <hr>
+
+  <input type="checkbox" id="insertnew" name="insertnew" value="1"
+    [% IF Param("makeproductgroups") %] checked[% END %]>
+  <label for="insertnew">Dodaj grupę do wszystkich istniejących produktów</label>
+  <p>
+  <input type="submit" id="create" value="Dodaj">
+  <input type="hidden" name="action" value="new">
+  <input type="hidden" name="token" value="[% token FILTER html %]">
+</form>
+
+<p><b>Nazwa</b> – element używany z funkcją B<!-- blah -->ugzilla → user → in_group()
+w każdym ze zmodyfikowanych przez użytkownika plików <tt>cgi</tt> podczas używania danej grupy.
+Może być ona także używana przez osoby wysyłające [% terms.bledy %] za pomocą e-maili,
+by przypisać [% terms.blad %] do określonego zbioru grup.</p>
+
+<p><strong>Opis</strong> – element widoczny dla członków grupy. Wyświetlany w zgłoszeniach [% terms.bledu %]
+przy polach wyboru ograniczenia dostępu do zgłoszenia. Członkowie grupy mogą określić, czy
+zgłoszenie [% terms.bledu %] będzie wyświetlane jedynie dla członków danej grupy.</p>
+
+<p><strong>Używana dla [% terms.bledow %]</strong> – flaga określająca, czy grupa
+może być używana dla [% terms.bledow %]. Jeśli zostanie ona odznaczona,
+nie będzie możliwe dodawanie nowych [% terms.bledow %] do tej grupy.
+Niemniej, [% terms.bledy %] będące już w grupie, pozostaną w niej.
+Jest to mniej drastyczny sposób na powstrzymanie wzrostu grupy niż jej
+usunięcie. <strong>Uwaga: Aby możliwe było dodawanie [% terms.bledow %]
+do nowo tworzonej grupy, należy pozostawić to pole zaznaczone</strong>.</p>
+
+<p><strong>RegExp użytkownika</strong> (opcjonalne) – 
+jeśli jest podane, nastąpi automatyczne udzielenie członkostwa w tej grupie
+każdemu, kogo adres e-mail pasuje do tego wyrażenia.</p>
+
+<p>
+  <strong>Adres URL ikony</strong> (opcjonalny) – jest adresem prowadzącym do ikony
+  użytej do identyfikacji grupy. Może być adresem relatywnym do bazowego adresu
+  URL tej instalacji lub adresem absolutnym. Ikona będzie wyświetlana w
+  komentarzach do [% terms.bledow %] obok nazwy autora komentarza.
+</p>
+
+[% IF Param("makeproductgroups") %]
+  <p>Domyślnie nowa grupa będzie skojarzona z istniejącymi 
+  produktami. Odznaczając funkcję „Dodaj grupę do wszystkich 
+  istniejących produktów”, można temu zapobiec i grupa będzie 
+  widoczna jedynie, gdy zostanie dodana do produktu.</p>
+[% ELSE %]
+  <p>Po zaznaczeniu funkcji „Dodaj grupę do wszystkich 
+  istniejących produktów” nowa grupa będzie skojarzona z istniejącymi 
+  produktami. Pozostawiając tę funkcję odznaczoną można temu zapobiec i grupa będzie 
+  widoczna jedynie, gdy zostanie dodana do produktu.</p>
+[% END %]
+<p><a href="./">Strona główna [% terms.bledow %]</a>&nbsp;&nbsp;
+
+<a href="editgroups.cgi">Lista grup</a></p>
+
+[% PROCESS global/footer.html.tmpl %] 

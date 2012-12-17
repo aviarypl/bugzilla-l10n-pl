@@ -1,0 +1,78 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE
+  # none
+  # 
+  # Param("maintainer") is used to display the maintainer's email.
+  # Param("emailsuffix") is used to pre-fill the email field.
+  #%]
+
+[% title = BLOCK %]
+  Tworzenie nowego konta w [% terms.Bugzilli %]
+[% END %]
+
+[% PROCESS global/header.html.tmpl
+           title = title
+           onload = "document.forms['account_creation_form'].login.focus();" %]
+
+<p>
+  Aby utworzyć konto w [% terms.Bugzilli %] wystarczy podać
+[% IF Param('emailsuffix') == '' %]
+  poprawny adres e-mail.
+[% ELSE %]
+  nazwę konta, która w połączeniu z domeną [% Param('emailsuffix') %],
+  utworzy poprawny adres e-mail.
+[% END %]
+  Na ten adres otrzymasz wiadomość z danymi do potwierdzenia utworzenia konta.
+  <b>Aby móc się zalogować, musisz najpierw potwierdzić utworzenia konta.</b>
+  Jeśli nie otrzymasz wiadomości w rozsądnym czasie, możesz skontaktować się z
+  opiekunem tej instalacji [% terms.Bugzilli %] pod adresem
+  <a href="mailto:[% Param("maintainer") %]">[% Param("maintainer") %]</a>.
+</p>
+
+<p>
+  Założenie konta użytkownika jest wymagane, aby zgłosić nowy [% terms.blad %] lub dodać komentarz.
+  Pozwoli to, jeśli zajdzie taka potrzeba, na wysłanie prośby o udzielenie dodatkowych informacji.
+  Umożliwia także zidentyfikowanie autora dodanych komentarzy lub zmian dokonanych
+  w [% terms.bledach %]. <b>Adres e-mail
+  <u>nigdy</u> nie jest wyświetlany niezalogowanym użytkownikom. Jest on widoczny tylko 
+  dla zarejestrowanych użytkowników.</b>
+</p>
+
+[% IF Param('createemailregexp') == '.*' && Param('emailsuffix') == '' %]
+<p>
+  [% terms.Bugzilla %] jest otwartym systemem śledzenia [% terms.bledow %].
+  Wszelkie treści publikowane w związku z [% terms.bledami %], włącznie z adresami e-mail,
+  będą dostępne dla zarejestrowanych użytkowników. By zapobiec otrzymywaniu niechcianych wiadomości, <b>zalecamy</b> użycie
+  drugorzędnego konta lub konta utworzonego w jednym z serwisów sieciowych, takich jak
+  Gmail, Yahoo, Hotmail lub podobne serwisy.
+</p>
+[% END %]
+
+<form id="account_creation_form" method="get" action="createaccount.cgi">
+  <table>
+    <tr>
+      <td align="right">
+        <b>Adres e-mail:</b>
+      </td>
+      <td>
+        <input size="35" id="login" name="login">
+        [% Param('emailsuffix') FILTER html %]
+      </td>
+    </tr>
+  </table>
+  <br>
+  <input type="hidden" id="token" name="token" value="[% issue_hash_token(['create_account']) FILTER html %]">
+  <input type="submit" id="send" value="Wyślij">
+</form>
+
+[% PROCESS global/footer.html.tmpl %]

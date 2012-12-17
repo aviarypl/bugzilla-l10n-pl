@@ -1,0 +1,57 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # products: array of product objects
+  # showbugcounts: if defined, then bug counts should be included in the table
+  #%]
+
+[% PROCESS global/header.html.tmpl
+  title = "Wybór produktu, którego wersje docelowe będą modyfikowane"
+%]
+
+[% columns = [
+     { 
+       name => "name"
+       heading => "Wybierz produkt"
+       contentlink => "editmilestones.cgi?product=%%name%%" 
+     },
+     { 
+       name => "description"
+       heading => "Opis" 
+       allow_html_content => 1
+     }
+   ]
+%]
+
+[% IF showbugcounts %]
+
+  [% columns.push({
+      name => 'bug_count'
+      heading => "$terms.Bledy"
+      align => "center"
+      contentlink => "buglist.cgi?product=%%name%%"
+    })
+  %]
+
+[% END %]
+
+[% PROCESS admin/table.html.tmpl
+     columns = columns
+     data = products
+%]
+
+[% IF !showbugcounts %]
+  <p><a href="editmilestones.cgi?showbugcounts=1">
+    Wyświetl kolumnę z liczbą [% terms.bledow %]</a> <small>(odświeża stronę – wolne)</small></p>
+[% END %]
+
+[% PROCESS global/footer.html.tmpl %]

@@ -1,0 +1,93 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[% SET checkvotes = 0 %]
+
+[% IF changes.votesperuser.defined %]
+  <p>
+  Zaktualizowano liczbę głosów użytkownika z
+  [%+ changes.votesperuser.0 FILTER html %] na
+  [%+ product.votesperuser FILTER html %].
+  </p>
+  [% checkvotes = 1 %]
+[% END %]
+
+[% IF changes.maxvotesperbug.defined %]
+  <p>
+  Zaktualizowano maksymalną liczbę głosów na [% terms.blad %] z 
+  [%+ changes.maxvotesperbug.0 FILTER html %] na
+  [%+ product.maxvotesperbug FILTER html %].
+  </p>
+  [% checkvotes = 1 %]
+[% END %]
+
+[% IF changes.votestoconfirm.defined %]
+  <p>
+  Zaktualizowano liczbę głosów wymaganą do potwierdzenia [% terms.bledu %] z
+  [%+ changes.votestoconfirm.0 FILTER html %] na
+  [%+ product.votestoconfirm FILTER html %].
+  </p>
+  [% checkvotes = 1 %]
+[% END %]
+
+[%# Note that this display of changed votes and/or confirmed bugs is
+    not very scalable. We could have a _lot_, and we just list them all.
+    One day we should limit this perhaps, or have a more scalable display %]
+
+[% IF checkvotes %]
+  <hr>
+
+  <p>Sprawdzanie istniejących głosów w tym produkcie w poszukiwaniu użytkowników, którzy
+  oddali zbyt dużo głosów na [% terms.blad %]…<br>
+  [% IF changes._too_many_votes.size %]
+    [% FOREACH detail = changes._too_many_votes %]
+      &rarr;usunięto głosy oddane na [% terms.blad %] <a href="show_bug.cgi?id=
+     [%- detail.id FILTER uri %]">
+     [%- detail.id FILTER html %]</a> przez [% detail.name FILTER html %]<br>
+    [% END %]
+  [% ELSE %]
+    &rarr;nie znaleziono.
+  [% END %]
+  </p>
+
+  <p>Sprawdzanie istniejących głosów w tym produkcie w poszukiwaniu użytkowników, którzy
+  oddali za dużo głosów…<br>
+  [% IF changes._too_many_total_votes.size %]
+    [% FOREACH detail = changes._too_many_total_votes %]
+      &rarr;usunięto głosy oddane na [% terms.blad %] <a href="show_bug.cgi?id=
+     [%- detail.id FILTER uri %]">
+     [%- detail.id FILTER html %]</a> przez [% detail.name FILTER html %]<br>
+    [% END %]
+  [% ELSE %]
+    &rarr;nie znaleziono.
+  [% END %]
+  </p>
+
+  <p>Wyszukiwanie niepotwierdzonych [% terms.bledow %] w tym produkcie w poszukiwaniu tych,
+  które po zmianach ustawień głosowania mają wystarczającą liczbę głosów do potwierdzenia…<br>
+  [% IF changes._confirmed_bugs.size %]
+    [% FOREACH id = changes._confirmed_bugs %]
+
+      [%# This is INCLUDED instead of PROCESSED to avoid variables getting
+          overwritten, which happens otherwise %]
+      [% INCLUDE bug/process/results.html.tmpl
+        type = 'votes'
+        header_done = 1
+        sent_bugmail = changes._confirmed_bugs_sent_bugmail.$id
+        id = id
+      %]
+    [% END %]
+  [% ELSE %]
+    &rarr;nie znaleziono.
+  [% END %]
+  </p>
+
+[% END %]

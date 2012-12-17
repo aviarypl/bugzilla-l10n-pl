@@ -1,0 +1,167 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+[%# INTERFACE:
+  # sortby: string. the column on which we are sorting the buglist.
+  # reverse: boolean. True if we are reversing the current sort.
+  # maxrows: integer. Max number of rows to display.
+  # changedsince: integer. The number of days ago for the changedsince column.
+  # openonly: boolean. True if we are only showing open bugs.
+  # product: array of strings. The set of products we check for dups.
+  #
+  # Additionally, you need to fulfill the interface to
+  # duplicates-table.html.tmpl.
+  #%]
+
+[% IF product.size %]
+  [% title = BLOCK %]
+    Najczęściej zgłaszane [% terms.bledy %] dla
+    [%+ product.join(', ') FILTER html %]
+  [% END %]
+[% ELSE %]
+  [% title = "Najczęściej zgłaszane $terms.bledy" %]
+[% END%]
+
+[% PROCESS global/header.html.tmpl
+   title = title
+   style_urls = ['skins/standard/duplicates.css']
+%]
+
+<p>
+  <a href="#explanation">Co to za dane?</a>
+  <br>
+  <a href="#params">Zmiana parametrów</a>
+</p>
+
+[% PROCESS "reports/duplicates-table.html.tmpl" %]
+
+[%# *** Parameters *** %]
+
+[% bug_ids_string = bug_ids.join(',') %]
+
+<h3 id="params">Zmiana parametrów</h3>
+
+<form method="get" action="duplicates.cgi">
+  <input type="hidden" name="sortby" value="[% sortby FILTER html %]">
+  <input type="hidden" name="reverse" value="[% reverse FILTER html %]">
+  <input type="hidden" name="bug_id" value="[% bug_ids_string FILTER html %]">
+  <table>
+    <tr>
+      <td>Podczas sortowania lub ograniczania pracuj z:</td>
+      <td>
+        <input type="radio" name="sortvisible" id="entirelist" value="0"
+          [% ' checked="checked"' IF NOT sortvisible %]>
+        <label for="entirelist">
+          całą listą
+        </label>
+        <br>
+        <input type="radio" name="sortvisible" id="visiblelist" value="1"
+          [% ' checked="checked"' IF sortvisible %]>
+        <label for="visiblelist">
+          aktualnie widoczną listą
+        </label>
+      </td>
+      <td rowspan="4" valign="top">Ogranicz do produktów:</td>
+      <td rowspan="4" valign="top">
+        <select name="product" size="5" multiple="multiple">
+          [% FOREACH p = user.get_selectable_products %]
+            <option name="[% p.name FILTER html %]"
+            [% ' selected="selected"' IF product.contains(p.name) %]
+            >[% p.name FILTER html %]</option>
+          [% END %]
+        </select>
+      </td>
+     </tr>
+
+    <tr>
+      <td><label for="maxrows">Maksymalna liczba wierszy:</label></td>
+      <td>
+        <input size="4" name="maxrows" id="maxrows" 
+               value="[% maxrows FILTER html %]">
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="changedsince">Kolumna „Zmiany” odnosi się do ostatnich:</label>
+      </td>
+      <td>
+        <input size="4" name="changedsince" id="changedsince"
+               value="[% changedsince FILTER html %]"> dni
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="openonly">
+          Tylko otwarte [% terms.bledy %]:
+        </label>
+      </td>
+      <td>
+        <input type="checkbox" name="openonly" id="openonly" value="1"
+          [% ' checked="checked"' IF openonly %]>
+      </td>
+    </tr>
+
+  </table>
+
+  <input type="submit" id="change" value="Zmień">
+</form>
+
+<form method="post" action="buglist.cgi">
+  <input type="hidden" name="bug_id" value="[% bug_ids_string FILTER html %]">
+  Wyświetl jako <input type="submit" id="list" 
+                       value="listę [% terms.bledow %]">
+  (kolejność może być zmieniona)
+</form>
+
+<hr>
+
+<h3 id="explanation">
+  Czym są najczęściej zgłaszane [% terms.bledy %]?
+</h3>
+
+<p>
+  Na stronie „Najczęściej zgłaszane [% terms.bledy %]” są wyświetlane znane otwarte 
+  [%+ terms.bledy %], które są najczęściej zgłaszane 
+  włącznie z bezpośrednimi i pośrednimi duplikatami [% terms.bledow %].
+  Ta informacja jest tworzona, by ograniczyć do minimum liczbę duplikatów 
+  [%+ terms.bledow %] otwieranych w [% terms.Bugzilli %]. Pozwala to
+  zaoszczędzić czas osób odpowiedzialnych za QA, które muszą oceniać stan 
+  [%+ terms.bledow %].
+</p>
+
+<b>Jak korzystać z tej listy?</b>
+
+<ul>
+  <li>Przejrzyj listę najczęściej zgłaszanych [% terms.bledow %].</li>
+  <li>Jeśli twój problem znajduje się na liście</li>
+
+  <ul>
+    <li>kliknij numer [% terms.bledu %], by potwierdzić, że znalazłeś/znalazłaś
+      ten sam [% terms.blad %] i dodaj komentarz, jeśli masz dodatkowe informacje,
+      lub przejdź do dalszego testowania produktu.
+    </li>
+  </ul>
+
+  <li>Jeśli problem nie znajduje się na liście:</li>
+
+  <ul>
+    <li><a href="query.cgi">spróbuj znaleźć podobny [% terms.blad %]</a>,
+        który został już zgłoszony,</li>
+    <li>jeśli znajdziesz swój [% terms.blad %] w [% terms.Bugzilli %],
+        dodaj komentarz z nowymi lub dodatkowymi danymi lub informacjami,</li>
+    <li>jeśli w [% terms.Bugzilli %] nie możesz znaleźć swojego problemu, 
+        <a href="enter_bug.cgi">zgłoś nowy [% terms.blad %]</a>.</li>
+  </ul>
+</ul>
+
+[% PROCESS global/footer.html.tmpl %]

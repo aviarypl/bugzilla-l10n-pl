@@ -1,0 +1,27 @@
+[%# 4.4rc1PL@aviary.pl %]
+[%# This Source Code Form is subject to the terms of the Mozilla Public
+  # License, v. 2.0. If a copy of the MPL was not distributed with this
+  # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  #
+  # This Source Code Form is "Incompatible With Secondary Licenses", as
+  # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
+  #%]
+
+From: [% Param('mailfrom') %]
+To: [% emailaddress %]
+Subject: [% terms.Bugzilla %] – Prośba o zmianę adresu e-mail
+Importance: High
+X-MSMail-Priority: High
+X-Priority: 1
+X-Bugzilla-Type: admin
+
+[%+ terms.Bugzilla %] otrzymała prośbę o zmianę adresu e-mail Twojego konta na adres [% newemailaddress %].
+
+Jeśli nie jesteś osobą, która wysłała tę prośbę, lub chcesz prośbę anulować, otwórz poniższy odnośnik:
+
+[%+ urlbase %]token.cgi?t=[% token FILTER uri %]&a=cxlem
+
+W przypadku braku reakcji i gdy [% newemailaddress %] potwierdzi tę prośbę, 
+zmiana zostanie dokonana po [% constants.MAX_TOKEN_AGE %] dniach ([% expiration_ts FILTER time("%d.%m.%Y o godzinie %H:%M %Z") %]).
