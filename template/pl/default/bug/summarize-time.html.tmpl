@@ -24,7 +24,7 @@
     [% title = title _ "dla " %]
     [% header = "$terms.bledu nr $ids.0" FILTER bug_link(ids.0) FILTER none %]
     [% header = title _ header _ " (i $terms.bledow go blokujących)" %]
-    [% title = title _ "$terms.Blad nr $ids.0" %]
+    [% title = title _ "$terms.bledu nr $ids.0" %]
 [% ELSE %]
     [% title = title _ "(wybrane ${terms.bledy}: $ids.size)" %]
     [% header = title %]
