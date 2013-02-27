@@ -103,7 +103,25 @@
 </table>
 
 [% IF verify_bug_groups %]
-  <h3>Weryfikacja grupy [% terms.bledu %]</h3>
+  [% mandatory_groups = [] %]
+  [% optional_groups = [] %]
+
+  [% FOREACH gid = product.group_controls.keys %]
+    [% group = product.group_controls.$gid %]
+    [% NEXT UNLESS group.group.is_active %]
+
+    [% IF group.membercontrol == constants.CONTROLMAPMANDATORY
+          || (group.othercontrol ==  constants.CONTROLMAPMANDATORY && !user.in_group(group.group.name)) %]
+      [% mandatory_groups.push(group) %]
+    [% ELSIF (group.membercontrol != constants.CONTROLMAPNA && user.in_group(group.group.name))
+              || group.othercontrol != constants.CONTROLMAPNA %]
+      [% optional_groups.push(group) %]
+    [% END %]
+  [% END %]
+
+  [% IF old_groups.size || optional_groups.size || mandatory_groups.size %]
+    <h3>Weryfikacja grupy [% terms.bledu %]</h3>
+  [% END %]
   
   [% IF old_groups.size %]
     <p>Następujące grupy nie są prawidłowe dla produktu <b>[% product.name FILTER html %]</b>
@@ -120,22 +138,6 @@
       <br>
     [% END %]
     </p>
-  [% END %]
-
-  [% mandatory_groups = [] %]
-  [% optional_groups = [] %]
-
-  [% FOREACH gid = product.group_controls.keys %]
-    [% group = product.group_controls.$gid %]
-    [% NEXT UNLESS group.group.is_active %]
-
-    [% IF group.membercontrol == constants.CONTROLMAPMANDATORY
-          || (group.othercontrol ==  constants.CONTROLMAPMANDATORY && !user.in_group(group.group.name)) %]
-      [% mandatory_groups.push(group) %]
-    [% ELSIF (group.membercontrol != constants.CONTROLMAPNA && user.in_group(group.group.name))
-              || group.othercontrol != constants.CONTROLMAPNA %]
-      [% optional_groups.push(group) %]
-    [% END %]
   [% END %]
 
   [% IF optional_groups.size %]
