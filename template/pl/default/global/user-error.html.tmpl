@@ -1629,9 +1629,9 @@
     <code>[% current_tab_name FILTER html %]</code> nie jest nazwą istniejącej etykiety.
 
   [% ELSIF error == "value_inactive" %]
-    [% title = "Value is Not Active" %]
+    [% title = "Wartość jest wyłączona" %]
     [% type = BLOCK %][% INCLUDE object_name class = class %][% END %]
-    The [% type FILTER html %] value '[% value FILTER html %]' is not active.
+    Wartość „[% value FILTER html %]” pola [% type FILTER html %] jest wyłączona.
 
   [% ELSIF error == "version_already_exists" %]
     [% title = "Wersja już istnieje" %]
