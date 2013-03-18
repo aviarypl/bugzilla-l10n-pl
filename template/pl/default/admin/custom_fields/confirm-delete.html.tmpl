@@ -22,6 +22,7 @@
 
 [% PROCESS global/header.html.tmpl
            title = title
+           style_urls = ['skins/standard/admin.css']
            doc_section = "custom-fields.html#delete-custom-fields"
 %]
 
@@ -46,7 +47,7 @@
 
 <h2>Potwierdzenie</h2>
 
-<p>
+<p class="confirmation">
   Czy na pewno chcesz usunąć to pole z bazy danych?<br>
   <em><small>Ta czynność będzie wykonana poprawnie tylko, jeśli pole jest zdezaktualizowane
   i nie było nigdy używane w [% terms.bledach FILTER html %].</small></em>

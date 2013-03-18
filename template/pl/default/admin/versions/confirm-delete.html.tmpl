@@ -21,6 +21,7 @@
 
 [% PROCESS global/header.html.tmpl
   title = title
+  style_urls = ['skins/standard/admin.css']
 %]
 
 <table border="1" cellpadding="4" cellspacing="0">
@@ -55,7 +56,7 @@
 <h2>Potwierdzenie</h2>
 
 [% IF version.bug_count %]
-  <p>
+  <p class="confirmation">
   W tej wersji nadal
   [% IF version.bug_count > 1 %] 
     znajdują się [% terms.bledy %]: [% version.bug_count FILTER none %]

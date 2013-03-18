@@ -22,6 +22,7 @@
 
 [% PROCESS global/header.html.tmpl
   title = title
+  style_urls = ['skins/standard/admin.css']
 %]
 
 <table border="1" cellpadding="4" cellspacing="0">
@@ -57,8 +58,7 @@
   
 [% IF milestone.bug_count %]
 
-  <table border="0" cellpadding="20" width="70%" bgcolor="red">
-  <tr><td>
+  <p class="confirmation">
     
     [% IF milestone.bug_count > 1 %]
       Istnieją [% milestone.bug_count FILTER none %] otwarte [% terms.bledy %] dla tej wersji docelowej.
@@ -69,9 +69,7 @@
     <b><blink>WSZYSTKIE</blink></b> [% terms.bledy %] zostaną przypisane
     do wersji [% product.default_milestone FILTER html %] – domyślnej wersji docelowej
     produktu [% product.name FILTER html %].
-  </td></tr>
-  </table>
-
+  </p>
 [% END %]
 
 <p>Czy na pewno chcesz usunąć tę wersję docelową?</p>

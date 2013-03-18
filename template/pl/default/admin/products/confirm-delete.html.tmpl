@@ -197,7 +197,7 @@
 
   [% IF !Param("allowbugdeletion") %]
 
-    <p>W tym produkcie nadal
+    <p class="confirmation">W tym produkcie nadal
 
     [% IF product.bug_count > 1 %]
       istnieją [% terms.bledy %]: [% product.bug_count FILTER html %].
