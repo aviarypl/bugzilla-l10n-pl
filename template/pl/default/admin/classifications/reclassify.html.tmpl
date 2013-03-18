@@ -16,11 +16,11 @@
 <form method=post action="editclassifications.cgi">
   <table border=0 cellpadding=4 cellspacing=0>
     <tr>
-      <td valign="top">Kategoria:</td>
+      <th align="right">Kategoria:</th>
       <td valign="top" colspan=3>[% classification.name FILTER html %]</td>
 
     </tr><tr>
-      <td valign="top">Opis:</td>
+      <th align="right">Opis:</th>
       <td valign="top" colspan=3>
         [% IF classification.description %]
           [% classification.description FILTER html_light %]
@@ -30,11 +30,11 @@
       </td>
 
     </tr><tr>
-      <td valign="top">Klucz sortowania:</td>
+      <th align="right">Klucz sortowania:</th>
       <td valign="top" colspan=3>[% classification.sortkey FILTER html %]</td>
 
     </tr><tr>
-      <td valign="top">Produkty:</td>
+      <th align="right">Produkty:</th>
       <td valign="top">Inne kategorie</td>
       <td></td>
       <td valign="top">Ta kategoria</td>
