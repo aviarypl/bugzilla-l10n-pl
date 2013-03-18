@@ -1591,6 +1591,17 @@
     Pole „zawartość” może być używane wyłącznie z wyszukiwaniem „pasuje”,
     a wyszukiwanie „pasuje” tylko z polem „zawartość”.
 
+  [% ELSIF error == "search_grouped_field_invalid" %]
+    [% terms.Bugzilla %] does not support using the 
+    "[%+ field_descs.$field FILTER html %]" ([% field FILTER html %])
+    field with grouped search conditions.
+
+  [% ELSIF error == "search_grouped_invalid_nesting" %]
+    You cannot nest clauses within grouped search conditions.
+
+  [% ELSIF error == "search_grouped_field_mismatch" %]
+    All conditions under a groups search must use the same field.
+
   [% ELSIF error == "search_field_operator_invalid" %]
     [% terms.Bugzilla %] nie obsługuje wykorzystywania operatora wyszukiwania
     „[% search_descs.$operator FILTER html %]” dla pola
