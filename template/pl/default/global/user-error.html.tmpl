@@ -1042,6 +1042,8 @@
       Jeśli nie zostanie wprowadzone prawidłowe hasło w [% remaining FILTER html %] [%+ PROCESS ODMIEN c=remaining o1="ostatniej próbie" o2="kolejnych próbach" o3="kolejnych próbach" %], to konto
       zostanie zablokowane na
       [%+ constants.LOGIN_LOCKOUT_INTERVAL FILTER html %] minut.
+      To avoid being locked out, you can reset your password using
+      the "Forgot Password" link.
     [% END %]
 
   [% ELSIF error == "json_rpc_get_method_required" %]
