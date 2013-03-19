@@ -740,6 +740,10 @@
     [% title = "Nie znaleziono formatu" %]
     Wybrany format <em>[% format FILTER html %]</em> nie istnieje
     z zawartością typu <em>[% ctype FILTER html %]</em>.
+
+    [% IF invalid %]
+      Both parameters must contain letters and hyphens only.
+    [% END %]
     
   [% ELSIF error == "flag_type_sortkey_invalid" %]
     [% title = "Nieprawidłowy klucz sortowania flagi" %]
