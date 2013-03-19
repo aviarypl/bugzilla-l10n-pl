@@ -1704,6 +1704,11 @@
     [% title = "Nieznana etykieta" %]
     <code>[% current_tab_name FILTER html %]</code> nie jest nazwą istniejącej etykiety.
 
+  [% ELSIF error == "value_inactive" %]
+    [% title = "Wartość jest wyłączona" %]
+    [% type = BLOCK %][% INCLUDE object_name class = class %][% END %]
+    Wartość „[% value FILTER html %]” pola [% type FILTER html %] jest wyłączona.
+
   [% ELSIF error == "version_already_exists" %]
     [% title = "Wersja już istnieje" %]
     [% admindocslinks = {'versions.html' => 'Administracja wersjami'} %]
