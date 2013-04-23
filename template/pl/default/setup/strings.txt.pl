@@ -388,24 +388,6 @@ Perl PatchReader) nalezy zainstalowac pakiet patchutils ze strony:
 
     http://cyberelk.net/tim/patchutils/
 END
-    ppm_repo_add => <<EOT,
-***********************************************************************
-* Informacja dla uzytkownikow systemu Windows                         *
-***********************************************************************
-* Aby zainstalowac wymienione ponizej moduly, nalezy najpierw jako    * 
-* Administrator uruchomic nastepujace polecenie:                      *
-*                                                                     *
-*   ppm repo add theory58S ##theory_url##
-EOT
-    ppm_repo_up => <<EOT,
-*                                                                     *
-* Nastepnie (rowniez jako Administrator) nalezy wykonac:              *
-*                                                                     *
-*   ppm repo up theory58S                                             *
-*                                                                     *
-* Ostatnie polecenie nalezy uruchamiac az do chwili ujrzenia na       *
-* poczatku wyswietlanej listy tekstu "theory58S".                     *
-EOT
     template_precompile   => "Kompilowanie szablonow... ",
     template_removal_failed => <<END,
 OSTRZEZENIE: Nie mozna usunac katalogu '##datadir##/template'.
