@@ -220,6 +220,7 @@
 
 'bug/comments.html.tmpl' => [
   'comment.id',
+  'comment.count',
   'bug.bug_id',
 ],
 
