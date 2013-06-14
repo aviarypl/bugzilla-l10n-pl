@@ -54,9 +54,10 @@
   [% END %]
 
   [% END %]
-
+  [% IF author.login == recipient.login %]
 Wyświetl jako listę [% terms.bledow %]: [% urlbase %]buglist.cgi?cmdtype=runnamed&namedcmd=[% query.name FILTER uri %]
-[% END %]
+  [% END %]
+  [% END %]
 [% ELSE %]
 Nie znaleziono $terms.bledow spełniających podane kryteria wyszukiwania.
 [% END %]

@@ -68,10 +68,12 @@
     [% END %]
   </table>
 
-    <p align="left">
-    <a href="[% urlbase FILTER html %]buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% query.name FILTER uri %]">Wyświetl jako listę [% terms.bledow %]</a>
-    </p>
-[% END %]
+    [% IF author.login == recipient.login %]  
+      <p align="left">
+        <a href="[% urlbase FILTER html %]buglist.cgi?cmdtype=runnamed&amp;namedcmd=[% query.name FILTER uri %]">Wyświetl jako listę [% terms.bledow %]</a>
+      </p>
+    [% END %]
+  [% END %]	
 [% ELSE %]
 <h3>Nie znaleziono $terms.bledow spełniających podane kryteria wyszukiwania.</h3>
 [% END %]
