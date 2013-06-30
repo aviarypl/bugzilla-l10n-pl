@@ -87,8 +87,8 @@
         [% END %]
         Musisz zmienić wartość pola
           <a title="Lista [% terms.bledow %], gdzie
-	„[%- field.description FILTER html %]” ma wartość
-	„[%- value.name FILTER html %]”"
+                    „[%- field.description FILTER html %]” ma wartość
+                    „[%- value.name FILTER html %]”"
              href="buglist.cgi?[% field.name FILTER uri %]=
                    [%- value.name FILTER uri %]">
             [% IF value.bug_count > 1 %]

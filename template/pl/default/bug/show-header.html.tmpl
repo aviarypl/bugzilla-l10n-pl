@@ -19,13 +19,13 @@
 [% filtered_desc = bug.short_desc FILTER html %]
 [% subheader = filtered_desc %]
 [% filtered_timestamp = bug.delta_ts FILTER time %]
-[% header_addl_info = "Ostatnio modyfikowany: $filtered_timestamp" %]
+[% title = "$terms.Blad $bug.bug_id &ndash; $filtered_desc" %]
 [% yui = ['autocomplete', 'calendar'] %]
 [% javascript_urls = [ "js/util.js", "js/field.js" ] %]
 [% IF bug.defined %]
-[% title = "$terms.Blad $bug.bug_id &ndash; $filtered_desc" %]
-[% header = "$terms.Blad&nbsp;$bug.bug_id" %]
-[% unfiltered_title = "$terms.Blad $bug.bug_id – $bug.short_desc" %]
+  [% header = "$terms.Blad&nbsp;$bug.bug_id" %]
+  [% header_addl_info = "Ostatnio modyfikowany: $filtered_timestamp" %]
+  [% unfiltered_title = "$terms.Blad $bug.bug_id – $bug.short_desc" %]
   [% javascript =  BLOCK %]
     if (history && history.replaceState) {
       if(!document.location.href.match(/show_bug\.cgi/)) {

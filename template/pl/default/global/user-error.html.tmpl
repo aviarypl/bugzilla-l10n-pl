@@ -929,10 +929,8 @@
       [% IF bug_id %]Nieprawidłowy [% ELSE %]Brakuje [% END %] ID [% terms.bledu %]
     [% END %]
     [% IF bug_id %]
-      „[% bug_id FILTER html %]” nie jest poprawnym numerem [% terms.bledu %]
-      [% IF Param("usebugaliases") %]
-        ani aliasem [% terms.bledu %]
-      [% END %].
+      „[% bug_id FILTER html %]” nie jest poprawnym numerem
+      ani aliasem [% terms.bledu %]
     [% ELSE %]
       [% IF field %]
         Pole „[% field_descs.$field FILTER html %]” nie może
@@ -1164,6 +1162,7 @@
     Należy podać opis załącznika.
   
   [% ELSIF error == "missing_bug_id" %]
+    [% title = "Brakujący identyfikator $terms.bledu" %]
     Nie podano identyfikatora [% terms.bledu %].
  
   [% ELSIF error == "missing_category" %]
@@ -1224,6 +1223,7 @@
     [% END %]
 
   [% ELSIF error == "need_quipid" %]
+    [% title = "Brak identyfikatora sentencji" %]
     Wymagany jest poprawny identyfikator sentencji.
 
   [% ELSIF error == "missing_resolution" %]
@@ -1537,6 +1537,7 @@
     odpowiedzialnej za rozwiązanie [% terms.bledu %].
 
   [% ELSIF error == "report_axis_invalid" %]
+    [% title = "Nieprawidłowa wartość" %]
     <em>[% val FILTER html %]</em> nie jest prawidłową wartością dla pola
     [%+ IF    fld == "x" %]osi poziomej
     [%+ ELSIF fld == "y" %]osi pionowej

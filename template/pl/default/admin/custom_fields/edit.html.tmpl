@@ -126,6 +126,7 @@
       </td>
     </tr>
       [% IF field.type == constants.FIELD_TYPE_BUG_ID %]
+      <tr>
         <th class="narrow_label">
           <label for="reverse_desc">Opis o odwróconej zależności:</label>
         </th>
@@ -139,8 +140,8 @@
           powinien mieć postać: „Duplikaty tego [% terms.bledu %]”. 
           Pozostaw puste, aby wyłączyć wyświetlanie listy dla tego pola.
         </td>
-      [% ELSE %]
         <td colspan="2">&nbsp;</td>
+      </tr>
       [% END %]
     [% IF field.is_select %]
       <tr>
