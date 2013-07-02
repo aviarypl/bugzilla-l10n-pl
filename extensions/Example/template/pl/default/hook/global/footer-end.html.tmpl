@@ -11,8 +11,8 @@
 [% USE date %]
 
 <p align="center">
-  <em>[% component.callers.first FILTER html %]</em> processed
-  on [% date.format(date.now, '%b %d, %Y at %H:%M:%S') FILTER html %].
+  <em>[% component.callers.first FILTER html %]</em> przetworzono
+  [%+ date.format(date.now, '%d.%m.%Y o %H:%M %Z') FILTER html %].
   <br>
-  (provided by the Example extension).
+  (Wygenerowano przez przykładowe rozszerzenie.)
 </p>
