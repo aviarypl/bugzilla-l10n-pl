@@ -66,8 +66,8 @@
   <script type="text/javascript">
     redirect_html4_browsers();
     [%# These are alternative labels for the AND and OR options in and_all_select %]
-    var cs_and_label = 'Match ALL of the following:';
-    var cs_or_label  = 'Match ANY of the following:';
+    var cs_and_label = 'Zawiera wszystkie następujące wyrażenia:';
+    var cs_or_label  = 'Zawiera dowolne z następujących wyrażeń:';
     cs_reconfigure('custom_search_last_row');
   </script>
   <script type="text/javascript" src="[% 'js/history.js/native.history.js' FILTER mtime %]"></script>
@@ -171,11 +171,11 @@
   <div class="any_all_select">
     <select name="[% name FILTER html %]" id="[% name FILTER html %]"
             onchange="fix_query_string(this)">
-      <option value="AND">Zawiera wszystkie następujące wyrażenia separately:</option>
+      <option value="AND">Zawiera wszystkie następujące wyrażenia:</option>
       <option value="OR" [% ' selected="selected"' IF selected == "OR" %]>
-        Zawiera dowolne z następujących wyrażeń separately:</option>
+        Zawiera dowolne z następujących wyrażeń:</option>
       <option value="AND_G" [% ' selected' IF selected == "AND_G" %]>
-        Match ALL of the following against the same field:</option>
+        Zawiera wszystkie następujące wyrażenia dla określonego pola:</option>
     </select>
     [% IF with_advanced_link %]
       <a id="custom_search_advanced_controller"

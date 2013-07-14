@@ -1598,15 +1598,15 @@
     a wyszukiwanie „pasuje” tylko z polem „zawartość”.
 
   [% ELSIF error == "search_grouped_field_invalid" %]
-    [% terms.Bugzilla %] does not support using the 
-    "[%+ field_descs.$field FILTER html %]" ([% field FILTER html %])
-    field with grouped search conditions.
+    [% terms.Bugzilla %] nie obsługuje wykorzystywania pola
+    „[%+ field_descs.$field FILTER html %]” ([% field FILTER html %])
+    w grupie kryteriów wyszukiwania.
 
   [% ELSIF error == "search_grouped_invalid_nesting" %]
-    You cannot nest clauses within grouped search conditions.
+    Zagnieżdżanie warunków w klauzuli grupy kryteriów wyszukiwania jest niedozwolone.
 
   [% ELSIF error == "search_grouped_field_mismatch" %]
-    All conditions under a groups search must use the same field.
+    Wszystkie warunki w grupie kryteriów wyszukiwania muszą wskazywać na to samo pole.
 
   [% ELSIF error == "search_field_operator_invalid" %]
     [% terms.Bugzilla %] nie obsługuje wykorzystywania operatora wyszukiwania
