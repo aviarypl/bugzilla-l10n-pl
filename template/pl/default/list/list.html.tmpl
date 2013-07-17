@@ -326,7 +326,7 @@
 [% BLOCK num_results %]
   <span class="bz_result_count">
     [% IF bugs.size == 0 %]
-      <span class="zero_results">[% terms.zeroSearchResults %].</span>
+      <span class="zero_results">[% terms.zeroSearchResults %] [%+ terms.bledow %].</span>
     [% ELSIF default_limited AND bugs.size >= Param('default_search_limit') %]
       Listę wyników wyszukiwania ograniczono do [% Param('default_search_limit') FILTER html %]
       [%+ terms.bledow %].
