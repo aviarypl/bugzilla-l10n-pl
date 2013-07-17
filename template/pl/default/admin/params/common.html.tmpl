@@ -96,6 +96,8 @@
                     [% " selected=\"selected\"" IF item == Param(param.name) %]>
               [% IF param.name == "defaultseverity" %]
                 [% display_value("bug_severity", item) FILTER html %]
+              [% ELSIF param.name == "defaultpriority" %]
+                [% display_value("priority", item) FILTER html %]
               [% ELSIF param.name == "defaultplatform" %]
                 [% display_value("rep_platform", item) FILTER html %]
               [% ELSIF param.name == "defaultopsys" %]
