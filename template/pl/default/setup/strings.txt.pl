@@ -221,7 +221,7 @@ automatyczne utworzenie pliku index.html przez skrypt checksetup.pl, jesli plik
 nie istnieje.
 UWAGA: skrypt checksetup.pl nie nadpisze istniejacego pliku, wiec aby operacja
        utworzenia pliku index.html sie powiodla, nalezy upewnic sie, ze plik
-	   o tej nazwie nie istnieje.
+       o tej nazwie nie istnieje.
 END
     localconfig_interdiffbin => <<'END',
 Funkcja "Roznice pomiedzy latkami" Patch Viewera wymaga okreslenia pelnej sciezki do pliku

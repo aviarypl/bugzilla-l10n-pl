@@ -269,8 +269,7 @@
 
   [% ELSIF message_tag == "extension_created" %]
     Rozszerzenie o nazwie [% name FILTER html %] zostało utworzone
-    w [% path FILTER html %]. Sprawdź, czy w kodzie zostały zmienione 
-    „TWOJA NAZWA” i „TWÓJ ADRES E-MAIL” na twoją nazwę i adres e-mail.
+    w [% path FILTER html %].
 
   [% ELSIF message_tag == "field_value_created" %]
     [% title = "Utworzono nową wartość pola" %]
@@ -891,7 +890,7 @@
       zostały zapisane:
       <ul>
       [% IF changes.value.defined %]
-    <li>Zmieniono nazwę wersji na <em>[% version.name FILTER html %]</em></li>.
+    <li>Zmieniono nazwę wersji na <em>[% version.name FILTER html %]</em></li>
       [% END %]
         [% IF changes.isactive.defined %]
           <li>[% version.is_active ? "Otwarto" : "Zamknięto" %] dla zgłaszania [% terms.bledow %]</li>
