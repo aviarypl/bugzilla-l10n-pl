@@ -29,10 +29,12 @@
   </div>
 [% END %]
 
+[% IF user.authorizer.can_change_email && Param('allowemailchange') %]
 <p>
   Jeśli chcesz zmienić obecny adres email <b>[% user.email FILTER html %]</b>, na który [% terms.Bugzilla %] wysyła wiadomości,
   przejdź do zakładki „Użytkownik i hasło”.
 </p>
+[% END %]
 
 <p>
   Jeśli nie chcesz otrzymywać wiadomości o błahych
