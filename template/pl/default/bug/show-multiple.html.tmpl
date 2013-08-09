@@ -59,8 +59,8 @@
     <tr>
       <td class="error">
         [% IF bug.error == "InvalidBugId" %]
-          Numer „[% bug.bug_id FILTER html %]” nie jest prawidłowym numerem [% terms.bledu %]
-          [%- IF Param("usebugaliases") %] ani znanym aliasem [% terms.bledu %][% END %].
+          Numer „[% bug.bug_id FILTER html %]” nie jest prawidłowym numerem
+          ani znanym aliasem [% terms.bledu %][% END %].
         [% ELSIF bug.error == "NotPermitted" %]
           Nie masz uprawnień do oglądania tego [% terms.bledu %].
         [% ELSIF bug.error == "NotFound" %]
