@@ -776,9 +776,7 @@
 
   [% ELSIF message_tag == "product_created" %]
     [% title = "Utworzono produkt" %]
-    Produkt <em>[% product.name FILTER html %]</em> został utworzony. Należy
-    <a href="editcomponents.cgi?action=add&product=[% product.name FILTER uri %]">
-    dodać co najmniej jeden komponent</a>, zanim ktokolwiek będzie mógł zgłaszać [% terms.bledy %] w tym produkcie.
+    Produkt <em>[% product.name FILTER html %]</em> został utworzony.
 
   [% ELSIF message_tag == "product_deleted" %]
     [% title = "Usunięto produkt" %]
