@@ -439,9 +439,8 @@
     [% title = "Zmiana adresu w toku" %]
     Zmiana adresu e-mail w toku. Proszę sprawdzić swoją pocztę.
 
-  [% ELSIF error == "email_no_text_plain" %]
-    Wiadomość nie zawierała żadnego tekstu. [% terms.Bugzilla %] nie
-    obsługuje poczty w formacie HTML i poczty HTML z załącznikami.
+  [% ELSIF error == "email_no_body" %]
+    Wiadomość nie zawierała żadnego tekstu.
 
   [% ELSIF error == "empty_group_description" %]
     [% title = "Opis grupy nie może być pusty" %]
