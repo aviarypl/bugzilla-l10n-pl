@@ -42,19 +42,19 @@
       </td>
     </tr>
     <tr>
-      <th align="right"><label for="sortkey">Klucz sortowania:</label></th>
+      <th><label for="sortkey">Klucz sortowania:</label></th>
       <td><input id="sortkey" size="6" maxlength="6" name="sortkey" 
                  value="[%- value.sortkey FILTER html %]"></td>
     </tr>
     [% IF field.name == "bug_status" %]
       <tr>
-        <th align="right"><label for="is_open">Typ statusu:</label></th>
+        <th><label for="is_open">Typ statusu:</label></th>
         <td>[% IF value.is_open %]Otwarty[% ELSE %]Zamknięty[% END %]</td>
       </tr>
     [% END %]
     [% IF field.value_field %]
       <tr>
-        <th align="right">
+        <th>
           <label for="visibility_value_id">Wyświetlana jest tylko, gdy 
            „[% field.value_field.description FILTER html %]” przyjmuje wartość:
           </label>
@@ -79,7 +79,7 @@
       </tr>
     [% END %]
     <tr>
-      <th align="right"><label for="is_active">Włączono dla [% terms.bledow %]:</label></th>
+      <th><label for="is_active">Włączono dla [% terms.bledow %]:</label></th>
       <td><input id="is_active" name="is_active" type="checkbox" value="1" 
            [%+ 'checked="checked"' IF value.is_active %]
            [%+ 'disabled="disabled"' IF value.is_default OR value.is_static %]>

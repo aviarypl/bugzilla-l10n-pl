@@ -49,16 +49,6 @@
   <hr>
 [% END %]
 
-[% IF votes_recorded %]
-  <p>
-    <font color="red">
-      Zmiana głosów została zapisana.
-    </font>
-  </p>
-[% ELSE %]
-  <br>
-[% END %]
-
 [% IF products.size %]
   <form name="voting_form" method="post" action="page.cgi?id=voting/user.html">
     <input type="hidden" name="action" value="vote">
@@ -121,7 +111,7 @@
               [% END %]
             </a></td>
             <td align="center">
-              [% bug.id FILTER bug_link(bug) FILTER none %]
+              [% bug.id FILTER bug_link(bug.id) FILTER none %]
             </td>
             <td>
               [% bug.summary FILTER html %]

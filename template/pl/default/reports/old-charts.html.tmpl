@@ -30,9 +30,9 @@
         <tr>
           <th>Produkt:</th>
           <td align="center">
-            <select id="product" name="product">
+            <select id="product_id" name="product_id">
               [% FOREACH product = products %]
-                <option value="[% product FILTER html %]">[% product FILTER html %]</option>
+                <option value="[% product.id FILTER html %]">[% product.name || '-All-' FILTER html %]</option>
               [% END %]
             </select>
           </td>

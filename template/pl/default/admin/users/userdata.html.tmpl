@@ -27,7 +27,7 @@
              id="login" value="[% otheruser.login FILTER html %]" />
       [% IF editform %]
         [% IF !otheruser.in_group('bz_sudo_protect') %]
-          <br>
+          <br />
           <a href="relogin.cgi?action=prepare-sudo&amp;target_login=
           [%- otheruser.login FILTER uri %]">Przejmij tożsamość tego użytkownika</a>
         [% END %]
@@ -106,6 +106,15 @@
        %]<br>
       <small>(Wprowadzenie tekstu w powyższe pole spowoduje wyłączenie możliwości zalogowania się, a tekst ten będzie
       wyświetlany jako powód wyłączenia)</small>
+    </td>
+  </tr>
+[% END %]
+[% UNLESS editform %]
+  <tr>
+    <th><label for="notify_user">Notify User:</label></th>
+    <td>
+      <input type="checkbox" name="notify_user" id="notify_user" value="1">
+      (Email this user their account information. The password will not be included.)
     </td>
   </tr>
 [% END %]

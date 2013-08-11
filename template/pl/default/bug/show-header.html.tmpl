@@ -15,16 +15,26 @@
   # be overridden by the calling templates.
   #%]
 
+[% filtered_alias = bug.alias FILTER html %]
 [% filtered_desc = bug.short_desc FILTER html %]
-[% subheader = filtered_desc %]
 [% filtered_timestamp = bug.delta_ts FILTER time %]
-[% title = "$terms.Blad $bug.bug_id &ndash; $filtered_desc" %]
+
+[% subheader = filtered_desc %]
+[% title = "$terms.Blad $bug.bug_id &ndash; " %]
+[% IF bug.alias != '' %]
+  [% title = title _ "($filtered_alias) " %]
+[% END %]
+[% title = title _ filtered_desc %]
 [% yui = ['autocomplete', 'calendar'] %]
 [% javascript_urls = [ "js/util.js", "js/field.js" ] %]
 [% IF bug.defined %]
   [% header = "$terms.Blad&nbsp;$bug.bug_id" %]
   [% header_addl_info = "Ostatnio modyfikowany: $filtered_timestamp" %]
-  [% unfiltered_title = "$terms.Blad $bug.bug_id – $bug.short_desc" %]
+  [% unfiltered_title = "$terms.Blad $bug.bug_id – " %]
+  [% IF bug.alias != '' %]
+    [% unfiltered_title = unfiltered_title _ "($bug.alias) " %]
+  [% END %]
+  [% unfiltered_title = unfiltered_title _ bug.short_desc %]
   [% javascript =  BLOCK %]
     if (history && history.replaceState) {
       if(!document.location.href.match(/show_bug\.cgi/)) {
@@ -47,7 +57,6 @@
 [% END %]
 [% style_urls = [ "skins/standard/show_bug.css" ] %]
 [% doc_section = "bug_page.html" %]
-
 [% bodyclasses = ['bz_bug',
                   "bz_status_$bug.bug_status",
                   "bz_product_$bug.product",
@@ -59,4 +68,3 @@
 [% END %]
 
 [% Hook.process('end') %]
-

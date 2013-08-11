@@ -94,6 +94,13 @@
                   "dostęp poza stronę główną. Dostęp do danych będą mieli tylko " _
                   "zalogowani użytkownicy.",
 
+  webservice_email_filter =>
+    "Filter email addresses returned by the WebService API depending on " _
+    "if the user is logged in or not. This works similarly to how the " _
+    "web UI currently filters email addresses. If <tt>requirelogin</tt> " _
+    "is enabled, then this parameter has no effect as users must be logged " _
+    "in to use Bugzilla.",
+
   emailregexp => "Parametr ten określa wyrażenie regularne kontrolujące poprawny adres e-mail, " _
                  "natomiast jego wartość domyślna określa wszystkie poprawne adresy e-mail. " _
                  "Użycie <tt>.*</tt> zezwala na podanie adresów e-mail zgodnych ze specyfikacją  " _

@@ -53,8 +53,8 @@
     
   [% ELSIF error == "chart_data_not_generated" %]
     [% admindocslinks = {'extraconfig.html' => 'Konfiguracja wykresów'} %]
-    [% IF product %]
-      Wykresy dla produktu <em>[% product FILTER html %]</em> nie są dostępne, ponieważ
+    [% IF product.id %]
+      Wykresy dla produktu <em>[% product.name FILTER html %]</em> nie są dostępne, ponieważ
       żadne dane nie zostały zebrane od czasu jego utworzenia.
     [% ELSE %]
       Żadne dane do wykresów nie zostały jeszcze zebrane.

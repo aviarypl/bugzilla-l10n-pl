@@ -204,6 +204,8 @@ które nie są ograniczone do grupy.
     </tr>
   [% END %]
   [% PROCESS display_buglist %]
+  <br><br>
+  <a href="request.cgi?[% urlquerypart FILTER html %]&amp;ctype=csv">View entire list as CSV</a>
 [% END %]
 
 [% PROCESS global/footer.html.tmpl %]

@@ -39,6 +39,7 @@ Subject: Użytkownik [% subject_status %] flagę „[% flagtype_name %]” dla: 
   [Załącznik [% attachment.id %]] [% attachment.description FILTER clean_text %][% END %]
 Date: [% date %]
 X-Bugzilla-Type: request
+[%+ INCLUDE "email/header-common.txt.tmpl" %]
 [%+ threadingmarker %]
 
 [%+ USE wrap -%]
@@ -67,7 +68,7 @@ Załącznik [% attidsummary %]
 [%- FILTER bullet = wrap(80) %]
 
 [% USE Bugzilla %]
-[%-# .defined is necessary to avoid a taint issue in Perl < 5.10.1, see bug 509794. %]
+[%-# .defined is necessary to avoid a taint issue, see bug 509794. %]
 [% IF Bugzilla.cgi.param("comment").defined && Bugzilla.cgi.param("comment").length > 0 %]
 ------- Dodatkowe komentarze od [% user.identity %]
 [%+ Bugzilla.cgi.param("comment") %]

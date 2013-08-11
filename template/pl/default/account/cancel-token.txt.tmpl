@@ -13,7 +13,7 @@ To: [% emailaddress %]
 Subject: [% PROCESS subject %]
 X-Bugzilla-Type: admin
 
-Prośba została anulowana z [% remoteaddress %].
+[% PROCESS subject %] z [% remoteaddress %].
 
 Jeśli ta prośba nie pochodzi od Ciebie, to może być pomyłką
 lub próbą włamania na Twoje konto w [% terms.Bugzilli %].
@@ -30,13 +30,13 @@ Powód anulowania: [% PROCESS cancelactionmessage %]
 
 [% BLOCK subject %]
   [% IF tokentype == 'new_account' %]
-    Prośba o utworzenie konta została anulowana.
+    Prośba o utworzenie konta została anulowana
   [% ELSIF tokentype == 'password' %]
-    Prośba o zmianę hasła została anulowana.
+    Prośba o zmianę hasła została anulowana
   [% ELSIF tokentype == 'emailnew' OR tokentype == 'emailold' %]
-    Prośba o zmianę adresu e-mail została anulowana.
+    Prośba o zmianę adresu e-mail została anulowana
   [% ELSE %]
-    Token [% tokentype %] został anulowany.
+    Token [% tokentype %] został anulowany
   [% END %]
 [% END %]
 

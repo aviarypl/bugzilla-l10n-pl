@@ -121,16 +121,18 @@ Różnica pomiędzy #[% oldid %] oraz #[% newid %] do [% terms.bledu %] #[% bugi
 [% END %]
 
 [% IF warning %]
-<h2 class="warning">Ostrzeżenie: 
+<h2 class="warning">
+  Ostrzeżenie:
   [% IF warning == "interdiff1" %]
   Z powodu niedoskonałości [% terms.Bugzilli %] wyświetlany diagram różnic pomiędzy dwoma
   łatkami stworzonymi dla różnych zestawów plików może pokazywać niektóre dane w 
   niewłaściwych miejscach.
-  [% END %]
   [% IF warning == "interdiff2" %]
   Z powodu niedoskonałości [% terms.Bugzilli %] wyświetlany diagram różnic pomiędzy dwoma
   łatkami może być wyświetlany niepoprawnie w przypadku porównywania łatek stworzonych
   dla różnych wersji plików.
+  [% ELSIF warning == "interdiff3" %]
+    interdiff encountered errors while comparing these patches.
   [% END %]
 </h2>
 [% ELSE %]
@@ -140,5 +142,3 @@ Różnica pomiędzy #[% oldid %] oraz #[% newid %] do [% terms.bledu %] #[% bugi
 [%# Restore Stuff %]
 <form name="checkboxform" action="attachment.cgi">
 <input type="checkbox" name="restore_indicator" style="display: none">
-
-

@@ -4,6 +4,8 @@
   #
   # This Source Code Form is "Incompatible With Secondary Licenses", as
   # defined by the Mozilla Public License, v. 2.0.
+  #
+  # Translated by Zespół Aviary.pl <team@aviary.pl>
   #%]
 
 [% SWITCH field.type %]
@@ -52,7 +54,7 @@
       YAHOO.bugzilla.fieldAutocomplete.init('[% field.name FILTER js %]',
                                             '[% field.name FILTER js %]_autocomplete');
     </script>
-  [% CASE constants.FIELD_TYPE_DATETIME %]
+  [% CASE [constants.FIELD_TYPE_DATETIME, constants.FIELD_TYPE_DATE] %]
     [% INCLUDE "bug/field-label.html.tmpl"
       field = field
       tag_name = "span"

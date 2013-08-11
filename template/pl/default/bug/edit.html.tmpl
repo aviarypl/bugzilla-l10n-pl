@@ -30,7 +30,6 @@
       // if the remaining time is changed manually, update fRemainingTime
       fRemainingTime = document.changeform.remaining_time.value;
   }
-
 [% END %]
 
 [% IF user.id %]
@@ -68,7 +67,7 @@
           
           [% PROCESS section_spacer %]
           
-          [%# *** severity, priority, version and milestone *** %]
+          [%# *** severity, priority, version, milestone, and deadline *** %]
           [% PROCESS section_details2 %]            
           
           [%# *** assigned to and qa contact *** %]
@@ -95,19 +94,21 @@
         <table cellpadding="3" cellspacing="1">
         [%# *** Reported and modified dates *** %]
          [% PROCESS section_dates %]
-         
+
          [% PROCESS section_cclist %]
-         
+
+         [% PROCESS section_bug_ignored %]
+
          [% PROCESS section_spacer %]
 
          [% PROCESS section_see_also %] 
-         
+
          [% PROCESS section_customfields %]
-         
+
          [% PROCESS section_spacer %]
-         
+
          [% Hook.process("after_custom_fields") %]
-                
+
          [% PROCESS section_flags %]
 
         </table>
@@ -356,6 +357,9 @@
       </tr>
     [% END %]
   
+    [% IF Param("timetrackinggroup") && bug.deadline %]
+      [% INCLUDE bug/field.html.tmpl field = bug_fields.deadline, value = bug.deadline, editable = 0 %]
+    [% END %]
 [% END %]
 
 [%############################################################################%]
@@ -587,7 +591,8 @@
     [% INCLUDE dependencies 
          field = bug_fields.blocked deps = bug.blocks_obj %]
   </tr>
-  
+
+  [% IF bug.dependson.size || bug.blocked.size %]
   <tr>
     <th>&nbsp;</th>
   
@@ -599,6 +604,7 @@
       [% END %]
     </td>
   </tr>
+  [% END %]
 [% END %]
 
 
@@ -810,6 +816,29 @@
         [% END %]
       </td>
     </tr>
+[% END %]
+
+[%############################################################################%]
+[%# Block for Bug Ignored                                                    #%]
+[%############################################################################%]
+[% BLOCK section_bug_ignored %]
+  [% IF user.id %]
+    <tr>
+      <th class="field_label">
+        <label for="bug_ignored" title="Ignore all email for this [% terms.bug %]">
+          Ignore [% terms.Bug %] Mail:
+        </label>
+      </th>
+      <td>
+        <input type="hidden" name="defined_bug_ignored" value="1">
+        <span title="You will still receive emails for flag requests directed at you.">
+          <input type="checkbox" name="bug_ignored" id="bug_ignored" value="1"
+                 [% ' checked="checked"' IF user.is_bug_ignored(bug.id) %]>
+          (never email me about this [% terms.bug %])
+        </span>
+      </td>
+    </tr>
+  [% END %]
 [% END %]
 
 [%############################################################################%]

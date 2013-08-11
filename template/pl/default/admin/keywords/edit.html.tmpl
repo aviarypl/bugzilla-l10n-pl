@@ -19,12 +19,12 @@
 <form method="post" action="editkeywords.cgi">
   <table border="0" cellpadding="4" cellspacing="0">
     <tr>
-      <th align="right">Nazwa:</th>
+      <th>Nazwa:</th>
       <td><input size="64" maxlength="64" name="name" 
                  value="[% keyword.name FILTER html %]"></td>
     </tr>
     <tr>
-      <th align="right">Opis:</th>
+      <th>Opis:</th>
       <td>
         [% INCLUDE global/textarea.html.tmpl
           name           = 'description'
@@ -36,7 +36,7 @@
       </td>
     </tr>
     <tr>
-      <th align="right">[% terms.Bledy %]:</th>
+      <th>[% terms.Bledy %]:</th>
       <td>
         [% IF keyword.bug_count > 0 %]
           <a href="buglist.cgi?keywords=[% keyword.name FILTER uri %]">

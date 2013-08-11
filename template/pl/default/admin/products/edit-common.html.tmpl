@@ -16,32 +16,32 @@
 
 [% IF Param('useclassification') %]
   <tr>
-    <th align="right"><b>Kategoria:</b></th>
+    <th><b>Kategoria:</b></th>
     <td><b>[% classification.name FILTER html %]</b></td>
   </tr>
 [% END %]
     
 <tr>
-  <th align="right">Produkt:</th>
+  <th>Produkt:</th>
   <td><input size="64" maxlength="64" name="product" 
              value="[% product.name FILTER html %]">
   </td>
 </tr>
 <tr>
-  <th align="right">Opis:</th>
+  <th>Opis:</th>
   <td><textarea rows="4" cols="64" wrap="virtual" name="description">
         [% product.description FILTER html %]</textarea>
   </td>
 </tr>
 
 <tr>
-  <th align="right">Otwarty dla zgłaszania [% terms.bledow %]:</th>
+  <th>Otwarty dla zgłaszania [% terms.bledow %]:</th>
   <td><input type="checkbox" name="is_active" value="1"
        [% ' checked="checked"' IF product.is_active %]>
   </td>
 </tr>
 <tr>
-  <th align="right">
+  <th>
     <label for="allows_unconfirmed">Włącz status
       [%+ display_value('bug_status', 'UNCONFIRMED') FILTER html %] w
       tym produkcie:</label>
@@ -53,7 +53,7 @@
 
 [% IF Param('usetargetmilestone') -%]
   <tr>
-    <th align="right">Domyślna wersja docelowa:</th>
+    <th>Domyślna wersja docelowa:</th>
     <td>
       [% IF product.milestones.size %]
         <select name="defaultmilestone">

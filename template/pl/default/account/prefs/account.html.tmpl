@@ -21,7 +21,7 @@
     </td>
   </tr>
   <tr>
-    <th align="right">Hasło:</th>
+    <th>Hasło:</th>
     <td>
       <input type="hidden" name="old_login" value="[% user.login FILTER html %]">
       <input type="password" name="old_password">
@@ -32,14 +32,14 @@
   </tr>
   [% IF user.authorizer.can_change_password %]
     <tr>
-      <th align="right">Nowe hasło:</th>
+      <th>Nowe hasło:</th>
       <td>
         <input type="password" name="new_password1">
       </td>
     </tr>              
 
     <tr>
-      <th align="right">Potwierdź nowe hasło:</th>
+      <th>Potwierdź nowe hasło:</th>
       <td>
         <input type="password" name="new_password2">
       </td>
@@ -47,7 +47,7 @@
   [% END %]
 
   <tr>
-    <th align="right">Imię i nazwisko <small>(opcjonalne, ale zalecane)</small>:</th>
+    <th>Imię i nazwisko <small>(opcjonalne, ale zalecane)</small>:</th>
     <td>
       <input size="35" name="realname" value="[% realname FILTER html %]">
     </td>
@@ -57,26 +57,26 @@
     [% IF login_change_date %]
       [% IF new_login_name %]
         <tr>
-          <th align="right">Proponowany nowy adres e-mail:</th>
+          <th>Proponowany nowy adres e-mail:</th>
           <td>[% new_login_name FILTER html %]</td>
         </tr>
         <tr>
-          <th align="right">Data wygaśnięcia prośby:</th>
+          <th>Data wygaśnięcia prośby:</th>
           <td>[% login_change_date FILTER time %]</td>
         </tr>
       [% ELSE %]
         <tr>
-          <th align="right">Potwierdzony adres e-mail:</th>
+          <th>Potwierdzony adres e-mail:</th>
           <td>[% user.login FILTER html %]</td>
         </tr>
         <tr>
-          <th align="right">Data zakończenia:</th>
+          <th>Data zakończenia:</th>
           <td>[% login_change_date FILTER time %]</td>
         </tr>
       [% END %]
     [% ELSE %]
       <tr>
-        <th align="right">Nowy adres e-mail:</th>
+        <th>Nowy adres e-mail:</th>
         <td>
           <input size="35" name="new_login_name">
         </td>

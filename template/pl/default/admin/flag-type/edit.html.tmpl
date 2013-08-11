@@ -131,11 +131,11 @@
     <tr>
       <th>Klucz sortowania:</th>
       <td>
-        Liczba z zakresu 1-[% constants.MAX_SMALLINT FILTER none %], według której flaga będzie sortowana
+        Liczba z zakresu 0-[% constants.MAX_SMALLINT FILTER none %], według której flaga będzie sortowana
         w czasie wyświetlania na liście. Jeśli kolejność, w jakiej flagi 
         zostaną wyświetlone, nie jest ważna lub jeśli mają być wyświetlane
         w porządku alfabetycznym, należy zignorować to pole.<br>
-        <input type="text" name="sortkey" value="[% type.sortkey || 1 %]" size="5" maxlength="5"
+        <input type="text" name="sortkey" value="[% type.sortkey || 0 %]" size="5" maxlength="5"
                [%- ' disabled="disabled"' UNLESS can_fully_edit %]>
       </td>
     </tr>

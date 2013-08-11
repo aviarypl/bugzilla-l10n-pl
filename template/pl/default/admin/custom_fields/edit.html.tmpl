@@ -12,8 +12,6 @@
   # field: Bugzila::Field; the current field being edited
   #%]
 
-[% PROCESS "global/field-descs.none.tmpl" %]
-
 [% title = BLOCK %]
   Modyfikowanie pola dodatkowego „[% field.name FILTER html %]” ([% field.description FILTER html %])
 [% END %]
@@ -36,145 +34,8 @@
 </p>
 
 <form id="edit_field" action="editfields.cgi" method="GET">
-  <table border="0" cellspacing="0" cellpadding="5" id="edit_custom_field">
-    <tr>
-      <th class="narrow_label">Nazwa:</th>
-      <td>[% field.name FILTER html %]</td>
+  [% PROCESS "admin/custom_fields/edit-common.html.tmpl" field = field %]
 
-      <th align="right">
-        <label for="enter_bug">Ustawiane w trakcie tworzenia [% terms.bledu %]:</label>
-      </th>
-      <td><input type="checkbox" id="enter_bug" name="enter_bug" value="1"
-                 [%- " checked" IF field.enter_bug %]
-                 onchange="toggleCheckbox(this, 'new_bugmail');"></td>
-    </tr>
-    <tr>
-      <th class="narrow_label"><label for="desc">Opis:</label></th>
-      <td><input type="text" id="desc" name="desc" size="40"
-                 value="[% field.description FILTER html %]"></td>
-
-      <th>
-        <label for="new_bugmail">Wyświetlane w pow. o nowych [% terms.bledach %]:</label>
-      </th>
-      <td><input type="checkbox" id="new_bugmail" name="new_bugmail" value="1"
-                 [%- " checked" IF field.mailhead %]></td>
-    </tr>
-    <tr>
-      <th class="narrow_label">Typ:</th>
-      <td>[% field_types.${field.type} FILTER html %]</td>
-
-      <th><label for="obsolete">Zdezaktualizowane:</label></th>
-      <td><input type="checkbox" id="obsolete" name="obsolete" value="1"
-                 [%- " checked" IF field.obsolete %]></td>
-    </tr>
-    <tr>
-      <th class="narrow_label"><label for="sortkey">Klucz sortowania:</label></th>
-      <td>
-        <input type="text" id="sortkey" name="sortkey" size="6" maxlength="6"
-               value="[% field.sortkey FILTER html %]">
-      </td>
-
-      <th align="right"><label for="is_mandatory">Wymagane:</label></th>
-      <td><input type="checkbox" id="is_mandatory" name="is_mandatory" value="1"
-                 [%- ' checked="checked"' IF field.is_mandatory %]></td>
-    </tr>
-    <tr>
-      <th class="narrow_label">Szczegółowy opis:</th>
-      <td>
-        [% INCLUDE global/textarea.html.tmpl
-         name           = 'long_desc'
-         id             = 'long_desc'
-         minrows        = 3
-         maxrows        = 5
-         cols           = 46
-         defaultcontent = field.long_desc
-       %]
-      </td>
-      <th>
-        <label for="visibility_field_id">Pole wyświetlane tylko, gdy:</label>
-      </th>
-      <td>
-        <select name="visibility_field_id" id="visibility_field_id"
-                onchange="onChangeVisibilityField()">
-          <option></option>
-          [% FOREACH sel_field = Bugzilla.fields({ is_select => 1 }) %]
-            [% NEXT IF sel_field.id == field.id %]
-            <option value="[% sel_field.id FILTER html %]"
-             [% ' selected="selected"' 
-                IF sel_field.id == field.visibility_field.id %]>
-              [% field_descs.${sel_field.name} FILTER html %]
-              ([% sel_field.name FILTER html %])
-            </option>
-          [% END %]
-        </select>
-        <label for="visibility_values">
-          <strong>przyjmuje wartość:</strong>
-        </label>
-        <select multiple="multiple" size="5" name="visibility_values" 
-                id="visibility_values" class="field_value">
-          [% FOREACH value = field.visibility_field.legal_values %]
-            <option value="[% value.id FILTER html %]"
-              [% " selected" IF field.visibility_values.contains(value) %]>
-              [% IF field.visibility_field.name == 'component' %]
-                [% display_value('product', value.product.name) FILTER html %]:
-              [% END %]
-              [%+ display_value(field.visibility_field.name, value.name) FILTER html %]
-            </option>
-          [% END %]   
-        </select>
-      </td>
-    </tr>
-      [% IF field.type == constants.FIELD_TYPE_BUG_ID %]
-      <tr>
-        <th class="narrow_label">
-          <label for="reverse_desc">Opis o odwróconej zależności:</label>
-        </th>
-        <td>
-          <input type="text" id="reverse_desc" name="reverse_desc" size="40"
-                 value="[% field.reverse_desc FILTER html %]">
-          <br/>
-          Użyj tej etykiety dla listy [% terms.bledow %], które są powiązane 
-          z [%+ terms.bledem %] zawierającym pole [%+ field_types.${constants.FIELD_TYPE_BUG_ID} FILTER html %].
-          Przykładowo, jeśli opisem jest: „Jest duplikatem”, to opis o odwróconej zależności
-          powinien mieć postać: „Duplikaty tego [% terms.bledu %]”. 
-          Pozostaw puste, aby wyłączyć wyświetlanie listy dla tego pola.
-        </td>
-        <td colspan="2">&nbsp;</td>
-      </tr>
-      [% END %]
-    [% IF field.is_select %]
-      <tr>
-        <th>&nbsp;</th>
-        <td>
-          <a href="editvalues.cgi?field=[% field.name FILTER uri %]">Modyfikowanie
-            dozwolonych wartości dla tego pola</a>.
-        </td>
-
-        <th>
-          <label for="value_field_id">
-            Pole nadzorujące wartości<br>
-            wyświetlane w tym polu:
-          </label>
-        </th>
-
-        <td>
-          <select name="value_field_id" id="value_field_id">
-            <option></option>
-            [% FOREACH sel_field = Bugzilla.fields({ is_select => 1 }) %]
-              [% NEXT IF sel_field.id == field.id %]
-              <option value="[% sel_field.id FILTER html %]"
-               [% ' selected="selected"' 
-                  IF sel_field.id == field.value_field.id %]>
-                [% field_descs.${sel_field.name} FILTER html %]
-                ([% sel_field.name FILTER html %])
-              </option>
-            [% END %]
-          </select>
-        </td>
-      </tr>
-    [% END %]
-  </table>
-  <br>
   <input type="hidden" name="action" value="update">
   <input type="hidden" name="name" value="[% field.name FILTER html %]">
   <input type="hidden" name="token" value="[% token FILTER html %]">

@@ -12,11 +12,15 @@
   # This template has no interface.
   #%]
 
+[% tabs = [ { name => 'specific', label => "Wyszukiwanie proste",
+              link => "query.cgi?format=specific" },
+            { name => 'advanced', label => "Wyszukiwanie zaawansowane",
+              link => "query.cgi?format=advanced" } ] %]
+
+[% Hook.process('search_tabs') %]
+
 [% WRAPPER global/tabs.html.tmpl
-     tabs = [ { name => 'specific', label => "Wyszukiwanie proste",
-                link => "query.cgi?format=specific" },
-              { name => 'advanced', label => "Wyszukiwanie zaawansowane",
-                link => "query.cgi?format=advanced" } ]
+     tabs = tabs
      current_tab_name = query_format || format || "advanced"
 %]
 

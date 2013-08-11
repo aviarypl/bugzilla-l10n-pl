@@ -38,9 +38,6 @@ Prosze wykonac polecenie drop na bazie danych Bugzilli, a nastepnie odtworzyc
 baze danych Bugzilli, ktora nie zawiera tablicy bz_schema. W ostatecznosci, 
 jesli z jakiegos powodu nie mozna wykonac tej operacji, nalezy polaczyc sie 
 z serwerem MySQL i wykonac polecenie drop na tabeli bz_schema.
-
-
-
 END
     checking_for => 'Sprawdzanie',
     checking_dbd      => 'Sprawdzanie dostepnych modulow Perl DBD...',
@@ -99,6 +96,7 @@ END
     feature_mod_perl          => 'mod_perl',
     feature_moving            => 'Przenoszenie bledow pomiedzy instalacjami',
     feature_patch_viewer      => 'Przegladarka latek',
+    feature_rest              => 'Interfejs REST',
     feature_smtp_auth         => 'Uwierzytelnianie SMTP',
     feature_smtp_ssl          => 'Szyfrowanie SSL dla polaczen SMTP',
     feature_updates           => 'Automatyczne powiadomienia o aktualizacji',
@@ -385,7 +383,7 @@ END
 UWAGA: Aby korzystac z funkcji "Roznice pomiedzy latkami" (ktora wymaga instalacji modulu
 Perl PatchReader) nalezy zainstalowac pakiet patchutils ze strony:
 
-    http://cyberelk.net/tim/patchutils/
+    http://cyberelk.net/tim/software/patchutils/
 END
     template_precompile   => "Kompilowanie szablonow... ",
     template_removal_failed => <<END,

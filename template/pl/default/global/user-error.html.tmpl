@@ -231,12 +231,12 @@
     prawidłowym identyfikatorem.
 
   [% ELSIF error == "bug_access_denied" %]
-    [% title = "Brak dostępu" %]
+    [% title = "Brak dostępu do [% terms.bledu %]" %]
     [% admindocslinks = {'groups.html' => 'Grupy zabezpieczeń'} %]
     Nie masz uprawnień dostępu do [% terms.bledu %] #[% bug_id FILTER html %].
 
   [% ELSIF error == "bug_access_query" %]
-    [% title = "Brak dostępu" %]
+    [% title = "Brak dostępu do [% terms.bledu %]" %]
     [% docslinks = {'myaccount.html' => 'Tworzenie konta'} %]
     Nie masz uprawnień dostępu do [% terms.bledu %] #[% bug_id FILTER html %].
     Aby zobaczyć ten [% terms.blad %], musisz 
@@ -439,9 +439,8 @@
     [% title = "Zmiana adresu w toku" %]
     Zmiana adresu e-mail w toku. Proszę sprawdzić swoją pocztę.
 
-  [% ELSIF error == "email_no_text_plain" %]
-    Wiadomość nie zawierała żadnego tekstu. [% terms.Bugzilla %] nie
-    obsługuje poczty w formacie HTML i poczty HTML z załącznikami.
+  [% ELSIF error == "email_no_body" %]
+    Wiadomość nie zawierała żadnego tekstu.
 
   [% ELSIF error == "empty_group_description" %]
     [% title = "Opis grupy nie może być pusty" %]
@@ -629,11 +628,14 @@
     tego [% terms.bledu %].
     <br>Jeśli załącznik jest obrazkiem, należy skonwertować go do formatu
     JPG lub PNG i spróbować ponownie.
+  [% ELSIF error == "flag_type_requestee_disabled" %]
+    [% title = "Flag not Requestable from Specific Person" %]
+    You can't ask a specific person for <em>[% type.name FILTER html %]</em>.
 
   [% ELSIF error == "flag_requestee_disabled" %]
-    [% title = "Flaga, o którą nie można poprosić" %]
-    Nie można prosić określonej osoby o ustawienie flagi 
-    <em>[% type.name FILTER html %]</em>.
+    [% title = "Prośba o zweryfikowanie flagi do osoby z wyłączonym kontem" %]
+    Nie można prosić <em>[% requestee.identity FILTER html %]</em> o ustawienie flagi 
+    ponieważ konto jest wyłączone.
 
   [% ELSIF error == "flag_requestee_needs_privs" %]
     [% title = "Brak uprawnień" %]
@@ -992,10 +994,6 @@
     [% title = "Niepoprawny parametr" %]
     Nowa wartość dla [% name FILTER html %] jest niepoprawna: [% err FILTER html %].
 
-  [% ELSIF error == "invalid_product_name" %]
-    [% title = "Nieprawidłowa nazwa produktu" %]
-    Nazwa produktu „[% product FILTER html %]” jest nieprawidłowa lub produkt nie istnieje.
-
   [% ELSIF error == "invalid_regexp" %]
     [% title = "Nieprawidłowe wyrażenie regularne" %]
     Podane wyrażenie regularne nie jest prawidłowe.
@@ -1070,6 +1068,12 @@
   [% ELSIF error == "json_rpc_post_only" %]
     Z powodów bezpieczeństwa musisz użyć HTTP POST, by wywołać
     metodę „[% method FILTER html %]”.
+  [% ELSIF error == "rest_invalid_resource" %]
+    A REST API resource was not found for '[% method FILTER html +%] [%+ path FILTER html %]'.
+
+  [% ELSIF error == "get_products_invalid_type" %]
+    The product type '[% type FILTER html %]' is invalid. Valid choices
+    are 'accessible', 'selectable', and 'enterable'.
 
   [% ELSIF error == "keyword_already_exists" %]
     [% title = "Słowo kluczowe już istnieje" %]
@@ -1273,6 +1277,8 @@
       do modyfikacji.
     [% ELSIF action == "view" %]
       do przeglądania.
+    [% ELSIF action == 'summarize' %]
+      for viewing time summaries.
     [% END %]
 
   [% ELSIF error == "no_tag_to_edit" %]
@@ -1283,6 +1289,11 @@
     [% title = "Brak początkowego statusu $terms.bledu" %]
     Nie podano statusu [% terms.bledu %] podczas tworzenia zgłoszenia.
     Proszę zgłosić problem do [% Param("maintainer") %].
+
+  [% ELSIF error == "no_keywords" %]
+    [% title = "No Keywords" %]
+    [% admindocslinks = {'keywords.html' => 'Setting up a keyword'} %]
+    No keywords have been defined for this installation.
 
   [% ELSIF error == "no_new_quips" %]
     [% title = "Nie można tworzyć nowych sentencji" %] 
@@ -1341,7 +1352,7 @@
       Popełniono błąd w nazwie lub użytkownik nie ma jeszcze zarejestrowanego
       konta w [% terms.Bugzilli %].
     [% ELSIF class == "Bugzilla::Keyword" %]
-	  Wszystkie istniejące słowa kluczowe są dostępne na <a href="describekeywords.cgi">tej liście</a>.
+	  Wyświetl listę dostępnych <a href="describekeywords.cgi">słów kluczowych</a>.
 	[% END %]
 	
   [% ELSIF error == "old_password_incorrect" %]
@@ -1695,7 +1706,9 @@
     [% ELSIF type == "account" %]
       konta
     [% END %]
-    w zbyt krótkim odstępie czasu od poprzedniej próby. Proszę odczekać [% constants.ACCOUNT_CHANGE_INTERVAL FILTER html %] minut i spróbować ponownie.
+    w zbyt krótkim odstępie czasu od poprzedniej próby.
+    Proszę odczekać [% constants.ACCOUNT_CHANGE_INTERVAL FILTER html %] minut 
+    i spróbować ponownie.
 
   [% ELSIF error == "unknown_action" %]
     [% IF action %]
@@ -1705,8 +1718,8 @@
     [% END %]
 
   [% ELSIF error == "unknown_tab" %]
-    [% title = "Nieznana etykieta" %]
-    <code>[% current_tab_name FILTER html %]</code> nie jest nazwą istniejącej etykiety.
+    [% title = "Nieznana zakładka" %]
+    <code>[% current_tab_name FILTER html %]</code> nie jest nazwą istniejącej zakładki.
 
   [% ELSIF error == "value_inactive" %]
     [% title = "Wartość jest wyłączona" %]
@@ -1779,6 +1792,11 @@
     [% title = "Użytkownik nie jest w grupie poufnej" %]
     Nie masz uprawnień do zaznaczania/odznaczania komentarzy lub załączników
     jako prywatne.
+
+  [% ELSIF error == "webdot_too_large" %]
+    [% title = "Dependency Graph Too Large" %]
+    The dependency graph contains too many [% terms.bugs %] to display (more
+    than [% constants.MAX_WEBDOT_BUGS FILTER html %] [%+ terms.bugs %]).
 
   [% ELSIF error == "wrong_token_for_cancelling_email_change" %]
     [% title = "Nieprawidłowy token" %]

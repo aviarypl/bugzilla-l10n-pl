@@ -52,7 +52,7 @@
         <th>ID</th>
         [% FOREACH col = query.columnlist %]
           [% NEXT IF col == 'bug_id' %]
-          <th align="left">[% field_descs.$col FILTER html %]</th>
+          <th>[% field_descs.$col FILTER html %]</th>
         [% END %]
     </tr>
 
@@ -75,10 +75,8 @@
     [% END %]
   [% END %]	
 [% ELSE %]
-<h3>Nie znaleziono $terms.bledow spełniających podane kryteria wyszukiwania.</h3>
+
+  <h3>Nie znaleziono $terms.bledow spełniających podane kryteria wyszukiwania.</h3>
 [% END %]
   </body>
 </html>
-
-
-

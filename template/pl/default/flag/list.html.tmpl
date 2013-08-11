@@ -90,7 +90,7 @@
   [% END %]
 [% END %]
 
-[%# Display a table row for unset flags %]
+[%# Display a table row for flags %]
 
 [% BLOCK flag_row %]
   [% RETURN IF !flag && !((type.is_requestable && user.can_request_flag(type)) || user.can_set_flag(type)) %]
