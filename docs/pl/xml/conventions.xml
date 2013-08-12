@@ -13,47 +13,47 @@
 ]>
 
 <section id="conventions">
-  <title>Document Conventions</title>
+  <title>Stosowane konwencje w dokumencie</title>
 
-  <para>This document uses the following conventions:</para>
+  <para>Stosowane konwencje:</para>
 
   <caution>
-    <para>This is a caution. Make sure to read this to not be in trouble!</para>
+    <para>Uwaga. Make sure to read this to not be in trouble!</para>
   </caution>
 
   <tip>
-    <para>This is a hint or tip, especially about some configuration tweaks.</para>
+    <para>Wskazówka, especially about some configuration tweaks.</para>
   </tip>
 
   <note>
-    <para>This is just a note, for your information.</para>
+    <para>Notatka, for your information.</para>
   </note>
 
   <warning>
-    <para>This is a warning, something you should take care of.</para>
+    <para>Ostrzeżenie, something you should take care of.</para>
   </warning>
 
   <para>
-    A filename or a path to a filename is displayed like this:
+    Nazwa pliku lub katalogu is displayed like this:
     <filename>/path/to/filename.ext</filename>
   </para>
 
   <para>
-    A command to type in the shell is displayed like this:
+    Polecenie do wprowadzenia in the shell is displayed like this:
     <command>command --arguments</command>
   </para>
 
-  <para>bash$ represents a normal user's prompt under bash shell</para>
+  <para>bash$ - prompt linii poleceń nieuprzywilejowanego użytkownika</para>
 
-  <para>bash# represents a root user's prompt under bash shell</para>
+  <para>bash# - prompt linii poleceń użytkownika root</para>
 
   <para>
-    A word which is in the glossary will appear like this:
+    Termin dostępny w glossariuszu:
     <glossterm linkend="gloss-bugzilla">Bugzilla</glossterm>
   </para>
 
   <para>
-    A sample of code is illustrated like this:
+    Przykłady kodu:
     <programlisting>
 First Line of Code
 Second Line of Code
@@ -62,10 +62,10 @@ Second Line of Code
   </para>
 
   <para>
-    This documentation is maintained in DocBook 4.2 XML format.
-    Changes are best submitted as plain text or XML diffs, attached
-    to a bug filed in the <ulink url="&bzg-bugs;">Bugzilla Documentation</ulink>
-    component.
+    Dokumentacja jest przygotowywana w formacie DocBook 4.2 XML.
+    Wszelkie zmiany należy nadsyłać w formie zwykłych plików tekstowych lub łatek na pliki XML, dołączonych
+    do zgłoszenia błędu w komponencie <ulink url="&bzg-bugs;">Bugzilla Documentation</ulink>
+    .
   </para>
 </section>
 

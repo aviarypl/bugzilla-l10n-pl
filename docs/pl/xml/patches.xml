@@ -13,109 +13,109 @@
 ]>
 
 <appendix id="patches" xreflabel="Useful Patches and Utilities for Bugzilla">
-  <title>Contrib</title>
+  <title>Katalog Contrib</title>
 
   <para>
-    There are a number of unofficial Bugzilla add-ons in the 
+    W katalogu
     <filename class="directory">$BUGZILLA_ROOT/contrib/</filename>
-    directory. This section documents them.
+    znajdują się nieoficjalne dodatki do Bugzilli. Zostały one opisane w tym rozdziale.
   </para>
 
   <section id="cmdline">
-    <title>Command-line Search Interface</title>
+    <title>Interfejs wyszukiwania z linii poleceń</title>
 
     <para>
-      There are a suite of Unix utilities for searching Bugzilla from the 
-      command line. They live in the 
-      <filename class="directory">contrib/cmdline</filename> directory.
-      There are three files - <filename>query.conf</filename>,
-      <filename>buglist</filename> and <filename>bugs</filename>.
+      W katalogu <filename class="directory">contrib/cmdline</filename>
+      znajduje się zestaw programów Uniksowych służących do wykonywania zapytań
+      do bazy Bugzilli z linii poleceń. Składa się on z trzech plików -
+      <filename>query.conf</filename>,
+      <filename>buglist</filename> oraz <filename>bugs</filename>.
     </para>
 
     <warning>
       <para>
-        These files pre-date the templatization work done as part of the
-        2.16 release, and have not been updated.
+        Pliki te zostały udostępnione przed dodaniem obsługi szablonów wprowadzonej
+        w Bugzilli 2.16 i od tamtej pory nie były aktualizowane.
       </para>
     </warning>
     
     <para>
-      <filename>query.conf</filename> contains the mapping from
-      options to field names and comparison types. Quoted option names
-      are <quote>grepped</quote> for, so it should be easy to edit this
-      file. Comments (#) have no effect; you must make sure these lines
-      do not contain any quoted <quote>option</quote>.
+      <filename>query.conf</filename> zawiera opcje, które są przyporządkowane
+      oraz rodzajów porównywania. Modyfikacja pliku jest ułatwiona dzięki
+      umieszczeniu opcji w cudzysłowie, co pozwala łatwo je wyszukać za
+      pomocą polecenia grep. Komentarze (#) są pomijane, dlatego należy zwrócić szczególną uwagę,
+      aby nie wyłączyć w ten sposób dostępnych <quote>opcji</quote>.
     </para>
 
     <para>
-      <filename>buglist</filename> is a shell script that submits a
-      Bugzilla query and writes the resulting HTML page to stdout.
-      It supports both short options, (such as <quote>-Afoo</quote>
-      or <quote>-Rbar</quote>) and long options (such
-      as <quote>--assignedto=foo</quote> or <quote>--reporter=bar</quote>).
-      If the first character of an option is not <quote>-</quote>, it is
-      treated as if it were prefixed with <quote>--default=</quote>.
+      <filename>buglist</filename> jest to skrypt powłoki shell, który wysyła zapytanie do
+      instalacji Bugzilli i zapisuje stronę HTML z wynikami na standardowe wyjście.
+      Obsługuje zarówno skrócone opcje wyszukiwania (np. <quote>-Afoo</quote>
+      lub <quote>-Rbar</quote>) jak i długie (np.
+      <quote>--assignedto=foo</quote> lub <quote>--reporter=bar</quote>).
+      Jeśli pierwszym znakiem polecenia nie będzie znak <quote>-</quote> to polecenie
+      jest traktowane jako poprzedzone opcją <quote>--default=</quote>.
     </para>
 
     <para>
-      The column list is taken from the COLUMNLIST environment variable.
-      This is equivalent to the <quote>Change Columns</quote> option
-      that is available when you list bugs in buglist.cgi. If you have
-      already used Bugzilla, grep for COLUMNLIST in your cookies file
-      to see your current COLUMNLIST setting.
+      Lista kolumn pobierana jest ze zmiennej środowiskowej COLUMNLIST.
+      Jest to odpowiednik polecenia <quote>Zmień kolumny</quote> dostępnego
+      na liście błędów wyświetlonej przez stronę buglist.cgi. Jeśli korzystano już
+      z Bugzilli, należy wyszukać w ciasteczku poleceniem grep wpis COLUMNLIST aby sprawdzić
+      aktualne ustawienia parametru COLUMNLIST.
     </para>
 
     <para>
-      <filename>bugs</filename> is a simple shell script which calls
-      <filename>buglist</filename> and extracts the
-      bug numbers from the output. Adding the prefix
+      <filename>bugs</filename> jest to skrypt powłoki shell, który wywołuje skrypt
+      <filename>buglist</filename> i zapisuje numery błędów z zwróconych wyników
+      wyszukiwania. Dodanie prefiksu
       <quote>http://bugzilla.mozilla.org/buglist.cgi?bug_id=</quote>
-      turns the bug list into a working link if any bugs are found.
-      Counting bugs is easy. Pipe the results through 
-      <command>sed -e 's/,/ /g' | wc | awk '{printf $2 "\n"}'</command>
+      zamieni listę wyników w gotowe odnośniki do poszczególnych błędów.
+      Policzenie ilości występujących błędów jest dość proste. Wystarczy
+      przekierować wyjście polecenia do <command>sed -e 's/,/ /g' | wc | awk '{printf $2 "\n"}'</command>
     </para>
 
     <para>
-      Akkana Peck says she has good results piping 
-      <filename>buglist</filename> output through 
+      Akkana Peck donosi, że bardzo dobre rezultaty można osiągnąć przekierowując
+      wyjście skryptu <filename>buglist</filename> do polecenia 
       <command>w3m -T text/html -dump</command>
     </para>
 
   </section>
 
   <section id="cmdline-bugmail">
-    <title>Command-line 'Send Unsent Bug-mail' tool</title>
+    <title>Narzędzie lini poleceń 'Send Unsent Bug-mail'</title>
 
     <para>
-      Within the <filename class="directory">contrib</filename> directory
-      exists a utility with the descriptive (if compact) name
-      of <filename>sendunsentbugmail.pl</filename>. The purpose of this
-      script is, simply, to send out any bug-related mail that should
-      have been sent by now, but for one reason or another has not.
+      W katalogu <filename class="directory">contrib</filename> można znaleźć 
+      skrypt <filename>sendunsentbugmail.pl</filename>. 
+      Jego zadaniem jest wysłanie oczekujących powiadomień błędów, 
+      które z różnych powodów 
+      nie zostały do tej pory wysłane.
     </para>
 
     <para>
-      To accomplish this task, <filename>sendunsentbugmail.pl</filename> uses
-      the same mechanism as the <filename>sanitycheck.cgi</filename> script;
-      it scans through the entire database looking for bugs with changes that
-      were made more than 30 minutes ago, but where there is no record of
-      anyone related to that bug having been sent mail. Having compiled a list,
-      it then uses the standard rules to determine who gets mail, and sends it
-      out.
+      Aby wykonać to zadanie, skrypt <filename>sendunsentbugmail.pl</filename> wykorzystuje
+      ten sam mechanizm działania co strona <filename>sanitycheck.cgi</filename>:
+      skanowana jest cała baza danych w poszukiwaniu błędów, które zostały zmodyfikowane
+      ponad 30 minut temu, ale nie istnieje zapis, że powiadomienia błędów zostały wysłane 
+      do właściwych osób. Po skompletowaniu listy, wiadomości są wysyłane zgodnie
+      z ustawieniami poczty 
+      adresatów.
     </para>
 
     <para>
-      As the script runs, it indicates the bug for which it is currently
-      sending mail; when it has finished, it gives a numerical count of how
-      many mails were sent and how many people were excluded. (Individual
-      user names are not recorded or displayed.) If the script produces
-      no output, that means no unsent mail was detected.
+      Podczas pracy skrypt wyświetla numer przetwarzanego błędu, a po jej zakończeniu
+      podsumowanie ilości wysłanych wiadomości oraz liczby osób, do których
+      powiadomienia nie zostały wysłane (nazwy użytkowników nie są zapisywane
+      czy wyświetlane). Jeśli skrypt po uruchomieniu nie wyświetla żadnych informacji, to oznacza 
+      to, że nie wykryto niewysłanych wiadomości.
     </para>
 
     <para>
-      <emphasis>Usage</emphasis>: move the sendunsentbugmail.pl script
-      up into the main directory, ensure it has execute permission, and run it
-      from the command line (or from a cron job) with no parameters.
+      <emphasis>Uruchomienie</emphasis>: przenieś skrypt sendunsentbugmail.pl
+      do głównego katalogu, sprawdź czy posiada prawo wykonywania i uruchom z wiersza
+      poleceń (lub za pomocą crona) bez podawania parametrów.
     </para>
   </section>
 

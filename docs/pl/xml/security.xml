@@ -13,79 +13,81 @@
 ]>
 
 <chapter id="security">
-<title>Bugzilla Security</title>
+<title>Zabezpieczanie instalacji Bugzilli</title>
 
-  <para>While some of the items in this chapter are related to the operating
-  system Bugzilla is running on or some of the support software required to
-  run Bugzilla, it is all related to protecting your data. This is not
-  intended to be a comprehensive guide to securing Linux, Apache, MySQL, or
-  any other piece of software mentioned. There is no substitute for active
-  administration and monitoring of a machine. The key to good security is
-  actually right in the middle of the word: <emphasis>U R It</emphasis>.
+  <para>Informacje zawarte w tym rozdziale mają na celu wskazanie praktyk
+  zapewniających bezpieczeństwo danym gromadzonym w Bugzilli i dotyczą systemów 
+  operacyjnych, na których jest ona uruchomiona oraz wykorzystywanego dodatkowego 
+  oprogramowania. 
+
+  Instrukcja ta nie jest kompletnym poradnikiem dotyczącym zabezpieczania
+  instalacji Linuksa, Apache, MySQL lub innego wspomnianego w niej oprogramowania.
+  Może to zapewnić tylko stały nadzór i monitorowanie danego serwera. Kluczem do 
+  prawidłowego zabezpieczenia systemu jesteś... <emphasis>TY!</emphasis>
   </para>
   
-  <para>While programmers in general always strive to write secure code,
-  accidents can and do happen. The best approach to security is to always
-  assume that the program you are working with isn't 100% secure and restrict
-  its access to other parts of your machine as much as possible.
+  <para>Programiści z reguły przywiązują dużą wagę do pisania bezpiecznego kodu, jednak
+  nigdy nie ma 100% pewności, że oprogramowanie nie jest pozbawione błędów związanych z
+  bezpieczeństwem. Z tego powodu należy przyjąć założenie, że bezpieczny kod nie istnieje,
+  dlatego środowisko, w którym się go użytkuje, należy dodatkowo zabezpieczyć poprzez ograniczenie
+  uprawnień do pozostałych składników oprogramowania zainstalowanego na serwerze.
   </para>
  
   <section id="security-os">
-  <title>Operating System</title>
+  <title>System operacyjny</title>
   
     <section id="security-os-ports">
-    <title>TCP/IP Ports</title>
+    <title>Porty TCP/IP</title>
     
       <!-- TODO: Get exact number of ports -->
-      <para>The TCP/IP standard defines more than 65,000 ports for sending
-      and receiving traffic. Of those, Bugzilla needs exactly one to operate
-      (different configurations and options may require up to 3). You should
-      audit your server and make sure that you aren't listening on any ports
-      you don't need to be. It's also highly recommended that the server
-      Bugzilla resides on, along with any other machines you administer, be
-      placed behind some kind of firewall.
+      <para>Standard TCP/IP definiuje ponad 65000 portów przeznaczonych do
+      wysyłania i odbierania ruchu sieciowego. Do działania Bugzilla potrzebuje tylko jednego
+      (w przypadku innych konfiguracji i ustawień - do trzech). Zaleca się przeprowadzenie
+      audytu otwartych portów, aby wyeliminować te zbędne. Dodatkowo sam serwer, na którym zainstalowana 
+      jest Bugzilla (a także pozostałe serwery którymi administrujesz), 
+      powinny znajdować się za firewallem.
       </para>
     
     </section>
     
     <section id="security-os-accounts">
-    <title>System User Accounts</title>
+    <title>Konta systemowe</title>
     
-      <para>Many <glossterm linkend="gloss-daemon">daemons</glossterm>, such
-      as Apache's <filename>httpd</filename> or MySQL's
-      <filename>mysqld</filename>, run as either <quote>root</quote> or
-      <quote>nobody</quote>. This is even worse on Windows machines where the
-      majority of <glossterm linkend="gloss-service">services</glossterm>
-      run as <quote>SYSTEM</quote>. While running as <quote>root</quote> or
-      <quote>SYSTEM</quote> introduces obvious security concerns, the
-      problems introduced by running everything as <quote>nobody</quote> may
-      not be so obvious. Basically, if you run every daemon as
-      <quote>nobody</quote> and one of them gets compromised it can
-      compromise every other daemon running as <quote>nobody</quote> on your
-      machine. For this reason, it is recommended that you create a user
-      account for each daemon.
+      <para>Zwykle <glossterm linkend="gloss-daemon">demony</glossterm>, takie jak
+      <filename>httpd</filename> (Apache) lub 
+      <filename>mysqld</filename> (MySQL), uruchamiane są z uprawnieniami użytkownika <quote>root</quote> lub
+      <quote>nobody</quote>. Gorsza systuacja ma miejsce na maszynach pracujących pod kontrolą systemu Windows,
+      gdzie większość 
+      <glossterm linkend="gloss-service">usług</glossterm>
+      jest uruchomionych jako użytkownik <quote>SYSTEM</quote>. 
+      O ile niebezpieczeństwa związane z uruchamianiem ich jako <quote>root</quote> lub
+      <quote>SYSTEM</quote> są powszechnie znane, to wykonywanie ich jako <quote>nobody</quote>
+      już nie są takie oczywiste. Upraszczając, gdy demon jest uruchomiony jako <quote>nobody</quote>
+      i zostanie on skompromitowany, to włamywacz otrzymuje dostęp do wszystkich usług uruchomionych jako
+      <quote>nobody</quote>. Z tego powodu zaleca się stworzenie oddzielnego konta dla każdej z uruchamianych usług.
       </para>
     
       <note>
-        <para>You will need to set the <option>webservergroup</option> option
-        in <filename>localconfig</filename> to the group your web server runs
-        as. This will allow <filename>./checksetup.pl</filename> to set file
-        permissions on Unix systems so that nothing is world-writable.
-        </para>
+        <para>Należy skonfigurować opcję <option>webservergroup</option> w pliku
+        <filename>localconfig</filename>, podając nazwę grupy, która ma zostać użyta do 
+        uruchomienia serwera.
+        Pozwoli to skryptowi <filename>./checksetup.pl</filename> ustawić odpowiednie
+        wartości zabezpieczeń systemów typu Unix tak, aby pliki nie były globalnie do odczytu.
+ 
       </note>
     
     </section>
     
     <section id="security-os-chroot">
-    <title>The <filename>chroot</filename> Jail</title>
+    <title>Instalacja w zamkniętym środowisku (metoda <filename>chroot</filename> jail)</title>
     
       <para>
-        If your system supports it, you may wish to consider running
-        Bugzilla inside of a <filename>chroot</filename> jail. This option
-        provides unprecedented security by restricting anything running
-        inside the jail from accessing any information outside of it. If you
-        wish to use this option, please consult the documentation that came
-        with your system.
+        Jeśli wykorzystywany system operacyjny obsługuje tę metodę,	  
+        to warto rozważyć instalację Bugzilli w izolowanym środowisku <filename>chroot</filename> jail.
+        Dzięki temu znacząco zwiększy się bezpieczeństwo instalacji, gdyż
+        dostęp do danych będzie ograniczony tylko do zasobów udostępnionych Bugzilli.
+        Aby skonfigurować instalację, używając tej metody, należy zapoznać się z dokumentacją
+        systemu operacyjnego.
       </para>
       
     </section>
@@ -93,35 +95,33 @@
   </section>
 
   <section id="security-webserver">
-  <title>Web server</title>
+  <title>Serwer WWW</title>
 
     <section id="security-webserver-access">
-    <title>Disabling Remote Access to Bugzilla Configuration Files</title>
+    <title>Wyłączenie zdalnego dostępu do plików konfiguracyjnych Bugzilli</title>
     
       <para>
-        There are many files that are placed in the Bugzilla directory
-        area that should not be accessible from the web server. Because of the way
-        Bugzilla is currently layed out, the list of what should and should not
-        be accessible is rather complicated. A quick way is to run
-        <filename>testserver.pl</filename> to check if your web server serves
-        Bugzilla files as expected. If not, you may want to follow the few
-        steps below.
+        Wiele plików znajdujących się w katalogu Bugzilli nie powinno być dostępnych
+        do odczytu z poziomu serwera www. Lista kontrolna plików, których udostępnienie jest zalecane, a do których
+        dostęp należy ograniczyć, jest bardzo skomplikowana. Szybkim sposobem na sprawdzenie
+        poprawności instalacji jest uruchomienie skryptu <filename>testserver.pl</filename>
+        lub przestrzeganie poniższych zaleceń. 
       </para>
       
       <tip>
-        <para>Bugzilla ships with the ability to create
-        <glossterm linkend="gloss-htaccess"><filename>.htaccess</filename></glossterm>
-        files that enforce these rules. Instructions for enabling these
-        directives in Apache can be found in <xref linkend="http-apache"/>
+        <para>Każde wydanie Bugzilli posiada wbudowaną funkcjonalność generowania plików
+        <glossterm linkend="gloss-htaccess"><filename>.htaccess</filename></glossterm>,
+        które wymuszają zastosowanie powyżej wspomnianych zasad. Instrukcje pozwalające na włączenie odpowiednich dyrektyw
+        serwera Apache znajdują się w <xref linkend="http-apache"/>
         </para>
       </tip>
         
       <itemizedlist spacing="compact">
         <listitem>
-          <para>In the main Bugzilla directory, you should:</para>
+          <para>W głównym katalogu Bugzilli należy:</para>
           <itemizedlist spacing="compact">
             <listitem>
-              <para>Block:
+              <para>Zablokować dostęp do plików:
               <simplelist type="inline">
                 <member><filename>*.pl</filename></member>
                 <member><filename>*localconfig*</filename></member>
@@ -132,40 +132,40 @@
         </listitem>
 
         <listitem>
-          <para>In <filename class="directory">data</filename>:</para>
+          <para>W katalogu <filename class="directory">data</filename>:</para>
           <itemizedlist spacing="compact">
             <listitem>
-              <para>Block everything</para>
+              <para>Zablokować dostęp do wszystkich plików</para>
             </listitem>
           </itemizedlist>
         </listitem>
 
         <listitem>
-          <para>In <filename class="directory">data/webdot</filename>:</para>
+          <para>W katalogu <filename class="directory">data/webdot</filename>:</para>
           <itemizedlist spacing="compact">
             <listitem>
-              <para>If you use a remote webdot server:</para>
+              <para>Jeśli wykorzystywany jest zdalny serwer webdot:</para>
               <itemizedlist spacing="compact">
                 <listitem>
-                  <para>Block everything</para>
+                  <para>Zablokować dostęp do wszystkich plików</para>
                 </listitem>
                 <listitem>
-                  <para>But allow
+                  <para>Poza
                   <simplelist type="inline">
                     <member><filename>*.dot</filename></member>
                   </simplelist>
-                  only for the remote webdot server</para>
+                  dla zdalnego serwera webdot</para>
                 </listitem>
               </itemizedlist>
             </listitem>
             <listitem>
-              <para>Otherwise, if you use a local GraphViz:</para>
+              <para>Jeśli wykorzystywany jest lokalny GraphViz:</para>
               <itemizedlist spacing="compact">
                 <listitem>
-                  <para>Block everything</para>
+                  <para>Zablokować dostęp do wszystkich plików</para>
                 </listitem>
                 <listitem>
-                  <para>But allow:
+                  <para>Poza
                   <simplelist type="inline">
                     <member><filename>*.png</filename></member>
                     <member><filename>*.gif</filename></member>
@@ -177,10 +177,10 @@
               </itemizedlist>
             </listitem>
             <listitem>
-              <para>And if you don't use any dot:</para>
+              <para>Jeśli nie korzystamy z narzędzi dot:</para>
               <itemizedlist spacing="compact">
                 <listitem>
-                  <para>Block everything</para>
+                  <para>Zablokować dostęp do wszystkich plików</para>
                 </listitem>
               </itemizedlist>
             </listitem>
@@ -188,38 +188,38 @@
         </listitem>
 
         <listitem>
-          <para>In <filename class="directory">Bugzilla</filename>:</para>
+          <para>W katalogu <filename class="directory">Bugzilla</filename>:</para>
           <itemizedlist spacing="compact">
             <listitem>
-              <para>Block everything</para>
+              <para>Zablokować dostęp do wszystkich plików</para>
             </listitem>
           </itemizedlist>
         </listitem>
 
         <listitem>
-          <para>In <filename class="directory">template</filename>:</para>
+          <para>W katalogu <filename class="directory">template</filename>:</para>
           <itemizedlist spacing="compact">
             <listitem>
-              <para>Block everything</para>
+              <para>Zablokować dostęp do wszystkich plików</para>
             </listitem>
           </itemizedlist>
         </listitem>
       </itemizedlist>
 
-      <para>Be sure to test that data that should not be accessed remotely is
-      properly blocked. Of particular interest is the localconfig file which
-      contains your database password. Also, be aware that many editors
-      create temporary and backup files in the working directory and that
-      those should also not be accessible. For more information, see
-      <ulink url="http://bugzilla.mozilla.org/show_bug.cgi?id=186383">bug 186383</ulink>
-      or
+      <para>Należy upewnić się, że dostęp do danych został prawidłowo ograniczony
+      poprzez przetestowanie instalacji. Szczególną uwagę należy zwrócić na zabezpieczenie pliku localconfig,
+      który zawiera hasło do bazy danych. Warto pamiętać także o tym, że niektóre edytory tekstu
+      tworzą pliki tymczasowe oraz kopie modyfikowanych plików, do których dostęp
+      także powinien zostać ograniczony. Więcej informacji można znaleźć na stronie 
+      <ulink url="http://bugzilla.mozilla.org/show_bug.cgi?id=186383">błędu 186383</ulink>
+      lub
       <ulink url="http://online.securityfocus.com/bid/6501">Bugtraq ID 6501</ulink>.
-      To test, simply run <filename>testserver.pl</filename>, as said above.
+      Aby przetestować instalację, należy uruchomić skrypt <filename>testserver.pl</filename>.
       </para>
       
       <tip>
-        <para>Be sure to check <xref linkend="http"/> for instructions
-        specific to the web server you use.
+        <para>Instrukcje dla pozostałych serwerów www 
+        dostępne są na <xref linkend="http"/>.
         </para>
       </tip>
     
@@ -233,26 +233,21 @@
   <title>Bugzilla</title>
 
     <section id="security-bugzilla-charset">
-    <title>Prevent users injecting malicious Javascript</title>
+    <title>Zabezpieczenie przed wstrzyknięciem złośliwego kodu Javascript przez użytkowników</title>
 
-      <para>If you installed Bugzilla version 2.22 or later from scratch,
-      then the <emphasis>utf8</emphasis> parameter is switched on by default.
-      This makes Bugzilla explicitly set the character encoding, following
+      <para>W Bugzilli w wersji 2.22 lub nowszej parametr
+      <emphasis>utf8</emphasis> jest domyślnie włączony, zgodnie z
       <ulink
-      url="http://www.cert.org/tech_tips/malicious_code_mitigation.html#3">a
-      CERT advisory</ulink> recommending exactly this.
-      The following therefore does not apply to you; just keep
-      <emphasis>utf8</emphasis> turned on.
+      url="http://www.cert.org/tech_tips/malicious_code_mitigation.html#3">
+      zaleceniem wydanym przez organizację CERT</ulink>.
+      W takim przypadku można zignorować poniższe uwagi, gdyż nie dotyczą one danej instalacji. 
+      Parametr <emphasis>utf8</emphasis> powinno pozostawić się włączony.
       </para>
 
-      <para>If you've upgraded from an older version, then it may be possible
-      for a Bugzilla user to take advantage of character set encoding
-      ambiguities to inject HTML into Bugzilla comments.
-      This could include malicious scripts. 
-      This is because due to internationalization concerns, we are unable to
-      turn the <emphasis>utf8</emphasis> parameter on by default for upgraded
-      installations.
-      Turning it on manually will prevent this problem.
+      <para>W przypadku, gdy dokonano aktualizacji ze starszej wersji
+      możliwe jest wstrzyknięcie przez użytkownika Bugzilli złośliwego kodu, np. w postaci skryptów, do systemu komentarzy,
+      gdyż parametr <emphasis>utf8</emphasis> nie jest włączany automatycznie.
+      Ręczne włączenie parametru <emphasis>utf8</emphasis> pozwala zlikwidować powstałe zagrożenie bezpieczeństwa.
       </para>
     </section>    
     

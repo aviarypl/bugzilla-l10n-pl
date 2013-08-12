@@ -13,94 +13,91 @@
 ]>
 
 <chapter id="about">
-<title>About This Guide</title>
+<title>O niniejszym podręczniku użytkownika</title>
 
   <section id="copyright">
-    <title>Copyright Information</title>
+    <title>Informacja o prawach autorskich</title>
 
-    <para>This document is copyright (c) 2000-&current-year; by the various
-    Bugzilla contributors who wrote it.</para>
+    <para>(c) 2000-&current-year; Współtwórcy. Wszelkie prawa zastrzeżone.</para>
     
     <blockquote>
       <para>
-	Permission is granted to copy, distribute and/or modify this
-	document under the terms of the GNU Free Documentation
-	License, Version 1.1 or any later version published by the
-	Free Software Foundation; with no Invariant Sections, no
-	Front-Cover Texts, and with no Back-Cover Texts. A copy of
-	the license is included in <xref linkend="gfdl"/>.
+        Udziela się zezwolenia do kopiowania, rozpowszechniania i/lub modyfikację
+        tego dokumentu zgodnie z zasadami Licencji GNU Wolnej Dokumentacji
+        w wersji 1.1 lub dowolnej późniejszej opublikowanej przez
+        Free Software Foundation; nie zawiera Sekcji Niezmiennych, bez Tekstu na Okładce
+        i bez Tekstu na Tylnej Okładce. Kopia licencji załączona
+        jest w <xref linkend="gfdl"/>.
       </para>
     </blockquote>
     <para>
-      If you have any questions regarding this document, its
-      copyright, or publishing this document in non-electronic form,
-      please contact the Bugzilla Team. 
+      W wypadku pytań dotyczących niniejszej dokumentacji, praw
+      autorskich lub publikacji dokumentu w formie innej niż elektroniczna,
+      prosimy o pisemny kontakt z zespołem deweloperskim Bugzilli. 
     </para>
   </section>
 
   <section id="disclaimer">
-    <title>Disclaimer</title>
+    <title>Wyłączenia</title>
     <para>
-      No liability for the contents of this document can be accepted.
-      Follow the instructions herein at your own risk.
-      This document may contain errors
-      and inaccuracies that may damage your system, cause your partner 
-      to leave you, your boss to fire you, your cats to
-      pee on your furniture and clothing, and global thermonuclear
-      war. Proceed with caution.
+      Nie ponosi się odpowiedzialności za treść niniejszego opracowania.
+      Informacje w nim zawarte można stosować wyłącznie na własne ryzyko.
+      Nie gwarantuje się, że dokument ten nie zawiera błędów, które mogą wyrządzić
+      szkody, wywołać rozstanie z obecnym partnerem, spowodować rozwiązanie umowy o pracę,
+      moczenie mebli lub ubrań przez posiadane koty, czy rozpocząć wojnę
+      termonuklearną. Zaleca się daleko posuniętą ostrożność.
     </para>
     <para>
-      Naming of particular products or brands should not be seen as
-      endorsements, with the exception of the term "GNU/Linux". We
-      wholeheartedly endorse the use of GNU/Linux; it is an extremely 
-      versatile, stable,
-      and robust operating system that offers an ideal operating
-      environment for Bugzilla.
+      Użyte znaki towarowe nie powinny być postrzegane jako rekomendacja,
+      wyłączając "GNU/Linux". Z całego serca rekomendujemy użycie
+      GNU/Linuksa; jest to wszechstronny, stabilny i wydajny system 
+      operacyjny doskonale sprawdzający się jako środowisko pracy
+      Bugzilli.
     </para>
     <para>
-      Although the Bugzilla development team has taken great care to
-      ensure that all exploitable bugs have been fixed, security holes surely 
-      exist in any piece of code. Great care should be taken both in 
-      the installation and usage of this software. The Bugzilla development
-      team members assume no liability for your use of Bugzilla. You have 
-      the source code, and are responsible for auditing it yourself to ensure
-      your security needs are met.
+      Zespół deweloperski Bugzilli podjął starania, aby usunąć wszystkie wykryte
+      dotąd błędy, jednak należy założyć, że niewykryte błędy związane
+      z bezpieczeństwem mogą nadal istnieć. Należy przykładać wielką wagę do procesu
+      instalacji, jak i bieżącego korzystania z oprogramowania.
+      Zespół deweloperski Bugzilli nie ponosi odpowiedzialności za wykorzystywanie Bugzilli.
+      Z uwagi na ogólną dostępność kodu źródłowego należy samemu ponieść odpowiedzialność za jego audyt oraz 
+      wprowadzenie zmian zapewniających wymagany poziom bezpieczeństwa.
     </para>
   </section>
 
 <!-- Section 2: New Versions -->
 
   <section id="newversions">
-    <title>New Versions</title>
+    <title>Nowe wersje</title>
     <para>
-      This is the &bz-ver; version of The Bugzilla Guide. It is so named 
-      to match the current version of Bugzilla. 
-      <!-- BZ-DEVEL --> This version of the guide, like its associated Bugzilla version, is a
-      development version.<!-- /BZ-DEVEL --> 
+      To jest wersja &bz-ver; podręcznika użytkownika Bugzilli. Nazwa jest zgodna 
+      z obecnym numerem wydania Bugzilli.
+      <!-- BZ-DEVEL --> Ta wersja podręcznika, podobnie jak towarzysząca mu wersja Bugzilli, 
+      jest wersją rozwojową.<!-- /BZ-DEVEL -->  
     </para>
     <para>
-      The latest version of this guide can always be found at <ulink
-      url="http://www.bugzilla.org/docs/"/>. However, you should read
-      the version which came with the Bugzilla release you are using.
+      Najnowsza wersja podręcznika (w wersji angielskiej) jest zawsze dostępna na stronie <ulink
+      url="http://www.bugzilla.org/docs/"/>. Zaleca się jednak korzystanie z wersji dostarczonej
+      z wykorzystywaną edycją Bugzilli.
     </para>
     
     <para>  
-      In addition, there are Bugzilla template localization projects in
-      <ulink url="http://www.bugzilla.org/download/#localizations">several languages</ulink>.
-      They may have translated documentation available. If you would like to
-      volunteer to translate the Guide into additional languages, please visit the
-      <ulink url="https://wiki.mozilla.org/Bugzilla:L10n">Bugzilla L10n team</ulink>
-      page.
+      Szablony Bugzilli zostały przetłumaczone na
+      <ulink url="http://www.bugzilla.org/download/#localizations">kilka języków</ulink>.
+      Możliwe, że przetłumaczona została także dokumentacja. Jeśli chcesz zgłosić się jako wolontariusz
+      i przetłumaczyć dokumentację na dodatkowe języki, odwiedź stronę zespołu
+      <ulink url="https://wiki.mozilla.org/Bugzilla:L10n">Bugzilla L10n</ulink>
+      .
     </para>
   </section>
 
   <section id="credits">
-    <title>Credits</title>
+    <title>Twórcy</title>
     <para>
-      The people listed below have made enormous contributions to the
-      creation of this Guide, through their writing, dedicated hacking efforts,
-      numerous e-mail and IRC support sessions, and overall excellent
-      contribution to the Bugzilla community:
+      Niżej wymienione osoby swoją pracą pisarską, hackerską, 
+      wymianą wiadomości e-mail i długimi sesjami na IRC, 
+      wniosły znaczący wkład w powstanie tego podręcznika
+      wspierając jednocześnie społeczność skupioną wokół projektu:
     </para>
 
     <!-- TODO: This is evil... there has to be a valid way to get this look -->
@@ -108,8 +105,8 @@
       <varlistentry>
         <term>Matthew P. Barnson <email>mbarnson@sisna.com</email></term>
         <listitem>
-          <para>for the Herculean task of pulling together the Bugzilla Guide
-          and shepherding it to 2.14.
+          <para>za wysiłek godny Herkulesa polegający na złożeniu w całość tego podręcznika 
+          i opiekę nad nim do wersji 2.14.
           </para>
         </listitem>
       </varlistentry>
@@ -117,8 +114,8 @@
       <varlistentry>
         <term>Terry Weissman <email>terry@mozilla.org</email></term>
         <listitem>
-          <para>for initially writing Bugzilla and creating the README upon
-          which the UNIX installation documentation is largely based.
+          <para>za napisanie pierwszego kodu Bugzilli i stworzenie pliku README, w oparciu
+          o który została napisana dokumentacja instalacji w środowisku UNIX.
           </para>
         </listitem>
       </varlistentry>
@@ -126,8 +123,8 @@
       <varlistentry>
         <term>Tara Hernandez <email>tara@tequilarists.org</email></term>
         <listitem>
-          <para>for keeping Bugzilla development going strong after Terry left
-          mozilla.org and for running landfill.
+          <para>za motywowanie do dalszego rozwoju Bugzilli po odejściu z mozilla.org Terry'ego
+          oraz za opiekę nad środowiskiem testowym (landfill).
           </para>
         </listitem>
       </varlistentry>
@@ -135,8 +132,8 @@
       <varlistentry>
         <term>Dave Lawrence <email>dkl@redhat.com</email></term>
         <listitem>
-          <para>for providing insight into the key differences between Red
-          Hat's customized Bugzilla.
+          <para>za podzielenie się wiedzą dotyczącą Bugzilli dostosowanej przez Red
+          Hata.
           </para>
         </listitem>
       </varlistentry>
@@ -144,8 +141,8 @@
       <varlistentry>
         <term>Dawn Endico <email>endico@mozilla.org</email></term>
         <listitem>
-          <para>for being a hacker extraordinaire and putting up with Matthew's
-          incessant questions and arguments on irc.mozilla.org in #mozwebtools
+          <para>za dokonania w dziedzinie hackowania kodu i cierpliwe odpowiadanie na pytania zadawane przez Matthew
+          oraz niekończące się sprzeczki prowadzone z nim na kanale irc.mozilla.org#mozwebtools  
           </para>
         </listitem>
       </varlistentry>
@@ -153,8 +150,8 @@
       <varlistentry>
         <term>Jacob Steenhagen <email>jake@bugzilla.org</email></term>
         <listitem>
-          <para>for taking over documentation during the 2.17 development
-          period.
+          <para>za zaopiekowanie się dokumentacją podczas tworzenia wersji 2.17
+          .
           </para>
         </listitem>
       </varlistentry>
@@ -162,8 +159,8 @@
       <varlistentry>
 	<term>Dave Miller <email>justdave@bugzilla.org</email></term>
 	<listitem>
-          <para>for taking over as project lead when Tara stepped down and
-	  continually pushing for the documentation to be the best it can be.
+          <para>za przejęcie kierowania projektem po opuszczeniu go przez Tarę oraz
+	  nieustanną pracę nad zapewnieniem jakości tworzonej dokumentacji.
           </para>
         </listitem>
       </varlistentry>
@@ -172,8 +169,8 @@
 
 
     <para>
-      Thanks also go to the following people for significant contributions 
-      to this documentation:
+      Następujące osoby znacznie przyczyniły się do powstania
+      dokumentacji:
       <simplelist type="inline">
         <member>Kevin Brannen</member>
         <member>Vlad Dascalu</member>
@@ -191,12 +188,15 @@
     </para>
     
     <para>
-      Also, thanks are due to the members of the 
+      Składamy także podziękowania członkom grupy dyskusyjnej 
       <ulink url="news://news.mozilla.org/mozilla.support.bugzilla">
       mozilla.support.bugzilla</ulink>
-      newsgroup (and its predecessor, netscape.public.mozilla.webtools).
-      Without your discussions, insight, suggestions, and patches,
-      this could never have happened.
+      (a także grupie ją poprzedzającej netscape.public.mozilla.webtools).
+      Bez waszych sugestii, opinii, wsparcia i łatek dokumentacja ta nie mogłaby 
+	  powstać.
+    </para>
+    <para>
+      Tłumaczenie na język polski: Zespół Aviary.pl.
     </para>
   </section>
 

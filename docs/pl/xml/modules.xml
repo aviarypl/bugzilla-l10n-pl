@@ -13,19 +13,19 @@
 ]>
 
 <appendix id="install-perlmodules-manual">
-  <title>Manual Installation of Perl Modules</title>
+  <title>Ręczna instalacja modułów Perl</title>
   
   <section id="modules-manual-instructions">
-    <title>Instructions</title>
+    <title>Instrukcja</title>
     <para>
-      If you need to install Perl modules manually, here's how it's done.
-      Download the module using the link given in the next section, and then
-      apply this magic incantation, as root:
+      Poniższa instrukcja omawia ręczną instalację modułów Perl.
+      Aby kontynuować należy, korzystając z podanych odnośników do archiwum CPAN, pobrać poszczególne moduły,
+      a następnie wykonać jako root poniższe polecenia:
     </para>
 
     <para>  
-      <screen><prompt>bash#</prompt> tar -xzvf &lt;module&gt;.tar.gz
-<prompt>bash#</prompt> cd &lt;module&gt;
+      <screen><prompt>bash#</prompt> tar -xzvf &lt;moduł&gt;.tar.gz
+<prompt>bash#</prompt> cd &lt;moduł&gt;
 <prompt>bash#</prompt> perl Makefile.PL
 <prompt>bash#</prompt> make
 <prompt>bash#</prompt> make test
@@ -33,154 +33,154 @@
     </para>
     <note>
       <para>
-        In order to compile source code under Windows you will need to obtain
-        a 'make' utility.  The <command>nmake</command> utility provided with
-        Microsoft Visual C++ may be used.  As an alternative, there is a
-        utility called <command>dmake</command> available from CPAN which is
-        written entirely in Perl.
+        Aby skompilować kody źródłowe w systemie Windows należy
+        pobrać program make. Można użyć także narzędzia <command>nmake</command>,
+        które dostarczane jest z pakietem Microsoft Visual C++. Opcjonalnie
+        można skorzystać z napisanego wyłącznie w Perlu programu <command>dmake</command>, 
+        który jest dostępny w repozytorium CPAN.
       </para>
       <para>
-        As described in <xref linkend="modules-manual-download" />, however, most
-        packages already exist and are available from ActiveState or theory58S.
-        We highly recommend that you install them using the ppm GUI available with
-        ActiveState and to add the theory58S repository to your list of repositories.
+        Jak opisano w <xref linkend="modules-manual-download" />, jednakże większość
+        pakietów jest dostępnych w repozytorium ActiveState lub theory58S.
+        Zalecana jest instalacja za pomocą graficznego narzędzia ppm dostępnego 
+        w ramach pakietu ActiveState oraz dodanie theory58S do listy repozytoriów.
       </para>
     </note>
   </section>
     
   <section id="modules-manual-download">
-    <title>Download Locations</title>
+    <title>Źródła instalacji</title>
     
     <note>
       <para>
-        Running Bugzilla on Windows requires the use of ActiveState
-        Perl &min-perl-ver; or higher. Most modules already exist in the core
-        distribution of ActiveState Perl.
+        Uruchomienie Bugzilli w systemie Windows wymaga użycia ActiveState
+        Perl w wersji &min-perl-ver; lub wyższej. Wiele modułów jest dostępnych
+        w ramach podstawowej dystrybucji ActiveState Perl.
       </para>
     </note>
 
     <para>
       CGI:
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/CGI.pm/"/>
-        Documentation: <ulink url="http://perldoc.perl.org/CGI.html"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/CGI.pm/"/>
+        Dokumentacja: <ulink url="http://perldoc.perl.org/CGI.html"/>
       </literallayout>
     </para>
 
     <para>
       Data-Dumper:
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/Data-Dumper/"/>
-        Documentation: <ulink url="http://search.cpan.org/dist/Data-Dumper/Dumper.pm"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/Data-Dumper/"/>
+        Dokumentacja: <ulink url="http://search.cpan.org/dist/Data-Dumper/Dumper.pm"/>
       </literallayout>
     </para>
     
     <para>
-      Date::Format (part of TimeDate):
+      Date::Format (część pakietu TimeDate):
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/TimeDate/"/>
-        Documentation: <ulink url="http://search.cpan.org/dist/TimeDate/lib/Date/Format.pm"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/TimeDate/"/>
+        Dokumentacja: <ulink url="http://search.cpan.org/dist/TimeDate/lib/Date/Format.pm"/>
       </literallayout>
     </para>
 
     <para>
       DBI:
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/DBI/"/>
-        Documentation: <ulink url="http://dbi.perl.org/docs/"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/DBI/"/>
+        Dokumentacja: <ulink url="http://dbi.perl.org/docs/"/>
       </literallayout>
     </para>
 
     <para>
       DBD::mysql:
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/DBD-mysql/"/>
-        Documentation: <ulink url="http://search.cpan.org/dist/DBD-mysql/lib/DBD/mysql.pm"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/DBD-mysql/"/>
+        Dokumentacja: <ulink url="http://search.cpan.org/dist/DBD-mysql/lib/DBD/mysql.pm"/>
       </literallayout>
     </para>
 
     <para>
       DBD::Pg:
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/DBD-Pg/"/>
-        Documentation: <ulink url="http://search.cpan.org/dist/DBD-Pg/Pg.pm"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/DBD-Pg/"/>
+        Dokumentacja: <ulink url="http://search.cpan.org/dist/DBD-Pg/Pg.pm"/>
       </literallayout>
     </para>
 
     <para>
       Template-Toolkit:
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/Template-Toolkit/"/>
-        Documentation: <ulink url="http://www.template-toolkit.org/docs.html"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/Template-Toolkit/"/>
+        Dokumentacja: <ulink url="http://www.template-toolkit.org/docs.html"/>
       </literallayout>
     </para>
 
     <para>
       GD:
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/GD/"/>
-        Documentation: <ulink url="http://search.cpan.org/dist/GD/GD.pm"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/GD/"/>
+        Dokumentacja: <ulink url="http://search.cpan.org/dist/GD/GD.pm"/>
       </literallayout>
     </para>
 
     <para>
       Template::Plugin::GD:
       <literallayout>
-       CPAN Download Page: <ulink url="http://search.cpan.org/dist/Template-GD/" />
-       Documentation: <ulink url="http://www.template-toolkit.org/docs/aqua/Modules/index.html" />
+       Archiwum CPAN: <ulink url="http://search.cpan.org/dist/Template-GD/" />
+       Dokumentacja: <ulink url="http://www.template-toolkit.org/docs/aqua/Modules/index.html" />
       </literallayout>
     </para>
 
     <para>
-      MIME::Parser (part of MIME-tools):
+      MIME::Parser (część pakietu MIME-tools):
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/MIME-tools/"/>
-        Documentation: <ulink url="http://search.cpan.org/dist/MIME-tools/lib/MIME/Parser.pm"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/MIME-tools/"/>
+        Dokumentacja: <ulink url="http://search.cpan.org/dist/MIME-tools/lib/MIME/Parser.pm"/>
       </literallayout>
     </para>
 
   </section>
 
   <section id="modules-manual-optional">
-    <title>Optional Modules</title>
+    <title>Moduły opcjonalne</title>
 
     <para>
       Chart::Lines:
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/Chart/"/>
-        Documentation: <ulink url="http://search.cpan.org/dist/Chart/Chart.pod"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/Chart/"/>
+        Dokumentacja: <ulink url="http://search.cpan.org/dist/Chart/Chart.pod"/>
       </literallayout>
     </para>
 
      <para>
       GD::Graph:
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/GDGraph/"/>
-        Documentation: <ulink url="http://search.cpan.org/dist/GDGraph/Graph.pm"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/GDGraph/"/>
+        Dokumentacja: <ulink url="http://search.cpan.org/dist/GDGraph/Graph.pm"/>
       </literallayout>
     </para>
 
     <para>
-      GD::Text::Align (part of GD::Text::Util):
+      GD::Text::Align (część pakietu GD::Text::Util):
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/GDTextUtil/"/>
-        Documentation: <ulink url="http://search.cpan.org/dist/GDTextUtil/Text/Align.pm"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/GDTextUtil/"/>
+        Dokumentacja: <ulink url="http://search.cpan.org/dist/GDTextUtil/Text/Align.pm"/>
       </literallayout>
     </para>
 
    <para>
       XML::Twig:
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/dist/XML-Twig/"/>
-        Documentation: <ulink url="http://standards.ieee.org/resources/spasystem/twig/twig_stable.html"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/dist/XML-Twig/"/>
+        Dokumentacja: <ulink url="http://standards.ieee.org/resources/spasystem/twig/twig_stable.html"/>
       </literallayout>
     </para>
 
     <para>
       PatchReader:
       <literallayout>
-        CPAN Download Page: <ulink url="http://search.cpan.org/author/JKEISER/PatchReader/"/>
-        Documentation: <ulink url="http://www.johnkeiser.com/mozilla/Patch_Viewer.html"/>
+        Archiwum CPAN: <ulink url="http://search.cpan.org/author/JKEISER/PatchReader/"/>
+        Dokumentacja: <ulink url="http://www.johnkeiser.com/mozilla/Patch_Viewer.html"/>
       </literallayout>
     </para>
    </section>
